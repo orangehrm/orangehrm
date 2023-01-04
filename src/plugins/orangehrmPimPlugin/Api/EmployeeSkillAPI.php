@@ -376,6 +376,7 @@ class EmployeeSkillAPI extends Endpoint implements CrudEndpoint
      * )
      *
      * @inheritDoc
+     * @throws Exception
      */
     public function delete(): EndpointResourceResult
     {

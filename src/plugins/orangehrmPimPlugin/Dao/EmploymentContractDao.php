@@ -19,9 +19,7 @@
 
 namespace OrangeHRM\Pim\Dao;
 
-use Exception;
 use OrangeHRM\Core\Dao\BaseDao;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\EmpContract;
 
 class EmploymentContractDao extends BaseDao
@@ -29,33 +27,23 @@ class EmploymentContractDao extends BaseDao
     /**
      * @param int $empNumber
      * @return EmpContract|null
-     * @throws DaoException
      */
     public function getEmploymentContractByEmpNumber(int $empNumber): ?EmpContract
     {
-        try {
-            $q = $this->createQueryBuilder(EmpContract::class, 'c');
-            $q->andWhere('c.employee = :empNumber')
+        $q = $this->createQueryBuilder(EmpContract::class, 'c');
+        $q->andWhere('c.employee = :empNumber')
                 ->setParameter('empNumber', $empNumber);
 
-            return $this->fetchOne($q);
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        return $this->fetchOne($q);
     }
 
     /**
      * @param EmpContract $employmentContract
      * @return EmpContract
-     * @throws DaoException
      */
     public function saveEmploymentContract(EmpContract $employmentContract): EmpContract
     {
-        try {
-            $this->persist($employmentContract);
-            return $employmentContract;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        $this->persist($employmentContract);
+        return $employmentContract;
     }
 }

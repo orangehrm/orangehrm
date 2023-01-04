@@ -22,7 +22,6 @@ namespace OrangeHRM\Admin\Service;
 
 use OrangeHRM\Admin\Dao\LicenseDao;
 use OrangeHRM\Admin\Dto\LicenseSearchFilterParams;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\License;
 
 class LicenseService
@@ -40,7 +39,6 @@ class LicenseService
      *
      * @param License $license
      * @return License
-     * @throws DaoException
      */
     public function saveLicense(License $license): License
     {
@@ -60,7 +58,7 @@ class LicenseService
     }
 
     /**
-     * @param $licenseDao
+     * @param LicenseDao $licenseDao
      * @return void
      */
     public function setLicenseDao(LicenseDao $licenseDao): void
@@ -73,7 +71,6 @@ class LicenseService
      *
      * @param int $id
      * @return License An instance of License or NULL
-     * @throws DaoException
      */
     public function getLicenseById(int $id): ?License
     {
@@ -83,11 +80,10 @@ class LicenseService
     /**
      * Retrieves a license by name
      *
-     * Case insensitive
+     * Case-insensitive
      *
      * @param string $name
      * @return License An instance of License or false
-     * @throws DaoException
      */
     public function getLicenseByName(string $name): ?License
     {
@@ -97,7 +93,6 @@ class LicenseService
     /**
      * @param LicenseSearchFilterParams $licenseSearchParamHolder
      * @return array
-     * @throws DaoException
      */
     public function getLicenseList(LicenseSearchFilterParams $licenseSearchParamHolder): array
     {
@@ -107,7 +102,6 @@ class LicenseService
     /**
      * @param LicenseSearchFilterParams $licenseSearchParamHolder
      * @return int
-     * @throws DaoException
      */
     public function getLicenseCount(LicenseSearchFilterParams $licenseSearchParamHolder): int
     {
@@ -119,7 +113,6 @@ class LicenseService
      *
      * @param array $toDeleteIds An array of IDs to be deleted
      * @return int Number of records deleted
-     * @throws DaoException
      */
     public function deleteLicenses(array $toDeleteIds): int
     {
@@ -129,11 +122,10 @@ class LicenseService
     /**
      * Checks whether the given license name exists
      *
-     * Case insensitive
+     * Case-insensitive
      *
      * @param string $licenseName License name that needs to be checked
      * @return Bool
-     * @throws DaoException
      */
     public function isExistingLicenseName(string $licenseName): bool
     {

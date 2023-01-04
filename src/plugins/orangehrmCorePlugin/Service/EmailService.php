@@ -24,7 +24,6 @@ use OrangeHRM\Authentication\Auth\User as AuthUser;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Dao\EmailDao;
 use OrangeHRM\Core\Exception\CoreServiceException;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Exception\ServiceException as Exception;
 use OrangeHRM\Core\Mail\AbstractRecipient;
 use OrangeHRM\Core\Mail\MailProcessor;
@@ -239,7 +238,6 @@ class EmailService
 
     /**
      * @throws CoreServiceException
-     * @throws DaoException
      */
     protected function loadConfiguration(): void
     {

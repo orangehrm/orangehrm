@@ -20,7 +20,6 @@
 namespace OrangeHRM\Leave\Service;
 
 use DateTime;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Traits\CacheTrait;
 use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Entity\Holiday;
@@ -56,7 +55,6 @@ class HolidayService
     /**
      * @param Holiday $holiday
      * @return Holiday
-     * @throws DaoException
      */
     public function saveHoliday(Holiday $holiday): Holiday
     {
@@ -128,7 +126,6 @@ class HolidayService
      * @param DateTime $fromDate
      * @param DateTime $toDate
      * @return array
-     * @throws DaoException
      */
     protected function getCalculatedHolidays(DateTime $fromDate, DateTime $toDate): array
     {
@@ -222,7 +219,6 @@ class HolidayService
     /**
      * @param array $toDeleteIds
      * @return int
-     * @throws DaoException
      */
     public function deleteHolidays(array $toDeleteIds): int
     {

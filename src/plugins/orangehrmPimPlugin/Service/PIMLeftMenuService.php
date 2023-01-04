@@ -20,7 +20,6 @@
 namespace OrangeHRM\Pim\Service;
 
 use OrangeHRM\Core\Exception\CoreServiceException;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Exception\ServiceException;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\ControllerTrait;
@@ -138,7 +137,6 @@ class PIMLeftMenuService
      * @param bool $self If true, indicates menu when user is looking at his own info
      * @return array Array of menu items.
      * @throws CoreServiceException
-     * @throws DaoException
      * @throws ServiceException
      */
     public function getMenuItems(?int $empNumber, bool $self): array
@@ -178,7 +176,6 @@ class PIMLeftMenuService
      * @param bool $self
      * @return bool
      * @throws CoreServiceException
-     * @throws DaoException
      * @throws ServiceException
      */
     public function isPimAccessible(?int $empNumber, bool $self): bool
@@ -193,7 +190,6 @@ class PIMLeftMenuService
      * @param bool $self
      * @return array
      * @throws CoreServiceException
-     * @throws DaoException
      * @throws ServiceException
      */
     protected function generateMenuItems(?int $empNumber, bool $self): array
@@ -228,8 +224,6 @@ class PIMLeftMenuService
     /**
      * @param int|null $empNumber
      * @return bool
-     * @throws DaoException
-     * @throws ServiceException
      */
     protected function isEmployeeWorkflowActionsAllowed(?int $empNumber): bool
     {
@@ -326,7 +320,6 @@ class PIMLeftMenuService
      * @param int $empNumber
      * @return array
      * @throws CoreServiceException
-     * @throws DaoException
      * @throws ServiceException
      */
     public function getPreparedMenuItems(int $empNumber): array

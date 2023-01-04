@@ -19,9 +19,7 @@
 
 namespace OrangeHRM\Pim\Dao;
 
-use Exception;
 use OrangeHRM\Core\Dao\BaseDao;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\TerminationReason;
 use OrangeHRM\ORM\Paginator;
@@ -32,68 +30,48 @@ class TerminationReasonConfigurationDao extends BaseDao
     /**
      * @param TerminationReason $terminationReason
      * @return TerminationReason
-     * @throws DaoException
      */
     public function saveTerminationReason(TerminationReason $terminationReason): TerminationReason
     {
-        try {
-            $this->persist($terminationReason);
-            return $terminationReason;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        $this->persist($terminationReason);
+        return $terminationReason;
     }
 
     /**
      * @param int $id
      * @return TerminationReason|null
-     * @throws DaoException
      */
     public function getTerminationReasonById(int $id): ?TerminationReason
     {
-        try {
-            $terminationReason = $this->getRepository(TerminationReason::class)->find($id);
-            if ($terminationReason instanceof TerminationReason) {
-                return $terminationReason;
-            }
-            return null;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        $terminationReason = $this->getRepository(TerminationReason::class)->find($id);
+        if ($terminationReason instanceof TerminationReason) {
+            return $terminationReason;
         }
+        return null;
     }
 
     /**
      * @param string $name
      * @return TerminationReason|null
-     * @throws DaoException
      */
     public function getTerminationReasonByName(string $name): ?TerminationReason
     {
-        try {
-            $query = $this->createQueryBuilder(TerminationReason::class, 'tr');
-            $trimmed = trim($name, ' ');
-            $query->andWhere('tr.name = :name');
-            $query->setParameter('name', $trimmed);
-            return $query->getQuery()->getOneOrNullResult();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        $query = $this->createQueryBuilder(TerminationReason::class, 'tr');
+        $trimmed = trim($name, ' ');
+        $query->andWhere('tr.name = :name');
+        $query->setParameter('name', $trimmed);
+        return $query->getQuery()->getOneOrNullResult();
     }
 
     /**
      * @param TerminationReasonConfigurationSearchFilterParams $terminationReasonConfigurationSearchFilterParams
      * @return array
-     * @throws DaoException
      */
     public function getTerminationReasonList(
         TerminationReasonConfigurationSearchFilterParams $terminationReasonConfigurationSearchFilterParams
     ): array {
-        try {
-            $paginator = $this->getTerminationReasonListPaginator($terminationReasonConfigurationSearchFilterParams);
-            return $paginator->getQuery()->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        $paginator = $this->getTerminationReasonListPaginator($terminationReasonConfigurationSearchFilterParams);
+        return $paginator->getQuery()->execute();
     }
 
     /**
@@ -111,74 +89,54 @@ class TerminationReasonConfigurationDao extends BaseDao
     /**
      * @param TerminationReasonConfigurationSearchFilterParams $terminationReasonConfigurationSearchFilterParams
      * @return int
-     * @throws DaoException
      */
     public function getTerminationReasonCount(
         TerminationReasonConfigurationSearchFilterParams $terminationReasonConfigurationSearchFilterParams
     ): int {
-        try {
-            $paginator = $this->getTerminationReasonListPaginator($terminationReasonConfigurationSearchFilterParams);
-            return $paginator->count();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        $paginator = $this->getTerminationReasonListPaginator($terminationReasonConfigurationSearchFilterParams);
+        return $paginator->count();
     }
 
     /**
      * @param array $toDeleteIds
      * @return int
-     * @throws DaoException
      */
     public function deleteTerminationReasons(array $toDeleteIds): int
     {
-        try {
-            $q = $this->createQueryBuilder(TerminationReason::class, 'tr');
-            $q->delete()
+        $q = $this->createQueryBuilder(TerminationReason::class, 'tr');
+        $q->delete()
                 ->where($q->expr()->in('tr.id', ':ids'))
                 ->setParameter('ids', $toDeleteIds);
-            return $q->getQuery()->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        return $q->getQuery()->execute();
     }
 
     /**
      * @param string $terminationReasonName
      * @return bool
-     * @throws DaoException
      */
     public function isExistingTerminationReasonName(string $terminationReasonName): bool
     {
-        try {
-            $q = $this->createQueryBuilder(TerminationReason::class, 'tr');
-            $trimmed = trim($terminationReasonName, ' ');
-            $q->Where('tr.name = :name');
-            $q->setParameter('name', $trimmed);
-            $count = $this->count($q);
-            if ($count > 0) {
-                return true;
-            }
-            return false;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        $q = $this->createQueryBuilder(TerminationReason::class, 'tr');
+        $trimmed = trim($terminationReasonName, ' ');
+        $q->Where('tr.name = :name');
+        $q->setParameter('name', $trimmed);
+        $count = $this->count($q);
+        if ($count > 0) {
+            return true;
         }
+        return false;
     }
 
     /**
      * @return array
-     * @throws DaoException
      */
     public function getReasonIdsInUse(): array
     {
-        try {
-            $query = $this->createQueryBuilder(Employee::class, 'e');
-            $query->leftJoin('e.employeeTerminationRecord', 'et');
-            $query->leftJoin('et.terminationReason', 'tr');
-            $query->select('tr.id');
-            $result = $query->getQuery()->getScalarResult();
-            return array_column($result, 'id');
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        $query = $this->createQueryBuilder(Employee::class, 'e');
+        $query->leftJoin('e.employeeTerminationRecord', 'et');
+        $query->leftJoin('et.terminationReason', 'tr');
+        $query->select('tr.id');
+        $result = $query->getQuery()->getScalarResult();
+        return array_column($result, 'id');
     }
 }

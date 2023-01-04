@@ -19,10 +19,8 @@
 
 namespace OrangeHRM\Pim\Dao;
 
-use Exception;
 use InvalidArgumentException;
 use OrangeHRM\Core\Dao\BaseDao;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\EmployeeImmigrationRecord;
 use OrangeHRM\ORM\ListSorter;
 use OrangeHRM\ORM\Paginator;
@@ -63,78 +61,58 @@ class EmployeeImmigrationRecordDao extends BaseDao
      * @param int $empNumber
      * @param int $recordId
      * @return EmployeeImmigrationRecord|null
-     * @throws DaoException
      */
     public function getEmployeeImmigrationRecord(int $empNumber, int $recordId): ?EmployeeImmigrationRecord
     {
-        try {
-            $employeeImmigrationRecord = $this->getRepository(EmployeeImmigrationRecord::class)->findOneBy([
+        $employeeImmigrationRecord = $this->getRepository(EmployeeImmigrationRecord::class)->findOneBy([
                 'employee' => $empNumber,
                 'recordId' => $recordId,
             ]);
-            if ($employeeImmigrationRecord instanceof EmployeeImmigrationRecord) {
-                return $employeeImmigrationRecord;
-            }
-            return null;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        if ($employeeImmigrationRecord instanceof EmployeeImmigrationRecord) {
+            return $employeeImmigrationRecord;
         }
+        return null;
     }
 
     /**
      * @param int $empNumber
      * @param array $entriesToDelete
      * @return int
-     * @throws DaoException
      */
     public function deleteEmployeeImmigrationRecords(int $empNumber, array $entriesToDelete): int
     {
-        try {
-            $q = $this->createQueryBuilder(EmployeeImmigrationRecord::class, 'eir');
-            $q->delete()
+        $q = $this->createQueryBuilder(EmployeeImmigrationRecord::class, 'eir');
+        $q->delete()
                 ->where('eir.employee = :empNumber')
                 ->setParameter('empNumber', $empNumber);
-            $q->andWhere($q->expr()->in('eir.recordId', ':ids'))
+        $q->andWhere($q->expr()->in('eir.recordId', ':ids'))
                 ->setParameter('ids', $entriesToDelete);
-            return $q->getQuery()->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        return $q->getQuery()->execute();
     }
 
     /**
      * @param int $empNumber
      * @return array
-     * @throws DaoException
      */
     public function getEmployeeImmigrationRecordList(int $empNumber): array
     {
-        try {
-            $q = $this->createQueryBuilder(EmployeeImmigrationRecord::class, 'eir');
-            $q->andWhere('eir.employee = :empNumber')
+        $q = $this->createQueryBuilder(EmployeeImmigrationRecord::class, 'eir');
+        $q->andWhere('eir.employee = :empNumber')
                 ->setParameter('empNumber', $empNumber);
-            $q->addOrderBy('eir.number', ListSorter::ASCENDING);
+        $q->addOrderBy('eir.number', ListSorter::ASCENDING);
 
-            return $q->getQuery()->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        return $q->getQuery()->execute();
     }
 
     /**
      * @param EmployeeImmigrationRecordSearchFilterParams $immigrationRecordSearchFilterParams
      * @return array
-     * @throws DaoException
      */
     public function searchEmployeeImmigrationRecords(
         EmployeeImmigrationRecordSearchFilterParams $immigrationRecordSearchFilterParams
     ): array {
-        try {
-            $paginator = $this->getSearchEmployeeImmigrationRecordsPaginator($immigrationRecordSearchFilterParams);
-            return $paginator->getQuery()->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        $paginator = $this->getSearchEmployeeImmigrationRecordsPaginator($immigrationRecordSearchFilterParams);
+        return $paginator->getQuery()->execute();
     }
 
     /**
@@ -162,16 +140,11 @@ class EmployeeImmigrationRecordDao extends BaseDao
     /**
      * @param EmployeeImmigrationRecordSearchFilterParams $immigrationRecordSearchFilterParams
      * @return int
-     * @throws DaoException
      */
     public function getSearchEmployeeImmigrationRecordsCount(
         EmployeeImmigrationRecordSearchFilterParams $immigrationRecordSearchFilterParams
     ): int {
-        try {
-            $paginator = $this->getSearchEmployeeImmigrationRecordsPaginator($immigrationRecordSearchFilterParams);
-            return $paginator->count();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        $paginator = $this->getSearchEmployeeImmigrationRecordsPaginator($immigrationRecordSearchFilterParams);
+        return $paginator->count();
     }
 }

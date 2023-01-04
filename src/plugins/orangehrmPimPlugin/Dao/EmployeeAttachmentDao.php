@@ -19,9 +19,7 @@
 
 namespace OrangeHRM\Pim\Dao;
 
-use Exception;
 use OrangeHRM\Core\Dao\BaseDao;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\EmployeeAttachment;
 use OrangeHRM\ORM\ListSorter;
 use OrangeHRM\Pim\Dto\PartialEmployeeAttachment;
@@ -32,24 +30,19 @@ class EmployeeAttachmentDao extends BaseDao
      * @param int $empNumber
      * @param string $screen
      * @return PartialEmployeeAttachment[]
-     * @throws DaoException
      */
     public function getEmployeeAttachments(int $empNumber, string $screen): array
     {
-        try {
-            $select = 'NEW ' . PartialEmployeeAttachment::class . "(a.attachId,a.description,a.filename,a.size,a.fileType,a.attachedBy,a.attachedByName,a.attachedTime)";
-            $q = $this->createQueryBuilder(EmployeeAttachment::class, 'a');
-            $q->select($select);
-            $q->andWhere('a.employee = :empNumber')
+        $select = 'NEW ' . PartialEmployeeAttachment::class . "(a.attachId,a.description,a.filename,a.size,a.fileType,a.attachedBy,a.attachedByName,a.attachedTime)";
+        $q = $this->createQueryBuilder(EmployeeAttachment::class, 'a');
+        $q->select($select);
+        $q->andWhere('a.employee = :empNumber')
                 ->setParameter('empNumber', $empNumber);
-            $q->andWhere('a.screen = :screen')
+        $q->andWhere('a.screen = :screen')
                 ->setParameter('screen', $screen);
-            $q->addOrderBy('a.attachId', ListSorter::ASCENDING);
+        $q->addOrderBy('a.attachId', ListSorter::ASCENDING);
 
-            return $q->getQuery()->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        return $q->getQuery()->execute();
     }
 
     /**
@@ -57,23 +50,18 @@ class EmployeeAttachmentDao extends BaseDao
      * @param int $attachId
      * @param string|null $screen
      * @return EmployeeAttachment|null
-     * @throws DaoException
      */
     public function getEmployeeAttachment(int $empNumber, int $attachId, ?string $screen = null): ?EmployeeAttachment
     {
-        try {
-            $criteria = ['employee' => $empNumber, 'attachId' => $attachId];
-            if ($screen) {
-                $criteria['screen'] = $screen;
-            }
-            $employeeAttachment = $this->getRepository(EmployeeAttachment::class)->findOneBy($criteria);
-            if ($employeeAttachment instanceof EmployeeAttachment) {
-                return $employeeAttachment;
-            }
-            return null;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        $criteria = ['employee' => $empNumber, 'attachId' => $attachId];
+        if ($screen) {
+            $criteria['screen'] = $screen;
         }
+        $employeeAttachment = $this->getRepository(EmployeeAttachment::class)->findOneBy($criteria);
+        if ($employeeAttachment instanceof EmployeeAttachment) {
+            return $employeeAttachment;
+        }
+        return null;
     }
 
     /**
@@ -127,24 +115,19 @@ class EmployeeAttachmentDao extends BaseDao
      * @param string $screen
      * @param array $toBeDeletedIds
      * @return int
-     * @throws DaoException
      */
     public function deleteEmployeeAttachments(int $empNumber, string $screen, array $toBeDeletedIds): int
     {
-        try {
-            $q = $this->createQueryBuilder(EmployeeAttachment::class, 'a');
-            $q->delete();
-            $q->andWhere('a.employee = :empNumber')
+        $q = $this->createQueryBuilder(EmployeeAttachment::class, 'a');
+        $q->delete();
+        $q->andWhere('a.employee = :empNumber')
                 ->setParameter('empNumber', $empNumber);
-            $q->andWhere('a.screen = :screen')
+        $q->andWhere('a.screen = :screen')
                 ->setParameter('screen', $screen);
-            $q->andWhere($q->expr()->in('a.attachId', ':ids'))
+        $q->andWhere($q->expr()->in('a.attachId', ':ids'))
                 ->setParameter('ids', $toBeDeletedIds);
 
-            return $q->getQuery()->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        return $q->getQuery()->execute();
     }
 
     /**

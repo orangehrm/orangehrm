@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\Pim\Service;
 
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\EmployeeAttachment;
@@ -50,7 +49,6 @@ class EmployeeAttachmentService
      * @param int $empNumber
      * @param string $screen
      * @return PartialEmployeeAttachment[]
-     * @throws DaoException
      */
     public function getEmployeeAttachments(int $empNumber, string $screen): array
     {
@@ -62,7 +60,6 @@ class EmployeeAttachmentService
      * @param int $attachId
      * @param string|null $screen
      * @return EmployeeAttachment|null
-     * @throws DaoException
      */
     public function getEmployeeAttachment(int $empNumber, int $attachId, ?string $screen = null): ?EmployeeAttachment
     {
@@ -94,7 +91,6 @@ class EmployeeAttachmentService
      * @param string $screen
      * @param array $toBeDeletedIds
      * @return int
-     * @throws DaoException
      */
     public function deleteEmployeeAttachments(int $empNumber, string $screen, array $toBeDeletedIds): int
     {
@@ -105,7 +101,6 @@ class EmployeeAttachmentService
      * @param int $empNumber
      * @param int $attachId
      * @return EmployeeAttachment|null
-     * @throws DaoException
      */
     public function getAccessibleEmployeeAttachment(int $empNumber, int $attachId): ?EmployeeAttachment
     {

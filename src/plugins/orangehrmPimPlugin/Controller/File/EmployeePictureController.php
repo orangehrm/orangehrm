@@ -21,7 +21,7 @@ namespace OrangeHRM\Pim\Controller\File;
 
 use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Controller\AbstractFileController;
-use OrangeHRM\Core\Exception\DaoException;
+use OrangeHRM\Core\Traits\ETagHelperTrait;
 use OrangeHRM\Entity\EmpPicture;
 use OrangeHRM\Framework\Http\BinaryFileResponse;
 use OrangeHRM\Framework\Http\Request;
@@ -49,7 +49,6 @@ class EmployeePictureController extends AbstractFileController
     /**
      * @param Request $request
      * @return BinaryFileResponse|Response
-     * @throws DaoException
      */
     public function handle(Request $request)
     {

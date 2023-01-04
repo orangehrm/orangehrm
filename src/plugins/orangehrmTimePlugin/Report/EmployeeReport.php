@@ -27,7 +27,6 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Dto\FilterParams;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Report\Api\EndpointAwareReport;
 use OrangeHRM\Core\Report\Api\EndpointProxy;
 use OrangeHRM\Core\Report\Filter\Filter;
@@ -178,7 +177,6 @@ class EmployeeReport implements EndpointAwareReport
 
     /**
      * @inheritDoc
-     * @throws DaoException
      */
     public function checkReportAccessibility(EndpointProxy $endpoint): void
     {

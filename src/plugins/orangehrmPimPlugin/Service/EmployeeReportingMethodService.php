@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\Pim\Service;
 
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
 use OrangeHRM\Pim\Dao\EmployeeReportingMethodDao;
 use OrangeHRM\Pim\Dto\EmployeeSubordinateSearchFilterParams;
@@ -56,7 +55,6 @@ class EmployeeReportingMethodService
     /**
      * @param EmployeeSupervisorSearchFilterParams $employeeSupervisorSearchFilterParams
      * @return array
-     * @throws DaoException
      */
     public function getImmediateSupervisorListForEmployee(EmployeeSupervisorSearchFilterParams $employeeSupervisorSearchFilterParams): array
     {
@@ -66,7 +64,6 @@ class EmployeeReportingMethodService
     /**
      * @param EmployeeSupervisorSearchFilterParams $employeeSupervisorSearchFilterParams
      * @return int
-     * @throws DaoException
      */
     public function getImmediateSupervisorListCountForEmployee(EmployeeSupervisorSearchFilterParams $employeeSupervisorSearchFilterParams): int
     {
@@ -76,7 +73,6 @@ class EmployeeReportingMethodService
     /**
      * @param EmployeeSubordinateSearchFilterParams $employeeSubordinateSearchFilterParams
      * @return array
-     * @throws DaoException
      */
     public function getSubordinateListForEmployee(EmployeeSubordinateSearchFilterParams $employeeSubordinateSearchFilterParams): array
     {
@@ -86,7 +82,6 @@ class EmployeeReportingMethodService
     /**
      * @param EmployeeSubordinateSearchFilterParams $employeeSubordinateSearchFilterParams
      * @return int
-     * @throws DaoException
      */
     public function getSubordinateListCountForEmployee(EmployeeSubordinateSearchFilterParams $employeeSubordinateSearchFilterParams): int
     {

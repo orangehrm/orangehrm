@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\Pim\Service;
 
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\EmpEmergencyContact;
 use OrangeHRM\Pim\Dao\EmpEmergencyContactDao;
 use OrangeHRM\Pim\Dto\EmpEmergencyContactSearchFilterParams;
@@ -56,7 +55,6 @@ class EmpEmergencyContactService
      * @param int $seqNo Employee Number
      * @param int $empNumber
      * @return EmpEmergencyContact|null
-     * @throws DaoException
      */
     public function getEmployeeEmergencyContact(int $empNumber, int $seqNo): ?EmpEmergencyContact
     {
@@ -66,7 +64,6 @@ class EmpEmergencyContactService
     /**
      * @param int $empNumber
      * @return array
-     * @throws DaoException
      */
     public function getEmployeeEmergencyContactList(int $empNumber): array
     {
@@ -89,7 +86,6 @@ class EmpEmergencyContactService
      * @param int $empNumber Employee Number
      * @param array|null $sequenceNumbers Array of emergency contact sequence numbers. Optional.
      * @return int Number of records deleted
-     * @throws DaoException
      */
     public function deleteEmployeeEmergencyContacts(int $empNumber, array $sequenceNumbers): int
     {
@@ -99,7 +95,6 @@ class EmpEmergencyContactService
     /**
      * @param EmpEmergencyContactSearchFilterParams $emergencyContactSearchFilterParams
      * @return array
-     * @throws DaoException
      */
     public function searchEmployeeEmergencyContacts(
         EmpEmergencyContactSearchFilterParams $emergencyContactSearchFilterParams
@@ -110,7 +105,6 @@ class EmpEmergencyContactService
     /**
      * @param EmpEmergencyContactSearchFilterParams $emergencyContactSearchFilterParams
      * @return int
-     * @throws DaoException
      */
     public function getSearchEmployeeEmergencyContactsCount(
         EmpEmergencyContactSearchFilterParams $emergencyContactSearchFilterParams

@@ -19,9 +19,7 @@
 
 namespace OrangeHRM\Pim\Dao;
 
-use Exception;
 use OrangeHRM\Core\Dao\BaseDao;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\EmployeeMembership;
 use OrangeHRM\ORM\Paginator;
 use OrangeHRM\Pim\Dto\EmployeeMembershipSearchFilterParams;
@@ -31,77 +29,57 @@ class EmployeeMembershipDao extends BaseDao
     /**
      * @param EmployeeMembership $employeeMembership
      * @return EmployeeMembership
-     * @throws DaoException
      */
     public function saveEmployeeMembership(EmployeeMembership $employeeMembership): EmployeeMembership
     {
-        try {
-            $this->persist($employeeMembership);
-            return $employeeMembership;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        $this->persist($employeeMembership);
+        return $employeeMembership;
     }
 
     /**
      * @param int $empNumber
      * @param int $id
      * @return EmployeeMembership|null
-     * @throws DaoException
      */
     public function getEmployeeMembershipById(int $empNumber, int $id): ?EmployeeMembership
     {
-        try {
-            $employeeMembership = $this->getRepository(EmployeeMembership::class)->findOneBy(
-                [
+        $employeeMembership = $this->getRepository(EmployeeMembership::class)->findOneBy(
+            [
                     'employee' => $empNumber,
                     'id' => $id,
                 ]
-            );
-            if ($employeeMembership instanceof EmployeeMembership) {
-                return $employeeMembership;
-            }
-            return null;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        );
+        if ($employeeMembership instanceof EmployeeMembership) {
+            return $employeeMembership;
         }
+        return null;
     }
 
     /**
      * @param int $empNumber
      * @param array $toDeleteIds
      * @return int
-     * @throws DaoException
      */
     public function deleteEmployeeMemberships(int $empNumber, array $toDeleteIds): int
     {
-        try {
-            $q = $this->createQueryBuilder(EmployeeMembership::class, 'em');
-            $q->delete()
+        $q = $this->createQueryBuilder(EmployeeMembership::class, 'em');
+        $q->delete()
                 ->andWhere('em.employee = :empNumber')
                 ->setParameter('empNumber', $empNumber)
                 ->andWhere($q->expr()->in('em.id', ':ids'))
                 ->setParameter('ids', $toDeleteIds);
-            return $q->getQuery()->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
+        return $q->getQuery()->execute();
     }
 
     /**
      * @param EmployeeMembershipSearchFilterParams $employeeMembershipSearchParams
      * @return array
-     * @throws DaoException
      */
     public function searchEmployeeMembership(
         EmployeeMembershipSearchFilterParams $employeeMembershipSearchParams
     ): array {
-        try {
-            $paginator = $this->getSearchEmployeeMembershipPaginator($employeeMembershipSearchParams);
-            return $paginator->getQuery()->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        $paginator = $this->getSearchEmployeeMembershipPaginator($employeeMembershipSearchParams);
+        return $paginator->getQuery()->execute();
     }
 
     /**
@@ -123,16 +101,11 @@ class EmployeeMembershipDao extends BaseDao
     /**
      * @param EmployeeMembershipSearchFilterParams $employeeMembershipSearchParams
      * @return int
-     * @throws DaoException
      */
     public function getSearchEmployeeMembershipsCount(
         EmployeeMembershipSearchFilterParams $employeeMembershipSearchParams
     ): int {
-        try {
-            $paginator = $this->getSearchEmployeeMembershipPaginator($employeeMembershipSearchParams);
-            return $paginator->count();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        $paginator = $this->getSearchEmployeeMembershipPaginator($employeeMembershipSearchParams);
+        return $paginator->count();
     }
 }

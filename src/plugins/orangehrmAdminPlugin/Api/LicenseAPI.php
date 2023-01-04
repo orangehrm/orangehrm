@@ -36,7 +36,6 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\License;
 
 class LicenseAPI extends Endpoint implements CrudEndpoint
@@ -205,7 +204,6 @@ class LicenseAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @return License
-     * @throws DaoException
      * @throws RecordNotFoundException
      */
     public function saveLicense(): License

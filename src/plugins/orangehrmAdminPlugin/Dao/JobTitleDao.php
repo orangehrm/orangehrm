@@ -19,11 +19,9 @@
 
 namespace OrangeHRM\Admin\Dao;
 
-use Exception;
 use OrangeHRM\Admin\Dto\PartialJobSpecificationAttachment;
 use OrangeHRM\Admin\Dto\JobTitleSearchFilterParams;
 use OrangeHRM\Core\Dao\BaseDao;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\JobSpecificationAttachment;
 use OrangeHRM\Entity\JobTitle;
 use OrangeHRM\ORM\ListSorter;
@@ -34,73 +32,44 @@ class JobTitleDao extends BaseDao
     /**
      * @param bool $activeOnly
      * @return JobTitle[]
-     * @throws DaoException
      */
     public function getJobTitleList(bool $activeOnly = true): array
     {
-        try {
-            $q = $this->createQueryBuilder(JobTitle::class, 'jt');
-            if ($activeOnly == true) {
-                $q->andWhere('jt.isDeleted = :isDeleted');
-                $q->setParameter('isDeleted', JobTitle::ACTIVE);
-            }
-            $q->addOrderBy('jt.jobTitleName', ListSorter::ASCENDING);
-
-            return $q->getQuery()->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
+        $q = $this->createQueryBuilder(JobTitle::class, 'jt');
+        if ($activeOnly == true) {
+            $q->andWhere('jt.isDeleted = :isDeleted');
+            $q->setParameter('isDeleted', JobTitle::ACTIVE);
         }
+        $q->addOrderBy('jt.jobTitleName', ListSorter::ASCENDING);
+
+        return $q->getQuery()->execute();
     }
 
     /**
      * @param int $empNumber
      * @return JobTitle[]
-     * @throws DaoException
      */
     public function getJobTitlesForEmployee(int $empNumber): array
     {
-        try {
-            $q = $this->createQueryBuilder(JobTitle::class, 'jt');
-            $q->leftJoin('jt.employees', 'e');
-            $q->andWhere('jt.isDeleted = :isDeleted')
-                ->setParameter('isDeleted', JobTitle::ACTIVE);
-            $q->orWhere('e.empNumber = :empNumber')
-                ->setParameter('empNumber', $empNumber);
+        $q = $this->createQueryBuilder(JobTitle::class, 'jt');
+        $q->leftJoin('jt.employees', 'e');
+        $q->andWhere('jt.isDeleted = :isDeleted')
+            ->setParameter('isDeleted', JobTitle::ACTIVE);
+        $q->orWhere('e.empNumber = :empNumber')
+            ->setParameter('empNumber', $empNumber);
 
-            $q->addOrderBy('jt.jobTitleName', ListSorter::ASCENDING);
+        $q->addOrderBy('jt.jobTitleName', ListSorter::ASCENDING);
 
-            return $q->getQuery()->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
+        return $q->getQuery()->execute();
     }
 
     /**
      * @param JobTitleSearchFilterParams $jobTitleSearchFilterParams
      * @return JobTitle[]
-     * @throws DaoException
      */
     public function getJobTitles(JobTitleSearchFilterParams $jobTitleSearchFilterParams): array
     {
-        try {
-            return $this->getJobTitlesPaginator($jobTitleSearchFilterParams)->getQuery()->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
-    }
-
-    /**
-     * @param JobTitleSearchFilterParams $jobTitleSearchFilterParams
-     * @return int
-     * @throws DaoException
-     */
-    public function getJobTitlesCount(JobTitleSearchFilterParams $jobTitleSearchFilterParams): int
-    {
-        try {
-            return $this->getJobTitlesPaginator($jobTitleSearchFilterParams)->count();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
+        return $this->getJobTitlesPaginator($jobTitleSearchFilterParams)->getQuery()->execute();
     }
 
     /**
@@ -120,124 +89,99 @@ class JobTitleDao extends BaseDao
     }
 
     /**
+     * @param JobTitleSearchFilterParams $jobTitleSearchFilterParams
+     * @return int
+     */
+    public function getJobTitlesCount(JobTitleSearchFilterParams $jobTitleSearchFilterParams): int
+    {
+        return $this->getJobTitlesPaginator($jobTitleSearchFilterParams)->count();
+    }
+
+    /**
      * @param array $toBeDeletedJobTitleIds
      * @return int
-     * @throws DaoException
      */
     public function deleteJobTitle(array $toBeDeletedJobTitleIds): int
     {
-        try {
-            $q = $this->createQueryBuilder(JobTitle::class, 'jt');
-            $q->update()
-                ->set('jt.isDeleted', ':isDeleted')
-                ->setParameter('isDeleted', JobTitle::DELETED)
-                ->where($q->expr()->in('jt.id', ':ids'))
-                ->setParameter('ids', $toBeDeletedJobTitleIds);
-            return $q->getQuery()->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
+        $q = $this->createQueryBuilder(JobTitle::class, 'jt');
+        $q->update()
+            ->set('jt.isDeleted', ':isDeleted')
+            ->setParameter('isDeleted', JobTitle::DELETED)
+            ->where($q->expr()->in('jt.id', ':ids'))
+            ->setParameter('ids', $toBeDeletedJobTitleIds);
+        return $q->getQuery()->execute();
     }
 
     /**
      * @param int $jobTitleId
      * @return JobTitle|null
-     * @throws DaoException
      */
     public function getJobTitleById(int $jobTitleId): ?JobTitle
     {
-        try {
-            $jobTitle = $this->getRepository(JobTitle::class)->find($jobTitleId);
-            if ($jobTitle instanceof JobTitle) {
-                return $jobTitle;
-            }
-            return null;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
+        $jobTitle = $this->getRepository(JobTitle::class)->find($jobTitleId);
+        if ($jobTitle instanceof JobTitle) {
+            return $jobTitle;
         }
+        return null;
     }
 
     /**
      * @param int $attachId
      * @return JobSpecificationAttachment|null
-     * @throws DaoException
      */
     public function getJobSpecAttachmentById(int $attachId): ?JobSpecificationAttachment
     {
-        try {
-            $jobSpecificationAttachment = $this->getRepository(JobSpecificationAttachment::class)->find($attachId);
-            if ($jobSpecificationAttachment instanceof JobSpecificationAttachment) {
-                return $jobSpecificationAttachment;
-            }
-            return null;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
+        $jobSpecificationAttachment = $this->getRepository(JobSpecificationAttachment::class)->find($attachId);
+        if ($jobSpecificationAttachment instanceof JobSpecificationAttachment) {
+            return $jobSpecificationAttachment;
         }
+        return null;
     }
 
     /**
      * @param JobTitle $jobTitle
      * @return JobTitle
-     * @throws DaoException
      */
     public function saveJobTitle(JobTitle $jobTitle): JobTitle
     {
-        try {
-            $this->persist($jobTitle);
-            return $jobTitle;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
+        $this->persist($jobTitle);
+        return $jobTitle;
     }
 
     /**
      * @param JobSpecificationAttachment $jobSpecificationAttachment
      * @return JobSpecificationAttachment
-     * @throws DaoException
      */
     public function saveJobSpecificationAttachment(
         JobSpecificationAttachment $jobSpecificationAttachment
     ): JobSpecificationAttachment {
-        try {
-            $this->persist($jobSpecificationAttachment);
-            return $jobSpecificationAttachment;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
+        $this->persist($jobSpecificationAttachment);
+        return $jobSpecificationAttachment;
     }
 
     /**
      * @param JobSpecificationAttachment $jobSpecificationAttachment
      * @return JobSpecificationAttachment
-     * @throws DaoException
      */
     public function deleteJobSpecificationAttachment(
         JobSpecificationAttachment $jobSpecificationAttachment
     ): JobSpecificationAttachment {
-        try {
-            $this->remove($jobSpecificationAttachment);
-            return $jobSpecificationAttachment;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
+        $this->remove($jobSpecificationAttachment);
+        return $jobSpecificationAttachment;
     }
 
     /**
      * @param int $jobTitleId
      * @return PartialJobSpecificationAttachment|null
-     * @throws DaoException
      */
     public function getJobSpecificationByJobTitleId(int $jobTitleId): ?PartialJobSpecificationAttachment
     {
-        try {
-            $select = 'NEW ' . PartialJobSpecificationAttachment::class . "(js.id,js.fileName,js.fileType,js.fileSize,IDENTITY(js.jobTitle))";
-            $q = $this->createQueryBuilder(JobSpecificationAttachment::class, 'js');
-            $q->select($select);
-            $q->andWhere('js.jobTitle = :jobTitleId')
-                ->setParameter('jobTitleId', $jobTitleId);
-            return $q->getQuery()->getOneOrNullResult();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        $select = 'NEW ' . PartialJobSpecificationAttachment::class
+            . "(js.id,js.fileName,js.fileType,js.fileSize,IDENTITY(js.jobTitle))";
+        $q = $this->createQueryBuilder(JobSpecificationAttachment::class, 'js');
+        $q->select($select);
+        $q->andWhere('js.jobTitle = :jobTitleId')
+            ->setParameter('jobTitleId', $jobTitleId);
+        return $q->getQuery()->getOneOrNullResult();
     }
 }

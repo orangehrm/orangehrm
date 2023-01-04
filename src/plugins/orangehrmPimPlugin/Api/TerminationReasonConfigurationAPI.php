@@ -34,7 +34,6 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\TerminationReason;
 use OrangeHRM\Pim\Api\Model\TerminationReasonConfigurationModel;
 use OrangeHRM\Pim\Dto\TerminationReasonConfigurationSearchFilterParams;
@@ -148,7 +147,6 @@ class TerminationReasonConfigurationAPI extends EndPoint implements CrudEndpoint
 
     /**
      * @return TerminationReason
-     * @throws DaoException
      * @throws RecordNotFoundException
      */
     public function saveTerminationReason(): TerminationReason

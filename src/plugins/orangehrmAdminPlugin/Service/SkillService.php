@@ -20,7 +20,6 @@
 namespace OrangeHRM\Admin\Service;
 
 use OrangeHRM\Admin\Dao\SkillDao;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Admin\Dto\SkillSearchFilterParams;
 use OrangeHRM\Core\Exception\ServiceException;
 use OrangeHRM\Entity\Skill;
@@ -46,7 +45,7 @@ class SkillService
     }
 
     /**
-     * @param $skillDao
+     * @param SkillDao $skillDao
      */
     public function setSkillDao(SkillDao $skillDao): void
     {
@@ -57,7 +56,6 @@ class SkillService
     /**
      * @param Skill $skill
      * @return Skill
-     * @throws DaoException
      */
     public function saveSkill(Skill $skill): Skill
     {
@@ -67,7 +65,6 @@ class SkillService
     /**
      * @param int $id
      * @return Skill
-     * @throws DaoException
      */
     public function getSkillById(int $id): ?Skill
     {
@@ -77,7 +74,6 @@ class SkillService
     /**
      * @param array $toDeleteIds
      * @return int
-     * @throws DaoException
      */
     public function deleteSkills(array $toDeleteIds): int
     {

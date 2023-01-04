@@ -20,7 +20,6 @@
 namespace OrangeHRM\Core\Authorization\Manager;
 
 use OrangeHRM\Core\Authorization\Service\UserRoleManagerService;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Exception\ServiceException;
 
 /**
@@ -36,7 +35,7 @@ class UserRoleManagerFactory
 
     /**
      * @return AbstractUserRoleManager
-     * @throws ServiceException|DaoException
+     * @throws ServiceException
      */
     public static function getUserRoleManager(): AbstractUserRoleManager
     {
@@ -51,7 +50,7 @@ class UserRoleManagerFactory
      * Get new user role manager when session detail changes
      *
      * @return AbstractUserRoleManager
-     * @throws ServiceException|DaoException
+     * @throws ServiceException
      */
     public static function getNewUserRoleManager(): AbstractUserRoleManager
     {
@@ -62,7 +61,7 @@ class UserRoleManagerFactory
     /**
      * Update current user role manager when session detail changes
      * @return AbstractUserRoleManager
-     * @throws ServiceException|DaoException
+     * @throws ServiceException
      */
     public static function updateUserRoleManager(): AbstractUserRoleManager
     {

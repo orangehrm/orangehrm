@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\Pim\Service;
 
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\EmployeeImmigrationRecord;
 use OrangeHRM\Pim\Dao\EmployeeImmigrationRecordDao;
 use OrangeHRM\Pim\Dto\EmployeeImmigrationRecordSearchFilterParams;
@@ -54,7 +53,6 @@ class EmployeeImmigrationRecordService
      * @param int $empNumber
      * @param int $recordNo
      * @return EmployeeImmigrationRecord|null
-     * @throws DaoException
      */
     public function getEmployeeImmigrationRecord(int $empNumber, int $recordNo): ?EmployeeImmigrationRecord
     {
@@ -64,7 +62,6 @@ class EmployeeImmigrationRecordService
     /**
      * @param int $empNumber
      * @return array
-     * @throws DaoException
      */
     public function getEmployeeImmigrationRecordList(int $empNumber): array
     {
@@ -85,7 +82,6 @@ class EmployeeImmigrationRecordService
      * @param int $empNumber
      * @param array $sequenceNumbers
      * @return int
-     * @throws DaoException
      */
     public function deleteEmployeeImmigrationRecords(int $empNumber, array $sequenceNumbers): int
     {
@@ -95,7 +91,6 @@ class EmployeeImmigrationRecordService
     /**
      * @param EmployeeImmigrationRecordSearchFilterParams $employeeImmigrationRecordSearchFilterParams
      * @return array
-     * @throws DaoException
      */
     public function searchEmployeeImmigrationRecords(
         EmployeeImmigrationRecordSearchFilterParams $employeeImmigrationRecordSearchFilterParams
@@ -106,7 +101,6 @@ class EmployeeImmigrationRecordService
     /**
      * @param EmployeeImmigrationRecordSearchFilterParams $employeeImmigrationRecordSearchFilterParams
      * @return int
-     * @throws DaoException
      */
     public function getSearchEmployeeImmigrationRecordsCount(
         EmployeeImmigrationRecordSearchFilterParams $employeeImmigrationRecordSearchFilterParams

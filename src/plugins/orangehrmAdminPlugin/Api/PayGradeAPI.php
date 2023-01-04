@@ -28,6 +28,7 @@ use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
+use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
@@ -267,7 +268,7 @@ class PayGradeAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @return PayGrade
-     * @throws \OrangeHRM\Core\Exception\DaoException
+     * @throws RecordNotFoundException
      */
     protected function savePayGrade(): PayGrade
     {

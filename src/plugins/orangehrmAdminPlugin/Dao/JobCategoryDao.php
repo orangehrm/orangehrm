@@ -19,9 +19,7 @@
 
 namespace OrangeHRM\Admin\Dao;
 
-use Exception;
 use OrangeHRM\Core\Dao\BaseDao;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\JobCategory;
 
 class JobCategoryDao extends BaseDao
@@ -33,7 +31,6 @@ class JobCategoryDao extends BaseDao
      * @param int|null $offset
      * @param false $count
      * @return int|JobCategory[]
-     * @throws DaoException
      */
     public function getJobCategoryList(
         string $sortField = 'jc.name',
@@ -45,71 +42,52 @@ class JobCategoryDao extends BaseDao
         $sortField = ($sortField == "") ? 'jc.name' : $sortField;
         $sortOrder = strcasecmp($sortOrder, 'DESC') === 0 ? 'DESC' : 'ASC';
 
-        try {
-            $q = $this->createQueryBuilder(JobCategory::class, 'jc');
-            $q->addOrderBy($sortField, $sortOrder);
-            if (!empty($limit)) {
-                $q->setFirstResult($offset)
-                    ->setMaxResults($limit);
-            }
-
-            if ($count) {
-                return $this->count($q);
-            }
-            return $q->getQuery()->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
+        $q = $this->createQueryBuilder(JobCategory::class, 'jc');
+        $q->addOrderBy($sortField, $sortOrder);
+        if (!empty($limit)) {
+            $q->setFirstResult($offset)
+                ->setMaxResults($limit);
         }
+
+        if ($count) {
+            return $this->count($q);
+        }
+        return $q->getQuery()->execute();
     }
 
     /**
      * @param int $jobCatId
      * @return JobCategory|null
-     * @throws DaoException
      */
     public function getJobCategoryById(int $jobCatId): ?JobCategory
     {
-        try {
-            $jobCategory = $this->getRepository(JobCategory::class)->find($jobCatId);
-            if ($jobCategory instanceof JobCategory) {
-                return $jobCategory;
-            }
-            return null;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
+        $jobCategory = $this->getRepository(JobCategory::class)->find($jobCatId);
+        if ($jobCategory instanceof JobCategory) {
+            return $jobCategory;
         }
+        return null;
     }
 
     /**
      * @param JobCategory $jobCategory
      * @return JobCategory
-     * @throws DaoException
      */
     public function saveJobCategory(JobCategory $jobCategory): JobCategory
     {
-        try {
-            $this->persist($jobCategory);
-            return $jobCategory;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
+        $this->persist($jobCategory);
+        return $jobCategory;
     }
 
     /**
      * @param array $toBeDeletedJobCategoryIds
      * @return int
-     * @throws DaoException
      */
     public function deleteJobCategory(array $toBeDeletedJobCategoryIds): int
     {
-        try {
-            $q = $this->createQueryBuilder(JobCategory::class, 'jc');
-            $q->delete()
-                ->where($q->expr()->in('jc.id', ':ids'))
-                ->setParameter('ids', $toBeDeletedJobCategoryIds);
-            return $q->getQuery()->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
+        $q = $this->createQueryBuilder(JobCategory::class, 'jc');
+        $q->delete()
+            ->where($q->expr()->in('jc.id', ':ids'))
+            ->setParameter('ids', $toBeDeletedJobCategoryIds);
+        return $q->getQuery()->execute();
     }
 }

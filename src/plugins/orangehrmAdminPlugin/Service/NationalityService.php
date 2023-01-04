@@ -22,7 +22,6 @@ namespace OrangeHRM\Admin\Service;
 use OrangeHRM\Admin\Dao\NationalityDao;
 use OrangeHRM\Admin\Dto\NationalitySearchFilterParams;
 use OrangeHRM\Admin\Service\Model\NationalityModel;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
 use OrangeHRM\Entity\Nationality;
 
@@ -57,7 +56,6 @@ class NationalityService
     /**
      * @param NationalitySearchFilterParams $nationalitySearchParamHolder
      * @return array
-     * @throws DaoException
      */
     public function getNationalityList(NationalitySearchFilterParams $nationalitySearchParamHolder): array
     {
@@ -67,7 +65,6 @@ class NationalityService
     /**
      * @param NationalitySearchFilterParams $nationalitySearchParamHolder
      * @return int
-     * @throws DaoException
      */
     public function getNationalityCount(NationalitySearchFilterParams $nationalitySearchParamHolder): int
     {
@@ -77,7 +74,6 @@ class NationalityService
     /**
      * @param Nationality $nationality
      * @return Nationality
-     * @throws DaoException
      */
     public function saveNationality(Nationality $nationality): Nationality
     {
@@ -87,7 +83,6 @@ class NationalityService
     /**
      * @param int $id
      * @return Nationality|null
-     * @throws DaoException
      */
     public function getNationalityById(int $id): ?Nationality
     {
@@ -97,7 +92,6 @@ class NationalityService
     /**
      * @param string $name
      * @return Nationality|null
-     * @throws DaoException
      */
     public function getNationalityByName(string $name): ?Nationality
     {
@@ -107,7 +101,6 @@ class NationalityService
     /**
      * @param array $toDeleteIds
      * @return int
-     * @throws DaoException
      */
     public function deleteNationalities(array $toDeleteIds): int
     {
@@ -117,7 +110,6 @@ class NationalityService
     /**
      * @param string $nationalityName
      * @return bool
-     * @throws DaoException
      */
     public function isExistingNationalityName(string $nationalityName): bool
     {
@@ -126,7 +118,6 @@ class NationalityService
 
     /**
      * @return array
-     * @throws DaoException
      */
     public function getNationalityArray(): array
     {

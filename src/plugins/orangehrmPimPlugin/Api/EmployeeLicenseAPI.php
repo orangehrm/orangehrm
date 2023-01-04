@@ -32,7 +32,6 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\EmployeeLicense;
 use OrangeHRM\Pim\Api\Model\EmployeeLicenseModel;
 use OrangeHRM\Pim\Dto\EmployeeLicenseSearchFilterParams;
@@ -412,7 +411,6 @@ class EmployeeLicenseAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @return EmployeeLicense
-     * @throws DaoException
      */
     public function saveEmployeeLicense(): EmployeeLicense
     {

@@ -19,9 +19,7 @@
 
 namespace OrangeHRM\Pim\Dao;
 
-use Exception;
 use OrangeHRM\Core\Dao\BaseDao;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\ReportingMethod;
 use OrangeHRM\Entity\ReportTo;
 use OrangeHRM\ORM\Paginator;
@@ -32,52 +30,37 @@ class ReportingMethodConfigurationDao extends BaseDao
     /**
      * @param ReportingMethod $reportingMethod
      * @return ReportingMethod
-     * @throws DaoException
      */
     public function saveReportingMethod(ReportingMethod $reportingMethod): ReportingMethod
     {
-        try {
-            $this->persist($reportingMethod);
-            return $reportingMethod;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        $this->persist($reportingMethod);
+        return $reportingMethod;
     }
 
     /**
      * @param int $id
      * @return ReportingMethod|null
-     * @throws DaoException
      */
     public function getReportingMethodById(int $id): ?ReportingMethod
     {
-        try {
-            $reportingMethod = $this->getRepository(ReportingMethod::class)->find($id);
-            if ($reportingMethod instanceof ReportingMethod) {
-                return $reportingMethod;
-            }
-            return null;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        $reportingMethod = $this->getRepository(ReportingMethod::class)->find($id);
+        if ($reportingMethod instanceof ReportingMethod) {
+            return $reportingMethod;
         }
+        return null;
     }
 
     /**
      * @param string $name
      * @return ReportingMethod|null
-     * @throws DaoException
      */
     public function getReportingMethodByName(string $name): ?ReportingMethod
     {
-        try {
-            $query = $this->createQueryBuilder(ReportingMethod::class, 'rm');
-            $trimmed = trim($name, ' ');
-            $query->andWhere('rm.name = :name');
-            $query->setParameter('name', $trimmed);
-            return $query->getQuery()->getOneOrNullResult();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        $query = $this->createQueryBuilder(ReportingMethod::class, 'rm');
+        $trimmed = trim($name, ' ');
+        $query->andWhere('rm.name = :name');
+        $query->setParameter('name', $trimmed);
+        return $query->getQuery()->getOneOrNullResult();
     }
 
     /**
@@ -95,87 +78,62 @@ class ReportingMethodConfigurationDao extends BaseDao
     /**
      * @param ReportingMethodSearchFilterParams $reportingMethodSearchFilterParams
      * @return int
-     * @throws DaoException
      */
     public function getReportingMethodCount(ReportingMethodSearchFilterParams $reportingMethodSearchFilterParams): int
     {
-        try {
-            $paginator = $this->getReportingMethodListPaginator($reportingMethodSearchFilterParams);
-            return $paginator->count();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        $paginator = $this->getReportingMethodListPaginator($reportingMethodSearchFilterParams);
+        return $paginator->count();
     }
 
     /**
      * @param ReportingMethodSearchFilterParams $reportingMethodSearchFilterParams
      * @return int|mixed|string
-     * @throws DaoException
      */
     public function getReportingMethodList(ReportingMethodSearchFilterParams $reportingMethodSearchFilterParams)
     {
-        try {
-            $paginator = $this->getReportingMethodListPaginator($reportingMethodSearchFilterParams);
-            return $paginator->getQuery()->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        $paginator = $this->getReportingMethodListPaginator($reportingMethodSearchFilterParams);
+        return $paginator->getQuery()->execute();
     }
 
     /**
      * @param $toDeleteIds
      * @return int
-     * @throws DaoException
      */
     public function deleteReportingMethods($toDeleteIds): int
     {
-        try {
-            $q = $this->createQueryBuilder(ReportingMethod::class, 'rm');
-            $q->delete();
-            $q->where($q->expr()->in('rm.id', ':ids'))
+        $q = $this->createQueryBuilder(ReportingMethod::class, 'rm');
+        $q->delete();
+        $q->where($q->expr()->in('rm.id', ':ids'))
                 ->setParameter('ids', $toDeleteIds);
-            return $q->getQuery()->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        return $q->getQuery()->execute();
     }
 
     /**
      * @param string $reportingMethodName
      * @return bool
-     * @throws DaoException
      */
     public function isExistingReportingMethodName(string $reportingMethodName): bool
     {
-        try {
-            $q = $this->createQueryBuilder(ReportingMethod::class, 'rm');
-            $trimmed = trim($reportingMethodName, ' ');
-            $q->where('rm.name = :name');
-            $q->setParameter('name', $trimmed);
-            $count = $this->count($q);
-            if ($count > 0) {
-                return true;
-            }
-            return false;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        $q = $this->createQueryBuilder(ReportingMethod::class, 'rm');
+        $trimmed = trim($reportingMethodName, ' ');
+        $q->where('rm.name = :name');
+        $q->setParameter('name', $trimmed);
+        $count = $this->count($q);
+        if ($count > 0) {
+            return true;
         }
+        return false;
     }
 
     /**
      * @return int[]
-     * @throws DaoException
      */
     public function getReportingMethodIdsInUse(): array
     {
-        try {
-            $query = $this->createQueryBuilder(ReportTo::class, 'rt');
-            $query->leftJoin('rt.reportingMethod', 'rm');
-            $query->select('rm.id');
-            $result = $query->getQuery()->getScalarResult();
-            return array_column($result, 'id');
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        $query = $this->createQueryBuilder(ReportTo::class, 'rt');
+        $query->leftJoin('rt.reportingMethod', 'rm');
+        $query->select('rm.id');
+        $result = $query->getQuery()->getScalarResult();
+        return array_column($result, 'id');
     }
 }

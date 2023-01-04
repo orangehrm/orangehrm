@@ -21,7 +21,6 @@ namespace OrangeHRM\Admin\Service;
 
 use OrangeHRM\Admin\Dao\JobCategoryDao;
 use OrangeHRM\Admin\Service\Model\JobCategoryModel;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
 use OrangeHRM\Entity\JobCategory;
 
@@ -65,7 +64,6 @@ class JobCategoryService
      * @param int|null $offset
      * @param false $count
      * @return int|JobCategory[]
-     * @throws DaoException
      */
     public function getJobCategoryList(
         string $sortField = 'jc.name',
@@ -80,7 +78,6 @@ class JobCategoryService
     /**
      * @param int $jobCatId
      * @return object|JobCategory|null
-     * @throws DaoException
      */
     public function getJobCategoryById(int $jobCatId): ?JobCategory
     {
@@ -90,7 +87,6 @@ class JobCategoryService
     /**
      * @param JobCategory $jobCategory
      * @return JobCategory
-     * @throws DaoException
      */
     public function saveJobCategory(JobCategory $jobCategory): JobCategory
     {
@@ -100,7 +96,6 @@ class JobCategoryService
     /**
      * @param array $toBeDeletedJobCategoryIds
      * @return int
-     * @throws DaoException
      */
     public function deleteJobCategory(array $toBeDeletedJobCategoryIds): int
     {
@@ -109,7 +104,6 @@ class JobCategoryService
 
     /**
      * @return array
-     * @throws DaoException
      */
     public function getJobCategoryArray(): array
     {

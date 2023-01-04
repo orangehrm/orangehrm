@@ -23,7 +23,6 @@ use OrangeHRM\Core\Authorization\Dao\ScreenDao;
 use OrangeHRM\Core\Authorization\Dao\ScreenPermissionDao;
 use OrangeHRM\Core\Authorization\Dto\ResourcePermission;
 use OrangeHRM\Core\Dto\ModuleScreen;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Helper\ModuleScreenHelper;
 use OrangeHRM\Entity\Screen;
 use OrangeHRM\Entity\UserRole;
@@ -84,7 +83,6 @@ class ScreenPermissionService
      * @param string $actionUrl Action Name
      * @param string[]|UserRole[] $roles Array of Role names or Array of UserRole objects
      * @return ResourcePermission
-     * @throws DaoException
      */
     public function getScreenPermissions(string $module, string $actionUrl, array $roles): ResourcePermission
     {
@@ -131,7 +129,6 @@ class ScreenPermissionService
      * @param string $module
      * @param string $actionUrl
      * @return Screen|null
-     * @throws DaoException
      */
     public function getScreen(string $module, string $actionUrl): ?Screen
     {
@@ -148,7 +145,6 @@ class ScreenPermissionService
 
     /**
      * @return Screen|null
-     * @throws DaoException
      */
     public function getCurrentScreen(): ?Screen
     {

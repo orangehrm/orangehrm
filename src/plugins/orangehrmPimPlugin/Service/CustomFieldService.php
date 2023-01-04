@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\Pim\Service;
 
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Pim\Dao\CustomFieldDao;
 
 class CustomFieldService
@@ -91,7 +90,6 @@ class CustomFieldService
     /**
      * @param int $customFieldId
      * @param string $newExtraData
-     * @throws DaoException
      */
     public function deleteRelatedEmployeeCustomFieldsExtraData(int $customFieldId, string $newExtraData): void
     {
@@ -107,7 +105,6 @@ class CustomFieldService
 
     /**
      * @return array
-     * @throws DaoException
      */
     public function getAllFieldsInUse(): array
     {

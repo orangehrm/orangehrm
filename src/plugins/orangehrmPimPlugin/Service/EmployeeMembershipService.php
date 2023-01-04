@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\Pim\Service;
 
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\EmployeeMembership;
 use OrangeHRM\Pim\Dao\EmployeeMembershipDao;
 use OrangeHRM\Pim\Dto\EmployeeMembershipSearchFilterParams;
@@ -53,7 +52,6 @@ class EmployeeMembershipService
     /**
      * @param EmployeeMembership $employeeMembership
      * @return EmployeeMembership
-     * @throws DaoException
      */
     public function saveEmployeeMembership(EmployeeMembership $employeeMembership): EmployeeMembership
     {
@@ -64,7 +62,6 @@ class EmployeeMembershipService
      * @param int $empNumber
      * @param int $id
      * @return EmployeeMembership|null
-     * @throws DaoException
      */
     public function getEmployeeMembershipById(int $empNumber, int $id): ?EmployeeMembership
     {
@@ -74,7 +71,6 @@ class EmployeeMembershipService
     /**
      * @param EmployeeMembershipSearchFilterParams $employeeMembershipSearchFilterParams
      * @return array
-     * @throws DaoException
      */
     public function searchEmployeeMembership(
         EmployeeMembershipSearchFilterParams $employeeMembershipSearchFilterParams
@@ -85,7 +81,6 @@ class EmployeeMembershipService
     /**
      * @param EmployeeMembershipSearchFilterParams $employeeMembershipSearchFilterParams
      * @return int
-     * @throws DaoException
      */
     public function getSearchEmployeeMembershipsCount(
         EmployeeMembershipSearchFilterParams $employeeMembershipSearchFilterParams
@@ -97,7 +92,6 @@ class EmployeeMembershipService
      * @param int $empNumber
      * @param array $toDeleteIds
      * @return int
-     * @throws DaoException
      */
     public function deleteEmployeeMemberships(int $empNumber, array $toDeleteIds): int
     {

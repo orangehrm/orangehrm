@@ -19,10 +19,8 @@
 
 namespace OrangeHRM\Pim\Dao;
 
-use Exception;
 use InvalidArgumentException;
 use OrangeHRM\Core\Dao\BaseDao;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\EmpEmergencyContact;
 use OrangeHRM\ORM\ListSorter;
 use OrangeHRM\ORM\Paginator;
@@ -63,22 +61,17 @@ class EmpEmergencyContactDao extends BaseDao
      * @param int $seqNo
      * @param int $empNumber Employee Number
      * @return EmpEmergencyContact|null EmpEmergencyContact objects as array
-     * @throws DaoException
      */
     public function getEmployeeEmergencyContact(int $empNumber, int $seqNo): ?EmpEmergencyContact
     {
-        try {
-            $empEmergencyContact = $this->getRepository(EmpEmergencyContact::class)->findOneBy([
+        $empEmergencyContact = $this->getRepository(EmpEmergencyContact::class)->findOneBy([
                 'employee' => $empNumber,
                 'seqNo' => $seqNo,
             ]);
-            if ($empEmergencyContact instanceof EmpEmergencyContact) {
-                return $empEmergencyContact;
-            }
-            return null;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        if ($empEmergencyContact instanceof EmpEmergencyContact) {
+            return $empEmergencyContact;
         }
+        return null;
     }
 
     /**
@@ -86,56 +79,41 @@ class EmpEmergencyContactDao extends BaseDao
      * @param int $empNumber
      * @param array|null $entriesToDelete
      * @return int
-     * @throws DaoException
      */
     public function deleteEmployeeEmergencyContacts(int $empNumber, array $entriesToDelete): int
     {
-        try {
-            $q = $this->createQueryBuilder(EmpEmergencyContact::class, 'eec');
-            $q->delete()
+        $q = $this->createQueryBuilder(EmpEmergencyContact::class, 'eec');
+        $q->delete()
                 ->where('eec.employee = :empNumber')
                 ->setParameter('empNumber', $empNumber);
-            $q->andWhere($q->expr()->in('eec.seqNo', ':ids'))
+        $q->andWhere($q->expr()->in('eec.seqNo', ':ids'))
                 ->setParameter('ids', $entriesToDelete);
-            return $q->getQuery()->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        return $q->getQuery()->execute();
     }
 
     /**
      * @param int $empNumber
      * @return array
-     * @throws DaoException
      */
     public function getEmployeeEmergencyContactList(int $empNumber): array
     {
-        try {
-            $q = $this->createQueryBuilder(EmpEmergencyContact::class, 'eec');
-            $q->andWhere('eec.employee = :empNumber')
+        $q = $this->createQueryBuilder(EmpEmergencyContact::class, 'eec');
+        $q->andWhere('eec.employee = :empNumber')
                 ->setParameter('empNumber', $empNumber);
-            $q->addOrderBy('eec.name', ListSorter::ASCENDING);
+        $q->addOrderBy('eec.name', ListSorter::ASCENDING);
 
-            return $q->getQuery()->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        return $q->getQuery()->execute();
     }
 
     /**
      * @param EmpEmergencyContactSearchFilterParams $emergencyContactSearchFilterParams
      * @return array
-     * @throws DaoException
      */
     public function searchEmployeeEmergencyContacts(
         EmpEmergencyContactSearchFilterParams $emergencyContactSearchFilterParams
     ): array {
-        try {
-            $paginator = $this->getSearchEmployeeEmergencyContactsPaginator($emergencyContactSearchFilterParams);
-            return $paginator->getQuery()->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        $paginator = $this->getSearchEmployeeEmergencyContactsPaginator($emergencyContactSearchFilterParams);
+        return $paginator->getQuery()->execute();
     }
 
     /**
@@ -163,16 +141,11 @@ class EmpEmergencyContactDao extends BaseDao
     /**
      * @param EmpEmergencyContactSearchFilterParams $emergencyContactSearchFilterParams
      * @return int
-     * @throws DaoException
      */
     public function getSearchEmployeeEmergencyContactsCount(
         EmpEmergencyContactSearchFilterParams $emergencyContactSearchFilterParams
     ): int {
-        try {
-            $paginator = $this->getSearchEmployeeEmergencyContactsPaginator($emergencyContactSearchFilterParams);
-            return $paginator->count();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        $paginator = $this->getSearchEmployeeEmergencyContactsPaginator($emergencyContactSearchFilterParams);
+        return $paginator->count();
     }
 }

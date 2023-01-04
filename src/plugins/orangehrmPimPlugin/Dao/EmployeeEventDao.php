@@ -19,9 +19,7 @@
 
 namespace OrangeHRM\Pim\Dao;
 
-use Exception;
 use OrangeHRM\Core\Dao\BaseDao;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\EmployeeEvent;
 use OrangeHRM\ORM\Paginator;
 use OrangeHRM\Pim\Dto\EmployeeEventSearchFilterParams;
@@ -33,16 +31,11 @@ class EmployeeEventDao extends BaseDao
      *
      * @param EmployeeEvent $employeeEvent
      * @return EmployeeEvent
-     * @throws DaoException
      */
     public function saveEmployeeEvent(EmployeeEvent $employeeEvent): EmployeeEvent
     {
-        try {
-            $this->persist($employeeEvent);
-            return $employeeEvent;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        $this->persist($employeeEvent);
+        return $employeeEvent;
     }
 
     /**
@@ -50,16 +43,11 @@ class EmployeeEventDao extends BaseDao
      *
      * @param EmployeeEventSearchFilterParams $employeeEventSearchFilterParams
      * @return EmployeeEvent[]
-     * @throws DaoException
      */
     public function getEmployeeEvents(EmployeeEventSearchFilterParams $employeeEventSearchFilterParams): array
     {
-        try {
-            $paginator = $this->getEmployeeEventPaginator($employeeEventSearchFilterParams);
-            return $paginator->getQuery()->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        $paginator = $this->getEmployeeEventPaginator($employeeEventSearchFilterParams);
+        return $paginator->getQuery()->execute();
     }
 
     /**

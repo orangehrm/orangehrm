@@ -19,9 +19,7 @@
 
 namespace OrangeHRM\Core\Authorization\Dao;
 
-use Exception;
 use OrangeHRM\Core\Dao\BaseDao;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\ScreenPermission;
 use OrangeHRM\Entity\UserRole;
 
@@ -32,35 +30,30 @@ class ScreenPermissionDao extends BaseDao
      * @param string $actionUrl Action
      * @param string[]|UserRole[] $roles Array of UserRole objects or user role names
      * @return ScreenPermission[]
-     * @throws DaoException
      */
     public function getScreenPermissions(string $module, string $actionUrl, array $roles): array
     {
-        try {
-            $roleNames = [];
+        $roleNames = [];
 
-            foreach ($roles as $role) {
-                if ($role instanceof UserRole) {
-                    $roleNames[] = $role->getName();
-                } elseif (is_string($role)) {
-                    $roleNames[] = $role;
-                }
+        foreach ($roles as $role) {
+            if ($role instanceof UserRole) {
+                $roleNames[] = $role->getName();
+            } elseif (is_string($role)) {
+                $roleNames[] = $role;
             }
+        }
 
-            $q = $this->createQueryBuilder(ScreenPermission::class, 'sp');
-            $q->leftJoin('sp.userRole', 'ur');
-            $q->leftJoin('sp.screen', 's');
-            $q->leftJoin('s.module', 'm');
-            $q->andWhere('m.name = :moduleName')
+        $q = $this->createQueryBuilder(ScreenPermission::class, 'sp');
+        $q->leftJoin('sp.userRole', 'ur');
+        $q->leftJoin('sp.screen', 's');
+        $q->leftJoin('s.module', 'm');
+        $q->andWhere('m.name = :moduleName')
                 ->setParameter('moduleName', $module);
-            $q->andWhere('s.actionUrl = :actionUrl')
+        $q->andWhere('s.actionUrl = :actionUrl')
                 ->setParameter('actionUrl', $actionUrl);
-            $q->andWhere($q->expr()->in('ur.name', ':userRoleNames'))
+        $q->andWhere($q->expr()->in('ur.name', ':userRoleNames'))
                 ->setParameter('userRoleNames', $roleNames);
 
-            return $q->getQuery()->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        return $q->getQuery()->execute();
     }
 }

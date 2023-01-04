@@ -21,7 +21,6 @@ namespace OrangeHRM\Admin\Dao;
 
 use Exception;
 use OrangeHRM\Core\Dao\BaseDao;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\Organization;
 use OrangeHRM\Entity\Subunit;
 use OrangeHRM\ORM\Exception\TransactionException;
@@ -30,19 +29,14 @@ class OrganizationDao extends BaseDao
 {
     /**
      * @return Organization|null
-     * @throws DaoException
      */
     public function getOrganizationGeneralInformation(): ?Organization
     {
-        try {
-            $orgInfo = $this->getRepository(Organization::class)->find(1);
-            if ($orgInfo instanceof Organization) {
-                return $orgInfo;
-            }
-            return null;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        $orgInfo = $this->getRepository(Organization::class)->find(1);
+        if ($orgInfo instanceof Organization) {
+            return $orgInfo;
         }
+        return null;
     }
 
     /**

@@ -20,9 +20,7 @@
 namespace OrangeHRM\Pim\Dao;
 
 use Doctrine\ORM\Query\Expr;
-use Exception;
 use OrangeHRM\Core\Dao\BaseDao;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\EmployeeLicense;
 use OrangeHRM\Entity\License;
 use OrangeHRM\ORM\Paginator;
@@ -34,76 +32,56 @@ class EmployeeLicenseDao extends BaseDao
     /**
      * @param EmployeeLicense $employeeLicense
      * @return EmployeeLicense
-     * @throws DaoException
      */
     public function saveEmployeeLicense(EmployeeLicense $employeeLicense): EmployeeLicense
     {
-        try {
-            $this->persist($employeeLicense);
-            return $employeeLicense;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        $this->persist($employeeLicense);
+        return $employeeLicense;
     }
 
     /**
      * @param int $empNumber
      * @param int $licenseId
      * @return EmployeeLicense|null
-     * @throws DaoException
      */
     public function getEmployeeLicense(int $empNumber, int $licenseId): ?EmployeeLicense
     {
-        try {
-            $employeeLicense = $this->getRepository(EmployeeLicense::class)->findOneBy(
-                [
+        $employeeLicense = $this->getRepository(EmployeeLicense::class)->findOneBy(
+            [
                     'employee' => $empNumber,
                     'license' => $licenseId,
                 ]
-            );
-            if ($employeeLicense instanceof EmployeeLicense) {
-                return $employeeLicense;
-            }
-            return null;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        );
+        if ($employeeLicense instanceof EmployeeLicense) {
+            return $employeeLicense;
         }
+        return null;
     }
 
     /**
      * @param int $empNumber
      * @param array $entriesToDelete
      * @return int
-     * @throws DaoException
      */
     public function deleteEmployeeLicenses(int $empNumber, array $entriesToDelete): int
     {
-        try {
-            $q = $this->createQueryBuilder(EmployeeLicense::class, 'el');
-            $q->delete()
+        $q = $this->createQueryBuilder(EmployeeLicense::class, 'el');
+        $q->delete()
                 ->where('el.employee = :empNumber')
                 ->setParameter('empNumber', $empNumber);
-            $q->andWhere($q->expr()->in('el.license', ':ids'))
+        $q->andWhere($q->expr()->in('el.license', ':ids'))
                 ->setParameter('ids', $entriesToDelete);
-            return $q->getQuery()->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        return $q->getQuery()->execute();
     }
 
     /**
      * @param EmployeeLicenseSearchFilterParams $employeeLicenseSearchFilterParams
      * @return array
-     * @throws DaoException
      */
     public function searchEmployeeLicense(EmployeeLicenseSearchFilterParams $employeeLicenseSearchFilterParams): array
     {
-        try {
-            $paginator = $this->getSearchEmployeeLicensesPaginator($employeeLicenseSearchFilterParams);
-            return $paginator->getQuery()->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        $paginator = $this->getSearchEmployeeLicensesPaginator($employeeLicenseSearchFilterParams);
+        return $paginator->getQuery()->execute();
     }
 
 
@@ -123,48 +101,33 @@ class EmployeeLicenseDao extends BaseDao
     /**
      * @param EmployeeLicenseSearchFilterParams $employeeLicenseSearchFilterParams
      * @return int
-     * @throws DaoException
      */
     public function getSearchEmployeeLicensesCount(
         EmployeeLicenseSearchFilterParams $employeeLicenseSearchFilterParams
     ): int {
-        try {
-            $paginator = $this->getSearchEmployeeLicensesPaginator($employeeLicenseSearchFilterParams);
-            return $paginator->count();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        $paginator = $this->getSearchEmployeeLicensesPaginator($employeeLicenseSearchFilterParams);
+        return $paginator->count();
     }
 
     /**
      * @param EmployeeAllowedLicenseSearchFilterParams $skillSearchFilterParams
      * @return License[]
-     * @throws DaoException
      */
     public function getEmployeeAllowedLicenses(EmployeeAllowedLicenseSearchFilterParams $skillSearchFilterParams): array
     {
-        try {
-            $paginator = $this->getEmployeeAllowedLicensesPaginator($skillSearchFilterParams);
-            return $paginator->getQuery()->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        $paginator = $this->getEmployeeAllowedLicensesPaginator($skillSearchFilterParams);
+        return $paginator->getQuery()->execute();
     }
 
     /**
      * @param EmployeeAllowedLicenseSearchFilterParams $skillSearchFilterParams
      * @return int
-     * @throws DaoException
      */
     public function getEmployeeAllowedLicensesCount(
         EmployeeAllowedLicenseSearchFilterParams $skillSearchFilterParams
     ): int {
-        try {
-            $paginator = $this->getEmployeeAllowedLicensesPaginator($skillSearchFilterParams);
-            return $paginator->count();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        $paginator = $this->getEmployeeAllowedLicensesPaginator($skillSearchFilterParams);
+        return $paginator->count();
     }
 
     /**

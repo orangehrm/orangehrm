@@ -23,7 +23,6 @@ use DateTime;
 use OrangeHRM\Admin\Dao\WorkShiftDao;
 use OrangeHRM\Admin\Dto\WorkShiftSearchFilterParams;
 use OrangeHRM\Admin\Dto\WorkShiftStartAndEndTime;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Entity\WorkShift;
 
@@ -74,7 +73,6 @@ class WorkShiftService
     /**
      * @param WorkShiftSearchFilterParams $workShiftSearchFilterParams
      * @return array
-     * @throws DaoException
      */
     public function getWorkShiftList(WorkShiftSearchFilterParams $workShiftSearchFilterParams): array
     {
@@ -84,7 +82,6 @@ class WorkShiftService
     /**
      * @param WorkShiftSearchFilterParams $workShiftSearchFilterParams
      * @return int
-     * @throws DaoException
      */
     public function getWorkShiftCount(WorkShiftSearchFilterParams $workShiftSearchFilterParams): int
     {

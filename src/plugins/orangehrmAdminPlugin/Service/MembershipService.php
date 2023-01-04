@@ -22,7 +22,6 @@ namespace OrangeHRM\Admin\Service;
 use OrangeHRM\Admin\Dao\MembershipDao;
 use OrangeHRM\Admin\Dto\MembershipSearchFilterParams;
 use OrangeHRM\Admin\Service\Model\MembershipModel;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
 use OrangeHRM\Entity\Membership;
 
@@ -58,7 +57,6 @@ class MembershipService
     /**
      * @param Membership $membership
      * @return Membership
-     * @throws DaoException
      */
     public function saveMembership(Membership $membership): Membership
     {
@@ -68,7 +66,6 @@ class MembershipService
     /**
      * @param int $id
      * @return Membership|null
-     * @throws DaoException
      */
     public function getMembershipById(int $id): ?Membership
     {
@@ -78,7 +75,6 @@ class MembershipService
     /**
      * @param string $name
      * @return Membership|null
-     * @throws DaoException
      */
     public function getMembershipByName(string $name): ?Membership
     {
@@ -88,7 +84,6 @@ class MembershipService
     /**
      * @param MembershipSearchFilterParams $membershipSearchParamsHolder
      * @return array
-     * @throws DaoException
      */
     public function getMembershipList(MembershipSearchFilterParams $membershipSearchParamsHolder): array
     {
@@ -98,7 +93,6 @@ class MembershipService
     /**
      * @param MembershipSearchFilterParams $membershipSearchParamsHolder
      * @return int
-     * @throws DaoException
      */
     public function getMembershipCount(MembershipSearchFilterParams $membershipSearchParamsHolder): int
     {
@@ -108,7 +102,6 @@ class MembershipService
     /**
      * @param array $toDeleteIds
      * @return int
-     * @throws DaoException
      */
     public function deleteMemberships(array $toDeleteIds): int
     {
@@ -118,7 +111,6 @@ class MembershipService
     /**
      * @param string $membershipName
      * @return bool
-     * @throws DaoException
      */
     public function isExistingMembershipName(string $membershipName): bool
     {
@@ -127,7 +119,6 @@ class MembershipService
 
     /**
      * @return array
-     * @throws DaoException
      */
     public function getMembershipArray(): array
     {

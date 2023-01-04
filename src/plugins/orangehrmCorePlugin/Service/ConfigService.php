@@ -23,7 +23,6 @@ use DateInterval;
 use DateTime;
 use Exception;
 use OrangeHRM\Core\Dao\ConfigDao;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\Config;
 use OrangeHRM\LDAP\Dto\LDAPSetting;
@@ -368,7 +367,6 @@ class ConfigService
     /**
      * Get all defined config values as a key=>value array
      * @return array
-     * @throws DaoException
      */
     public function getAllValues(): array
     {
