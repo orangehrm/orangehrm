@@ -29,7 +29,7 @@ class ClaimEvent
 {
     /**
      * @var int
-     * @ORM\Column(name="id",type="integer")
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
@@ -37,31 +37,31 @@ class ClaimEvent
 
     /**
      * @var string
-     * @ORM\Column(name="name",type="text",nullable=false,length=100)
+     * @ORM\Column(name="name", type="text", nullable=false, length=100)
      */
     private string $name;
 
     /**
      * @var string|null
-     * @ORM\Column(name="description",type="string",nullable=true,length=1000)
+     * @ORM\Column(name="description", type="string", nullable=true, length=1000)
      */
     private ?string $description;
 
     /**
      * @var int
-     * @ORM\Column(name="added_by",type="integer",nullable=true)
+     * @ORM\Column(name="added_by", type="integer", nullable=true)
      */
     private int $addedBy;
 
     /**
      * @var bool
-     * @ORM\Column(name="status",type="boolean")
+     * @ORM\Column(name="status", type="boolean")
      */
     private bool $status;
 
     /**
      * @var bool
-     * @ORM\Column(name="is_deleted",type="boolean")
+     * @ORM\Column(name="is_deleted", type="boolean")
      */
     private bool $isDeleted = false;
 

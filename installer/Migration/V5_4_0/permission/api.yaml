@@ -1,0 +1,16 @@
+##########################
+#        Claim
+##########################
+
+apiv2_claim_event:
+  description: 'Claim - Claim Events'
+  api: OrangeHRM\Claim\Api\ClaimEventAPI
+  module: claim
+  allowed:
+    read: true
+    create: true
+    update: true
+    delete: true
+  permissions:
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: true } }
+    - { role: ESS, permission: { read: true, create: false, update: false, delete: false } }

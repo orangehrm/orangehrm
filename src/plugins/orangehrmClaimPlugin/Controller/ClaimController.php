@@ -2,7 +2,8 @@
 
 namespace App\Controller;
 
-class ClaimController
-{
+use OrangeHRM\Core\Controller\AbstractController;
 
+class ClaimController extends AbstractController
+{
 }

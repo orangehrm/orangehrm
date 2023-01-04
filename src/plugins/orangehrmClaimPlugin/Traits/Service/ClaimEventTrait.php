@@ -15,38 +15,20 @@
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
- *
  */
 
-namespace OrangeHRM\Claim\Api\Model;
+namespace OrangeHRM\Claim\Traits\Service;
 
-use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
-use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
-use OrangeHRM\Entity\ClaimEvent;
+use OrangeHRM\Claim\Service\ClaimService;
+use OrangeHRM\Core\Traits\ServiceContainerTrait;
+use OrangeHRM\Framework\Services;
 
-class ClaimEventModel implements Normalizable
+trait ClaimEventTrait
 {
-    use ModelTrait;
+    use ServiceContainerTrait;
 
-    /**
-     * @param ClaimEvent $claimEvent
-     */
-    public function __construct(ClaimEvent $claimEvent)
+    protected function getClaimEventService(): ClaimService
     {
-        $this->setEntity($claimEvent);
-        $this->setFilters(
-            [
-                'name',
-                'description',
-                'status'
-            ]
-        );
-        $this->setAttributeNames(
-            [
-                'name',
-                'description',
-                'status'
-            ]
-        );
+        return $this->getContainer()->get(Services::CLAIM_SERVICE);
     }
 }

@@ -21,7 +21,8 @@ namespace OrangeHRM\Claim\Api;
 
 use Exception;
 use OrangeHRM\Claim\Api\Model\ClaimEventModel;
-use OrangeHRM\Claim\Service\ClaimEventService;
+use OrangeHRM\Claim\Service\ClaimService;
+use OrangeHRM\Claim\Traits\Service\ClaimEventTrait;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
@@ -29,7 +30,6 @@ use OrangeHRM\Core\Api\V2\EndpointResult;
 use OrangeHRM\Core\Api\V2\Exception\BadRequestException;
 use OrangeHRM\Core\Api\V2\Exception\InvalidParamException;
 use OrangeHRM\Core\Api\V2\RequestParams;
-use OrangeHRM\Core\Api\V2\Serializer\NormalizeException;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
@@ -41,8 +41,9 @@ use OrangeHRM\ORM\Exception\TransactionException;
 class ClaimEventAPI extends Endpoint implements CrudEndpoint
 {
     use EntityManagerHelperTrait;
+    use ClaimEventTrait;
 
-    private ?ClaimEventService $claimEventService = null;
+    private ?ClaimService $claimEventService = null;
     public const PARAMETER_NAME = 'name';
     public const PARAMETER_DESCRIPTION = 'description';
     public const PARAMETER_STATUS = 'status';
@@ -50,13 +51,11 @@ class ClaimEventAPI extends Endpoint implements CrudEndpoint
 
     public const NAME_MAX_LENGTH = 100;
 
-
     /**
      * @return EndpointResult
      * @throws BadRequestException
      * @throws InvalidParamException
      * @throws TransactionException
-     * @throws NormalizeException
      */
     public function create(): EndpointResult
     {
@@ -64,9 +63,9 @@ class ClaimEventAPI extends Endpoint implements CrudEndpoint
         try {
             $claimEvent = new ClaimEvent();
             $this->setParamsToClaimEvent($claimEvent);
-            $this->claimEventService->saveEvent($claimEvent);
+            $this->commitTransaction();
             return new EndpointResourceResult(ClaimEventModel::class, $claimEvent);
-        }catch (InvalidParamException|BadRequestException $e) {
+        } catch (InvalidParamException|BadRequestException $e) {
             $this->rollBackTransaction();
             throw $e;
         } catch (Exception $e) {
@@ -87,18 +86,16 @@ class ClaimEventAPI extends Endpoint implements CrudEndpoint
         $claimEvent->setName($name);
         $claimEvent->setDescription($description);
         $claimEvent->setStatus($status);
+        $this->getClaimEventService()->getClaimEventDao()->saveEvent($claimEvent);
     }
 
     public function getAll(): EndpointResult
     {
-        //return EndpointResult();
         throw $this->getNotImplementedException();
     }
 
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
-        // TODO: Implement getValidationRuleForGetAll() method.
-        //return new ParamRuleCollection();
         throw $this->getNotImplementedException();
     }
 
@@ -109,88 +106,58 @@ class ClaimEventAPI extends Endpoint implements CrudEndpoint
     {
         return new ParamRuleCollection(
             $this->getValidationDecorator()->requiredParamRule(
-                new ParamRule(self::PARAMETER_NAME,
+                new ParamRule(
+                    self::PARAMETER_NAME,
                     new Rule(Rules::STRING_TYPE),
-                    new Rule(self::NAME_MAX_LENGTH)
+                    new Rule(Rules::LENGTH, [null, self::NAME_MAX_LENGTH])
                 ),
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
-                new ParamRule(self::PARAMETER_DESCRIPTION,
+                new ParamRule(
+                    self::PARAMETER_DESCRIPTION,
                     new Rule(
                         Rules::STRING_TYPE
                     ),
-                new Rule(self::DESCRIPTION_MAX_LENGTH)
-            ),
+                    new Rule(Rules::LENGTH, [null, self::DESCRIPTION_MAX_LENGTH]),
+                ),
+                true
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
-                new ParamRule(self::PARAMETER_STATUS,
+                new ParamRule(
+                    self::PARAMETER_STATUS,
                     new Rule(Rules::BOOL_TYPE)
                 )
             ),
-            //...$this->getCommonBodyValidationRules(),
         );
     }
 
     public function delete(): EndpointResult
     {
-        // TODO: Implement delete() method.
-        //return EndpointResult::class();
         throw $this->getNotImplementedException();
     }
 
     public function getValidationRuleForDelete(): ParamRuleCollection
     {
-        // TODO: Implement getValidationRuleForDelete() method.
-        //return ParamRuleCollection::class();
         throw $this->getNotImplementedException();
     }
 
     public function getOne(): EndpointResult
     {
-        // TODO: Implement getOne() method.
-        //return EndpointResult::class();
         throw $this->getNotImplementedException();
     }
 
     public function getValidationRuleForGetOne(): ParamRuleCollection
     {
-        // TODO: Implement getValidationRuleForGetOne() method.
-        //return ParamRuleCollection::class();
         throw $this->getNotImplementedException();
     }
 
     public function update(): EndpointResult
     {
-        // TODO: Implement update() method.
-        //return EndpointResult::class();
         throw $this->getNotImplementedException();
     }
 
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
-        // TODO: Implement getValidationRuleForUpdate() method.
-        //return ParamRuleCollection::class();
         throw $this->getNotImplementedException();
     }
-
-    /**
-     * @return ClaimEventService|null
-     */
-    public function getClaimEventService(): ?ClaimEventService
-    {
-        if (is_null($this->claimEventService)) {
-            $this->setClaimEventService();
-        }
-        return $this->claimEventService;
-    }
-
-    /**
-     * @param ClaimEventService|null $claimEventService
-     */
-    public function setClaimEventService(?ClaimEventService $claimEventService): void
-    {
-        $this->claimEventService = new ClaimEventService();
-    }
-
-
 }

@@ -17,39 +17,16 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Claim\Service;
+namespace OrangeHRM\Claim\Dto;
 
-use OrangeHRM\Claim\Dao\ClaimEventDao;
-use OrangeHRM\Entity\ClaimEvent;
+use OrangeHRM\Core\Dto\FilterParams;
 
-class ClaimEventService
+class ClaimEventSearchFilterParams extends FilterParams
 {
-    /**
-     * @var ClaimEventDao|null
-     */
-    protected ?ClaimEventDao $claimEventDao=null;
+    public const ALLOWED_SORT_FIELDS = ['ce.name','ce.status'];
 
-    /**
-     * @return ClaimEventDao|null
-     */
-    public function getClaimEventDao(): ?ClaimEventDao
+    public function __construct()
     {
-        if(is_null($this->claimEventDao)){
-            $this->claimEventDao=new ClaimEventDao();
-        }
-        return $this->claimEventDao;
+        $this->setSortField('ce.name');
     }
-
-    /**
-     * @param ClaimEventDao|null $claimEventDao
-     */
-    public function setClaimEventDao(?ClaimEventDao $claimEventDao): void
-    {
-        $this->claimEventDao = $claimEventDao;
-    }
-
-    public function saveEvent(ClaimEvent $claimEvent):ClaimEvent{
-        return $this->getClaimEventDao()->saveEvent($claimEvent);
-    }
-
 }

@@ -408,4 +408,13 @@ final class Services
      * @see \OrangeHRM\Buzz\Service\BuzzService
      */
     public const BUZZ_SERVICE = 'buzz.buzz_service';
+
+    ///////////////////////////////////////////////////////////////
+    /// Claim plugin services
+    ///////////////////////////////////////////////////////////////
+
+    /**
+     * @see \OrangeHRM\Claim\Service\ClaimService
+     */
+    public const CLAIM_SERVICE = 'claim.claim_service';
 }
