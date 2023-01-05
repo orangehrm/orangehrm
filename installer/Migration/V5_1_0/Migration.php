@@ -24,6 +24,8 @@ use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Types\Types;
 use OrangeHRM\Entity\WorkflowStateMachine;
 use OrangeHRM\Installer\Util\V1\AbstractMigration;
+use OrangeHRM\Installer\Util\V1\LangStringHelper;
+use OrangeHRM\Installer\Util\V1\TranslationHelper;
 
 class Migration extends AbstractMigration
 {
@@ -88,12 +90,12 @@ class Migration extends AbstractMigration
         $groups = ['recruitment', 'performance'];
         foreach ($groups as $group) {
             $this->getLangStringHelper()->deleteNonCustomizedLangStrings($group);
-            $this->getLangStringHelper()->insertOrUpdateLangStrings($group);
+            $this->getLangStringHelper()->insertOrUpdateLangStrings(__DIR__, $group);
         }
 
         $oldGroups = ['admin', 'general', 'maintenance'];
         foreach ($oldGroups as $group) {
-            $this->getLangStringHelper()->insertOrUpdateLangStrings($group);
+            $this->getLangStringHelper()->insertOrUpdateLangStrings(__DIR__, $group);
         }
 
         $this->createQueryBuilder()
@@ -124,7 +126,7 @@ class Migration extends AbstractMigration
             'zh_Hant_TW'
         ];
         foreach ($langCodes as $langCode) {
-            $this->getTranslationHelper()->addTranslations($langCode);
+            $this->getTranslationHelper()->addTranslations(__DIR__, $langCode);
         }
         $this->updateLangStringVersion($this->getVersion());
 

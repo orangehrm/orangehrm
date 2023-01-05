@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Installer\Migration\V5_1_0;
+namespace OrangeHRM\Installer\Util\V1;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception;
@@ -47,11 +47,12 @@ class TranslationHelper
     }
 
     /**
+     * @param string $directoryPath
      * @param string $language
      */
-    public function addTranslations(string $language): void
+    public function addTranslations(string $directoryPath, string $language): void
     {
-        $filepath = __DIR__ . '/translation/' . $language . '.yaml';
+        $filepath = $directoryPath. '/translation/' . $language . '.yaml';
         $yml = Yaml::parseFile($filepath);
         $translations = array_shift($yml);
         foreach ($translations as $translation) {
@@ -132,7 +133,6 @@ class TranslationHelper
     /**
      * @param int $langStringId
      * @param int $langId
-     *
      * @return string
      */
     private function getTranslationRecord(int $langStringId, int $langId): string

@@ -50,7 +50,7 @@ class Migration extends AbstractMigration
         $this->getLangStringHelper()->deleteNonCustomizedLangStrings('buzz');
         $oldGroups = ['buzz', 'general', 'dashboard', 'help'];
         foreach ($oldGroups as $group) {
-            $this->getLangStringHelper()->insertOrUpdateLangStrings($group);
+            $this->getLangStringHelper()->insertOrUpdateLangStrings(__DIR__, $group);
         }
         $this->updateLangStringVersion($this->getVersion());
 
