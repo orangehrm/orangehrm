@@ -49,10 +49,10 @@ class EmployeeLanguageDao extends BaseDao
     {
         return $this->getRepository(EmployeeLanguage::class)->findOneBy(
             [
-                    'employee' => $empNumber,
-                    'language' => $languageId,
-                    'fluency' => $fluencyId,
-                ]
+                'employee' => $empNumber,
+                'language' => $languageId,
+                'fluency' => $fluencyId,
+            ]
         );
     }
 
@@ -69,12 +69,12 @@ class EmployeeLanguageDao extends BaseDao
             if (isset($langFluency['languageId']) && isset($langFluency['fluencyId'])) {
                 $q->orWhere(
                     $q->expr()->andX(
-                            $q->expr()->eq('el.language', ':langId' . $key),
-                            $q->expr()->eq('el.fluency', ':fluencyId' . $key)
-                        )
+                        $q->expr()->eq('el.language', ':langId' . $key),
+                        $q->expr()->eq('el.fluency', ':fluencyId' . $key)
+                    )
                 );
                 $q->setParameter('langId' . $key, $langFluency['languageId'])
-                        ->setParameter('fluencyId' . $key, $langFluency['fluencyId']);
+                    ->setParameter('fluencyId' . $key, $langFluency['fluencyId']);
             }
         }
         $q->andWhere('el.employee = :empNumber')
