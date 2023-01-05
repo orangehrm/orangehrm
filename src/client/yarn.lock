@@ -2060,19 +2060,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ohrm/oxd@npm:1.0.8":
-  version: 1.0.8
-  resolution: "@ohrm/oxd@npm:1.0.8"
+"@ohrm/oxd@npm:1.0.9-alpha.1":
+  version: 1.0.9-alpha.1
+  resolution: "@ohrm/oxd@npm:1.0.9-alpha.1"
   dependencies:
-    "@revolist/vue3-datagrid": ^3.0.96
+    "@revolist/vue3-datagrid": ^3.2.17
     bootstrap-icons: ^1.3.0
     chart.js: ^3.9.1
-    core-js: ^3.6.5
+    core-js: ^3.26.1
     date-fns: ^2.22.1
-    mitt: ^2.1.0
-    nanoid: ^3.2.0
-    vue: ^3.2.2
-  checksum: 29b49af63c59bbabb25b3bc8154f413c8c2c1677e63539464fc2b6e014126a36113d6faf169fad16515e8e40f5b9301e807d9b2a0259b20f824b54f076f11a4e
+    mitt: ^3.0.0
+    nanoid: ^4.0.0
+    vue: ^3.2.45
+  checksum: 31ee5c6190c1456136f51c07768719990dbab768c0477549008914c00b4b48d746c32b6147b32165a84775cdaed0ba521c42df855de32181bfdc9f1b3269c2ff
   languageName: node
   linkType: hard
 
@@ -2092,7 +2092,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@revolist/vue3-datagrid@npm:^3.0.96":
+"@revolist/vue3-datagrid@npm:^3.2.17":
   version: 3.2.17
   resolution: "@revolist/vue3-datagrid@npm:3.2.17"
   dependencies:
@@ -4762,17 +4762,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"core-js@npm:^3.27.1, core-js@npm:^3.8.3":
+"core-js@npm:^3.26.1, core-js@npm:^3.27.1, core-js@npm:^3.8.3":
   version: 3.27.1
   resolution: "core-js@npm:3.27.1"
   checksum: d50b5f88aea4302512ad9446c18e90f4d35dea1e6d8d3f87337690677061565ff11a670f1e0c87de57aa6074375fbb25ed5784076c040d3c4de8b4bce7d2ebeb
-  languageName: node
-  linkType: hard
-
-"core-js@npm:^3.6.5":
-  version: 3.26.1
-  resolution: "core-js@npm:3.26.1"
-  checksum: 0a01149f51ff1e9f41d1ea49cc4c9222047949ea597189ede7c4cf8cde3b097766b9c7615acc77c86fe65b4002f20b638a133dfba7b41dba830d707aeeed45ad
   languageName: node
   linkType: hard
 
@@ -8473,10 +8466,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mitt@npm:^2.1.0":
-  version: 2.1.0
-  resolution: "mitt@npm:2.1.0"
-  checksum: 5b0f698cbff2e47cc3b81b991f1230fadd429bdf4a2d9051d936059ad8090e36932694f299dd52434365463e6c52075026fb2161adcfd52b234b6f5392a514d2
+"mitt@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "mitt@npm:3.0.0"
+  checksum: f7be5049d27d18b1dbe9408452d66376fa60ae4a79fe9319869d1b90ae8cbaedadc7e9dab30b32d781411256d468be5538996bb7368941c09009ef6bbfa6bfc7
   languageName: node
   linkType: hard
 
@@ -8558,12 +8551,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nanoid@npm:^3.2.0, nanoid@npm:^3.3.4":
+"nanoid@npm:^3.3.4":
   version: 3.3.4
   resolution: "nanoid@npm:3.3.4"
   bin:
     nanoid: bin/nanoid.cjs
   checksum: 2fddd6dee994b7676f008d3ffa4ab16035a754f4bb586c61df5a22cf8c8c94017aadd360368f47d653829e0569a92b129979152ff97af23a558331e47e37cd9c
+  languageName: node
+  linkType: hard
+
+"nanoid@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "nanoid@npm:4.0.0"
+  bin:
+    nanoid: bin/nanoid.js
+  checksum: 7d5946df5c6d383694195b781ae7b5067c149d164ec71e910d6b06676309c3459b68af570b944fb5ecd5065d19df464f05700d141d70bb712ff8ca06642fd8df
   languageName: node
   linkType: hard
 
@@ -8916,7 +8918,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "orangehrm@workspace:."
   dependencies:
-    "@ohrm/oxd": 1.0.8
+    "@ohrm/oxd": 1.0.9-alpha.1
     "@types/hammerjs": ^2.0.41
     "@types/jest": ^27.0.1
     "@typescript-eslint/eslint-plugin": ^5.4.0
@@ -11528,7 +11530,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vue@npm:^3.2.2, vue@npm:^3.2.45":
+"vue@npm:^3.2.45":
   version: 3.2.45
   resolution: "vue@npm:3.2.45"
   dependencies:
