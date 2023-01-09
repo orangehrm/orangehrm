@@ -21,7 +21,7 @@ namespace OrangeHRM\Claim\Service;
 
 use OrangeHRM\Claim\Api\Model\ClaimEventModel;
 use OrangeHRM\Claim\Dao\ClaimEventDao;
-use OrangeHRM\Core\Exception\DaoException;
+use OrangeHRM\Claim\Dto\ClaimEventSearchFilterParams;
 use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
 use OrangeHRM\Entity\ClaimEvent;
 
@@ -63,21 +63,30 @@ class ClaimService
     }
 
     /**
-     * @return array
-     * @throws DaoException
+     * @param ClaimEventSearchFilterParams $claimEventSearchFilterParams
+     * @return ClaimEvent[]
      */
-    public function getClaimEventList(): array
+    public function getClaimEventList(ClaimEventSearchFilterParams $claimEventSearchFilterParams): array
     {
-        return $this->claimEventDao->getClaimEventList();
+        return $this->getClaimEventDao()->getClaimEventList($claimEventSearchFilterParams);
     }
 
     /**
      * @return array
-     * @throws DaoException
      */
     public function getClaimEventArray(): array
     {
         $claimEvents = $this->getClaimEventList();
         return $this->getNormalizerService()->normalizeArray(ClaimEventModel::class, $claimEvents);
+    }
+
+    public function getClaimEventByID(int $id): ClaimEvent
+    {
+        return $this->getClaimEventDao()->getClaimEventByID($id);
+    }
+
+    public function deleteClaimEvent(int $id): ClaimEvent
+    {
+        return $this->getClaimEventDao()->deleteClaimEvent($id);
     }
 }

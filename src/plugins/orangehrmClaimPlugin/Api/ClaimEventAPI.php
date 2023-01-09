@@ -21,15 +21,19 @@ namespace OrangeHRM\Claim\Api;
 
 use Exception;
 use OrangeHRM\Claim\Api\Model\ClaimEventModel;
-use OrangeHRM\Claim\Service\ClaimService;
-use OrangeHRM\Claim\Traits\Service\ClaimEventTrait;
+use OrangeHRM\Claim\Dto\ClaimEventSearchFilterParams;
+use OrangeHRM\Claim\Traits\Service\ClaimServiceTrait;
+use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
+use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
 use OrangeHRM\Core\Api\V2\Exception\BadRequestException;
 use OrangeHRM\Core\Api\V2\Exception\InvalidParamException;
+use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
+use OrangeHRM\Core\Api\V2\Serializer\NormalizeException;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
@@ -41,28 +45,24 @@ use OrangeHRM\ORM\Exception\TransactionException;
 class ClaimEventAPI extends Endpoint implements CrudEndpoint
 {
     use EntityManagerHelperTrait;
-    use ClaimEventTrait;
+    use ClaimServiceTrait;
 
-    private ?ClaimService $claimEventService = null;
     public const PARAMETER_NAME = 'name';
     public const PARAMETER_DESCRIPTION = 'description';
+    public const PARAMETER_ID = 'id';
     public const PARAMETER_STATUS = 'status';
     public const DESCRIPTION_MAX_LENGTH = 1000;
-
     public const NAME_MAX_LENGTH = 100;
 
     /**
-     * @return EndpointResult
-     * @throws BadRequestException
-     * @throws InvalidParamException
-     * @throws TransactionException
+     * @inheritDoc
      */
     public function create(): EndpointResult
     {
         $this->beginTransaction();
         try {
             $claimEvent = new ClaimEvent();
-            $this->setParamsToClaimEvent($claimEvent);
+            $this->setClaimEvent($claimEvent);
             $this->commitTransaction();
             return new EndpointResourceResult(ClaimEventModel::class, $claimEvent);
         } catch (InvalidParamException|BadRequestException $e) {
@@ -76,9 +76,8 @@ class ClaimEventAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @param ClaimEvent $claimEvent
-     * @return void
      */
-    public function setParamsToClaimEvent(ClaimEvent $claimEvent)
+    public function setClaimEvent(ClaimEvent $claimEvent)
     {
         $name = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_NAME);
         $description = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_DESCRIPTION);
@@ -89,14 +88,51 @@ class ClaimEventAPI extends Endpoint implements CrudEndpoint
         $this->getClaimEventService()->getClaimEventDao()->saveEvent($claimEvent);
     }
 
+    /**
+     * @return EndpointResult
+     * @throws Exception
+     */
     public function getAll(): EndpointResult
     {
-        throw $this->getNotImplementedException();
+        $this->beginTransaction();
+        $claimEventSearchFilterParams = new ClaimEventSearchFilterParams();
+        try {
+            $this->setSortingAndPaginationParams($claimEventSearchFilterParams);
+            $t=$this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_NAME);
+            $claimEventSearchFilterParams->setName($this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_NAME));
+            $claimEventSearchFilterParams->setStatus($this->getRequestParams()->getBooleanOrNull(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_STATUS));
+            $claimEvents = $this->getClaimEventService()->getClaimEventDao()->getClaimEventList($claimEventSearchFilterParams);
+            $this->commitTransaction();
+            return new EndpointCollectionResult(ClaimEventModel::class, $claimEvents, new ParameterBag([CommonParams::PARAMETER_TOTAL => count($claimEvents)]));
+        } catch (Exception $e) {
+            $this->rollBackTransaction();
+            throw new Exception($e->getMessage());
+        }
     }
 
+    /**
+     * @return ParamRuleCollection
+     */
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
-        throw $this->getNotImplementedException();
+        return new ParamRuleCollection(
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_NAME,
+                    new Rule(
+                        Rules::STRING_TYPE
+                    )
+                )
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_STATUS,
+                    new Rule(
+                        Rules::STRING_TYPE
+                    )
+                )
+            )
+        );
     }
 
     /**
@@ -131,33 +167,113 @@ class ClaimEventAPI extends Endpoint implements CrudEndpoint
         );
     }
 
+    /**
+     * @return EndpointResult
+     * @throws Exception
+     */
     public function delete(): EndpointResult
     {
-        throw $this->getNotImplementedException();
+        try {
+            $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_ID);
+            $claimEvent = $this->getClaimEventService()->getClaimEventDao()->deleteClaimEvent($id);
+            return new EndpointResourceResult(ClaimEventModel::class, $claimEvent);
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
+        }
     }
 
+    /**
+     * @return ParamRuleCollection
+     */
     public function getValidationRuleForDelete(): ParamRuleCollection
     {
-        throw $this->getNotImplementedException();
+        return new ParamRuleCollection(
+            new ParamRule(
+                self::PARAMETER_ID,
+                new Rule(Rules::STRING_TYPE)
+            ),
+            new ParamRule(
+                self::PARAMETER_NAME,
+                new Rule(Rules::STRING_TYPE)
+            ),
+            new ParamRule(
+                self::PARAMETER_DESCRIPTION,
+                new Rule(Rules::STRING_TYPE)
+            ),
+            new ParamRule(
+                self::PARAMETER_STATUS,
+                new Rule(Rules::BOOL_TYPE)
+            )
+        );
     }
 
+    /**
+     * @return EndpointResult
+     * @throws NormalizeException
+     */
     public function getOne(): EndpointResult
     {
-        throw $this->getNotImplementedException();
+        try {
+            $this->beginTransaction();
+            $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_ID);
+            $claimEvent = $this->getClaimEventService()->getClaimEventDao()->getClaimEventByID($id);
+            $this->commitTransaction();
+            return new EndpointResourceResult(ClaimEventModel::class, $claimEvent);
+        } catch (Exception $e) {
+            $this->rollBackTransaction();
+            throw new Exception($e->getMessage());
+        }
     }
 
+    /**
+     * @return ParamRuleCollection
+     */
     public function getValidationRuleForGetOne(): ParamRuleCollection
     {
-        throw $this->getNotImplementedException();
+        return new ParamRuleCollection(
+            new ParamRule(
+                self::PARAMETER_ID,
+                new Rule(Rules::STRING_TYPE)
+            ),
+        );
     }
 
+    /**
+     * @return EndpointResult
+     * @throws NormalizeException
+     */
     public function update(): EndpointResult
     {
-        throw $this->getNotImplementedException();
+        $this->beginTransaction();
+        $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_ID);
+        $claimEvent = $this->getClaimEventService()->getClaimEventDao()->getClaimEventByID($id);
+        $this->setClaimEvent($claimEvent);
+        $this->commitTransaction();
+        return new EndpointResourceResult(ClaimEventModel::class, $claimEvent);
     }
 
+    /**
+     * @return ParamRuleCollection
+     */
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
-        throw $this->getNotImplementedException();
+        return new ParamRuleCollection(
+            new ParamRule(
+                self::PARAMETER_ID,
+                new Rule(Rules::STRING_TYPE)
+            ),
+            new ParamRule(
+                self::PARAMETER_NAME,
+                new Rule(Rules::STRING_TYPE)
+            ),
+            new ParamRule(
+                self::PARAMETER_DESCRIPTION,
+                new Rule(Rules::STRING_TYPE)
+            ),
+            new ParamRule(
+                self::PARAMETER_STATUS,
+                new Rule(Rules::BOOL_TYPE)
+            )
+        );
     }
 }

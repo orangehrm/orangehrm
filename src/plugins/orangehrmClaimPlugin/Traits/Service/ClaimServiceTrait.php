@@ -23,7 +23,7 @@ use OrangeHRM\Claim\Service\ClaimService;
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Framework\Services;
 
-trait ClaimEventTrait
+trait ClaimServiceTrait
 {
     use ServiceContainerTrait;
 

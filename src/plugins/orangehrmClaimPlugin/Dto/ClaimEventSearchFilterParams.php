@@ -23,10 +23,45 @@ use OrangeHRM\Core\Dto\FilterParams;
 
 class ClaimEventSearchFilterParams extends FilterParams
 {
-    public const ALLOWED_SORT_FIELDS = ['ce.name','ce.status'];
+    public const ALLOWED_SORT_FIELDS = ['claimEvent.name','claimEvent.status'];
 
     public function __construct()
     {
-        $this->setSortField('ce.name');
+        $this->setSortField('claimEvent.name');
+    }
+
+    protected ?string $name;
+    protected ?bool $status;
+
+    /**
+     * @return string|null
+     */
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string|null $name
+     */
+    public function setName(?string $name): void
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function getStatus(): ?bool
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param bool|null $status
+     */
+    public function setStatus(?bool $status): void
+    {
+        $this->status = $status;
     }
 }

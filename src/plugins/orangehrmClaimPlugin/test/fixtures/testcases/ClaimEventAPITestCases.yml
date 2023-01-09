@@ -1,0 +1,10 @@
+Create:
+  'Create - Claim Event':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    body:
+      name: 'event 0001'
+      description: 'sample description'
+      status: true
+    data:

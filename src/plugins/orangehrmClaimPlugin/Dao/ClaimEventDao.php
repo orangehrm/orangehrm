@@ -19,12 +19,9 @@
 
 namespace OrangeHRM\Claim\Dao;
 
-use Exception;
 use OrangeHRM\Claim\Dto\ClaimEventSearchFilterParams;
 use OrangeHRM\Core\Dao\BaseDao;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\ClaimEvent;
-use OrangeHRM\ORM\ListSorter;
 use OrangeHRM\ORM\Paginator;
 
 class ClaimEventDao extends BaseDao
@@ -43,34 +40,41 @@ class ClaimEventDao extends BaseDao
      * @param ClaimEventSearchFilterParams $claimEventSearchFilterParams
      * @return array
      */
-    public function getClaimEvents(ClaimEventSearchFilterParams $claimEventSearchFilterParams): array
+    public function getClaimEventList(ClaimEventSearchFilterParams $claimEventSearchFilterParams): array
     {
-        return $this->getClaimEventPaginator($claimEventSearchFilterParams)->getQuery()->execute();
+        $qb = $this->getClaimEventPaginator($claimEventSearchFilterParams);
+        return $qb->getQuery()->execute();
     }
 
-    /**
-     * @param ClaimEventSearchFilterParams $claimEventSearchFilterParams
-     * @return Paginator
-     */
-    public function getClaimEventPaginator(ClaimEventSearchFilterParams $claimEventSearchFilterParams): Paginator
+    protected function getClaimEventPaginator(ClaimEventSearchFilterParams $claimEventSearchFilterParams): Paginator
     {
-        $qb=$this->createQueryBuilder(ClaimEvent::class, 'ce');
-        $this->setSortingAndPaginationParams($qb, $claimEventSearchFilterParams);
-        return $this->getPaginator($qb);
-    }
-
-    /**
-     * @return array
-     * @throws DaoException
-     */
-    public function getClaimEventList(): array
-    {
-        try {
-            $qb= $this->createQueryBuilder(ClaimEvent::class, 'ce');
-            $qb->addOrderBy('ce.name', ListSorter::ASCENDING);
-            return $qb->getQuery()->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
+        $q = $this->createQueryBuilder(ClaimEvent::class, 'claimEvent');
+        $q->distinct();
+        $this->setSortingAndPaginationParams($q, $claimEventSearchFilterParams);
+        if (!is_null($claimEventSearchFilterParams->getName())) {
+            $q->andWhere('claimEvent.name = :name');
+            $q->setParameter('name', $claimEventSearchFilterParams->getName());
         }
+        if (!is_null($claimEventSearchFilterParams->getStatus())) {
+            $q->andWhere('claimEvent.status = :status');
+            $q->setParameter('status', $claimEventSearchFilterParams->getStatus());
+        }
+        $q->andWhere('claimEvent.isDeleted = :isDeleted');
+        $q->setParameter('isDeleted', false);
+        return $this->getPaginator($q);
+    }
+
+    public function getClaimEventByID(int $id): ClaimEvent
+    {
+        $claimEvent = ClaimEvent::class;
+        return $this->getRepository($claimEvent)->findOneBy(['id'=>$id,'isDeleted'=>false]);
+    }
+
+    public function deleteClaimEvent(int $id): ClaimEvent
+    {
+        $claimEvent = $this->getClaimEventByID($id);
+        $claimEvent->setIsDeleted(true);
+        $this->saveEvent($claimEvent);
+        return $claimEvent;
     }
 }

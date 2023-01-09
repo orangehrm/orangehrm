@@ -36,13 +36,15 @@ class ClaimEventModel implements Normalizable
         $this->setEntity($claimEvent);
         $this->setFilters(
             [
+                'id',
                 'name',
                 'description',
-                'status'
+                'status',
             ]
         );
         $this->setAttributeNames(
             [
+                'id',
                 'name',
                 'description',
                 'status'

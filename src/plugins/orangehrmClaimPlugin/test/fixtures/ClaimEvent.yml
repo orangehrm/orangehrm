@@ -1,0 +1,19 @@
+Employee:
+  0: { empNumber: 1, firstName: 'Kayla', lastName: 'Abbey', joinedDate: '2021-10-25' }
+  1: { empNumber: 2, firstName: 'Ashley', lastName: 'Abel', middleName: 'Aldis',  joinedDate: '2016-10-28' }
+  2: { empNumber: 3, firstName: 'Tyler', lastName: 'Abraham',  joinedDate: '2020-01-05' }
+  3: { empNumber: 4, firstName: 'Landon', lastName: 'Abrahams', joinedDate: '2016-12-31' }
+
+UserRole:
+  - { id: 1, name: Admin, display_name: Admin, is_assignable: 1, is_predefined: 1 }
+  - { id: 2, name: ESS, display_name: ESS, is_assignable: 1, is_predefined: 1 }
+
+User:
+  - { "id": 1, "user_role_id": 1, "emp_number": 4, "user_name": "admin","user_password": "admin","deleted": "0","status": "1","date_modified": "2022-09-15 16:51:16","modified_user_id": "1" }
+  - { "id": 2, "user_role_id": 2, "emp_number": 1, "user_name": "Adalwin","user_password": "Adalwin","deleted": "0","status": "1","date_entered": "2022-09-15 16:47:14","created_by": "1" }
+
+ClaimEvent:
+  0: { id: 1, name: "event1", description: "event1 desc" }
+  1: { id: 2, name: "event2", description: "event2 desc" }
+  2: { id: 3, name: "event3", description: "event3 desc" }
+  3: { id: 4, name: "event4", description: "event4 desc" }

@@ -27,9 +27,11 @@ use OrangeHRM\Tests\Util\TestDataService;
 
 class ClaimEventDaoTest extends KernelTestCase
 {
+    private ClaimEventDao $claimEventDao;
     protected function setUp(): void
     {
-        $fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmClaimPlugin/test/fixtures/ClaimEvent.yaml';
+        $this->claimEventDao = new ClaimEventDao();
+        $fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmClaimPlugin/test/fixtures/ClaimEvent.yml';
         TestDataService::populate($fixture);
     }
     public function testSaveEvent(): void
@@ -37,9 +39,12 @@ class ClaimEventDaoTest extends KernelTestCase
         $claimEvent=new ClaimEvent();
         $claimEvent->setName("testname2");
         $claimEvent->setStatus(true);
-        $dao=new ClaimEventDao();
-        $result=$dao->saveEvent($claimEvent);
+        $result=$this->claimEventDao->saveEvent($claimEvent);
         $this->assertEquals("testname2", $result->getName());
         $this->assertEquals(true, $result->getStatus());
+    }
+
+    public function testGetAllEvent():void{
+
     }
 }

@@ -97,7 +97,6 @@ class Doctrine
      */
     private function isDevMode(): bool
     {
-        return true;
         try {
             /** @var Framework $kernel */
             $kernel = $this->getContainer()->get(Services::HTTP_KERNEL);

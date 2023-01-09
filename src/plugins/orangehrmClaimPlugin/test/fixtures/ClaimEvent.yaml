@@ -1,5 +1,0 @@
-ClaimEvent:
-  0: { id: 1, name: "event1", description: "event1 desc" }
-  1: { id: 2, name: "event2", description: "event2 desc" }
-  2: { id: 3, name: "event3", description: "event3 desc" }
-  3: { id: 4, name: "event4", description: "event4 desc" }
