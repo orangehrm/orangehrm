@@ -31,6 +31,8 @@ use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
 use OrangeHRM\Core\Api\V2\Exception\BadRequestException;
 use OrangeHRM\Core\Api\V2\Exception\InvalidParamException;
+use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
+use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\Serializer\NormalizeException;
@@ -50,6 +52,7 @@ class ClaimEventAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_NAME = 'name';
     public const PARAMETER_DESCRIPTION = 'description';
     public const PARAMETER_ID = 'id';
+    public const PARAMETER_IDS = 'ids';
     public const PARAMETER_STATUS = 'status';
     public const DESCRIPTION_MAX_LENGTH = 1000;
     public const NAME_MAX_LENGTH = 100;
@@ -59,17 +62,13 @@ class ClaimEventAPI extends Endpoint implements CrudEndpoint
      */
     public function create(): EndpointResult
     {
-        $this->beginTransaction();
         try {
             $claimEvent = new ClaimEvent();
             $this->setClaimEvent($claimEvent);
-            $this->commitTransaction();
             return new EndpointResourceResult(ClaimEventModel::class, $claimEvent);
         } catch (InvalidParamException|BadRequestException $e) {
-            $this->rollBackTransaction();
             throw $e;
         } catch (Exception $e) {
-            $this->rollBackTransaction();
             throw new TransactionException($e);
         }
     }
@@ -80,8 +79,8 @@ class ClaimEventAPI extends Endpoint implements CrudEndpoint
     public function setClaimEvent(ClaimEvent $claimEvent)
     {
         $name = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_NAME);
-        $description = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_DESCRIPTION);
-        $status = $this->getRequestParams()->getBooleanOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_STATUS);
+        $description = $this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_DESCRIPTION);
+        $status = $this->getRequestParams()->getBoolean(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_STATUS, true);
         $claimEvent->setName($name);
         $claimEvent->setDescription($description);
         $claimEvent->setStatus($status);
@@ -90,22 +89,19 @@ class ClaimEventAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @return EndpointResult
-     * @throws Exception
      */
     public function getAll(): EndpointResult
     {
-        $this->beginTransaction();
         $claimEventSearchFilterParams = new ClaimEventSearchFilterParams();
         try {
             $this->setSortingAndPaginationParams($claimEventSearchFilterParams);
-            $t=$this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_NAME);
+            $t = $this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_NAME);
             $claimEventSearchFilterParams->setName($this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_NAME));
             $claimEventSearchFilterParams->setStatus($this->getRequestParams()->getBooleanOrNull(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_STATUS));
             $claimEvents = $this->getClaimEventService()->getClaimEventDao()->getClaimEventList($claimEventSearchFilterParams);
-            $this->commitTransaction();
-            return new EndpointCollectionResult(ClaimEventModel::class, $claimEvents, new ParameterBag([CommonParams::PARAMETER_TOTAL => count($claimEvents)]));
+            $count = $this->getClaimEventService()->getClaimEventDao()->getClaimEventCount($claimEventSearchFilterParams);
+            return new EndpointCollectionResult(ClaimEventModel::class, $claimEvents, new ParameterBag([CommonParams::PARAMETER_TOTAL => $count]));
         } catch (Exception $e) {
-            $this->rollBackTransaction();
             throw new Exception($e->getMessage());
         }
     }
@@ -131,7 +127,8 @@ class ClaimEventAPI extends Endpoint implements CrudEndpoint
                         Rules::STRING_TYPE
                     )
                 )
-            )
+            ),
+            ...$this->getSortingAndPaginationParamsRules(ClaimEventSearchFilterParams::ALLOWED_SORT_FIELDS)
         );
     }
 
@@ -174,9 +171,9 @@ class ClaimEventAPI extends Endpoint implements CrudEndpoint
     public function delete(): EndpointResult
     {
         try {
-            $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_ID);
-            $claimEvent = $this->getClaimEventService()->getClaimEventDao()->deleteClaimEvent($id);
-            return new EndpointResourceResult(ClaimEventModel::class, $claimEvent);
+            $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_IDS);
+            $this->getClaimEventService()->getClaimEventDao()->deleteClaimEvents($ids);
+            return new EndpointResourceResult(ArrayModel::class, $ids);
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
@@ -189,40 +186,23 @@ class ClaimEventAPI extends Endpoint implements CrudEndpoint
     {
         return new ParamRuleCollection(
             new ParamRule(
-                self::PARAMETER_ID,
-                new Rule(Rules::STRING_TYPE)
+                self::PARAMETER_IDS,
+                new Rule(Rules::ARRAY_TYPE)
             ),
-            new ParamRule(
-                self::PARAMETER_NAME,
-                new Rule(Rules::STRING_TYPE)
-            ),
-            new ParamRule(
-                self::PARAMETER_DESCRIPTION,
-                new Rule(Rules::STRING_TYPE)
-            ),
-            new ParamRule(
-                self::PARAMETER_STATUS,
-                new Rule(Rules::BOOL_TYPE)
-            )
         );
     }
 
     /**
      * @return EndpointResult
      * @throws NormalizeException
+     * @throws RecordNotFoundException
      */
     public function getOne(): EndpointResult
     {
-        try {
-            $this->beginTransaction();
-            $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_ID);
-            $claimEvent = $this->getClaimEventService()->getClaimEventDao()->getClaimEventByID($id);
-            $this->commitTransaction();
-            return new EndpointResourceResult(ClaimEventModel::class, $claimEvent);
-        } catch (Exception $e) {
-            $this->rollBackTransaction();
-            throw new Exception($e->getMessage());
-        }
+        $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_ID);
+        $claimEvent = $this->getClaimEventService()->getClaimEventDao()->getClaimEventById($id);
+        $this->throwRecordNotFoundExceptionIfNotExist($claimEvent, ClaimEvent::class);
+        return new EndpointResourceResult(ClaimEventModel::class, $claimEvent);
     }
 
     /**
@@ -233,7 +213,7 @@ class ClaimEventAPI extends Endpoint implements CrudEndpoint
         return new ParamRuleCollection(
             new ParamRule(
                 self::PARAMETER_ID,
-                new Rule(Rules::STRING_TYPE)
+                new Rule(Rules::POSITIVE)
             ),
         );
     }
@@ -244,11 +224,9 @@ class ClaimEventAPI extends Endpoint implements CrudEndpoint
      */
     public function update(): EndpointResult
     {
-        $this->beginTransaction();
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_ID);
-        $claimEvent = $this->getClaimEventService()->getClaimEventDao()->getClaimEventByID($id);
+        $claimEvent = $this->getClaimEventService()->getClaimEventDao()->getClaimEventById($id);
         $this->setClaimEvent($claimEvent);
-        $this->commitTransaction();
         return new EndpointResourceResult(ClaimEventModel::class, $claimEvent);
     }
 

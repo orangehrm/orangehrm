@@ -8,3 +8,8 @@ Create:
       description: 'sample description'
       status: true
     data:
+      id: 5
+      name: event 0001
+      description: sample description
+      status: true
+    meta: [ ]

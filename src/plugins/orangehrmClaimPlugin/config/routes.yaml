@@ -1,13 +1,13 @@
 apiv2_claim_event:
   path: /api/v2/claim/event
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
-  methods: [ POST, GET ]
+  methods: [ POST, GET, DELETE ]
   defaults:
     _api: OrangeHRM\Claim\Api\ClaimEventAPI
 
 apiv2_claim_event_one:
   path: /api/v2/claim/event/{id}
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
-  methods: [ GET, PUT, DELETE ]
+  methods: [ GET, PUT]
   defaults:
     _api: OrangeHRM\Claim\Api\ClaimEventAPI

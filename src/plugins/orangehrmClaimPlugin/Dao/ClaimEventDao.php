@@ -46,6 +46,10 @@ class ClaimEventDao extends BaseDao
         return $qb->getQuery()->execute();
     }
 
+    /**
+     * @param ClaimEventSearchFilterParams $claimEventSearchFilterParams
+     * @return Paginator
+     */
     protected function getClaimEventPaginator(ClaimEventSearchFilterParams $claimEventSearchFilterParams): Paginator
     {
         $q = $this->createQueryBuilder(ClaimEvent::class, 'claimEvent');
@@ -64,17 +68,34 @@ class ClaimEventDao extends BaseDao
         return $this->getPaginator($q);
     }
 
-    public function getClaimEventByID(int $id): ClaimEvent
+    /**
+     * @param int $id
+     * @return ClaimEvent|null
+     */
+    public function getClaimEventById(int $id): ?ClaimEvent
     {
-        $claimEvent = ClaimEvent::class;
-        return $this->getRepository($claimEvent)->findOneBy(['id'=>$id,'isDeleted'=>false]);
+        return $this->getRepository(ClaimEvent::class)->findOneBy(['id' => $id, 'isDeleted' => false]);
     }
 
-    public function deleteClaimEvent(int $id): ClaimEvent
+    /**
+     * @param array $ids
+     * @return int
+     */
+    public function deleteClaimEvents(array $ids): int
     {
-        $claimEvent = $this->getClaimEventByID($id);
-        $claimEvent->setIsDeleted(true);
-        $this->saveEvent($claimEvent);
-        return $claimEvent;
+        $q =  $this->createQueryBuilder(ClaimEvent::class, 'claimEvent');
+        $q->delete()
+            ->where($q->expr()->in('claimEvent.id', ':ids'))
+            ->setParameter('ids', $ids);
+        return $q->getQuery()->execute();
+    }
+
+    /**
+     * @param ClaimEventSearchFilterParams $claimEventSearchFilterParams
+     * @return int
+     */
+    public function getClaimEventCount(ClaimEventSearchFilterParams $claimEventSearchFilterParams): int
+    {
+        return $this->getClaimEventPaginator($claimEventSearchFilterParams)->count();
     }
 }

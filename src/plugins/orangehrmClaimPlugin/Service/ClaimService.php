@@ -82,11 +82,11 @@ class ClaimService
 
     public function getClaimEventByID(int $id): ClaimEvent
     {
-        return $this->getClaimEventDao()->getClaimEventByID($id);
+        return $this->getClaimEventDao()->getClaimEventById($id);
     }
 
-    public function deleteClaimEvent(int $id): ClaimEvent
+    public function deleteClaimEvent(int $id): int
     {
-        return $this->getClaimEventDao()->deleteClaimEvent($id);
+        return $this->getClaimEventDao()->deleteClaimEvents($id);
     }
 }

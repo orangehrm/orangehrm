@@ -20,6 +20,7 @@
 namespace OrangeHRM\Tests\Claim\Dao;
 
 use OrangeHRM\Claim\Dao\ClaimEventDao;
+use OrangeHRM\Claim\Dto\ClaimEventSearchFilterParams;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Entity\ClaimEvent;
 use OrangeHRM\Tests\Util\KernelTestCase;
@@ -28,23 +29,55 @@ use OrangeHRM\Tests\Util\TestDataService;
 class ClaimEventDaoTest extends KernelTestCase
 {
     private ClaimEventDao $claimEventDao;
+
     protected function setUp(): void
     {
         $this->claimEventDao = new ClaimEventDao();
         $fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmClaimPlugin/test/fixtures/ClaimEvent.yml';
         TestDataService::populate($fixture);
     }
+
     public function testSaveEvent(): void
     {
-        $claimEvent=new ClaimEvent();
+        $claimEvent = new ClaimEvent();
         $claimEvent->setName("testname2");
         $claimEvent->setStatus(true);
-        $result=$this->claimEventDao->saveEvent($claimEvent);
+        $result = $this->claimEventDao->saveEvent($claimEvent);
         $this->assertEquals("testname2", $result->getName());
         $this->assertEquals(true, $result->getStatus());
     }
 
-    public function testGetAllEvent():void{
+    public function testGetClaimEventList(): void
+    {
+        $claimEventSearchFilterParams = new ClaimEventSearchFilterParams();
+        $claimEventSearchFilterParams->setName(null);
+        $claimEventSearchFilterParams->setStatus(null);
+        $result = $this->claimEventDao->getClaimEventList($claimEventSearchFilterParams);
+        $this->assertEquals("event1", $result[0]->getName());
+    }
 
+    public function testGetClaimEventById(): void
+    {
+        $result = $this->claimEventDao->getClaimEventById(1);
+        $this->assertEquals("event1", $result->getName());
+    }
+
+    public function testDeleteClaimEvents(): void
+    {
+        $result = $this->claimEventDao->deleteClaimEvents([1,2]);
+        $this->assertEquals(2, $result);
+    }
+
+    public function testCountClaimEvents(): void
+    {
+        $claimEventSearchFilterParams = new ClaimEventSearchFilterParams();
+        $claimEventSearchFilterParams->setName(null);
+        $claimEventSearchFilterParams->setStatus(null);
+        $result = $this->claimEventDao->getClaimEventCount($claimEventSearchFilterParams);
+        $this->assertEquals(4, $result);
+
+        $claimEventSearchFilterParams->setName("event1");
+        $result = $this->claimEventDao->getClaimEventCount($claimEventSearchFilterParams);
+        $this->assertEquals(1, $result);
     }
 }
