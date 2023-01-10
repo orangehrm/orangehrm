@@ -27,7 +27,7 @@
           <post-filters
             :mobile="true"
             :filter="sortField"
-            @updatePriority="onUpdatePriority"
+            @update-priority="onUpdatePriority"
           ></post-filters>
         </news-feed>
       </oxd-tab-panel>
@@ -46,7 +46,7 @@
       <news-feed :employee="employee" :sort-field="sortField">
         <post-filters
           :filter="sortField"
-          @updatePriority="onUpdatePriority"
+          @update-priority="onUpdatePriority"
         ></post-filters>
       </news-feed>
     </oxd-grid-item>
@@ -60,7 +60,7 @@
     <oxd-grid-item>
       <post-filters
         :filter="sortField"
-        @updatePriority="onUpdatePriority"
+        @update-priority="onUpdatePriority"
       ></post-filters>
     </oxd-grid-item>
     <oxd-grid-item>
@@ -117,7 +117,7 @@ export default {
 
     const width = computed(() => responsiveState.windowWidth);
 
-    const {swipeContainer} = useSwipe($event => {
+    const {swipeContainer} = useSwipe(($event) => {
       const direction = $event.offsetDirection;
       // swipe right
       if (direction === 2) {
@@ -130,7 +130,7 @@ export default {
       }
     });
 
-    const onUpdatePriority = $event => {
+    const onUpdatePriority = ($event) => {
       if ($event) sortField.value = $event;
     };
 

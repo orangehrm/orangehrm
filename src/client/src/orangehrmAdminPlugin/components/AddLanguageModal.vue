@@ -25,7 +25,7 @@
       </oxd-text>
     </div>
     <oxd-divider />
-    <oxd-form :loading="isLoading" @submitValid="onSave">
+    <oxd-form :loading="isLoading" @submit-valid="onSave">
       <oxd-form-row>
         <languages-dropdown
           v-model="language"
@@ -98,7 +98,7 @@ export default {
     onSave() {
       this.http
         .update(this.language.id, null)
-        .then(response => {
+        .then((response) => {
           if (response) {
             return this.$toast.saveSuccess();
           }

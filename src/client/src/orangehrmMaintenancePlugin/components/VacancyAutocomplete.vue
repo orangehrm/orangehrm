@@ -46,7 +46,7 @@ export default {
   },
   methods: {
     async loadVacancies(searchParam) {
-      return new Promise(resolve => {
+      return new Promise((resolve) => {
         if (searchParam.trim()) {
           this.http
             .getAll({
@@ -54,7 +54,7 @@ export default {
             })
             .then(({data}) => {
               resolve(
-                data.data.map(vacancy => {
+                data.data.map((vacancy) => {
                   return {
                     id: vacancy.id,
                     label: vacancy.name,

@@ -34,7 +34,7 @@
 
       <oxd-divider />
 
-      <oxd-form ref="formRef" :loading="isLoading" @submitValid="onSave">
+      <oxd-form ref="formRef" :loading="isLoading" @submit-valid="onSave">
         <oxd-form-row>
           <oxd-grid :cols="2" class="orangehrm-full-width-grid">
             <oxd-grid-item>
@@ -228,11 +228,8 @@ export default {
       window.appGlobal.baseUrl,
       'api/v2/leave/employees/leave-requests',
     );
-    const {
-      serializeBody,
-      validateLeaveBalance,
-      validateOverlapLeaves,
-    } = useLeaveValidators(http);
+    const {serializeBody, validateLeaveBalance, validateOverlapLeaves} =
+      useLeaveValidators(http);
     const {formRef, reset} = useForm();
     const {userDateFormat} = useDateFormat();
 
@@ -299,14 +296,14 @@ export default {
   },
 
   watch: {
-    'leave.employee': function(employee) {
+    'leave.employee': function (employee) {
       if (employee?.id) {
         this.http
           .request({
             method: 'GET',
             url: `api/v2/pim/employees/${employee.id}/work-shift`,
           })
-          .then(response => {
+          .then((response) => {
             const {data} = response.data;
             this.workShift = data;
           });
@@ -314,14 +311,14 @@ export default {
         this.workShift = {...defaultWorkshift};
       }
     },
-    appliedLeaveDuration: function(duration) {
+    appliedLeaveDuration: function (duration) {
       if (duration === 1) {
         this.leave.duration.type = {id: 1, label: 'Full Day', key: 'full_day'};
       } else {
         this.leave.duration.type = null;
       }
     },
-    'leave.fromDate': function(fromDate) {
+    'leave.fromDate': function (fromDate) {
       if (!fromDate || this.leave.toDate) return;
       this.leave.toDate = fromDate;
     },

@@ -24,7 +24,7 @@
         {{ $t('recruitment.add_candidate') }}
       </oxd-text>
       <oxd-divider />
-      <oxd-form :loading="isLoading" @submitValid="onSave">
+      <oxd-form :loading="isLoading" @submit-valid="onSave">
         <oxd-form-row>
           <oxd-grid :cols="1" class="orangehrm-full-width-grid">
             <oxd-grid-item>
@@ -94,9 +94,9 @@
               <oxd-input-field
                 v-model="candidate.keywords"
                 :label="$t('recruitment.keywords')"
-                :placeholder="
-                  `${$t('recruitment.enter_comma_seperated_words')}...`
-                "
+                :placeholder="`${$t(
+                  'recruitment.enter_comma_seperated_words',
+                )}...`"
                 :rules="rules.keywords"
               />
             </oxd-grid-item>

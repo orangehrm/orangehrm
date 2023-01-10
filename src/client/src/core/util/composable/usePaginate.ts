@@ -86,7 +86,7 @@ function defaultNormalizer(data: DTO[]): DTO[] {
 
 type usePaginateArgs = {
   query?: object;
-  normalizer?: Function;
+  normalizer?: (data: DTO[]) => DTO[];
   prefetch?: boolean;
   toastNoRecords?: boolean;
   pageSize?: number;

@@ -70,8 +70,8 @@ import SaveEducation from '@/orangehrmPimPlugin/components/SaveEducation';
 import EditEducation from '@/orangehrmPimPlugin/components/EditEducation';
 import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmationDialog';
 
-const educationNormalizer = data => {
-  return data.map(item => {
+const educationNormalizer = (data) => {
+  return data.map((item) => {
     return {
       id: item.id,
       level: item.education.name,
@@ -190,17 +190,17 @@ export default {
 
   methods: {
     onClickDeleteSelected() {
-      const ids = this.checkedItems.map(index => {
+      const ids = this.checkedItems.map((index) => {
         return this.items?.data[index].id;
       });
-      this.$refs.deleteDialog.showDialog().then(confirmation => {
+      this.$refs.deleteDialog.showDialog().then((confirmation) => {
         if (confirmation === 'ok') {
           this.deleteItems(ids);
         }
       });
     },
     onClickDelete(item) {
-      this.$refs.deleteDialog.showDialog().then(confirmation => {
+      this.$refs.deleteDialog.showDialog().then((confirmation) => {
         if (confirmation === 'ok') {
           this.deleteItems([item.id]);
         }

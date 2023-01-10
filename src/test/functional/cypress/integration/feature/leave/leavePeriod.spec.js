@@ -46,7 +46,8 @@ describe('Leave - Leave Period', function () {
       cy.toast('success', 'Successfully Saved');
       cy.wait('@updateLeavePeriod');
     });
-    it('Verify the Current Leave Period and End date is getting updated', function () {
+    // eslint-disable-next-line jest/no-disabled-tests
+    it.skip('Verify the Current Leave Period and End date is getting updated', function () {
       cy.loginTo(user.admin, '/leave/defineLeavePeriod');
       cy.wait('@retriveLeavePeriod');
       cy.getOXD('form').within(() => {

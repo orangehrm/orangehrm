@@ -25,7 +25,7 @@
       :rules="rules.operator"
       :options="operators"
       :model-value="operator"
-      @update:modelValue="$emit('update:operator', $event)"
+      @update:model-value="$emit('update:operator', $event)"
     />
   </oxd-grid-item>
   <oxd-grid-item
@@ -35,20 +35,20 @@
     <oxd-input-field
       :rules="rules.valueX"
       :model-value="valueX"
-      @update:modelValue="$emit('update:valueX', $event)"
+      @update:model-value="$emit('update:valueX', $event)"
     />
     <oxd-text class="orangehrm-report-range-text" tag="p">to</oxd-text>
     <oxd-input-field
       :rules="rules.valueY"
       :model-value="valueY"
-      @update:modelValue="$emit('update:valueY', $event)"
+      @update:model-value="$emit('update:valueY', $event)"
     />
   </oxd-grid-item>
   <oxd-grid-item v-else-if="operator">
     <oxd-input-field
       :rules="rules.valueXOnly"
       :model-value="valueX"
-      @update:modelValue="$emit('update:valueX', $event)"
+      @update:model-value="$emit('update:valueX', $event)"
     />
   </oxd-grid-item>
 </template>
@@ -94,7 +94,7 @@ export default {
         required,
         digitsOnly,
         max(100),
-        v => {
+        (v) => {
           return (
             parseInt(v) < parseInt(props.valueY) ||
             $t('general.should_be_less_than_upper_bound')
@@ -105,7 +105,7 @@ export default {
         required,
         digitsOnly,
         max(100),
-        v => {
+        (v) => {
           return (
             parseInt(v) > parseInt(props.valueX) ||
             $t('general.should_be_greater_than_lower_bound')

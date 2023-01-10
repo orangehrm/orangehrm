@@ -21,7 +21,7 @@
 <template>
   <div class="orangehrm-background-container">
     <oxd-table-filter :filter-title="$t('admin.locations')">
-      <oxd-form @submitValid="filterItems">
+      <oxd-form @submit-valid="filterItems">
         <oxd-form-row>
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
@@ -134,8 +134,8 @@ const defaultSortOrder = {
   noOfEmployees: 'DEFAULT',
 };
 
-const locationDataNormalizer = data => {
-  return data.map(location => {
+const locationDataNormalizer = (data) => {
+  return data.map((location) => {
     return {
       id: location.id,
       name: location.name,
@@ -278,17 +278,17 @@ export default {
     },
     onClickDeleteSelected() {
       const ids = [];
-      this.checkedItems.forEach(index => {
+      this.checkedItems.forEach((index) => {
         ids.push(this.items?.data[index].id);
       });
-      this.$refs.deleteDialog.showDialog().then(confirmation => {
+      this.$refs.deleteDialog.showDialog().then((confirmation) => {
         if (confirmation === 'ok') {
           this.deleteItems(ids);
         }
       });
     },
     onClickDelete(item) {
-      this.$refs.deleteDialog.showDialog().then(confirmation => {
+      this.$refs.deleteDialog.showDialog().then((confirmation) => {
         if (confirmation === 'ok') {
           this.deleteItems([item.id]);
         }

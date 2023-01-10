@@ -96,8 +96,8 @@ export default {
       };
     });
 
-    const purgeCandidateNormalizer = data => {
-      return data.map(item => {
+    const purgeCandidateNormalizer = (data) => {
+      return data.map((item) => {
         return {
           name: $tEmpName(
             {

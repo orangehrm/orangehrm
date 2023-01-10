@@ -23,7 +23,7 @@
     <oxd-table-filter
       :filter-title="$t('performance.key_performance_indicators_for_job_title')"
     >
-      <oxd-form @submitValid="filterItems" @reset="resetDataTable">
+      <oxd-form @submit-valid="filterItems" @reset="resetDataTable">
         <oxd-form-row>
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
@@ -116,8 +116,8 @@ export default {
   },
   setup() {
     const {$t} = usei18n();
-    const kpiNormalizer = data => {
-      return data.map(item => {
+    const kpiNormalizer = (data) => {
+      return data.map((item) => {
         return {
           id: item.id,
           title: item.title,
@@ -254,17 +254,17 @@ export default {
     },
     onClickDeleteSelected() {
       const ids = [];
-      this.checkedItems.forEach(index => {
+      this.checkedItems.forEach((index) => {
         ids.push(this.items?.data[index].id);
       });
-      this.$refs.deleteDialog.showDialog().then(confirmation => {
+      this.$refs.deleteDialog.showDialog().then((confirmation) => {
         if (confirmation === 'ok') {
           this.deleteItems(ids);
         }
       });
     },
     onClickDelete(item) {
-      this.$refs.deleteDialog.showDialog().then(confirmation => {
+      this.$refs.deleteDialog.showDialog().then((confirmation) => {
         if (confirmation === 'ok') {
           this.deleteItems([item.id]);
         }

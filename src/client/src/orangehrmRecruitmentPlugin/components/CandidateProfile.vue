@@ -35,7 +35,7 @@
 
       <oxd-divider v-show="!isLoading" />
 
-      <oxd-form :loading="isLoading" @submitValid="onSave">
+      <oxd-form :loading="isLoading" @submit-valid="onSave">
         <oxd-form-row>
           <oxd-grid :cols="1" class="orangehrm-full-width-grid">
             <oxd-grid-item>
@@ -116,9 +116,9 @@
               <oxd-input-field
                 v-model="profile.keywords"
                 :label="$t('recruitment.keywords')"
-                :placeholder="
-                  `${$t('recruitment.enter_comma_seperated_words')}...`
-                "
+                :placeholder="`${$t(
+                  'recruitment.enter_comma_seperated_words',
+                )}...`"
                 :rules="rules.keywords"
                 :disabled="!editable"
               />
@@ -299,7 +299,7 @@ export default {
         this.candidate.vacancy?.id &&
         this.candidate.vacancy?.id !== this.vacancy?.id
       ) {
-        this.$refs.confirmDialog.showDialog().then(confirmation => {
+        this.$refs.confirmDialog.showDialog().then((confirmation) => {
           if (confirmation === 'ok') this.updateCandidate();
         });
       } else {

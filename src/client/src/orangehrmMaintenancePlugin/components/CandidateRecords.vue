@@ -24,7 +24,7 @@
       {{ $t('maintenance.purge_candidate_records') }}
     </oxd-text>
     <oxd-divider />
-    <oxd-form @submitValid="$emit('search', vacancy.id)">
+    <oxd-form @submit-valid="$emit('search', vacancy.id)">
       <oxd-form-row>
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item>

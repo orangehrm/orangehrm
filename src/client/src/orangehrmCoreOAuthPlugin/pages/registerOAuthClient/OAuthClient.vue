@@ -82,10 +82,10 @@ export default {
   },
 
   setup(props) {
-    const oAuthClientNormalizer = data => {
-      return data.map(item => {
+    const oAuthClientNormalizer = (data) => {
+      return data.map((item) => {
         const selectable = props.unselectableClientIds.findIndex(
-          id => id === item.clientId,
+          (id) => id === item.clientId,
         );
         return {
           clientId: item.clientId,
@@ -166,17 +166,17 @@ export default {
     },
     onClickDeleteSelected() {
       const ids = [];
-      this.checkedItems.forEach(index => {
+      this.checkedItems.forEach((index) => {
         ids.push(this.items?.data[index].clientId);
       });
-      this.$refs.deleteDialog.showDialog().then(confirmation => {
+      this.$refs.deleteDialog.showDialog().then((confirmation) => {
         if (confirmation === 'ok') {
           this.deleteItems(ids);
         }
       });
     },
     onClickDelete(item) {
-      this.$refs.deleteDialog.showDialog().then(confirmation => {
+      this.$refs.deleteDialog.showDialog().then((confirmation) => {
         if (confirmation === 'ok') {
           this.deleteItems([item.clientId]);
         }

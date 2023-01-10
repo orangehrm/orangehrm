@@ -27,7 +27,7 @@
 
       <oxd-divider />
 
-      <oxd-form :loading="isLoading" @submitValid="onSave">
+      <oxd-form :loading="isLoading" @submit-valid="onSave">
         <oxd-form-row>
           <oxd-grid :cols="2" class="orangehrm-full-width-grid">
             <div class="orangehrm-attendance-field-row">
@@ -108,7 +108,7 @@ export default {
     this.isLoading = true;
     this.http
       .getAll()
-      .then(response => {
+      .then((response) => {
         const {data} = response.data;
         this.config = {...data};
       })
@@ -126,7 +126,7 @@ export default {
             ...this.config,
           },
         })
-        .then(response => {
+        .then((response) => {
           const {data} = response.data;
           this.config = {...data};
           return this.$toast.saveSuccess();

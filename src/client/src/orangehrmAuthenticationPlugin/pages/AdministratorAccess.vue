@@ -25,7 +25,7 @@
         ref="verifyForm"
         method="post"
         :action="submitUrl"
-        @submitValid="onSubmit"
+        @submit-valid="onSubmit"
       >
         <oxd-text tag="h6" class="orangehrm-admin-access-title">
           {{ $t('auth.admin_access') }}

@@ -152,7 +152,7 @@ export default function useReviewEvaluation(http: APIService) {
   };
 
   const generateRules = (kpis: KPI[]) => {
-    return kpis.map(kpi => [
+    return kpis.map((kpi) => [
       greaterThanOrEqual(
         kpi.minRating,
         $t('performance.rating_should_be_greater_than_or_equal_to_minValue', {
@@ -170,7 +170,7 @@ export default function useReviewEvaluation(http: APIService) {
 
   const generateModel = (kpis: KPI[]) => {
     return {
-      kpis: kpis.map(kpi => ({
+      kpis: kpis.map((kpi) => ({
         kpiId: kpi.id,
         rating: null,
         comment: null,
@@ -186,7 +186,7 @@ export default function useReviewEvaluation(http: APIService) {
   ) => {
     return {
       kpis: kpis.map(({kpiId}) => {
-        const _kpi = evaluationData.find(datum => datum.kpi.id === kpiId);
+        const _kpi = evaluationData.find((datum) => datum.kpi.id === kpiId);
         return {
           kpiId,
           rating: _kpi?.rating,
@@ -213,7 +213,7 @@ export default function useReviewEvaluation(http: APIService) {
 
   const generateAllowedActions = (allowedActions: AllowedAction[] | null) => {
     return new Map(
-      allowedActions?.map(action => {
+      allowedActions?.map((action) => {
         return [action.action, action.name];
       }),
     );

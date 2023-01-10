@@ -31,12 +31,8 @@ export default function useTimesheet(
   date: string | null,
   empNumber?: number,
 ) {
-  const {
-    state,
-    fetchTimesheet,
-    updateTimesheet,
-    fetchTimesheetEntries,
-  } = useTimesheetAPIs(http);
+  const {state, fetchTimesheet, updateTimesheet, fetchTimesheetEntries} =
+    useTimesheetAPIs(http);
   const {noRecordsFound, success} = useToast();
   const {$t} = usei18n();
   const {jsDateFormat} = useDateFormat();
@@ -47,7 +43,7 @@ export default function useTimesheet(
     if (date && parseDate(date) === null) return;
     state.isLoading = true;
     fetchTimesheet(date, empNumber)
-      .then(response => {
+      .then((response) => {
         const {data} = response.data;
         state.timesheet = data;
         state.timesheetId = data.id;
@@ -55,7 +51,7 @@ export default function useTimesheet(
           ? fetchTimesheetEntries(data.id, empNumber !== undefined)
           : null;
       })
-      .then(response => {
+      .then((response) => {
         if (response !== null) {
           const {data, meta, timesheet, allowedActions} = response;
           state.timesheetRecords = data;
@@ -182,23 +178,23 @@ export default function useTimesheet(
   });
 
   const canSubmitTimesheet = computed(() => {
-    return state.timesheetAllowedActions.find(i => i.action === 'SUBMIT');
+    return state.timesheetAllowedActions.find((i) => i.action === 'SUBMIT');
   });
 
   const canApproveTimesheet = computed(() => {
-    return state.timesheetAllowedActions.find(i => i.action === 'APPROVE');
+    return state.timesheetAllowedActions.find((i) => i.action === 'APPROVE');
   });
 
   const canRejectTimesheet = computed(() => {
-    return state.timesheetAllowedActions.find(i => i.action === 'REJECT');
+    return state.timesheetAllowedActions.find((i) => i.action === 'REJECT');
   });
 
   const canResetTimesheet = computed(() => {
-    return state.timesheetAllowedActions.find(i => i.action === 'RESET');
+    return state.timesheetAllowedActions.find((i) => i.action === 'RESET');
   });
 
   const canEditTimesheet = computed(() => {
-    return state.timesheetAllowedActions.find(i => i.action === 'MODIFY');
+    return state.timesheetAllowedActions.find((i) => i.action === 'MODIFY');
   });
 
   const canCreateTimesheet = computed(() => {

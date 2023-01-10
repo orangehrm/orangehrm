@@ -20,7 +20,7 @@
 
 <template>
   <div class="orangehrm-background-container">
-    <slot :filters="filters" :filterItems="filterItems"></slot>
+    <slot :filters="filters" :filter-items="filterItems"></slot>
     <br />
     <div v-if="showDatatable" class="orangehrm-paper-container">
       <div class="orangehrm-header-container">
@@ -136,8 +136,8 @@ export default {
     const {jsDateFormat} = useDateFormat();
     const {locale} = useLocale();
 
-    const entitlementNormalizer = data => {
-      return data.map(item => {
+    const entitlementNormalizer = (data) => {
+      return data.map((item) => {
         return {
           id: item.id,
           leaveType:
@@ -263,10 +263,10 @@ export default {
       navigate('/leave/editLeaveEntitlement/{id}', {id: item.id});
     },
     onClickDeleteSelected() {
-      const ids = this.checkedItems.map(index => {
+      const ids = this.checkedItems.map((index) => {
         return this.items?.data[index].id;
       });
-      this.$refs.deleteDialog.showDialog().then(confirmation => {
+      this.$refs.deleteDialog.showDialog().then((confirmation) => {
         if (confirmation === 'ok') {
           this.deleteItems(ids);
         }
@@ -281,7 +281,7 @@ export default {
           ),
         });
       }
-      this.$refs.deleteDialog.showDialog().then(confirmation => {
+      this.$refs.deleteDialog.showDialog().then((confirmation) => {
         if (confirmation === 'ok') {
           this.deleteItems([item.id]);
         }

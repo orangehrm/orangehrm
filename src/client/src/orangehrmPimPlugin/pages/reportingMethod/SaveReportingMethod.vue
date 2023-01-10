@@ -27,7 +27,7 @@
 
       <oxd-divider />
 
-      <oxd-form :loading="isLoading" @submitValid="onSave">
+      <oxd-form :loading="isLoading" @submit-valid="onSave">
         <oxd-form-row>
           <oxd-input-field
             v-model="reportingMethod.name"
@@ -91,10 +91,10 @@ export default {
       .getAll({
         limit: 0,
       })
-      .then(response => {
+      .then((response) => {
         const {data} = response.data;
-        this.rules.name.push(v => {
-          const index = data.findIndex(item => item.name === v);
+        this.rules.name.push((v) => {
+          const index = data.findIndex((item) => item.name === v);
           return index === -1 || this.$t('general.already_exists');
         });
       })

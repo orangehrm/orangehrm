@@ -36,7 +36,7 @@
       <oxd-divider />
 
       <div class="orangehrm-paper-container">
-        <oxd-form :loading="isLoading" @submitValid="onSave">
+        <oxd-form :loading="isLoading" @submit-valid="onSave">
           <oxd-grid :cols="2" class="orangehrm-full-width-grid no-gap">
             <oxd-grid-item>
               <oxd-grid :cols="2" class="orangehrm-full-width-grid">
@@ -299,7 +299,7 @@ export default {
     this.isLoading = true;
     this.http
       .get(this.attendanceId)
-      .then(response => {
+      .then((response) => {
         const {data} = response.data;
         this.attendance.employee = data.employee;
         this.attendance.punchIn = {
@@ -385,7 +385,7 @@ export default {
       ) {
         return true;
       }
-      return new Promise(resolve => {
+      return new Promise((resolve) => {
         this.http
           .request({
             method: 'GET',
@@ -404,11 +404,11 @@ export default {
               punchOutTime: this.attendance.punchOut?.userTime,
             },
             // Prevent triggering response interceptor on 400
-            validateStatus: status => {
+            validateStatus: (status) => {
               return (status >= 200 && status < 300) || status == 400;
             },
           })
-          .then(res => {
+          .then((res) => {
             const {data, error} = res.data;
             if (error) {
               return resolve(error.message);

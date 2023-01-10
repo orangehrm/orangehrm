@@ -128,10 +128,10 @@ export default {
           locationId: this.data.location?.id,
           subunitId: this.data.subunit?.id,
         })
-        .then(response => {
+        .then((response) => {
           const {data} = response.data;
           this.items = Array.isArray(data)
-            ? data.map(item => {
+            ? data.map((item) => {
                 return {
                   employee: `${item.firstName} ${item.lastName}`,
                   current: item.entitlement?.current

@@ -34,7 +34,7 @@ export default function useSort(sortParams: SortParams) {
   });
 
   const sortField = computed(() => {
-    return Object.keys(sortDefinition.value).filter(column => {
+    return Object.keys(sortDefinition.value).filter((column) => {
       const order = sortDefinition.value[column];
       return order && order != 'DEFAULT';
     })[0];

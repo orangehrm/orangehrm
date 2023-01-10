@@ -24,7 +24,7 @@
     :label="$t('leave.leave_period')"
     :options="options"
     :model-value="selectedPeriod"
-    @update:modelValue="$emit('update:modelValue', $event)"
+    @update:model-value="$emit('update:modelValue', $event)"
   />
 </template>
 
@@ -55,7 +55,7 @@ export default {
 
     onBeforeMount(() => {
       http.getAll().then(({data}) => {
-        options.value = data.data.map(item => {
+        options.value = data.data.map((item) => {
           const startDate = formatDate(
             parseDate(item.startDate),
             jsDateFormat,
@@ -76,7 +76,9 @@ export default {
     });
 
     const selectedPeriod = computed(() => {
-      return options.value.find(_option => _option.id === props.modelValue?.id);
+      return options.value.find(
+        (_option) => _option.id === props.modelValue?.id,
+      );
     });
 
     return {

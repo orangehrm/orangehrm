@@ -27,7 +27,7 @@
 
       <oxd-divider />
 
-      <oxd-form ref="formRef" :loading="isLoading" @submitValid="onFormSubmit">
+      <oxd-form ref="formRef" :loading="isLoading" @submit-valid="onFormSubmit">
         <oxd-form-row>
           <oxd-grid :cols="4" class="orangehrm-full-width-grid">
             <oxd-grid-item>
@@ -266,7 +266,7 @@ export default {
     const rules = {
       color: [required, validHexFormat],
       clientLogo: [
-        v =>
+        (v) =>
           state.clientLogo.method === 'replaceCurrent' ? required(v) : true,
         maxFileSize(1024 * 1024),
         imageShouldHaveDimensions(
@@ -276,7 +276,7 @@ export default {
         validFileTypes(props.allowedImageTypes),
       ],
       clientBanner: [
-        v =>
+        (v) =>
           state.clientBanner.method === 'replaceCurrent' ? required(v) : true,
         maxFileSize(1024 * 1024),
         imageShouldHaveDimensions(
@@ -286,7 +286,7 @@ export default {
         validFileTypes(props.allowedImageTypes),
       ],
       loginBanner: [
-        v =>
+        (v) =>
           state.loginBanner.method === 'replaceCurrent' ? required(v) : true,
         maxFileSize(1024 * 1024),
         imageShouldHaveDimensions(
@@ -298,7 +298,7 @@ export default {
     };
 
     const onFormSubmit = () => {
-      const getAttachment = fileUploadModel => {
+      const getAttachment = (fileUploadModel) => {
         if (
           fileUploadModel.method === null ||
           fileUploadModel.method === 'replaceCurrent'
@@ -351,7 +351,7 @@ export default {
               ...state.colors,
             },
           })
-          .then(response => {
+          .then((response) => {
             const {data} = response.data;
             for (const key in data) {
               const value = data[key];
@@ -366,7 +366,7 @@ export default {
       state.isLoading = true;
       http
         .getAll()
-        .then(response => {
+        .then((response) => {
           const {data} = response.data;
           const {
             clientLogo,

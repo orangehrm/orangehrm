@@ -27,7 +27,7 @@
 
       <oxd-divider />
 
-      <oxd-form :loading="isLoading" novalidate="true" @submitValid="onSave">
+      <oxd-form :loading="isLoading" novalidate="true" @submit-valid="onSave">
         <oxd-form-row>
           <oxd-grid :cols="2" class="orangehrm-full-width-grid">
             <oxd-grid-item>
@@ -202,11 +202,11 @@ export default {
     this.isLoading = true;
     this.http
       .get(parseInt(this.locationId, 10))
-      .then(response => {
+      .then((response) => {
         const {data} = response.data;
         this.location.name = data.name;
         this.location.countryCode = this.countries.find(
-          item => item.id === data.country.countryCode,
+          (item) => item.id === data.country.countryCode,
         );
         this.location.province = data.province;
         this.location.city = data.city;
@@ -219,10 +219,10 @@ export default {
         // Fetch list data for unique test
         return this.http.getAll({limit: 0});
       })
-      .then(response => {
+      .then((response) => {
         const {data} = response.data;
-        this.rules.name.push(v => {
-          const index = data.findIndex(item => item.name === v);
+        this.rules.name.push((v) => {
+          const index = data.findIndex((item) => item.name === v);
           if (index > -1) {
             const {id} = data[index];
             return parseInt(id, 10) !== parseInt(this.locationId, 10)

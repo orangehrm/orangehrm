@@ -23,7 +23,7 @@
     <div class="orangehrm-buzz-create-post-header">
       <profile-image :employee="employee"></profile-image>
       <div class="orangehrm-buzz-create-post-header-text">
-        <oxd-form @submitValid="onSubmit">
+        <oxd-form @submit-valid="onSubmit">
           <oxd-buzz-post-input
             v-model="post"
             :rules="rules"
@@ -125,7 +125,7 @@ export default {
       showVideoModal.value = true;
     };
 
-    const onCloseVideoModal = $event => {
+    const onCloseVideoModal = ($event) => {
       showVideoModal.value = false;
       if ($event) {
         saveSuccess();
@@ -133,7 +133,7 @@ export default {
       }
     };
 
-    const onClosePhotoModal = $event => {
+    const onClosePhotoModal = ($event) => {
       showPhotoModal.value = false;
       if ($event) {
         saveSuccess();

@@ -157,9 +157,9 @@ export default {
     this.isLoading = false;
     this.http
       .getAll()
-      .then(response => {
+      .then((response) => {
         const {data} = response.data;
-        this.myActions = data.map(item => {
+        this.myActions = data.map((item) => {
           const {group, pendingActionCount} = item;
           if (group === 'Leave Requests To Approve') {
             this.leaveRequestCount = pendingActionCount;

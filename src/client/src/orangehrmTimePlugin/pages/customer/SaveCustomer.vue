@@ -25,7 +25,7 @@
         {{ $t('time.add_customer') }}
       </oxd-text>
       <oxd-divider />
-      <oxd-form :loading="isLoading" @submitValid="onSave">
+      <oxd-form :loading="isLoading" @submit-valid="onSave">
         <oxd-form-row>
           <oxd-input-field
             v-model="customer.name"
@@ -117,7 +117,7 @@ export default {
       navigate('/time/viewCustomers');
     },
     validateCustomerName(customer) {
-      return new Promise(resolve => {
+      return new Promise((resolve) => {
         if (customer) {
           this.http
             .request({
@@ -127,7 +127,7 @@ export default {
                 customerName: this.customer.name.trim(),
               },
             })
-            .then(response => {
+            .then((response) => {
               const {data} = response.data;
               return data.valid === true
                 ? resolve(true)

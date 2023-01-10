@@ -27,7 +27,7 @@
 
       <oxd-divider />
 
-      <oxd-form novalidate="true" :loading="isLoading" @submitValid="onSave">
+      <oxd-form novalidate="true" :loading="isLoading" @submit-valid="onSave">
         <oxd-form-row>
           <oxd-input-field
             v-model="jobTitle.title"
@@ -144,7 +144,7 @@ export default {
         title: [required, shouldNotExceedCharLength(100)],
         description: [shouldNotExceedCharLength(400)],
         specification: [
-          v => {
+          (v) => {
             if (this.jobTitle.method == 'replaceCurrent') {
               return required(v);
             } else {
@@ -163,7 +163,7 @@ export default {
     this.isLoading = true;
     this.http
       .get(this.jobTitleId)
-      .then(response => {
+      .then((response) => {
         const {data} = response.data;
         this.jobTitle.title = data.title;
         this.jobTitle.description = data.description;
@@ -177,10 +177,10 @@ export default {
         // Fetch list data for unique test
         return this.http.getAll({limit: 0});
       })
-      .then(response => {
+      .then((response) => {
         const {data} = response.data;
-        this.rules.title.push(v => {
-          const index = data.findIndex(item => item.title == v);
+        this.rules.title.push((v) => {
+          const index = data.findIndex((item) => item.title == v);
           if (index > -1) {
             const {id} = data[index];
             return id != this.jobTitleId

@@ -26,7 +26,7 @@
       :rules="rules"
       :options="opts"
       :model-value="valueX"
-      @update:modelValue="$emit('update:valueX', $event)"
+      @update:model-value="$emit('update:valueX', $event)"
     />
   </oxd-grid-item>
 </template>
@@ -68,7 +68,7 @@ export default {
             ...(props.api !== 'api/v2/admin/subunits' && {limit: 0}),
           })
           .then(({data}) => {
-            opts.value = data.data.map(item => {
+            opts.value = data.data.map((item) => {
               return {
                 id: item.id,
                 label: item.name ? item.name : item.title,

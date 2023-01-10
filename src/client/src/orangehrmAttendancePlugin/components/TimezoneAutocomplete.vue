@@ -47,7 +47,7 @@ export default {
   },
   methods: {
     async loadTimezones(serachParam) {
-      return new Promise(resolve => {
+      return new Promise((resolve) => {
         if (serachParam.trim()) {
           this.http
             .getAll({
@@ -55,7 +55,7 @@ export default {
             })
             .then(({data}) => {
               resolve(
-                data.data.map(timezone => {
+                data.data.map((timezone) => {
                   return {
                     id: timezone.name,
                     label: `(GMT${timezone.label}) ${timezone.name}`,

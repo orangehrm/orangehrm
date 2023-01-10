@@ -25,7 +25,7 @@
         {{ $t('general.personal_details') }}
       </oxd-text>
       <oxd-divider />
-      <oxd-form :loading="isLoading" @submitValid="onSave">
+      <oxd-form :loading="isLoading" @submit-valid="onSave">
         <oxd-form-row>
           <oxd-grid :cols="1" class="orangehrm-full-width-grid">
             <oxd-grid-item>
@@ -294,18 +294,18 @@ export default {
     this.isLoading = true;
     this.http
       .getAll()
-      .then(response => {
+      .then((response) => {
         this.updateModel(response);
         return this.http.request({
           method: 'GET',
           url: 'api/v2/pim/employees',
         });
       })
-      .then(response => {
+      .then((response) => {
         const {data} = response.data;
-        this.rules.employeeId.push(v => {
+        this.rules.employeeId.push((v) => {
           const index = data.findIndex(
-            item =>
+            (item) =>
               item.employeeId?.trim() &&
               String(item.employeeId).toLowerCase() == String(v).toLowerCase(),
           );
@@ -355,7 +355,7 @@ export default {
               : undefined,
           },
         })
-        .then(response => {
+        .then((response) => {
           this.updateModel(response);
           return this.$toast.updateSuccess();
         })
@@ -368,10 +368,10 @@ export default {
       const {data} = response.data;
       this.employee = {...employeeModel, ...data};
       this.employee.maritalStatus = this.maritalStatuses.find(
-        item => item.id === data.maritalStatus,
+        (item) => item.id === data.maritalStatus,
       );
       this.employee.nationality = this.nationalities.find(
-        item => item.id === data.nationality?.id,
+        (item) => item.id === data.nationality?.id,
       );
     },
   },

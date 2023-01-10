@@ -26,7 +26,7 @@
       }}</oxd-text>
     </div>
     <oxd-divider />
-    <oxd-form :loading="isLoading" @submitValid="onSave">
+    <oxd-form :loading="isLoading" @submit-valid="onSave">
       <oxd-form-row>
         <oxd-input-field
           v-model="orgUnit.unitId"
@@ -118,7 +118,7 @@ export default {
     this.isLoading = true;
     this.http
       .get(this.data.id)
-      .then(response => {
+      .then((response) => {
         const {data} = response.data;
         this.orgUnit.name = data.name;
         this.orgUnit.description = data.description;
@@ -126,12 +126,12 @@ export default {
         // Fetch list data for unique test
         return this.http.getAll();
       })
-      .then(response => {
+      .then((response) => {
         const {data} = response.data;
         if (data) {
-          this.rules.name.push(v => {
+          this.rules.name.push((v) => {
             const index = data.findIndex(
-              item =>
+              (item) =>
                 String(item.name).toLowerCase() == String(v).toLowerCase(),
             );
             if (index > -1) {

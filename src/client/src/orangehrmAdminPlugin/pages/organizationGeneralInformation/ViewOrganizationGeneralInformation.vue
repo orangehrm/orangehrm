@@ -33,7 +33,7 @@
       </div>
       <oxd-divider />
 
-      <oxd-form :loading="isLoading" @submitValid="onSave">
+      <oxd-form :loading="isLoading" @submit-valid="onSave">
         <oxd-form-row>
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item class="organization-name-container">
@@ -267,7 +267,7 @@ export default {
     this.isLoading = true;
     this.http.http
       .get('api/v2/admin/organization')
-      .then(response => {
+      .then((response) => {
         const {data} = response.data;
         this.organization.name = data.name;
         this.organization.registrationNumber = data.registrationNumber;
@@ -280,7 +280,7 @@ export default {
         this.organization.city = data.city;
         this.organization.province = data.province;
         if (data.country !== '' && data.country !== null) {
-          this.organization.country = this.countryList.find(item => {
+          this.organization.country = this.countryList.find((item) => {
             return item.id === data.country;
           });
         }

@@ -9,7 +9,7 @@
       </oxd-text>
     </div>
     <oxd-divider />
-    <oxd-form :loading="isLoading" @submitValid="onSave">
+    <oxd-form :loading="isLoading" @submit-valid="onSave">
       <oxd-form-row>
         <oxd-input-field
           v-model="customer.name"
@@ -98,7 +98,7 @@ export default {
           name: this.customer.name,
           description: this.customer.description,
         })
-        .then(response => {
+        .then((response) => {
           const {data} = response.data;
           this.$toast.saveSuccess();
           this.$emit('close', data);
@@ -108,7 +108,7 @@ export default {
       this.$emit('close');
     },
     validateCustomerName(customer) {
-      return new Promise(resolve => {
+      return new Promise((resolve) => {
         if (customer) {
           this.http
             .request({
@@ -118,7 +118,7 @@ export default {
                 customerName: this.customer.name.trim(),
               },
             })
-            .then(response => {
+            .then((response) => {
               const {data} = response.data;
               return data.valid === true
                 ? resolve(true)

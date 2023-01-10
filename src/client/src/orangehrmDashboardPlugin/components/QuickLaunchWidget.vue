@@ -133,7 +133,7 @@ export default {
 
     this.http
       .getAll()
-      .then(response => {
+      .then((response) => {
         const {data} = response.data;
         for (const key in data) {
           if (data[key]) {

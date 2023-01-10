@@ -123,7 +123,7 @@ export default {
   computed: {
     recruitmentStatus() {
       return (
-        this.statuses.find(item => item.id === this.candidate.status?.id)
+        this.statuses.find((item) => item.id === this.candidate.status?.id)
           ?.label || null
       );
     },
@@ -132,11 +132,12 @@ export default {
     this.$emit('update:loading', true);
     this.http
       .get(this.candidateId)
-      .then(response => {
+      .then((response) => {
         const {data} = response.data;
         this.candidate.status = data.status;
-        this.candidate.candidateName = `${data?.firstName} ${data?.middleName ||
-          ''} ${data?.lastName}`;
+        this.candidate.candidateName = `${data?.firstName} ${
+          data?.middleName || ''
+        } ${data?.lastName}`;
         if (data?.vacancy) {
           this.candidate.vacancyName = data?.vacancy.name;
         }

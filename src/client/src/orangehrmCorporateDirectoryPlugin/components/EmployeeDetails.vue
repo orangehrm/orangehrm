@@ -127,7 +127,7 @@ export default {
     };
   },
   watch: {
-    employeeId: function() {
+    employeeId: function () {
       this.callEmployeeDetailsApi();
     },
   },
@@ -148,7 +148,7 @@ export default {
       navigator.clipboard?.writeText(this.employeeWorkTelephone);
     },
     callEmployeeDetailsApi() {
-      this.http.get(this.employeeId, {model: 'detailed'}).then(response => {
+      this.http.get(this.employeeId, {model: 'detailed'}).then((response) => {
         const {data} = response.data;
         this.employeeWorkTelephone = data.contactInfo?.workTelephone;
         this.employeeWorkEmail = data.contactInfo?.workEmail;

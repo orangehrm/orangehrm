@@ -143,8 +143,8 @@ export default {
     const {locale} = useLocale();
     const {$tEmpName} = useEmployeeNameTranslate();
 
-    const leaveRequestNormalizer = data => {
-      return data.map(item => {
+    const leaveRequestNormalizer = (data) => {
+      return data.map((item) => {
         let leaveDatePeriod = '';
         const duration = item.dates.durationType?.type;
 
@@ -296,7 +296,7 @@ export default {
         });
       }
 
-      row.actions.map(item => {
+      row.actions.map((item) => {
         if (item.action === 'APPROVE') {
           approve.props.label = this.$t('general.approve');
           approve.props.onClick = () => this.onLeaveAction(row.id, 'APPROVE');
@@ -323,7 +323,8 @@ export default {
 
       if (dropdownActions.length > 0) {
         more.props.options = dropdownActions;
-        more.props.onClick = $event => this.onLeaveDropdownAction($event, row);
+        more.props.onClick = ($event) =>
+          this.onLeaveDropdownAction($event, row);
         cellConfig.more = more;
       }
 

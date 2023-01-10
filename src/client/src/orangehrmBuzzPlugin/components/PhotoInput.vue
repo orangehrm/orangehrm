@@ -31,13 +31,13 @@
         @click="onClickCloseAlert"
       />
     </oxd-alert>
-    <photo-upload-area v-if="showUploadArea" @update:modelValue="onFileChange">
+    <photo-upload-area v-if="showUploadArea" @update:model-value="onFileChange">
     </photo-upload-area>
     <div class="orangehrm-photo-input-field">
       <oxd-input-field
         v-if="showUploadButton"
         type="file"
-        @update:modelValue="onFileChange"
+        @update:model-value="onFileChange"
       >
         <oxd-button icon-name="file-image" :label="$t('buzz.add_photos')" />
       </oxd-input-field>
@@ -94,7 +94,7 @@ export default {
     ]);
     const fileSizeValidator = maxFileSize(1024 * 1024 * 2);
 
-    const onFileChange = $file => {
+    const onFileChange = ($file) => {
       if (!$file) return;
       validationMessage.value = '';
       if (fileSizeValidator($file) !== true) {
@@ -110,7 +110,7 @@ export default {
       context.emit('update:modelValue', [...(props.modelValue || []), $file]);
     };
 
-    const onClickRemove = index => {
+    const onClickRemove = (index) => {
       validationMessage.value = '';
       context.emit(
         'update:modelValue',

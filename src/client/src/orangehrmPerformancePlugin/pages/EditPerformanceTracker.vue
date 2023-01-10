@@ -25,7 +25,7 @@
         {{ $t('performance.edit_performance_tracker') }}
       </oxd-text>
       <oxd-divider />
-      <oxd-form :loading="isLoading" @submitValid="onSave">
+      <oxd-form :loading="isLoading" @submit-valid="onSave">
         <oxd-form-row>
           <oxd-grid :cols="2" class="orangehrm-full-width-grid">
             <oxd-grid-item>
@@ -122,11 +122,11 @@ export default {
         employee: [
           required,
           validSelection,
-          value => {
+          (value) => {
             if (value === null) {
               return true;
             }
-            const valid = this.tracker.reviewers.findIndex(reviewer => {
+            const valid = this.tracker.reviewers.findIndex((reviewer) => {
               return reviewer.id === value.id;
             });
             if (valid == -1) {
@@ -145,7 +145,7 @@ export default {
     this.isLoading = true;
     this.http
       .get(this.performanceTrackerId) //performance-tracker-id
-      .then(response => {
+      .then((response) => {
         const {data} = response.data;
         this.isReadOnly = data.ownerEditable === false;
         this.tracker.id = data.id;
@@ -157,7 +157,7 @@ export default {
               isPastEmployee: data.employee.terminationId ? true : false,
             }
           : null;
-        this.tracker.reviewers = data.reviewers.map(employee => {
+        this.tracker.reviewers = data.reviewers.map((employee) => {
           return {
             id: employee.empNumber,
             label: `${employee.firstName} ${employee.middleName} ${employee.lastName}`,
@@ -179,7 +179,9 @@ export default {
       const payload = {
         trackerName: this.tracker.name.trim(),
         empNumber: this.tracker.employee.id,
-        reviewerEmpNumbers: this.tracker.reviewers.map(employee => employee.id),
+        reviewerEmpNumbers: this.tracker.reviewers.map(
+          (employee) => employee.id,
+        ),
       };
       this.http
         .update(this.performanceTrackerId, payload)

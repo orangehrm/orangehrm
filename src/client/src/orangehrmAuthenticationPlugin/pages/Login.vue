@@ -43,7 +43,7 @@
         ref="loginForm"
         method="post"
         :action="submitUrl"
-        @submitValid="onSubmit"
+        @submit-valid="onSubmit"
       >
         <input name="_token" :value="token" type="hidden" />
 

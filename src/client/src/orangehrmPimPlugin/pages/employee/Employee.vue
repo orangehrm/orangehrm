@@ -21,7 +21,7 @@
 <template>
   <div class="orangehrm-background-container">
     <oxd-table-filter :filter-title="$t('pim.employee_information')">
-      <oxd-form @submitValid="filterItems" @reset="filterItems">
+      <oxd-form @submit-valid="filterItems" @reset="filterItems">
         <oxd-form-row>
           <oxd-grid :cols="4" class="orangehrm-full-width-grid">
             <oxd-grid-item>
@@ -170,10 +170,10 @@ export default {
 
   setup(props) {
     const {$t} = usei18n();
-    const dataNormalizer = data => {
-      return data.map(item => {
+    const dataNormalizer = (data) => {
+      return data.map((item) => {
         const selectable = props.unselectableEmpNumbers.findIndex(
-          empNumber => empNumber == item.empNumber,
+          (empNumber) => empNumber == item.empNumber,
         );
         return {
           id: item.empNumber,
@@ -190,7 +190,7 @@ export default {
           supervisor: item.supervisors
             ? item.supervisors
                 .map(
-                  supervisor =>
+                  (supervisor) =>
                     `${supervisor.firstName} ${supervisor.lastName}`,
                 )
                 .join(',')
@@ -363,10 +363,10 @@ export default {
       navigate('/pim/viewPersonalDetails/empNumber/{id}', {id});
     },
     onClickDeleteSelected() {
-      const ids = this.checkedItems.map(index => {
+      const ids = this.checkedItems.map((index) => {
         return this.items?.data[index].id;
       });
-      this.$refs.deleteDialog.showDialog().then(confirmation => {
+      this.$refs.deleteDialog.showDialog().then((confirmation) => {
         if (confirmation === 'ok') {
           this.deleteItems(ids);
         }
@@ -375,12 +375,12 @@ export default {
     onClickDelete(item, $event) {
       $event.stopImmediatePropagation();
       const isSelectable = this.unselectableEmpNumbers.findIndex(
-        empNumber => empNumber == item.id,
+        (empNumber) => empNumber == item.id,
       );
       if (isSelectable > -1) {
         return this.$toast.cannotDelete();
       }
-      this.$refs.deleteDialog.showDialog().then(confirmation => {
+      this.$refs.deleteDialog.showDialog().then((confirmation) => {
         if (confirmation === 'ok') {
           this.deleteItems([item.id]);
         }

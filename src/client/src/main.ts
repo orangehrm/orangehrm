@@ -41,7 +41,7 @@ app.use(toaster, {
   position: 'bottom',
 });
 
-// @ts-expect-error
+// @ts-expect-error: appGlobal is not in window object by default
 const baseUrl = window.appGlobal.baseUrl;
 
 const {i18n, init} = createI18n({

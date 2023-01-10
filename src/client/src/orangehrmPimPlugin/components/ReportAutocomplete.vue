@@ -47,7 +47,7 @@ export default {
   },
   methods: {
     async loadReports(serachParam) {
-      return new Promise(resolve => {
+      return new Promise((resolve) => {
         if (serachParam.trim()) {
           this.http
             .getAll({
@@ -55,7 +55,7 @@ export default {
             })
             .then(({data}) => {
               resolve(
-                data.data.map(report => {
+                data.data.map((report) => {
                   return {
                     id: report.id,
                     label: report.name,

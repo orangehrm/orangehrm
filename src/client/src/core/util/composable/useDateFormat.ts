@@ -24,9 +24,8 @@ type DateFormat = {
   label: string;
 };
 
-export const dateFormatKey: InjectionKey<DateFormat | null> = Symbol(
-  'dateFormat',
-);
+export const dateFormatKey: InjectionKey<DateFormat | null> =
+  Symbol('dateFormat');
 
 export default function useDateFormat() {
   const dateFormat = inject(dateFormatKey);

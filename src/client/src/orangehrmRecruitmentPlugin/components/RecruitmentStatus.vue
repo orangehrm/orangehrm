@@ -155,7 +155,7 @@ export default {
   computed: {
     recruitmentStatus() {
       return (
-        this.statuses.find(item => item.id === this.candidate.status?.id)
+        this.statuses.find((item) => item.id === this.candidate.status?.id)
           ?.label || null
       );
     },
@@ -190,7 +190,7 @@ export default {
   },
   methods: {
     hasWorkflow(actionId) {
-      return this.actions.findIndex(actions => actions.id == actionId) > -1;
+      return this.actions.findIndex((actions) => actions.id == actionId) > -1;
     },
     doWorkflow(actionId) {
       navigate(
@@ -209,7 +209,7 @@ export default {
           method: 'GET',
           url: `api/v2/recruitment/candidates/${this.candidate?.id}/actions/allowed`,
         })
-        .then(response => {
+        .then((response) => {
           const {data} = response.data;
           this.actions = [...data];
         })

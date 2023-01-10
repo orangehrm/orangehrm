@@ -115,7 +115,7 @@ export default {
       state.readMore = !state.readMore;
     };
 
-    const onClickPicture = index => {
+    const onClickPicture = (index) => {
       context.emit('selectPhoto', index);
     };
 

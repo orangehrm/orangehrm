@@ -33,7 +33,7 @@
         :data="comm"
       ></leave-comment>
     </div>
-    <oxd-form :loading="isLoading" @submitValid="onSave">
+    <oxd-form :loading="isLoading" @submit-valid="onSave">
       <oxd-form-row>
         <oxd-input-field
           v-model="comment"
@@ -107,7 +107,7 @@ export default {
     this.isLoading = true;
     this.http
       .getAll({limit: 0})
-      .then(response => {
+      .then((response) => {
         const {data} = response.data;
         this.comments = data;
       })

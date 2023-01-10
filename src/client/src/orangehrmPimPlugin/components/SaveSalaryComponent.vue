@@ -24,7 +24,7 @@
       Add Salary Component
     </oxd-text>
     <oxd-divider />
-    <oxd-form :loading="isLoading" @submitValid="onSave">
+    <oxd-form :loading="isLoading" @submit-valid="onSave">
       <oxd-form-row>
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item>
@@ -272,9 +272,9 @@ export default {
         return this.currencies;
       } else if (paygrade && this.usableCurrencies.length > 0) {
         return this.currencies.filter(
-          item =>
+          (item) =>
             this.usableCurrencies.findIndex(
-              currency => currency.id === item.id,
+              (currency) => currency.id === item.id,
             ) > -1,
         );
       } else {
@@ -283,13 +283,13 @@ export default {
     },
     currencyInfo() {
       return this.usableCurrencies.find(
-        item => item.id === this.salaryComponent.currencyId?.id,
+        (item) => item.id === this.salaryComponent.currencyId?.id,
       );
     },
   },
 
   watch: {
-    'salaryComponent.payGradeId': function(newVal) {
+    'salaryComponent.payGradeId': function (newVal) {
       if (newVal?.id) {
         this.isLoading = true;
         this.http
@@ -298,9 +298,9 @@ export default {
             method: 'GET',
             params: {limit: 0},
           })
-          .then(response => {
+          .then((response) => {
             const {data} = response.data;
-            this.usableCurrencies = data.map(item => {
+            this.usableCurrencies = data.map((item) => {
               return {
                 id: item.currencyType.id,
                 name: item.currencyType.name,
@@ -310,7 +310,7 @@ export default {
             });
             const currency = this.salaryComponent.currencyId;
             const currencyIndex = this.usableCurrencies.findIndex(
-              item => item.id === currency?.id,
+              (item) => item.id === currency?.id,
             );
             this.salaryComponent.currencyId =
               currencyIndex === -1 ? null : this.salaryComponent.currencyId;
@@ -326,11 +326,11 @@ export default {
 
   mounted() {
     this.$nextTick(() => {
-      this.rules.salaryAmount.push(v => {
+      this.rules.salaryAmount.push((v) => {
         const min = this.minAmount ? this.minAmount : 0;
         return v >= min || this.$t('pim.should_be_within_min_max_values');
       });
-      this.rules.salaryAmount.push(v => {
+      this.rules.salaryAmount.push((v) => {
         const max = this.maxAmount ? this.maxAmount : 999999999;
         return v <= max || this.$t('pim.should_be_within_min_max_values');
       });

@@ -51,28 +51,30 @@ export const langStrings: Record<string, IntlMessageFormat> = {};
  * A factory function that will return translator function
  * @return {function(key, parameters): string}
  */
-export const translate = () => (
-  key: string,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  parameters: {[key: string]: any} = {},
-): string => {
-  // IntlMessageFormat.format method will throw error if not every argument in the message pattern
-  // has been provided. sourrounded by try catch to fallback incase of param resolution
-  try {
-    if (!langStrings[key]) return key;
-    const translatedString = langStrings[key].format<string>(parameters);
-    if (Array.isArray(translatedString)) {
-      return typeof translatedString[0] === 'string'
-        ? translatedString[0]
-        : key;
+export const translate =
+  () =>
+  (
+    key: string,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    parameters: {[key: string]: any} = {},
+  ): string => {
+    // IntlMessageFormat.format method will throw error if not every argument in the message pattern
+    // has been provided. sourrounded by try catch to fallback incase of param resolution
+    try {
+      if (!langStrings[key]) return key;
+      const translatedString = langStrings[key].format<string>(parameters);
+      if (Array.isArray(translatedString)) {
+        return typeof translatedString[0] === 'string'
+          ? translatedString[0]
+          : key;
+      }
+      return translatedString;
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error(error);
+      return key;
     }
-    return translatedString;
-  } catch (error) {
-    // eslint-disable-next-line no-console
-    console.error(error);
-    return key;
-  }
-};
+  };
 
 const defineMixin = (): ComponentOptions => {
   return {
@@ -85,8 +87,8 @@ const defineMixin = (): ComponentOptions => {
 function createI18n(options: LanguageOptions) {
   const http = new APIService(options.baseUrl, options.resourceUrl);
   return {
-    init: function() {
-      return new Promise<void>(resolve => {
+    init: function () {
+      return new Promise<void>((resolve) => {
         http
           .request({
             method: 'GET',
@@ -118,7 +120,7 @@ function createI18n(options: LanguageOptions) {
           .finally(() => resolve());
       });
     },
-    i18n: function(app: App) {
+    i18n: function (app: App) {
       app.mixin(defineMixin());
     },
   };

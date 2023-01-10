@@ -187,7 +187,7 @@ export default {
         };
     }
 
-    const onClickDelete = $event => {
+    const onClickDelete = ($event) => {
       context.emit('delete', $event);
     };
 

@@ -21,7 +21,7 @@
 <template>
   <div class="orangehrm-background-container">
     <oxd-table-filter :filter-title="$t('admin.translate_language_package')">
-      <oxd-form @submitValid="onSubmit" @reset="onReset">
+      <oxd-form @submit-valid="onSubmit" @reset="onReset">
         <oxd-form-row>
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
@@ -94,7 +94,7 @@
       <oxd-form
         v-if="total > 0"
         :loading="isLoading"
-        @submitValid="onSubmitLangString"
+        @submit-valid="onSubmitLangString"
         @reset="onReset"
       >
         <div class="orangehrm-header-container">
@@ -241,8 +241,8 @@ export default {
           url: `/api/v2/admin/i18n/languages/${props.languageId}/translations/bulk`,
           data: {
             data: items.value.data
-              .filter(item => item.target !== null && item.modified == true)
-              .map(item => {
+              .filter((item) => item.target !== null && item.modified == true)
+              .map((item) => {
                 return {
                   langStringId: item.langStringId,
                   translatedValue: item.target,

@@ -25,7 +25,7 @@
         {{ $t('time.select_employee') }}
       </oxd-text>
       <oxd-divider />
-      <oxd-form @submitValid="viewTimesheet">
+      <oxd-form @submit-valid="viewTimesheet">
         <oxd-form-row>
           <oxd-grid :cols="2" class="orangehrm-full-width-grid">
             <oxd-grid-item>

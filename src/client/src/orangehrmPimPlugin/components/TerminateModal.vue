@@ -26,7 +26,7 @@
       </oxd-text>
     </div>
     <oxd-divider />
-    <oxd-form :loading="isLoading" @submitValid="onSave">
+    <oxd-form :loading="isLoading" @submit-valid="onSave">
       <oxd-form-row>
         <date-input
           v-model="termination.date"
@@ -136,10 +136,10 @@ export default {
       this.isLoading = true;
       this.http
         .get(this.terminationId)
-        .then(response => {
+        .then((response) => {
           const {data} = response.data;
           this.termination.terminationReason = this.terminationReasons.find(
-            item => item.id === data.terminationReason?.id,
+            (item) => item.id === data.terminationReason?.id,
           );
           this.termination.date = data.date;
           this.termination.note = data.note;

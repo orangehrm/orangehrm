@@ -208,7 +208,7 @@ export default function useTimesheetAPIs(http: APIService) {
     timesheet: Timesheet;
     allowedActions: AllowedAction[];
   }> => {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       http
         .request({
           method: 'GET',

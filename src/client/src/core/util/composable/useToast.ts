@@ -20,8 +20,8 @@ import {getCurrentInstance} from 'vue';
 import {ToasterAPI} from '../../plugins/toaster/toaster';
 
 export default function useToast() {
-  const $toast: ToasterAPI | undefined = getCurrentInstance()?.appContext.config
-    .globalProperties.$toast;
+  const $toast: ToasterAPI | undefined =
+    getCurrentInstance()?.appContext.config.globalProperties.$toast;
 
   /**
    * typesafe & nullsafe wrapper for functions

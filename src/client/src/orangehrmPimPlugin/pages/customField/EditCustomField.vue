@@ -27,7 +27,7 @@
 
       <oxd-divider />
 
-      <oxd-form :loading="isLoading" @submitValid="onSave">
+      <oxd-form :loading="isLoading" @submit-valid="onSave">
         <oxd-form-row>
           <oxd-grid :cols="2" class="orangehrm-full-width-grid">
             <oxd-grid-item class="organization-name-container">
@@ -162,16 +162,16 @@ export default {
     this.isLoading = true;
     this.http
       .get(this.customFieldId)
-      .then(response => {
+      .then((response) => {
         const {data} = response.data;
         this.customField.fieldName = data.fieldName;
         if (data.screen !== '' && data.screen !== null) {
-          this.customField.screen = this.screenList.find(c => {
+          this.customField.screen = this.screenList.find((c) => {
             return c.id === data.screen;
           });
         }
         if (data.fieldType !== '' && data.fieldType !== null) {
-          this.customField.fieldType = this.fieldTypeList.find(c => {
+          this.customField.fieldType = this.fieldTypeList.find((c) => {
             return c.id === data.fieldType;
           });
         }
@@ -180,10 +180,10 @@ export default {
         // Fetch list data for unique test
         return this.http.getAll();
       })
-      .then(response => {
+      .then((response) => {
         const {data} = response.data;
-        this.rules.fieldName.push(v => {
-          const index = data.findIndex(item => item.fieldName === v);
+        this.rules.fieldName.push((v) => {
+          const index = data.findIndex((item) => item.fieldName === v);
           if (index > -1) {
             const id = data[index].id;
             return id != this.customFieldId

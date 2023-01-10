@@ -30,7 +30,7 @@
         {{ $t('pim.job_details') }}
       </oxd-text>
       <oxd-divider />
-      <oxd-form :loading="isLoading" @submitValid="onSave">
+      <oxd-form :loading="isLoading" @submit-valid="onSave">
         <oxd-form-row>
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
@@ -304,7 +304,7 @@ export default {
           endDateShouldBeAfterStartDate(() => this.contract.startDate),
         ],
         contractAttachment: [
-          v => {
+          (v) => {
             if (this.contract.method == 'replaceCurrent') {
               return required(v);
             } else {
@@ -335,7 +335,7 @@ export default {
       return this.$can.update(`job_details`);
     },
     normalizedJobTitles() {
-      return this.jobTitles.map(jobTitle => {
+      return this.jobTitles.map((jobTitle) => {
         return {
           id: jobTitle.id,
           label: jobTitle?.deleted
@@ -357,7 +357,7 @@ export default {
     this.isLoading = true;
     this.http
       .getAll()
-      .then(response => {
+      .then((response) => {
         this.updateJobModel(response);
       })
       .then(() => {
@@ -366,7 +366,7 @@ export default {
           url: `api/v2/pim/employees/${this.empNumber}/employment-contract`,
         });
       })
-      .then(response => {
+      .then((response) => {
         this.updateContractModel(response);
       })
       .finally(() => {
@@ -389,7 +389,7 @@ export default {
             locationId: this.job.locationId?.id,
           },
         })
-        .then(response => {
+        .then((response) => {
           this.updateJobModel(response);
           return this.http.request({
             method: 'PUT',
@@ -406,7 +406,7 @@ export default {
             },
           });
         })
-        .then(response => {
+        .then((response) => {
           if (response) {
             this.updateContractModel(response);
           }
@@ -468,19 +468,19 @@ export default {
       const {data} = response.data;
       this.job.joinedDate = data.joinedDate;
       this.job.jobTitleId = this.normalizedJobTitles.find(
-        item => item.id === data.jobTitle?.id,
+        (item) => item.id === data.jobTitle?.id,
       );
       this.job.jobCategoryId = this.jobCategories.find(
-        item => item.id === data.jobCategory?.id,
+        (item) => item.id === data.jobCategory?.id,
       );
       this.job.subunitId = this.subunits.find(
-        item => item.id === data.subunit?.id,
+        (item) => item.id === data.subunit?.id,
       );
       this.job.empStatusId = this.employmentStatuses.find(
-        item => item.id === data.empStatus?.id,
+        (item) => item.id === data.empStatus?.id,
       );
       this.job.locationId = this.locations.find(
-        item => item.id === data.location?.id,
+        (item) => item.id === data.location?.id,
       );
       this.termination = data.employeeTerminationRecord;
     },

@@ -57,7 +57,7 @@ export default {
       new APIService(window.appGlobal.baseUrl, ''),
     );
 
-    const onClickAction = actionType => {
+    const onClickAction = (actionType) => {
       switch (actionType) {
         case 'comment':
           context.emit('comment');

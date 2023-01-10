@@ -91,7 +91,7 @@ export default {
     const rules = {
       url: [
         required,
-        promiseDebounce(async value => {
+        promiseDebounce(async (value) => {
           if (!value) return true;
           state.embedURL = null;
           const response = await http.request({

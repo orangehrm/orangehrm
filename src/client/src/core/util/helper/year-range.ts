@@ -16,7 +16,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-export const yearRange = function(
+export const yearRange = function (
   range = 100,
   fromYear = new Date().getFullYear(),
 ) {

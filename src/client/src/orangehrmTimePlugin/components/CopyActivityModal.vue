@@ -26,7 +26,7 @@
       </oxd-text>
     </div>
     <oxd-divider />
-    <oxd-form :loading="isLoading" @submitValid="onSave">
+    <oxd-form :loading="isLoading" @submit-valid="onSave">
       <oxd-form-row>
         <project-autocomplete
           v-model="project"
@@ -110,7 +110,7 @@ export default {
               this.selectedActivities.length === 0
             ) {
               const hasUnique = this.activities.find(
-                activity => activity.unique === true,
+                (activity) => activity.unique === true,
               );
               return hasUnique
                 ? this.$t('time.no_activities_selected')
@@ -135,13 +135,13 @@ export default {
             url: `api/v2/time/projects/${this.projectId}/activities/copy/${value.id}`,
             params: {limit: 0},
           })
-          .then(response => {
+          .then((response) => {
             const {data} = response.data;
             this.activities = data;
             this.selectedActivities = Array.isArray(data)
               ? data
-                  .filter(activity => activity.unique === true)
-                  .map(activity => activity.id)
+                  .filter((activity) => activity.unique === true)
+                  .map((activity) => activity.id)
               : [];
             this.isLoading = false;
           });

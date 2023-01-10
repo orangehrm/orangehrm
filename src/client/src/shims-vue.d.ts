@@ -16,7 +16,6 @@
  * Boston, MA  02110-1301, USA
  */
 
-
 /* eslint-disable */
 declare module '*.vue' {
   import type { DefineComponent } from 'vue'

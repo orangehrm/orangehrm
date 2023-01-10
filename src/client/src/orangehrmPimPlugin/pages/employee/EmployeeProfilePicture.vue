@@ -25,7 +25,7 @@
         {{ $t('pim.change_profile_picture') }}
       </oxd-text>
       <oxd-divider />
-      <oxd-form :loading="isLoading" @submitValid="onSave">
+      <oxd-form :loading="isLoading" @submit-valid="onSave">
         <oxd-form-row>
           <div class="orangehrm-employee-picture">
             <profile-image-input
@@ -104,7 +104,7 @@ export default {
         const file = this.empPicture.base64;
         const type = this.empPicture.type;
         const isPicture = this.allowedImageTypes.findIndex(
-          item => item === type,
+          (item) => item === type,
         );
         return isPicture > -1 ? `data:${type};base64,${file}` : defaultPic;
       } else {

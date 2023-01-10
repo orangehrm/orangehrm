@@ -88,9 +88,11 @@ export default {
     },
   },
   setup(props) {
-    const customerNormalizer = data => {
-      return data.map(item => {
-        const selectable = props.unselectableIds.findIndex(id => id == item.id);
+    const customerNormalizer = (data) => {
+      return data.map((item) => {
+        const selectable = props.unselectableIds.findIndex(
+          (id) => id == item.id,
+        );
         return {
           id: item.id,
           name: item.name,
@@ -188,17 +190,19 @@ export default {
       navigate('/time/addCustomer/{id}', {id: item.id});
     },
     onClickDeleteSelected() {
-      const ids = this.checkedItems.map(index => {
+      const ids = this.checkedItems.map((index) => {
         return this.items?.data[index].id;
       });
-      this.$refs.deleteDialog.showDialog().then(confirmation => {
+      this.$refs.deleteDialog.showDialog().then((confirmation) => {
         if (confirmation === 'ok') {
           this.deleteItems(ids);
         }
       });
     },
     onClickDelete(item) {
-      const isSelectable = this.unselectableIds.findIndex(id => id == item.id);
+      const isSelectable = this.unselectableIds.findIndex(
+        (id) => id == item.id,
+      );
       if (isSelectable > -1) {
         return this.$toast.error({
           title: this.$t('general.error'),
@@ -207,7 +211,7 @@ export default {
           ),
         });
       }
-      this.$refs.deleteDialog.showDialog().then(confirmation => {
+      this.$refs.deleteDialog.showDialog().then((confirmation) => {
         if (confirmation === 'ok') {
           this.deleteItems([item.id]);
         }

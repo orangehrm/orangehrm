@@ -27,7 +27,7 @@
 
       <oxd-divider />
 
-      <oxd-form :loading="isLoading" @submitValid="onSave">
+      <oxd-form :loading="isLoading" @submit-valid="onSave">
         <oxd-form-row>
           <oxd-input-field
             v-model="reportingMethod.name"
@@ -96,17 +96,17 @@ export default {
     this.isLoading = true;
     this.http
       .get(this.reportingMethodId)
-      .then(response => {
+      .then((response) => {
         const {data} = response.data;
         this.reportingMethod.id = data.id;
         this.reportingMethod.name = data.name;
         // Fetch list data for unique test
         return this.http.getAll({limit: 0});
       })
-      .then(response => {
+      .then((response) => {
         const {data} = response.data;
-        this.rules.name.push(v => {
-          const index = data.findIndex(item => item.name === v);
+        this.rules.name.push((v) => {
+          const index = data.findIndex((item) => item.name === v);
           if (index > -1) {
             const {id} = data[index];
             return id !== this.reportingMethod.id

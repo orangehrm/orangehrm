@@ -100,7 +100,7 @@ export default function useEmployeeReport(
 
   const getAllDisplayFieldsByGroupId = (groupId: number) => {
     const fieldGroup = displayFields.find(
-      group => group.field_group_id === groupId,
+      (group) => group.field_group_id === groupId,
     );
     return fieldGroup ? fieldGroup.fields : [];
   };
@@ -111,7 +111,7 @@ export default function useEmployeeReport(
       ? selectedFieldGroup.fields
       : [];
     return getAllDisplayFieldsByGroupId(groupId).filter(
-      field => !usedDisplayFields.find(f => f.id === field.id),
+      (field) => !usedDisplayFields.find((f) => f.id === field.id),
     );
   };
 
@@ -138,7 +138,7 @@ export default function useEmployeeReport(
     const displayField = state.report.displayField;
     if (fieldGroup) {
       const groupIndex = state.report.fieldGroupSelected.findIndex(
-        group => group.id === fieldGroup.id,
+        (group) => group.id === fieldGroup.id,
       );
       if (groupIndex === -1) {
         state.report.fieldGroupSelected.push(fieldGroup);
@@ -153,11 +153,13 @@ export default function useEmployeeReport(
         );
         state.report.displayField = null;
       } else {
-        getUnusedDisplayFieldsByGroupId(fieldGroup.id).forEach(displayField => {
-          state.report.displayFieldSelected[fieldGroup.id].fields.push(
-            displayField,
-          );
-        });
+        getUnusedDisplayFieldsByGroupId(fieldGroup.id).forEach(
+          (displayField) => {
+            state.report.displayFieldSelected[fieldGroup.id].fields.push(
+              displayField,
+            );
+          },
+        );
       }
       // unselect fieldGroup if all fields are used
       if (getUnusedDisplayFieldsByGroupId(fieldGroup.id).length === 0) {
@@ -176,7 +178,7 @@ export default function useEmployeeReport(
     const fieldGroup = state.report.fieldGroupSelected[index];
     const fields = state.report.displayFieldSelected[fieldGroup.id].fields;
     state.report.displayFieldSelected[fieldGroup.id].fields = fields.filter(
-      field => field.id !== item.id,
+      (field) => field.id !== item.id,
     );
     // remove field group if no fields
     if (state.report.displayFieldSelected[fieldGroup.id].fields.length === 0) {
@@ -191,16 +193,16 @@ export default function useEmployeeReport(
       criteria: {},
       fieldGroup: {},
     };
-    reportModel.fieldGroupSelected.forEach(group => {
+    reportModel.fieldGroupSelected.forEach((group) => {
       const fields = reportModel.displayFieldSelected[group.id].fields;
       const includeHeader =
         reportModel.displayFieldSelected[group.id].includeHeader;
       payload.fieldGroup[group.id] = {
-        fields: fields.map(field => field.id),
+        fields: fields.map((field) => field.id),
         includeHeader,
       };
     });
-    reportModel.criteriaSelected.forEach(criterion => {
+    reportModel.criteriaSelected.forEach((criterion) => {
       const criteriaField = reportModel.criteriaFieldValues[criterion.id];
       payload.criteria[criterion.id] = {
         operator: criteriaField.operator ? criteriaField.operator.id : '',
@@ -220,14 +222,14 @@ export default function useEmployeeReport(
 
   const availableCriteria = computed(() => {
     return selectionCriteria.filter(
-      criterion =>
-        !state.report.criteriaSelected.find(c => c.id === criterion.id),
+      (criterion) =>
+        !state.report.criteriaSelected.find((c) => c.id === criterion.id),
     );
   });
 
   const availableFieldGroups = computed(() => {
     return displayFieldGroups.filter(
-      group => getUnusedDisplayFieldsByGroupId(group.id).length !== 0,
+      (group) => getUnusedDisplayFieldsByGroupId(group.id).length !== 0,
     );
   });
 

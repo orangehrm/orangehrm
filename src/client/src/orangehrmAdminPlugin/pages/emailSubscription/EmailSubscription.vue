@@ -57,8 +57,8 @@ import usei18n from '@/core/util/composable/usei18n';
 export default {
   setup() {
     const {$t} = usei18n();
-    const subscribersNormalizer = data => {
-      return data.map(item => {
+    const subscribersNormalizer = (data) => {
+      return data.map((item) => {
         const subscribers = Array.isArray(item.subscribers)
           ? item.subscribers.slice(0, 10)
           : [];
@@ -84,7 +84,7 @@ export default {
           id: item.id,
           type: _type,
           subscribers: subscribers
-            .map(sub => {
+            .map((sub) => {
               return `${sub.name} <${sub.email}>`;
             })
             .join(', '),
@@ -152,13 +152,13 @@ export default {
         component: SwitchInput,
         props: {
           modelValue: row.enabled,
-          'onUpdate:modelValue': $event => {
+          'onUpdate:modelValue': ($event) => {
             this.items.data[index]._loading = true;
             this.http
               .update(row.id, {
                 enabled: $event,
               })
-              .then(response => {
+              .then((response) => {
                 const {data} = response.data;
                 this.items.data[index].enabled = data.isEnabled;
                 this.$toast.updateSuccess();

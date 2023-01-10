@@ -27,7 +27,7 @@
       }"
       :rules="rules"
       :model-value="valueX"
-      @update:modelValue="$emit('update:valueX', $event)"
+      @update:model-value="$emit('update:valueX', $event)"
     ></employee-autocomplete>
   </oxd-grid-item>
 </template>

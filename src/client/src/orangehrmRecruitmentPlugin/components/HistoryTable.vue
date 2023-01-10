@@ -92,10 +92,11 @@ export default {
       `/api/v2/recruitment/candidates/${props.candidate?.id}/history`,
     );
 
-    const historyDataNormalizer = data => {
-      const candidateName = `${props.candidate?.firstName} ${props.candidate
-        ?.middleName || ''} ${props.candidate?.lastName}`;
-      return data.map(item => {
+    const historyDataNormalizer = (data) => {
+      const candidateName = `${props.candidate?.firstName} ${
+        props.candidate?.middleName || ''
+      } ${props.candidate?.lastName}`;
+      return data.map((item) => {
         let description = null;
         const interview = {
           name: '',
@@ -109,12 +110,14 @@ export default {
         if (item.interview) {
           interview.name = item.interview.name;
           interview.date = item.interview.date;
-          const interviewers = item.interview.interviewers.map(interviewer => {
-            return $tEmpName(interviewer, {
-              includeMiddle: true,
-              excludePastEmpTag: false,
-            });
-          });
+          const interviewers = item.interview.interviewers.map(
+            (interviewer) => {
+              return $tEmpName(interviewer, {
+                includeMiddle: true,
+                excludePastEmpTag: false,
+              });
+            },
+          );
           interview.interviewers = interviewers.join(', ');
         }
 

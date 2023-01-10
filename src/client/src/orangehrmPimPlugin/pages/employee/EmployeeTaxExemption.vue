@@ -25,7 +25,7 @@
         {{ $t('general.tax_exemptions') }}
       </oxd-text>
       <oxd-divider />
-      <oxd-form :loading="isLoading" @submitValid="onSave">
+      <oxd-form :loading="isLoading" @submit-valid="onSave">
         <oxd-text class="orangehrm-sub-title" tag="h6">
           {{ $t('pim.federal_income_tax') }}
         </oxd-text>
@@ -166,7 +166,7 @@ export default {
       taxExemption: {...taxExemptionModel},
       rules: {
         federalExemptions: [
-          v => {
+          (v) => {
             return (
               v.match(/^\d*\.?\d*$/) !== null ||
               this.$t('general.should_be_a_positive_number')
@@ -175,7 +175,7 @@ export default {
           shouldNotExceedCharLength(2),
         ],
         stateExemptions: [
-          v => {
+          (v) => {
             return (
               v.match(/^\d*\.?\d*$/) !== null ||
               this.$t('general.should_be_a_positive_number')
@@ -191,7 +191,7 @@ export default {
     this.isLoading = true;
     this.http
       .getAll()
-      .then(response => {
+      .then((response) => {
         this.updateModel(response);
       })
       .finally(() => {
@@ -215,7 +215,7 @@ export default {
             workStateCode: this.taxExemption.workState?.id,
           },
         })
-        .then(response => {
+        .then((response) => {
           this.updateModel(response);
           return this.$toast.updateSuccess();
         })
@@ -229,19 +229,19 @@ export default {
       this.taxExemption.federalExemptions = data.federalExemptions;
       this.taxExemption.stateExemptions = data.stateExemptions;
       this.taxExemption.taxState = this.provinces.find(
-        item => item.id === data.taxState.code,
+        (item) => item.id === data.taxState.code,
       );
       this.taxExemption.unemploymentState = this.provinces.find(
-        item => item.id === data.unemploymentState.code,
+        (item) => item.id === data.unemploymentState.code,
       );
       this.taxExemption.workState = this.provinces.find(
-        item => item.id === data.workState.code,
+        (item) => item.id === data.workState.code,
       );
       this.taxExemption.federalStatus = this.statuses.find(
-        item => item.id === data.federalStatus,
+        (item) => item.id === data.federalStatus,
       );
       this.taxExemption.stateStatus = this.statuses.find(
-        item => item.id === data.stateStatus,
+        (item) => item.id === data.stateStatus,
       );
     },
   },

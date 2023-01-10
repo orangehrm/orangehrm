@@ -25,7 +25,7 @@
       :model-value="fromTime"
       :rules="rules.fromTime"
       required
-      @update:modelValue="$emit('update:fromTime', $event)"
+      @update:model-value="$emit('update:fromTime', $event)"
     />
   </oxd-grid-item>
   <oxd-grid-item>
@@ -34,7 +34,7 @@
       :model-value="toTime"
       :rules="rules.toTime"
       required
-      @update:modelValue="$emit('update:toTime', $event)"
+      @update:model-value="$emit('update:toTime', $event)"
     />
   </oxd-grid-item>
 </template>

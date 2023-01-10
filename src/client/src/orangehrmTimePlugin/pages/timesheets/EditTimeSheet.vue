@@ -26,7 +26,7 @@
       :loading="isLoading"
       :timesheet-id="timesheetId"
       :columns="timesheetColumns"
-      @submitValid="onSave"
+      @submit-valid="onSave"
     >
       <template #header-title>
         <oxd-text tag="h6" class="orangehrm-main-title">
@@ -110,11 +110,8 @@ export default {
     let timesheetModal = [];
 
     const {saveSuccess} = useToast();
-    const {
-      state,
-      fetchTimesheetEntries,
-      updateTimesheetEntries,
-    } = useTimesheetAPIs(http);
+    const {state, fetchTimesheetEntries, updateTimesheetEntries} =
+      useTimesheetAPIs(http);
     const {jsDateFormat} = useDateFormat();
     const {locale} = useLocale();
     const {$tEmpName} = useEmployeeNameTranslate();
@@ -124,7 +121,7 @@ export default {
       timesheetModal = [];
       state.timesheetRecords = [];
       fetchTimesheetEntries(props.timesheetId, !props.myTimesheet).then(
-        response => {
+        (response) => {
           const {data, meta, timesheet, allowedActions} = response;
           state.timesheet = timesheet;
           state.employee = meta.employee;
@@ -177,7 +174,7 @@ export default {
     const onSave = () => {
       state.isLoading = true;
       const payload = {
-        entries: state.timesheetRecords.map(record => {
+        entries: state.timesheetRecords.map((record) => {
           const dates = {};
           for (const date in record.dates) {
             const _duration = parseTimeInSeconds(record.dates[date].duration);
@@ -192,17 +189,17 @@ export default {
           };
         }),
         deletedEntries: timesheetModal
-          .filter(record => {
+          .filter((record) => {
             if (!record.project) return false;
             return (
               state.timesheetRecords.findIndex(
-                item =>
+                (item) =>
                   item.project.id === record.project.id &&
                   item.activity.id === record.activity.id,
               ) < 0
             );
           })
-          .map(record => ({
+          .map((record) => ({
             projectId: record.project.id,
             activityId: record.activity.id,
           })),

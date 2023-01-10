@@ -29,7 +29,7 @@
       </oxd-text>
     </div>
     <oxd-divider />
-    <oxd-form :loading="isLoading" @submitValid="onSave">
+    <oxd-form :loading="isLoading" @submit-valid="onSave">
       <oxd-form-row>
         <oxd-input-field
           v-model="trackerLog.log"
@@ -138,7 +138,7 @@ export default {
     this.isLoading = true;
     this.http
       .get(this.trackerLogId)
-      .then(response => {
+      .then((response) => {
         const {data} = response.data;
         this.trackerLog.log = data.log;
         this.trackerLog.comment = data.comment;

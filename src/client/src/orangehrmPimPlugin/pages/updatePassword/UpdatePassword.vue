@@ -26,7 +26,7 @@
       }}</oxd-text>
       <oxd-divider />
 
-      <oxd-form ref="formRef" :loading="isLoading" @submitValid="onSave">
+      <oxd-form ref="formRef" :loading="isLoading" @submit-valid="onSave">
         <oxd-form-row>
           <oxd-grid :cols="2" class="orangehrm-full-width-grid">
             <oxd-grid-item>
@@ -129,7 +129,7 @@ export default {
           currentPassword: this.user.currentPassword,
           newPassword: this.user.password,
         })
-        .then(response => {
+        .then((response) => {
           if (response.status === 200) {
             this.$toast.saveSuccess();
           } else {

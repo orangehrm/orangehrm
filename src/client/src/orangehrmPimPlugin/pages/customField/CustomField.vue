@@ -108,16 +108,18 @@ export default {
       window.appGlobal.baseUrl,
       '/api/v2/pim/custom-fields',
     );
-    const dataNormalizer = data => {
-      return data.map(item => {
-        const selectable = props.unselectableIds.findIndex(id => id == item.id);
+    const dataNormalizer = (data) => {
+      return data.map((item) => {
+        const selectable = props.unselectableIds.findIndex(
+          (id) => id == item.id,
+        );
         return {
           id: item.id,
           fieldName: item.fieldName,
-          screen: props.screenList.filter(screen => {
+          screen: props.screenList.filter((screen) => {
             return item.screen === screen.id;
           })[0].label,
-          fieldType: props.fieldTypeList.filter(fieldType => {
+          fieldType: props.fieldTypeList.filter((fieldType) => {
             return item.fieldType === fieldType.id;
           })[0].label,
           extraData: item.extraData,
@@ -204,24 +206,26 @@ export default {
       navigate('/pim/saveCustomFields/{id}', {id: item.id});
     },
     onClickDeleteSelected() {
-      const ids = this.checkedItems.map(index => {
+      const ids = this.checkedItems.map((index) => {
         return this.items?.data[index].id;
       });
-      this.$refs.deleteDialog.showDialog().then(confirmation => {
+      this.$refs.deleteDialog.showDialog().then((confirmation) => {
         if (confirmation === 'ok') {
           this.deleteItems(ids);
         }
       });
     },
     onClickDelete(item) {
-      const isSelectable = this.unselectableIds.findIndex(id => id == item.id);
+      const isSelectable = this.unselectableIds.findIndex(
+        (id) => id == item.id,
+      );
       if (isSelectable > -1) {
         return this.$toast.error({
           title: this.$t('general.error'),
           message: this.$t('pim.custom_fields_in_use'),
         });
       }
-      this.$refs.deleteDialog.showDialog().then(confirmation => {
+      this.$refs.deleteDialog.showDialog().then((confirmation) => {
         if (confirmation === 'ok') {
           this.deleteItems([item.id]);
         }

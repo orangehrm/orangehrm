@@ -26,7 +26,7 @@
       </oxd-text>
       <oxd-divider />
 
-      <oxd-form :loading="isLoading" @submitValid="onSave">
+      <oxd-form :loading="isLoading" @submit-valid="onSave">
         <oxd-form-row>
           <oxd-grid :cols="2" class="orangehrm-full-width-grid">
             <oxd-grid-item>
@@ -100,13 +100,13 @@ export default {
     this.isLoading = true;
     this.http
       .getAll()
-      .then(response => {
+      .then((response) => {
         const {data} = response.data;
         this.configuration.language = this.languageList.find(
-          item => item.id === data.language,
+          (item) => item.id === data.language,
         );
         this.configuration.dateFormat = this.dateFormatList.find(
-          item => item.id === data.dateFormat,
+          (item) => item.id === data.dateFormat,
         );
       })
       .finally(() => (this.isLoading = false));

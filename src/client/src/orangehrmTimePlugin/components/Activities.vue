@@ -118,9 +118,11 @@ export default {
       `/api/v2/time/project/${props.projectId}/activities`,
     );
 
-    const activitiesNormalizer = data => {
-      return data.map(item => {
-        const selectable = props.unselectableIds.findIndex(id => id == item.id);
+    const activitiesNormalizer = (data) => {
+      return data.map((item) => {
+        const selectable = props.unselectableIds.findIndex(
+          (id) => id == item.id,
+        );
         return {
           ...item,
           isSelectable: selectable === -1,
@@ -213,17 +215,19 @@ export default {
     },
     onClickDeleteSelected() {
       const ids = [];
-      this.checkedItems.forEach(index => {
+      this.checkedItems.forEach((index) => {
         ids.push(this.items?.data[index].id);
       });
-      this.$refs.deleteDialog.showDialog().then(confirmation => {
+      this.$refs.deleteDialog.showDialog().then((confirmation) => {
         if (confirmation === 'ok') {
           this.deleteItems(ids);
         }
       });
     },
     onClickDelete(item) {
-      const isSelectable = this.unselectableIds.findIndex(id => id == item.id);
+      const isSelectable = this.unselectableIds.findIndex(
+        (id) => id == item.id,
+      );
       if (isSelectable > -1) {
         return this.$toast.error({
           title: this.$t('general.error'),
@@ -232,7 +236,7 @@ export default {
           ),
         });
       }
-      this.$refs.deleteDialog.showDialog().then(confirmation => {
+      this.$refs.deleteDialog.showDialog().then((confirmation) => {
         if (confirmation === 'ok') {
           this.deleteItems([item.id]);
         }

@@ -70,7 +70,7 @@ export default {
     this.isLoading = true;
     this.http
       .getAll()
-      .then(response => {
+      .then((response) => {
         const {data, meta} = response.data;
 
         const colors = [
@@ -95,7 +95,7 @@ export default {
                 }
               : false;
           })
-          .filter(item => item);
+          .filter((item) => item);
 
         if (meta?.otherEmployeeCount) {
           this.dataset.push({

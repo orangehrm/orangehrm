@@ -21,7 +21,7 @@
 <template>
   <div class="orangehrm-candidate-page">
     <oxd-table-filter :filter-title="$t('general.candidates')">
-      <oxd-form @submitValid="filterItems" @reset="onReset">
+      <oxd-form @submit-valid="filterItems" @reset="onReset">
         <oxd-form-row>
           <oxd-grid :cols="4" class="orangehrm-full-width-grid">
             <oxd-grid-item>
@@ -52,9 +52,9 @@
               <oxd-input-field
                 v-model="filters.keywords"
                 :label="$t('recruitment.keywords')"
-                :placeholder="
-                  `${$t('recruitment.enter_comma_seperated_words')}...`
-                "
+                :placeholder="`${$t(
+                  'recruitment.enter_comma_seperated_words',
+                )}...`"
               />
             </oxd-grid-item>
             <oxd-grid-item>
@@ -211,8 +211,8 @@ export default {
     const {jsDateFormat, userDateFormat} = useDateFormat();
     const {$tEmpName} = useEmployeeNameTranslate();
 
-    const candidateDataNormalizer = data => {
-      return data.map(item => {
+    const candidateDataNormalizer = (data) => {
+      return data.map((item) => {
         return {
           id: item.id,
           vacancy:
@@ -416,17 +416,17 @@ export default {
       navigate('/recruitment/addCandidate/{id}', {id: item.id});
     },
     onClickDeleteSelected() {
-      const ids = this.checkedItems.map(index => {
+      const ids = this.checkedItems.map((index) => {
         return this.items?.data[index].id;
       });
-      this.$refs.deleteDialog.showDialog().then(confirmation => {
+      this.$refs.deleteDialog.showDialog().then((confirmation) => {
         if (confirmation === 'ok') {
           this.deleteItems(ids);
         }
       });
     },
     onClickDelete(item) {
-      this.$refs.deleteDialog.showDialog().then(confirmation => {
+      this.$refs.deleteDialog.showDialog().then((confirmation) => {
         if (confirmation === 'ok') {
           this.deleteItems([item.id]);
         }

@@ -22,7 +22,7 @@
   <div class="orangehrm-comment-wrapper">
     <profile-image :employee="data.employee"></profile-image>
     <div class="orangehrm-post-comment">
-      <oxd-form v-if="edit" @submitValid="onSubmit">
+      <oxd-form v-if="edit" @submit-valid="onSubmit">
         <oxd-input-field
           v-model="comment"
           v-autofocus

@@ -27,7 +27,7 @@
 
       <oxd-divider />
 
-      <oxd-form :loading="isLoading" @submitValid="onSave">
+      <oxd-form :loading="isLoading" @submit-valid="onSave">
         <oxd-form-row>
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
@@ -171,10 +171,10 @@ export default {
       today.getDate();
     this.http
       .getAll({fromDate: startDate, toDate: endDate, limit: 0})
-      .then(response => {
+      .then((response) => {
         const {data} = response.data;
-        this.rules.date.push(v => {
-          const index = data.findIndex(item => item.date == v);
+        this.rules.date.push((v) => {
+          const index = data.findIndex((item) => item.date == v);
           return index === -1 || this.$t('general.already_exists');
         });
       })

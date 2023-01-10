@@ -337,7 +337,7 @@ const guessTimezone = () => {
   if (timezoneName === undefined) {
     // assign timezone manually
     const resolvedTz = defaultTimezones.find(
-      tz => tz.offset === timezoneOffset,
+      (tz) => tz.offset === timezoneOffset,
     );
     timezoneName = resolvedTz ? resolvedTz.label : defaultTimezones[0].label;
   }

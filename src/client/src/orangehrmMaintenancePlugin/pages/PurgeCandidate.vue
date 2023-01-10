@@ -72,7 +72,7 @@ export default {
   methods: {
     onClickPurge(vacancy) {
       const vacancyId = vacancy;
-      this.$refs.purgeDialog.showDialog().then(confirmation => {
+      this.$refs.purgeDialog.showDialog().then((confirmation) => {
         if (confirmation === 'ok') {
           this.purgeCandidates(vacancyId);
         }

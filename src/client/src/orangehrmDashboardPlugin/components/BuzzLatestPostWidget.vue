@@ -98,9 +98,9 @@ export default {
     onBeforeMount(() => {
       isLoading.value = true;
       fetchPosts(5, 0, 'DESC', 'share.createdAtUtc')
-        .then(response => {
+        .then((response) => {
           const {data} = response.data;
-          posts.value = data.map(post => {
+          posts.value = data.map((post) => {
             const {employee, createdDate, createdTime, originalPost} = post;
 
             const postVideoSrc = post.video?.link || null;

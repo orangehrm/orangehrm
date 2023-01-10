@@ -51,7 +51,7 @@ export default {
     type: {
       type: String,
       required: true,
-      validator: function(value) {
+      validator: function (value) {
         return ['positive', 'negative'].indexOf(value) !== -1;
       },
     },

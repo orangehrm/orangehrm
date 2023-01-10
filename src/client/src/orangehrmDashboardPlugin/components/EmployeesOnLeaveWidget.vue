@@ -125,9 +125,9 @@ export default {
       .getAll({
         date: formatDate(freshDate(), 'yyyy-MM-dd'),
       })
-      .then(response => {
+      .then((response) => {
         const {data, meta} = response.data;
-        this.leaveList = data.map(item => {
+        this.leaveList = data.map((item) => {
           const {employee, leaveType, duration} = item;
           let _leaveType = leaveType?.name;
           if (_leaveType && duration === 'half_day_morning') {

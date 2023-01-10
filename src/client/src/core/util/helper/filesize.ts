@@ -26,7 +26,7 @@ const GIGA_BYTE = 1073741824; // 1024 * 1024 * 1024
  * @param {number|null} digits
  * @param {boolean} withSuffix
  */
-export const convertFilesizeToString = function(
+export const convertFilesizeToString = function (
   value: string | number,
   digits?: number,
   withSuffix = true,

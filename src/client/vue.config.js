@@ -5,7 +5,7 @@ module.exports = {
   css: {
     loaderOptions: {
       sass: {
-        prependData: `@import "@/core/styles/_variables.scss";`,
+        additionalData: `@import "@/core/styles/_variables.scss";`,
       },
     },
     extract: true,
@@ -21,7 +21,7 @@ module.exports = {
     },
     plugins: [new DumpBuildTimestampPlugin()],
   },
-  chainWebpack: config => {
+  chainWebpack: (config) => {
     config.plugins.delete('html');
     config.plugins.delete('preload');
     config.plugins.delete('prefetch');

@@ -39,7 +39,7 @@ export default {
     );
     onBeforeMount(() => {
       http.getAll().then(({data}) => {
-        options.value = data.data.map(item => {
+        options.value = data.data.map((item) => {
           return {
             id: item.id,
             label: item.label,

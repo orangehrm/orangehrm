@@ -101,7 +101,7 @@ export default {
             entitlement: this.data.entitlement,
           },
         })
-        .then(response => {
+        .then((response) => {
           const {data} = response.data;
           this.current = data.entitlement?.current
             ? parseFloat(data.entitlement.current).toFixed(2)

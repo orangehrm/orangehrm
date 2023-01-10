@@ -22,7 +22,7 @@
   <oxd-table-filter
     :filter-title="$t('attendance.employee_attendance_records')"
   >
-    <oxd-form @submitValid="filterItems">
+    <oxd-form @submit-valid="filterItems">
       <oxd-form-row>
         <oxd-grid :cols="4" class="orangehrm-full-width-grid">
           <oxd-grid-item>
@@ -129,8 +129,8 @@ export default {
       };
     });
 
-    const attendanceRecordNormalizer = data => {
-      return data.map(item => {
+    const attendanceRecordNormalizer = (data) => {
+      return data.map((item) => {
         return {
           id: item.empNumber,
           empName: $tEmpName(item, {

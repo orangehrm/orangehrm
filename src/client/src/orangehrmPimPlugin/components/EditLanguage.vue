@@ -24,7 +24,7 @@
       $t('general.edit_language')
     }}</oxd-text>
     <oxd-divider />
-    <oxd-form :loading="isLoading" @submitValid="onSave">
+    <oxd-form :loading="isLoading" @submit-valid="onSave">
       <oxd-form-row>
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item>
@@ -142,13 +142,13 @@ export default {
         method: 'GET',
         url: `api/v2/pim/employees/${this.employeeId}/languages/${this.data.languageId}/fluencies/${this.data.fluencyId}`,
       })
-      .then(response => {
+      .then((response) => {
         const {data} = response.data;
         this.language.name = data.language.name;
         this.language.fluency = data.fluency.name;
         this.language.comment = data.comment ? data.comment : '';
         this.language.competencyId = this.competencies.find(
-          item => item.id === data.competency?.id,
+          (item) => item.id === data.competency?.id,
         );
       })
       .finally(() => {

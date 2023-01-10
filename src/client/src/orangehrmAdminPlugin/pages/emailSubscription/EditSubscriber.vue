@@ -24,7 +24,7 @@
       <oxd-text type="card-title">{{ $t('admin.edit_subscriber') }}</oxd-text>
     </div>
     <oxd-divider />
-    <oxd-form :loading="isLoading" @submitValid="onSave">
+    <oxd-form :loading="isLoading" @submit-valid="onSave">
       <oxd-form-row>
         <oxd-input-field
           v-model="subscriber.name"
@@ -106,18 +106,18 @@ export default {
     this.isLoading = true;
     this.http
       .get(this.data.id)
-      .then(response => {
+      .then((response) => {
         const {data} = response.data;
         this.subscriber.name = data.name;
         this.subscriber.email = data.email;
         // Fetch list data for unique test
         return this.http.getAll();
       })
-      .then(response => {
+      .then((response) => {
         const {data} = response.data;
         if (data) {
-          this.rules.email.push(v => {
-            const index = data.findIndex(item => item.email == v);
+          this.rules.email.push((v) => {
+            const index = data.findIndex((item) => item.email == v);
             if (index > -1) {
               const {id} = data[index];
               return id != this.data.id

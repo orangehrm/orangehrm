@@ -200,7 +200,7 @@ export default {
     this.isLoading = true;
     this.http
       .get(this.reviewId)
-      .then(response => {
+      .then((response) => {
         const {data} = response.data;
         this.review.employee = data.employee
           ? {
@@ -270,7 +270,7 @@ export default {
           .then(() => {
             this.onCancel();
           })
-          .catch(response => {
+          .catch((response) => {
             return this.$toast.warn({
               title: this.$t('general.warning'),
               message: response?.data.error.message,

@@ -70,8 +70,8 @@ import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmatio
 import {navigate} from '@ohrm/core/util/helper/navigation';
 import {APIService} from '@ohrm/core/util/services/api.service';
 
-const workShiftNormalizer = data => {
-  return data.map(item => {
+const workShiftNormalizer = (data) => {
+  return data.map((item) => {
     return {
       id: item.id,
       name: item.name,
@@ -173,17 +173,17 @@ export default {
       navigate('/admin/saveWorkShifts/{id}', {id: item.id});
     },
     onClickDeleteSelected() {
-      const ids = this.checkedItems.map(index => {
+      const ids = this.checkedItems.map((index) => {
         return this.items?.data[index].id;
       });
-      this.$refs.deleteDialog.showDialog().then(confirmation => {
+      this.$refs.deleteDialog.showDialog().then((confirmation) => {
         if (confirmation === 'ok') {
           this.deleteItems(ids);
         }
       });
     },
     onClickDelete(item) {
-      this.$refs.deleteDialog.showDialog().then(confirmation => {
+      this.$refs.deleteDialog.showDialog().then((confirmation) => {
         if (confirmation === 'ok') {
           this.deleteItems([item.id]);
         }
