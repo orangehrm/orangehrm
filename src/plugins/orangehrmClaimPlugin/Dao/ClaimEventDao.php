@@ -53,10 +53,9 @@ class ClaimEventDao extends BaseDao
     protected function getClaimEventPaginator(ClaimEventSearchFilterParams $claimEventSearchFilterParams): Paginator
     {
         $q = $this->createQueryBuilder(ClaimEvent::class, 'claimEvent');
-        $q->distinct();
         $this->setSortingAndPaginationParams($q, $claimEventSearchFilterParams);
         if (!is_null($claimEventSearchFilterParams->getName())) {
-            $q->andWhere('claimEvent.name = :name');
+            $q->andWhere($q->expr()->like('claimEvent.name', ':name'));
             $q->setParameter('name', $claimEventSearchFilterParams->getName());
         }
         if (!is_null($claimEventSearchFilterParams->getStatus())) {
@@ -83,7 +82,7 @@ class ClaimEventDao extends BaseDao
      */
     public function deleteClaimEvents(array $ids): int
     {
-        $q =  $this->createQueryBuilder(ClaimEvent::class, 'claimEvent');
+        $q = $this->createQueryBuilder(ClaimEvent::class, 'claimEvent');
         $q->delete()
             ->where($q->expr()->in('claimEvent.id', ':ids'))
             ->setParameter('ids', $ids);

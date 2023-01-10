@@ -238,15 +238,17 @@ class ClaimEventAPI extends Endpoint implements CrudEndpoint
         return new ParamRuleCollection(
             new ParamRule(
                 self::PARAMETER_ID,
-                new Rule(Rules::STRING_TYPE)
+                new Rule(Rules::POSITIVE)
             ),
             new ParamRule(
                 self::PARAMETER_NAME,
-                new Rule(Rules::STRING_TYPE)
+                new Rule(Rules::STRING_TYPE),
+                new Rule(Rules::LENGTH, [null, self::NAME_MAX_LENGTH]),
             ),
             new ParamRule(
                 self::PARAMETER_DESCRIPTION,
-                new Rule(Rules::STRING_TYPE)
+                new Rule(Rules::STRING_TYPE),
+                new Rule(Rules::LENGTH, [null, self::DESCRIPTION_MAX_LENGTH]),
             ),
             new ParamRule(
                 self::PARAMETER_STATUS,

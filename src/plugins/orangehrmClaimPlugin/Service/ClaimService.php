@@ -19,11 +19,8 @@
 
 namespace OrangeHRM\Claim\Service;
 
-use OrangeHRM\Claim\Api\Model\ClaimEventModel;
 use OrangeHRM\Claim\Dao\ClaimEventDao;
-use OrangeHRM\Claim\Dto\ClaimEventSearchFilterParams;
 use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
-use OrangeHRM\Entity\ClaimEvent;
 
 class ClaimService
 {
@@ -43,50 +40,5 @@ class ClaimService
             $this->claimEventDao = new ClaimEventDao();
         }
         return $this->claimEventDao;
-    }
-
-    /**
-     * @param ClaimEventDao|null $claimEventDao
-     */
-    public function setClaimEventDao(?ClaimEventDao $claimEventDao): void
-    {
-        $this->claimEventDao = $claimEventDao;
-    }
-
-    /**
-     * @param ClaimEvent $claimEvent
-     * @return ClaimEvent
-     */
-    public function saveEvent(ClaimEvent $claimEvent): ClaimEvent
-    {
-        return $this->getClaimEventDao()->saveEvent($claimEvent);
-    }
-
-    /**
-     * @param ClaimEventSearchFilterParams $claimEventSearchFilterParams
-     * @return ClaimEvent[]
-     */
-    public function getClaimEventList(ClaimEventSearchFilterParams $claimEventSearchFilterParams): array
-    {
-        return $this->getClaimEventDao()->getClaimEventList($claimEventSearchFilterParams);
-    }
-
-    /**
-     * @return array
-     */
-    public function getClaimEventArray(): array
-    {
-        $claimEvents = $this->getClaimEventList();
-        return $this->getNormalizerService()->normalizeArray(ClaimEventModel::class, $claimEvents);
-    }
-
-    public function getClaimEventByID(int $id): ClaimEvent
-    {
-        return $this->getClaimEventDao()->getClaimEventById($id);
-    }
-
-    public function deleteClaimEvent(int $id): int
-    {
-        return $this->getClaimEventDao()->deleteClaimEvents($id);
     }
 }
