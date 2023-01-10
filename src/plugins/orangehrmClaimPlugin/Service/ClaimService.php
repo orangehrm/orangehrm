@@ -36,9 +36,6 @@ class ClaimService
      */
     public function getClaimEventDao(): ?ClaimEventDao
     {
-        if (is_null($this->claimEventDao)) {
-            $this->claimEventDao = new ClaimEventDao();
-        }
-        return $this->claimEventDao;
+        return $this->claimEventDao ??= new ClaimEventDao();
     }
 }
