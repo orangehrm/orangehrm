@@ -63,6 +63,7 @@ class Migration extends AbstractMigration
             ->setParameter('status', 1)
             ->setParameter('display_name', 'Claim')
             ->executeQuery();
+        $this->getDataGroupHelper()->insertApiPermissions(__DIR__ . '/permission/api.yaml');
     }
     /**
      * @inheritDoc

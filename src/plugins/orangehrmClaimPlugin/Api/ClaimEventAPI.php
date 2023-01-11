@@ -40,6 +40,7 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Core\Api\V2\Validator\Rules\EntityUniquePropertyOption;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Entity\ClaimEvent;
 use OrangeHRM\ORM\Exception\TransactionException;
@@ -139,11 +140,12 @@ class ClaimEventAPI extends Endpoint implements CrudEndpoint
     {
         return new ParamRuleCollection(
             $this->getValidationDecorator()->requiredParamRule(
-                new ParamRule(
-                    self::PARAMETER_NAME,
-                    new Rule(Rules::STRING_TYPE),
-                    new Rule(Rules::LENGTH, [null, self::NAME_MAX_LENGTH])
-                ),
+                $this->getNameRule(),
+//                new ParamRule(
+//                    self::PARAMETER_NAME,
+//                    new Rule(Rules::STRING_TYPE),
+//                    new Rule(Rules::LENGTH, [null, self::NAME_MAX_LENGTH])
+//                ),
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
@@ -161,6 +163,25 @@ class ClaimEventAPI extends Endpoint implements CrudEndpoint
                     new Rule(Rules::BOOL_TYPE)
                 )
             ),
+        );
+    }
+
+    protected function getNameRule():ParamRule{
+        $entityProperties = new EntityUniquePropertyOption();
+        $ignoreValues = ['isDeleted' => true];
+//        if ($update) {
+//            $ignoreValues['getId'] = $this->getRequestParams()->getInt(
+//                RequestParams::PARAM_TYPE_ATTRIBUTE,
+//                CommonParams::PARAMETER_ID
+//            );
+//        }
+        $entityProperties->setIgnoreValues($ignoreValues);
+
+        return new ParamRule(
+            self::PARAMETER_NAME,
+            new Rule(Rules::STRING_TYPE),
+            new Rule(Rules::LENGTH, [null, self::NAME_MAX_LENGTH]),
+            new Rule(Rules::ENTITY_UNIQUE_PROPERTY, [ClaimEvent::class, 'name', $entityProperties])
         );
     }
 
@@ -224,10 +245,11 @@ class ClaimEventAPI extends Endpoint implements CrudEndpoint
      */
     public function update(): EndpointResult
     {
-        $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_ID);
-        $claimEvent = $this->getClaimEventService()->getClaimEventDao()->getClaimEventById($id);
-        $this->setClaimEvent($claimEvent);
-        return new EndpointResourceResult(ClaimEventModel::class, $claimEvent);
+            $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_ID);
+            $claimEvent = $this->getClaimEventService()->getClaimEventDao()->getClaimEventById($id);
+            $this->throwRecordNotFoundExceptionIfNotExist($claimEvent, ClaimEvent::class);
+            $this->setClaimEvent($claimEvent);
+            return new EndpointResourceResult(ClaimEventModel::class, $claimEvent);
     }
 
     /**
