@@ -24,7 +24,7 @@ use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Entity\ClaimEvent;
 use OrangeHRM\ORM\Paginator;
 
-class ClaimEventDao extends BaseDao
+class ClaimDao extends BaseDao
 {
     /**
      * @param ClaimEvent $claimEvent

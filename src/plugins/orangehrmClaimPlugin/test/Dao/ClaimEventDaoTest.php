@@ -19,7 +19,7 @@
 
 namespace OrangeHRM\Tests\Claim\Dao;
 
-use OrangeHRM\Claim\Dao\ClaimEventDao;
+use OrangeHRM\Claim\Dao\ClaimDao;
 use OrangeHRM\Claim\Dto\ClaimEventSearchFilterParams;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Entity\ClaimEvent;
@@ -28,11 +28,11 @@ use OrangeHRM\Tests\Util\TestDataService;
 
 class ClaimEventDaoTest extends KernelTestCase
 {
-    private ClaimEventDao $claimEventDao;
+    private ClaimDao $claimEventDao;
 
     protected function setUp(): void
     {
-        $this->claimEventDao = new ClaimEventDao();
+        $this->claimEventDao = new ClaimDao();
         $fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmClaimPlugin/test/fixtures/ClaimEvent.yml';
         TestDataService::populate($fixture);
     }

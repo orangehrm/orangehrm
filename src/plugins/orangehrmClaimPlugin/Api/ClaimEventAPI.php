@@ -140,12 +140,7 @@ class ClaimEventAPI extends Endpoint implements CrudEndpoint
     {
         return new ParamRuleCollection(
             $this->getValidationDecorator()->requiredParamRule(
-                $this->getNameRule(),
-//                new ParamRule(
-//                    self::PARAMETER_NAME,
-//                    new Rule(Rules::STRING_TYPE),
-//                    new Rule(Rules::LENGTH, [null, self::NAME_MAX_LENGTH])
-//                ),
+                $this->getNameRule(false),
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
@@ -166,15 +161,15 @@ class ClaimEventAPI extends Endpoint implements CrudEndpoint
         );
     }
 
-    protected function getNameRule():ParamRule{
+    protected function getNameRule(bool $update):ParamRule{
         $entityProperties = new EntityUniquePropertyOption();
         $ignoreValues = ['isDeleted' => true];
-//        if ($update) {
-//            $ignoreValues['getId'] = $this->getRequestParams()->getInt(
-//                RequestParams::PARAM_TYPE_ATTRIBUTE,
-//                CommonParams::PARAMETER_ID
-//            );
-//        }
+        if ($update) {
+            $ignoreValues['getId'] = $this->getRequestParams()->getInt(
+                RequestParams::PARAM_TYPE_ATTRIBUTE,
+                CommonParams::PARAMETER_ID
+            );
+        }
         $entityProperties->setIgnoreValues($ignoreValues);
 
         return new ParamRule(
@@ -262,11 +257,7 @@ class ClaimEventAPI extends Endpoint implements CrudEndpoint
                 self::PARAMETER_ID,
                 new Rule(Rules::POSITIVE)
             ),
-            new ParamRule(
-                self::PARAMETER_NAME,
-                new Rule(Rules::STRING_TYPE),
-                new Rule(Rules::LENGTH, [null, self::NAME_MAX_LENGTH]),
-            ),
+            $this->getNameRule(true),
             new ParamRule(
                 self::PARAMETER_DESCRIPTION,
                 new Rule(Rules::STRING_TYPE),
