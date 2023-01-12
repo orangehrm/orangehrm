@@ -44,7 +44,7 @@ class Migration extends AbstractMigration
                 ['added_by'],
                 'ohrm_user',
                 ['id'],
-                'added_by',
+                'addedBy',
                 ['onDelete' => 'CASCADE']
             );
             $this->getSchemaHelper()->addForeignKey('ohrm_claim_event', $foreignKeyConstraint);

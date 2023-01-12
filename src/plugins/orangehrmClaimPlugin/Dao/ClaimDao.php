@@ -56,7 +56,7 @@ class ClaimDao extends BaseDao
         $this->setSortingAndPaginationParams($q, $claimEventSearchFilterParams);
         if (!is_null($claimEventSearchFilterParams->getName())) {
             $q->andWhere($q->expr()->like('claimEvent.name', ':name'));
-            $q->setParameter('name', $claimEventSearchFilterParams->getName());
+            $q->setParameter('name', '%' . $claimEventSearchFilterParams->getName() . '%');
         }
         if (!is_null($claimEventSearchFilterParams->getStatus())) {
             $q->andWhere('claimEvent.status = :status');

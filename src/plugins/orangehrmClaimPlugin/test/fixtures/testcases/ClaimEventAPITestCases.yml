@@ -396,6 +396,24 @@ GetAll:
       "total": 4
     }
 
+  'get all with with incomplete name':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    query:
+      name: "nt3"
+    data: [
+      {
+        "id": 3,
+        "name": "event3",
+        "description": "event3 desc",
+        "status": false
+      }
+    ]
+    meta: {
+      "total": 1
+    }
+
   'get all with query name':
     userId: 1
     services:

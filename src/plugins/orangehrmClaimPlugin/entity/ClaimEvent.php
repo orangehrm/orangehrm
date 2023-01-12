@@ -20,13 +20,18 @@
 namespace OrangeHRM\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use OrangeHRM\Entity\Decorator\ClaimEventDecorator;
+use OrangeHRM\Entity\Decorator\DecoratorTrait;
 
 /**
+ * @method ClaimEventDecorator getDecorator()
+ *
  * @ORM\Table(name="ohrm_claim_event")
  * @ORM\Entity
  */
 class ClaimEvent
 {
+    use DecoratorTrait;
     /**
      * @var int
      * @ORM\Column(name="id", type="integer")
@@ -48,10 +53,11 @@ class ClaimEvent
     private ?string $description;
 
     /**
-     * @var int
-     * @ORM\Column(name="added_by", type="integer", nullable=true)
+     * @var User
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\User")
+     * @ORM\JoinColumn(name="added_by", referencedColumnName="id")
      */
-    private int $addedBy;
+    private User $user;
 
     /**
      * @var bool
@@ -144,4 +150,21 @@ class ClaimEvent
     {
         $this->isDeleted = $isDeleted;
     }
+
+    /**
+     * @return User
+     */
+    public function getUser(): User
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param User $user
+     */
+    public function setUser(User $user): void
+    {
+        $this->user = $user;
+    }
+
 }

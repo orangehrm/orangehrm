@@ -41,6 +41,7 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Api\V2\Validator\Rules\EntityUniquePropertyOption;
+use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Entity\ClaimEvent;
 use OrangeHRM\ORM\Exception\TransactionException;
@@ -49,6 +50,7 @@ class ClaimEventAPI extends Endpoint implements CrudEndpoint
 {
     use EntityManagerHelperTrait;
     use ClaimServiceTrait;
+    use AuthUserTrait;
 
     public const PARAMETER_NAME = 'name';
     public const PARAMETER_DESCRIPTION = 'description';
@@ -85,6 +87,8 @@ class ClaimEventAPI extends Endpoint implements CrudEndpoint
         $claimEvent->setName($name);
         $claimEvent->setDescription($description);
         $claimEvent->setStatus($status);
+        $userId = $this->getAuthUser()->getUserId();
+        $claimEvent->getDecorator()->setUserByUserId($userId);
         $this->getClaimEventService()->getClaimEventDao()->saveEvent($claimEvent);
     }
 
@@ -96,7 +100,7 @@ class ClaimEventAPI extends Endpoint implements CrudEndpoint
         $claimEventSearchFilterParams = new ClaimEventSearchFilterParams();
         try {
             $this->setSortingAndPaginationParams($claimEventSearchFilterParams);
-            $t = $this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_NAME);
+            $this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_NAME);
             $claimEventSearchFilterParams->setName($this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_NAME));
             $claimEventSearchFilterParams->setStatus($this->getRequestParams()->getBooleanOrNull(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_STATUS));
             $claimEvents = $this->getClaimEventService()->getClaimEventDao()->getClaimEventList($claimEventSearchFilterParams);
@@ -236,7 +240,7 @@ class ClaimEventAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @return EndpointResult
-     * @throws NormalizeException
+     * @throws RecordNotFoundException
      */
     public function update(): EndpointResult
     {
