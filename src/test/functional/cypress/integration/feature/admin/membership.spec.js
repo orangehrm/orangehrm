@@ -3,7 +3,7 @@ describe('Admin - Membership', function () {
     cy.task('db:reset');
     cy.fixture('chars').as('strings');
     cy.intercept('GET', '**/api/v2/admin/memberships?*').as('getMembership');
-    cy.intercept('POST', '**/api/v2/admin/memberships?*').as('postMembership');
+    cy.intercept('POST', '**/api/v2/admin/memberships').as('postMembership');
     cy.intercept('PUT', '**/api/v2/admin/memberships/*').as('updateMembership');
     cy.intercept('DELETE', '**/api/v2/admin/memberships').as(
       'deleteMembership',
