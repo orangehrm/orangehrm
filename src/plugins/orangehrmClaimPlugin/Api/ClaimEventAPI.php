@@ -165,7 +165,8 @@ class ClaimEventAPI extends Endpoint implements CrudEndpoint
         );
     }
 
-    protected function getNameRule(bool $update):ParamRule{
+    protected function getNameRule(bool $update): ParamRule
+    {
         $entityProperties = new EntityUniquePropertyOption();
         $ignoreValues = ['isDeleted' => true];
         if ($update) {
@@ -244,11 +245,11 @@ class ClaimEventAPI extends Endpoint implements CrudEndpoint
      */
     public function update(): EndpointResult
     {
-            $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_ID);
-            $claimEvent = $this->getClaimEventService()->getClaimEventDao()->getClaimEventById($id);
-            $this->throwRecordNotFoundExceptionIfNotExist($claimEvent, ClaimEvent::class);
-            $this->setClaimEvent($claimEvent);
-            return new EndpointResourceResult(ClaimEventModel::class, $claimEvent);
+        $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_ID);
+        $claimEvent = $this->getClaimEventService()->getClaimEventDao()->getClaimEventById($id);
+        $this->throwRecordNotFoundExceptionIfNotExist($claimEvent, ClaimEvent::class);
+        $this->setClaimEvent($claimEvent);
+        return new EndpointResourceResult(ClaimEventModel::class, $claimEvent);
     }
 
     /**

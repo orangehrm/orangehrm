@@ -21,7 +21,6 @@ namespace OrangeHRM\Entity\Decorator;
 
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Entity\ClaimEvent;
-use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\User;
 
 class ClaimEventDecorator
@@ -36,14 +35,16 @@ class ClaimEventDecorator
     /**
      * @param ClaimEvent $claimEvent
      */
-    public function __construct(ClaimEvent $claimEvent){
+    public function __construct(ClaimEvent $claimEvent)
+    {
         $this->claimEvent = $claimEvent;
     }
 
     /**
      * @return ClaimEvent
      */
-    public function getClaimEvent():ClaimEvent{
+    public function getClaimEvent(): ClaimEvent
+    {
         return $this->claimEvent;
     }
 

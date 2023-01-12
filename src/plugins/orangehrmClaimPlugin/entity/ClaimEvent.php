@@ -166,5 +166,4 @@ class ClaimEvent
     {
         $this->user = $user;
     }
-
 }
