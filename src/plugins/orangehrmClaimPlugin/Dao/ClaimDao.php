@@ -24,7 +24,7 @@ use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Entity\ClaimEvent;
 use OrangeHRM\ORM\Paginator;
 
-class ClaimEventDao extends BaseDao
+class ClaimDao extends BaseDao
 {
     /**
      * @param ClaimEvent $claimEvent
@@ -56,7 +56,7 @@ class ClaimEventDao extends BaseDao
         $this->setSortingAndPaginationParams($q, $claimEventSearchFilterParams);
         if (!is_null($claimEventSearchFilterParams->getName())) {
             $q->andWhere($q->expr()->like('claimEvent.name', ':name'));
-            $q->setParameter('name', $claimEventSearchFilterParams->getName());
+            $q->setParameter('name', '%' . $claimEventSearchFilterParams->getName() . '%');
         }
         if (!is_null($claimEventSearchFilterParams->getStatus())) {
             $q->andWhere('claimEvent.status = :status');

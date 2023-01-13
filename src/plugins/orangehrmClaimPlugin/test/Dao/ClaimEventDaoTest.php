@@ -19,20 +19,22 @@
 
 namespace OrangeHRM\Tests\Claim\Dao;
 
-use OrangeHRM\Claim\Dao\ClaimEventDao;
+use OrangeHRM\Claim\Dao\ClaimDao;
 use OrangeHRM\Claim\Dto\ClaimEventSearchFilterParams;
 use OrangeHRM\Config\Config;
+use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Entity\ClaimEvent;
 use OrangeHRM\Tests\Util\KernelTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 
 class ClaimEventDaoTest extends KernelTestCase
 {
-    private ClaimEventDao $claimEventDao;
+    use EntityManagerHelperTrait;
+    private ClaimDao $claimEventDao;
 
     protected function setUp(): void
     {
-        $this->claimEventDao = new ClaimEventDao();
+        $this->claimEventDao = new ClaimDao();
         $fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmClaimPlugin/test/fixtures/ClaimEvent.yml';
         TestDataService::populate($fixture);
     }
@@ -42,6 +44,7 @@ class ClaimEventDaoTest extends KernelTestCase
         $claimEvent = new ClaimEvent();
         $claimEvent->setName("testname2");
         $claimEvent->setStatus(true);
+        $claimEvent->getDecorator()->setUserByUserId(1);
         $result = $this->claimEventDao->saveEvent($claimEvent);
         $this->assertEquals("testname2", $result->getName());
         $this->assertEquals(true, $result->getStatus());

@@ -44,7 +44,7 @@ class Migration extends AbstractMigration
                 ['added_by'],
                 'ohrm_user',
                 ['id'],
-                'added_by',
+                'addedBy',
                 ['onDelete' => 'CASCADE']
             );
             $this->getSchemaHelper()->addForeignKey('ohrm_claim_event', $foreignKeyConstraint);
@@ -63,6 +63,7 @@ class Migration extends AbstractMigration
             ->setParameter('status', 1)
             ->setParameter('display_name', 'Claim')
             ->executeQuery();
+        $this->getDataGroupHelper()->insertApiPermissions(__DIR__ . '/permission/api.yaml');
     }
     /**
      * @inheritDoc

@@ -13,3 +13,558 @@ Create:
       description: sample description
       status: true
     meta: [ ]
+
+  'Create - Claim Event with no name':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    body:
+      description: 'sample description'
+      status: true
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: 'Invalid Parameter'
+
+  'Create - Claim Event with existing name':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    body:
+      name: 'event1'
+      description: 'sample description'
+      status: true
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: 'Invalid Parameter'
+
+  'Create Claim Event with no description':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    body:
+      name: 'event 0002'
+      description: ''
+      status: true
+    data:
+      id: 5
+      name: event 0002
+      description: null
+      status: true
+    meta: [ ]
+
+  'Create Claim Event with no status':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    body:
+      name: 'event 0003'
+      description: 'sample description'
+      status:
+    data:
+      id: 5
+      name: event 0003
+      description: sample description
+      status: null
+    meta: [ ]
+
+  'Create Claim Event with no status and no description':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    body:
+      name: 'event 0003'
+      description: null
+      status: null
+    data:
+      id: 5
+      name: event 0003
+      description: null
+      status: null
+    meta: [ ]
+
+  'Create Claim Event with no status in the body':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    body:
+      name: 'event 0003'
+      description: 'sample description'
+    data:
+      id: 5
+      name: event 0003
+      description: sample description
+      status: true
+    meta: [ ]
+
+  'Create Claim Event with no description in the body':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    body:
+      name: 'event 0003'
+      status: false
+    data:
+      id: 5
+      name: event 0003
+      description: null
+      status: false
+    meta: [ ]
+
+  'Create Claim Event with no description and no status in the body':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    body:
+      name: 'event 0003'
+    data:
+      id: 5
+      name: event 0003
+      description: null
+      status: true
+    meta: [ ]
+
+GetAll:
+  'get all with no query':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    data: [
+      {
+        "id": 1,
+        "name": "event1",
+        "description": "event1 desc",
+        "status": true
+      },
+      {
+        "id": 2,
+        "name": "event2",
+        "description": "event2 desc",
+        "status": true
+      },
+      {
+        "id": 3,
+        "name": "event3",
+        "description": "event3 desc",
+        "status": false
+      },
+      {
+        "id": 4,
+        "name": "event4",
+        "description": "event4 desc",
+        "status": false
+      },
+    ]
+    meta: {
+      "total": 4
+    }
+
+  'get all with offset 0':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    query:
+      offset: 0
+    data: [
+      {
+        "id": 1,
+        "name": "event1",
+        "description": "event1 desc",
+        "status": true
+      },
+      {
+        "id": 2,
+        "name": "event2",
+        "description": "event2 desc",
+        "status": true
+      },
+      {
+        "id": 3,
+        "name": "event3",
+        "description": "event3 desc",
+        "status": false
+      },
+      {
+        "id": 4,
+        "name": "event4",
+        "description": "event4 desc",
+        "status": false
+      },
+    ]
+    meta: {
+      "total": 4
+    }
+
+  'get all with offset 1':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    query:
+      offset: 1
+    data: [
+      {
+        "id": 2,
+        "name": "event2",
+        "description": "event2 desc",
+        "status": true
+      },
+      {
+        "id": 3,
+        "name": "event3",
+        "description": "event3 desc",
+        "status": false
+      },
+      {
+        "id": 4,
+        "name": "event4",
+        "description": "event4 desc",
+        "status": false
+      },
+    ]
+    meta: {
+      "total": 4
+    }
+
+  'get all with offset 1 and limit 2':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    query:
+      offset: 1
+      limit: 2
+    data: [
+      {
+        "id": 2,
+        "name": "event2",
+        "description": "event2 desc",
+        "status": true
+      },
+      {
+        "id": 3,
+        "name": "event3",
+        "description": "event3 desc",
+        "status": false
+      },
+    ]
+    meta: {
+      "total": 4
+    }
+
+  'get all with offset sort by status':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    query:
+      sortField: claimEvent.status
+    data: [
+      {
+        "id": 3,
+        "name": "event3",
+        "description": "event3 desc",
+        "status": false
+      },
+      {
+        "id": 4,
+        "name": "event4",
+        "description": "event4 desc",
+        "status": false
+      },
+      {
+        "id": 1,
+        "name": "event1",
+        "description": "event1 desc",
+        "status": true
+      },
+      {
+        "id": 2,
+        "name": "event2",
+        "description": "event2 desc",
+        "status": true
+      },
+    ]
+    meta: {
+      "total": 4
+    }
+
+  'get all with offset sort by status and order DESC':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    query:
+      sortField: claimEvent.status
+      sortOrder: DESC
+    data: [
+      {
+        "id": 1,
+        "name": "event1",
+        "description": "event1 desc",
+        "status": true
+      },
+      {
+        "id": 2,
+        "name": "event2",
+        "description": "event2 desc",
+        "status": true
+      },
+      {
+        "id": 3,
+        "name": "event3",
+        "description": "event3 desc",
+        "status": false
+      },
+      {
+        "id": 4,
+        "name": "event4",
+        "description": "event4 desc",
+        "status": false
+      }
+    ]
+    meta: {
+      "total": 4
+    }
+
+  'get all with offset sort by name and order ASC':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    query:
+      sortField: claimEvent.name
+      sortOrder: ASC
+    data: [
+      {
+        "id": 1,
+        "name": "event1",
+        "description": "event1 desc",
+        "status": true
+      },
+      {
+        "id": 2,
+        "name": "event2",
+        "description": "event2 desc",
+        "status": true
+      },
+      {
+        "id": 3,
+        "name": "event3",
+        "description": "event3 desc",
+        "status": false
+      },
+      {
+        "id": 4,
+        "name": "event4",
+        "description": "event4 desc",
+        "status": false
+      }
+    ]
+    meta: {
+      "total": 4
+    }
+
+  'get all with offset sort by name and order DESC':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    query:
+      sortField: claimEvent.name
+      sortOrder: DESC
+    data: [
+      {
+        "id": 4,
+        "name": "event4",
+        "description": "event4 desc",
+        "status": false
+      },
+      {
+        "id": 3,
+        "name": "event3",
+        "description": "event3 desc",
+        "status": false
+      },
+      {
+        "id": 2,
+        "name": "event2",
+        "description": "event2 desc",
+        "status": true
+      },
+      {
+        "id": 1,
+        "name": "event1",
+        "description": "event1 desc",
+        "status": true
+      }
+    ]
+    meta: {
+      "total": 4
+    }
+
+  'get all with with incomplete name':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    query:
+      name: "nt3"
+    data: [
+      {
+        "id": 3,
+        "name": "event3",
+        "description": "event3 desc",
+        "status": false
+      }
+    ]
+    meta: {
+      "total": 1
+    }
+
+  'get all with query name':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    query:
+      name: "event1"
+    data: [
+      {
+        "id": 1,
+        "name": "event1",
+        "description": "event1 desc",
+        "status": true
+      }
+    ]
+    meta: {
+      "total": 1
+    }
+
+  'get all with query status false':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    query:
+      status: "false"
+    data: [
+      {
+        "id": 3,
+        "name": "event3",
+        "description": "event3 desc",
+        "status": false
+      },
+      {
+        "id": 4,
+        "name": "event4",
+        "description": "event4 desc",
+        "status": false
+      }
+    ]
+    meta: {
+      "total": 2
+    }
+
+  'get all with query name and status':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    query:
+      name: "event1"
+      status: "false"
+    data: []
+    meta: {
+      "total": 0
+    }
+
+GetOne:
+  'get one for existing event':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    attributes:
+      id: 1
+    data:
+      {
+        "id": 1,
+        "name": "event1",
+        "description": "event1 desc",
+        "status": true
+      }
+    meta: {
+      "total": 1
+    }
+
+  'get one for not existing event':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    attributes:
+      id: 5
+    exception:
+      class: 'OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException'
+      message: 'Record Not Found'
+
+Update:
+  "update an claim event":
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    attributes:
+      id: 1
+    body:
+      name: 'event 0001'
+      description: 'sample description updated'
+      status: true
+    data: {
+      "id": 1,
+      "name": "event 0001",
+      "description": "sample description updated",
+      "status": true
+      }
+    meta: [ ]
+
+  "update an claim event for not existing event":
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    attributes:
+      id: 5
+    body:
+      name: 'event 0001'
+      description: 'sample description updated'
+      status: true
+    exception:
+      class: 'OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException'
+      message: 'Record Not Found'
+
+  "update an claim event with existing name":
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    attributes:
+      id: 2
+    body:
+      name: 'event1'
+      description: 'sample description updated'
+      status: true
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: 'Invalid Parameter'
+
+Delete:
+  'with one id':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    body:
+      ids: [ 1 ]
+    data: [ 1 ]
+
+  'with no id':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    body:
+      ids: [  ]
+    data: [  ]
+
+  'with multiple ids':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    body:
+      ids: [ 1, 2, 3 ]
+    data: [ 1, 2, 3 ]
+
