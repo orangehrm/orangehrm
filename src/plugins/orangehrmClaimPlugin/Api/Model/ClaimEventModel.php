@@ -28,9 +28,6 @@ class ClaimEventModel implements Normalizable
 {
     use ModelTrait;
 
-    /**
-     * @param ClaimEvent $claimEvent
-     */
     public function __construct(ClaimEvent $claimEvent)
     {
         $this->setEntity($claimEvent);

@@ -20,21 +20,18 @@
 namespace OrangeHRM\Claim\Service;
 
 use OrangeHRM\Claim\Dao\ClaimDao;
-use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
 
 class ClaimService
 {
-    use NormalizerServiceTrait;
+    /**
+     * @var ClaimDao
+     */
+    protected ClaimDao $claimEventDao;
 
     /**
-     * @var ClaimDao|null
+     * @return ClaimDao
      */
-    protected ?ClaimDao $claimEventDao = null;
-
-    /**
-     * @return ClaimDao|null
-     */
-    public function getClaimEventDao(): ?ClaimDao
+    public function getClaimEventDao(): ClaimDao
     {
         return $this->claimEventDao ??= new ClaimDao();
     }
