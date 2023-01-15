@@ -19,7 +19,7 @@
 
 namespace OrangeHRM\Claim\Api;
 
-use OrangeHRM\Claim\Api\Model\ClaimEventModel;
+use OrangeHRM\Claim\Api\Model\ClaimExpenseTypesModel;
 use OrangeHRM\Claim\Traits\Service\ClaimServiceTrait;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
@@ -30,6 +30,7 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Core\Api\V2\Validator\Rules\EntityUniquePropertyOption;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Entity\ExpenseType;
@@ -76,7 +77,7 @@ class ClaimExpenseTypesAPI extends Endpoint implements CrudEndpoint
         $expenseType->getDecorator()->setUserByUserId($userId);
 
         $this->getClaimEventService()->getClaimEventDao()->saveExpenseType($expenseType);
-        return new EndpointResourceResult(ClaimEventModel::class, $expenseType);
+        return new EndpointResourceResult(ClaimExpenseTypesModel::class, $expenseType);
     }
 
     /**
@@ -85,10 +86,8 @@ class ClaimExpenseTypesAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(
-                self::PARAMETER_NAME,
-                new Rule(Rules::STRING_TYPE),
-                new Rule(Rules::LENGTH, [null, self::NAME_MAX_LENGTH])
+            $this->getValidationDecorator()->requiredParamRule(
+                $this->getNameRule(),
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
@@ -107,6 +106,26 @@ class ClaimExpenseTypesAPI extends Endpoint implements CrudEndpoint
         );
     }
 
+    /**
+     * @return ParamRule
+     */
+    protected function getNameRule(): ParamRule
+    {
+        $entityProperties = new EntityUniquePropertyOption();
+        $ignoreValues = ['isDeleted' => true];
+        $entityProperties->setIgnoreValues($ignoreValues);
+
+        return new ParamRule(
+            self::PARAMETER_NAME,
+            new Rule(Rules::STRING_TYPE),
+            new Rule(Rules::LENGTH, [null, self::NAME_MAX_LENGTH]),
+            new Rule(Rules::ENTITY_UNIQUE_PROPERTY, [ExpenseType::class, 'name', $entityProperties])
+        );
+    }
+
+    /**
+     * @param ExpenseType $expenseType
+     */
     private function setExpenseType(ExpenseType $expenseType): void
     {
         $expenseType->setName(

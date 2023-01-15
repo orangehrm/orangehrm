@@ -99,6 +99,10 @@ class ClaimDao extends BaseDao
         return $this->getClaimEventPaginator($claimEventSearchFilterParams)->count();
     }
 
+    /**
+     * @param ExpenseType $expenseType
+     * @return ExpenseType
+     */
     public function saveExpenseType(ExpenseType $expenseType): ExpenseType
     {
         $this->persist($expenseType);

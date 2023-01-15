@@ -24,10 +24,11 @@ use OrangeHRM\Claim\Dto\ClaimEventSearchFilterParams;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Entity\ClaimEvent;
+use OrangeHRM\Entity\ExpenseType;
 use OrangeHRM\Tests\Util\KernelTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 
-class ClaimEventDaoTest extends KernelTestCase
+class ClaimDaoTest extends KernelTestCase
 {
     use EntityManagerHelperTrait;
     private ClaimDao $claimEventDao;
@@ -82,5 +83,16 @@ class ClaimEventDaoTest extends KernelTestCase
         $claimEventSearchFilterParams->setName("event1");
         $result = $this->claimEventDao->getClaimEventCount($claimEventSearchFilterParams);
         $this->assertEquals(1, $result);
+    }
+
+    public function testSaveExpenseType(): void
+    {
+        $expenseType = new ExpenseType();
+        $expenseType->setName('sample expenses');
+        $expenseType->setDescription('description for expenses');
+        $expenseType->getDecorator()->setUserByUserId(1);
+        $result = $this->claimEventDao->saveExpenseType($expenseType);
+        $this->assertEquals('sample expenses', $result->getName());
+        $this->assertEquals('1', $result->getUser()->getId());
     }
 }

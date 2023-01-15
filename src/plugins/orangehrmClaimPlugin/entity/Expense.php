@@ -29,32 +29,33 @@ use Doctrine\ORM\Mapping as ORM;
 class Expense
 {
     /**
+     * @var int
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    private int $id;
 
     /**
      * @ORM\ManyToOne(targetEntity="ExpenseType", inversedBy="expenses")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(name="expense_type_id", referencedColumnName="id")
      */
-    private $expenseType;
+    private ExpenseType $expenseType;
 
     /**
      * @var DateTime
-     *
-     * @ORM\Column(name="date" type="date")
+     * @ORM\Column(name="date", type="date", nullable=true)
      */
     private DateTime $date;
 
     /**
-     * @ORM\Column(type="decimal", precision=12, scale=2)
+     * @var float
+     * @ORM\Column(name="amount", type="decimal", precision=6, scale=4, nullable=true)
      */
-    private $amount;
+    private float $amount;
 
     /**
-     * @ORM\Column(type="text")
+     * @ORM\Column(name="note", type="text")
      */
     private $note;
 
@@ -66,39 +67,38 @@ class Expense
 
     /**
      * @var bool
-     *
      * @ORM\Column(name="is_deleted", type="boolean", nullable=false, options={"default" : 0})
      */
     private bool $isDeleted;
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
     /**
-     * @param mixed $id
+     * @param int $id
      */
-    public function setId($id): void
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
 
     /**
-     * @return mixed
+     * @return ExpenseType
      */
-    public function getExpenseType()
+    public function getExpenseType(): ExpenseType
     {
         return $this->expenseType;
     }
 
     /**
-     * @param mixed $expenseType
+     * @param ExpenseType $expenseType
      */
-    public function setExpenseType($expenseType): void
+    public function setExpenseType(ExpenseType $expenseType): void
     {
         $this->expenseType = $expenseType;
     }
@@ -120,17 +120,17 @@ class Expense
     }
 
     /**
-     * @return mixed
+     * @return float
      */
-    public function getAmount()
+    public function getAmount(): float
     {
         return $this->amount;
     }
 
     /**
-     * @param mixed $amount
+     * @param float $amount
      */
-    public function setAmount($amount): void
+    public function setAmount(float $amount): void
     {
         $this->amount = $amount;
     }
@@ -182,5 +182,4 @@ class Expense
     {
         $this->isDeleted = $isDeleted;
     }
-
 }

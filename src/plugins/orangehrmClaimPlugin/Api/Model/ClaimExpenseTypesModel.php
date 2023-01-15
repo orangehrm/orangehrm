@@ -17,43 +17,34 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Entity\Decorator;
+namespace OrangeHRM\Claim\Api\Model;
 
-use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
+use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
+use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\ExpenseType;
-use OrangeHRM\Entity\User;
 
-class ExpenseTypeDecorator
+class ClaimExpenseTypesModel implements Normalizable
 {
-    use EntityManagerHelperTrait;
+    use ModelTrait;
 
-    /**
-     * @var ExpenseType
-     */
-    protected ExpenseType $expenseType;
-
-    /**
-     * @param ExpenseType $expenseType
-     */
     public function __construct(ExpenseType $expenseType)
     {
-        $this->expenseType = $expenseType;
-    }
-
-    /**
-     * @return ExpenseType
-     */
-    public function getExpenseType(): ExpenseType
-    {
-        return $this->expenseType;
-    }
-
-    /**
-     * @param int $userId
-     */
-    public function setUserByUserId(int $userId)
-    {
-        $user = $this->getReference(User::class, $userId);
-        $this->getExpenseType()->setUser($user);
+        $this->setEntity($expenseType);
+        $this->setFilters(
+            [
+                'id',
+                'name',
+                'description',
+                'status',
+            ]
+        );
+        $this->setAttributeNames(
+            [
+                'id',
+                'name',
+                'description',
+                'status'
+            ]
+        );
     }
 }

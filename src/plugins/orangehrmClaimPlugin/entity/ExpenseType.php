@@ -34,91 +34,105 @@ class ExpenseType
     use DecoratorTrait;
 
     /**
+     * @var int
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    private int $id;
 
     /**
-     * @ORM\Column(type="text")
+     * @var string
+     * @ORM\Column(name="name", type="text", nullable=false, length=100)
      */
-    private $name;
+    private string $name;
 
     /**
-     * @ORM\Column(type="text")
+     * @var string|null
+     * @ORM\Column(name="description", type="string", nullable=true, length=1000)
      */
-    private $description;
+    private ?string $description;
 
     /**
      * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\User")
-     * @ORM\JoinColumn(name="added_by",referencedColumnName="id")
+     * @ORM\JoinColumn(name="added_by", referencedColumnName="id")
      */
     private User $user;
 
     /**
-     * @ORM\Column(type="string", length=64)
+     * @var bool
+     * @ORM\Column(name="status", type="boolean")
      */
-    private $status;
+    private bool $status;
 
     /**
      * @var bool
-     *
-     * @ORM\Column(name="is_deleted", type="boolean", nullable=false, options={"default" : 0})
+     * @ORM\Column(name="is_deleted", type="boolean")
      */
-    private bool $isDeleted;
+    private bool $isDeleted = false;
 
     /**
-     * @ORM\OneToMany(targetEntity="Expense", mappedBy="expenseType")
+     * @return int
      */
-    private $expenses;
-
-    /**
-     * @return mixed
-     */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
     /**
-     * @param mixed $id
+     * @param int $id
      */
-    public function setId($id): void
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
     /**
-     * @param mixed $name
+     * @param string $name
      */
-    public function setName($name): void
+    public function setName(string $name): void
     {
         $this->name = $name;
     }
 
     /**
-     * @return mixed
+     * @return string|null
      */
-    public function getDescription()
+    public function getDescription(): ?string
     {
         return $this->description;
     }
 
     /**
-     * @param mixed $description
+     * @param string|null $description
      */
-    public function setDescription($description): void
+    public function setDescription(?string $description): void
     {
         $this->description = $description;
+    }
+
+    /**
+     * @return User
+     */
+    public function getUser(): User
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param User $user
+     */
+    public function setUser(User $user): void
+    {
+        $this->user = $user;
     }
 
     /**
@@ -151,37 +165,5 @@ class ExpenseType
     public function setIsDeleted(bool $isDeleted): void
     {
         $this->isDeleted = $isDeleted;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getExpenses()
-    {
-        return $this->expenses;
-    }
-
-    /**
-     * @param mixed $expenses
-     */
-    public function setExpenses($expenses): void
-    {
-        $this->expenses = $expenses;
-    }
-
-    /**
-     * @return User
-     */
-    public function getUser(): User
-    {
-        return $this->user;
-    }
-
-    /**
-     * @param User $user
-     */
-    public function setUser(User $user): void
-    {
-        $this->user = $user;
     }
 }
