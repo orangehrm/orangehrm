@@ -11,3 +11,10 @@ apiv2_claim_event:
   methods: [ GET, PUT]
   defaults:
     _api: OrangeHRM\Claim\Api\ClaimEventAPI
+
+apiv2_claim_expense_types:
+  path: /api/v2/claim/expense/types
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ POST, GET, DELETE ]
+  defaults:
+    _api: OrangeHRM\Claim\Api\ClaimExpenseTypesAPI

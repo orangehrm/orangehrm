@@ -63,7 +63,49 @@ class Migration extends AbstractMigration
             ->setParameter('status', 1)
             ->setParameter('display_name', 'Claim')
             ->executeQuery();
+
         $this->getDataGroupHelper()->insertApiPermissions(__DIR__ . '/permission/api.yaml');
+
+        if (!$this->getSchemaHelper()->tableExists(['ohrm_expense_type'])) {
+            $this->getSchemaHelper()->createTable('ohrm_expense_type')
+                ->addColumn('id', Types::INTEGER, ['Autoincrement' => true])
+                ->addColumn('name', Types::TEXT, ['Notnull' => true,'Length'=>100])
+                ->addColumn('description', Types::TEXT, ['Notnull' => false,'Length'=>1000])
+                ->addColumn('added_by', Types::INTEGER, ['Notnull' => false])
+                ->addColumn('status', Types::BOOLEAN, ['Notnull' => false])
+                ->addColumn('is_deleted', Types::SMALLINT, ['Notnull' => true, 'Default' => 0])
+                ->setPrimaryKey(['id'])
+                ->create();
+            $foreignKeyConstraint = new ForeignKeyConstraint(
+                ['added_by'],
+                'ohrm_user',
+                ['id'],
+                'addedBy',
+                ['onDelete' => 'CASCADE']
+            );
+            $this->getSchemaHelper()->addForeignKey('ohrm_expense_type', $foreignKeyConstraint);
+        }
+
+        if (!$this->getSchemaHelper()->tableExists(['ohrm_expense'])) {
+            $this->getSchemaHelper()->createTable('ohrm_expense')
+                ->addColumn('id', Types::INTEGER, ['Autoincrement' => true])
+                ->addColumn('expense_type_id', Types::INTEGER, ['Length' => 11])
+                ->addColumn('date', Types::DATETIME_MUTABLE, ['Notnull' => false, 'Default' => null])
+                ->addColumn('amount', Types::DECIMAL, ['Notnull' => false])
+                ->addColumn('note', Types::TEXT, ['Notnull' => false,'Length'=>1000])
+                ->addColumn('request_id', Types::INTEGER, ['Notnull' => false,'Length' => 11])
+                ->addColumn('is_deleted', Types::SMALLINT, ['Notnull' => true, 'Default' => 0])
+                ->setPrimaryKey(['id'])
+                ->create();
+            $foreignKeyConstraint = new ForeignKeyConstraint(
+                ['expense_type_id'],
+                'ohrm_expense_type',
+                ['id'],
+                'expenseTypeId',
+                ['onDelete' => 'CASCADE']
+            );
+            $this->getSchemaHelper()->addForeignKey('ohrm_expense', $foreignKeyConstraint);
+        }
     }
     /**
      * @inheritDoc

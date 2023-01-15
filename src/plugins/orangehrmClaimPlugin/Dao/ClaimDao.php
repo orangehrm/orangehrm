@@ -22,6 +22,7 @@ namespace OrangeHRM\Claim\Dao;
 use OrangeHRM\Claim\Dto\ClaimEventSearchFilterParams;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Entity\ClaimEvent;
+use OrangeHRM\Entity\ExpenseType;
 use OrangeHRM\ORM\Paginator;
 
 class ClaimDao extends BaseDao
@@ -96,5 +97,11 @@ class ClaimDao extends BaseDao
     public function getClaimEventCount(ClaimEventSearchFilterParams $claimEventSearchFilterParams): int
     {
         return $this->getClaimEventPaginator($claimEventSearchFilterParams)->count();
+    }
+
+    public function saveExpenseType(ExpenseType $expenseType): ExpenseType
+    {
+        $this->persist($expenseType);
+        return $expenseType;
     }
 }
