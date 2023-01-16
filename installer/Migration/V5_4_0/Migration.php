@@ -80,7 +80,7 @@ class Migration extends AbstractMigration
                 ['added_by'],
                 'ohrm_user',
                 ['id'],
-                'addedBy',
+                'addedByUser',
                 ['onDelete' => 'CASCADE']
             );
             $this->getSchemaHelper()->addForeignKey('ohrm_expense_type', $foreignKeyConstraint);
