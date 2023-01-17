@@ -20,32 +20,32 @@
 namespace OrangeHRM\Entity\Decorator;
 
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
-use OrangeHRM\Entity\ExpenseType;
+use OrangeHRM\Entity\ClaimRequest;
 use OrangeHRM\Entity\User;
 
-class ExpenseTypeDecorator
+class ClaimRequestDecorator
 {
     use EntityManagerHelperTrait;
 
     /**
-     * @var ExpenseType
+     * @var ClaimRequest
      */
-    protected ExpenseType $expenseType;
+    protected ClaimRequest $claimRequest;
 
     /**
-     * @param ExpenseType $expenseType
+     * @param ClaimRequest $claimRequest
      */
-    public function __construct(ExpenseType $expenseType)
+    public function __construct(ClaimRequest $claimRequest)
     {
-        $this->expenseType = $expenseType;
+        $this->claimRequest = $claimRequest;
     }
 
     /**
-     * @return ExpenseType
+     * @return ClaimRequest
      */
-    protected function getExpenseType(): ExpenseType
+    protected function getClaimRequest(): ClaimRequest
     {
-        return $this->expenseType;
+        return $this->claimRequest;
     }
 
     /**
@@ -54,6 +54,6 @@ class ExpenseTypeDecorator
     public function setUserByUserId(int $userId)
     {
         $user = $this->getReference(User::class, $userId);
-        $this->getExpenseType()->setUser($user);
+        $this->getClaimRequest()->setUser($user);
     }
 }

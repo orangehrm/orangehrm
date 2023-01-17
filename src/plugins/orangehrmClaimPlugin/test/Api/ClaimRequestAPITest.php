@@ -17,43 +17,30 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Entity\Decorator;
+namespace OrangeHRM\Tests\Claim\Api;
 
-use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
-use OrangeHRM\Entity\ExpenseType;
-use OrangeHRM\Entity\User;
+use OrangeHRM\Claim\Api\ClaimRequestAPI;
+use OrangeHRM\Framework\Services;
+use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
+use OrangeHRM\Tests\Util\Integration\TestCaseParams;
 
-class ExpenseTypeDecorator
+class ClaimRequestAPITest extends EndpointIntegrationTestCase
 {
-    use EntityManagerHelperTrait;
-
     /**
-     * @var ExpenseType
+     * @dataProvider dataProviderForTestCreate
      */
-    protected ExpenseType $expenseType;
-
-    /**
-     * @param ExpenseType $expenseType
-     */
-    public function __construct(ExpenseType $expenseType)
+    public function testCreate(TestCaseParams $testCaseParams): void
     {
-        $this->expenseType = $expenseType;
+        $this->populateFixtures('ClaimRequestAPI.yaml');
+        $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
+        $this->registerMockDateTimeHelper($testCaseParams);
+        $this->registerServices($testCaseParams);
+        $api = $this->getApiEndpointMock(ClaimRequestAPI::class, $testCaseParams);
+        $this->assertValidTestCase($api, 'create', $testCaseParams);
     }
 
-    /**
-     * @return ExpenseType
-     */
-    protected function getExpenseType(): ExpenseType
+    public function dataProviderForTestCreate(): array
     {
-        return $this->expenseType;
-    }
-
-    /**
-     * @param int $userId
-     */
-    public function setUserByUserId(int $userId)
-    {
-        $user = $this->getReference(User::class, $userId);
-        $this->getExpenseType()->setUser($user);
+        return $this->getTestCases('ClaimRequestAPITestCases.yaml', 'Create');
     }
 }

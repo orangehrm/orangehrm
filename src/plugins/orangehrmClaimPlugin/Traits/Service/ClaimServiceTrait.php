@@ -27,7 +27,7 @@ trait ClaimServiceTrait
 {
     use ServiceContainerTrait;
 
-    protected function getClaimEventService(): ClaimService
+    protected function getClaimService(): ClaimService
     {
         return $this->getContainer()->get(Services::CLAIM_SERVICE);
     }

@@ -22,6 +22,7 @@ namespace OrangeHRM\Claim\Dao;
 use OrangeHRM\Claim\Dto\ClaimEventSearchFilterParams;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Entity\ClaimEvent;
+use OrangeHRM\Entity\ClaimRequest;
 use OrangeHRM\Entity\ExpenseType;
 use OrangeHRM\ORM\Paginator;
 
@@ -107,5 +108,28 @@ class ClaimDao extends BaseDao
     {
         $this->persist($expenseType);
         return $expenseType;
+    }
+
+    /**
+     * @param ClaimRequest $claimRequest
+     * @return ClaimRequest
+     */
+    public function saveClaimRequest(ClaimRequest $claimRequest): ClaimRequest
+    {
+        $this->persist($claimRequest);
+        return $claimRequest;
+    }
+
+    /**
+     * @return int
+     */
+    public function getNextId(): int
+    {
+        $q = $this->createQueryBuilder(ClaimRequest::class, 'request')
+            ->select('MAX(request.id)');
+        $id = $q->getQuery()->execute();
+        $id[0][1]++;
+
+        return $id[0][1];
     }
 }

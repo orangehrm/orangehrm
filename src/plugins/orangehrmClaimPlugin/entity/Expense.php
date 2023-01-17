@@ -30,6 +30,7 @@ class Expense
 {
     /**
      * @var int
+     *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -37,6 +38,8 @@ class Expense
     private int $id;
 
     /**
+     * @var ExpenseType
+     *
      * @ORM\ManyToOne(targetEntity="ExpenseType", inversedBy="expenses")
      * @ORM\JoinColumn(name="expense_type_id", referencedColumnName="id")
      */
@@ -44,22 +47,28 @@ class Expense
 
     /**
      * @var DateTime
+     *
      * @ORM\Column(name="date", type="date", nullable=true)
      */
     private DateTime $date;
 
     /**
      * @var float
+     *
      * @ORM\Column(name="amount", type="decimal", precision=6, scale=4, nullable=true)
      */
     private float $amount;
 
     /**
+     * @var string
+     *
      * @ORM\Column(name="note", type="text")
      */
-    private $note;
+    private string $note;
 
     /**
+     * @var ClaimRequest
+     *
      * @ORM\ManyToOne(targetEntity="ClaimRequest", inversedBy="expenses")
      * @ORM\JoinColumn(name="request_id", referencedColumnName="id")
      */
@@ -67,6 +76,7 @@ class Expense
 
     /**
      * @var bool
+     *
      * @ORM\Column(name="is_deleted", type="boolean", nullable=false, options={"default" : 0})
      */
     private bool $isDeleted;
@@ -136,17 +146,17 @@ class Expense
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getNote()
+    public function getNote(): string
     {
         return $this->note;
     }
 
     /**
-     * @param mixed $note
+     * @param string $note
      */
-    public function setNote($note): void
+    public function setNote(string $note): void
     {
         $this->note = $note;
     }

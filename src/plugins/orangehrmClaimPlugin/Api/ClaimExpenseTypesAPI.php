@@ -76,7 +76,7 @@ class ClaimExpenseTypesAPI extends Endpoint implements CrudEndpoint
         $userId = $this->getAuthUser()->getUserId();
         $expenseType->getDecorator()->setUserByUserId($userId);
 
-        $this->getClaimEventService()->getClaimEventDao()->saveExpenseType($expenseType);
+        $this->getClaimService()->getClaimEventDao()->saveExpenseType($expenseType);
         return new EndpointResourceResult(ClaimExpenseTypesModel::class, $expenseType);
     }
 

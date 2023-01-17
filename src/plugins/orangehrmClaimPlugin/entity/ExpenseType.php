@@ -35,6 +35,7 @@ class ExpenseType
 
     /**
      * @var int
+     *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -43,17 +44,21 @@ class ExpenseType
 
     /**
      * @var string
+     *
      * @ORM\Column(name="name", type="text", nullable=false, length=100)
      */
     private string $name;
 
     /**
      * @var string|null
+     *
      * @ORM\Column(name="description", type="string", nullable=true, length=1000)
      */
     private ?string $description;
 
     /**
+     * @var User
+     *
      * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\User")
      * @ORM\JoinColumn(name="added_by", referencedColumnName="id")
      */
@@ -61,12 +66,14 @@ class ExpenseType
 
     /**
      * @var bool
+     *
      * @ORM\Column(name="status", type="boolean")
      */
     private bool $status;
 
     /**
      * @var bool
+     *
      * @ORM\Column(name="is_deleted", type="boolean")
      */
     private bool $isDeleted = false;
@@ -136,17 +143,17 @@ class ExpenseType
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function getStatus()
+    public function getStatus(): bool
     {
         return $this->status;
     }
 
     /**
-     * @param mixed $status
+     * @param bool $status
      */
-    public function setStatus($status): void
+    public function setStatus(bool $status): void
     {
         $this->status = $status;
     }

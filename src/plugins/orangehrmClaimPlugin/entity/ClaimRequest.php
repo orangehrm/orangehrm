@@ -19,14 +19,28 @@
 
 namespace OrangeHRM\Entity;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use OrangeHRM\Claim\entity\Decorator\ClaimRequestDecorator;
+use OrangeHRM\Entity\Decorator\DecoratorTrait;
 
 /**
+ * @method ClaimRequestDecorator getDecorator()
+ *
  * @ORM\Table(name="ohrm_claim_request")
  * @ORM\Entity
  */
 class ClaimRequest
 {
+    use DecoratorTrait;
+
+    public const REQUEST_STATUS_INITIATED = 'initiated';
+    public const REQUEST_STATUS_SUBMITTED = 'submitted';
+    public const REQUEST_STATUS_PAID = 'paid';
+    public const REQUEST_STATUS_APPROVED = 'approved';
+    public const REQUEST_STATUS_REJECTED = 'rejected';
+    public const REQUEST_STATUS_CANCELLED = 'cancelled';
+
     /**
      * @var int
      *
@@ -45,146 +59,178 @@ class ClaimRequest
     private Employee $employee;
 
     /**
-     * @var int
+     * @var User
      *
-     * @ORM\Column(name="added_by", type="integer", nullable=true)
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\User")
+     * @ORM\JoinColumn(name="added_by", referencedColumnName="id")
      */
-    private $added_by;
+    private User $user;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @var string
+     *
+     * @ORM\Column(name="reference_id", type="string", length=255)
      */
-    private $reference_id;
+    private string $referenceId;
 
     /**
-     * @ORM\Column(type="integer")
+     * @var ClaimEvent
+     *
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\ClaimEvent")
+     * @ORM\JoinColumn(name="event_type_id", referencedColumnName="id")
      */
-    private $event_type_id;
+    private ClaimEvent $claimEvent;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @var string|null
+     *
+     * @ORM\Column(name="description", type="string", length=255)
      */
-    private $description;
+    private ?string $description;
 
     /**
-     * @ORM\Column(type="string", length=3)
+     * @var string
+     *
+     * @ORM\Column(name="currency", type="string", length=3)
      */
-    private $currency;
+    private string $currency;
 
     /**
      * @var bool
      *
      * @ORM\Column(name="is_deleted", type="boolean", nullable=false, options={"default" : 0})
      */
-    private bool $isDeleted;
+    private bool $isDeleted = false;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @var string|null
+     *
+     * @ORM\Column(name="status", type="string", length=255)
      */
-    private $status;
+    private ?string $status;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @var DateTime
+     *
+     * @ORM\Column(name="created_date", type="datetime")
      */
-    private $created_date;
+    private DateTime $createdDate;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @var DateTime
+     *
+     * @ORM\Column(name="submitted_date", type="datetime")
      */
-    private $submitted_date;
+    private DateTime $submittedDate;
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
     /**
-     * @param mixed $id
+     * @param int $id
      */
-    public function setId($id): void
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
 
     /**
-     * @return mixed
+     * @return Employee
      */
-    public function getAddedBy()
+    public function getEmployee(): Employee
     {
-        return $this->added_by;
+        return $this->employee;
     }
 
     /**
-     * @param mixed $added_by
+     * @param Employee $employee
      */
-    public function setAddedBy($added_by): void
+    public function setEmployee(Employee $employee): void
     {
-        $this->added_by = $added_by;
+        $this->employee = $employee;
     }
 
     /**
-     * @return mixed
+     * @return User
      */
-    public function getReferenceId()
+    public function getUser(): User
     {
-        return $this->reference_id;
+        return $this->user;
     }
 
     /**
-     * @param mixed $reference_id
+     * @param User $user
      */
-    public function setReferenceId($reference_id): void
+    public function setUser(User $user): void
     {
-        $this->reference_id = $reference_id;
+        $this->user = $user;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getEventTypeId()
+    public function getReferenceId(): string
     {
-        return $this->event_type_id;
+        return $this->referenceId;
     }
 
     /**
-     * @param mixed $event_type_id
+     * @param string $referenceId
      */
-    public function setEventTypeId($event_type_id): void
+    public function setReferenceId(string $referenceId): void
     {
-        $this->event_type_id = $event_type_id;
+        $this->referenceId = $referenceId;
     }
 
     /**
-     * @return mixed
+     * @return ClaimEvent
      */
-    public function getDescription()
+    public function getClaimEvent(): ClaimEvent
+    {
+        return $this->claimEvent;
+    }
+
+    /**
+     * @param ClaimEvent $claimEvent
+     */
+    public function setClaimEvent(ClaimEvent $claimEvent): void
+    {
+        $this->claimEvent = $claimEvent;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getDescription(): ?string
     {
         return $this->description;
     }
 
     /**
-     * @param mixed $description
+     * @param string|null $description
      */
-    public function setDescription($description): void
+    public function setDescription(?string $description): void
     {
         $this->description = $description;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getCurrency()
+    public function getCurrency(): string
     {
         return $this->currency;
     }
 
     /**
-     * @param mixed $currency
+     * @param string $currency
      */
-    public function setCurrency($currency): void
+    public function setCurrency(string $currency): void
     {
         $this->currency = $currency;
     }
@@ -206,66 +252,50 @@ class ClaimRequest
     }
 
     /**
-     * @return mixed
+     * @return string|null
      */
-    public function getStatus()
+    public function getStatus(): ?string
     {
         return $this->status;
     }
 
     /**
-     * @param mixed $status
+     * @param string|null $status
      */
-    public function setStatus($status): void
+    public function setStatus(?string $status): void
     {
         $this->status = $status;
     }
 
     /**
-     * @return mixed
+     * @return DateTime
      */
-    public function getCreatedDate()
+    public function getCreatedDate(): DateTime
     {
-        return $this->created_date;
+        return $this->createdDate;
     }
 
     /**
-     * @param mixed $created_date
+     * @param DateTime $createdDate
      */
-    public function setCreatedDate($created_date): void
+    public function setCreatedDate(DateTime $createdDate): void
     {
-        $this->created_date = $created_date;
+        $this->createdDate = $createdDate;
     }
 
     /**
-     * @return mixed
+     * @return DateTime
      */
-    public function getSubmittedDate()
+    public function getSubmittedDate(): DateTime
     {
-        return $this->submitted_date;
+        return $this->submittedDate;
     }
 
     /**
-     * @param mixed $submitted_date
+     * @param DateTime $submittedDate
      */
-    public function setSubmittedDate($submitted_date): void
+    public function setSubmittedDate(DateTime $submittedDate): void
     {
-        $this->submitted_date = $submitted_date;
-    }
-
-    /**
-     * @return Employee
-     */
-    public function getEmployee(): Employee
-    {
-        return $this->employee;
-    }
-
-    /**
-     * @param Employee $employee
-     */
-    public function setEmployee(Employee $employee): void
-    {
-        $this->employee = $employee;
+        $this->submittedDate = $submittedDate;
     }
 }
