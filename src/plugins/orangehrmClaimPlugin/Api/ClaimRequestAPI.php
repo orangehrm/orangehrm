@@ -87,10 +87,13 @@ class ClaimRequestAPI extends Endpoint implements CollectionEndpoint
                 self::PARAMETER_CURRENCY,
                 new Rule(Rules::REQUIRED)
             ),
-            new ParamRule(
-                self::PARAMETER_REMARKS,
-                new Rule(Rules::STRING_TYPE),
-                new Rule(Rules::LENGTH, [null, self::REMARKS_MAX_LENGTH]),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_REMARKS,
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::LENGTH, [null, self::REMARKS_MAX_LENGTH]),
+                ),
+                true
             ),
         );
     }

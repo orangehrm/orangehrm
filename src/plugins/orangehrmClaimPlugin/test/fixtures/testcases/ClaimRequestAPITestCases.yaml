@@ -9,7 +9,7 @@ Create:
       admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
     body:
       claimEventId: 1
-      currency: CAD
+      currency: 'CAD'
       remarks: description
     data:
       id: 7
@@ -17,7 +17,7 @@ Create:
       claimEvent:
         id: 1
         name: Office Rent
-      currency: CAD
+      currency: 'CAD'
       remarks: description
       status: initiated
     meta: [ ]
@@ -32,7 +32,7 @@ Create:
       admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
     body:
       claimEventId: 2
-      currency: USD
+      currency: 'USD'
       remarks: sample claim request description
     data:
       id: 7
@@ -40,8 +40,54 @@ Create:
       claimEvent:
         id: 2
         name: Employee Salaries
-      currency: USD
+      currency: 'USD'
       remarks: sample claim request description
+      status: initiated
+    meta: [ ]
+
+  'Create Claim Request - Without description':
+    userId: 2
+    now:
+      datetime: '2023-01-17 05:40:00'
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+      core.datetime_helper_service: \OrangeHRM\Core\Service\DateTimeHelperService
+      admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
+    body:
+      claimEventId: 2
+      currency: USD
+      remarks: ''
+    data:
+      id: 7
+      referenceId: 202301170000007
+      claimEvent:
+        id: 2
+        name: Employee Salaries
+      currency: 'USD'
+      remarks:
+      status: initiated
+    meta: [ ]
+
+  'Create Claim Request - With null description':
+    userId: 2
+    now:
+      datetime: '2023-01-17 05:40:00'
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+      core.datetime_helper_service: \OrangeHRM\Core\Service\DateTimeHelperService
+      admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
+    body:
+      claimEventId: 2
+      currency: 'USD'
+      remarks: null
+    data:
+      id: 7
+      referenceId: 202301170000007
+      claimEvent:
+        id: 2
+        name: Employee Salaries
+      currency: USD
+      remarks: null
       status: initiated
     meta: [ ]
 
