@@ -17,10 +17,20 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace App\Controller;
+namespace OrangeHRM\Claim\Controller;
 
-use OrangeHRM\Core\Controller\AbstractController;
+use OrangeHRM\Core\Controller\AbstractVueController;
+use OrangeHRM\Core\Vue\Component;
+use OrangeHRM\Framework\Http\Request;
 
-class ClaimController extends AbstractController
+class ClaimController extends AbstractVueController
 {
+    /**
+     * @inheritDoc
+     */
+    public function preRender(Request $request): void
+    {
+        $component = new Component('claim-event');
+        $this->setComponent($component);
+    }
 }
