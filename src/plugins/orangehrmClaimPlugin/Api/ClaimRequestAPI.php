@@ -63,8 +63,30 @@ class ClaimRequestAPI extends Endpoint implements CollectionEndpoint
     }
 
     /**
+     * @OA\Post(
+     *     path="/api/v2/claim/requests",
+     *     tags={"Claim/Requests"},
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="claimEventId", type="integer"),
+     *             @OA\Property(property="currency", type="string"),
+     *             @OA\Property(property="remarks", type="string"),
+     *             required={"claimEventId", "currency"}
+     *         )
+     *     ),
+     *     @OA\Response(response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Claim-RequestModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     )
+     * )
      * @inheritDoc
-     * @throws InvalidParamException
      */
     public function create(): EndpointResult
     {
@@ -118,7 +140,7 @@ class ClaimRequestAPI extends Endpoint implements CollectionEndpoint
                 self::PARAMETER_CURRENCY
             );
 
-            if ($this->getClaimService()->getClaimEventDao()->getClaimEventById($claimEventId) === null) {
+            if ($this->getClaimService()->getClaimDao()->getClaimEventById($claimEventId) === null) {
                 throw $this->getInvalidParamException(self::PARAMETER_CLAIM_EVENT_ID);
             }
 
@@ -127,23 +149,21 @@ class ClaimRequestAPI extends Endpoint implements CollectionEndpoint
             }
 
             $claimRequest->setClaimEvent(
-                $this->getClaimService()->getClaimEventDao()->getClaimEventById($claimEventId)
+                $this->getClaimService()->getClaimDao()->getClaimEventById($claimEventId)
             );
-            $claimRequest->setCurrency($currencyId);
+            $claimRequest->setCurrencyType($this->getPayGradeService()->getPayGradeDao()->getCurrencyById($currencyId));
             $claimRequest->setDescription(
                 $this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_REMARKS)
             );
 
-            $nextId = $this->getClaimService()->getClaimEventDao()->getNextId();
-            $referenceId = date('Ymd') . str_pad("$nextId", 7, 0, STR_PAD_LEFT);
-            $claimRequest->setReferenceId($referenceId);
+            $claimRequest->setReferenceId($this->getClaimService()->getReferenceId());
             $claimRequest->setStatus(ClaimRequest::REQUEST_STATUS_INITIATED);
             $claimRequest->setCreatedDate($this->getDateTimeHelper()->getNow());
             $userId = $this->getAuthUser()->getUserId();
             $claimRequest->getDecorator()->setUserByUserId($userId);
 
             $this->commitTransaction();
-            return $this->getClaimService()->getClaimEventDao()->saveClaimRequest($claimRequest);
+            return $this->getClaimService()->getClaimDao()->saveClaimRequest($claimRequest);
         } catch (InvalidParamException|BadRequestException $e) {
             $this->rollBackTransaction();
             throw $e;

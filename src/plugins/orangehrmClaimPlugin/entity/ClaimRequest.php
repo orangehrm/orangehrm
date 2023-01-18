@@ -21,7 +21,7 @@ namespace OrangeHRM\Entity;
 
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
-use OrangeHRM\Claim\entity\Decorator\ClaimRequestDecorator;
+use OrangeHRM\Entity\Decorator\ClaimRequestDecorator;
 use OrangeHRM\Entity\Decorator\DecoratorTrait;
 
 /**
@@ -89,11 +89,12 @@ class ClaimRequest
     private ?string $description;
 
     /**
-     * @var string
+     * @var CurrencyType
      *
-     * @ORM\Column(name="currency", type="string", length=3)
+     * @ORM\OneToOne(targetEntity="OrangeHRM\Entity\CurrencyType")
+     * @ORM\JoinColumn(name="currency_id", referencedColumnName="currency_id")
      */
-    private string $currency;
+    private CurrencyType $currencyType;
 
     /**
      * @var bool
@@ -220,19 +221,19 @@ class ClaimRequest
     }
 
     /**
-     * @return string
+     * @return CurrencyType
      */
-    public function getCurrency(): string
+    public function getCurrencyType(): CurrencyType
     {
-        return $this->currency;
+        return $this->currencyType;
     }
 
     /**
-     * @param string $currency
+     * @param CurrencyType $currencyType
      */
-    public function setCurrency(string $currency): void
+    public function setCurrencyType(CurrencyType $currencyType): void
     {
-        $this->currency = $currency;
+        $this->currencyType = $currencyType;
     }
 
     /**

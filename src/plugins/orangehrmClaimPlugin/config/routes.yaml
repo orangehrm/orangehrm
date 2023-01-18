@@ -13,14 +13,14 @@ apiv2_claim_event:
     _api: OrangeHRM\Claim\Api\ClaimEventAPI
 
 apiv2_claim_expense_types:
-  path: /api/v2/claim/expense/types
+  path: /api/v2/claim/expenses/types
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
   methods: [ POST, GET, DELETE ]
   defaults:
-    _api: OrangeHRM\Claim\Api\ClaimExpenseTypesAPI
+    _api: OrangeHRM\Claim\Api\ClaimExpenseTypeAPI
 
-apiv2_claim_request:
-  path: /api/v2/claim/request
+apiv2_claim_requests:
+  path: /api/v2/claim/requests
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
   methods: [ POST ]
   defaults:

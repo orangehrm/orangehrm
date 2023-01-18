@@ -20,6 +20,7 @@
 namespace OrangeHRM\Installer\Migration\V5_4_0;
 
 use Doctrine\DBAL\Schema\ForeignKeyConstraint;
+use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Types\Types;
 use OrangeHRM\Installer\Util\V1\AbstractMigration;
 
@@ -86,27 +87,6 @@ class Migration extends AbstractMigration
             $this->getSchemaHelper()->addForeignKey('ohrm_expense_type', $foreignKeyConstraint);
         }
 
-        if (!$this->getSchemaHelper()->tableExists(['ohrm_expense'])) {
-            $this->getSchemaHelper()->createTable('ohrm_expense')
-                ->addColumn('id', Types::INTEGER, ['Autoincrement' => true])
-                ->addColumn('expense_type_id', Types::INTEGER, ['Length' => 11])
-                ->addColumn('date', Types::DATETIME_MUTABLE, ['Notnull' => false, 'Default' => null])
-                ->addColumn('amount', Types::DECIMAL, ['Notnull' => false])
-                ->addColumn('note', Types::TEXT, ['Notnull' => false,'Length'=>1000])
-                ->addColumn('request_id', Types::INTEGER, ['Notnull' => false,'Length' => 11])
-                ->addColumn('is_deleted', Types::SMALLINT, ['Notnull' => true, 'Default' => 0])
-                ->setPrimaryKey(['id'])
-                ->create();
-            $foreignKeyConstraint = new ForeignKeyConstraint(
-                ['expense_type_id'],
-                'ohrm_expense_type',
-                ['id'],
-                'expenseTypeId',
-                ['onDelete' => 'CASCADE']
-            );
-            $this->getSchemaHelper()->addForeignKey('ohrm_expense', $foreignKeyConstraint);
-        }
-
         if (!$this->getSchemaHelper()->tableExists(['ohrm_claim_request'])) {
             $this->getSchemaHelper()->createTable('ohrm_claim_request')
                 ->addColumn('id', Types::INTEGER, ['Autoincrement' => true])
@@ -115,7 +95,7 @@ class Migration extends AbstractMigration
                 ->addColumn('reference_id', Types::TEXT, ['Notnull' => false])
                 ->addColumn('event_type_id', Types::INTEGER, ['Notnull' => false, 'Length' => 11])
                 ->addColumn('description', Types::TEXT, ['Notnull' => false])
-                ->addColumn('currency', Types::TEXT, ['Notnull' => false])
+                ->addColumn('currency', Types::TEXT, ['Notnull' => false, 'Length' => 3])
                 ->addColumn('is_deleted', Types::SMALLINT, ['Notnull' => true])
                 ->addColumn('status', Types::TEXT, ['Notnull' => false])
                 ->addColumn('created_date', Types::DATETIME_MUTABLE, ['Notnull' => false, 'Default' => null])
@@ -147,7 +127,74 @@ class Migration extends AbstractMigration
             );
             $this->getSchemaHelper()->addForeignKey('ohrm_claim_request', $foreignKeyConstraint3);
         }
+
+
+        $this->modifyClaimTables(); //modify tables after creation
+        $this->modifyClaimRequestCurrencyToForeignKey();
     }
+
+    private function modifyClaimTables(): void
+    {
+        $this->getConnection()->executeStatement(
+            'ALTER TABLE ohrm_claim_request CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci'
+        );
+
+        $this->getSchemaHelper()->addOrChangeColumns('ohrm_claim_request', [
+            'reference_id' => [
+                'Notnull' => true,
+                'Type' => Type::getType(Types::STRING),
+            ],
+            'description' => [
+                'Length' => 1000
+            ],
+            'currency' => [
+                'Notnull' => true,
+                'Type' => Type::getType(Types::STRING),
+                'Length' => 3
+            ]
+        ]);
+
+        $this->getSchemaHelper()->addOrChangeColumns('ohrm_expense_type', [
+            'name' => [
+                'Notnull' => true,
+                'Type' => Type::getType(Types::STRING),
+            ],
+            'description' => [
+                'Length' => 1000
+            ],
+            'is_deleted' => [
+                'Type' => Type::getType(Types::BOOLEAN),
+            ],
+        ]);
+
+        $this->getSchemaHelper()->addOrChangeColumns('ohrm_claim_event', [
+            'name' => [
+                'Notnull' => true,
+                'Type' => Type::getType(Types::STRING),
+            ],
+            'description' => [
+                'Length' => 1000
+            ],
+            'is_deleted' => [
+                'Type' => Type::getType(Types::BOOLEAN),
+            ],
+        ]);
+
+        $this->getSchemaHelper()->renameColumn('ohrm_claim_request', 'currency', 'currency_id');
+    }
+
+    private function modifyClaimRequestCurrencyToForeignKey(): void
+    {
+        $foreignKeyConstraint = new ForeignKeyConstraint(
+            ['currency_id'],
+            'hs_hr_currency_type',
+            ['currency_id'],
+            'fk_currency_id',
+            ['onDelete' => 'RESTRICT', 'onUpdate' => 'RESTRICT']
+        );
+        $this->getSchemaHelper()->addForeignKey('ohrm_claim_request', $foreignKeyConstraint);
+    }
+
     /**
      * @inheritDoc
      */

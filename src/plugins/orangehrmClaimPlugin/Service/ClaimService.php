@@ -20,19 +20,32 @@
 namespace OrangeHRM\Claim\Service;
 
 use OrangeHRM\Claim\Dao\ClaimDao;
+use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 
 class ClaimService
 {
+    use DateTimeHelperTrait;
+
     /**
      * @var ClaimDao
      */
-    protected ClaimDao $claimEventDao;
+    protected ClaimDao $claimDao;
 
     /**
      * @return ClaimDao
      */
-    public function getClaimEventDao(): ClaimDao
+    public function getClaimDao(): ClaimDao
     {
-        return $this->claimEventDao ??= new ClaimDao();
+        return $this->claimDao ??= new ClaimDao();
+    }
+
+    /**
+     * @return string
+     */
+    public function getReferenceId(): string
+    {
+        $nextId = $this->getClaimDao()->getNextId();
+        $date = $this->getDateTimeHelper()->getNow()->format('Ymd');
+        return $date . str_pad("$nextId", 7, 0, STR_PAD_LEFT);
     }
 }

@@ -17,7 +17,10 @@ Create:
       claimEvent:
         id: 1
         name: Office Rent
-      currency: 'CAD'
+      currency:
+        id: 1
+        code: CAD
+        name: Canadian Dollar
       remarks: description
       status: initiated
     meta: [ ]
@@ -40,7 +43,10 @@ Create:
       claimEvent:
         id: 2
         name: Employee Salaries
-      currency: 'USD'
+      currency:
+        id: 2
+        code: USD
+        name: United States Dollar
       remarks: sample claim request description
       status: initiated
     meta: [ ]
@@ -63,7 +69,10 @@ Create:
       claimEvent:
         id: 2
         name: Employee Salaries
-      currency: 'USD'
+      currency:
+        id: 2
+        code: USD
+        name: United States Dollar
       remarks:
       status: initiated
     meta: [ ]
@@ -86,7 +95,10 @@ Create:
       claimEvent:
         id: 2
         name: Employee Salaries
-      currency: USD
+      currency:
+        id: 2
+        code: USD
+        name: United States Dollar
       remarks: null
       status: initiated
     meta: [ ]
