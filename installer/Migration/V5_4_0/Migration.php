@@ -73,7 +73,7 @@ class Migration extends AbstractMigration
                 ->addColumn('name', Types::TEXT, ['Notnull' => true,'Length'=>100])
                 ->addColumn('description', Types::TEXT, ['Notnull' => false,'Length'=>1000])
                 ->addColumn('added_by', Types::INTEGER, ['Notnull' => false])
-                ->addColumn('status', Types::BOOLEAN, ['Notnull' => false])
+                ->addColumn('status', Types::STRING, ['Notnull' => false, 'Length'=>64])
                 ->addColumn('is_deleted', Types::SMALLINT, ['Notnull' => true, 'Default' => 0])
                 ->setPrimaryKey(['id'])
                 ->create();
@@ -95,7 +95,7 @@ class Migration extends AbstractMigration
                 ->addColumn('reference_id', Types::TEXT, ['Notnull' => false])
                 ->addColumn('event_type_id', Types::INTEGER, ['Notnull' => false, 'Length' => 11])
                 ->addColumn('description', Types::TEXT, ['Notnull' => false])
-                ->addColumn('currency', Types::TEXT, ['Notnull' => false, 'Length' => 3])
+                ->addColumn('currency', Types::STRING, ['Notnull' => false, 'Length' => 3])
                 ->addColumn('is_deleted', Types::SMALLINT, ['Notnull' => true])
                 ->addColumn('status', Types::TEXT, ['Notnull' => false])
                 ->addColumn('created_date', Types::DATETIME_MUTABLE, ['Notnull' => false, 'Default' => null])
@@ -115,7 +115,7 @@ class Migration extends AbstractMigration
                 'ohrm_claim_event',
                 ['id'],
                 'claimEventId',
-                ['onDelete' => 'CASCADE']
+                ['onDelete' => 'RESTRICT']
             );
             $this->getSchemaHelper()->addForeignKey('ohrm_claim_request', $foreignKeyConstraint2);
             $foreignKeyConstraint3 = new ForeignKeyConstraint(
@@ -123,11 +123,10 @@ class Migration extends AbstractMigration
                 'hs_hr_employee',
                 ['emp_number'],
                 'claim_Request_Employee_Number',
-                ['onDelete' => 'CASCADE']
+                ['onDelete' => 'RESTRICT']
             );
             $this->getSchemaHelper()->addForeignKey('ohrm_claim_request', $foreignKeyConstraint3);
         }
-
 
         $this->modifyClaimTables(); //modify tables after creation
         $this->modifyClaimRequestCurrencyToForeignKey();
@@ -145,6 +144,7 @@ class Migration extends AbstractMigration
                 'Type' => Type::getType(Types::STRING),
             ],
             'description' => [
+                'Type' => Type::getType(Types::STRING),
                 'Length' => 1000
             ],
             'currency' => [
@@ -160,6 +160,7 @@ class Migration extends AbstractMigration
                 'Type' => Type::getType(Types::STRING),
             ],
             'description' => [
+                'Type' => Type::getType(Types::STRING),
                 'Length' => 1000
             ],
             'is_deleted' => [
@@ -190,7 +191,7 @@ class Migration extends AbstractMigration
             'hs_hr_currency_type',
             ['currency_id'],
             'fk_currency_id',
-            ['onDelete' => 'RESTRICT', 'onUpdate' => 'RESTRICT']
+            ['onDelete' => 'RESTRICT', 'onUpdate' => 'CASCADE']
         );
         $this->getSchemaHelper()->addForeignKey('ohrm_claim_request', $foreignKeyConstraint);
     }

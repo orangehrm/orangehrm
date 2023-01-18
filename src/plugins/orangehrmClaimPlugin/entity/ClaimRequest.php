@@ -86,7 +86,7 @@ class ClaimRequest
      *
      * @ORM\Column(name="description", type="string", length=255)
      */
-    private ?string $description;
+    private ?string $description = null;
 
     /**
      * @var CurrencyType

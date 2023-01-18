@@ -24,7 +24,11 @@ use OrangeHRM\Framework\Services;
 use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
 use OrangeHRM\Tests\Util\Integration\TestCaseParams;
 
-class ClaimExpenseTypesAPITest extends EndpointIntegrationTestCase
+/**
+ * @group Claim
+ * @group APIv2
+ */
+class ClaimExpenseTypeAPITest extends EndpointIntegrationTestCase
 {
     /**
      * @dataProvider dataProviderForTestCreate
@@ -41,6 +45,6 @@ class ClaimExpenseTypesAPITest extends EndpointIntegrationTestCase
 
     public function dataProviderForTestCreate(): array
     {
-        return $this->getTestCases('ClaimExpenseTypesAPITestCases.yaml', 'Create');
+        return $this->getTestCases('ClaimExpenseTypeAPITestCases.yaml', 'Create');
     }
 }

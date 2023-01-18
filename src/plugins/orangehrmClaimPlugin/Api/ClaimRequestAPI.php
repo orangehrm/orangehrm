@@ -140,7 +140,8 @@ class ClaimRequestAPI extends Endpoint implements CollectionEndpoint
                 self::PARAMETER_CURRENCY
             );
 
-            if ($this->getClaimService()->getClaimDao()->getClaimEventById($claimEventId) === null) {
+            $claimEvent = $this->getClaimService()->getClaimDao()->getClaimEventById($claimEventId);
+            if ($claimEvent === null) {
                 throw $this->getInvalidParamException(self::PARAMETER_CLAIM_EVENT_ID);
             }
 
@@ -148,9 +149,7 @@ class ClaimRequestAPI extends Endpoint implements CollectionEndpoint
                 throw $this->getInvalidParamException(self::PARAMETER_CURRENCY);
             }
 
-            $claimRequest->setClaimEvent(
-                $this->getClaimService()->getClaimDao()->getClaimEventById($claimEventId)
-            );
+            $claimRequest->setClaimEvent($claimEvent);
             $claimRequest->setCurrencyType($this->getPayGradeService()->getPayGradeDao()->getCurrencyById($currencyId));
             $claimRequest->setDescription(
                 $this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_REMARKS)

@@ -17,9 +17,8 @@ Create:
       claimEvent:
         id: 1
         name: Office Rent
-      currency:
-        id: 1
-        code: CAD
+      currencyType:
+        id: CAD
         name: Canadian Dollar
       remarks: description
       status: initiated
@@ -43,9 +42,8 @@ Create:
       claimEvent:
         id: 2
         name: Employee Salaries
-      currency:
-        id: 2
-        code: USD
+      currencyType:
+        id: USD
         name: United States Dollar
       remarks: sample claim request description
       status: initiated
@@ -69,9 +67,8 @@ Create:
       claimEvent:
         id: 2
         name: Employee Salaries
-      currency:
-        id: 2
-        code: USD
+      currencyType:
+        id: USD
         name: United States Dollar
       remarks:
       status: initiated
@@ -95,9 +92,8 @@ Create:
       claimEvent:
         id: 2
         name: Employee Salaries
-      currency:
-        id: 2
-        code: USD
+      currencyType:
+        id: USD
         name: United States Dollar
       remarks: null
       status: initiated
