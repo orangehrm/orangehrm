@@ -17,18 +17,43 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Claim\Traits\Service;
+namespace OrangeHRM\Entity\Decorator;
 
-use OrangeHRM\Claim\Service\ClaimService;
-use OrangeHRM\Core\Traits\ServiceContainerTrait;
-use OrangeHRM\Framework\Services;
+use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
+use OrangeHRM\Entity\ClaimRequest;
+use OrangeHRM\Entity\User;
 
-trait ClaimServiceTrait
+class ClaimRequestDecorator
 {
-    use ServiceContainerTrait;
+    use EntityManagerHelperTrait;
 
-    protected function getClaimService(): ClaimService
+    /**
+     * @var ClaimRequest
+     */
+    protected ClaimRequest $claimRequest;
+
+    /**
+     * @param ClaimRequest $claimRequest
+     */
+    public function __construct(ClaimRequest $claimRequest)
     {
-        return $this->getContainer()->get(Services::CLAIM_SERVICE);
+        $this->claimRequest = $claimRequest;
+    }
+
+    /**
+     * @return ClaimRequest
+     */
+    protected function getClaimRequest(): ClaimRequest
+    {
+        return $this->claimRequest;
+    }
+
+    /**
+     * @param int $userId
+     */
+    public function setUserByUserId(int $userId)
+    {
+        $user = $this->getReference(User::class, $userId);
+        $this->getClaimRequest()->setUser($user);
     }
 }

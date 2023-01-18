@@ -17,18 +17,40 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Claim\Traits\Service;
+namespace OrangeHRM\Claim\Api\Model;
 
-use OrangeHRM\Claim\Service\ClaimService;
-use OrangeHRM\Core\Traits\ServiceContainerTrait;
-use OrangeHRM\Framework\Services;
+use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
+use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
+use OrangeHRM\Entity\ClaimRequest;
 
-trait ClaimServiceTrait
+class ClaimRequestModel implements Normalizable
 {
-    use ServiceContainerTrait;
+    use ModelTrait;
 
-    protected function getClaimService(): ClaimService
+    public function __construct(ClaimRequest $claimRequest)
     {
-        return $this->getContainer()->get(Services::CLAIM_SERVICE);
+        $this->setEntity($claimRequest);
+        $this->setFilters(
+            [
+                'id',
+                'referenceId',
+                ['getClaimEvent', 'getId'],
+                ['getClaimEvent', 'getName'],
+                'currency',
+                'description',
+                'status',
+            ]
+        );
+        $this->setAttributeNames(
+            [
+                'id',
+                'referenceId',
+                ['claimEvent', 'id'],
+                ['claimEvent', 'name'],
+                'currency',
+                'remarks',
+                'status',
+            ]
+        );
     }
 }

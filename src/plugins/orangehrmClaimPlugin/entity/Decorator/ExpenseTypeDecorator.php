@@ -17,18 +17,43 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Claim\Traits\Service;
+namespace OrangeHRM\Entity\Decorator;
 
-use OrangeHRM\Claim\Service\ClaimService;
-use OrangeHRM\Core\Traits\ServiceContainerTrait;
-use OrangeHRM\Framework\Services;
+use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
+use OrangeHRM\Entity\ExpenseType;
+use OrangeHRM\Entity\User;
 
-trait ClaimServiceTrait
+class ExpenseTypeDecorator
 {
-    use ServiceContainerTrait;
+    use EntityManagerHelperTrait;
 
-    protected function getClaimService(): ClaimService
+    /**
+     * @var ExpenseType
+     */
+    protected ExpenseType $expenseType;
+
+    /**
+     * @param ExpenseType $expenseType
+     */
+    public function __construct(ExpenseType $expenseType)
     {
-        return $this->getContainer()->get(Services::CLAIM_SERVICE);
+        $this->expenseType = $expenseType;
+    }
+
+    /**
+     * @return ExpenseType
+     */
+    protected function getExpenseType(): ExpenseType
+    {
+        return $this->expenseType;
+    }
+
+    /**
+     * @param int $userId
+     */
+    public function setUserByUserId(int $userId)
+    {
+        $user = $this->getReference(User::class, $userId);
+        $this->getExpenseType()->setUser($user);
     }
 }

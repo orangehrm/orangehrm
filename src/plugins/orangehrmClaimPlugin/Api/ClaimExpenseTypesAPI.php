@@ -1,0 +1,192 @@
+<?php
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ */
+
+namespace OrangeHRM\Claim\Api;
+
+use OrangeHRM\Claim\Api\Model\ClaimExpenseTypesModel;
+use OrangeHRM\Claim\Traits\Service\ClaimServiceTrait;
+use OrangeHRM\Core\Api\V2\CrudEndpoint;
+use OrangeHRM\Core\Api\V2\Endpoint;
+use OrangeHRM\Core\Api\V2\EndpointResourceResult;
+use OrangeHRM\Core\Api\V2\EndpointResult;
+use OrangeHRM\Core\Api\V2\RequestParams;
+use OrangeHRM\Core\Api\V2\Validator\ParamRule;
+use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
+use OrangeHRM\Core\Api\V2\Validator\Rule;
+use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Core\Api\V2\Validator\Rules\EntityUniquePropertyOption;
+use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
+use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
+use OrangeHRM\Entity\ExpenseType;
+
+class ClaimExpenseTypesAPI extends Endpoint implements CrudEndpoint
+{
+    use EntityManagerHelperTrait;
+    use ClaimServiceTrait;
+    use AuthUserTrait;
+
+    public const PARAMETER_NAME = 'name';
+    public const PARAMETER_DESCRIPTION = 'description';
+    public const PARAMETER_ID = 'id';
+
+    public const PARAMETER_STATUS = 'status';
+    public const DESCRIPTION_MAX_LENGTH = 1000;
+    public const NAME_MAX_LENGTH = 100;
+
+    /**
+     * @inheritDoc
+     */
+    public function getAll(): EndpointResult
+    {
+        throw $this->getNotImplementedException();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getValidationRuleForGetAll(): ParamRuleCollection
+    {
+        throw $this->getNotImplementedException();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function create(): EndpointResourceResult
+    {
+        $expenseType = new ExpenseType();
+        $this->setExpenseType($expenseType);
+
+        $userId = $this->getAuthUser()->getUserId();
+        $expenseType->getDecorator()->setUserByUserId($userId);
+
+        $this->getClaimService()->getClaimEventDao()->saveExpenseType($expenseType);
+        return new EndpointResourceResult(ClaimExpenseTypesModel::class, $expenseType);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getValidationRuleForCreate(): ParamRuleCollection
+    {
+        return new ParamRuleCollection(
+            $this->getValidationDecorator()->requiredParamRule(
+                $this->getNameRule(),
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_DESCRIPTION,
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::LENGTH, [null, self::DESCRIPTION_MAX_LENGTH])
+                ),
+                true
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_STATUS,
+                    new Rule(Rules::BOOL_TYPE)
+                ),
+            )
+        );
+    }
+
+    /**
+     * @return ParamRule
+     */
+    protected function getNameRule(): ParamRule
+    {
+        $entityProperties = new EntityUniquePropertyOption();
+        $ignoreValues = ['isDeleted' => true];
+        $entityProperties->setIgnoreValues($ignoreValues);
+
+        return new ParamRule(
+            self::PARAMETER_NAME,
+            new Rule(Rules::STRING_TYPE),
+            new Rule(Rules::LENGTH, [null, self::NAME_MAX_LENGTH]),
+            new Rule(Rules::ENTITY_UNIQUE_PROPERTY, [ExpenseType::class, 'name', $entityProperties])
+        );
+    }
+
+    /**
+     * @param ExpenseType $expenseType
+     */
+    private function setExpenseType(ExpenseType $expenseType): void
+    {
+        $expenseType->setName(
+            $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_NAME)
+        );
+        $expenseType->setDescription(
+            $this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_DESCRIPTION)
+        );
+        $expenseType->setStatus(
+            $this->getRequestParams()->getBoolean(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_STATUS, true)
+        );
+
+        $userId = $this->getAuthUser()->getUserId();
+        $expenseType->getDecorator()->setUserByUserId($userId);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function delete(): EndpointResult
+    {
+        throw $this->getNotImplementedException();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getValidationRuleForDelete(): ParamRuleCollection
+    {
+        throw $this->getNotImplementedException();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getOne(): EndpointResult
+    {
+        throw $this->getNotImplementedException();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getValidationRuleForGetOne(): ParamRuleCollection
+    {
+        throw $this->getNotImplementedException();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function update(): EndpointResult
+    {
+        throw $this->getNotImplementedException();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getValidationRuleForUpdate(): ParamRuleCollection
+    {
+        throw $this->getNotImplementedException();
+    }
+}

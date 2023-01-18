@@ -1,0 +1,83 @@
+Create:
+  'Create Claim Expense Type - Admin':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    body:
+      name: 'electricity expenses'
+      description: 'electricity expenses description'
+      status: true
+    data:
+      id: 5
+      name: electricity expenses
+      description: electricity expenses description
+      status: true
+    meta: [ ]
+
+  'Create Claim Expense Type - Without name':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    body:
+      description: 'expenses description'
+      status: true
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: 'Invalid Parameter'
+
+  'Create Claim Expense Type - Existing name':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    body:
+      name: 'transport'
+      description: 'sample description'
+      status: true
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: 'Invalid Parameter'
+
+  'Create Claim Expense Type - Without description':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    body:
+      name: 'electricity expenses'
+      description: ''
+      status: true
+    data:
+      id: 5
+      name: electricity expenses
+      description: null
+      status: true
+    meta: [ ]
+
+  'Create Claim Expense Type - Without status':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    body:
+      name: 'electricity expenses'
+      description: 'electricity expenses description'
+      status:
+    data:
+      id: 5
+      name: electricity expenses
+      description: electricity expenses description
+      status: null
+    meta: [ ]
+
+  'Create Claim Event with no status and no description':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    body:
+      name: 'electricity expenses'
+      description: null
+      status: null
+    data:
+      id: 5
+      name: electricity expenses
+      description: null
+      status: null
+    meta: [ ]

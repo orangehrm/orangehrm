@@ -24,17 +24,19 @@ use OrangeHRM\Claim\Dto\ClaimEventSearchFilterParams;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Entity\ClaimEvent;
+use OrangeHRM\Entity\ClaimRequest;
+use OrangeHRM\Entity\ExpenseType;
 use OrangeHRM\Tests\Util\KernelTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 
-class ClaimEventDaoTest extends KernelTestCase
+class ClaimDaoTest extends KernelTestCase
 {
     use EntityManagerHelperTrait;
-    private ClaimDao $claimEventDao;
+    private ClaimDao $claimDao;
 
     protected function setUp(): void
     {
-        $this->claimEventDao = new ClaimDao();
+        $this->claimDao = new ClaimDao();
         $fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmClaimPlugin/test/fixtures/ClaimEvent.yml';
         TestDataService::populate($fixture);
     }
@@ -45,7 +47,7 @@ class ClaimEventDaoTest extends KernelTestCase
         $claimEvent->setName("testname2");
         $claimEvent->setStatus(true);
         $claimEvent->getDecorator()->setUserByUserId(1);
-        $result = $this->claimEventDao->saveEvent($claimEvent);
+        $result = $this->claimDao->saveEvent($claimEvent);
         $this->assertEquals("testname2", $result->getName());
         $this->assertEquals(true, $result->getStatus());
     }
@@ -55,19 +57,19 @@ class ClaimEventDaoTest extends KernelTestCase
         $claimEventSearchFilterParams = new ClaimEventSearchFilterParams();
         $claimEventSearchFilterParams->setName(null);
         $claimEventSearchFilterParams->setStatus(null);
-        $result = $this->claimEventDao->getClaimEventList($claimEventSearchFilterParams);
+        $result = $this->claimDao->getClaimEventList($claimEventSearchFilterParams);
         $this->assertEquals("event1", $result[0]->getName());
     }
 
     public function testGetClaimEventById(): void
     {
-        $result = $this->claimEventDao->getClaimEventById(1);
+        $result = $this->claimDao->getClaimEventById(1);
         $this->assertEquals("event1", $result->getName());
     }
 
     public function testDeleteClaimEvents(): void
     {
-        $result = $this->claimEventDao->deleteClaimEvents([1,2]);
+        $result = $this->claimDao->deleteClaimEvents([1,2]);
         $this->assertEquals(2, $result);
     }
 
@@ -76,11 +78,57 @@ class ClaimEventDaoTest extends KernelTestCase
         $claimEventSearchFilterParams = new ClaimEventSearchFilterParams();
         $claimEventSearchFilterParams->setName(null);
         $claimEventSearchFilterParams->setStatus(null);
-        $result = $this->claimEventDao->getClaimEventCount($claimEventSearchFilterParams);
+        $result = $this->claimDao->getClaimEventCount($claimEventSearchFilterParams);
         $this->assertEquals(4, $result);
 
         $claimEventSearchFilterParams->setName("event1");
-        $result = $this->claimEventDao->getClaimEventCount($claimEventSearchFilterParams);
+        $result = $this->claimDao->getClaimEventCount($claimEventSearchFilterParams);
         $this->assertEquals(1, $result);
+    }
+
+    public function testSaveExpenseType(): void
+    {
+        $expenseType = new ExpenseType();
+        $expenseType->setName('sample expenses');
+        $expenseType->setDescription('description for expenses');
+        $expenseType->getDecorator()->setUserByUserId(1);
+        $result = $this->claimDao->saveExpenseType($expenseType);
+        $this->assertEquals('sample expenses', $result->getName());
+        $this->assertEquals('1', $result->getUser()->getId());
+    }
+
+    public function testSaveClaimRequest(): void
+    {
+        $claimEvent = new ClaimEvent();
+        $claimEvent->setName("sample claim event");
+        $claimEvent->setStatus(true);
+        $claimEvent->getDecorator()->setUserByUserId(1);
+        $this->claimDao->saveEvent($claimEvent);
+
+        $claimRequest = new ClaimRequest();
+        $claimRequest->setClaimEvent($claimEvent);
+        $claimRequest->setCurrency('CAD');
+        $claimRequest->setDescription('sample description for claim request');
+        $result = $this->claimDao->saveClaimRequest($claimRequest);
+        $this->assertEquals('sample claim event', $result->getClaimEvent()->getName());
+        $this->assertEquals('CAD', $result->getCurrency());
+    }
+
+    public function testGetNextId(): void
+    {
+        $claimEvent = new ClaimEvent();
+        $claimEvent->setName("sample claim event");
+        $claimEvent->setStatus(true);
+        $claimEvent->getDecorator()->setUserByUserId(1);
+        $this->claimDao->saveEvent($claimEvent);
+
+        $claimRequest = new ClaimRequest();
+        $claimRequest->setClaimEvent($claimEvent);
+        $claimRequest->setCurrency('CAD');
+        $claimRequest->setDescription('sample description for claim request');
+        $this->claimDao->saveClaimRequest($claimRequest);
+
+        $result = $this->claimDao->getNextId();
+        $this->assertIsInt($result);
     }
 }

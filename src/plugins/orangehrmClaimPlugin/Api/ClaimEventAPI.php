@@ -75,7 +75,7 @@ class ClaimEventAPI extends Endpoint implements CrudEndpoint
         $claimEvent->setStatus($this->getRequestParams()->getBoolean(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_STATUS, true));
         $userId = $this->getAuthUser()->getUserId();
         $claimEvent->getDecorator()->setUserByUserId($userId);
-        $this->getClaimEventService()->getClaimEventDao()->saveEvent($claimEvent);
+        $this->getClaimService()->getClaimEventDao()->saveEvent($claimEvent);
     }
 
     /**
@@ -87,8 +87,8 @@ class ClaimEventAPI extends Endpoint implements CrudEndpoint
         $this->setSortingAndPaginationParams($claimEventSearchFilterParams);
         $claimEventSearchFilterParams->setName($this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_NAME));
         $claimEventSearchFilterParams->setStatus($this->getRequestParams()->getBooleanOrNull(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_STATUS));
-        $claimEvents = $this->getClaimEventService()->getClaimEventDao()->getClaimEventList($claimEventSearchFilterParams);
-        $count = $this->getClaimEventService()->getClaimEventDao()->getClaimEventCount($claimEventSearchFilterParams);
+        $claimEvents = $this->getClaimService()->getClaimEventDao()->getClaimEventList($claimEventSearchFilterParams);
+        $count = $this->getClaimService()->getClaimEventDao()->getClaimEventCount($claimEventSearchFilterParams);
         return new EndpointCollectionResult(ClaimEventModel::class, $claimEvents, new ParameterBag([CommonParams::PARAMETER_TOTAL => $count]));
     }
 
@@ -172,7 +172,7 @@ class ClaimEventAPI extends Endpoint implements CrudEndpoint
     public function delete(): EndpointResult
     {
         $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_IDS);
-        $this->getClaimEventService()->getClaimEventDao()->deleteClaimEvents($ids);
+        $this->getClaimService()->getClaimEventDao()->deleteClaimEvents($ids);
         return new EndpointResourceResult(ArrayModel::class, $ids);
     }
 
@@ -196,7 +196,7 @@ class ClaimEventAPI extends Endpoint implements CrudEndpoint
     public function getOne(): EndpointResult
     {
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_ID);
-        $claimEvent = $this->getClaimEventService()->getClaimEventDao()->getClaimEventById($id);
+        $claimEvent = $this->getClaimService()->getClaimEventDao()->getClaimEventById($id);
         $this->throwRecordNotFoundExceptionIfNotExist($claimEvent, ClaimEvent::class);
         return new EndpointResourceResult(ClaimEventModel::class, $claimEvent);
     }
@@ -221,7 +221,7 @@ class ClaimEventAPI extends Endpoint implements CrudEndpoint
     public function update(): EndpointResult
     {
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_ID);
-        $claimEvent = $this->getClaimEventService()->getClaimEventDao()->getClaimEventById($id);
+        $claimEvent = $this->getClaimService()->getClaimEventDao()->getClaimEventById($id);
         $this->throwRecordNotFoundExceptionIfNotExist($claimEvent, ClaimEvent::class);
         $this->setClaimEvent($claimEvent);
         return new EndpointResourceResult(ClaimEventModel::class, $claimEvent);

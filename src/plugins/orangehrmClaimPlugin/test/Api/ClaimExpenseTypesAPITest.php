@@ -17,18 +17,30 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Claim\Traits\Service;
+namespace OrangeHRM\Tests\Claim\Api;
 
-use OrangeHRM\Claim\Service\ClaimService;
-use OrangeHRM\Core\Traits\ServiceContainerTrait;
+use OrangeHRM\Claim\Api\ClaimExpenseTypesAPI;
 use OrangeHRM\Framework\Services;
+use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
+use OrangeHRM\Tests\Util\Integration\TestCaseParams;
 
-trait ClaimServiceTrait
+class ClaimExpenseTypesAPITest extends EndpointIntegrationTestCase
 {
-    use ServiceContainerTrait;
-
-    protected function getClaimService(): ClaimService
+    /**
+     * @dataProvider dataProviderForTestCreate
+     */
+    public function testCreate(TestCaseParams $testCaseParams): void
     {
-        return $this->getContainer()->get(Services::CLAIM_SERVICE);
+        $this->populateFixtures('ExpenseType.yaml');
+        $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
+        $this->registerMockDateTimeHelper($testCaseParams);
+        $this->registerServices($testCaseParams);
+        $api = $this->getApiEndpointMock(ClaimExpenseTypesAPI::class, $testCaseParams);
+        $this->assertValidTestCase($api, 'create', $testCaseParams);
+    }
+
+    public function dataProviderForTestCreate(): array
+    {
+        return $this->getTestCases('ClaimExpenseTypesAPITestCases.yaml', 'Create');
     }
 }
