@@ -91,7 +91,7 @@ class ClaimRequest
     /**
      * @var CurrencyType
      *
-     * @ORM\OneToOne(targetEntity="OrangeHRM\Entity\CurrencyType")
+     * @ORM\OneToOne(targetEntity="OrangeHRM\Entity\CurrencyType", cascade={"persist"})
      * @ORM\JoinColumn(name="currency_id", referencedColumnName="currency_id")
      */
     private CurrencyType $currencyType;

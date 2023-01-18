@@ -24,6 +24,8 @@ use OrangeHRM\Claim\Dto\ClaimEventSearchFilterParams;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Entity\ClaimEvent;
+use OrangeHRM\Entity\ClaimRequest;
+use OrangeHRM\Entity\CurrencyType;
 use OrangeHRM\Entity\ExpenseType;
 use OrangeHRM\Tests\Util\KernelTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
@@ -94,5 +96,33 @@ class ClaimDaoTest extends KernelTestCase
         $result = $this->claimDao->saveExpenseType($expenseType);
         $this->assertEquals('sample expenses', $result->getName());
         $this->assertEquals('1', $result->getUser()->getId());
+    }
+
+    public function testSaveClaimRequest(): void
+    {
+        $claimEvent = new ClaimEvent();
+        $claimEvent->setName("sample claim event");
+        $claimEvent->setStatus(true);
+        $claimEvent->getDecorator()->setUserByUserId(1);
+        $this->claimDao->saveEvent($claimEvent);
+
+        $currencyType = new CurrencyType();
+        $currencyType->setCode(151);
+        $currencyType->setId('USD');
+        $currencyType->setName('United States Dollar');
+
+        $claimRequest = new ClaimRequest();
+        $claimRequest->setClaimEvent($claimEvent);
+        $claimRequest->setReferenceId('202301180000005');
+        $claimRequest->setCurrencyType($currencyType);
+        $claimRequest->setDescription('sample description for claim request');
+        $result = $this->claimDao->saveClaimRequest($claimRequest);
+        $this->assertEquals('sample claim event', $result->getClaimEvent()->getName());
+    }
+
+    public function testGetNextId(): void
+    {
+        $result = $this->claimDao->getNextId();
+        $this->assertIsInt($result);
     }
 }
