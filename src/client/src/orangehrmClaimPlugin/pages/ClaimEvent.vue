@@ -1,33 +1,72 @@
 <template>
-  <div>
-    <oxd-button
-      :label="$t('general.add')"
-      icon-name="plus"
-      display-type="secondary"
-      @click="() => console.log('Hello')"
-    />
-  </div>
-  <table-header
-    :total="total"
-    :loading="isLoading"
-    :selected="checkedItems.length"
-  />
-  <div class="orangehrm-container">
-    <oxd-card-table
-      v-model:selected="checkedItems"
-      v-model:order="sortDefinition"
-      :items="items?.data"
-      :headers="headers"
-      :selectable="true"
-      :clickable="false"
+  <oxd-table-filter filter-title="ClaimEvents">
+    <oxd-form @submit-valid="filterItems">
+      <oxd-form-row>
+        <oxd-grid :cols="4" class="orangehrm-full-width-grid">
+          <oxd-grid-item>
+            <oxd-input-field v-model="filters.name" label="Name" />
+          </oxd-grid-item>
+          <oxd-grid-item>
+            <oxd-input-field
+              v-model="filters.status"
+              type="select"
+              label="Status"
+              :options="this.ClaimEventStatuses"
+            />
+          </oxd-grid-item>
+        </oxd-grid>
+      </oxd-form-row>
+      <oxd-divider />
+      <oxd-form-actions>
+        <oxd-button display-type="ghost" label="Reset" @click="onClickReset" />
+        <oxd-button
+          class="orangehrm-left-space"
+          display-type="secondary"
+          label="Search"
+          type="submit"
+        />
+      </oxd-form-actions>
+    </oxd-form>
+  </oxd-table-filter>
+  <br />
+  <div class="orangehrm-paper-container">
+    <div class="orangehrm-header-container">
+      <oxd-button
+        label="Add"
+        icon-name="plus"
+        display-type="secondary"
+        @click="() => console.log('Hello')"
+      />
+    </div>
+    <table-header
+      :total="total"
       :loading="isLoading"
-      row-decorator="oxd-table-decorator-card"
+      :selected="checkedItems.length"
     />
+    <div class="orangehrm-container">
+      <oxd-card-table
+        v-model:selected="checkedItems"
+        v-model:order="sortDefinition"
+        :items="items?.data"
+        :headers="headers"
+        :selectable="true"
+        :clickable="false"
+        :loading="isLoading"
+        row-decorator="oxd-table-decorator-card"
+      />
+    </div>
+    <div class="orangehrm-bottom-container">
+      <oxd-pagination
+        v-if="showPaginator"
+        v-model:current="currentPage"
+        :length="pages"
+      />
+    </div>
   </div>
 </template>
 
 <script>
-import {ref, computed} from 'vue';
+import {ref, computed, watch} from 'vue';
 import {APIService} from '@/core/util/services/api.service';
 import usePaginate from '@ohrm/core/util/composable/usePaginate';
 import useSort from '@ohrm/core/util/composable/useSort';
@@ -45,6 +84,14 @@ const defaultSortOrder = {
 export default {
   setup() {
     const filters = ref({...defaultFilters});
+    const filter2 = ref(null);
+
+    watch(filters.value, (newFilter) => {
+      console.log(newFilter.status);
+      newFilter.status.id == '1'
+        ? (filter2.value = true)
+        : (filter2.value = false);
+    });
 
     const {sortDefinition, sortField, sortOrder, onSort} = useSort({
       sortDefinition: defaultSortOrder,
@@ -53,7 +100,8 @@ export default {
     const serializedFilters = computed(() => {
       return {
         name: filters.value.name,
-        status: filters.value.status,
+        //status: filters.value.status,
+        status: filter2.value,
         sortField: sortField.value,
         sortOrder: sortOrder.value,
       };
@@ -88,13 +136,29 @@ export default {
       response,
       filters,
       sortDefinition,
+      filter2,
     };
   },
 
+  //console.log('Hello');
+  // watch: {
+  //   filters: function (newFilter) {
+  //     console.log(newFilter);
+  //   },
+  // },
+
   methods: {
-    hi() {
-      console.log(this.items);
-      //console.log(this.response.data[0]);
+    async resetDataTable() {
+      this.checkedItems = [];
+      await this.execQuery();
+    },
+    async filterItems() {
+      await this.execQuery();
+    },
+    onClickReset() {
+      this.filter2 = null;
+      this.filters = {...defaultFilters};
+      this.filterItems();
     },
   },
 
@@ -145,6 +209,10 @@ export default {
       },
     ],
     checkedItems: [],
+    ClaimEventStatuses: [
+      {id: 1, label: 'Enabled'},
+      {id: 2, label: 'Disabled'},
+    ],
   }),
 };
 </script>
