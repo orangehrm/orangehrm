@@ -19,7 +19,7 @@
  -->
 
 <template>
-  <oxd-table-filter filter-title="ClaimEvents">
+  <oxd-table-filter filter-title="Events">
     <oxd-form @submit-valid="filterItems">
       <oxd-form-row>
         <oxd-grid :cols="4" class="orangehrm-full-width-grid">
@@ -159,21 +159,6 @@ export default {
     };
   },
 
-  methods: {
-    async resetDataTable() {
-      this.checkedItems = [];
-      await this.execQuery();
-    },
-    async filterItems() {
-      await this.execQuery();
-    },
-    onClickReset() {
-      this.filter2 = null;
-      this.filters = {...defaultFilters};
-      this.filterItems();
-    },
-  },
-
   data: () => ({
     headers: [
       {
@@ -181,13 +166,15 @@ export default {
         title: 'Name',
         slot: 'title',
         sortField: 'claimEvent.name',
-        style: {'flex-basis': '40%'},
+        //style: {'flex-basis': '40%'},
+        style: {flex: 3},
       },
       {
         name: 'status',
         title: 'Status',
         sortField: 'claimEvent.status',
-        style: {'flex-basis': '40%'},
+        //style: {'flex-basis': '40%'},
+        style: {flex: 2},
       },
       {
         name: 'actions',
@@ -218,10 +205,25 @@ export default {
     ],
     checkedItems: [],
     ClaimEventStatuses: [
-      {id: 0, label: 'Enabled'},
-      {id: 1, label: 'Disabled'},
+      {id: 1, label: 'Enabled'},
+      {id: 0, label: 'Disabled'},
     ],
   }),
+
+  methods: {
+    async resetDataTable() {
+      this.checkedItems = [];
+      await this.execQuery();
+    },
+    async filterItems() {
+      await this.execQuery();
+    },
+    onClickReset() {
+      this.filter2 = null;
+      this.filters = {...defaultFilters};
+      this.filterItems();
+    },
+  },
 };
 </script>
 
