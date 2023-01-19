@@ -86,7 +86,7 @@
 </template>
 
 <script>
-import {ref, computed, watch} from 'vue';
+import {ref, computed} from 'vue';
 import {APIService} from '@/core/util/services/api.service';
 import usePaginate from '@ohrm/core/util/composable/usePaginate';
 import useSort from '@ohrm/core/util/composable/useSort';
@@ -104,14 +104,6 @@ const defaultSortOrder = {
 export default {
   setup() {
     const filters = ref({...defaultFilters});
-    const filter2 = ref(null);
-
-    watch(filters.value, (newFilter) => {
-      console.log(newFilter.status);
-      newFilter.status.id == '1'
-        ? (filter2.value = true)
-        : (filter2.value = false);
-    });
 
     const {sortDefinition, sortField, sortOrder, onSort} = useSort({
       sortDefinition: defaultSortOrder,
@@ -155,7 +147,6 @@ export default {
       response,
       filters,
       sortDefinition,
-      filter2,
     };
   },
 
@@ -166,14 +157,12 @@ export default {
         title: 'Name',
         slot: 'title',
         sortField: 'claimEvent.name',
-        //style: {'flex-basis': '40%'},
         style: {flex: 3},
       },
       {
         name: 'status',
         title: 'Status',
         sortField: 'claimEvent.status',
-        //style: {'flex-basis': '40%'},
         style: {flex: 2},
       },
       {
@@ -185,7 +174,7 @@ export default {
         cellConfig: {
           delete: {
             onClick: () => {
-              console.log('delete');
+              return;
             },
             component: 'oxd-icon-button',
             props: {
@@ -194,7 +183,7 @@ export default {
           },
           edit: {
             onClick: () => {
-              console.log('edit');
+              return;
             },
             props: {
               name: 'pencil-fill',
