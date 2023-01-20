@@ -568,3 +568,20 @@ Delete:
       ids: [ 1, 2, 3 ]
     data: [ 1, 2, 3 ]
 
+  'with invalid id':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    body:
+      ids: [ 50 ]
+    data: [ 50 ]
+
+  'with multiple ids including invalid ids and valid ids':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    body:
+      ids: [ 1, 2, 300 ]
+    data: [ 1, 2, 300 ]
+
+

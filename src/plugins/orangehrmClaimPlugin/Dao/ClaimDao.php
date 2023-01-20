@@ -85,9 +85,11 @@ class ClaimDao extends BaseDao
     public function deleteClaimEvents(array $ids): int
     {
         $q = $this->createQueryBuilder(ClaimEvent::class, 'claimEvent');
-        $q->delete()
+        $q->update()
+            ->set('claimEvent.isDeleted', ':isDeleted')
             ->where($q->expr()->in('claimEvent.id', ':ids'))
-            ->setParameter('ids', $ids);
+            ->setParameter('ids', $ids)
+            ->setParameter('isDeleted', true);
         return $q->getQuery()->execute();
     }
 

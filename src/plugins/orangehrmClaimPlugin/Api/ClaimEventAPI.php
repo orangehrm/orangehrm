@@ -56,6 +56,29 @@ class ClaimEventAPI extends Endpoint implements CrudEndpoint
     public const NAME_MAX_LENGTH = 100;
 
     /**
+     * @OA\Post(
+     *     path="/api/v2/claim/events",
+     *     tags={"Claim/Claim Events"},
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="name", type="string"),
+     *             @OA\Property(property="description", type="string"),
+     *             @OA\Property(property="status", type="boolean"),
+     *             required={"name"}
+     *         )
+     *     ),
+     *     @OA\Response(response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Claim-ClaimEventModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     )
+     * )
      * @inheritDoc
      */
     public function create(): EndpointResult
@@ -79,7 +102,36 @@ class ClaimEventAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     * @return EndpointResult
+     * @OA\Get(
+     *     path="/api/v2/claim/events",
+     *     tags={"Claim/Claim Events"},
+     *     @OA\Parameter(
+     *         name="sortField",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string", enum=ClaimEventSearchFilterParams::ALLOWED_SORT_FIELDS)
+     *     ),
+     *     @OA\Parameter(ref="#/components/parameters/sortOrder"),
+     *     @OA\Parameter(ref="#/components/parameters/limit"),
+     *     @OA\Parameter(ref="#/components/parameters/offset"),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="array",
+     *                 @OA\Items(ref="#/components/schemas/Claim-ClaimEventModel")
+     *             ),
+     *             @OA\Property(property="meta",
+     *                 type="object",
+     *                 @OA\Property(property="total", type="integer")
+     *             )
+     *         )
+     *     )
+     * )
+     *
+     * @inheritDoc
      */
     public function getAll(): EndpointResult
     {
@@ -167,7 +219,14 @@ class ClaimEventAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     * @return EndpointResult
+     * @OA\Delete(
+     *     path="/api/v2/claim/events",
+     *     tags={"Claim/Claim Events"},
+     *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),
+     *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse")
+     * )
+     *
+     * @inheritDoc
      */
     public function delete(): EndpointResult
     {
@@ -190,8 +249,28 @@ class ClaimEventAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     * @return EndpointResult
-     * @throws RecordNotFoundException
+     * @OA\Get(
+     *     path="/api/v2/claim/events/{id}",
+     *     tags={"Claim/Claim Events"},
+     *     @OA\PathParameter(
+     *         name="id",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Claim-ClaimEventModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
+     * )
+     *
+     * @inheritDoc
      */
     public function getOne(): EndpointResult
     {
@@ -215,7 +294,48 @@ class ClaimEventAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     * @return EndpointResult
+     * @OA\Put(
+     *     path="/api/v2/claim/events/{id}",
+     *     tags={"Claim/Claim Events"},
+     *     @OA\PathParameter(
+     *         name="id",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="name",
+     *                 type="string"
+     *             ),
+     *             @OA\Property(
+     *                 property="description",
+     *                 type="string"
+     *             ),
+     *             @OA\Property(
+     *                 property="status",
+     *                 type="boolean"
+     *             ),
+     *             @OA\Property(
+     *                 property="isDeleted",
+     *                 type="boolean"
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Claim-ClaimEventModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
+     * )
+     * @inheritDoc
      * @throws RecordNotFoundException
      */
     public function update(): EndpointResult

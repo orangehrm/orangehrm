@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -31,11 +32,12 @@ class Migration extends AbstractMigration
      */
     public function up(): void
     {
-        if (!$this->getSchemaHelper()->tableExists(['ohrm_claim_event'])) {
+        if (!$this->getSchemaHelper()->tableExists(['
+        '])) {
             $this->getSchemaHelper()->createTable('ohrm_claim_event')
                 ->addColumn('id', Types::INTEGER, ['Autoincrement' => true])
-                ->addColumn('name', Types::TEXT, ['Notnull' => true,'Length'=>100])
-                ->addColumn('description', Types::TEXT, ['Notnull' => false,'Length'=>1000])
+                ->addColumn('name', Types::STRING, ['Notnull' => true, 'Length' => 100])
+                ->addColumn('description', Types::STRING, ['Notnull' => false, 'Length' => 1000])
                 ->addColumn('added_by', Types::INTEGER, ['Notnull' => false])
                 ->addColumn('status', Types::BOOLEAN, ['Notnull' => false])
                 ->addColumn('is_deleted', Types::SMALLINT, ['Notnull' => true, 'Default' => 0])
@@ -57,7 +59,7 @@ class Migration extends AbstractMigration
                 [
                     'name' => ':name',
                     'status' => ':status',
-                    'display_name'=> ':display_name'
+                    'display_name' => ':display_name'
                 ]
             )
             ->setParameter('name', "claim")
@@ -66,14 +68,15 @@ class Migration extends AbstractMigration
             ->executeQuery();
 
         $this->getDataGroupHelper()->insertApiPermissions(__DIR__ . '/permission/api.yaml');
+        //$this->modifyClaimEventTables();
 
         if (!$this->getSchemaHelper()->tableExists(['ohrm_expense_type'])) {
             $this->getSchemaHelper()->createTable('ohrm_expense_type')
                 ->addColumn('id', Types::INTEGER, ['Autoincrement' => true])
-                ->addColumn('name', Types::TEXT, ['Notnull' => true,'Length'=>100])
-                ->addColumn('description', Types::TEXT, ['Notnull' => false,'Length'=>1000])
+                ->addColumn('name', Types::TEXT, ['Notnull' => true, 'Length' => 100])
+                ->addColumn('description', Types::TEXT, ['Notnull' => false, 'Length' => 1000])
                 ->addColumn('added_by', Types::INTEGER, ['Notnull' => false])
-                ->addColumn('status', Types::STRING, ['Notnull' => false, 'Length'=>64])
+                ->addColumn('status', Types::STRING, ['Notnull' => false, 'Length' => 64])
                 ->addColumn('is_deleted', Types::SMALLINT, ['Notnull' => true, 'Default' => 0])
                 ->setPrimaryKey(['id'])
                 ->create();
@@ -175,7 +178,7 @@ class Migration extends AbstractMigration
             ],
             'status' => [
                 'Type' => Type::getType(Types::BOOLEAN),
-                'CustomSchemaOptions' => ['collation' => null,'charset' => null]
+                'CustomSchemaOptions' => ['collation' => null, 'charset' => null]
             ]
         ]);
 
