@@ -25,7 +25,7 @@ use OrangeHRM\Entity\ExpenseType;
 
 /**
  * @OA\Schema(
- *     schema="Claim-ExpenseTypesModel",
+ *     schema="Claim-ExpenseTypeModel",
  *     type="object",
  *     @OA\Property(
  *         property="id",
@@ -48,6 +48,7 @@ use OrangeHRM\Entity\ExpenseType;
 class ClaimExpenseTypeModel implements Normalizable
 {
     use ModelTrait;
+
     public function __construct(ExpenseType $expenseType)
     {
         $this->setEntity($expenseType);

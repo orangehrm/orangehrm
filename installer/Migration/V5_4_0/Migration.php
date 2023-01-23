@@ -22,6 +22,7 @@ namespace OrangeHRM\Installer\Migration\V5_4_0;
 use Doctrine\DBAL\Schema\ForeignKeyConstraint;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Types\Types;
+use OrangeHRM\Installer\Util\Logger;
 use OrangeHRM\Installer\Util\V1\AbstractMigration;
 
 class Migration extends AbstractMigration
@@ -98,8 +99,8 @@ class Migration extends AbstractMigration
                 ->addColumn('currency', Types::STRING, ['Notnull' => false, 'Length' => 3])
                 ->addColumn('is_deleted', Types::SMALLINT, ['Notnull' => true])
                 ->addColumn('status', Types::TEXT, ['Notnull' => false])
-                ->addColumn('created_date', Types::DATETIME_MUTABLE, ['Notnull' => false, 'Default' => null])
-                ->addColumn('submitted_date', Types::DATETIME_MUTABLE, ['Notnull' => false, 'Default' => null])
+                ->addColumn('created_date', Types::DATE_MUTABLE, ['Notnull' => false, 'Default' => null])
+                ->addColumn('submitted_date', Types::DATE_MUTABLE, ['Notnull' => false, 'Default' => null])
                 ->setPrimaryKey(['id'])
                 ->create();
             $foreignKeyConstraint1 = new ForeignKeyConstraint(
@@ -128,6 +129,7 @@ class Migration extends AbstractMigration
             $this->getSchemaHelper()->addForeignKey('ohrm_claim_request', $foreignKeyConstraint3);
         }
 
+        $this->changeClaimExpenseTypeTableStatusToBoolean();
         $this->modifyClaimTables(); //modify tables after creation
         $this->modifyClaimRequestCurrencyToForeignKey();
     }
@@ -151,6 +153,12 @@ class Migration extends AbstractMigration
                 'Notnull' => true,
                 'Type' => Type::getType(Types::STRING),
                 'Length' => 3
+            ],
+            'created_date' => [
+                'Type' => Type::getType(Types::DATETIME_MUTABLE),
+            ],
+            'submitted_date' => [
+                'Type' => Type::getType(Types::DATETIME_MUTABLE),
             ]
         ]);
 
@@ -166,6 +174,10 @@ class Migration extends AbstractMigration
             'is_deleted' => [
                 'Type' => Type::getType(Types::BOOLEAN),
             ],
+            'status' => [
+                'Type' => Type::getType(Types::BOOLEAN),
+                'CustomSchemaOptions' => ['collation' => null,'charset' => null]
+            ]
         ]);
 
         $this->getSchemaHelper()->addOrChangeColumns('ohrm_claim_event', [
@@ -194,6 +206,64 @@ class Migration extends AbstractMigration
             ['onDelete' => 'RESTRICT', 'onUpdate' => 'CASCADE']
         );
         $this->getSchemaHelper()->addForeignKey('ohrm_claim_request', $foreignKeyConstraint);
+    }
+
+    private function changeClaimExpenseTypeTableStatusToBoolean(): void
+    {
+        $table = 'ohrm_expense_type';
+        $count = $this->getTableRecordCount($table);
+        $batchSize = 10;
+        for ($i = 0; $i <= $count; $i = $i + $batchSize) {
+            $result = $this->createQueryBuilder()
+                ->select('expenseType.id', 'expenseType.status')
+                ->from($table, 'expenseType')
+                ->setFirstResult($i)
+                ->setMaxResults($batchSize)
+                ->executeQuery();
+
+            foreach ($result->fetchAllAssociative() as $row) {
+                $this->createQueryBuilder()
+                    ->update($table, 'expenseType')
+                    ->set('expenseType.status', ':status')
+                    ->where('expenseType.id = :id')
+                    ->setParameter('id', $row['id'])
+                    ->setParameter(
+                        'status',
+                        $this->setStatusToBoolean($row['status']),
+                        Types::BOOLEAN
+                    )
+                    ->executeStatement();
+            }
+            $result->free();
+        }
+    }
+
+    /**
+     * @param string $tableName
+     * @return int
+     */
+    private function getTableRecordCount(string $tableName): int
+    {
+        $count = $this->createQueryBuilder()
+            ->select("COUNT($tableName.id)")
+            ->from($tableName)
+            ->executeQuery()
+            ->fetchOne();
+        Logger::getLogger()->info("`$tableName` record count: $count");
+        return $count;
+    }
+
+    /**
+     * @param string $status
+     * @return int
+     */
+    private function setStatusToBoolean(string $status): int
+    {
+        if ($status === 'on') {
+            return 1;
+        } else {
+            return 0;
+        }
     }
 
     /**

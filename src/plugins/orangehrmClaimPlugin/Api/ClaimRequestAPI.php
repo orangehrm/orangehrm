@@ -50,7 +50,7 @@ class ClaimRequestAPI extends Endpoint implements CollectionEndpoint
     use AuthUserTrait;
 
     public const PARAMETER_CLAIM_EVENT_ID = 'claimEventId';
-    public const PARAMETER_CURRENCY = 'currency';
+    public const PARAMETER_CURRENCY_ID = 'currencyId';
     public const PARAMETER_REMARKS = 'remarks';
     public const REMARKS_MAX_LENGTH = 1000;
 
@@ -70,7 +70,7 @@ class ClaimRequestAPI extends Endpoint implements CollectionEndpoint
      *         @OA\JsonContent(
      *             type="object",
      *             @OA\Property(property="claimEventId", type="integer"),
-     *             @OA\Property(property="currency", type="string"),
+     *             @OA\Property(property="currencyId", type="string"),
      *             @OA\Property(property="remarks", type="string"),
      *             required={"claimEventId", "currency"}
      *         )
@@ -106,7 +106,7 @@ class ClaimRequestAPI extends Endpoint implements CollectionEndpoint
                 new Rule(Rules::POSITIVE)
             ),
             new ParamRule(
-                self::PARAMETER_CURRENCY,
+                self::PARAMETER_CURRENCY_ID,
                 new Rule(Rules::REQUIRED)
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
@@ -137,7 +137,7 @@ class ClaimRequestAPI extends Endpoint implements CollectionEndpoint
 
             $currencyId = $this->getRequestParams()->getString(
                 RequestParams::PARAM_TYPE_BODY,
-                self::PARAMETER_CURRENCY
+                self::PARAMETER_CURRENCY_ID
             );
 
             $claimEvent = $this->getClaimService()->getClaimDao()->getClaimEventById($claimEventId);
@@ -146,7 +146,7 @@ class ClaimRequestAPI extends Endpoint implements CollectionEndpoint
             }
 
             if ($this->getPayGradeService()->getPayGradeDao()->getCurrencyById($currencyId) === null) {
-                throw $this->getInvalidParamException(self::PARAMETER_CURRENCY);
+                throw $this->getInvalidParamException(self::PARAMETER_CURRENCY_ID);
             }
 
             $claimRequest->setClaimEvent($claimEvent);

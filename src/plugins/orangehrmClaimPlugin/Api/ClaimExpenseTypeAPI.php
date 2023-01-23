@@ -80,7 +80,7 @@ class ClaimExpenseTypeAPI extends Endpoint implements CrudEndpoint
      *         @OA\JsonContent(
      *             @OA\Property(
      *                 property="data",
-     *                 ref="#/components/schemas/Claim-ExpenseTypesModel"
+     *                 ref="#/components/schemas/Claim-ExpenseTypeModel"
      *             ),
      *             @OA\Property(property="meta", type="object")
      *         )
