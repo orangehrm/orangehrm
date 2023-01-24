@@ -112,6 +112,9 @@ const defaultSortOrder = {
 };
 
 export default {
+  components: {
+    'delete-confirmation': DeleteConfirmationDialog,
+  },
   setup() {
     const filters = ref({...defaultFilters});
 
@@ -159,9 +162,6 @@ export default {
       sortDefinition,
     };
   },
-  components: {
-    'delete-confirmation': DeleteConfirmationDialog,
-  },
   data() {
     return {
       headers: [
@@ -187,7 +187,7 @@ export default {
           cellConfig: {
             delete: {
               onClick: () => {
-                onClickDelete();
+                this.onClickDelete();
               },
               component: 'oxd-icon-button',
               props: {
@@ -242,7 +242,7 @@ export default {
     onClickAdd() {
       navigate('/claim/events/save');
     },
-    onClickDelete(item) {
+    onClickDelete() {
       this.$refs.deleteDialog.showDialog().then((confirmation) => {
         if (confirmation === 'ok') {
           //this.deleteItems([item.id]);
