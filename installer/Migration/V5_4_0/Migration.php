@@ -25,14 +25,44 @@ use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Types\Types;
 use OrangeHRM\Installer\Util\Logger;
 use OrangeHRM\Installer\Util\V1\AbstractMigration;
-
 class Migration extends AbstractMigration
 {
+    protected ?LangStringHelper $langStringHelper = null;
+    protected ?TranslationHelper $translationHelper = null;
     /**
      * @inheritDoc
      */
     public function up(): void
     {
+        $this->insertI18nGroups();
+        $this->getLangStringHelper()->deleteNonCustomizedLangStrings('claim');
+        $this->getLangStringHelper()->insertOrUpdateLangStrings('claim');
+        $this->updateLangStringVersion($this->getVersion());
+        $langCodes = [
+            'bg_BG',
+            'da_DK',
+            'de',
+            'en_US',
+            'es',
+            'es_AR',
+            'es_BZ',
+            'es_CR',
+            'es_ES',
+            'fr',
+            'fr_FR',
+            'id_ID',
+            'ja_JP',
+            'nl',
+            'om_ET',
+            'th_TH',
+            'vi_VN',
+            'zh_Hans_CN',
+            'zh_Hant_TW'
+        ];
+//        foreach ($langCodes as $langCode) {
+//            $this->getTranslationHelper()->addTranslations($langCode);
+//        }
+
         if (!$this->getSchemaHelper()->tableExists(['
         '])) {
             $this->getSchemaHelper()->createTable('ohrm_claim_event')
@@ -293,5 +323,48 @@ class Migration extends AbstractMigration
     public function getVersion(): string
     {
         return '5.4.0';
+    }
+
+    private function updateLangStringVersion(string $version): void
+    {
+        $qb = $this->createQueryBuilder()
+            ->update('ohrm_i18n_lang_string', 'lang_string')
+            ->set('lang_string.version', ':version')
+            ->setParameter('version', $version);
+        $qb->andWhere($qb->expr()->isNull('lang_string.version'))
+            ->executeStatement();
+    }
+
+    public function getLangStringHelper(): LangStringHelper
+    {
+        if (is_null($this->langStringHelper)) {
+            $this->langStringHelper = new LangStringHelper(
+                $this->getConnection()
+            );
+        }
+        return $this->langStringHelper;
+    }
+
+    public function insertI18nGroups(): void
+    {
+        $this->getConnection()->createQueryBuilder()
+            ->insert('ohrm_i18n_group')
+            ->values([
+                'name' => ':name',
+                'title' => ':title',
+            ])
+            ->setParameters([
+                'name' => 'claim',
+                'title' => 'Claim',
+            ])
+            ->executeQuery();
+    }
+
+    public function getTranslationHelper(): TranslationHelper
+    {
+        if (is_null($this->translationHelper)) {
+            $this->translationHelper = new TranslationHelper($this->getConnection());
+        }
+        return $this->translationHelper;
     }
 }

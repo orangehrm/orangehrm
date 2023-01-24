@@ -22,15 +22,18 @@
   <oxd-table-filter filter-title="Events">
     <oxd-form @submit-valid="filterItems">
       <oxd-form-row>
-        <oxd-grid :cols="4" class="orangehrm-full-width-grid">
+        <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item>
-            <oxd-input-field v-model="filters.name" label="Name" />
+            <oxd-input-field
+              v-model="filters.name"
+              :label="$t('general.name')"
+            />
           </oxd-grid-item>
           <oxd-grid-item>
             <oxd-input-field
               v-model="filters.status"
               type="select"
-              label="Status"
+              :label="$t('general.status')"
               :options="ClaimEventStatuses"
             />
           </oxd-grid-item>
@@ -38,11 +41,15 @@
       </oxd-form-row>
       <oxd-divider />
       <oxd-form-actions>
-        <oxd-button display-type="ghost" label="Reset" @click="onClickReset" />
+        <oxd-button
+          display-type="ghost"
+          :label="$t('general.reset')"
+          @click="onClickReset"
+        />
         <oxd-button
           class="orangehrm-left-space"
           display-type="secondary"
-          label="Search"
+          :label="$t('general.search')"
           type="submit"
         />
       </oxd-form-actions>
@@ -52,10 +59,10 @@
   <div class="orangehrm-paper-container">
     <div class="orangehrm-header-container">
       <oxd-button
-        label="Add"
+        :label="$t('general.add')"
         icon-name="plus"
         display-type="secondary"
-        @click="() => console.log('Hello')"
+        @click="onClickAdd"
       />
     </div>
     <table-header
@@ -67,7 +74,7 @@
       <oxd-card-table
         v-model:selected="checkedItems"
         v-model:order="sortDefinition"
-        :items="items?.data"
+        :items="items_new"
         :headers="headers"
         :selectable="true"
         :clickable="false"
@@ -83,6 +90,7 @@
       />
     </div>
   </div>
+  <delete-confirmation ref="deleteDialog"></delete-confirmation>
 </template>
 
 <script>
@@ -90,6 +98,8 @@ import {ref, computed} from 'vue';
 import {APIService} from '@/core/util/services/api.service';
 import usePaginate from '@ohrm/core/util/composable/usePaginate';
 import useSort from '@ohrm/core/util/composable/useSort';
+import {navigate} from '@/core/util/helper/navigation';
+import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmationDialog.vue';
 
 const defaultFilters = {
   name: '',
@@ -149,55 +159,72 @@ export default {
       sortDefinition,
     };
   },
-
-  data: () => ({
-    headers: [
-      {
-        name: 'name',
-        title: 'Name',
-        slot: 'title',
-        sortField: 'claimEvent.name',
-        style: {flex: 3},
-      },
-      {
-        name: 'status',
-        title: 'Status',
-        sortField: 'claimEvent.status',
-        style: {flex: 2},
-      },
-      {
-        name: 'actions',
-        title: 'Actions',
-        slot: 'action',
-        style: {flex: 1},
-        cellType: 'oxd-table-cell-actions',
-        cellConfig: {
-          delete: {
-            onClick: () => {
-              return;
+  components: {
+    'delete-confirmation': DeleteConfirmationDialog,
+  },
+  data() {
+    return {
+      headers: [
+        {
+          name: 'name',
+          title: this.$t('general.name'),
+          slot: 'title',
+          sortField: 'claimEvent.name',
+          style: {flex: 3},
+        },
+        {
+          name: 'status',
+          title: 'Status',
+          sortField: this.$t('general.status'),
+          style: {flex: 2},
+        },
+        {
+          name: 'actions',
+          title: this.$t('general.actions'),
+          slot: 'action',
+          style: {flex: 1},
+          cellType: 'oxd-table-cell-actions',
+          cellConfig: {
+            delete: {
+              onClick: () => {
+                onClickDelete();
+              },
+              component: 'oxd-icon-button',
+              props: {
+                name: 'trash',
+              },
             },
-            component: 'oxd-icon-button',
-            props: {
-              name: 'trash',
-            },
-          },
-          edit: {
-            onClick: () => {
-              return;
-            },
-            props: {
-              name: 'pencil-fill',
+            edit: {
+              onClick: () => {
+                return;
+              },
+              props: {
+                name: 'pencil-fill',
+              },
             },
           },
         },
-      },
-    ],
-    checkedItems: [],
-    ClaimEventStatuses: [
-      {id: 1, label: 'Enabled'},
-      {id: 0, label: 'Disabled'},
-    ],
-  }),
+      ],
+      checkedItems: [],
+      ClaimEventStatuses: [
+        {id: 1, label: this.$t('Active')},
+        {id: 0, label: this.$t('Inactive')},
+      ],
+    };
+  },
+
+  computed: {
+    items_new() {
+      if (this.items?.data) {
+        this.items.data.forEach((item) => {
+          item.status = item.status
+            ? this.$t('general.active')
+            : this.$t('Inactive');
+        });
+      }
+      return this.items?.data;
+    },
+  },
 
   methods: {
     async resetDataTable() {
@@ -211,6 +238,16 @@ export default {
       this.filter2 = null;
       this.filters = {...defaultFilters};
       this.filterItems();
+    },
+    onClickAdd() {
+      navigate('/claim/events/save');
+    },
+    onClickDelete(item) {
+      this.$refs.deleteDialog.showDialog().then((confirmation) => {
+        if (confirmation === 'ok') {
+          //this.deleteItems([item.id]);
+        }
+      });
     },
   },
 };
