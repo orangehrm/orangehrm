@@ -23,6 +23,28 @@ use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\ClaimRequest;
 
+/**
+ * @OA\Schema(
+ *     schema="Claim-RequestModel",
+ *     type="object",
+ *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(property="referenceId", type="string"),
+ *     @OA\Property(
+ *         property="claimEvent",
+ *         type="object",
+ *         @OA\Property(property="id", type="integer"),
+ *         @OA\Property(property="name", type="string"),
+ *     ),
+ *     @OA\Property(
+ *         property="currency",
+ *         type="object",
+ *         @OA\Property(property="currencyId", type="string"),
+ *         @OA\Property(property="name", type="string"),
+ *     ),
+ *     @OA\Property(property="description", type="string"),
+ *     @OA\Property(property="status", type="string")
+ * )
+ */
 class ClaimRequestModel implements Normalizable
 {
     use ModelTrait;
@@ -36,7 +58,8 @@ class ClaimRequestModel implements Normalizable
                 'referenceId',
                 ['getClaimEvent', 'getId'],
                 ['getClaimEvent', 'getName'],
-                'currency',
+                ['getCurrencyType', 'getId'],
+                ['getCurrencyType', 'getName'],
                 'description',
                 'status',
             ]
@@ -47,7 +70,8 @@ class ClaimRequestModel implements Normalizable
                 'referenceId',
                 ['claimEvent', 'id'],
                 ['claimEvent', 'name'],
-                'currency',
+                ['currencyType', 'id'],
+                ['currencyType', 'name'],
                 'remarks',
                 'status',
             ]

@@ -23,7 +23,29 @@ use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\ExpenseType;
 
-class ClaimExpenseTypesModel implements Normalizable
+/**
+ * @OA\Schema(
+ *     schema="Claim-ExpenseTypeModel",
+ *     type="object",
+ *     @OA\Property(
+ *         property="id",
+ *         type="integer"
+ *     ),
+ *     @OA\Property(
+ *         property="name",
+ *         type="string",
+ *     ),
+ *     @OA\Property(
+ *         property="description",
+ *         type="string",
+ *     ),
+ *     @OA\Property(
+ *         property="status",
+ *         type="boolean",
+ *     )
+ * )
+ */
+class ClaimExpenseTypeModel implements Normalizable
 {
     use ModelTrait;
 

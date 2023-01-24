@@ -9,7 +9,7 @@ Create:
       admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
     body:
       claimEventId: 1
-      currency: 'CAD'
+      currencyId: 'CAD'
       remarks: description
     data:
       id: 7
@@ -17,9 +17,11 @@ Create:
       claimEvent:
         id: 1
         name: Office Rent
-      currency: 'CAD'
+      currencyType:
+        id: CAD
+        name: Canadian Dollar
       remarks: description
-      status: initiated
+      status: INITIATED
     meta: [ ]
 
   'Create Claim Request - ESS User':
@@ -32,7 +34,7 @@ Create:
       admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
     body:
       claimEventId: 2
-      currency: 'USD'
+      currencyId: 'USD'
       remarks: sample claim request description
     data:
       id: 7
@@ -40,9 +42,11 @@ Create:
       claimEvent:
         id: 2
         name: Employee Salaries
-      currency: 'USD'
+      currencyType:
+        id: USD
+        name: United States Dollar
       remarks: sample claim request description
-      status: initiated
+      status: INITIATED
     meta: [ ]
 
   'Create Claim Request - Without description':
@@ -55,7 +59,7 @@ Create:
       admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
     body:
       claimEventId: 2
-      currency: USD
+      currencyId: USD
       remarks: ''
     data:
       id: 7
@@ -63,9 +67,11 @@ Create:
       claimEvent:
         id: 2
         name: Employee Salaries
-      currency: 'USD'
+      currencyType:
+        id: USD
+        name: United States Dollar
       remarks:
-      status: initiated
+      status: INITIATED
     meta: [ ]
 
   'Create Claim Request - With null description':
@@ -78,7 +84,7 @@ Create:
       admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
     body:
       claimEventId: 2
-      currency: 'USD'
+      currencyId: 'USD'
       remarks: null
     data:
       id: 7
@@ -86,9 +92,11 @@ Create:
       claimEvent:
         id: 2
         name: Employee Salaries
-      currency: USD
+      currencyType:
+        id: USD
+        name: United States Dollar
       remarks: null
-      status: initiated
+      status: INITIATED
     meta: [ ]
 
   'Create Claim Request - Wrong Event Id':
@@ -99,7 +107,7 @@ Create:
       admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
     body:
       claimEventId: 20
-      currency: USD
+      currencyId: USD
       remarks: sample claim request description
     exception:
       class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
@@ -113,7 +121,7 @@ Create:
       admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
     body:
       claimEventId: 2
-      currency: USDS
+      currencyId: USDS
       remarks: sample claim request description
     exception:
       class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'

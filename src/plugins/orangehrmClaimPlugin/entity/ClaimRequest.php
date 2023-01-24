@@ -21,7 +21,7 @@ namespace OrangeHRM\Entity;
 
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
-use OrangeHRM\Claim\entity\Decorator\ClaimRequestDecorator;
+use OrangeHRM\Entity\Decorator\ClaimRequestDecorator;
 use OrangeHRM\Entity\Decorator\DecoratorTrait;
 
 /**
@@ -34,12 +34,12 @@ class ClaimRequest
 {
     use DecoratorTrait;
 
-    public const REQUEST_STATUS_INITIATED = 'initiated';
-    public const REQUEST_STATUS_SUBMITTED = 'submitted';
-    public const REQUEST_STATUS_PAID = 'paid';
-    public const REQUEST_STATUS_APPROVED = 'approved';
-    public const REQUEST_STATUS_REJECTED = 'rejected';
-    public const REQUEST_STATUS_CANCELLED = 'cancelled';
+    public const REQUEST_STATUS_INITIATED = 'INITIATED';
+    public const REQUEST_STATUS_SUBMITTED = 'SUBMITTED';
+    public const REQUEST_STATUS_PAID = 'PAID';
+    public const REQUEST_STATUS_APPROVED = 'APPROVED';
+    public const REQUEST_STATUS_REJECTED = 'REJECTED';
+    public const REQUEST_STATUS_CANCELLED = 'CANCELLED';
 
     /**
      * @var int
@@ -86,14 +86,15 @@ class ClaimRequest
      *
      * @ORM\Column(name="description", type="string", length=255)
      */
-    private ?string $description;
+    private ?string $description = null;
 
     /**
-     * @var string
+     * @var CurrencyType
      *
-     * @ORM\Column(name="currency", type="string", length=3)
+     * @ORM\OneToOne(targetEntity="OrangeHRM\Entity\CurrencyType", cascade={"persist"})
+     * @ORM\JoinColumn(name="currency_id", referencedColumnName="currency_id")
      */
-    private string $currency;
+    private CurrencyType $currencyType;
 
     /**
      * @var bool
@@ -220,19 +221,19 @@ class ClaimRequest
     }
 
     /**
-     * @return string
+     * @return CurrencyType
      */
-    public function getCurrency(): string
+    public function getCurrencyType(): CurrencyType
     {
-        return $this->currency;
+        return $this->currencyType;
     }
 
     /**
-     * @param string $currency
+     * @param CurrencyType $currencyType
      */
-    public function setCurrency(string $currency): void
+    public function setCurrencyType(CurrencyType $currencyType): void
     {
-        $this->currency = $currency;
+        $this->currencyType = $currencyType;
     }
 
     /**

@@ -17,7 +17,7 @@ apiv2_claim_event:
 
 apiv2_claim_expense_types:
   description: 'Claim - Claim Expense Types'
-  api: OrangeHRM\Claim\Api\ClaimExpenseTypesAPI
+  api: OrangeHRM\Claim\Api\ClaimExpenseTypeAPI
   module: claim
   allowed:
     read: true

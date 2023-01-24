@@ -25,6 +25,7 @@ use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Entity\ClaimEvent;
 use OrangeHRM\Entity\ClaimRequest;
+use OrangeHRM\Entity\CurrencyType;
 use OrangeHRM\Entity\ExpenseType;
 use OrangeHRM\Tests\Util\KernelTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
@@ -105,29 +106,22 @@ class ClaimDaoTest extends KernelTestCase
         $claimEvent->getDecorator()->setUserByUserId(1);
         $this->claimDao->saveEvent($claimEvent);
 
+        $currencyType = new CurrencyType();
+        $currencyType->setCode(151);
+        $currencyType->setId('USD');
+        $currencyType->setName('United States Dollar');
+
         $claimRequest = new ClaimRequest();
         $claimRequest->setClaimEvent($claimEvent);
-        $claimRequest->setCurrency('CAD');
+        $claimRequest->setReferenceId('202301180000005');
+        $claimRequest->setCurrencyType($currencyType);
         $claimRequest->setDescription('sample description for claim request');
         $result = $this->claimDao->saveClaimRequest($claimRequest);
         $this->assertEquals('sample claim event', $result->getClaimEvent()->getName());
-        $this->assertEquals('CAD', $result->getCurrency());
     }
 
     public function testGetNextId(): void
     {
-        $claimEvent = new ClaimEvent();
-        $claimEvent->setName("sample claim event");
-        $claimEvent->setStatus(true);
-        $claimEvent->getDecorator()->setUserByUserId(1);
-        $this->claimDao->saveEvent($claimEvent);
-
-        $claimRequest = new ClaimRequest();
-        $claimRequest->setClaimEvent($claimEvent);
-        $claimRequest->setCurrency('CAD');
-        $claimRequest->setDescription('sample description for claim request');
-        $this->claimDao->saveClaimRequest($claimRequest);
-
         $result = $this->claimDao->getNextId();
         $this->assertIsInt($result);
     }

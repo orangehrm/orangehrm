@@ -19,7 +19,7 @@
 
 namespace OrangeHRM\Claim\Api;
 
-use OrangeHRM\Claim\Api\Model\ClaimExpenseTypesModel;
+use OrangeHRM\Claim\Api\Model\ClaimExpenseTypeModel;
 use OrangeHRM\Claim\Traits\Service\ClaimServiceTrait;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
@@ -32,18 +32,15 @@ use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Api\V2\Validator\Rules\EntityUniquePropertyOption;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
-use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Entity\ExpenseType;
 
-class ClaimExpenseTypesAPI extends Endpoint implements CrudEndpoint
+class ClaimExpenseTypeAPI extends Endpoint implements CrudEndpoint
 {
-    use EntityManagerHelperTrait;
     use ClaimServiceTrait;
     use AuthUserTrait;
 
     public const PARAMETER_NAME = 'name';
     public const PARAMETER_DESCRIPTION = 'description';
-    public const PARAMETER_ID = 'id';
 
     public const PARAMETER_STATUS = 'status';
     public const DESCRIPTION_MAX_LENGTH = 1000;
@@ -66,6 +63,29 @@ class ClaimExpenseTypesAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Post(
+     *     path="/api/v2/claim/expenses/types",
+     *     tags={"Claim/ExpenseTypes"},
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="name", type="string"),
+     *             @OA\Property(property="description", type="string"),
+     *             @OA\Property(property="status", type="boolean"),
+     *             required={"name"}
+     *         )
+     *     ),
+     *     @OA\Response(response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Claim-ExpenseTypeModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     )
+     * )
      * @inheritDoc
      */
     public function create(): EndpointResourceResult
@@ -76,8 +96,8 @@ class ClaimExpenseTypesAPI extends Endpoint implements CrudEndpoint
         $userId = $this->getAuthUser()->getUserId();
         $expenseType->getDecorator()->setUserByUserId($userId);
 
-        $this->getClaimService()->getClaimEventDao()->saveExpenseType($expenseType);
-        return new EndpointResourceResult(ClaimExpenseTypesModel::class, $expenseType);
+        $this->getClaimService()->getClaimDao()->saveExpenseType($expenseType);
+        return new EndpointResourceResult(ClaimExpenseTypeModel::class, $expenseType);
     }
 
     /**
@@ -138,8 +158,7 @@ class ClaimExpenseTypesAPI extends Endpoint implements CrudEndpoint
             $this->getRequestParams()->getBoolean(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_STATUS, true)
         );
 
-        $userId = $this->getAuthUser()->getUserId();
-        $expenseType->getDecorator()->setUserByUserId($userId);
+        $expenseType->getDecorator()->setUserByUserId($this->getAuthUser()->getUserId());
     }
 
     /**

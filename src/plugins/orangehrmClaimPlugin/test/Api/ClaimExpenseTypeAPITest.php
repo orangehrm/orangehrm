@@ -19,12 +19,16 @@
 
 namespace OrangeHRM\Tests\Claim\Api;
 
-use OrangeHRM\Claim\Api\ClaimExpenseTypesAPI;
+use OrangeHRM\Claim\Api\ClaimExpenseTypeAPI;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
 use OrangeHRM\Tests\Util\Integration\TestCaseParams;
 
-class ClaimExpenseTypesAPITest extends EndpointIntegrationTestCase
+/**
+ * @group Claim
+ * @group APIv2
+ */
+class ClaimExpenseTypeAPITest extends EndpointIntegrationTestCase
 {
     /**
      * @dataProvider dataProviderForTestCreate
@@ -35,12 +39,12 @@ class ClaimExpenseTypesAPITest extends EndpointIntegrationTestCase
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
         $this->registerMockDateTimeHelper($testCaseParams);
         $this->registerServices($testCaseParams);
-        $api = $this->getApiEndpointMock(ClaimExpenseTypesAPI::class, $testCaseParams);
+        $api = $this->getApiEndpointMock(ClaimExpenseTypeAPI::class, $testCaseParams);
         $this->assertValidTestCase($api, 'create', $testCaseParams);
     }
 
     public function dataProviderForTestCreate(): array
     {
-        return $this->getTestCases('ClaimExpenseTypesAPITestCases.yaml', 'Create');
+        return $this->getTestCases('ClaimExpenseTypeAPITestCases.yaml', 'Create');
     }
 }
