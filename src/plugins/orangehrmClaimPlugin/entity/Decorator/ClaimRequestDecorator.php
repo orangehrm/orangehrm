@@ -19,13 +19,26 @@
 
 namespace OrangeHRM\Entity\Decorator;
 
+use OrangeHRM\Admin\Service\PayGradeService;
+use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Entity\ClaimRequest;
+use OrangeHRM\Entity\CurrencyType;
 use OrangeHRM\Entity\User;
+use OrangeHRM\Framework\Services;
 
 class ClaimRequestDecorator
 {
     use EntityManagerHelperTrait;
+    use AuthUserTrait;
+
+    /**
+     * @return PayGradeService
+     */
+    public function getPayGradeService(): PayGradeService
+    {
+        return $this->getContainer()->get(Services::PAY_GRADE_SERVICE);
+    }
 
     /**
      * @var ClaimRequest
@@ -55,5 +68,25 @@ class ClaimRequestDecorator
     {
         $user = $this->getReference(User::class, $userId);
         $this->getClaimRequest()->setUser($user);
+    }
+
+    /**
+     * @param string $currencyId
+     */
+    public function setCurrencyByCurrencyId(string $currencyId)
+    {
+        $this->getClaimRequest()->setCurrencyType(
+            $this->getPayGradeService()->getPayGradeDao()->getCurrencyById($currencyId)
+        );
+    }
+
+    /**
+     * @param string $currencyId
+     *
+     * @return CurrencyType|null
+     */
+    public function getCurrencyByCurrencyId(string $currencyId): ?CurrencyType
+    {
+        return $this->getPayGradeService()->getPayGradeDao()->getCurrencyById($currencyId);
     }
 }

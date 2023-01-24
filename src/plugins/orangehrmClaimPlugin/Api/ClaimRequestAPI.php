@@ -21,7 +21,6 @@
 namespace OrangeHRM\Claim\Api;
 
 use Exception;
-use OrangeHRM\Admin\Service\PayGradeService;
 use OrangeHRM\Claim\Api\Model\ClaimRequestModel;
 use OrangeHRM\Claim\Traits\Service\ClaimServiceTrait;
 use OrangeHRM\Core\Api\V2\CollectionEndpoint;
@@ -39,7 +38,6 @@ use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\ClaimRequest;
-use OrangeHRM\Framework\Services;
 use OrangeHRM\ORM\Exception\TransactionException;
 
 class ClaimRequestAPI extends Endpoint implements CollectionEndpoint
@@ -53,14 +51,6 @@ class ClaimRequestAPI extends Endpoint implements CollectionEndpoint
     public const PARAMETER_CURRENCY_ID = 'currencyId';
     public const PARAMETER_REMARKS = 'remarks';
     public const REMARKS_MAX_LENGTH = 1000;
-
-    /**
-     * @return PayGradeService
-     */
-    public function getPayGradeService(): PayGradeService
-    {
-        return $this->getContainer()->get(Services::PAY_GRADE_SERVICE);
-    }
 
     /**
      * @OA\Post(
@@ -145,12 +135,12 @@ class ClaimRequestAPI extends Endpoint implements CollectionEndpoint
                 throw $this->getInvalidParamException(self::PARAMETER_CLAIM_EVENT_ID);
             }
 
-            if ($this->getPayGradeService()->getPayGradeDao()->getCurrencyById($currencyId) === null) {
+            if ($claimRequest->getDecorator()->getCurrencyByCurrencyId($currencyId) === null) {
                 throw $this->getInvalidParamException(self::PARAMETER_CURRENCY_ID);
             }
 
             $claimRequest->setClaimEvent($claimEvent);
-            $claimRequest->setCurrencyType($this->getPayGradeService()->getPayGradeDao()->getCurrencyById($currencyId));
+            $claimRequest->getDecorator()->setCurrencyByCurrencyId($currencyId);
             $claimRequest->setDescription(
                 $this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_REMARKS)
             );

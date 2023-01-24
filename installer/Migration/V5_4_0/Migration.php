@@ -22,7 +22,6 @@ namespace OrangeHRM\Installer\Migration\V5_4_0;
 use Doctrine\DBAL\Schema\ForeignKeyConstraint;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Types\Types;
-use OrangeHRM\Installer\Util\Logger;
 use OrangeHRM\Installer\Util\V1\AbstractMigration;
 
 class Migration extends AbstractMigration
@@ -210,60 +209,28 @@ class Migration extends AbstractMigration
 
     private function changeClaimExpenseTypeTableStatusToBoolean(): void
     {
-        $table = 'ohrm_expense_type';
-        $count = $this->getTableRecordCount($table);
-        $batchSize = 10;
-        for ($i = 0; $i <= $count; $i = $i + $batchSize) {
-            $result = $this->createQueryBuilder()
-                ->select('expenseType.id', 'expenseType.status')
-                ->from($table, 'expenseType')
-                ->setFirstResult($i)
-                ->setMaxResults($batchSize)
-                ->executeQuery();
+        $this->createQueryBuilder()
+            ->update('ohrm_expense_type', 'expenseType')
+            ->set('expenseType.status', ':status')
+            ->where('expenseType.status = :currentStatus')
+            ->setParameter('currentStatus', 'on')
+            ->setParameter(
+                'status',
+                true,
+                Types::BOOLEAN
+            )
+            ->executeStatement();
 
-            foreach ($result->fetchAllAssociative() as $row) {
-                $this->createQueryBuilder()
-                    ->update($table, 'expenseType')
-                    ->set('expenseType.status', ':status')
-                    ->where('expenseType.id = :id')
-                    ->setParameter('id', $row['id'])
-                    ->setParameter(
-                        'status',
-                        $this->setStatusToBoolean($row['status']),
-                        Types::BOOLEAN
-                    )
-                    ->executeStatement();
-            }
-            $result->free();
-        }
-    }
-
-    /**
-     * @param string $tableName
-     * @return int
-     */
-    private function getTableRecordCount(string $tableName): int
-    {
-        $count = $this->createQueryBuilder()
-            ->select("COUNT($tableName.id)")
-            ->from($tableName)
-            ->executeQuery()
-            ->fetchOne();
-        Logger::getLogger()->info("`$tableName` record count: $count");
-        return $count;
-    }
-
-    /**
-     * @param string $status
-     * @return int
-     */
-    private function setStatusToBoolean(string $status): int
-    {
-        if ($status === 'on') {
-            return 1;
-        } else {
-            return 0;
-        }
+        $q = $this->createQueryBuilder();
+        $q->update('ohrm_expense_type', 'expenseType')
+            ->set('expenseType.status', ':status')
+            ->where($q->expr()->isNull('expenseType.status'))
+            ->setParameter(
+                'status',
+                false,
+                Types::BOOLEAN
+            )
+            ->executeStatement();
     }
 
     /**

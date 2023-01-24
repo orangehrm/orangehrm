@@ -71,7 +71,7 @@ class ClaimExpenseTypeAPI extends Endpoint implements CrudEndpoint
      *             type="object",
      *             @OA\Property(property="name", type="string"),
      *             @OA\Property(property="description", type="string"),
-     *             @OA\Property(property="status", type="string"),
+     *             @OA\Property(property="status", type="boolean"),
      *             required={"name"}
      *         )
      *     ),
