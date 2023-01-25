@@ -58,7 +58,7 @@ class ClaimEventAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Post(
      *     path="/api/v2/claim/events",
-     *     tags={"Claim/Claim Events"},
+     *     tags={"Claim/Events"},
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
@@ -104,7 +104,7 @@ class ClaimEventAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Get(
      *     path="/api/v2/claim/events",
-     *     tags={"Claim/Claim Events"},
+     *     tags={"Claim/Events"},
      *     @OA\Parameter(
      *         name="sortField",
      *         in="query",
@@ -221,7 +221,7 @@ class ClaimEventAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Delete(
      *     path="/api/v2/claim/events",
-     *     tags={"Claim/Claim Events"},
+     *     tags={"Claim/Events"},
      *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),
      *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse")
      * )
@@ -251,7 +251,7 @@ class ClaimEventAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Get(
      *     path="/api/v2/claim/events/{id}",
-     *     tags={"Claim/Claim Events"},
+     *     tags={"Claim/Events"},
      *     @OA\PathParameter(
      *         name="id",
      *         @OA\Schema(type="integer")
@@ -296,7 +296,7 @@ class ClaimEventAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Put(
      *     path="/api/v2/claim/events/{id}",
-     *     tags={"Claim/Claim Events"},
+     *     tags={"Claim/Events"},
      *     @OA\PathParameter(
      *         name="id",
      *         @OA\Schema(type="integer")

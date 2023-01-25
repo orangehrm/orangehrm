@@ -24,6 +24,10 @@ use OrangeHRM\Framework\Services;
 use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
 use OrangeHRM\Tests\Util\Integration\TestCaseParams;
 
+/**
+ * @group Claim
+ * @group APIv2
+ */
 class ClaimRequestAPITest extends EndpointIntegrationTestCase
 {
     /**
