@@ -19,18 +19,8 @@
 
 namespace OrangeHRM\Claim\Controller;
 
-use OrangeHRM\Core\Controller\AbstractVueController;
-use OrangeHRM\Core\Vue\Component;
-use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Core\Controller\AbstractController;
 
-class ClaimController extends AbstractVueController
+class ClaimController extends AbstractController
 {
-    /**
-     * @inheritDoc
-     */
-    public function preRender(Request $request): void
-    {
-        $component = new Component('claim-event');
-        $this->setComponent($component);
-    }
 }

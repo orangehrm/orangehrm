@@ -25,12 +25,3 @@ apiv2_claim_requests:
   methods: [ POST ]
   defaults:
     _api: OrangeHRM\Claim\Api\ClaimRequestAPI
-
-##########################
-#        Screens
-##########################
-
-claim_events:
-  path: /claim/events
-  controller: OrangeHRM\Claim\Controller\ClaimController::handle
-  methods: [ GET ]
