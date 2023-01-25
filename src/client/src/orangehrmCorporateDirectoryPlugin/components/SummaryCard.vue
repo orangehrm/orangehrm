@@ -129,8 +129,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@ohrm/oxd/styles/_mixins.scss';
-
 .orangehrm-directory-card {
   height: auto;
   cursor: pointer;

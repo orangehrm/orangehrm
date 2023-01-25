@@ -156,8 +156,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@ohrm/oxd/styles/_mixins.scss';
-
 .orangehrm-card-container {
   box-shadow: 3px 3px 10px $oxd-interface-gray-color;
 }

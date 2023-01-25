@@ -172,7 +172,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@ohrm/oxd/styles/_mixins.scss';
 .orangehrm-activites-container {
   max-height: 180px;
   overflow-y: auto;

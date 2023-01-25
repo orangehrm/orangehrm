@@ -139,8 +139,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import '@ohrm/oxd/styles/_mixins.scss';
-
 .orangehrm-attendance-field-row {
   grid-column-start: 1;
   display: flex;
