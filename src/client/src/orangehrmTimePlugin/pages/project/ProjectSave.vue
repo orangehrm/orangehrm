@@ -112,7 +112,7 @@ import {
 } from '@ohrm/core/util/validation/rules';
 import {APIService} from '@/core/util/services/api.service';
 import {navigate} from '@ohrm/core/util/helper/navigation';
-import promiseDebounce from '@ohrm/oxd/utils/promiseDebounce';
+import {promiseDebounce} from '@eth0/oxd-experimental';
 import AddCustomerModal from '@/orangehrmTimePlugin/components/AddCustomerModal.vue';
 import CustomerAutocomplete from '@/orangehrmTimePlugin/components/CustomerAutocomplete.vue';
 import ProjectAdminAutocomplete from '@/orangehrmTimePlugin/components/ProjectAdminAutocomplete.vue';

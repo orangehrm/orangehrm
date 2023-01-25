@@ -139,13 +139,12 @@ import usei18n from '@/core/util/composable/usei18n';
 import useToast from '@/core/util/composable/useToast';
 import {APIService} from '@/core/util/services/api.service';
 import {validSelection} from '@/core/util/validation/rules';
-import useResponsive from '@ohrm/oxd/composables/useResponsive';
 import useInfiniteScroll from '@ohrm/core/util/composable/useInfiniteScroll';
 import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
 import SummaryCard from '@/orangehrmCorporateDirectoryPlugin/components/SummaryCard';
 import EmployeeDetails from '@/orangehrmCorporateDirectoryPlugin/components/EmployeeDetails';
 import SummaryCardDetails from '@/orangehrmCorporateDirectoryPlugin/components/SummaryCardDetails';
-import {OxdSpinner} from '@eth0/oxd-experimental';
+import {OxdSpinner, useResponsive} from '@eth0/oxd-experimental';
 
 const defaultFilters = {
   employeeNumber: null,

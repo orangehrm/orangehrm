@@ -20,7 +20,7 @@ import {AxiosResponse} from 'axios';
 import {App, ComponentOptions} from 'vue';
 import IntlMessageFormat from 'intl-messageformat';
 import {APIService} from '@/core/util/services/api.service';
-import {mergeConfig} from '@ohrm/oxd/services/store';
+import {StoreService} from '@eth0/oxd-experimental';
 
 export type Language = {
   [key: string]: IntlMessageFormat;
@@ -113,7 +113,7 @@ function createI18n(options: LanguageOptions) {
                 {ignoreTag: true}, // no html/xml markup parsing
               );
             }
-            mergeConfig({
+            StoreService.mergeConfig({
               language,
             });
           })

@@ -80,7 +80,6 @@ import usei18n from '@/core/util/composable/usei18n';
 import useToast from '@/core/util/composable/useToast';
 import useLocale from '@/core/util/composable/useLocale';
 import {APIService} from '@/core/util/services/api.service';
-import promiseDebounce from '@ohrm/oxd/utils/promiseDebounce';
 import {formatDate, parseDate} from '@/core/util/helper/datefns';
 import useDateFormat from '@/core/util/composable/useDateFormat';
 import PostModal from '@/orangehrmBuzzPlugin/components/PostModal';
@@ -89,7 +88,7 @@ import VideoFrame from '@/orangehrmBuzzPlugin/components/VideoFrame';
 import PhotoInput from '@/orangehrmBuzzPlugin/components/PhotoInput';
 import useBuzzAPIs from '@/orangehrmBuzzPlugin/util/composable/useBuzzAPIs';
 import useEmployeeNameTranslate from '@/core/util/composable/useEmployeeNameTranslate';
-import {OxdBuzzPostInput} from '@eth0/oxd-experimental';
+import {OxdBuzzPostInput, promiseDebounce} from '@eth0/oxd-experimental';
 
 export default {
   name: 'EditPostModal',

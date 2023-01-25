@@ -90,7 +90,7 @@
 <script>
 import useLocale from '@/core/util/composable/useLocale';
 import {navigate} from '@ohrm/core/util/helper/navigation';
-import promiseDebounce from '@ohrm/oxd/utils/promiseDebounce';
+import {promiseDebounce} from '@eth0/oxd-experimental';
 import {APIService} from '@ohrm/core/util/services/api.service';
 import useDateFormat from '@/core/util/composable/useDateFormat';
 import {formatDate, parseDate} from '@/core/util/helper/datefns';

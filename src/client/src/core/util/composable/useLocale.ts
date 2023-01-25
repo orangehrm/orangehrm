@@ -17,7 +17,7 @@
  */
 
 import usei18n from './usei18n';
-import buildLocale from '@ohrm/oxd/utils/locale';
+import {buildLocale} from '@eth0/oxd-experimental';
 
 export default function useLocale() {
   const {$t} = usei18n();

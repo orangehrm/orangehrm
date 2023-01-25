@@ -57,7 +57,7 @@
 <script>
 import {toRefs} from 'vue';
 import {navigate} from '@/core/util/helper/navigation';
-import useResponsive from '@ohrm/oxd/composables/useResponsive';
+import {useResponsive} from '@eth0/oxd-experimental';
 
 export default {
   name: 'VacancyCard',
