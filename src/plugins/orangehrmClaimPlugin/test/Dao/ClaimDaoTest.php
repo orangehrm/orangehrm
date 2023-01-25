@@ -58,6 +58,7 @@ class ClaimDaoTest extends KernelTestCase
         $claimEventSearchFilterParams = new ClaimEventSearchFilterParams();
         $claimEventSearchFilterParams->setName(null);
         $claimEventSearchFilterParams->setStatus(null);
+        $claimEventSearchFilterParams->setId(null);
         $result = $this->claimDao->getClaimEventList($claimEventSearchFilterParams);
         $this->assertEquals("event1", $result[0]->getName());
     }
@@ -79,6 +80,7 @@ class ClaimDaoTest extends KernelTestCase
         $claimEventSearchFilterParams = new ClaimEventSearchFilterParams();
         $claimEventSearchFilterParams->setName(null);
         $claimEventSearchFilterParams->setStatus(null);
+        $claimEventSearchFilterParams->setId(null);
         $result = $this->claimDao->getClaimEventCount($claimEventSearchFilterParams);
         $this->assertEquals(4, $result);
 

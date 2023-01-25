@@ -28,7 +28,6 @@ use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
-use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
@@ -50,6 +49,7 @@ class ClaimEventAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_NAME = 'name';
     public const PARAMETER_DESCRIPTION = 'description';
     public const PARAMETER_ID = 'id';
+    public const PARAMETER_CLAIMID = 'claimId';
     public const PARAMETER_IDS = 'ids';
     public const PARAMETER_STATUS = 'status';
     public const DESCRIPTION_MAX_LENGTH = 1000;
@@ -131,7 +131,6 @@ class ClaimEventAPI extends Endpoint implements CrudEndpoint
      *     )
      * )
      *
-     * @inheritDoc
      */
     public function getAll(): EndpointResult
     {
@@ -139,6 +138,7 @@ class ClaimEventAPI extends Endpoint implements CrudEndpoint
         $this->setSortingAndPaginationParams($claimEventSearchFilterParams);
         $claimEventSearchFilterParams->setName($this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_NAME));
         $claimEventSearchFilterParams->setStatus($this->getRequestParams()->getBooleanOrNull(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_STATUS));
+        $claimEventSearchFilterParams->setId($this->getRequestParams()->getIntOrNull(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_CLAIMID));
         $claimEvents = $this->getClaimService()->getClaimDao()->getClaimEventList($claimEventSearchFilterParams);
         $count = $this->getClaimService()->getClaimDao()->getClaimEventCount($claimEventSearchFilterParams);
         return new EndpointCollectionResult(ClaimEventModel::class, $claimEvents, new ParameterBag([CommonParams::PARAMETER_TOTAL => $count]));
@@ -161,6 +161,14 @@ class ClaimEventAPI extends Endpoint implements CrudEndpoint
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_STATUS,
+                    new Rule(
+                        Rules::STRING_TYPE
+                    )
+                )
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_CLAIMID,
                     new Rule(
                         Rules::STRING_TYPE
                     )
@@ -225,7 +233,6 @@ class ClaimEventAPI extends Endpoint implements CrudEndpoint
      *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),
      *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse")
      * )
-     *
      * @inheritDoc
      */
     public function delete(): EndpointResult
@@ -315,10 +322,6 @@ class ClaimEventAPI extends Endpoint implements CrudEndpoint
      *             @OA\Property(
      *                 property="status",
      *                 type="boolean"
-     *             ),
-     *             @OA\Property(
-     *                 property="isDeleted",
-     *                 type="boolean"
      *             )
      *         )
      *     ),
@@ -336,7 +339,6 @@ class ClaimEventAPI extends Endpoint implements CrudEndpoint
      *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
      * )
      * @inheritDoc
-     * @throws RecordNotFoundException
      */
     public function update(): EndpointResult
     {

@@ -27,6 +27,7 @@ use OrangeHRM\Installer\Util\V1\AbstractMigration;
 class Migration extends AbstractMigration
 {
     protected ?LangStringHelper $langStringHelper = null;
+
     /**
      * @inheritDoc
      */
@@ -41,8 +42,8 @@ class Migration extends AbstractMigration
         '])) {
             $this->getSchemaHelper()->createTable('ohrm_claim_event')
                 ->addColumn('id', Types::INTEGER, ['Autoincrement' => true])
-                ->addColumn('name', Types::STRING, ['Notnull' => true, 'Length' => 100])
-                ->addColumn('description', Types::STRING, ['Notnull' => false, 'Length' => 1000])
+                ->addColumn('name', Types::TEXT, ['Notnull' => true, 'Length' => 100])
+                ->addColumn('description', Types::TEXT, ['Notnull' => false, 'Length' => 1000])
                 ->addColumn('added_by', Types::INTEGER, ['Notnull' => false])
                 ->addColumn('status', Types::STRING, ['Notnull' => false, 'Length' => 64])
                 ->addColumn('is_deleted', Types::SMALLINT, ['Notnull' => true, 'Default' => 0])
@@ -74,6 +75,7 @@ class Migration extends AbstractMigration
 
         $this->getDataGroupHelper()->insertApiPermissions(__DIR__ . '/permission/api.yaml');
         $this->changeClaimEventTableStatusToBoolean();
+
         if (!$this->getSchemaHelper()->tableExists(['ohrm_expense_type'])) {
             $this->getSchemaHelper()->createTable('ohrm_expense_type')
                 ->addColumn('id', Types::INTEGER, ['Autoincrement' => true])
