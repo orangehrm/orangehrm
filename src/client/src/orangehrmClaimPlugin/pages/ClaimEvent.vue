@@ -19,7 +19,7 @@
  -->
 
 <template>
-  <oxd-table-filter filter-title="Events">
+  <oxd-table-filter :filter-title="$t('Events')">
     <oxd-form @submit-valid="filterItems">
       <oxd-form-row>
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
@@ -187,6 +187,7 @@ export default {
           cellConfig: {
             delete: {
               onClick: () => {
+                //TODO: delete
                 this.onClickDelete();
               },
               component: 'oxd-icon-button',
@@ -196,7 +197,7 @@ export default {
             },
             edit: {
               onClick: () => {
-                return;
+                //TODO: edit
               },
               props: {
                 name: 'pencil-fill',
@@ -235,7 +236,6 @@ export default {
       await this.execQuery();
     },
     onClickReset() {
-      this.filter2 = null;
       this.filters = {...defaultFilters};
       this.filterItems();
     },
@@ -244,13 +244,11 @@ export default {
     },
     onClickDelete() {
       this.$refs.deleteDialog.showDialog().then((confirmation) => {
-        if (confirmation === 'ok') {
-          //this.deleteItems([item.id]);
+        if (confirmation === this.$t('general.ok')) {
+          //TODO: delete claim event
         }
       });
     },
   },
 };
 </script>
-
-<style></style>
