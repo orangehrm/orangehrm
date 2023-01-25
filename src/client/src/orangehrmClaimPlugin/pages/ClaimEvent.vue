@@ -74,7 +74,7 @@
       <oxd-card-table
         v-model:selected="checkedItems"
         v-model:order="sortDefinition"
-        :items="items_new"
+        :items="items.data"
         :headers="headers"
         :selectable="true"
         :clickable="false"
@@ -131,6 +131,16 @@ export default {
       };
     });
 
+    const claimEventDataNormalizer = (data) => {
+      return data.map((item) => {
+        return {
+          name: item.name,
+          description: item.name,
+          status: item.status ? 'Active' : 'Inactive',
+        };
+      });
+    };
+
     const http = new APIService(
       window.appGlobal.baseUrl,
       'api/v2/claim/events',
@@ -144,7 +154,10 @@ export default {
       response,
       isLoading,
       execQuery,
-    } = usePaginate(http, {query: serializedFilters});
+    } = usePaginate(http, {
+      normalizer: claimEventDataNormalizer,
+      query: serializedFilters,
+    });
     onSort(execQuery);
 
     return {
@@ -186,10 +199,7 @@ export default {
           cellType: 'oxd-table-cell-actions',
           cellConfig: {
             delete: {
-              onClick: () => {
-                //TODO: delete
-                this.onClickDelete();
-              },
+              onClick: this.onClickDelete,
               component: 'oxd-icon-button',
               props: {
                 name: 'trash',
@@ -212,19 +222,6 @@ export default {
         {id: 0, label: this.$t('Inactive')},
       ],
     };
-  },
-
-  computed: {
-    items_new() {
-      if (this.items?.data) {
-        this.items.data.forEach((item) => {
-          item.status = item.status
-            ? this.$t('general.active')
-            : this.$t('Inactive');
-        });
-      }
-      return this.items?.data;
-    },
   },
 
   methods: {
