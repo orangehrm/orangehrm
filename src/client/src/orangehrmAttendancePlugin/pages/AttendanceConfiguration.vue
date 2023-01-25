@@ -77,7 +77,7 @@
 
 <script>
 import {APIService} from '@/core/util/services/api.service';
-import SwitchInput from '@ohrm/oxd/core/components/Input/SwitchInput';
+import {OxdSwitchInput} from '@eth0/oxd-experimental';
 
 const configsModel = {
   canUserChangeCurrentTime: false,
@@ -87,7 +87,7 @@ const configsModel = {
 
 export default {
   components: {
-    'oxd-switch-input': SwitchInput,
+    'oxd-switch-input': OxdSwitchInput,
   },
   setup() {
     const http = new APIService(

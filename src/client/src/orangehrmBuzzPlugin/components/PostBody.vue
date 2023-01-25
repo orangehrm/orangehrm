@@ -73,18 +73,18 @@
 <script>
 import {computed, reactive, toRefs} from 'vue';
 import useLocale from '@/core/util/composable/useLocale';
-import Icon from '@ohrm/oxd/core/components/Icon/Icon.vue';
 import {formatDate, parseDate} from '@/core/util/helper/datefns';
 import useDateFormat from '@/core/util/composable/useDateFormat';
 import PhotoFrame from '@/orangehrmBuzzPlugin/components/PhotoFrame';
 import VideoFrame from '@/orangehrmBuzzPlugin/components/VideoFrame';
 import useEmployeeNameTranslate from '@/core/util/composable/useEmployeeNameTranslate';
+import {OxdIcon} from '@eth0/oxd-experimental';
 
 export default {
   name: 'PostBody',
 
   components: {
-    'oxd-icon': Icon,
+    'oxd-icon': OxdIcon,
     'photo-frame': PhotoFrame,
     'video-frame': VideoFrame,
   },

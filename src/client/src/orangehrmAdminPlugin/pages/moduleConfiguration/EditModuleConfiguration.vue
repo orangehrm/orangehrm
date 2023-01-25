@@ -98,9 +98,9 @@
 </template>
 
 <script>
-import SwitchInput from '@ohrm/oxd/core/components/Input/SwitchInput';
 import {APIService} from '@/core/util/services/api.service';
 import {reloadPage} from '@/core/util/helper/navigation';
+import {OxdSwitchInput} from '@eth0/oxd-experimental';
 
 const modulesModel = {
   admin: false,
@@ -116,7 +116,7 @@ const modulesModel = {
 
 export default {
   components: {
-    'oxd-switch-input': SwitchInput,
+    'oxd-switch-input': OxdSwitchInput,
   },
   setup() {
     const http = new APIService(

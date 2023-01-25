@@ -1575,6 +1575,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@eth0/oxd-experimental@npm:0.1.0":
+  version: 0.1.0
+  resolution: "@eth0/oxd-experimental@npm:0.1.0"
+  peerDependencies:
+    vue: 3.x
+  checksum: c195b32c43e58fcb132b4c18f291162117eed3718fc59d4fbd5bd2bef1275df0991351230d0f86b091d4b28d1380575b7f99a25a70d7c7beb2df04385bd171dd
+  languageName: node
+  linkType: hard
+
 "@formatjs/ecma402-abstract@npm:1.11.4":
   version: 1.11.4
   resolution: "@formatjs/ecma402-abstract@npm:1.11.4"
@@ -8918,6 +8927,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "orangehrm@workspace:."
   dependencies:
+    "@eth0/oxd-experimental": 0.1.0
     "@ohrm/oxd": 1.0.9-alpha.2
     "@types/hammerjs": ^2.0.41
     "@types/jest": ^27.0.1

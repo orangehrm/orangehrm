@@ -41,13 +41,13 @@
 <script>
 import {provide, readonly, ref} from 'vue';
 import About from '@/core/pages/About.vue';
-import Layout from '@ohrm/oxd/core/components/Layout/Layout.vue';
+import {OxdLayout} from '@eth0/oxd-experimental';
 import {dateFormatKey} from '@/core/util/composable/useDateFormat';
 
 export default {
   components: {
     about: About,
-    'oxd-layout': Layout,
+    'oxd-layout': OxdLayout,
   },
   inheritAttrs: false,
   props: {

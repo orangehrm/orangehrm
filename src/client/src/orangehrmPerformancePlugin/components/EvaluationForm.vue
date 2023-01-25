@@ -162,14 +162,14 @@
 import {computed, ref} from 'vue';
 import usei18n from '@/core/util/composable/usei18n';
 import {shouldNotExceedCharLength} from '@/core/util/validation/rules';
-import Divider from '@ohrm/oxd/core/components/Divider/Divider.vue';
 import useEmployeeNameTranslate from '@/core/util/composable/useEmployeeNameTranslate';
+import {OxdDivider} from '@eth0/oxd-experimental';
 
 const defaultPic = `${window.appGlobal.baseUrl}/../dist/img/user-default-400.png`;
 
 export default {
   components: {
-    'oxd-divider': Divider,
+    'oxd-divider': OxdDivider,
   },
   props: {
     kpis: {

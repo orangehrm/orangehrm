@@ -201,9 +201,9 @@ import useForm from '@/core/util/composable/useForm';
 import useToast from '@/core/util/composable/useToast';
 import {APIService} from '@/core/util/services/api.service';
 import {reloadPage} from '@ohrm/core/util/helper/navigation';
-import SwitchInput from '@ohrm/oxd/core/components/Input/SwitchInput';
 import FileUploadInput from '@/core/components/inputs/FileUploadInput';
 import InlineColorInput from '@/orangehrmAdminPlugin/components/InlineColorInput';
+import {OxdSwitchInput} from '@eth0/oxd-experimental';
 
 const colorModel = {
   primaryColor: null,
@@ -222,7 +222,7 @@ const fileUploadModel = {
 
 export default {
   components: {
-    'oxd-switch-input': SwitchInput,
+    'oxd-switch-input': OxdSwitchInput,
     'file-upload-input': FileUploadInput,
     'inline-color-input': InlineColorInput,
   },

@@ -94,13 +94,13 @@
 import {urlFor} from '@ohrm/core/util/helper/url';
 import {navigate} from '@/core/util/helper/navigation';
 import {required} from '@/core/util/validation/rules';
-import Alert from '@ohrm/oxd/core/components/Alert/Alert';
+import {OxdAlert} from '@eth0/oxd-experimental';
 
 export default {
   name: 'AdministratorAccess',
 
   components: {
-    'oxd-alert': Alert,
+    'oxd-alert': OxdAlert,
   },
 
   props: {

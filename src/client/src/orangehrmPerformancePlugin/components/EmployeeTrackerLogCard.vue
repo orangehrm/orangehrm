@@ -96,13 +96,13 @@
 </template>
 
 <script>
-import Icon from '@ohrm/oxd/core/components/Icon/Icon.vue';
-import Dropdown from '@ohrm/oxd/core/components/CardTable/Cell/Dropdown.vue';
+import Dropdown from '@ohrm/oxd/core/components/CardTable/Cell/Dropdown';
+import {OxdIcon} from '@eth0/oxd-experimental';
 
 export default {
   name: 'EmployeeTrackerLogCard',
   components: {
-    'oxd-icon': Icon,
+    'oxd-icon': OxdIcon,
     'oxd-dropdown': Dropdown,
   },
   props: {

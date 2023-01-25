@@ -122,12 +122,12 @@ import {
   startDateShouldBeBeforeEndDate,
 } from '@/core/util/validation/rules';
 import ReportsTable from '@/core/components/table/ReportsTable';
-import SwitchInput from '@ohrm/oxd/core/components/Input/SwitchInput';
 import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
 import ActivityDropdown from '@/orangehrmTimePlugin/components/ActivityDropdown.vue';
 import ProjectAutocomplete from '@/orangehrmTimePlugin/components/ProjectAutocomplete.vue';
 import usei18n from '@/core/util/composable/usei18n';
 import useDateFormat from '@/core/util/composable/useDateFormat';
+import {OxdSwitchInput} from '@eth0/oxd-experimental';
 
 const defaultFilters = {
   employee: null,
@@ -141,7 +141,7 @@ const defaultFilters = {
 export default {
   components: {
     'reports-table': ReportsTable,
-    'oxd-switch-input': SwitchInput,
+    'oxd-switch-input': OxdSwitchInput,
     'activity-dropdown': ActivityDropdown,
     'project-autocomplete': ProjectAutocomplete,
     'employee-autocomplete': EmployeeAutocomplete,

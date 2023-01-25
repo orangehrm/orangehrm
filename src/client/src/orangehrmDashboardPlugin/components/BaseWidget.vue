@@ -56,16 +56,14 @@
 
 <script>
 import {computed, ref} from 'vue';
-import Icon from '@ohrm/oxd/core/components/Icon/Icon';
-import Sheet from '@ohrm/oxd/core/components/Sheet/Sheet';
-import Spinner from '@ohrm/oxd/core/components/Loader/Spinner';
+import {OxdIcon, OxdSheet, OxdSpinner} from '@eth0/oxd-experimental';
 
 export default {
   name: 'BaseWidget',
   components: {
-    'oxd-sheet': Sheet,
-    'oxd-icon': Icon,
-    'oxd-loading-spinner': Spinner,
+    'oxd-sheet': OxdSheet,
+    'oxd-icon': OxdIcon,
+    'oxd-loading-spinner': OxdSpinner,
   },
   props: {
     icon: {

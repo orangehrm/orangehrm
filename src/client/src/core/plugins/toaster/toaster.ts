@@ -1,5 +1,4 @@
 import {h, defineComponent, TransitionGroup, App, reactive, toRefs} from 'vue';
-import ToastComponent from '@ohrm/oxd/core/components/Toast/Toast.vue';
 import {
   TYPE_SUCCESS,
   TYPE_DEFAULT,
@@ -9,6 +8,7 @@ import {
 } from '@ohrm/oxd/core/components/Toast/types';
 import {nanoid} from 'nanoid';
 import {translate as translatorFactory} from '@/core/plugins/i18n/translate';
+import {OxdToast} from '@eth0/oxd-experimental';
 
 const translate = translatorFactory();
 
@@ -96,7 +96,7 @@ const Toaster = defineComponent({
       {
         default: () =>
           this.toasts.map((toast: Toast, index: number) => {
-            return h(ToastComponent, {
+            return h(OxdToast, {
               key: toast.id,
               type: toast.type,
               title: toast.title,

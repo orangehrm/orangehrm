@@ -69,14 +69,14 @@
 
 <script>
 import {APIService} from '@/core/util/services/api.service';
-import Dialog from '@ohrm/oxd/core/components/Dialog/Dialog';
+import {OxdDialog} from '@eth0/oxd-experimental';
 import {required, validSelection} from '@ohrm/core/util/validation/rules';
 import ProjectAutocomplete from '@/orangehrmTimePlugin/components/ProjectAutocomplete.vue';
 
 export default {
   name: 'CopyActivityModal',
   components: {
-    'oxd-dialog': Dialog,
+    'oxd-dialog': OxdDialog,
     'project-autocomplete': ProjectAutocomplete,
   },
   props: {

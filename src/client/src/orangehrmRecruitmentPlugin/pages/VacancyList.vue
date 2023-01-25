@@ -48,14 +48,14 @@
 <script>
 import VacancyCard from '@/orangehrmRecruitmentPlugin/components/VacancyCard';
 import {APIService} from '@/core/util/services/api.service';
-import Spinner from '@ohrm/oxd/core/components/Loader/Spinner';
 import usePaginate from '@/core/util/composable/usePaginate';
+import {OxdSpinner} from '@eth0/oxd-experimental';
 
 export default {
   name: 'VacancyList',
   components: {
     'vacancy-card': VacancyCard,
-    'oxd-loading-spinner': Spinner,
+    'oxd-loading-spinner': OxdSpinner,
   },
   setup() {
     const defaultPic = `${window.appGlobal.baseUrl}/../images/ohrm_branding.png`;

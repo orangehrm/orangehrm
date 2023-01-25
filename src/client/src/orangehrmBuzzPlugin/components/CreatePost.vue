@@ -64,13 +64,15 @@
 
 <script>
 import {ref} from 'vue';
+import {
+  OxdBuzzPostInput,
+  OxdGlassButton,
+  OxdSheet,
+} from '@eth0/oxd-experimental';
 import useToast from '@/core/util/composable/useToast';
-import Sheet from '@ohrm/oxd/core/components/Sheet/Sheet';
 import {APIService} from '@/core/util/services/api.service';
 import {shouldNotExceedCharLength} from '@/core/util/validation/rules';
-import GlassButton from '@ohrm/oxd/core/components/Button/GlassButton';
 import ProfileImage from '@/orangehrmBuzzPlugin/components/ProfileImage';
-import BuzzPostInput from '@ohrm/oxd/core/components/Buzz/BuzzPostInput';
 import ShareVideoModal from '@/orangehrmBuzzPlugin/components/ShareVideoModal';
 import SharePhotoModal from '@/orangehrmBuzzPlugin/components/SharePhotoModal';
 
@@ -78,10 +80,10 @@ export default {
   name: 'CreatePost',
 
   components: {
-    'oxd-sheet': Sheet,
+    'oxd-sheet': OxdSheet,
     'profile-image': ProfileImage,
-    'oxd-glass-button': GlassButton,
-    'oxd-buzz-post-input': BuzzPostInput,
+    'oxd-glass-button': OxdGlassButton,
+    'oxd-buzz-post-input': OxdBuzzPostInput,
     'share-video-modal': ShareVideoModal,
     'share-photo-modal': SharePhotoModal,
   },

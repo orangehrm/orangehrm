@@ -50,14 +50,14 @@
 </template>
 
 <script>
-import Dialog from '@ohrm/oxd/core/components/Dialog/Dialog';
 import ProfileImage from '@/orangehrmBuzzPlugin/components/ProfileImage';
+import {OxdDialog} from '@eth0/oxd-experimental';
 
 export default {
   name: 'PostModal',
 
   components: {
-    'oxd-dialog': Dialog,
+    'oxd-dialog': OxdDialog,
     'profile-image': ProfileImage,
   },
 

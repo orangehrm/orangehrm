@@ -71,24 +71,21 @@
 
 <script>
 import {onBeforeMount, reactive, toRefs} from 'vue';
-import Icon from '@ohrm/oxd/core/components/Icon/Icon';
-import Sheet from '@ohrm/oxd/core/components/Sheet/Sheet';
 import {APIService} from '@/core/util/services/api.service';
-import Dialog from '@ohrm/oxd/core/components/Dialog/Dialog';
-import Spinner from '@ohrm/oxd/core/components/Loader/Spinner';
 import ProfileImage from '@/orangehrmBuzzPlugin/components/ProfileImage';
 import useInfiniteScroll from '@/core/util/composable/useInfiniteScroll';
 import useEmployeeNameTranslate from '@/core/util/composable/useEmployeeNameTranslate';
+import {OxdDialog, OxdIcon, OxdSheet, OxdSpinner} from '@eth0/oxd-experimental';
 
 export default {
   name: 'PostStatsModal',
 
   components: {
-    'oxd-icon': Icon,
-    'oxd-sheet': Sheet,
-    'oxd-dialog': Dialog,
+    'oxd-icon': OxdIcon,
+    'oxd-sheet': OxdSheet,
+    'oxd-dialog': OxdDialog,
     'profile-image': ProfileImage,
-    'oxd-loading-spinner': Spinner,
+    'oxd-loading-spinner': OxdSpinner,
   },
 
   props: {

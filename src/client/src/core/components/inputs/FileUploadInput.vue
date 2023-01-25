@@ -73,12 +73,12 @@
 </template>
 
 <script>
-import Icon from '@ohrm/oxd/core/components/Icon/Icon.vue';
+import {OxdIcon} from '@eth0/oxd-experimental';
 
 export default {
   name: 'FileUploadInput',
   components: {
-    'oxd-icon': Icon,
+    'oxd-icon': OxdIcon,
   },
   inheritAttrs: false,
   props: {

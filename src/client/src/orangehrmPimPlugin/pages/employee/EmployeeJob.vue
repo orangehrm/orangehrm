@@ -190,7 +190,6 @@
 <script>
 import {APIService} from '@ohrm/core/util/services/api.service';
 import FileUploadInput from '@/core/components/inputs/FileUploadInput';
-import SwitchInput from '@ohrm/oxd/core/components/Input/SwitchInput';
 import EditEmployeeLayout from '@/orangehrmPimPlugin/components/EditEmployeeLayout';
 import JobSpecDownload from '@/orangehrmPimPlugin/components/JobSpecDownload';
 import ProfileActionHeader from '@/orangehrmPimPlugin/components/ProfileActionHeader';
@@ -205,6 +204,7 @@ import {
 import useDateFormat from '@/core/util/composable/useDateFormat';
 import {formatDate, parseDate} from '@/core/util/helper/datefns';
 import useLocale from '@/core/util/composable/useLocale';
+import {OxdSwitchInput} from '@eth0/oxd-experimental';
 
 const jobDetailsModel = {
   joinedDate: '',
@@ -226,7 +226,7 @@ const contractDetailsModel = {
 export default {
   components: {
     'edit-employee-layout': EditEmployeeLayout,
-    'oxd-switch-input': SwitchInput,
+    'oxd-switch-input': OxdSwitchInput,
     'job-spec-download': JobSpecDownload,
     'file-upload-input': FileUploadInput,
     'profile-action-header': ProfileActionHeader,

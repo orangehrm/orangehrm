@@ -136,10 +136,10 @@ import {
   shouldNotExceedCharLength,
   numberShouldBeBetweenMinAndMaxValue,
 } from '@ohrm/core/util/validation/rules';
-import SwitchInput from '@ohrm/oxd/core/components/Input/SwitchInput';
 import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
 import JobtitleDropdown from '@/orangehrmPimPlugin/components/JobtitleDropdown';
 import VacancyLinkCard from '../components/VacancyLinkCard.vue';
+import {OxdSwitchInput} from '@eth0/oxd-experimental';
 
 const vacancyModel = {
   jobTitle: null,
@@ -155,7 +155,7 @@ const basePath = `${window.location.protocol}//${window.location.host}${window.a
 
 export default {
   components: {
-    'oxd-switch-input': SwitchInput,
+    'oxd-switch-input': OxdSwitchInput,
     'employee-autocomplete': EmployeeAutocomplete,
     'jobtitle-dropdown': JobtitleDropdown,
     'vacancy-link-card': VacancyLinkCard,

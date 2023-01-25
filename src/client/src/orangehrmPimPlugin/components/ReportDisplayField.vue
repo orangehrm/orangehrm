@@ -45,14 +45,14 @@
 </template>
 
 <script>
-import SwitchInput from '@ohrm/oxd/core/components/Input/SwitchInput';
 import MultiSelectChips from '@ohrm/oxd/core/components/Input/MultiSelect/MultiSelectChips';
+import {OxdSwitchInput} from '@eth0/oxd-experimental';
 
 export default {
   name: 'ReportDisplayField',
 
   components: {
-    'oxd-switch-input': SwitchInput,
+    'oxd-switch-input': OxdSwitchInput,
     'oxd-mutliselect-chips': MultiSelectChips,
   },
 

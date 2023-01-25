@@ -146,11 +146,11 @@
 import {computed, ref} from 'vue';
 import {required, validSelection} from '@/core/util/validation/rules';
 import ReportsTable from '@/core/components/table/ReportsTable';
-import SwitchInput from '@ohrm/oxd/core/components/Input/SwitchInput';
 import JobtitleDropdown from '@/orangehrmPimPlugin/components/JobtitleDropdown';
 import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
 import LeaveTypeDropdown from '@/orangehrmLeavePlugin/components/LeaveTypeDropdown';
 import LeavePeriodDropdown from '@/orangehrmLeavePlugin/components/LeavePeriodDropdown';
+import {OxdSwitchInput} from '@eth0/oxd-experimental';
 
 const defaultFilters = {
   type: 'leave_type_leave_entitlements_and_usage',
@@ -166,7 +166,7 @@ const defaultFilters = {
 export default {
   components: {
     'reports-table': ReportsTable,
-    'oxd-switch-input': SwitchInput,
+    'oxd-switch-input': OxdSwitchInput,
     'jobtitle-dropdown': JobtitleDropdown,
     'leave-type-dropdown': LeaveTypeDropdown,
     'leave-period-dropdown': LeavePeriodDropdown,

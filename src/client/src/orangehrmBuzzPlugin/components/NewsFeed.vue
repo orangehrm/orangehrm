@@ -118,7 +118,6 @@
 <script>
 import useToast from '@/core/util/composable/useToast';
 import {APIService} from '@/core/util/services/api.service';
-import Spinner from '@ohrm/oxd/core/components/Loader/Spinner';
 import {onBeforeMount, reactive, ref, toRefs, watch} from 'vue';
 import PostBody from '@/orangehrmBuzzPlugin/components/PostBody.vue';
 import PostStats from '@/orangehrmBuzzPlugin/components/PostStats.vue';
@@ -132,6 +131,7 @@ import PostContainer from '@/orangehrmBuzzPlugin/components/PostContainer.vue';
 import SharePostModal from '@/orangehrmBuzzPlugin/components/SharePostModal.vue';
 import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmationDialog';
 import PostCommentContainer from '@/orangehrmBuzzPlugin/components/PostCommentContainer.vue';
+import {OxdSpinner} from '@eth0/oxd-experimental';
 
 export default {
   name: 'NewsFeed',
@@ -141,7 +141,7 @@ export default {
     'post-stats': PostStats,
     'create-post': CreatePost,
     'post-actions': PostActions,
-    'oxd-loading-spinner': Spinner,
+    'oxd-loading-spinner': OxdSpinner,
     'photo-carousel': PhotoCarousel,
     'post-container': PostContainer,
     'edit-post-modal': EditPostModal,

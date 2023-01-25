@@ -51,12 +51,12 @@
 </template>
 
 <script>
-import Dialog from '@ohrm/oxd/core/components/Dialog/Dialog';
+import {OxdDialog} from '@eth0/oxd-experimental';
 
 export default {
   name: 'SuccessDialog',
   components: {
-    'simple-dialog': Dialog,
+    'simple-dialog': OxdDialog,
   },
   data() {
     return {

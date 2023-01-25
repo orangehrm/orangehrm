@@ -80,18 +80,17 @@ import useResponsive, {
 } from '@ohrm/oxd/composables/useResponsive';
 import usei18n from '@/core/util/composable/usei18n';
 import useSwipe from '@/core/util/composable/useSwipe';
-import TabPanel from '@ohrm/oxd/core/components/Tab/TabPanel';
 import NewsFeed from '@/orangehrmBuzzPlugin/components/NewsFeed.vue';
-import TabContainer from '@ohrm/oxd/core/components/Tab/TabContainer';
 import PostFilters from '@/orangehrmBuzzPlugin/components/PostFilters.vue';
 import UpcomingAnniversaries from '@/orangehrmBuzzPlugin/components/UpcomingAnniversaries.vue';
+import {OxdTabContainer, OxdTabPanel} from '@eth0/oxd-experimental';
 
 export default {
   components: {
     'news-feed': NewsFeed,
-    'oxd-tab-panel': TabPanel,
+    'oxd-tab-panel': OxdTabPanel,
     'post-filters': PostFilters,
-    'oxd-tab-container': TabContainer,
+    'oxd-tab-container': OxdTabContainer,
     'upcoming-anniversaries': UpcomingAnniversaries,
   },
 

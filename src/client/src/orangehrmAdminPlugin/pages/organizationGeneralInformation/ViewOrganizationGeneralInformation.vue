@@ -193,17 +193,17 @@
 
 <script>
 import {APIService} from '@ohrm/core/util/services/api.service';
-import SwitchInput from '@ohrm/oxd/core/components/Input/SwitchInput';
 import {
   required,
   shouldNotExceedCharLength,
   validEmailFormat,
   validPhoneNumberFormat,
 } from '@ohrm/core/util/validation/rules';
+import {OxdSwitchInput} from '@eth0/oxd-experimental';
 
 export default {
   components: {
-    'oxd-switch-input': SwitchInput,
+    'oxd-switch-input': OxdSwitchInput,
   },
   props: {
     numberOfEmployees: {

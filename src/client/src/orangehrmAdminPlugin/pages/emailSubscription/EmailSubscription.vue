@@ -50,9 +50,8 @@
 import usePaginate from '@ohrm/core/util/composable/usePaginate';
 import {navigate} from '@ohrm/core/util/helper/navigation';
 import {APIService} from '@ohrm/core/util/services/api.service';
-import SwitchInput from '@ohrm/oxd/core/components/Input/SwitchInput';
-import Spinner from '@ohrm/oxd/core/components/Loader/Spinner';
 import usei18n from '@/core/util/composable/usei18n';
+import {OxdSpinner, OxdSwitchInput} from '@eth0/oxd-experimental';
 
 export default {
   setup() {
@@ -149,7 +148,7 @@ export default {
       };
 
       const switchSubscription = {
-        component: SwitchInput,
+        component: OxdSwitchInput,
         props: {
           modelValue: row.enabled,
           'onUpdate:modelValue': ($event) => {
@@ -175,7 +174,7 @@ export default {
       };
 
       const loader = {
-        component: Spinner,
+        component: OxdSpinner,
         props: {
           withContainer: false,
         },

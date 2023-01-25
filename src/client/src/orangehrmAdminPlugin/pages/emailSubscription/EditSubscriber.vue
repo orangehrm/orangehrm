@@ -59,12 +59,12 @@
 
 <script>
 import {APIService} from '@/core/util/services/api.service';
-import Dialog from '@ohrm/oxd/core/components/Dialog/Dialog';
 import {
   required,
   validEmailFormat,
   shouldNotExceedCharLength,
 } from '@ohrm/core/util/validation/rules';
+import {OxdDialog} from '@eth0/oxd-experimental';
 
 const subscriberModel = {
   name: '',
@@ -74,7 +74,7 @@ const subscriberModel = {
 export default {
   name: 'EditSubscriber',
   components: {
-    'oxd-dialog': Dialog,
+    'oxd-dialog': OxdDialog,
   },
   props: {
     data: {

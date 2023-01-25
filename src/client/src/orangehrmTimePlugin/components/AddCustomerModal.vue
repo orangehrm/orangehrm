@@ -51,7 +51,7 @@ import {
   required,
   shouldNotExceedCharLength,
 } from '@ohrm/core/util/validation/rules';
-import Dialog from '@ohrm/oxd/core/components/Dialog/Dialog';
+import {OxdDialog} from '@eth0/oxd-experimental';
 import promiseDebounce from '@ohrm/oxd/utils/promiseDebounce';
 
 const customerModel = {
@@ -63,7 +63,7 @@ const customerModel = {
 export default {
   name: 'AddCustomerModal',
   components: {
-    'oxd-dialog': Dialog,
+    'oxd-dialog': OxdDialog,
   },
   emits: ['close'],
   setup() {

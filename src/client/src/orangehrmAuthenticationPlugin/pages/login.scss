@@ -14,9 +14,6 @@
 // if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 // Boston, MA  02110-1301, USA
 
-@import '@ohrm/oxd/styles/_mixins.scss';
-@import '@ohrm/oxd/core/components/Button/_variables.scss';
-
 .orangehrm-login-form {
   margin: 0 auto;
   @include oxd-respond-to('xs') {
@@ -54,7 +51,7 @@
   display: flex;
   justify-content: center;
   margin-top: 1rem;
-  font-size: $oxd-button-font-size--medium;
+  font-size: 14px;
   &-header {
     cursor: pointer;
     color: $oxd-primary-one-color;

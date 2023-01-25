@@ -88,7 +88,7 @@
 
 <script>
 import {APIService} from '@ohrm/core/util/services/api.service';
-import SwitchInput from '@ohrm/oxd/core/components/Input/SwitchInput';
+import {OxdSwitchInput} from '@eth0/oxd-experimental';
 
 const optionalFieldModel = {
   pimShowDeprecatedFields: false,
@@ -99,7 +99,7 @@ const optionalFieldModel = {
 
 export default {
   components: {
-    'oxd-switch-input': SwitchInput,
+    'oxd-switch-input': OxdSwitchInput,
   },
 
   setup() {

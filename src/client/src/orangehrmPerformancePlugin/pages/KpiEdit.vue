@@ -99,7 +99,6 @@
 </template>
 
 <script>
-import SwitchInput from '@ohrm/oxd/core/components/Input/SwitchInput';
 import {navigate} from '@ohrm/core/util/helper/navigation';
 import {
   required,
@@ -110,6 +109,7 @@ import {
 } from '@ohrm/core/util/validation/rules';
 import {APIService} from '@/core/util/services/api.service';
 import JobtitleDropdown from '@/orangehrmPimPlugin/components/JobtitleDropdown.vue';
+import {OxdSwitchInput} from '@eth0/oxd-experimental';
 
 const initialKpi = {
   title: '',
@@ -122,7 +122,7 @@ const initialKpi = {
 export default {
   name: 'KpiSave',
   components: {
-    'oxd-switch-input': SwitchInput,
+    'oxd-switch-input': OxdSwitchInput,
     'jobtitle-dropdown': JobtitleDropdown,
   },
   props: {

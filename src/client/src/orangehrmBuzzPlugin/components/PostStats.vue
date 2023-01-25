@@ -63,15 +63,15 @@
   </div>
 </template>
 <script>
-import Icon from '@ohrm/oxd/core/components/Icon/Icon';
 import PostStatsModal from '@/orangehrmBuzzPlugin/components/PostStatsModal.vue';
 import clickOutsideDirective from '@ohrm/oxd/directives/click-outside';
+import {OxdIcon} from '@eth0/oxd-experimental';
 
 export default {
   name: 'PostStats',
 
   components: {
-    'oxd-icon': Icon,
+    'oxd-icon': OxdIcon,
     'post-stats-modal': PostStatsModal,
   },
 

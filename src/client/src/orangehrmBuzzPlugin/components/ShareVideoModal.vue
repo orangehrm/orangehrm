@@ -55,7 +55,7 @@ import {APIService} from '@/core/util/services/api.service';
 import promiseDebounce from '@ohrm/oxd/utils/promiseDebounce';
 import PostModal from '@/orangehrmBuzzPlugin/components/PostModal.vue';
 import VideoFrame from '@/orangehrmBuzzPlugin/components/VideoFrame.vue';
-import BuzzPostInput from '@ohrm/oxd/core/components/Buzz/BuzzPostInput';
+import {OxdBuzzPostInput} from '@eth0/oxd-experimental';
 
 export default {
   name: 'ShareVideoModal',
@@ -63,7 +63,7 @@ export default {
   components: {
     'post-modal': PostModal,
     'video-frame': VideoFrame,
-    'oxd-buzz-post-input': BuzzPostInput,
+    'oxd-buzz-post-input': OxdBuzzPostInput,
   },
 
   props: {

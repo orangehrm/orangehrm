@@ -59,13 +59,13 @@
 </template>
 
 <script>
-import Dialog from '@ohrm/oxd/core/components/Dialog/Dialog';
 import {APIService} from '@ohrm/core/util/services/api.service';
+import {OxdDialog} from '@eth0/oxd-experimental';
 
 export default {
   name: 'EntitlementUpdateModal',
   components: {
-    'oxd-dialog': Dialog,
+    'oxd-dialog': OxdDialog,
   },
   props: {
     data: {

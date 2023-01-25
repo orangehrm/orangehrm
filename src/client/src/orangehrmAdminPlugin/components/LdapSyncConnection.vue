@@ -51,13 +51,13 @@
 <script>
 import {formatDate, parseDate} from '@/core/util/helper/datefns';
 import {APIService} from '@/core/util/services/api.service';
-import Spinner from '@ohrm/oxd/core/components/Loader/Spinner';
 import useDateFormat from '@/core/util/composable/useDateFormat';
+import {OxdSpinner} from '@eth0/oxd-experimental';
 
 export default {
   name: 'LdapSyncConnection',
   components: {
-    'oxd-loading-spinner': Spinner,
+    'oxd-loading-spinner': OxdSpinner,
   },
   setup() {
     const http = new APIService(

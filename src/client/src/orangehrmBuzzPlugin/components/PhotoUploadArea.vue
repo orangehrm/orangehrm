@@ -30,13 +30,13 @@
 </template>
 
 <script>
-import Icon from '@ohrm/oxd/core/components/Icon/Icon';
+import {OxdIcon} from '@eth0/oxd-experimental';
 
 export default {
   name: 'PhotoUploadArea',
 
   components: {
-    'oxd-icon': Icon,
+    'oxd-icon': OxdIcon,
   },
 };
 </script>

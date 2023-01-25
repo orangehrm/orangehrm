@@ -47,12 +47,12 @@
 <script>
 import {onBeforeMount, reactive, toRefs} from 'vue';
 import {APIService} from '@ohrm/core/util/services/api.service';
-import Spinner from '@ohrm/oxd/core/components/Loader/Spinner.vue';
+import {OxdSpinner} from '@eth0/oxd-experimental';
 
 export default {
   name: 'JobSpecDownload',
   components: {
-    'oxd-loading-spinner': Spinner,
+    'oxd-loading-spinner': OxdSpinner,
   },
   props: {
     resourceId: {
