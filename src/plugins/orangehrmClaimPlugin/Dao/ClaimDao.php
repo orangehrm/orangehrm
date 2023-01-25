@@ -79,7 +79,7 @@ class ClaimDao extends BaseDao
     }
 
     /**
-     * @param array $ids
+     * @param array int[] $ids
      * @return int
      */
     public function deleteClaimEvents(array $ids): int
