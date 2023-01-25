@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -23,8 +22,8 @@ namespace OrangeHRM\Installer\Migration\V5_4_0;
 use Doctrine\DBAL\Schema\ForeignKeyConstraint;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Types\Types;
-use OrangeHRM\Installer\Util\Logger;
 use OrangeHRM\Installer\Util\V1\AbstractMigration;
+
 class Migration extends AbstractMigration
 {
     protected ?LangStringHelper $langStringHelper = null;
@@ -59,9 +58,9 @@ class Migration extends AbstractMigration
             'zh_Hans_CN',
             'zh_Hant_TW'
         ];
-//        foreach ($langCodes as $langCode) {
-//            $this->getTranslationHelper()->addTranslations($langCode);
-//        }
+        foreach ($langCodes as $langCode) {
+            $this->getTranslationHelper()->addTranslations($langCode);
+        }
 
         if (!$this->getSchemaHelper()->tableExists(['
         '])) {
@@ -99,9 +98,7 @@ class Migration extends AbstractMigration
             ->executeQuery();
 
         $this->getDataGroupHelper()->insertApiPermissions(__DIR__ . '/permission/api.yaml');
-        $this->convertStatusOldValuesToBoolean('ohrm_claim_event');
-        $this->modifyClaimEventTables();
-
+        $this->changeClaimEventTableStatusToBoolean();
         if (!$this->getSchemaHelper()->tableExists(['ohrm_expense_type'])) {
             $this->getSchemaHelper()->createTable('ohrm_expense_type')
                 ->addColumn('id', Types::INTEGER, ['Autoincrement' => true])
@@ -164,7 +161,7 @@ class Migration extends AbstractMigration
         }
 
         $this->changeClaimExpenseTypeTableStatusToBoolean();
-        $this->modifyClaimTables(); //modify tables after creation
+        $this->modifyClaimTables();
         $this->modifyClaimRequestCurrencyToForeignKey();
     }
 
@@ -173,6 +170,11 @@ class Migration extends AbstractMigration
         $this->getConnection()->executeStatement(
             'ALTER TABLE ohrm_claim_request CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci'
         );
+
+        $this->getSchemaHelper()->addOrChangeColumns('ohrm_claim_event', [
+            'is_deleted' => ['Type' => Type::getType(Types::BOOLEAN), 'Notnull' => true, 'Default' => 0],
+            'status' => ['Type' => Type::getType(Types::BOOLEAN), 'Notnull' => false, 'Default' => null, 'CustomSchemaOptions' => ['collation' => null, 'charset' => null]],
+        ]);
 
         $this->getSchemaHelper()->addOrChangeColumns('ohrm_claim_request', [
             'reference_id' => [
@@ -268,53 +270,30 @@ class Migration extends AbstractMigration
             ->executeStatement();
     }
 
-    /**
-     * @return void
-     */
-    private function modifyClaimEventTables()
+    private function changeClaimEventTableStatusToBoolean(): void
     {
-        $this->getSchemaHelper()->addOrChangeColumns('ohrm_claim_event', [
-            'is_deleted' => ['Type' => Type::getType(Types::BOOLEAN), 'Notnull' => true, 'Default' => 0],
-            'status' => ['Type' => Type::getType(Types::BOOLEAN), 'Notnull' => false, 'Default' => null, 'CustomSchemaOptions' => ['collation' => null, 'charset' => null]],
-        ]);
-    }
+        $this->createQueryBuilder()
+            ->update('ohrm_claim_event', 'claimEvent')
+            ->set('claimEvent.status', ':status')
+            ->where('claimEvent.status = :currentStatus')
+            ->setParameter('currentStatus', 'on')
+            ->setParameter(
+                'status',
+                true,
+                Types::BOOLEAN
+            )
+            ->executeStatement();
 
-    /**
-     * @return void
-     */
-    private function convertStatusOldValuesToBoolean($table): void
-    {
-        $count = $this->getTableRecordCount($table);
-        $batchSize = 10;
-        for ($i = 0; $i < $count; $i += $batchSize) {
-            $result = $this->createQueryBuilder()
-                ->select('id', 'status')
-                ->from($table)
-                ->setFirstResult($i)
-                ->setMaxResults($batchSize)
-                ->executeQuery();
-            foreach ($result->fetchAllAssociative() as $row) {
-                $this->createQueryBuilder()
-                    ->update($table)
-                    ->set('status', ':status')
-                    ->where('id = :id')
-                    ->setParameter('id', $row['id'])
-                    ->setParameter('status', $row['status'] == 'on' ? 1 : 0)
-                    ->executeStatement();
-            }
-            $result->free();
-        }
-    }
-
-    private function getTableRecordCount(string $tableName): int
-    {
-        $count = $this->createQueryBuilder()
-            ->select("COUNT($tableName.id)")
-            ->from($tableName)
-            ->executeQuery()
-            ->fetchOne();
-        Logger::getLogger()->info("`$tableName` record count: $count");
-        return $count;
+        $q = $this->createQueryBuilder();
+        $q->update('ohrm_claim_event', 'claimEvent')
+            ->set('claimEvent.status', ':status')
+            ->where($q->expr()->isNull('claimEvent.status'))
+            ->setParameter(
+                'status',
+                false,
+                Types::BOOLEAN
+            )
+            ->executeStatement();
     }
 
     /**
