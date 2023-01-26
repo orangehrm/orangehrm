@@ -73,9 +73,13 @@
 </template>
 
 <script>
+import {
+  OxdTabPanel,
+  DEVICE_TYPES,
+  useResponsive,
+  OxdTabContainer,
+} from '@ohrm/oxd';
 import {computed, ref} from 'vue';
-import {OxdTabContainer, OxdTabPanel, useResponsive} from '@ohrm/oxd';
-import {DEVICE_LG, DEVICE_XL} from '@ohrm/oxd/composables/useResponsive';
 import usei18n from '@/core/util/composable/usei18n';
 import useSwipe from '@/core/util/composable/useSwipe';
 import NewsFeed from '@/orangehrmBuzzPlugin/components/NewsFeed.vue';
@@ -106,8 +110,8 @@ export default {
 
     const isMobile = computed(() => {
       return !(
-        responsiveState.screenType === DEVICE_LG ||
-        responsiveState.screenType === DEVICE_XL
+        responsiveState.screenType === DEVICE_TYPES.DEVICE_LG ||
+        responsiveState.screenType === DEVICE_TYPES.DEVICE_XL
       );
     });
 

@@ -35,9 +35,11 @@
 </template>
 
 <script>
+import {useInjectTableProps} from '@ohrm/oxd';
+
 export default {
   name: 'ReviewPeriodCell',
-  inject: ['screenState'],
+
   props: {
     header: {
       type: Object,
@@ -52,6 +54,15 @@ export default {
       required: true,
     },
   },
+
+  setup() {
+    const {screenState} = useInjectTableProps();
+
+    return {
+      screenState,
+    };
+  },
+
   computed: {
     showHeader() {
       return !(
@@ -69,7 +80,6 @@ export default {
   & .header {
     font-weight: 700;
   }
-
   & .time {
     white-space: nowrap;
   }

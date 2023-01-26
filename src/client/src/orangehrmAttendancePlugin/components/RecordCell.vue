@@ -35,9 +35,11 @@
 </template>
 
 <script>
+import {useInjectTableProps} from '@ohrm/oxd';
+
 export default {
   name: 'RecordCell',
-  inject: ['screenState'],
+
   props: {
     header: {
       type: Object,
@@ -56,6 +58,15 @@ export default {
       default: null,
     },
   },
+
+  setup() {
+    const {screenState} = useInjectTableProps();
+
+    return {
+      screenState,
+    };
+  },
+
   computed: {
     showHeader() {
       return !(

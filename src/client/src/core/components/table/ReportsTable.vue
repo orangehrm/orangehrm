@@ -22,7 +22,8 @@
   <div class="orangehrm-background-container">
     <slot :generate-report="generateReport"></slot>
     <div v-if="headers.length !== 0" class="orangehrm-paper-container">
-      <oxd-report-table
+      <!-- TODO: FIX REPORT TABLE -->
+      <!-- <oxd-report-table
         :items="items"
         :headers="headers"
         :loading="isLoading"
@@ -43,7 +44,7 @@
             <slot name="footer" :data="response"></slot>
           </oxd-text>
         </template>
-      </oxd-report-table>
+      </oxd-report-table> -->
     </div>
   </div>
 </template>
@@ -53,16 +54,10 @@ import {computed, onBeforeMount, ref, watch} from 'vue';
 import {APIService} from '@/core/util/services/api.service';
 import {navigate} from '@ohrm/core/util/helper/navigation';
 import usePaginate from '@ohrm/core/util/composable/usePaginate';
-import ReportTable from '@ohrm/oxd/core/components/ReportTable/ReportTable';
-import CellAdapter from '@ohrm/oxd/core/components/ReportTable/CellAdapter';
-import MultilineCell from '@ohrm/oxd/core/components/ReportTable/Cell/MultilineCell';
+import {CellAdapter, OxdMultilineCell} from '@ohrm/oxd';
 
 export default {
   name: 'ReportsTable',
-
-  components: {
-    'oxd-report-table': ReportTable,
-  },
 
   props: {
     name: {
@@ -113,6 +108,7 @@ export default {
       prefetch: false,
     });
 
+    // TODO: fix i18n
     const itemCountText = computed(() => {
       if (!total.value) return `No Records Found`;
       return total.value === 1
@@ -148,7 +144,8 @@ export default {
       return {
         ...header,
         cellProperties,
-        cellTemplate: type === 'list' ? CellAdapter(MultilineCell) : undefined,
+        cellTemplate:
+          type === 'list' ? CellAdapter(OxdMultilineCell) : undefined,
       };
     };
 

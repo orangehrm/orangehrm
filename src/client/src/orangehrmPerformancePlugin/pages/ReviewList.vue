@@ -134,6 +134,7 @@ import useDateFormat from '@/core/util/composable/useDateFormat';
 import useLocale from '@/core/util/composable/useLocale';
 import IncludeEmployeeDropdown from '@/core/components/dropdown/IncludeEmployeeDropdown';
 import ReviewPeriodCell from '@/orangehrmPerformancePlugin/components/ReviewPeriodCell';
+import {tableScreenStateKey} from '@ohrm/oxd';
 
 const defaultSortOrder = {
   'employee.lastName': 'DEFAULT',
@@ -342,7 +343,7 @@ export default {
   methods: {
     actionCellRenderer(...[, , , row]) {
       const cellConfig = {};
-      const screenState = inject('screenState');
+      const screenState = inject(tableScreenStateKey);
 
       if (screenState.screenType === 'lg' || screenState.screenType === 'xl') {
         if (row.statusId === 4) {

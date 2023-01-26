@@ -27,10 +27,10 @@
   </oxd-grid-item>
 
   <oxd-grid-item>
-    <oxd-mutliselect-chips
+    <oxd-multiselect-chips
       :selected="selectedFields"
       @chip-removed="onRemoveSelected"
-    ></oxd-mutliselect-chips>
+    ></oxd-multiselect-chips>
   </oxd-grid-item>
 
   <oxd-grid-item class="orangehrm-report-field">
@@ -45,15 +45,14 @@
 </template>
 
 <script>
-import MultiSelectChips from '@ohrm/oxd/core/components/Input/MultiSelect/MultiSelectChips';
-import {OxdSwitchInput} from '@eth0/oxd-experimental';
+import {OxdSwitchInput, OxdMultiSelectChips} from '@ohrm/oxd';
 
 export default {
   name: 'ReportDisplayField',
 
   components: {
     'oxd-switch-input': OxdSwitchInput,
-    'oxd-mutliselect-chips': MultiSelectChips,
+    'oxd-multiselect-chips': OxdMultiSelectChips,
   },
 
   props: {

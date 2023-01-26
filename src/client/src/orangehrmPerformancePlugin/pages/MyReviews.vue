@@ -63,6 +63,7 @@ import {
   evaluateLabel,
 } from '@/orangehrmPerformancePlugin/util/composable/useReviewActions';
 import ReviewPeriodCell from '@/orangehrmPerformancePlugin/components/ReviewPeriodCell';
+import {tableScreenStateKey} from '@ohrm/oxd';
 
 const defaultSortOrder = {
   'performanceReview.statusId': 'ASC',
@@ -205,7 +206,7 @@ export default {
   methods: {
     actionButtonCellRenderer(...[, , , row]) {
       const cellConfig = {};
-      const screenState = inject('screenState');
+      const screenState = inject(tableScreenStateKey);
       if (screenState.screenType === 'lg' || screenState.screenType === 'xl') {
         if (row.selfEvaluationStatus === 'Completed') {
           cellConfig.view = viewIcon;

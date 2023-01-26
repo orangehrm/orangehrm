@@ -159,6 +159,7 @@ import ReviewStatusDropdown from '@/orangehrmPerformancePlugin/components/Review
 import IncludeEmployeeDropdown from '@/core/components/dropdown/IncludeEmployeeDropdown';
 import ReviewPeriodCell from '@/orangehrmPerformancePlugin/components/ReviewPeriodCell';
 import useEmployeeNameTranslate from '@/core/util/composable/useEmployeeNameTranslate';
+import {tableScreenStateKey} from '@ohrm/oxd';
 
 const defaultSortOrder = {
   'employee.lastName': 'DEFAULT',
@@ -374,7 +375,7 @@ export default {
   methods: {
     actionButtonCellRenderer(...[, , , row]) {
       const cellConfig = {};
-      const screenState = inject('screenState');
+      const screenState = inject(tableScreenStateKey);
 
       cellConfig.delete = {
         onClick: this.onClickDelete,
