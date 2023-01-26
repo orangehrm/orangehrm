@@ -204,7 +204,7 @@ import {
 import useDateFormat from '@/core/util/composable/useDateFormat';
 import {formatDate, parseDate} from '@/core/util/helper/datefns';
 import useLocale from '@/core/util/composable/useLocale';
-import {OxdSwitchInput} from '@eth0/oxd-experimental';
+import {OxdSwitchInput} from '@ohrm/oxd';
 
 const jobDetailsModel = {
   joinedDate: '',

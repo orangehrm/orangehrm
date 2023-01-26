@@ -102,7 +102,7 @@ import {
   shouldNotExceedCharLength,
   shouldNotLessThanCharLength,
 } from '@/core/util/validation/rules';
-import {promiseDebounce} from '@eth0/oxd-experimental';
+import {promiseDebounce} from '@ohrm/oxd';
 
 const userModel = {
   username: '',

@@ -281,7 +281,7 @@ import {
 import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
 import JobtitleDropdown from '@/orangehrmPimPlugin/components/JobtitleDropdown';
 import VacancyLinkCard from '../components/VacancyLinkCard.vue';
-import {OxdSwitchInput} from '@eth0/oxd-experimental';
+import {OxdSwitchInput} from '@ohrm/oxd';
 
 const vacancyModel = {
   jobTitle: null,

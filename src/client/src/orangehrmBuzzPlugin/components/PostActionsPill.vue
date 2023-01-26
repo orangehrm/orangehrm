@@ -42,7 +42,7 @@ import {APIService} from '@/core/util/services/api.service';
 import useBuzzAPIs from '@/orangehrmBuzzPlugin/util/composable/useBuzzAPIs';
 import PostLikeButton from '@/orangehrmBuzzPlugin/components/PostLikeButton';
 import PostCommentButton from '@/orangehrmBuzzPlugin/components/PostCommentButton';
-import {OxdIcon} from '@eth0/oxd-experimental';
+import {OxdIcon} from '@ohrm/oxd';
 
 export default {
   name: 'PostActionsPill',

@@ -115,7 +115,7 @@
 import LeaveListTable from '@/orangehrmLeavePlugin/components/LeaveListTable';
 import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
 import LeaveTypeDropdown from '@/orangehrmLeavePlugin/components/LeaveTypeDropdown';
-import {OxdSwitchInput} from '@eth0/oxd-experimental';
+import {OxdSwitchInput} from '@ohrm/oxd';
 
 export default {
   components: {

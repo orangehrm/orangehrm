@@ -121,7 +121,7 @@ import useDateFormat from '@/core/util/composable/useDateFormat';
 import ProfileImage from '@/orangehrmBuzzPlugin/components/ProfileImage';
 import useBuzzAPIs from '@/orangehrmBuzzPlugin/util/composable/useBuzzAPIs';
 import useEmployeeNameTranslate from '@/core/util/composable/useEmployeeNameTranslate';
-import {OxdIcon} from '@eth0/oxd-experimental';
+import {OxdIcon} from '@ohrm/oxd';
 
 export default {
   name: 'PostComment',

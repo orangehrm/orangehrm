@@ -199,7 +199,7 @@ import {
   validEmailFormat,
   validPhoneNumberFormat,
 } from '@ohrm/core/util/validation/rules';
-import {OxdSwitchInput} from '@eth0/oxd-experimental';
+import {OxdSwitchInput} from '@ohrm/oxd';
 
 export default {
   components: {

@@ -54,7 +54,7 @@ import usei18n from '@/core/util/composable/usei18n';
 import {APIService} from '@/core/util/services/api.service';
 import PostModal from '@/orangehrmBuzzPlugin/components/PostModal.vue';
 import VideoFrame from '@/orangehrmBuzzPlugin/components/VideoFrame.vue';
-import {OxdBuzzPostInput, promiseDebounce} from '@eth0/oxd-experimental';
+import {OxdBuzzPostInput, promiseDebounce} from '@ohrm/oxd';
 
 export default {
   name: 'ShareVideoModal',

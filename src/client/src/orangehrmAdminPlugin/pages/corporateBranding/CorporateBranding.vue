@@ -203,7 +203,7 @@ import {APIService} from '@/core/util/services/api.service';
 import {reloadPage} from '@ohrm/core/util/helper/navigation';
 import FileUploadInput from '@/core/components/inputs/FileUploadInput';
 import InlineColorInput from '@/orangehrmAdminPlugin/components/InlineColorInput';
-import {OxdSwitchInput} from '@eth0/oxd-experimental';
+import {OxdSwitchInput} from '@ohrm/oxd';
 
 const colorModel = {
   primaryColor: null,

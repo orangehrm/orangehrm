@@ -88,7 +88,7 @@ import VideoFrame from '@/orangehrmBuzzPlugin/components/VideoFrame';
 import PhotoInput from '@/orangehrmBuzzPlugin/components/PhotoInput';
 import useBuzzAPIs from '@/orangehrmBuzzPlugin/util/composable/useBuzzAPIs';
 import useEmployeeNameTranslate from '@/core/util/composable/useEmployeeNameTranslate';
-import {OxdBuzzPostInput, promiseDebounce} from '@eth0/oxd-experimental';
+import {OxdBuzzPostInput, promiseDebounce} from '@ohrm/oxd';
 
 export default {
   name: 'EditPostModal',

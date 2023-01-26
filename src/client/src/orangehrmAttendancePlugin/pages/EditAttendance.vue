@@ -167,7 +167,7 @@ import {
 import {diffInTime, parseDate, secondsTohhmm} from '@/core/util/helper/datefns';
 import {navigate} from '@/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
-import {promiseDebounce} from '@eth0/oxd-experimental';
+import {promiseDebounce} from '@ohrm/oxd';
 import useDateFormat from '@/core/util/composable/useDateFormat';
 import TimezoneDropdown from '@/orangehrmAttendancePlugin/components/TimezoneDropdown.vue';
 

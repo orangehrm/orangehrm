@@ -65,7 +65,7 @@
 
 <script>
 import ProfilePicture from '@/orangehrmCorporateDirectoryPlugin/components/ProfilePicture';
-import {OxdIcon, OxdSheet} from '@eth0/oxd-experimental';
+import {OxdIcon, OxdSheet} from '@ohrm/oxd';
 
 export default {
   name: 'SummaryCard',

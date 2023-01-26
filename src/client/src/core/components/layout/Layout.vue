@@ -41,7 +41,7 @@
 <script>
 import {provide, readonly, ref} from 'vue';
 import About from '@/core/pages/About.vue';
-import {OxdLayout} from '@eth0/oxd-experimental';
+import {OxdLayout} from '@ohrm/oxd';
 import {dateFormatKey} from '@/core/util/composable/useDateFormat';
 
 export default {

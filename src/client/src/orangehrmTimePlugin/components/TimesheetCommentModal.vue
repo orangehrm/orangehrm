@@ -78,7 +78,7 @@
 <script>
 import {shouldNotExceedCharLength} from '@ohrm/core/util/validation/rules';
 import {APIService} from '@/core/util/services/api.service';
-import {OxdDialog} from '@eth0/oxd-experimental';
+import {OxdDialog} from '@ohrm/oxd';
 import useLocale from '@/core/util/composable/useLocale';
 import useDateFormat from '@/core/util/composable/useDateFormat';
 import {formatDate, parseDate} from '@/core/util/helper/datefns';

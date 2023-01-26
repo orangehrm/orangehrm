@@ -115,7 +115,7 @@ import {urlFor} from '@ohrm/core/util/helper/url';
 import {required} from '@ohrm/core/util/validation/rules';
 import {navigate, reloadPage} from '@ohrm/core/util/helper/navigation';
 import LoginLayout from '../components/LoginLayout';
-import {OxdAlert, OxdIcon, OxdSheet} from '@eth0/oxd-experimental';
+import {OxdAlert, OxdIcon, OxdSheet} from '@ohrm/oxd';
 
 export default {
   components: {

@@ -73,7 +73,7 @@
 </template>
 
 <script>
-import {OxdIcon} from '@eth0/oxd-experimental';
+import {OxdIcon} from '@ohrm/oxd';
 
 export default {
   name: 'FileUploadInput',

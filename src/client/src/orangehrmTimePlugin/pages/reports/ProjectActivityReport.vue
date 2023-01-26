@@ -104,7 +104,7 @@ import ReportsTable from '@/core/components/table/ReportsTable';
 import ProjectAutocomplete from '@/orangehrmTimePlugin/components/ProjectAutocomplete.vue';
 import usei18n from '@/core/util/composable/usei18n';
 import useDateFormat from '@/core/util/composable/useDateFormat';
-import {OxdSwitchInput} from '@eth0/oxd-experimental';
+import {OxdSwitchInput} from '@ohrm/oxd';
 
 const defaultFilters = {
   project: null,

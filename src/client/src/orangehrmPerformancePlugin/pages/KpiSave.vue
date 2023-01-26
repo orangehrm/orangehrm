@@ -106,7 +106,7 @@ import {
 } from '@ohrm/core/util/validation/rules';
 import {APIService} from '@/core/util/services/api.service';
 import JobtitleDropdown from '@/orangehrmPimPlugin/components/JobtitleDropdown.vue';
-import {OxdSwitchInput} from '@eth0/oxd-experimental';
+import {OxdSwitchInput} from '@ohrm/oxd';
 
 const initialKpi = {
   title: '',

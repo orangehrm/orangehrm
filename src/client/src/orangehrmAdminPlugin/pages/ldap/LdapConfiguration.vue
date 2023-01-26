@@ -385,7 +385,7 @@ import {reloadPage} from '@/core/util/helper/navigation';
 import {APIService} from '@ohrm/core/util/services/api.service';
 import LdapSyncConnection from '@/orangehrmAdminPlugin/components/LdapSyncConnection';
 import LdapTestConnectionModal from '@/orangehrmAdminPlugin/components/LdapTestConnectionModal';
-import {OxdAlert, OxdIcon, OxdSwitchInput} from '@eth0/oxd-experimental';
+import {OxdAlert, OxdIcon, OxdSwitchInput} from '@ohrm/oxd';
 
 const configurationModel = {
   enable: false,

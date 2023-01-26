@@ -20,7 +20,7 @@ import {AxiosResponse} from 'axios';
 import {App, ComponentOptions} from 'vue';
 import IntlMessageFormat from 'intl-messageformat';
 import {APIService} from '@/core/util/services/api.service';
-import {StoreService} from '@eth0/oxd-experimental';
+import {StoreService} from '@ohrm/oxd';
 
 export type Language = {
   [key: string]: IntlMessageFormat;

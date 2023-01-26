@@ -211,7 +211,7 @@ import SubmitButton from '@/core/components/buttons/SubmitButton';
 import {navigate} from '@/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
 import {urlFor} from '@/core/util/helper/url';
-import {useResponsive} from '@eth0/oxd-experimental';
+import {useResponsive} from '@ohrm/oxd';
 
 const applicantModel = {
   firstName: '',

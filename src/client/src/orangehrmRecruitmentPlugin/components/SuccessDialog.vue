@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import {OxdDialog} from '@eth0/oxd-experimental';
+import {OxdDialog} from '@ohrm/oxd';
 
 export default {
   name: 'SuccessDialog',

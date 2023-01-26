@@ -90,7 +90,7 @@
 </template>
 
 <script>
-import {OxdDivider} from '@eth0/oxd-experimental';
+import {OxdDivider} from '@ohrm/oxd';
 import {APIService} from '@/core/util/services/api.service';
 
 export default {

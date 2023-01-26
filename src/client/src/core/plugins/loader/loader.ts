@@ -1,5 +1,5 @@
 import {h, defineComponent, Transition, App, reactive, toRefs} from 'vue';
-import {OxdOverlay, OxdSpinner} from '@eth0/oxd-experimental';
+import {OxdOverlay, OxdSpinner} from '@ohrm/oxd';
 
 export interface LoaderAPI {
   startLoading: () => void;

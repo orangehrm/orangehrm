@@ -122,7 +122,7 @@ import {
 } from '@ohrm/core/util/validation/rules';
 import {APIService} from '@/core/util/services/api.service';
 import {navigate} from '@ohrm/core/util/helper/navigation';
-import {promiseDebounce} from '@eth0/oxd-experimental';
+import {promiseDebounce} from '@ohrm/oxd';
 import useEmployeeNameTranslate from '@/core/util/composable/useEmployeeNameTranslate';
 import Activities from '@/orangehrmTimePlugin/components/Activities.vue';
 import AddCustomerModal from '@/orangehrmTimePlugin/components/AddCustomerModal.vue';

@@ -49,7 +49,7 @@
 import VacancyCard from '@/orangehrmRecruitmentPlugin/components/VacancyCard';
 import {APIService} from '@/core/util/services/api.service';
 import usePaginate from '@/core/util/composable/usePaginate';
-import {OxdSpinner} from '@eth0/oxd-experimental';
+import {OxdSpinner} from '@ohrm/oxd';
 
 export default {
   name: 'VacancyList',

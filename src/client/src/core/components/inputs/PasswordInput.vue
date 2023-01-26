@@ -63,8 +63,8 @@ import {
   required,
   shouldNotExceedCharLength,
 } from '@ohrm/core/util/validation/rules';
+import {OxdChip, promiseDebounce} from '@ohrm/oxd';
 import {APIService} from '@/core/util/services/api.service';
-import {OxdChip, promiseDebounce} from '@eth0/oxd-experimental';
 
 export default {
   name: 'PasswordInput',

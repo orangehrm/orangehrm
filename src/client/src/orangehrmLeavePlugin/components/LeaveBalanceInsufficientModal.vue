@@ -84,7 +84,7 @@
 </template>
 
 <script>
-import {OxdDialog} from '@eth0/oxd-experimental';
+import {OxdDialog} from '@ohrm/oxd';
 import useDateFormat from '@/core/util/composable/useDateFormat';
 import {formatDate, parseDate} from '@/core/util/helper/datefns';
 import useLocale from '@/core/util/composable/useLocale';

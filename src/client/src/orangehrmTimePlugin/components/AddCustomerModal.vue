@@ -51,7 +51,7 @@ import {
   required,
   shouldNotExceedCharLength,
 } from '@ohrm/core/util/validation/rules';
-import {OxdDialog, promiseDebounce} from '@eth0/oxd-experimental';
+import {OxdDialog, promiseDebounce} from '@ohrm/oxd';
 
 const customerModel = {
   id: '',

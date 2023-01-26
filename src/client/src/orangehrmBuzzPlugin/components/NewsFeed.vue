@@ -131,7 +131,7 @@ import PostContainer from '@/orangehrmBuzzPlugin/components/PostContainer.vue';
 import SharePostModal from '@/orangehrmBuzzPlugin/components/SharePostModal.vue';
 import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmationDialog';
 import PostCommentContainer from '@/orangehrmBuzzPlugin/components/PostCommentContainer.vue';
-import {OxdSpinner} from '@eth0/oxd-experimental';
+import {OxdSpinner} from '@ohrm/oxd';
 
 export default {
   name: 'NewsFeed',

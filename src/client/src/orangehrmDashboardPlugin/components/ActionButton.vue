@@ -22,7 +22,7 @@
   <oxd-icon :name="icon" @click="$emit('show-actions', true)"></oxd-icon>
 </template>
 <script>
-import {OxdIcon} from '@eth0/oxd-experimental';
+import {OxdIcon} from '@ohrm/oxd';
 
 export default {
   name: 'ActionButton',

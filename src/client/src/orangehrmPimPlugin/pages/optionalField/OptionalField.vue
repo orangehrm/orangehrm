@@ -88,7 +88,7 @@
 
 <script>
 import {APIService} from '@ohrm/core/util/services/api.service';
-import {OxdSwitchInput} from '@eth0/oxd-experimental';
+import {OxdSwitchInput} from '@ohrm/oxd';
 
 const optionalFieldModel = {
   pimShowDeprecatedFields: false,

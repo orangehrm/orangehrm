@@ -74,11 +74,7 @@
 
 <script>
 import {computed, ref} from 'vue';
-import {
-  OxdTabContainer,
-  OxdTabPanel,
-  useResponsive,
-} from '@eth0/oxd-experimental';
+import {OxdTabContainer, OxdTabPanel, useResponsive} from '@ohrm/oxd';
 import {DEVICE_LG, DEVICE_XL} from '@ohrm/oxd/composables/useResponsive';
 import usei18n from '@/core/util/composable/usei18n';
 import useSwipe from '@/core/util/composable/useSwipe';

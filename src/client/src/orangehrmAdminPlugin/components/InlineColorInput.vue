@@ -38,7 +38,7 @@
 
 <script>
 import {toRef, nextTick, computed} from 'vue';
-import {OxdColorInput, OxdLabel, useField} from '@eth0/oxd-experimental';
+import {OxdColorInput, OxdLabel, useField} from '@ohrm/oxd';
 
 export default {
   name: 'InlineColorInput',

@@ -37,7 +37,7 @@
 <script>
 import {APIService} from '@/core/util/services/api.service';
 import BaseWidget from '@/orangehrmDashboardPlugin/components/BaseWidget.vue';
-import {OxdPieChart, CHART_COLORS} from '@eth0/oxd-experimental';
+import {OxdPieChart, CHART_COLORS} from '@ohrm/oxd';
 
 export default {
   name: 'EmployeeLocationWidget',

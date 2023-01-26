@@ -47,7 +47,7 @@
 <script>
 import {onBeforeMount, reactive, toRefs} from 'vue';
 import {APIService} from '@ohrm/core/util/services/api.service';
-import {OxdSpinner} from '@eth0/oxd-experimental';
+import {OxdSpinner} from '@ohrm/oxd';
 
 export default {
   name: 'JobSpecDownload',

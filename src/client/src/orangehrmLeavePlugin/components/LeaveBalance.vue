@@ -54,7 +54,7 @@ import {APIService} from '@ohrm/core/util/services/api.service';
 import LeaveBalanceModal from '@/orangehrmLeavePlugin/components/LeaveBalanceModal';
 import LeaveBalanceInsufficientModal from '@/orangehrmLeavePlugin/components/LeaveBalanceInsufficientModal';
 import useLeaveValidators from '@/orangehrmLeavePlugin/util/composable/useLeaveValidators';
-import {OxdLabel} from '@eth0/oxd-experimental';
+import {OxdLabel} from '@ohrm/oxd';
 
 export default {
   name: 'LeaveBalance',

@@ -144,7 +144,7 @@ import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete'
 import SummaryCard from '@/orangehrmCorporateDirectoryPlugin/components/SummaryCard';
 import EmployeeDetails from '@/orangehrmCorporateDirectoryPlugin/components/EmployeeDetails';
 import SummaryCardDetails from '@/orangehrmCorporateDirectoryPlugin/components/SummaryCardDetails';
-import {OxdSpinner, useResponsive} from '@eth0/oxd-experimental';
+import {OxdSpinner, useResponsive} from '@ohrm/oxd';
 
 const defaultFilters = {
   employeeNumber: null,

@@ -60,7 +60,7 @@
 
 <script>
 import {APIService} from '@ohrm/core/util/services/api.service';
-import {OxdDialog} from '@eth0/oxd-experimental';
+import {OxdDialog} from '@ohrm/oxd';
 
 export default {
   name: 'EntitlementUpdateModal',

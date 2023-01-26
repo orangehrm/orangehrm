@@ -121,12 +121,7 @@ import {APIService} from '@/core/util/services/api.service';
 import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmationDialog';
 import SaveOrgUnit from './SaveOrgUnit';
 import EditOrgUnit from './EditOrgUnit';
-import {
-  OxdSheet,
-  OxdSpinner,
-  OxdSwitchInput,
-  OxdTreeView,
-} from '@eth0/oxd-experimental';
+import {OxdSheet, OxdSpinner, OxdSwitchInput, OxdTreeView} from '@ohrm/oxd';
 
 export default {
   components: {

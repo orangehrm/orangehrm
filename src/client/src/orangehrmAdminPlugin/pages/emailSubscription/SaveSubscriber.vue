@@ -64,7 +64,7 @@ import {
   validEmailFormat,
   shouldNotExceedCharLength,
 } from '@ohrm/core/util/validation/rules';
-import {OxdDialog} from '@eth0/oxd-experimental';
+import {OxdDialog} from '@ohrm/oxd';
 
 const subscriberModel = {
   name: '',

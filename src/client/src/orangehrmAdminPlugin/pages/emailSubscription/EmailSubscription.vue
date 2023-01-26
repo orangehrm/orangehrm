@@ -51,7 +51,7 @@ import usePaginate from '@ohrm/core/util/composable/usePaginate';
 import {navigate} from '@ohrm/core/util/helper/navigation';
 import {APIService} from '@ohrm/core/util/services/api.service';
 import usei18n from '@/core/util/composable/usei18n';
-import {OxdSpinner, OxdSwitchInput} from '@eth0/oxd-experimental';
+import {OxdSpinner, OxdSwitchInput} from '@ohrm/oxd';
 
 export default {
   setup() {

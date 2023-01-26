@@ -172,7 +172,7 @@ import {
   required,
   shouldNotExceedCharLength,
 } from '@ohrm/core/util/validation/rules';
-import {OxdSwitchInput} from '@eth0/oxd-experimental';
+import {OxdSwitchInput} from '@ohrm/oxd';
 
 const salComponentModel = {
   name: '',

@@ -39,7 +39,7 @@ import {
   OxdGrid,
   OxdGridItem,
   OxdTableFilter,
-} from '@eth0/oxd-experimental';
+} from '@ohrm/oxd';
 
 export default {
   install: (app: App) => {

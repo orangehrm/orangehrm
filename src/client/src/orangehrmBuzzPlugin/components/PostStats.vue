@@ -64,7 +64,7 @@
 </template>
 <script>
 import PostStatsModal from '@/orangehrmBuzzPlugin/components/PostStatsModal.vue';
-import {clickOutsideDirective, OxdIcon} from '@eth0/oxd-experimental';
+import {clickOutsideDirective, OxdIcon} from '@ohrm/oxd';
 
 export default {
   name: 'PostStats',

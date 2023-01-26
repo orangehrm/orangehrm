@@ -240,7 +240,7 @@ import {parseDate, parseTimeInSeconds} from '@ohrm/core/util/helper/datefns';
 import ActivityDropdown from '@/orangehrmTimePlugin/components/ActivityDropdown.vue';
 import ProjectAutocomplete from '@/orangehrmTimePlugin/components/ProjectAutocomplete.vue';
 import TimesheetCommentModal from '@/orangehrmTimePlugin/components/TimesheetCommentModal.vue';
-import {OxdAlert, OxdSpinner} from '@eth0/oxd-experimental';
+import {OxdAlert, OxdSpinner} from '@ohrm/oxd';
 
 export default {
   name: 'Timesheet',

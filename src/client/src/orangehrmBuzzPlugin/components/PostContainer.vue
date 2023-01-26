@@ -85,7 +85,7 @@ import useDateFormat from '@/core/util/composable/useDateFormat';
 import {formatDate, parseDate} from '@/core/util/helper/datefns';
 import ProfileImage from '@/orangehrmBuzzPlugin/components/ProfileImage';
 import useEmployeeNameTranslate from '@/core/util/composable/useEmployeeNameTranslate';
-import {OxdDropdownMenu, OxdIcon, OxdSheet} from '@eth0/oxd-experimental';
+import {OxdDropdownMenu, OxdIcon, OxdSheet} from '@ohrm/oxd';
 
 export default {
   name: 'PostContainer',

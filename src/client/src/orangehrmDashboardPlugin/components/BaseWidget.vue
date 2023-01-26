@@ -56,7 +56,7 @@
 
 <script>
 import {computed, ref} from 'vue';
-import {OxdIcon, OxdSheet, OxdSpinner} from '@eth0/oxd-experimental';
+import {OxdIcon, OxdSheet, OxdSpinner} from '@ohrm/oxd';
 
 export default {
   name: 'BaseWidget',

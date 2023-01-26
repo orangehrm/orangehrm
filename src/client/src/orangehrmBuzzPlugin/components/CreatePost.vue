@@ -64,11 +64,7 @@
 
 <script>
 import {ref} from 'vue';
-import {
-  OxdBuzzPostInput,
-  OxdGlassButton,
-  OxdSheet,
-} from '@eth0/oxd-experimental';
+import {OxdBuzzPostInput, OxdGlassButton, OxdSheet} from '@ohrm/oxd';
 import useToast from '@/core/util/composable/useToast';
 import {APIService} from '@/core/util/services/api.service';
 import {shouldNotExceedCharLength} from '@/core/util/validation/rules';

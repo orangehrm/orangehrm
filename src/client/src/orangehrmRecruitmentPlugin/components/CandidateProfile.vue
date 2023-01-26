@@ -198,7 +198,7 @@ import FullNameInput from '@/orangehrmPimPlugin/components/FullNameInput';
 import VacancyDropdown from '@/orangehrmRecruitmentPlugin/components/VacancyDropdown';
 import useDateFormat from '@/core/util/composable/useDateFormat';
 import ConfirmationDialog from '@/core/components/dialogs/ConfirmationDialog';
-import {OxdSwitchInput} from '@eth0/oxd-experimental';
+import {OxdSwitchInput} from '@ohrm/oxd';
 
 const CandidateProfileModel = {
   firstName: '',

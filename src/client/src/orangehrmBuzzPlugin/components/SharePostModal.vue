@@ -67,7 +67,7 @@ import PhotoFrame from '@/orangehrmBuzzPlugin/components/PhotoFrame';
 import VideoFrame from '@/orangehrmBuzzPlugin/components/VideoFrame';
 import {shouldNotExceedCharLength} from '@/core/util/validation/rules';
 import useEmployeeNameTranslate from '@/core/util/composable/useEmployeeNameTranslate';
-import {OxdBuzzPostInput} from '@eth0/oxd-experimental';
+import {OxdBuzzPostInput} from '@ohrm/oxd';
 
 export default {
   name: 'SharePostModal',

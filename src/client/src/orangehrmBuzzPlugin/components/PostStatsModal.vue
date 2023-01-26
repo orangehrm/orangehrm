@@ -75,7 +75,7 @@ import {APIService} from '@/core/util/services/api.service';
 import ProfileImage from '@/orangehrmBuzzPlugin/components/ProfileImage';
 import useInfiniteScroll from '@/core/util/composable/useInfiniteScroll';
 import useEmployeeNameTranslate from '@/core/util/composable/useEmployeeNameTranslate';
-import {OxdDialog, OxdIcon, OxdSheet, OxdSpinner} from '@eth0/oxd-experimental';
+import {OxdDialog, OxdIcon, OxdSheet, OxdSpinner} from '@ohrm/oxd';
 
 export default {
   name: 'PostStatsModal',

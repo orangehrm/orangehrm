@@ -78,7 +78,7 @@ import useDateFormat from '@/core/util/composable/useDateFormat';
 import PhotoFrame from '@/orangehrmBuzzPlugin/components/PhotoFrame';
 import VideoFrame from '@/orangehrmBuzzPlugin/components/VideoFrame';
 import useEmployeeNameTranslate from '@/core/util/composable/useEmployeeNameTranslate';
-import {OxdIcon} from '@eth0/oxd-experimental';
+import {OxdIcon} from '@ohrm/oxd';
 
 export default {
   name: 'PostBody',

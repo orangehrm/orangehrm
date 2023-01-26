@@ -83,7 +83,7 @@
 
 <script>
 import {APIService} from '@/core/util/services/api.service';
-import {OxdDialog, OxdSpinner} from '@eth0/oxd-experimental';
+import {OxdDialog, OxdSpinner} from '@ohrm/oxd';
 
 export default {
   components: {

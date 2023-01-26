@@ -52,7 +52,7 @@
 import {formatDate, parseDate} from '@/core/util/helper/datefns';
 import {APIService} from '@/core/util/services/api.service';
 import useDateFormat from '@/core/util/composable/useDateFormat';
-import {OxdSpinner} from '@eth0/oxd-experimental';
+import {OxdSpinner} from '@ohrm/oxd';
 
 export default {
   name: 'LdapSyncConnection',

@@ -61,7 +61,7 @@ import usei18n from '@/core/util/composable/usei18n';
 import PhotoFrame from '@/orangehrmBuzzPlugin/components/PhotoFrame';
 import {maxFileSize, validFileTypes} from '@/core/util/validation/rules';
 import PhotoUploadArea from '@/orangehrmBuzzPlugin/components/PhotoUploadArea';
-import {OxdAlert} from '@eth0/oxd-experimental';
+import {OxdAlert} from '@ohrm/oxd';
 
 export default {
   name: 'PhotoInput',

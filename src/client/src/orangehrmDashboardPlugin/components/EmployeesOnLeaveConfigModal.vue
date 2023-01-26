@@ -60,7 +60,7 @@
 
 <script>
 import {APIService} from '@/core/util/services/api.service';
-import {OxdDialog, OxdIcon} from '@eth0/oxd-experimental';
+import {OxdDialog, OxdIcon} from '@ohrm/oxd';
 
 export default {
   name: 'EmployeesOnLeaveConfigModal',

@@ -1575,15 +1575,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@eth0/oxd-experimental@npm:0.1.0":
-  version: 0.1.0
-  resolution: "@eth0/oxd-experimental@npm:0.1.0"
-  peerDependencies:
-    vue: 3.x
-  checksum: c195b32c43e58fcb132b4c18f291162117eed3718fc59d4fbd5bd2bef1275df0991351230d0f86b091d4b28d1380575b7f99a25a70d7c7beb2df04385bd171dd
-  languageName: node
-  linkType: hard
-
 "@formatjs/ecma402-abstract@npm:1.11.4":
   version: 1.11.4
   resolution: "@formatjs/ecma402-abstract@npm:1.11.4"
@@ -2006,6 +1997,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@kurkle/color@npm:^0.3.0":
+  version: 0.3.2
+  resolution: "@kurkle/color@npm:0.3.2"
+  checksum: 79e97b31f8f6efb28c69d373f94b0c7480226fe8ec95221f518ac998e156444a496727ce47de6d728eb5c3369288e794cba82cae34253deb0d472d3bfe080e49
+  languageName: node
+  linkType: hard
+
 "@leichtgewicht/ip-codec@npm:^2.0.1":
   version: 2.0.4
   resolution: "@leichtgewicht/ip-codec@npm:2.0.4"
@@ -2069,19 +2067,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ohrm/oxd@npm:1.0.9-alpha.2":
-  version: 1.0.9-alpha.2
-  resolution: "@ohrm/oxd@npm:1.0.9-alpha.2"
+"@ohrm/oxd@npm:2.0.0-alpha.1":
+  version: 2.0.0-alpha.1
+  resolution: "@ohrm/oxd@npm:2.0.0-alpha.1"
   dependencies:
     "@revolist/vue3-datagrid": ^3.2.17
-    bootstrap-icons: ^1.3.0
-    chart.js: ^3.9.1
-    core-js: ^3.26.1
-    date-fns: ^2.22.1
+    chart.js: ^4.1.2
+    date-fns: ^2.29.3
     mitt: ^3.0.0
     nanoid: ^4.0.0
-    vue: ^3.2.45
-  checksum: 5ec7da77aca304b89a4e3fc046b8a68acb2f69f1d6fa6464d993d70f45f096eeb75b385a86be45b5141bae6436953929dcafad10a9d9b72ea0c3fc87f61b911b
+  peerDependencies:
+    vue: 3.x
+  checksum: 951ffd5be6035ebdcc349551337f4a9c024f05c86dbbcf214849dd7deff1e6c69646db6c40aa486ccfdbecc1eb98d043c498281ad5689d1f7fda151f3f902c33
   languageName: node
   linkType: hard
 
@@ -4111,13 +4108,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bootstrap-icons@npm:^1.3.0":
-  version: 1.10.2
-  resolution: "bootstrap-icons@npm:1.10.2"
-  checksum: 1d73556a70b05c1b219c379243c24ea8186c773990b3bc5e8248825e7eae1c8137be90a2b7dd81fd46060a99558763886a069587a65a7f70a362bf5934e795e7
-  languageName: node
-  linkType: hard
-
 "brace-expansion@npm:^1.1.7":
   version: 1.1.11
   resolution: "brace-expansion@npm:1.1.11"
@@ -4361,10 +4351,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chart.js@npm:^3.9.1":
-  version: 3.9.1
-  resolution: "chart.js@npm:3.9.1"
-  checksum: 9ab0c0ac01215af0b3f020f2e313030fd6e347b48ed17d5484ee9c4e8ead45e78ae71bea16c397621c386b409ce0b14bf17f9f6c2492cd15b56c0f433efdfff6
+"chart.js@npm:^4.1.2":
+  version: 4.2.0
+  resolution: "chart.js@npm:4.2.0"
+  dependencies:
+    "@kurkle/color": ^0.3.0
+  checksum: 281b023c013de8700a5208a45d35248b02119fadb574d0c104c7e0720605e085195ce546fd3aa27625e9db1188fdd5f7491a411463b9c30b7654a5f4b13d8d80
   languageName: node
   linkType: hard
 
@@ -4771,7 +4763,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"core-js@npm:^3.26.1, core-js@npm:^3.27.1, core-js@npm:^3.8.3":
+"core-js@npm:^3.27.1, core-js@npm:^3.8.3":
   version: 3.27.1
   resolution: "core-js@npm:3.27.1"
   checksum: d50b5f88aea4302512ad9446c18e90f4d35dea1e6d8d3f87337690677061565ff11a670f1e0c87de57aa6074375fbb25ed5784076c040d3c4de8b4bce7d2ebeb
@@ -5058,7 +5050,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"date-fns@npm:^2.22.1":
+"date-fns@npm:^2.22.1, date-fns@npm:^2.29.3":
   version: 2.29.3
   resolution: "date-fns@npm:2.29.3"
   checksum: e01cf5b62af04e05dfff921bb9c9933310ed0e1ae9a81eb8653452e64dc841acf7f6e01e1a5ae5644d0337e9a7f936175fd2cb6819dc122fdd9c5e86c56be484
@@ -8927,8 +8919,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "orangehrm@workspace:."
   dependencies:
-    "@eth0/oxd-experimental": 0.1.0
-    "@ohrm/oxd": 1.0.9-alpha.2
+    "@ohrm/oxd": 2.0.0-alpha.1
     "@types/hammerjs": ^2.0.41
     "@types/jest": ^27.0.1
     "@typescript-eslint/eslint-plugin": ^5.4.0

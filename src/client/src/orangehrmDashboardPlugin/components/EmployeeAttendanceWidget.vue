@@ -93,7 +93,7 @@ import {navigate} from '@/core/util/helper/navigation';
 import useLocale from '@/core/util/composable/useLocale';
 import {APIService} from '@/core/util/services/api.service';
 import BaseWidget from '@/orangehrmDashboardPlugin/components/BaseWidget.vue';
-import {OxdBarChart, OxdIcon, CHART_COLORS} from '@eth0/oxd-experimental';
+import {OxdBarChart, OxdIcon, CHART_COLORS} from '@ohrm/oxd';
 
 export default {
   name: 'EmployeeAttendanceWidget',

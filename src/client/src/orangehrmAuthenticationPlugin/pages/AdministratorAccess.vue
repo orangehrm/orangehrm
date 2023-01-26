@@ -94,7 +94,7 @@
 import {urlFor} from '@ohrm/core/util/helper/url';
 import {navigate} from '@/core/util/helper/navigation';
 import {required} from '@/core/util/validation/rules';
-import {OxdAlert} from '@eth0/oxd-experimental';
+import {OxdAlert} from '@ohrm/oxd';
 
 export default {
   name: 'AdministratorAccess',

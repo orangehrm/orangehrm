@@ -44,7 +44,7 @@ import {APIService} from '@/core/util/services/api.service';
 import PostModal from '@/orangehrmBuzzPlugin/components/PostModal';
 import PhotoInput from '@/orangehrmBuzzPlugin/components/PhotoInput';
 import {shouldNotExceedCharLength} from '@/core/util/validation/rules';
-import {OxdBuzzPostInput} from '@eth0/oxd-experimental';
+import {OxdBuzzPostInput} from '@ohrm/oxd';
 
 export default {
   name: 'SharePhotoModal',

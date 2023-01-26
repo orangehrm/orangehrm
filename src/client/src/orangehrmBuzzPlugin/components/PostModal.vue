@@ -51,7 +51,7 @@
 
 <script>
 import ProfileImage from '@/orangehrmBuzzPlugin/components/ProfileImage';
-import {OxdDialog} from '@eth0/oxd-experimental';
+import {OxdDialog} from '@ohrm/oxd';
 
 export default {
   name: 'PostModal',

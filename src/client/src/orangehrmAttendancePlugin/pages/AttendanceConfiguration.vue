@@ -77,7 +77,7 @@
 
 <script>
 import {APIService} from '@/core/util/services/api.service';
-import {OxdSwitchInput} from '@eth0/oxd-experimental';
+import {OxdSwitchInput} from '@ohrm/oxd';
 
 const configsModel = {
   canUserChangeCurrentTime: false,

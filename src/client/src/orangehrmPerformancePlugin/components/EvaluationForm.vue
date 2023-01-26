@@ -163,7 +163,7 @@ import {computed, ref} from 'vue';
 import usei18n from '@/core/util/composable/usei18n';
 import {shouldNotExceedCharLength} from '@/core/util/validation/rules';
 import useEmployeeNameTranslate from '@/core/util/composable/useEmployeeNameTranslate';
-import {OxdDivider} from '@eth0/oxd-experimental';
+import {OxdDivider} from '@ohrm/oxd';
 
 const defaultPic = `${window.appGlobal.baseUrl}/../dist/img/user-default-400.png`;
 

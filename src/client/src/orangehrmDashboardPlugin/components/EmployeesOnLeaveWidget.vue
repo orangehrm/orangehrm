@@ -75,7 +75,7 @@ import {freshDate, formatDate} from '@ohrm/core/util/helper/datefns';
 import BaseWidget from '@/orangehrmDashboardPlugin/components/BaseWidget.vue';
 import useEmployeeNameTranslate from '@/core/util/composable/useEmployeeNameTranslate';
 import EmployeesOnLeaveConfigModal from '@/orangehrmDashboardPlugin/components/EmployeesOnLeaveConfigModal.vue';
-import {OxdIcon} from '@eth0/oxd-experimental';
+import {OxdIcon} from '@ohrm/oxd';
 
 export default {
   name: 'EmployeesOnLeaveWidget',

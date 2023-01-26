@@ -17,7 +17,7 @@
  */
 
 import {ref, nextTick, onMounted, onBeforeUnmount} from 'vue';
-import {promiseDebounce} from '@eth0/oxd-experimental';
+import {promiseDebounce} from '@ohrm/oxd';
 
 type useInfiniteScrollArgs = {
   refName?: string;

@@ -142,7 +142,7 @@ import AddTrackerLogModal from '@/orangehrmPerformancePlugin/components/AddTrack
 import EditTrackerLogModal from '@/orangehrmPerformancePlugin/components/EditTrackerLogModal';
 import DeleteConfirmationDialog from '@/core/components/dialogs/DeleteConfirmationDialog';
 import EmployeeTrackerLogCard from '@/orangehrmPerformancePlugin/components/EmployeeTrackerLogCard';
-import {OxdIcon, OxdSheet, OxdSpinner} from '@eth0/oxd-experimental';
+import {OxdIcon, OxdSheet, OxdSpinner} from '@ohrm/oxd';
 
 export default {
   name: 'ViewEmployeeTrackerLogs',

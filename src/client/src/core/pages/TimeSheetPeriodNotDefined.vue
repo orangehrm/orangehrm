@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import {OxdAlert} from '@eth0/oxd-experimental';
+import {OxdAlert} from '@ohrm/oxd';
 
 export default {
   components: {

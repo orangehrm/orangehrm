@@ -100,7 +100,7 @@
 <script>
 import {APIService} from '@/core/util/services/api.service';
 import {reloadPage} from '@/core/util/helper/navigation';
-import {OxdSwitchInput} from '@eth0/oxd-experimental';
+import {OxdSwitchInput} from '@ohrm/oxd';
 
 const modulesModel = {
   admin: false,

@@ -150,7 +150,7 @@ import JobtitleDropdown from '@/orangehrmPimPlugin/components/JobtitleDropdown';
 import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
 import LeaveTypeDropdown from '@/orangehrmLeavePlugin/components/LeaveTypeDropdown';
 import LeavePeriodDropdown from '@/orangehrmLeavePlugin/components/LeavePeriodDropdown';
-import {OxdSwitchInput} from '@eth0/oxd-experimental';
+import {OxdSwitchInput} from '@ohrm/oxd';
 
 const defaultFilters = {
   type: 'leave_type_leave_entitlements_and_usage',
