@@ -24,6 +24,28 @@ use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\ClaimEvent;
 
+/**
+ * @OA\Schema(
+ *     schema="Claim-ClaimEventModel",
+ *     type="object",
+ *     @OA\Property(
+ *         property="id",
+ *         type="integer"
+ *     ),
+ *     @OA\Property(
+ *         property="name",
+ *         type="string",
+ *     ),
+ *     @OA\Property(
+ *         property="description",
+ *         type="string",
+ *     ),
+ *     @OA\Property(
+ *         property="status",
+ *         type="boolean",
+ *     )
+ * )
+ */
 class ClaimEventModel implements Normalizable
 {
     use ModelTrait;

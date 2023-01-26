@@ -26,18 +26,26 @@ use OrangeHRM\Installer\Util\V1\AbstractMigration;
 
 class Migration extends AbstractMigration
 {
+    protected ?LangStringHelper $langStringHelper = null;
+
     /**
      * @inheritDoc
      */
     public function up(): void
     {
-        if (!$this->getSchemaHelper()->tableExists(['ohrm_claim_event'])) {
+        $this->insertI18nGroups();
+        $this->getLangStringHelper()->deleteNonCustomizedLangStrings('claim');
+        $this->getLangStringHelper()->insertOrUpdateLangStrings('claim');
+        $this->updateLangStringVersion($this->getVersion());
+
+        if (!$this->getSchemaHelper()->tableExists(['
+        '])) {
             $this->getSchemaHelper()->createTable('ohrm_claim_event')
                 ->addColumn('id', Types::INTEGER, ['Autoincrement' => true])
-                ->addColumn('name', Types::TEXT, ['Notnull' => true,'Length'=>100])
-                ->addColumn('description', Types::TEXT, ['Notnull' => false,'Length'=>1000])
+                ->addColumn('name', Types::TEXT, ['Notnull' => true, 'Length' => 100])
+                ->addColumn('description', Types::TEXT, ['Notnull' => false, 'Length' => 1000])
                 ->addColumn('added_by', Types::INTEGER, ['Notnull' => false])
-                ->addColumn('status', Types::BOOLEAN, ['Notnull' => false])
+                ->addColumn('status', Types::STRING, ['Notnull' => false, 'Length' => 64])
                 ->addColumn('is_deleted', Types::SMALLINT, ['Notnull' => true, 'Default' => 0])
                 ->setPrimaryKey(['id'])
                 ->create();
@@ -57,7 +65,7 @@ class Migration extends AbstractMigration
                 [
                     'name' => ':name',
                     'status' => ':status',
-                    'display_name'=> ':display_name'
+                    'display_name' => ':display_name'
                 ]
             )
             ->setParameter('name', "claim")
@@ -66,14 +74,15 @@ class Migration extends AbstractMigration
             ->executeQuery();
 
         $this->getDataGroupHelper()->insertApiPermissions(__DIR__ . '/permission/api.yaml');
+        $this->changeClaimEventTableStatusToBoolean();
 
         if (!$this->getSchemaHelper()->tableExists(['ohrm_expense_type'])) {
             $this->getSchemaHelper()->createTable('ohrm_expense_type')
                 ->addColumn('id', Types::INTEGER, ['Autoincrement' => true])
-                ->addColumn('name', Types::TEXT, ['Notnull' => true,'Length'=>100])
-                ->addColumn('description', Types::TEXT, ['Notnull' => false,'Length'=>1000])
+                ->addColumn('name', Types::TEXT, ['Notnull' => true, 'Length' => 100])
+                ->addColumn('description', Types::TEXT, ['Notnull' => false, 'Length' => 1000])
                 ->addColumn('added_by', Types::INTEGER, ['Notnull' => false])
-                ->addColumn('status', Types::STRING, ['Notnull' => false, 'Length'=>64])
+                ->addColumn('status', Types::STRING, ['Notnull' => false, 'Length' => 64])
                 ->addColumn('is_deleted', Types::SMALLINT, ['Notnull' => true, 'Default' => 0])
                 ->setPrimaryKey(['id'])
                 ->create();
@@ -129,7 +138,7 @@ class Migration extends AbstractMigration
         }
 
         $this->changeClaimExpenseTypeTableStatusToBoolean();
-        $this->modifyClaimTables(); //modify tables after creation
+        $this->modifyClaimTables();
         $this->modifyClaimRequestCurrencyToForeignKey();
     }
 
@@ -138,6 +147,11 @@ class Migration extends AbstractMigration
         $this->getConnection()->executeStatement(
             'ALTER TABLE ohrm_claim_request CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci'
         );
+
+        $this->getSchemaHelper()->addOrChangeColumns('ohrm_claim_event', [
+            'is_deleted' => ['Type' => Type::getType(Types::BOOLEAN), 'Notnull' => true, 'Default' => 0],
+            'status' => ['Type' => Type::getType(Types::BOOLEAN), 'Notnull' => false, 'Default' => null, 'CustomSchemaOptions' => ['collation' => null, 'charset' => null]],
+        ]);
 
         $this->getSchemaHelper()->addOrChangeColumns('ohrm_claim_request', [
             'reference_id' => [
@@ -175,7 +189,7 @@ class Migration extends AbstractMigration
             ],
             'status' => [
                 'Type' => Type::getType(Types::BOOLEAN),
-                'CustomSchemaOptions' => ['collation' => null,'charset' => null]
+                'CustomSchemaOptions' => ['collation' => null, 'charset' => null]
             ]
         ]);
 
@@ -233,11 +247,72 @@ class Migration extends AbstractMigration
             ->executeStatement();
     }
 
+    private function changeClaimEventTableStatusToBoolean(): void
+    {
+        $this->createQueryBuilder()
+            ->update('ohrm_claim_event', 'claimEvent')
+            ->set('claimEvent.status', ':status')
+            ->where('claimEvent.status = :currentStatus')
+            ->setParameter('currentStatus', 'on')
+            ->setParameter(
+                'status',
+                true,
+                Types::BOOLEAN
+            )
+            ->executeStatement();
+
+        $q = $this->createQueryBuilder();
+        $q->update('ohrm_claim_event', 'claimEvent')
+            ->set('claimEvent.status', ':status')
+            ->where($q->expr()->isNull('claimEvent.status'))
+            ->setParameter(
+                'status',
+                false,
+                Types::BOOLEAN
+            )
+            ->executeStatement();
+    }
+
     /**
      * @inheritDoc
      */
     public function getVersion(): string
     {
         return '5.4.0';
+    }
+
+    private function updateLangStringVersion(string $version): void
+    {
+        $qb = $this->createQueryBuilder()
+            ->update('ohrm_i18n_lang_string', 'lang_string')
+            ->set('lang_string.version', ':version')
+            ->setParameter('version', $version);
+        $qb->andWhere($qb->expr()->isNull('lang_string.version'))
+            ->executeStatement();
+    }
+
+    public function getLangStringHelper(): LangStringHelper
+    {
+        if (is_null($this->langStringHelper)) {
+            $this->langStringHelper = new LangStringHelper(
+                $this->getConnection()
+            );
+        }
+        return $this->langStringHelper;
+    }
+
+    public function insertI18nGroups(): void
+    {
+        $this->getConnection()->createQueryBuilder()
+            ->insert('ohrm_i18n_group')
+            ->values([
+                'name' => ':name',
+                'title' => ':title',
+            ])
+            ->setParameters([
+                'name' => 'claim',
+                'title' => 'Claim',
+            ])
+            ->executeQuery();
     }
 }

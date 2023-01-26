@@ -28,7 +28,6 @@ use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
-use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
@@ -50,12 +49,36 @@ class ClaimEventAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_NAME = 'name';
     public const PARAMETER_DESCRIPTION = 'description';
     public const PARAMETER_ID = 'id';
+    public const PARAMETER_CLAIMID = 'claimId';
     public const PARAMETER_IDS = 'ids';
     public const PARAMETER_STATUS = 'status';
     public const DESCRIPTION_MAX_LENGTH = 1000;
     public const NAME_MAX_LENGTH = 100;
 
     /**
+     * @OA\Post(
+     *     path="/api/v2/claim/events",
+     *     tags={"Claim/Events"},
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="name", type="string"),
+     *             @OA\Property(property="description", type="string"),
+     *             @OA\Property(property="status", type="boolean"),
+     *             required={"name"}
+     *         )
+     *     ),
+     *     @OA\Response(response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Claim-ClaimEventModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     )
+     * )
      * @inheritDoc
      */
     public function create(): EndpointResult
@@ -79,7 +102,35 @@ class ClaimEventAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     * @return EndpointResult
+     * @OA\Get(
+     *     path="/api/v2/claim/events",
+     *     tags={"Claim/Events"},
+     *     @OA\Parameter(
+     *         name="sortField",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string", enum=ClaimEventSearchFilterParams::ALLOWED_SORT_FIELDS)
+     *     ),
+     *     @OA\Parameter(ref="#/components/parameters/sortOrder"),
+     *     @OA\Parameter(ref="#/components/parameters/limit"),
+     *     @OA\Parameter(ref="#/components/parameters/offset"),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="array",
+     *                 @OA\Items(ref="#/components/schemas/Claim-ClaimEventModel")
+     *             ),
+     *             @OA\Property(property="meta",
+     *                 type="object",
+     *                 @OA\Property(property="total", type="integer")
+     *             )
+     *         )
+     *     )
+     * )
+     *
      */
     public function getAll(): EndpointResult
     {
@@ -87,6 +138,7 @@ class ClaimEventAPI extends Endpoint implements CrudEndpoint
         $this->setSortingAndPaginationParams($claimEventSearchFilterParams);
         $claimEventSearchFilterParams->setName($this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_NAME));
         $claimEventSearchFilterParams->setStatus($this->getRequestParams()->getBooleanOrNull(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_STATUS));
+        $claimEventSearchFilterParams->setId($this->getRequestParams()->getIntOrNull(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_CLAIMID));
         $claimEvents = $this->getClaimService()->getClaimDao()->getClaimEventList($claimEventSearchFilterParams);
         $count = $this->getClaimService()->getClaimDao()->getClaimEventCount($claimEventSearchFilterParams);
         return new EndpointCollectionResult(ClaimEventModel::class, $claimEvents, new ParameterBag([CommonParams::PARAMETER_TOTAL => $count]));
@@ -109,6 +161,14 @@ class ClaimEventAPI extends Endpoint implements CrudEndpoint
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_STATUS,
+                    new Rule(
+                        Rules::STRING_TYPE
+                    )
+                )
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_CLAIMID,
                     new Rule(
                         Rules::STRING_TYPE
                     )
@@ -167,7 +227,13 @@ class ClaimEventAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     * @return EndpointResult
+     * @OA\Delete(
+     *     path="/api/v2/claim/events",
+     *     tags={"Claim/Events"},
+     *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),
+     *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse")
+     * )
+     * @inheritDoc
      */
     public function delete(): EndpointResult
     {
@@ -190,8 +256,28 @@ class ClaimEventAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     * @return EndpointResult
-     * @throws RecordNotFoundException
+     * @OA\Get(
+     *     path="/api/v2/claim/events/{id}",
+     *     tags={"Claim/Events"},
+     *     @OA\PathParameter(
+     *         name="id",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Claim-ClaimEventModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
+     * )
+     *
+     * @inheritDoc
      */
     public function getOne(): EndpointResult
     {
@@ -215,8 +301,44 @@ class ClaimEventAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     * @return EndpointResult
-     * @throws RecordNotFoundException
+     * @OA\Put(
+     *     path="/api/v2/claim/events/{id}",
+     *     tags={"Claim/Events"},
+     *     @OA\PathParameter(
+     *         name="id",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="name",
+     *                 type="string"
+     *             ),
+     *             @OA\Property(
+     *                 property="description",
+     *                 type="string"
+     *             ),
+     *             @OA\Property(
+     *                 property="status",
+     *                 type="boolean"
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Claim-ClaimEventModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
+     * )
+     * @inheritDoc
      */
     public function update(): EndpointResult
     {

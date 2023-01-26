@@ -8,7 +8,7 @@ Create:
       description: 'sample description'
       status: true
     data:
-      id: 5
+      id: 6
       name: event 0001
       description: sample description
       status: true
@@ -46,7 +46,7 @@ Create:
       description: ''
       status: true
     data:
-      id: 5
+      id: 6
       name: event 0002
       description: null
       status: true
@@ -61,7 +61,7 @@ Create:
       description: 'sample description'
       status:
     data:
-      id: 5
+      id: 6
       name: event 0003
       description: sample description
       status: null
@@ -76,7 +76,7 @@ Create:
       description: null
       status: null
     data:
-      id: 5
+      id: 6
       name: event 0003
       description: null
       status: null
@@ -90,7 +90,7 @@ Create:
       name: 'event 0003'
       description: 'sample description'
     data:
-      id: 5
+      id: 6
       name: event 0003
       description: sample description
       status: true
@@ -104,7 +104,7 @@ Create:
       name: 'event 0003'
       status: false
     data:
-      id: 5
+      id: 6
       name: event 0003
       description: null
       status: false
@@ -117,7 +117,7 @@ Create:
     body:
       name: 'event 0003'
     data:
-      id: 5
+      id: 6
       name: event 0003
       description: null
       status: true
@@ -468,6 +468,82 @@ GetAll:
       "total": 0
     }
 
+  'get all with query id':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    query:
+      claimId: "1"
+    data: [
+      {
+        "id": 1,
+        "name": "event1",
+        "description": "event1 desc",
+        "status": true
+      }
+    ]
+    meta: {
+      "total": 1
+    }
+
+  'get all with query id zero':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    query:
+      claimId: "0"
+    data: [
+        {
+          "id": 1,
+          "name": "event1",
+          "description": "event1 desc",
+          "status": true
+        },
+        {
+          "id": 2,
+          "name": "event2",
+          "description": "event2 desc",
+          "status": true
+        },
+        {
+          "id": 3,
+          "name": "event3",
+          "description": "event3 desc",
+          "status": false
+        },
+        {
+          "id": 4,
+          "name": "event4",
+          "description": "event4 desc",
+          "status": false
+        }
+    ]
+    meta: {
+      "total": 4
+    }
+
+  'get all with query not existing id':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    query:
+      claimId: "100"
+    data: []
+    meta: {
+      "total": 0
+    }
+
+  'get all with query deleted id':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    query:
+      claimId: "5"
+    data: [ ]
+    meta: {
+      "total": 0
+    }
+
 GetOne:
   'get one for existing event':
     userId: 1
@@ -568,3 +644,18 @@ Delete:
       ids: [ 1, 2, 3 ]
     data: [ 1, 2, 3 ]
 
+  'with invalid id':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    body:
+      ids: [ 50 ]
+    data: [ 50 ]
+
+  'with multiple ids including invalid ids and valid ids':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    body:
+      ids: [ 1, 2, 300 ]
+    data: [ 1, 2, 300 ]

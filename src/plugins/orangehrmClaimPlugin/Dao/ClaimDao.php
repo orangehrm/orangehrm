@@ -64,6 +64,10 @@ class ClaimDao extends BaseDao
             $q->andWhere('claimEvent.status = :status');
             $q->setParameter('status', $claimEventSearchFilterParams->getStatus());
         }
+        if (!is_null($claimEventSearchFilterParams->getId())) {
+            $q->andWhere('claimEvent.id = :id');
+            $q->setParameter('id', $claimEventSearchFilterParams->getId());
+        }
         $q->andWhere('claimEvent.isDeleted = :isDeleted');
         $q->setParameter('isDeleted', false);
         return $this->getPaginator($q);
@@ -79,15 +83,17 @@ class ClaimDao extends BaseDao
     }
 
     /**
-     * @param array $ids
+     * @param array int[] $ids
      * @return int
      */
     public function deleteClaimEvents(array $ids): int
     {
         $q = $this->createQueryBuilder(ClaimEvent::class, 'claimEvent');
-        $q->delete()
+        $q->update()
+            ->set('claimEvent.isDeleted', ':isDeleted')
             ->where($q->expr()->in('claimEvent.id', ':ids'))
-            ->setParameter('ids', $ids);
+            ->setParameter('ids', $ids)
+            ->setParameter('isDeleted', true);
         return $q->getQuery()->execute();
     }
 
