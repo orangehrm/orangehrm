@@ -39,6 +39,7 @@ class PasswordStrengthValidationAPI extends Endpoint implements CollectionEndpoi
 
     public const PARAMETER_PASSWORD = 'password';
     public const PARAMETER_PASSWORD_STRENGTH = 'strength';
+    public const PARAMETER_MESSAGES = 'messages';
 
     public const MIN_PASSWORD_LENGTH = 'authentication.password_policy.min_password_length';
     public const MAX_PASSWORD_LENGTH = 'authentication.password_policy.max_password_length';
@@ -82,7 +83,7 @@ class PasswordStrengthValidationAPI extends Endpoint implements CollectionEndpoi
 
         return new EndpointResourceResult(
             ArrayModel::class,
-            $messages,
+            [self::PARAMETER_MESSAGES => $messages],
             new ParameterBag([self::PARAMETER_PASSWORD_STRENGTH => $passwordStrength])
         );
     }
