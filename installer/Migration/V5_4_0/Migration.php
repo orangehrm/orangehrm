@@ -73,6 +73,27 @@ class Migration extends AbstractMigration
             ->setParameter('display_name', 'Claim')
             ->executeQuery();
 
+        $this->getConnection()->createQueryBuilder()
+            ->insert('ohrm_module')
+            ->values(
+                [
+                    'name' => ':name',
+                    'status' => ':status',
+                    'display_name'=> ':display_name'
+                ]
+            )
+            ->setParameter('name', "auth")
+            ->setParameter('status', 1)
+            ->setParameter('display_name', 'Auth')
+            ->executeQuery();
+
+        $this->getConfigHelper()->setConfigValue('authentication.password_policy.min_password_length', '8');
+        $this->getConfigHelper()->setConfigValue('authentication.password_policy.max_password_length', '64');
+        $this->getConfigHelper()->setConfigValue('authentication.password_policy.min_uppercase_letters', '1');
+        $this->getConfigHelper()->setConfigValue('authentication.password_policy.min_lowercase_letters', '1');
+        $this->getConfigHelper()->setConfigValue('authentication.password_policy.min_numbers_in_password', '1');
+        $this->getConfigHelper()->setConfigValue('authentication.password_policy.min_special_characters', '1');
+
         $this->getDataGroupHelper()->insertApiPermissions(__DIR__ . '/permission/api.yaml');
         $this->changeClaimEventTableStatusToBoolean();
         if (!$this->getSchemaHelper()->tableExists(['ohrm_expense_type'])) {

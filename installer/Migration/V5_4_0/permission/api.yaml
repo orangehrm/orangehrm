@@ -40,3 +40,20 @@ apiv2_claim_request:
   permissions:
     - { role: Admin, permission: { read: false, create: true, update: true, delete: false } }
     - { role: ESS, permission: { read: false, create: false, update: true, delete: false } }
+
+##########################
+#      Authentication
+##########################
+
+apiv2_password_strength:
+  description: 'Authentication - Password Strength'
+  api: OrangeHRM\Authentication\Api\PasswordStrengthValidationAPI
+  module: auth
+  allowed:
+    read: false
+    create: true
+    update: false
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: false, create: true, update: false, delete: false } }
+    - { role: ESS, permission: { read: false, create: true, update: false, delete: false } }
