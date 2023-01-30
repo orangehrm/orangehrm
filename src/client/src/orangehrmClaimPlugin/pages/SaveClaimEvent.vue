@@ -28,46 +28,34 @@
       <oxd-divider />
 
       <oxd-form :loading="isLoading" @submit-valid="onSave">
-        <oxd-form-row>
-          <oxd-grid :cols="3" class="orangehrm-full-width-grid">
-            <oxd-grid-item>
-              <oxd-input-field
-                v-model="claimEvent.name"
-                :label="$t('general.name')"
-                :rules="rules.name"
-                required
-              />
-            </oxd-grid-item>
-          </oxd-grid>
-        </oxd-form-row>
+        <oxd-grid :cols="2" class="orangehrm-full-width-grid">
+          <oxd-grid-item>
+            <oxd-input-field
+              v-model="claimEvent.name"
+              :label="$t('general.name')"
+              :rules="rules.name"
+              required
+            />
+          </oxd-grid-item>
+          <oxd-grid-item class="--offset-row-2">
+            <oxd-input-field
+              v-model="claimEvent.description"
+              type="textarea"
+              :label="$t('general.description')"
+              :placeholder="$t('general.type_description_here')"
+              :rules="rules.description"
+            />
+          </oxd-grid-item>
 
-        <oxd-form-row>
-          <oxd-grid :cols="3" class="orangehrm-full-width-grid">
-            <oxd-grid-item>
-              <oxd-input-field
-                v-model="claimEvent.description"
-                type="textarea"
-                :label="$t('general.description')"
-                :placeholder="$t('general.type_description_here')"
-                :rules="rules.description"
-              />
-            </oxd-grid-item>
-          </oxd-grid>
-        </oxd-form-row>
-
-        <oxd-form-row>
-          <oxd-grid :cols="3" class="orangehrm-full-width-grid">
-            <oxd-grid-item>
-              <oxd-input-field
-                v-model="claimEvent.status"
-                type="switch"
-                :label="$t('general.actions')"
-                :rules="rules.status"
-              />
-            </oxd-grid-item>
-          </oxd-grid>
-        </oxd-form-row>
-
+          <oxd-grid-item class="--offset-row-3">
+            <div class="orangehrm-sm-field">
+              <oxd-text tag="p" class="orangehrm-sm-field-label">
+                {{ $t('general.actions') }}
+              </oxd-text>
+              <oxd-switch-input v-model="claimEvent.status" />
+            </div>
+          </oxd-grid-item>
+        </oxd-grid>
         <oxd-divider />
 
         <oxd-form-actions>
@@ -87,6 +75,7 @@
 <script>
 import {navigate} from '@ohrm/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
+import SwitchInput from '@ohrm/oxd/core/components/Input/SwitchInput';
 import {
   required,
   shouldNotExceedCharLength,
@@ -99,6 +88,9 @@ const initialClaimEvent = {
 };
 
 export default {
+  components: {
+    'oxd-switch-input': SwitchInput,
+  },
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
@@ -121,13 +113,16 @@ export default {
   },
 
   created() {
+    //TODO: Refctor this code to use validation API
     this.isLoading = true;
     this.http
       .getAll({limit: 0})
       .then((response) => {
         const {data} = response.data;
         this.rules.name.push((v) => {
-          const index = data.findIndex((item) => item.name == v);
+          const index = data.findIndex(
+            (item) => item.name.toLowerCase() == v.toLowerCase(),
+          );
           return index === -1 || this.$t('general.already_exists');
         });
       })
@@ -156,3 +151,16 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.orangehrm-sm-field {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: $oxd-input-control-vertical-padding 0rem;
+  &-label {
+    font-weight: 700;
+    font-size: $oxd-input-control-font-size;
+  }
+}
+</style>
