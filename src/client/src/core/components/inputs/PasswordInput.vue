@@ -26,15 +26,15 @@
         <oxd-chip
           v-if="password"
           :class="chipClasses"
-          :label="passwordStrength"
+          :label="passwordStrengthLabel"
         />
         <oxd-input-field
-          :label="$t('general.password')"
           type="password"
+          autocomplete="off"
+          :required="true"
           :model-value="password"
           :rules="rules.password"
-          autocomplete="off"
-          required
+          :label="$t('general.password')"
           @update:model-value="$emit('update:password', $event)"
         />
         <oxd-text class="user-password-hint" tag="p">
@@ -45,12 +45,12 @@
       <oxd-grid-item>
         <oxd-input-field
           ref="passwordConfirm"
-          :label="$t('general.confirm_password')"
           type="password"
+          autocomplete="off"
+          :required="true"
           :model-value="passwordConfirm"
           :rules="rules.passwordConfirm"
-          autocomplete="off"
-          required
+          :label="$t('general.confirm_password')"
           @update:model-value="$emit('update:passwordConfirm', $event)"
         />
       </oxd-grid-item>
@@ -59,12 +59,13 @@
 </template>
 
 <script>
-import Chip from '@ohrm/oxd/core/components/Chip/Chip.vue';
-import {checkPassword, getPassLevel} from '@ohrm/core/util/helper/password';
 import {
   required,
   shouldNotExceedCharLength,
 } from '@ohrm/core/util/validation/rules';
+import Chip from '@ohrm/oxd/core/components/Chip/Chip.vue';
+import {APIService} from '@/core/util/services/api.service';
+import promiseDebounce from '@ohrm/oxd/utils/promiseDebounce';
 
 export default {
   name: 'PasswordInput',
@@ -82,10 +83,21 @@ export default {
     },
   },
   emits: ['update:password', 'update:passwordConfirm'],
+  setup() {
+    const http = new APIService(window.appGlobal.baseUrl, '');
+    return {
+      http,
+    };
+  },
   data() {
     return {
+      passwordStrength: 0,
       rules: {
-        password: [required, shouldNotExceedCharLength(64), checkPassword],
+        password: [
+          required,
+          shouldNotExceedCharLength(64),
+          promiseDebounce(this.checkPassword, 500),
+        ],
         passwordConfirm: [
           required,
           shouldNotExceedCharLength(64),
@@ -98,18 +110,13 @@ export default {
   },
 
   computed: {
-    passwordStrength() {
-      let strength = 0;
-      strength = getPassLevel(this.password).reduce((acc, val) => acc + val, 0);
-      if (this.password.trim().length < 8) {
-        strength = 0;
-      }
-      switch (strength) {
-        case 2:
+    passwordStrengthLabel() {
+      switch (this.passwordStrength) {
+        case 1:
           return this.$t('general.weak');
-        case 3:
+        case 2:
           return this.$t('general.better');
-        case 4:
+        case 3:
           return this.$t('general.strongest');
         default:
           return this.$t('general.very_weak');
@@ -118,7 +125,7 @@ export default {
     chipClasses() {
       return {
         'user-password-chip': true,
-        '--green': this.passwordStrength === 'Strongest',
+        '--green': this.passwordStrength === 3,
       };
     },
   },
@@ -131,6 +138,35 @@ export default {
       ) {
         this.$nextTick(this.$refs.passwordConfirm.triggerUpdate);
       }
+    },
+  },
+
+  methods: {
+    checkPassword(password) {
+      return new Promise((resolve) => {
+        if (password.trim() !== '') {
+          this.http
+            .request({
+              method: 'POST',
+              url: `api/v2/passwordStrength`,
+              data: {
+                password,
+              },
+            })
+            .then((response) => {
+              const {data, meta} = response.data;
+              this.passwordStrength = meta?.strength || 0;
+              if (Array.isArray(data?.messages) && data.messages.length > 0) {
+                resolve(data.messages[0]);
+              } else {
+                resolve(true);
+              }
+            });
+        } else {
+          this.passwordStrength = 0;
+          resolve(true);
+        }
+      });
     },
   },
 };

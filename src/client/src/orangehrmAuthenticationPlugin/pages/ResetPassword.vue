@@ -44,7 +44,12 @@
               readonly
             />
           </oxd-form-row>
-          <oxd-form-row>
+          <oxd-form-row class="orangehrm-forgot-password-row">
+            <oxd-chip
+              v-if="user.newPassword"
+              :class="chipClasses"
+              :label="passwordStrengthLabel"
+            />
             <oxd-input-field
               v-model="user.newPassword"
               name="password"
@@ -87,16 +92,19 @@
 
 <script>
 import CardNote from '../components/CardNote';
-import {checkPassword} from '@ohrm/core/util/helper/password';
 import {
   required,
   shouldNotExceedCharLength,
 } from '@ohrm/core/util/validation/rules';
 import {urlFor} from '@/core/util/helper/url';
+import Chip from '@ohrm/oxd/core/components/Chip/Chip.vue';
+import {APIService} from '@/core/util/services/api.service';
+import promiseDebounce from '@ohrm/oxd/utils/promiseDebounce';
 
 export default {
   name: 'ResetPassword',
   components: {
+    'oxd-chip': Chip,
     'card-note': CardNote,
   },
   props: {
@@ -109,20 +117,32 @@ export default {
       required: true,
     },
   },
+  setup() {
+    const http = new APIService(window.appGlobal.baseUrl, '');
+    return {
+      http,
+    };
+  },
   data() {
     return {
+      passwordStrength: 0,
       user: {
         username: '',
         newPassword: '',
         confirmPassword: '',
       },
       rules: {
-        newPassword: [required, shouldNotExceedCharLength(64), checkPassword],
+        newPassword: [
+          required,
+          shouldNotExceedCharLength(64),
+          promiseDebounce(this.checkPassword, 500),
+        ],
         confirmPassword: [
           required,
           shouldNotExceedCharLength(64),
           (v) =>
-            (!!v && v === this.user.newPassword) || 'Passwords do not match',
+            (!!v && v === this.user.newPassword) ||
+            this.$t('general.passwords_do_not_match'),
         ],
       },
     };
@@ -131,10 +151,54 @@ export default {
     submitUrl() {
       return urlFor('/auth/resetPassword');
     },
+    passwordStrengthLabel() {
+      switch (this.passwordStrength) {
+        case 1:
+          return this.$t('general.weak');
+        case 2:
+          return this.$t('general.better');
+        case 3:
+          return this.$t('general.strongest');
+        default:
+          return this.$t('general.very_weak');
+      }
+    },
+    chipClasses() {
+      return {
+        'orangehrm-forgot-password-chip': true,
+        '--green': this.passwordStrength === 3,
+      };
+    },
   },
   methods: {
     onSubmit() {
       this.$refs.resetForm.$el.submit();
+    },
+    checkPassword(password) {
+      return new Promise((resolve) => {
+        if (password.trim() !== '') {
+          this.http
+            .request({
+              method: 'POST',
+              url: `api/v2/passwordStrength`,
+              data: {
+                password,
+              },
+            })
+            .then((response) => {
+              const {data, meta} = response.data;
+              this.passwordStrength = meta?.strength || 0;
+              if (Array.isArray(data?.messages) && data.messages.length > 0) {
+                resolve(data.messages[0]);
+              } else {
+                resolve(true);
+              }
+            });
+        } else {
+          this.passwordStrength = 0;
+          resolve(true);
+        }
+      });
     },
   },
 };
