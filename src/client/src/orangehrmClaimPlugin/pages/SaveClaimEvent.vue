@@ -50,7 +50,7 @@
           <oxd-grid-item class="--offset-row-3">
             <div class="orangehrm-sm-field">
               <oxd-text tag="p" class="orangehrm-sm-field-label">
-                {{ $t('general.actions') }}
+                {{ $t('general.active') }}
               </oxd-text>
               <oxd-switch-input v-model="claimEvent.status" />
             </div>

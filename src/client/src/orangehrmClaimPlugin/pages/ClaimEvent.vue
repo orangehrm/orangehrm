@@ -269,14 +269,10 @@ export default {
           });
       }
     },
-    onClickDelete() {
+    onClickDelete(item) {
       this.$refs.deleteDialog.showDialog().then((confirmation) => {
         if (confirmation === 'ok') {
-          const ids = [];
-          this.checkedItems.forEach((index) => {
-            ids.push(this.items?.data[index].id);
-          });
-          this.deleteItems(ids);
+          this.deleteItems([item.id]);
         }
       });
     },

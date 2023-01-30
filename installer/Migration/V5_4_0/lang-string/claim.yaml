@@ -1,7 +1,10 @@
 langStrings:
-  - value: "Claim"
+  -
+    value: "Claim"
     unitId: claim
-  - value: "Events"
+  -
+    value: "Events"
     unitId: events
-  - value: "Add Event"
+  -
+    value: "Add Event"
     unitId: add_event
