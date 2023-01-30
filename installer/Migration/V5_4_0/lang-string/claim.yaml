@@ -3,3 +3,5 @@ langStrings:
     unitId: claim
   - value: "Events"
     unitId: events
+  - value: "Add Event"
+    unitId: add_event

@@ -19,49 +19,86 @@
  -->
 
 <template>
-  <oxd-form :loading="isLoading" @submit="onSave">
-    <oxd-form-row>
-      <oxd-input-field v-model="claimEvent.name" label="name" required />
-    </oxd-form-row>
+  <div class="orangehrm-background-container">
+    <div class="orangehrm-card-container">
+      <oxd-text tag="h6" class="orangehrm-main-title">
+        {{ $t('claim.add_event') }}
+      </oxd-text>
 
-    <oxd-form-row>
-      <oxd-input-field
-        v-model="claimEvent.description"
-        type="textarea"
-        label="description"
-        placeholder="Type description here"
-      />
-    </oxd-form-row>
+      <oxd-divider />
 
-    <oxd-form-row>
-      <oxd-grid-item class="orangehrm-switch-filter --span-column-2">
-        <oxd-text class="orangehrm-switch-filter-text" tag="p">
-          Action
-        </oxd-text>
-        <oxd-input-field v-model="claimEvent.status" type="switch" />
-      </oxd-grid-item>
-    </oxd-form-row>
-  </oxd-form>
-  <oxd-divider />
+      <oxd-form :loading="isLoading" @submit-valid="onSave">
+        <oxd-form-row>
+          <oxd-grid :cols="3" class="orangehrm-full-width-grid">
+            <oxd-grid-item>
+              <oxd-input-field
+                v-model="claimEvent.name"
+                :label="$t('general.name')"
+                :rules="rules.name"
+                required
+              />
+            </oxd-grid-item>
+          </oxd-grid>
+        </oxd-form-row>
 
-  <oxd-form-actions>
-    <required-text />
-    <oxd-button display-type="ghost" label="cancel" @click="onCancel" />
-    <submit-button />
-  </oxd-form-actions>
+        <oxd-form-row>
+          <oxd-grid :cols="3" class="orangehrm-full-width-grid">
+            <oxd-grid-item>
+              <oxd-input-field
+                v-model="claimEvent.description"
+                type="textarea"
+                :label="$t('general.description')"
+                :placeholder="$t('general.type_description_here')"
+                :rules="rules.description"
+              />
+            </oxd-grid-item>
+          </oxd-grid>
+        </oxd-form-row>
+
+        <oxd-form-row>
+          <oxd-grid :cols="3" class="orangehrm-full-width-grid">
+            <oxd-grid-item>
+              <oxd-input-field
+                v-model="claimEvent.status"
+                type="switch"
+                :label="$t('general.actions')"
+                :rules="rules.status"
+              />
+            </oxd-grid-item>
+          </oxd-grid>
+        </oxd-form-row>
+
+        <oxd-divider />
+
+        <oxd-form-actions>
+          <required-text />
+          <oxd-button
+            display-type="ghost"
+            :label="$t('general.cancel')"
+            @click="onCancel"
+          />
+          <submit-button />
+        </oxd-form-actions>
+      </oxd-form>
+    </div>
+  </div>
 </template>
 
 <script>
-//TODO: Add validation
-//TODO: Add API call
+import {navigate} from '@ohrm/core/util/helper/navigation';
+import {APIService} from '@/core/util/services/api.service';
 import {
   required,
   shouldNotExceedCharLength,
-} from '@/core/util/validation/rules';
-import {APIService} from '@/core/util/services/api.service';
-import {navigate} from '@/core/util/helper/navigation';
+} from '@ohrm/core/util/validation/rules';
+
+const initialClaimEvent = {
+  name: '',
+  description: '',
+  status: true,
+};
+
 export default {
-  name: 'SaveClaimEvent',
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
@@ -71,13 +108,11 @@ export default {
       http,
     };
   },
+
   data() {
     return {
-      claimEvent: {
-        name: '',
-        description: '',
-        status: true,
-      },
+      isLoading: false,
+      claimEvent: {...initialClaimEvent},
       rules: {
         name: [required, shouldNotExceedCharLength(100)],
         description: [shouldNotExceedCharLength(1000)],
@@ -85,20 +120,38 @@ export default {
     };
   },
 
+  created() {
+    this.isLoading = true;
+    this.http
+      .getAll({limit: 0})
+      .then((response) => {
+        const {data} = response.data;
+        this.rules.name.push((v) => {
+          const index = data.findIndex((item) => item.name == v);
+          return index === -1 || this.$t('general.already_exists');
+        });
+      })
+      .finally(() => {
+        this.isLoading = false;
+      });
+  },
+
   methods: {
+    onCancel() {
+      navigate('/claim/viewEvents');
+    },
     onSave() {
       this.isLoading = true;
       this.http
-        .create(this.claimEvent)
-        .then((res) => {
-          return res.data;
+        .create({
+          ...this.claimEvent,
+        })
+        .then(() => {
+          return this.$toast.saveSuccess();
         })
         .then(() => {
           this.onCancel();
         });
-    },
-    onCancel() {
-      navigate('/claim/events');
     },
   },
 };

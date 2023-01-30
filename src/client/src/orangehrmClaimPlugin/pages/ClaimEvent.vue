@@ -19,7 +19,7 @@
  -->
 
 <template>
-  <oxd-table-filter :filter-title="$t('Events')">
+  <oxd-table-filter :filter-title="$t('claim.events')">
     <oxd-form @submit-valid="filterItems">
       <oxd-form-row>
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
@@ -69,6 +69,7 @@
       :total="total"
       :loading="isLoading"
       :selected="checkedItems.length"
+      @delete="onClickDeleteSelected"
     />
     <div class="orangehrm-container">
       <oxd-card-table
@@ -100,6 +101,7 @@ import usePaginate from '@ohrm/core/util/composable/usePaginate';
 import useSort from '@ohrm/core/util/composable/useSort';
 import {navigate} from '@/core/util/helper/navigation';
 import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmationDialog.vue';
+import usei18n from '@/core/util/composable/usei18n';
 
 const defaultFilters = {
   name: '',
@@ -117,7 +119,7 @@ export default {
   },
   setup() {
     const filters = ref({...defaultFilters});
-
+    const {$t} = usei18n();
     const {sortDefinition, sortField, sortOrder, onSort} = useSort({
       sortDefinition: defaultSortOrder,
     });
@@ -134,9 +136,12 @@ export default {
     const claimEventDataNormalizer = (data) => {
       return data.map((item) => {
         return {
+          id: item.id,
           name: item.name,
-          description: item.name,
-          status: item.status ? 'Active' : 'Inactive',
+          description: item.description,
+          status: item.status
+            ? $t('general.active')
+            : $t('performance.inactive'),
         };
       });
     };
@@ -187,8 +192,8 @@ export default {
         },
         {
           name: 'status',
-          title: 'Status',
-          sortField: this.$t('general.status'),
+          title: this.$t('general.status'),
+          sortField: 'claimEvent.status',
           style: {flex: 2},
         },
         {
@@ -206,9 +211,7 @@ export default {
               },
             },
             edit: {
-              onClick: () => {
-                //TODO: edit
-              },
+              onClick: this.onClickEdit,
               props: {
                 name: 'pencil-fill',
               },
@@ -218,8 +221,8 @@ export default {
       ],
       checkedItems: [],
       ClaimEventStatuses: [
-        {id: 1, label: this.$t('Active')},
-        {id: 0, label: this.$t('Inactive')},
+        {id: 1, label: this.$t('general.active')},
+        {id: 0, label: this.$t('performance.inactive')},
       ],
     };
   },
@@ -237,14 +240,48 @@ export default {
       this.filterItems();
     },
     onClickAdd() {
-      navigate('/claim/events/save');
+      navigate('/claim/createEvents');
+    },
+    onClickDeleteSelected() {
+      const ids = [];
+      this.checkedItems.forEach((index) => {
+        ids.push(this.items?.data[index].id);
+      });
+      this.$refs.deleteDialog.showDialog().then((confirmation) => {
+        if (confirmation === 'ok') {
+          this.deleteItems(ids);
+        }
+      });
+    },
+    deleteItems(items) {
+      if (items instanceof Array) {
+        this.isLoading = true;
+        this.http
+          .deleteAll({
+            ids: items,
+          })
+          .then(() => {
+            return this.$toast.deleteSuccess();
+          })
+          .then(() => {
+            this.isLoading = false;
+            this.resetDataTable();
+          });
+      }
     },
     onClickDelete() {
       this.$refs.deleteDialog.showDialog().then((confirmation) => {
-        if (confirmation === this.$t('general.ok')) {
-          //TODO: delete claim event
+        if (confirmation === 'ok') {
+          const ids = [];
+          this.checkedItems.forEach((index) => {
+            ids.push(this.items?.data[index].id);
+          });
+          this.deleteItems(ids);
         }
       });
+    },
+    onClickEdit() {
+      //TODO: edit claim event
     },
   },
 };

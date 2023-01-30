@@ -21,5 +21,5 @@ import SaveClaimEvent from '@/orangehrmClaimPlugin/pages/SaveClaimEvent.vue';
 
 export default {
   'claim-event': ClaimEvent,
-  'save-claim-event': SaveClaimEvent,
+  'claim-event-create': SaveClaimEvent,
 };
