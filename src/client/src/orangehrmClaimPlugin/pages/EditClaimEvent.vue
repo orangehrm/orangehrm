@@ -138,7 +138,6 @@ export default {
       this.isLoading = true;
       this.http
         .update(this.id, {
-          name: this.claimEvent.name,
           description: this.claimEvent.description,
           status: this.claimEvent.status,
         })
