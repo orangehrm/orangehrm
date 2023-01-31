@@ -20,14 +20,12 @@
 namespace OrangeHRM\Claim\Controller;
 
 use OrangeHRM\Core\Controller\AbstractVueController;
-use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Framework\Http\Request;
 
 class SaveClaimController extends AbstractVueController
 {
-    use ConfigServiceTrait;
     public function preRender(Request $request): void
     {
         if ($request->attributes->has('id')) {

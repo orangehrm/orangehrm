@@ -9,5 +9,8 @@ langStrings:
     value: "Add Event"
     unitId: add_event
   -
-    value: "Edit Claim Events"
-    unitId: edit_claim_events
+    value: "Edit Event"
+    unitId: edit_event
+  -
+    value: "Event Name"
+    unitId: event_name

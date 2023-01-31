@@ -32,7 +32,7 @@
           <oxd-grid-item>
             <oxd-input-field
               v-model="claimEvent.name"
-              :label="$t('general.name')"
+              :label="$t('claim.event_name')"
               :rules="rules.name"
               required
             />
@@ -42,7 +42,6 @@
               v-model="claimEvent.description"
               type="textarea"
               :label="$t('general.description')"
-              :placeholder="$t('general.type_description_here')"
               :rules="rules.description"
             />
           </oxd-grid-item>

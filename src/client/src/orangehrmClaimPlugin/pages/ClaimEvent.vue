@@ -24,9 +24,9 @@
       <oxd-form-row>
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item>
-            <oxd-input-field
+            <event-autocomplete
               v-model="filters.name"
-              :label="$t('general.name')"
+              :label="$t('claim.event_name')"
             />
           </oxd-grid-item>
           <oxd-grid-item>
@@ -102,6 +102,7 @@ import useSort from '@ohrm/core/util/composable/useSort';
 import {navigate} from '@/core/util/helper/navigation';
 import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmationDialog.vue';
 import usei18n from '@/core/util/composable/usei18n';
+import EventAutocomplete from '@/orangehrmClaimPlugin/components/EventAutocomplete.vue';
 
 const defaultFilters = {
   name: '',
@@ -116,6 +117,7 @@ const defaultSortOrder = {
 export default {
   components: {
     'delete-confirmation': DeleteConfirmationDialog,
+    'event-autocomplete': EventAutocomplete,
   },
   setup() {
     const filters = ref({...defaultFilters});
@@ -126,7 +128,10 @@ export default {
 
     const serializedFilters = computed(() => {
       return {
-        name: filters.value.name,
+        claimId:
+          typeof filters.value.name === 'object' ? filters.value.name.id : null,
+        name:
+          typeof filters.value.name === 'string' ? filters.value.name : null,
         status: filters.value.status ? filters.value.status?.id === 1 : null,
         sortField: sortField.value,
         sortOrder: sortOrder.value,
@@ -185,7 +190,7 @@ export default {
       headers: [
         {
           name: 'name',
-          title: this.$t('general.name'),
+          title: this.$t('claim.event_name'),
           slot: 'title',
           sortField: 'claimEvent.name',
           style: {flex: 3},
@@ -277,7 +282,7 @@ export default {
       });
     },
     onClickEdit(item) {
-      navigate('/claim/saveEvents/' + item.id);
+      navigate('/claim/saveEvents/{id}', {id: item.id});
     },
   },
 };

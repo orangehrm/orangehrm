@@ -22,7 +22,7 @@
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
       <oxd-text tag="h6" class="orangehrm-main-title">
-        {{ $t('claim.edit_claim_event') }}
+        {{ $t('claim.edit_event') }}
       </oxd-text>
 
       <oxd-divider />
@@ -33,9 +33,8 @@
             <oxd-form-row>
               <oxd-input-field
                 v-model="claimEvent.name"
-                :label="$t('general.name')"
-                :rules="rules.title"
-                disabled="true"
+                :label="$t('claim.event_name')"
+                disabled
                 required
               />
             </oxd-form-row>
@@ -46,7 +45,6 @@
                 v-model="claimEvent.description"
                 type="textarea"
                 :label="$t('general.description')"
-                :placeholder="$t('general.type_description_here')"
                 :rules="rules.description"
               />
             </oxd-form-row>
@@ -125,9 +123,7 @@ export default {
       .get(this.id)
       .then((response) => {
         const {data} = response.data;
-        this.claimEvent.name = data.name;
-        this.claimEvent.description = data.description;
-        this.claimEvent.status = data.status;
+        this.claimEvent = {...data};
       })
       .finally(() => {
         this.isLoading = false;
