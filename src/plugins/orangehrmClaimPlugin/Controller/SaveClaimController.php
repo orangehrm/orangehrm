@@ -22,6 +22,7 @@ namespace OrangeHRM\Claim\Controller;
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Core\Vue\Component;
+use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Framework\Http\Request;
 
 class SaveClaimController extends AbstractVueController
@@ -29,7 +30,12 @@ class SaveClaimController extends AbstractVueController
     use ConfigServiceTrait;
     public function preRender(Request $request): void
     {
-        $component = new Component('claim-event-create');
+        if ($request->attributes->has('id')) {
+            $component = new Component('claim-event-edit');
+            $component->addProp(new Prop('id', Prop::TYPE_NUMBER, $request->attributes->getInt('id')));
+        } else {
+            $component = new Component('claim-event-create');
+        }
         $this->setComponent($component);
     }
 }

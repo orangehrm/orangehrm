@@ -18,8 +18,10 @@
 
 import ClaimEvent from '@/orangehrmClaimPlugin/pages/ClaimEvent.vue';
 import SaveClaimEvent from '@/orangehrmClaimPlugin/pages/SaveClaimEvent.vue';
+import EditClaimEvent from '@/orangehrmClaimPlugin/pages/EditClaimEvent.vue';
 
 export default {
   'claim-event': ClaimEvent,
   'claim-event-create': SaveClaimEvent,
+  'claim-event-edit': EditClaimEvent,
 };

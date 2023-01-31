@@ -240,7 +240,7 @@ export default {
       this.filterItems();
     },
     onClickAdd() {
-      navigate('/claim/createEvents');
+      navigate('/claim/saveEvents');
     },
     onClickDeleteSelected() {
       const ids = [];
@@ -276,8 +276,8 @@ export default {
         }
       });
     },
-    onClickEdit() {
-      //TODO: edit claim event
+    onClickEdit(item) {
+      navigate('/claim/saveEvents/' + item.id);
     },
   },
 };
