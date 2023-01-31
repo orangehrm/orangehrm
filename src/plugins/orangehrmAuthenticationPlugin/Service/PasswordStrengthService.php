@@ -163,7 +163,7 @@ class PasswordStrengthService
     private function checkRequiredDefaultPasswordStrength(int $passwordStrength): ?string
     {
         if ($this->getConfigService()->getConfigDao()->getValue(ConfigService::KEY_DEFAULT_PASSWORD_STRENGTH)
-            >= $passwordStrength
+            > $passwordStrength
         ) {
             return $this->getI18NHelper()->trans('auth.password_could_be_guessable');
         }
