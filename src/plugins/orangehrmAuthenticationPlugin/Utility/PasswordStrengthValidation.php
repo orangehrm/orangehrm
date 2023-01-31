@@ -28,7 +28,8 @@ class PasswordStrengthValidation
     public const VERY_WEAK = 0;
     public const WEAK = 1;
     public const BETTER = 2;
-    public const STRONGEST = 3;
+    public const STRONG = 3;
+    public const STRONGEST = 4;
 
     public function __construct()
     {
@@ -41,15 +42,24 @@ class PasswordStrengthValidation
      */
     public function checkPasswordStrength(string $password): int
     {
-        //TODO - 6 or 4 levels ?
         try {
             $strength =  $this->zxcvbn->passwordStrength($password);
-            if ($strength['score'] <= 1)return self::VERY_WEAK;
-            if ($strength['score'] == 2)return self::WEAK;
-            if ($strength['score'] == 3)return self::BETTER;
-            if ($strength['score'] >= 4)return self::STRONGEST;
+            if ($strength['score'] == 0) {
+                return self::VERY_WEAK;
+            }
+            if ($strength['score'] == 1) {
+                return self::WEAK;
+            }
+            if ($strength['score'] == 2) {
+                return self::BETTER;
+            }
+            if ($strength['score'] == 3) {
+                return self::STRONG;
+            }
+            if ($strength['score'] == 4) {
+                return self::STRONGEST;
+            }
         } catch (\Throwable $e) {
-
         }
         return self::VERY_WEAK;
     }

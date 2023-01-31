@@ -44,7 +44,7 @@ class PasswordStrengthService
     {
         $minLength = $this->getConfigService()->getConfigDao()->getValue(ConfigService::KEY_MIN_PASSWORD_LENGTH);
         if ($this->getTextHelper()->strLength($password) < $minLength && $minLength >= 0) {
-            return $this->getI18NHelper()->trans('password_min_length', ['count' => $minLength]);
+            return $this->getI18NHelper()->trans('auth.password_min_length', ['count' => $minLength]);
         }
         return null;
     }
@@ -57,7 +57,7 @@ class PasswordStrengthService
     {
         if ($this->getTextHelper()->strLength($password) > ConfigService::KEY_MAX_PASSWORD_LENGTH) {
             return $this->getI18NHelper()->trans(
-                'password_max_length',
+                'auth.password_max_length',
                 ['count' => ConfigService::KEY_MAX_PASSWORD_LENGTH]
             );
         }
@@ -78,7 +78,7 @@ class PasswordStrengthService
             $minNoOfLowercaseLetters = 0;
         }
         if ($minNoOfLowercaseLetters > $noOfLowercaseLetters) {
-            return $this->getI18NHelper()->trans('password_n_lowercase_letters', ['count' => $minNoOfLowercaseLetters]);
+            return $this->getI18NHelper()->trans('auth.password_n_lowercase_letters', ['count' => $minNoOfLowercaseLetters]);
         }
         return null;
     }
@@ -97,7 +97,7 @@ class PasswordStrengthService
             $minNoOfUppercaseLetters = 0;
         }
         if ($minNoOfUppercaseLetters > $noOfUppercaseLetters) {
-            return $this->getI18NHelper()->trans('password_n_uppercase_letters', ['count' => $minNoOfUppercaseLetters]);
+            return $this->getI18NHelper()->trans('auth.password_n_uppercase_letters', ['count' => $minNoOfUppercaseLetters]);
         }
         return null;
     }
@@ -116,7 +116,7 @@ class PasswordStrengthService
             $minNoOfNumbers = 0;
         }
         if ($minNoOfNumbers > $noOfNumbers) {
-            return $this->getI18NHelper()->trans('password_n_numbers', ['count' => $minNoOfNumbers]);
+            return $this->getI18NHelper()->trans('auth.password_n_numbers', ['count' => $minNoOfNumbers]);
         }
         return null;
     }
@@ -135,7 +135,9 @@ class PasswordStrengthService
             $minNoOfSpecialCharacters = 0;
         }
         if ($minNoOfSpecialCharacters > $noOfSpecialCharacters) {
-            return $this->getI18NHelper()->trans('password_n_special_characters', ['count' => $minNoOfSpecialCharacters]
+            return $this->getI18NHelper()->trans(
+                'auth.password_n_special_characters',
+                ['count' => $minNoOfSpecialCharacters]
             );
         }
         return null;
@@ -149,7 +151,7 @@ class PasswordStrengthService
     {
         $isSpacesAllowed = $this->getConfigService()->getConfigDao()->getValue(ConfigService::KEY_IS_SPACES_ALLOWED);
         if ($isSpacesAllowed === 'false' && preg_match_all(self::SPACES_REGEX, $password) > 0) {
-            return $this->getI18NHelper()->trans('password_spaces_not_allowed');
+            return $this->getI18NHelper()->trans('auth.password_spaces_not_allowed');
         }
         return null;
     }
@@ -163,7 +165,7 @@ class PasswordStrengthService
         if ($this->getConfigService()->getConfigDao()->getValue(ConfigService::KEY_DEFAULT_PASSWORD_STRENGTH)
             >= $passwordStrength
         ) {
-            return $this->getI18NHelper()->trans('password_should_not_guessable');
+            return $this->getI18NHelper()->trans('auth.password_could_be_guessable');
         }
         return null;
     }
@@ -196,8 +198,8 @@ class PasswordStrengthService
         if ($check = $this->checkSpacesInPassword($password)) {
             $messages[] = $check;
         }
-        if ($check = $this->checkRequiredDefaultPasswordStrength($passwordStrength)) {
-            $messages[] = $check;
+        if ($this->checkRequiredDefaultPasswordStrength($passwordStrength) && count($messages) === 0) {
+            $messages[] = $this->checkRequiredDefaultPasswordStrength($passwordStrength);
         }
         return $messages;
     }

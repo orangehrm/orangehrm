@@ -1,6 +1,10 @@
-apiv2_password_strength:
-  path: /api/v2/auth/validation/password
-  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+##########################
+#     Public APIs
+##########################
+
+apiv2_auth_public_validation_password:
+  path: /api/v2/auth/public/validation/password
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericPublicRestController::handle
   methods: [ POST ]
   defaults:
     _api: OrangeHRM\Authentication\Api\PasswordStrengthValidationAPI

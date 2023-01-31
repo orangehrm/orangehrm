@@ -1,21 +1,21 @@
 langStrings:
   -
-    value: 'Should have at least {count,plural, =0{0 characters} one{1 character}} other{# characters}'
+    value: '{count,plural, one{Should have at least 1 character} other{Should have at least # characters}}'
     unitId: password_min_length
   -
-    value: 'Should not exceed {count,plural, =0{0 characters} one{1 character}} other{# characters}'
+    value: '{count,plural, one{Should not exceed 1 character} other{Should not exceed # characters}}'
     unitId: password_max_length
   -
-    value: 'Your password must contain minimum {count,plural, =0{0 lower-case letters} one{1 lower-case letter}} other{# lower-case letters}'
+    value: '{count,plural, one{Your password must contain minimum 1 lower-case letter} other{Your password must contain minimum # lower-case letters}}'
     unitId: password_n_lowercase_letters
   -
-    value: 'Your password must contain minimum {count,plural, =0{0 upper-case letters} one{1 upper-case letter}} other{# upper-case letters}'
+    value: '{count,plural, one{Your password must contain minimum 1 upper-case letter} other{Your password must contain minimum # upper-case letters}}'
     unitId: password_n_uppercase_letters
   -
-    value: 'Your password must contain minimum {count,plural, =0{0 numbers} one{1 number}} other{# numbers}'
+    value: '{count,plural, one{Your password must contain minimum 1 number} other{Your password must contain minimum # numbers}}'
     unitId: password_n_numbers
   -
-    value: 'Your password must contain minimum {count,plural, =0{0 special characters} one{1 special character}} other{# special characters}'
+    value: '{count,plural, one{Your password must contain minimum 1 special character} other{Your password must contain minimum # special characters}}'
     unitId: password_n_special_characters
   -
     value: 'Your password should not contain spaces'

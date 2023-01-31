@@ -62,6 +62,33 @@ class PasswordStrengthValidationAPI extends Endpoint implements CollectionEndpoi
     }
 
     /**
+     * @OA\Post(
+     *     path="/api/v2/auth/validation/password",
+     *     tags={"Authentication/Password Strength"},
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="password", type="string"),
+     *             required={"name"}
+     *         )
+     *     ),
+     *     @OA\Response(response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="object",
+     *                 @OA\Property(property="messages", type="array",
+     *                     @OA\Items(),
+     *                     example="Your password must contain minimum 1 upper-case letter"
+     *                 )
+     *             ),
+     *             @OA\Property(property="meta", type="object",
+     *                 @OA\Property(property="strength", type="integer")
+     *             )
+     *         )
+     *     )
+     * )
      * @inheritDoc
      */
     public function create(): EndpointResult
