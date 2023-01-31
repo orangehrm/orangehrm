@@ -1,3 +1,14 @@
+apiv2_password_strength:
+  path: /api/v2/auth/validation/password
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ POST ]
+  defaults:
+    _api: OrangeHRM\Authentication\Api\PasswordStrengthValidationAPI
+
+##########################
+#        Screens
+##########################
+
 root:
   path: /
   controller: OrangeHRM\Authentication\Controller\RootController::handle
@@ -47,10 +58,3 @@ auth_reset_code:
   path: /auth/resetPassword/resetCode/{resetCode}
   controller: OrangeHRM\Authentication\Controller\ResetCodeController::handle
   methods: [ GET ]
-
-apiv2_password_strength:
-  path: /api/v2/passwordStrength
-  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
-  methods: [ POST ]
-  defaults:
-    _api: OrangeHRM\Authentication\Api\PasswordStrengthValidationAPI

@@ -17,13 +17,13 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Authentication\lib\utility;
+namespace OrangeHRM\Authentication\Utility;
 
 use ZxcvbnPhp\Zxcvbn;
 
 class PasswordStrengthValidation
 {
-    private $zxcvbn;
+    private Zxcvbn $zxcvbn;
 
     public const VERY_WEAK = 0;
     public const WEAK = 1;
@@ -41,11 +41,16 @@ class PasswordStrengthValidation
      */
     public function checkPasswordStrength(string $password): int
     {
-        $strength =  $this->zxcvbn->passwordStrength($password);
-        if ($strength['score'] <= 1)return self::VERY_WEAK;
-        if ($strength['score'] == 2)return self::WEAK;
-        if ($strength['score'] == 3)return self::BETTER;
-        if ($strength['score'] >= 4)return self::STRONGEST;
+        //TODO - 6 or 4 levels ?
+        try {
+            $strength =  $this->zxcvbn->passwordStrength($password);
+            if ($strength['score'] <= 1)return self::VERY_WEAK;
+            if ($strength['score'] == 2)return self::WEAK;
+            if ($strength['score'] == 3)return self::BETTER;
+            if ($strength['score'] >= 4)return self::STRONGEST;
+        } catch (\Throwable $e) {
+
+        }
         return self::VERY_WEAK;
     }
 }
