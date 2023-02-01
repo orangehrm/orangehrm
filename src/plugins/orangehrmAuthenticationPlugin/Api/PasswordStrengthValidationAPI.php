@@ -102,6 +102,10 @@ class PasswordStrengthValidationAPI extends Endpoint implements CollectionEndpoi
         $passwordStrength = $passwordStrengthValidation->checkPasswordStrength($credentials->getPassword());
         $messages = $passwordStrengthService->validatePasswordPolicies($password, $passwordStrength);
 
+        if (count($messages) > 0 && $passwordStrength > PasswordStrengthValidation::BETTER ) {
+            $passwordStrength = PasswordStrengthValidation::BETTER;
+        }
+
         return new EndpointResourceResult(
             ArrayModel::class,
             [self::PARAMETER_MESSAGES => $messages],
