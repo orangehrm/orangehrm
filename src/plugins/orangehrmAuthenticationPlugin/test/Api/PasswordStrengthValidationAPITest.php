@@ -22,7 +22,6 @@ namespace OrangeHRM\Tests\Authentication\Api;
 use OrangeHRM\Authentication\Api\PasswordStrengthValidationAPI;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Service\CacheService;
-use OrangeHRM\Core\Traits\CacheTrait;
 use OrangeHRM\Framework\ServiceContainer;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
