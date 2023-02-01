@@ -21,6 +21,8 @@ namespace OrangeHRM\Tests\Authentication\Api;
 
 use OrangeHRM\Authentication\Api\PasswordStrengthValidationAPI;
 use OrangeHRM\Config\Config;
+use OrangeHRM\Core\Service\CacheService;
+use OrangeHRM\Core\Traits\CacheTrait;
 use OrangeHRM\Framework\ServiceContainer;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
@@ -35,8 +37,9 @@ class PasswordStrengthValidationAPITest extends EndpointIntegrationTestCase
 {
     public static function setUpBeforeClass(): void
     {
+        ServiceContainer::getContainer()->register(Services::CACHE)->setFactory([CacheService::class, 'getCache']);
         ServiceContainer::getContainer()->get(Services::CACHE)->clear('core.i18n');
-        TestDataService::populate(Config::get(Config::TEST_DIR) . '/phpunit/fixtures/LangString.yaml');
+        TestDataService::populate(Config::get(Config::TEST_DIR) . '/phpunit/fixtures/LangString.yaml', true);
     }
 
     /**
@@ -44,7 +47,8 @@ class PasswordStrengthValidationAPITest extends EndpointIntegrationTestCase
      */
     public function testCreate(TestCaseParams $testCaseParams): void
     {
-        $this->populateFixtures('PasswordStrengthValidation.yml');
+        $this->populateFixtures('PasswordStrengthValidation.yml', null, true);
+
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
         $this->registerServices($testCaseParams);
         $api = $this->getApiEndpointMock(PasswordStrengthValidationAPI::class, $testCaseParams);
