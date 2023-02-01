@@ -158,6 +158,8 @@ export default {
         case 2:
           return this.$t('general.better');
         case 3:
+          return this.$t('general.strong');
+        case 4:
           return this.$t('general.strongest');
         default:
           return this.$t('general.very_weak');
@@ -166,7 +168,9 @@ export default {
     chipClasses() {
       return {
         'orangehrm-forgot-password-chip': true,
-        '--green': this.passwordStrength === 3,
+        '--green': this.passwordStrength === 4,
+        '--lightGreen': this.passwordStrength === 3,
+        '--yellow': this.passwordStrength === 2,
       };
     },
   },
@@ -180,7 +184,7 @@ export default {
           this.http
             .request({
               method: 'POST',
-              url: `api/v2/passwordStrength`,
+              url: `api/v2/auth/public/validation/password`,
               data: {
                 password,
               },

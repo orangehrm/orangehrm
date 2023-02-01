@@ -58,4 +58,32 @@ class PasswordStrengthValidationAPITest extends EndpointIntegrationTestCase
     {
         return $this->getTestCases('PasswordStrengthValidationAPITestCases.yaml', 'Create');
     }
+
+    public function testDelete(): void
+    {
+        $api = new PasswordStrengthValidationAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->delete();
+    }
+
+    public function testGetValidationRuleForDelete(): void
+    {
+        $api = new PasswordStrengthValidationAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->getValidationRuleForDelete();
+    }
+
+    public function testGetAll(): void
+    {
+        $api = new PasswordStrengthValidationAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->getAll();
+    }
+
+    public function testGetValidationRuleForGetAll(): void
+    {
+        $api = new PasswordStrengthValidationAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->getValidationRuleForGetAll();
+    }
 }

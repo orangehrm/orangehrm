@@ -42,6 +42,7 @@ class PasswordStrengthValidation
      */
     public function checkPasswordStrength(string $password): int
     {
+        //Add if condition in case of library change
         try {
             $strength =  $this->zxcvbn->passwordStrength($password);
             if ($strength['score'] == 0) {
