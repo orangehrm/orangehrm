@@ -71,7 +71,7 @@ export default {
 </script>
 
 <style scoped>
-::v-deep(.oxd-autocomplete-wrapper) {
-  min-width: 150px;
+span {
+  word-break: break-word;
 }
 </style>
