@@ -463,7 +463,7 @@ GetAll:
     query:
       name: "event1"
       status: "false"
-    data: []
+    data: [ ]
     meta: {
       "total": 0
     }
@@ -493,30 +493,30 @@ GetAll:
     query:
       claimId: "0"
     data: [
-        {
-          "id": 1,
-          "name": "event1",
-          "description": "event1 desc",
-          "status": true
-        },
-        {
-          "id": 2,
-          "name": "event2",
-          "description": "event2 desc",
-          "status": true
-        },
-        {
-          "id": 3,
-          "name": "event3",
-          "description": "event3 desc",
-          "status": false
-        },
-        {
-          "id": 4,
-          "name": "event4",
-          "description": "event4 desc",
-          "status": false
-        }
+      {
+        "id": 1,
+        "name": "event1",
+        "description": "event1 desc",
+        "status": true
+      },
+      {
+        "id": 2,
+        "name": "event2",
+        "description": "event2 desc",
+        "status": true
+      },
+      {
+        "id": 3,
+        "name": "event3",
+        "description": "event3 desc",
+        "status": false
+      },
+      {
+        "id": 4,
+        "name": "event4",
+        "description": "event4 desc",
+        "status": false
+      }
     ]
     meta: {
       "total": 4
@@ -528,7 +528,7 @@ GetAll:
       claim.claim_service: OrangeHRM\Claim\Service\ClaimService
     query:
       claimId: "100"
-    data: []
+    data: [ ]
     meta: {
       "total": 0
     }
@@ -580,15 +580,14 @@ Update:
     attributes:
       id: 1
     body:
-      name: 'event 0001'
       description: 'sample description updated'
       status: true
     data: {
       "id": 1,
-      "name": "event 0001",
+      "name": "event1",
       "description": "sample description updated",
       "status": true
-      }
+    }
     meta: [ ]
 
   "update an claim event for not existing event":
@@ -598,26 +597,23 @@ Update:
     attributes:
       id: 5
     body:
-      name: 'event 0001'
       description: 'sample description updated'
       status: true
     exception:
       class: 'OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException'
       message: 'Record Not Found'
 
-  "update an claim event with existing name":
+  "update an claim event with name":
     userId: 1
     services:
       claim.claim_service: OrangeHRM\Claim\Service\ClaimService
     attributes:
       id: 2
     body:
-      name: 'event1'
+      name: 'event2 updated'
       description: 'sample description updated'
       status: true
-    exception:
-      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
-      message: 'Invalid Parameter'
+    invalidOnly: [ 'name' ]
 
 Delete:
   'with one id':
@@ -633,8 +629,8 @@ Delete:
     services:
       claim.claim_service: OrangeHRM\Claim\Service\ClaimService
     body:
-      ids: [  ]
-    data: [  ]
+      ids: [ ]
+    data: [ ]
 
   'with multiple ids':
     userId: 1
