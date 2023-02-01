@@ -102,6 +102,18 @@ class ClaimEventAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @param ClaimEvent $claimEvent
+     */
+    public function setClaimEventForUpdate(ClaimEvent $claimEvent)
+    {
+        $claimEvent->setDescription($this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_DESCRIPTION));
+        $claimEvent->setStatus($this->getRequestParams()->getBoolean(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_STATUS, true));
+        $userId = $this->getAuthUser()->getUserId();
+        $claimEvent->getDecorator()->setUserByUserId($userId);
+        $this->getClaimService()->getClaimDao()->saveEvent($claimEvent);
+    }
+
+    /**
      * @OA\Get(
      *     path="/api/v2/claim/events",
      *     tags={"Claim/Events"},
@@ -345,7 +357,7 @@ class ClaimEventAPI extends Endpoint implements CrudEndpoint
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_ID);
         $claimEvent = $this->getClaimService()->getClaimDao()->getClaimEventById($id);
         $this->throwRecordNotFoundExceptionIfNotExist($claimEvent, ClaimEvent::class);
-        $this->setClaimEvent($claimEvent);
+        $this->setClaimEventForUpdate($claimEvent);
         return new EndpointResourceResult(ClaimEventModel::class, $claimEvent);
     }
 
@@ -359,7 +371,6 @@ class ClaimEventAPI extends Endpoint implements CrudEndpoint
                 self::PARAMETER_ID,
                 new Rule(Rules::POSITIVE)
             ),
-            $this->getNameRule(true),
             new ParamRule(
                 self::PARAMETER_DESCRIPTION,
                 new Rule(Rules::STRING_TYPE),

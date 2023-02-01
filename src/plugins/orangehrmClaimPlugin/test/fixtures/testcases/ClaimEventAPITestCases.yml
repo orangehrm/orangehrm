@@ -580,12 +580,11 @@ Update:
     attributes:
       id: 1
     body:
-      name: 'event 0001'
       description: 'sample description updated'
       status: true
     data: {
       "id": 1,
-      "name": "event 0001",
+      "name": "event1",
       "description": "sample description updated",
       "status": true
       }
@@ -598,21 +597,20 @@ Update:
     attributes:
       id: 5
     body:
-      name: 'event 0001'
       description: 'sample description updated'
       status: true
     exception:
       class: 'OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException'
       message: 'Record Not Found'
 
-  "update an claim event with existing name":
+  "update an claim event with name":
     userId: 1
     services:
       claim.claim_service: OrangeHRM\Claim\Service\ClaimService
     attributes:
       id: 2
     body:
-      name: 'event1'
+      name: 'event2 updated'
       description: 'sample description updated'
       status: true
     exception:
