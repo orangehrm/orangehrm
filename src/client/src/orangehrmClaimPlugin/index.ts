@@ -1,4 +1,3 @@
-<?php
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -17,20 +16,12 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Claim\Controller;
+import ClaimEvent from '@/orangehrmClaimPlugin/pages/ClaimEvent.vue';
+import SaveClaimEvent from '@/orangehrmClaimPlugin/pages/SaveClaimEvent.vue';
+import EditClaimEvent from '@/orangehrmClaimPlugin/pages/EditClaimEvent.vue';
 
-use OrangeHRM\Core\Controller\AbstractVueController;
-use OrangeHRM\Core\Vue\Component;
-use OrangeHRM\Framework\Http\Request;
-
-class ClaimController extends AbstractVueController
-{
-    /**
-     * @inheritDoc
-     */
-    public function preRender(Request $request): void
-    {
-        $component = new Component('claim-event');
-        $this->setComponent($component);
-    }
-}
+export default {
+  'claim-event': ClaimEvent,
+  'claim-event-create': SaveClaimEvent,
+  'claim-event-edit': EditClaimEvent,
+};

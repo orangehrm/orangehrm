@@ -75,7 +75,6 @@ class Migration extends AbstractMigration
 
         $this->getDataGroupHelper()->insertApiPermissions(__DIR__ . '/permission/api.yaml');
         $this->changeClaimEventTableStatusToBoolean();
-
         if (!$this->getSchemaHelper()->tableExists(['ohrm_expense_type'])) {
             $this->getSchemaHelper()->createTable('ohrm_expense_type')
                 ->addColumn('id', Types::INTEGER, ['Autoincrement' => true])

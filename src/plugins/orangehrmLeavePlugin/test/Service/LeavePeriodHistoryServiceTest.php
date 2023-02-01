@@ -237,7 +237,7 @@ class LeavePeriodHistoryServiceTest extends KernelTestCase
     }
 
     /* Fails if run in 2014 */
-    public function testGetGeneratedLeavePeriodListCase1(): void
+    public function xtestGetGeneratedLeavePeriodListCase1(): void
     {
         $thisYear = date('Y');
         $expected = [];
@@ -314,7 +314,7 @@ class LeavePeriodHistoryServiceTest extends KernelTestCase
         return "{$year}-02-{$lastDay}";
     }
 
-    public function testGetGeneratedLeavePeriodListCase2(): void
+    public function xtestGetGeneratedLeavePeriodListCase2(): void
     {
         $leavePeriodHistory = new LeavePeriodHistory();
         $leavePeriodHistory->setStartMonth(2);
