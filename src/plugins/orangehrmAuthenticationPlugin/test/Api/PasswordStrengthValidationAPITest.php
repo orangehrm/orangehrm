@@ -20,9 +20,12 @@
 namespace OrangeHRM\Tests\Authentication\Api;
 
 use OrangeHRM\Authentication\Api\PasswordStrengthValidationAPI;
+use OrangeHRM\Config\Config;
+use OrangeHRM\Framework\ServiceContainer;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
 use OrangeHRM\Tests\Util\Integration\TestCaseParams;
+use OrangeHRM\Tests\Util\TestDataService;
 
 /**
  * @group Authentication
@@ -30,6 +33,12 @@ use OrangeHRM\Tests\Util\Integration\TestCaseParams;
  */
 class PasswordStrengthValidationAPITest extends EndpointIntegrationTestCase
 {
+    public static function setUpBeforeClass(): void
+    {
+        ServiceContainer::getContainer()->get(Services::CACHE)->clear('core.i18n');
+        TestDataService::populate(Config::get(Config::TEST_DIR) . '/phpunit/fixtures/LangString.yaml');
+    }
+
     /**
      * @dataProvider dataProviderForTestCreate
      */
