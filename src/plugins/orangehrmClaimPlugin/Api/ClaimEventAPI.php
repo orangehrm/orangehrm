@@ -49,7 +49,7 @@ class ClaimEventAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_NAME = 'name';
     public const PARAMETER_DESCRIPTION = 'description';
     public const PARAMETER_ID = 'id';
-    public const PARAMETER_CLAIMID = 'claimId';
+    public const PARAMETER_EVENTID = 'eventId';
     public const PARAMETER_IDS = 'ids';
     public const PARAMETER_STATUS = 'status';
     public const DESCRIPTION_MAX_LENGTH = 1000;
@@ -138,7 +138,7 @@ class ClaimEventAPI extends Endpoint implements CrudEndpoint
         $this->setSortingAndPaginationParams($claimEventSearchFilterParams);
         $claimEventSearchFilterParams->setName($this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_NAME));
         $claimEventSearchFilterParams->setStatus($this->getRequestParams()->getBooleanOrNull(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_STATUS));
-        $claimEventSearchFilterParams->setId($this->getRequestParams()->getIntOrNull(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_CLAIMID));
+        $claimEventSearchFilterParams->setId($this->getRequestParams()->getIntOrNull(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_EVENTID));
         $claimEvents = $this->getClaimService()->getClaimDao()->getClaimEventList($claimEventSearchFilterParams);
         $count = $this->getClaimService()->getClaimDao()->getClaimEventCount($claimEventSearchFilterParams);
         return new EndpointCollectionResult(ClaimEventModel::class, $claimEvents, new ParameterBag([CommonParams::PARAMETER_TOTAL => $count]));
@@ -168,9 +168,9 @@ class ClaimEventAPI extends Endpoint implements CrudEndpoint
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
-                    self::PARAMETER_CLAIMID,
+                    self::PARAMETER_EVENTID,
                     new Rule(
-                        Rules::STRING_TYPE
+                        Rules::POSITIVE
                     )
                 )
             ),

@@ -38,8 +38,8 @@ class ClaimDaoTest extends KernelTestCase
     protected function setUp(): void
     {
         $this->claimDao = new ClaimDao();
-        $fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmClaimPlugin/test/fixtures/ClaimEvent.yml';
-        TestDataService::populate($fixture);
+        $claimEventFixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmClaimPlugin/test/fixtures/ClaimEvent.yaml';
+        TestDataService::populate($claimEventFixture);
     }
 
     public function testSaveEvent(): void
@@ -60,13 +60,13 @@ class ClaimDaoTest extends KernelTestCase
         $claimEventSearchFilterParams->setStatus(null);
         $claimEventSearchFilterParams->setId(null);
         $result = $this->claimDao->getClaimEventList($claimEventSearchFilterParams);
-        $this->assertEquals("event1", $result[0]->getName());
+        $this->assertEquals("Auto insurance claim", $result[0]->getName());
     }
 
     public function testGetClaimEventById(): void
     {
-        $result = $this->claimDao->getClaimEventById(1);
-        $this->assertEquals("event1", $result->getName());
+        $result = $this->claimDao->getClaimEventById(4);
+        $this->assertEquals("Auto insurance claim", $result->getName());
     }
 
     public function testDeleteClaimEvents(): void
@@ -84,7 +84,7 @@ class ClaimDaoTest extends KernelTestCase
         $result = $this->claimDao->getClaimEventCount($claimEventSearchFilterParams);
         $this->assertEquals(4, $result);
 
-        $claimEventSearchFilterParams->setName("event1");
+        $claimEventSearchFilterParams->setName("Auto insurance claim");
         $result = $this->claimDao->getClaimEventCount($claimEventSearchFilterParams);
         $this->assertEquals(1, $result);
     }

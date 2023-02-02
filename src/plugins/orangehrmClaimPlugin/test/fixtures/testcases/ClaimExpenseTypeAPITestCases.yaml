@@ -81,3 +81,397 @@ Create:
       description: null
       status: null
     meta: [ ]
+
+GetAll:
+  'get all with no query':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    data: [
+      {
+        "id": 2,
+        "name": "medical",
+        "description": "healthcare expenses",
+        "status": true
+      },
+      {
+        "id": 4,
+        "name": "stationary",
+        "description": "stationary and print expenses",
+        "status":false
+      },
+      {
+        "id": 3,
+        "name": "telephone",
+        "description": "telephone and internet expenses",
+        "status": false
+      },
+      {
+        "id": 1,
+        "name": "transport",
+        "description": "travel and other transport expenses",
+        "status": true
+      },
+    ]
+    meta: {
+      "total": 4
+    }
+
+  'get all with offset 0':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    query:
+      offset: 0
+    data: [
+      {
+        "id": 2,
+        "name": "medical",
+        "description": "healthcare expenses",
+        "status": true
+      },
+      {
+        "id": 4,
+        "name": "stationary",
+        "description": "stationary and print expenses",
+        "status": false
+      },
+      {
+        "id": 3,
+        "name": "telephone",
+        "description": "telephone and internet expenses",
+        "status": false
+      },
+      {
+        "id": 1,
+        "name": "transport",
+        "description": "travel and other transport expenses",
+        "status": true
+      },
+    ]
+    meta: {
+      "total": 4
+    }
+
+  'get all with offset 1':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    query:
+      offset: 1
+    data: [
+      {
+        "id": 4,
+        "name": "stationary",
+        "description": "stationary and print expenses",
+        "status": false
+      },
+      {
+        "id": 3,
+        "name": "telephone",
+        "description": "telephone and internet expenses",
+        "status": false
+      },
+      {
+        "id": 1,
+        "name": "transport",
+        "description": "travel and other transport expenses",
+        "status": true
+      },
+    ]
+    meta: {
+      "total": 4
+    }
+
+  'get all with offset 1 and limit 2':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    query:
+      offset: 1
+      limit: 2
+    data: [
+      {
+        "id": 4,
+        "name": "stationary",
+        "description": "stationary and print expenses",
+        "status":false
+      },
+      {
+        "id": 3,
+        "name": "telephone",
+        "description": "telephone and internet expenses",
+        "status": false
+      },
+    ]
+    meta: {
+      "total": 4
+    }
+
+  'get all with offset sort by status':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    query:
+      sortField: expenseType.status
+    data: [
+      {
+        "id": 3,
+        "name": "telephone",
+        "description": "telephone and internet expenses",
+        "status": false
+      },
+      {
+        "id": 4,
+        "name": "stationary",
+        "description": "stationary and print expenses",
+        "status": false
+      },
+      {
+        "id": 1,
+        "name": "transport",
+        "description": "travel and other transport expenses",
+        "status": true
+      },
+      {
+        "id": 2,
+        "name": "medical",
+        "description": "healthcare expenses",
+        "status": true
+      },
+    ]
+    meta: {
+      "total": 4
+    }
+
+  'get all with offset sort by status and order DESC':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    query:
+      sortField: expenseType.status
+      sortOrder: DESC
+    data: [
+      {
+        "id": 1,
+        "name": "transport",
+        "description": "travel and other transport expenses",
+        "status": true
+      },
+      {
+        "id": 2,
+        "name": "medical",
+        "description": "healthcare expenses",
+        "status": true
+      },
+      {
+        "id": 3,
+        "name": "telephone",
+        "description": "telephone and internet expenses",
+        "status": false
+      },
+      {
+        "id": 4,
+        "name": "stationary",
+        "description": "stationary and print expenses",
+        "status": false
+      },
+    ]
+    meta: {
+      "total": 4
+    }
+
+  'get all with offset sort by name and order ASC':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    query:
+      sortField: expenseType.name
+      sortOrder: ASC
+    data: [
+      {
+        "id": 2,
+        "name": "medical",
+        "description": "healthcare expenses",
+        "status": true
+      },
+      {
+        "id": 4,
+        "name": "stationary",
+        "description": "stationary and print expenses",
+        "status": false
+      },
+      {
+        "id": 3,
+        "name": "telephone",
+        "description": "telephone and internet expenses",
+        "status": false
+      },
+      {
+        "id": 1,
+        "name": "transport",
+        "description": "travel and other transport expenses",
+        "status": true
+      },
+    ]
+    meta: {
+      "total": 4
+    }
+
+  'get all with offset sort by name and order DESC':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    query:
+      sortField: expenseType.name
+      sortOrder: DESC
+    data: [
+      {
+        "id": 1,
+        "name": "transport",
+        "description": "travel and other transport expenses",
+        "status": true
+      },
+      {
+        "id": 3,
+        "name": "telephone",
+        "description": "telephone and internet expenses",
+        "status": false
+      },
+      {
+        "id": 4,
+        "name": "stationary",
+        "description": "stationary and print expenses",
+        "status": false
+      },
+      {
+        "id": 2,
+        "name": "medical",
+        "description": "healthcare expenses",
+        "status": true
+      },
+    ]
+    meta: {
+      "total": 4
+    }
+
+  'get all with with incomplete name':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    query:
+      name: "med"
+    data: [
+      {
+        "id": 2,
+        "name": "medical",
+        "description": "healthcare expenses",
+        "status": true
+      }
+    ]
+    meta: {
+      "total": 1
+    }
+
+  'get all with query name':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    query:
+      name: "medical"
+    data:
+      [
+        {
+          "id": 2,
+          "name": "medical",
+          "description": "healthcare expenses",
+          "status": true
+        },
+      ]
+    meta: {
+      "total": 1
+    }
+
+  'get all with query status false':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    query:
+      status: "false"
+    data: [
+      {
+        "id": 4,
+        "name": "stationary",
+        "description": "stationary and print expenses",
+        "status": false
+      },
+      {
+        "id": 3,
+        "name": "telephone",
+        "description": "telephone and internet expenses",
+        "status": false
+      },
+    ]
+    meta: {
+      "total": 2
+    }
+
+  'get all with query name and status':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    query:
+      name: "medical"
+      status: "false"
+    data: [ ]
+    meta: {
+      "total": 0
+    }
+
+  'get all with query id':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    query:
+      expenseId: "4"
+    data: [
+      {
+        "id": 4,
+        "name": "stationary",
+        "description": "stationary and print expenses",
+        "status": false
+      },
+    ]
+    meta: {
+      "total": 1
+    }
+
+  'get all with query id zero':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    query:
+      expenseId: "0"
+    invalidOnly: [ 'expenseId' ]
+
+  'get all with query not existing id':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    query:
+      expenseId: "100"
+    data: [ ]
+    meta: {
+      "total": 0
+    }
+
+  'get all with query deleted id':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    query:
+      expenseId: "5"
+    data: [ ]
+    meta: {
+      "total": 0
+    }

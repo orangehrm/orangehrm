@@ -19,6 +19,13 @@ apiv2_claim_expense_types:
   defaults:
     _api: OrangeHRM\Claim\Api\ClaimExpenseTypeAPI
 
+apiv2_claim_expense_type:
+  path: /api/v2/claim/expenses/types/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [GET, PUT]
+  defaults:
+    _api: OrangeHRM\Claim\Api\ClaimExpenseTypeAPI
+
 apiv2_claim_requests:
   path: /api/v2/claim/requests
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle

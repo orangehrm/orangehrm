@@ -35,7 +35,7 @@ class ClaimEventAPITest extends EndpointIntegrationTestCase
      */
     public function testCreate(TestCaseParams $testCaseParams): void
     {
-        $this->populateFixtures('ClaimEvent.yml');
+        $this->populateFixtures('ClaimEvent.yaml');
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
         $this->registerMockDateTimeHelper($testCaseParams);
         $this->registerServices($testCaseParams);
@@ -45,7 +45,7 @@ class ClaimEventAPITest extends EndpointIntegrationTestCase
 
     public function dataProviderForTestCreate(): array
     {
-        return $this->getTestCases('ClaimEventAPITestCases.yml', 'Create');
+        return $this->getTestCases('ClaimEventAPITestCases.yaml', 'Create');
     }
 
     /**
@@ -53,7 +53,7 @@ class ClaimEventAPITest extends EndpointIntegrationTestCase
      */
     public function testGetAll(TestCaseParams $testCaseParams): void
     {
-        $this->populateFixtures('ClaimEvent.yml');
+        $this->populateFixtures('ClaimEvent.yaml');
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
         $this->registerServices($testCaseParams);
         $api = $this->getApiEndpointMock(ClaimEventAPI::class, $testCaseParams);
@@ -62,7 +62,7 @@ class ClaimEventAPITest extends EndpointIntegrationTestCase
 
     public function dataProviderForTestGetAll(): array
     {
-        return $this->getTestCases('ClaimEventAPITestCases.yml', 'GetAll');
+        return $this->getTestCases('ClaimEventAPITestCases.yaml', 'GetAll');
     }
 
     /**
@@ -70,7 +70,7 @@ class ClaimEventAPITest extends EndpointIntegrationTestCase
      */
     public function testGetOne(TestCaseParams $testCaseParams): void
     {
-        $this->populateFixtures('ClaimEvent.yml');
+        $this->populateFixtures('ClaimEvent.yaml');
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
         $this->registerServices($testCaseParams);
         $api = $this->getApiEndpointMock(ClaimEventAPI::class, $testCaseParams);
@@ -79,7 +79,7 @@ class ClaimEventAPITest extends EndpointIntegrationTestCase
 
     public function dataProviderForTestGetOne(): array
     {
-        return $this->getTestCases('ClaimEventAPITestCases.yml', 'GetOne');
+        return $this->getTestCases('ClaimEventAPITestCases.yaml', 'GetOne');
     }
 
     /**
@@ -87,7 +87,7 @@ class ClaimEventAPITest extends EndpointIntegrationTestCase
      */
     public function testUpdate(TestCaseParams $testCaseParams): void
     {
-        $this->populateFixtures('ClaimEvent.yml');
+        $this->populateFixtures('ClaimEvent.yaml');
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
         $this->registerMockDateTimeHelper($testCaseParams);
         $this->registerServices($testCaseParams);
@@ -97,7 +97,7 @@ class ClaimEventAPITest extends EndpointIntegrationTestCase
 
     public function dataProviderForTestUpdate(): array
     {
-        return $this->getTestCases('ClaimEventAPITestCases.yml', 'Update');
+        return $this->getTestCases('ClaimEventAPITestCases.yaml', 'Update');
     }
 
     /**
@@ -105,7 +105,7 @@ class ClaimEventAPITest extends EndpointIntegrationTestCase
      */
     public function testDelete(TestCaseParams $testCaseParams): void
     {
-        $this->populateFixtures('ClaimEvent.yml');
+        $this->populateFixtures('ClaimEvent.yaml');
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
         $this->registerServices($testCaseParams);
         $api = $this->getApiEndpointMock(ClaimEventAPI::class, $testCaseParams);
@@ -114,6 +114,6 @@ class ClaimEventAPITest extends EndpointIntegrationTestCase
 
     public function dataProviderForTestDelete(): array
     {
-        return $this->getTestCases('ClaimEventAPITestCases.yml', 'Delete');
+        return $this->getTestCases('ClaimEventAPITestCases.yaml', 'Delete');
     }
 }

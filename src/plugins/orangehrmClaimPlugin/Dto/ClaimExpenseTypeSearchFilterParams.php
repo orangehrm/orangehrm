@@ -21,13 +21,13 @@ namespace OrangeHRM\Claim\Dto;
 
 use OrangeHRM\Core\Dto\FilterParams;
 
-class ClaimEventSearchFilterParams extends FilterParams
+class ClaimExpenseTypeSearchFilterParams extends FilterParams
 {
-    public const ALLOWED_SORT_FIELDS = ['claimEvent.name','claimEvent.status'];
+    public const ALLOWED_SORT_FIELDS = ['expenseType.name','expenseType.status'];
 
     public function __construct()
     {
-        $this->setSortField('claimEvent.name');
+        $this->setSortField('expenseType.name');
     }
 
     protected ?string $name;
