@@ -111,7 +111,7 @@ import useLocale from '@/core/util/composable/useLocale';
 import usei18n from '@/core/util/composable/usei18n';
 import useEmployeeNameTranslate from '@/core/util/composable/useEmployeeNameTranslate';
 
-const defaultPic = `${window.appGlobal.baseUrl}/../dist/img/user-default-400.png`;
+const defaultPic = `${window.appGlobal.baseUrl}/../images/default-photo.png`;
 
 export default {
   name: 'ReviewSummary',

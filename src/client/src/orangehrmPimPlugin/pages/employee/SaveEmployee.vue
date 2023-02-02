@@ -140,7 +140,7 @@ import {
 } from '@ohrm/core/util/validation/rules';
 import {OxdSwitchInput} from '@ohrm/oxd';
 
-const defaultPic = `${window.appGlobal.baseUrl}/../dist/img/user-default-400.png`;
+const defaultPic = `${window.appGlobal.baseUrl}/../images/default-photo.png`;
 
 const employeeModel = {
   firstName: '',
