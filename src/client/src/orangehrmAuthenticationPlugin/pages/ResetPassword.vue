@@ -97,14 +97,13 @@ import {
   shouldNotExceedCharLength,
 } from '@ohrm/core/util/validation/rules';
 import {urlFor} from '@/core/util/helper/url';
-import Chip from '@ohrm/oxd/core/components/Chip/Chip.vue';
+import {OxdChip, promiseDebounce} from '@ohrm/oxd';
 import {APIService} from '@/core/util/services/api.service';
-import promiseDebounce from '@ohrm/oxd/utils/promiseDebounce';
 
 export default {
   name: 'ResetPassword',
   components: {
-    'oxd-chip': Chip,
+    'oxd-chip': OxdChip,
     'card-note': CardNote,
   },
   props: {
