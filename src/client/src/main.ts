@@ -25,7 +25,7 @@ import loader, {LoaderAPI} from './core/plugins/loader/loader';
 import createI18n, {TranslateAPI} from './core/plugins/i18n/translate';
 import '@ohrm/oxd/fonts.css';
 import '@ohrm/oxd/icons.css';
-import '@ohrm/oxd/styles.scss';
+import '@ohrm/oxd/style.css';
 import './core/styles/global.scss';
 import './core/plugins/toaster/toaster.scss';
 import './core/plugins/loader/loader.scss';

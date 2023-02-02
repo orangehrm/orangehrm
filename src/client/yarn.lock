@@ -2067,9 +2067,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ohrm/oxd@npm:2.0.0-alpha.2":
-  version: 2.0.0-alpha.2
-  resolution: "@ohrm/oxd@npm:2.0.0-alpha.2"
+"@ohrm/oxd@npm:2.0.0-alpha.4":
+  version: 2.0.0-alpha.4
+  resolution: "@ohrm/oxd@npm:2.0.0-alpha.4"
   dependencies:
     "@revolist/vue3-datagrid": ^3.2.17
     chart.js: ^4.1.2
@@ -2078,7 +2078,7 @@ __metadata:
     nanoid: ^4.0.0
   peerDependencies:
     vue: 3.x
-  checksum: 92f45821c8bbd16da704e7ecc02c19c382a28de15d7505c833428733dc6864b7639b06b5e771171e5238dabb2ccfa195f68321db86ec61ae5a6647b2f47701e6
+  checksum: 9e049600bfd0bb5f0cf43fcee1e5a1f75a405b5ec90dceec3f2a7d02f291a81dec7c17ee080983a780cfb527b505a42bed40c14b8d6a2f828004650bdf260a01
   languageName: node
   linkType: hard
 
@@ -2090,11 +2090,11 @@ __metadata:
   linkType: hard
 
 "@revolist/revogrid@npm:^3.2.16":
-  version: 3.3.0
-  resolution: "@revolist/revogrid@npm:3.3.0"
+  version: 3.3.2
+  resolution: "@revolist/revogrid@npm:3.3.2"
   dependencies:
     lodash: ^4.17.20
-  checksum: 0bce54d722a7d79b9791ea7db9fd1d769dd7572c17cca71688d1169da81bc54cd7ed6a93f66a930ef29c8eeccbd9de2d6a98fa96cbb3b2ada677206c12440312
+  checksum: cf17a4f17c2784e8885182cd4ec13a9e1b7cda77c1950f19659330b16c397942c90ba36c17e5cfa660a291430f9f305adf6135c96c5a494cf4301e0e789f7663
   languageName: node
   linkType: hard
 
@@ -2178,11 +2178,11 @@ __metadata:
   linkType: hard
 
 "@stencil/core@npm:^2.17.3":
-  version: 2.19.3
-  resolution: "@stencil/core@npm:2.19.3"
+  version: 2.22.2
+  resolution: "@stencil/core@npm:2.22.2"
   bin:
     stencil: bin/stencil
-  checksum: 2f5dfa809bf1f0f3e55874084f51d38e02899b91bfadb0f36243ba2a0fc5ee82a9e6ff94c1cfdd220723939c080e49fb1e44cae5ff99c46622d477563fa6b80e
+  checksum: 139a7b63b81c7eaa5026e76e1c947a402f58d0a6d1d353a34883995ea7e480fa6991e71c0c3d812f7046d395b99d0f7f7b11af9277f04a3c62aba96cda18dd5d
   languageName: node
   linkType: hard
 
@@ -8919,7 +8919,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "orangehrm@workspace:."
   dependencies:
-    "@ohrm/oxd": 2.0.0-alpha.2
+    "@ohrm/oxd": 2.0.0-alpha.4
     "@types/hammerjs": ^2.0.41
     "@types/jest": ^27.0.1
     "@typescript-eslint/eslint-plugin": ^5.4.0
