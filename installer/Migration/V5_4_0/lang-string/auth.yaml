@@ -1,0 +1,25 @@
+langStrings:
+  -
+    value: '{count,plural, one{Should have at least 1 character} other{Should have at least # characters}}'
+    unitId: password_min_length
+  -
+    value: '{count,plural, one{Should not exceed 1 character} other{Should not exceed # characters}}'
+    unitId: password_max_length
+  -
+    value: '{count,plural, one{Your password must contain minimum 1 lower-case letter} other{Your password must contain minimum # lower-case letters}}'
+    unitId: password_n_lowercase_letters
+  -
+    value: '{count,plural, one{Your password must contain minimum 1 upper-case letter} other{Your password must contain minimum # upper-case letters}}'
+    unitId: password_n_uppercase_letters
+  -
+    value: '{count,plural, one{Your password must contain minimum 1 number} other{Your password must contain minimum # numbers}}'
+    unitId: password_n_numbers
+  -
+    value: '{count,plural, one{Your password must contain minimum 1 special character} other{Your password must contain minimum # special characters}}'
+    unitId: password_n_special_characters
+  -
+    value: 'Your password should not contain spaces'
+    unitId: password_spaces_not_allowed
+  -
+    value: 'Your password meets the minimum requirements, but it could be guessable'
+    unitId: password_could_be_guessable

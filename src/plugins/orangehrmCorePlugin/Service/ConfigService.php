@@ -53,6 +53,16 @@ class ConfigService
     public const KEY_DASHBOARD_EMPLOYEES_ON_LEAVE_TODAY_SHOW_ONLY_ACCESSIBLE = 'dashboard.employees_on_leave_today.show_only_accessible';
     public const KEY_SHOW_SYSTEM_CHECK_SCREEN = 'core.show_system_check_screen';
 
+    //TODO - change authentication to auth and add KEY
+    public const KEY_MAX_PASSWORD_LENGTH = 64;
+    public const KEY_MIN_PASSWORD_LENGTH = 'auth.password_policy.min_password_length';
+    public const KEY_MIN_UPPERCASE_LETTERS = 'auth.password_policy.min_uppercase_letters';
+    public const KEY_MIN_LOWERCASE_LETTERS = 'auth.password_policy.min_lowercase_letters';
+    public const KEY_MIN_NUMBERS_IN_PASSWORD = 'auth.password_policy.min_numbers_in_password';
+    public const KEY_MIN_SPECIAL_CHARACTERS = 'auth.password_policy.min_special_characters';
+    public const KEY_IS_SPACES_ALLOWED = 'auth.password_policy.is_spaces_allowed';
+    public const KEY_DEFAULT_PASSWORD_STRENGTH = 'auth.password_policy.default_required_password_strength';
+
     public const MAX_ATTACHMENT_SIZE = 1048576; // 1 MB
     public const ALLOWED_FILE_TYPES = [
         'text/plain',
