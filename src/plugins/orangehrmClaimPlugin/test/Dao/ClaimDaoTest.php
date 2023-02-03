@@ -30,6 +30,10 @@ use OrangeHRM\Entity\ExpenseType;
 use OrangeHRM\Tests\Util\KernelTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 
+/**
+ * @group Claim
+ * @group Dao
+ */
 class ClaimDaoTest extends KernelTestCase
 {
     use EntityManagerHelperTrait;
