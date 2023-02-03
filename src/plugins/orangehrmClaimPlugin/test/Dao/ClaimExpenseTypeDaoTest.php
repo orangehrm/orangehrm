@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Claim\test\Dao;
+namespace OrangeHRM\test\Claim\Dao;
 
 use OrangeHRM\Claim\Dao\ClaimDao;
 use OrangeHRM\Claim\Dto\ClaimExpenseTypeSearchFilterParams;
