@@ -49,13 +49,40 @@ class ClaimExpenseTypeAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_ID = 'id';
     public const PARAMETER_IDS = 'ids';
     public const PARAMETER_EXPENSEID = 'expenseId';
-
     public const PARAMETER_STATUS = 'status';
     public const DESCRIPTION_MAX_LENGTH = 1000;
     public const NAME_MAX_LENGTH = 100;
 
     /**
-     * @return EndpointResult
+     * @OA\Get(
+     *     path="/api/v2/claim/expenses/types",
+     *     tags={"Claim/ExpenseTypes"},
+     *     @OA\Parameter(
+     *         name="sortField",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string", enum=ClaimExpenseTypeSearchFilterParams::ALLOWED_SORT_FIELDS)
+     *     ),
+     *     @OA\Parameter(ref="#/components/parameters/sortOrder"),
+     *     @OA\Parameter(ref="#/components/parameters/limit"),
+     *     @OA\Parameter(ref="#/components/parameters/offset"),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="array",
+     *                 @OA\Items(ref="#/components/schemas/Claim-ClaimExpenseTypeModel")
+     *             ),
+     *             @OA\Property(property="meta",
+     *                 type="object",
+     *                 @OA\Property(property="total", type="integer")
+     *             )
+     *         )
+     *     )
+     * )
+     * @inheritDoc
      */
     public function getAll(): EndpointResult
     {
@@ -215,6 +242,12 @@ class ClaimExpenseTypeAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Delete(
+     *     path="/api/v2/claim/expenses/types",
+     *     tags={"Claim/ExpenseTypes"},
+     *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),
+     *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse")
+     * )
      * @inheritDoc
      */
     public function delete(): EndpointResult
@@ -238,6 +271,27 @@ class ClaimExpenseTypeAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/claim/expenses/types/{id}",
+     *     tags={"Claim/ExpenseTypes"},
+     *     @OA\PathParameter(
+     *         name="id",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Claim-ClaimExpenseTypeModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
+     * )
+     *
      * @inheritDoc
      */
     public function getOne(): EndpointResult
@@ -245,7 +299,7 @@ class ClaimExpenseTypeAPI extends Endpoint implements CrudEndpoint
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_ID);
         $expenseType = $this->getClaimService()->getClaimDao()->getExpenseTypeById($id);
         $this->throwRecordNotFoundExceptionIfNotExist($expenseType, ExpenseType::class);
-        return new EndpointResourceResult(ClaimExpenseTypeModel::class, $expenseType);
+        return new EndpointResourceResult(ClaimExpenseTypeModel::class, $expenseType, new ParameterBag([CommonParams::PARAMETER_TOTAL => 1]));
     }
 
     /**
@@ -262,6 +316,39 @@ class ClaimExpenseTypeAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Put(
+     *     path="/api/v2/claim/expenses/types/{id}",
+     *     tags={"Claim/ExpenseTypes"},
+     *     @OA\PathParameter(
+     *         name="id",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="description",
+     *                 type="string"
+     *             ),
+     *             @OA\Property(
+     *                 property="status",
+     *                 type="boolean"
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Claim-ClaimExpenseTypeModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
+     * )
      * @inheritDoc
      */
     public function update(): EndpointResult

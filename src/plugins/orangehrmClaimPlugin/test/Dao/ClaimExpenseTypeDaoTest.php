@@ -6,13 +6,13 @@ use OrangeHRM\Claim\Dao\ClaimDao;
 use OrangeHRM\Claim\Dto\ClaimExpenseTypeSearchFilterParams;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
-use OrangeHRM\Entity\ExpenseType;
 use OrangeHRM\Tests\Util\KernelTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 
-class ClaimExpenseTypeTest extends KernelTestCase
+class ClaimExpenseTypeDaoTest extends KernelTestCase
 {
     use EntityManagerHelperTrait;
+
     private ClaimDao $claimDao;
 
     protected function setUp(): void
@@ -21,6 +21,7 @@ class ClaimExpenseTypeTest extends KernelTestCase
         $expenseTypeFixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmClaimPlugin/test/fixtures/ExpenseType.yaml';
         TestDataService::populate($expenseTypeFixture);
     }
+
     public function testGetExpenseTypeList(): void
     {
         $expenseTypeSearchFilterParams = new ClaimExpenseTypeSearchFilterParams();

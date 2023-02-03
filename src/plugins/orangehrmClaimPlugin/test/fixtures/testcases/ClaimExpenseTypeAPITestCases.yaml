@@ -98,7 +98,7 @@ GetAll:
         "id": 4,
         "name": "stationary",
         "description": "stationary and print expenses",
-        "status":false
+        "status": false
       },
       {
         "id": 3,
@@ -195,7 +195,7 @@ GetAll:
         "id": 4,
         "name": "stationary",
         "description": "stationary and print expenses",
-        "status":false
+        "status": false
       },
       {
         "id": 3,
@@ -475,3 +475,115 @@ GetAll:
     meta: {
       "total": 0
     }
+
+GetOne:
+  'get one for existing event':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    attributes:
+      id: 4
+    data:
+      {
+        "id": 4,
+        "name": "stationary",
+        "description": "stationary and print expenses",
+        "status": false
+      },
+    meta: {
+      "total": 1
+    }
+
+  'get one for not existing event':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    attributes:
+      id: 5
+    exception:
+      class: 'OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException'
+      message: 'Record Not Found'
+
+Update:
+  "update an claim event":
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    attributes:
+      id: 4
+    body:
+      description: 'sample description updated'
+      status: true
+    data: {
+      "id": 4,
+      "name": "stationary",
+      "description": "sample description updated",
+      "status": true
+    }
+    meta: [ ]
+
+  "update an claim event for not existing event":
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    attributes:
+      id: 5
+    body:
+      description: 'sample description updated'
+      status: true
+    exception:
+      class: 'OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException'
+      message: 'Record Not Found'
+
+  "update an claim event with name":
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    attributes:
+      id: 4
+    body:
+      name: 'event2 updated'
+      description: 'sample description updated'
+      status: true
+    invalidOnly: [ 'name' ]
+
+Delete:
+  'with one id':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    body:
+      ids: [ 1 ]
+    data: [ 1 ]
+
+  'with no id':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    body:
+      ids: [ ]
+    data: [ ]
+
+  'with multiple ids':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    body:
+      ids: [ 1, 2, 3 ]
+    data: [ 1, 2, 3 ]
+
+  'with invalid id':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    body:
+      ids: [ 50 ]
+    data: [ 50 ]
+
+  'with multiple ids including invalid ids and valid ids':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    body:
+      ids: [ 1, 2, 300 ]
+    data: [ 1, 2, 300 ]

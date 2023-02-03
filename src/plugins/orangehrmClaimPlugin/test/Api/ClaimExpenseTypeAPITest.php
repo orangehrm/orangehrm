@@ -65,6 +65,9 @@ class ClaimExpenseTypeAPITest extends EndpointIntegrationTestCase
         return $this->getTestCases('ClaimExpenseTypeAPITestCases.yaml', 'GetAll');
     }
 
+    /**
+     * @dataProvider dataProviderForTestGetOne
+     */
     public function testGetOne(TestCaseParams $testCaseParams): void
     {
         $this->populateFixtures('ExpenseType.yaml');

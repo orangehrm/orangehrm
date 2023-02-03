@@ -312,10 +312,6 @@ class ClaimEventAPI extends Endpoint implements CrudEndpoint
      *         required=true,
      *         @OA\JsonContent(
      *             @OA\Property(
-     *                 property="name",
-     *                 type="string"
-     *             ),
-     *             @OA\Property(
      *                 property="description",
      *                 type="string"
      *             ),
