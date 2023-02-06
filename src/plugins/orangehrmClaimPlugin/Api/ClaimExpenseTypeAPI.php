@@ -48,7 +48,7 @@ class ClaimExpenseTypeAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_DESCRIPTION = 'description';
     public const PARAMETER_ID = 'id';
     public const PARAMETER_IDS = 'ids';
-    public const PARAMETER_EXPENSEID = 'expenseId';
+    public const PARAMETER_EXPENSE_TYPE_ID = 'expenseId';
     public const PARAMETER_STATUS = 'status';
     public const DESCRIPTION_MAX_LENGTH = 1000;
     public const NAME_MAX_LENGTH = 100;
@@ -95,7 +95,7 @@ class ClaimExpenseTypeAPI extends Endpoint implements CrudEndpoint
             $this->getRequestParams()->getBooleanOrNull(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_STATUS)
         );
         $claimExpenseTypeSearchFilterParams->setId(
-            $this->getRequestParams()->getIntOrNull(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_EXPENSEID)
+            $this->getRequestParams()->getIntOrNull(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_EXPENSE_TYPE_ID)
         );
         $claimExpenseTypes = $this->getClaimService()->getClaimDao()->getExpenseTypeList(
             $claimExpenseTypeSearchFilterParams
@@ -109,6 +109,7 @@ class ClaimExpenseTypeAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @inheritDoc
      * @return ParamRuleCollection
      */
     public function getValidationRuleForGetAll(): ParamRuleCollection
@@ -132,7 +133,7 @@ class ClaimExpenseTypeAPI extends Endpoint implements CrudEndpoint
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
-                    self::PARAMETER_EXPENSEID,
+                    self::PARAMETER_EXPENSE_TYPE_ID,
                     new Rule(
                         Rules::POSITIVE
                     )
@@ -296,10 +297,10 @@ class ClaimExpenseTypeAPI extends Endpoint implements CrudEndpoint
      */
     public function getOne(): EndpointResult
     {
-        $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_ID);
+        $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $expenseType = $this->getClaimService()->getClaimDao()->getExpenseTypeById($id);
         $this->throwRecordNotFoundExceptionIfNotExist($expenseType, ExpenseType::class);
-        return new EndpointResourceResult(ClaimExpenseTypeModel::class, $expenseType, new ParameterBag([CommonParams::PARAMETER_TOTAL => 1]));
+        return new EndpointResourceResult(ClaimExpenseTypeModel::class, $expenseType);
     }
 
     /**
@@ -309,7 +310,7 @@ class ClaimExpenseTypeAPI extends Endpoint implements CrudEndpoint
     {
         return new ParamRuleCollection(
             new ParamRule(
-                self::PARAMETER_ID,
+                CommonParams::PARAMETER_ID,
                 new Rule(Rules::POSITIVE)
             ),
         );
@@ -353,7 +354,7 @@ class ClaimExpenseTypeAPI extends Endpoint implements CrudEndpoint
      */
     public function update(): EndpointResult
     {
-        $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_ID);
+        $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $expenseType = $this->getClaimService()->getClaimDao()->getExpenseTypeById($id);
         $this->throwRecordNotFoundExceptionIfNotExist($expenseType, ExpenseType::class);
         $this->setExpenseType($expenseType);
@@ -368,7 +369,7 @@ class ClaimExpenseTypeAPI extends Endpoint implements CrudEndpoint
     {
         return new ParamRuleCollection(
             new ParamRule(
-                self::PARAMETER_ID,
+                CommonParams::PARAMETER_ID,
                 new Rule(Rules::POSITIVE)
             ),
             new ParamRule(

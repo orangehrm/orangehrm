@@ -175,6 +175,10 @@ class ClaimDao extends BaseDao
         return $this->getPaginator($q);
     }
 
+    /**
+     * @param ClaimExpenseTypeSearchFilterParams $claimExpenseTypeSearchFilterParams
+     * @return int
+     */
     public function getClaimExpenseTypeCount(ClaimExpenseTypeSearchFilterParams $claimExpenseTypeSearchFilterParams): int
     {
         return $this->getClaimExpenseTypePaginator($claimExpenseTypeSearchFilterParams)->count();
@@ -189,6 +193,10 @@ class ClaimDao extends BaseDao
         return $this->getRepository(ExpenseType::class)->findOneBy(['id' => $id, 'isDeleted' => false]);
     }
 
+    /**
+     * @param array[] $ids
+     * @return int
+     */
     public function deleteExpenseTypes(array $ids): int
     {
         $q = $this->createQueryBuilder(ExpenseType::class, 'expenseType');
