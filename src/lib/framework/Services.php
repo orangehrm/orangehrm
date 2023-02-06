@@ -176,6 +176,11 @@ final class Services
      */
     public const CSRF_TOKEN_STORAGE = 'auth.csrf_token_storage';
 
+    /**
+     * @see \OrangeHRM\Authentication\Service\PasswordStrengthService
+     */
+    public const PASSWORD_STRENGTH_SERVICE = 'auth.password_strength_service';
+
     ///////////////////////////////////////////////////////////////
     /// Admin plugin services
     ///////////////////////////////////////////////////////////////

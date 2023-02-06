@@ -7,7 +7,7 @@ apiv2_auth_public_validation_password:
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericPublicRestController::handle
   methods: [ POST ]
   defaults:
-    _api: OrangeHRM\Authentication\Api\PasswordStrengthValidationAPI
+    _api: OrangeHRM\Authentication\PublicApi\PasswordStrengthValidationAPI
 
 ##########################
 #        Screens

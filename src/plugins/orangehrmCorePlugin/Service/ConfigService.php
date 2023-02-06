@@ -52,9 +52,7 @@ class ConfigService
     public const KEY_LDAP_SETTINGS = 'ldap_settings';
     public const KEY_DASHBOARD_EMPLOYEES_ON_LEAVE_TODAY_SHOW_ONLY_ACCESSIBLE = 'dashboard.employees_on_leave_today.show_only_accessible';
     public const KEY_SHOW_SYSTEM_CHECK_SCREEN = 'core.show_system_check_screen';
-
-    //TODO - change authentication to auth and add KEY
-    public const KEY_MAX_PASSWORD_LENGTH = 64;
+    public const MAX_PASSWORD_LENGTH = 64;
     public const KEY_MIN_PASSWORD_LENGTH = 'auth.password_policy.min_password_length';
     public const KEY_MIN_UPPERCASE_LETTERS = 'auth.password_policy.min_uppercase_letters';
     public const KEY_MIN_LOWERCASE_LETTERS = 'auth.password_policy.min_lowercase_letters';

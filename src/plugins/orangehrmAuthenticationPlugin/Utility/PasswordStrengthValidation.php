@@ -57,7 +57,7 @@ class PasswordStrengthValidation
             if ($strength['score'] == 3) {
                 return self::STRONG;
             }
-            if ($strength['score'] == 4) {
+            if ($strength['score'] >= 4) {
                 return self::STRONGEST;
             }
         } catch (\Throwable $e) {

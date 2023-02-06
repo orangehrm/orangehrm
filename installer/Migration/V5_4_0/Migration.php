@@ -37,8 +37,8 @@ class Migration extends AbstractMigration
         $this->getLangStringHelper()->deleteNonCustomizedLangStrings('claim');
         $this->getLangStringHelper()->insertOrUpdateLangStrings('claim');
 
-        $oldGroups = ['auth', 'general'];
-        foreach ($oldGroups as $group) {
+        $groups = ['auth', 'general'];
+        foreach ($groups as $group) {
             $this->getLangStringHelper()->insertOrUpdateLangStrings($group);
         }
 
@@ -98,7 +98,7 @@ class Migration extends AbstractMigration
         $this->getConfigHelper()->setConfigValue('auth.password_policy.min_lowercase_letters', '1');
         $this->getConfigHelper()->setConfigValue('auth.password_policy.min_numbers_in_password', '1');
         $this->getConfigHelper()->setConfigValue('auth.password_policy.min_special_characters', '1');
-        $this->getConfigHelper()->setConfigValue('auth.password_policy.default_required_password_strength', '3');
+        $this->getConfigHelper()->setConfigValue('auth.password_policy.default_required_password_strength', 'strong');
         $this->getConfigHelper()->setConfigValue('auth.password_policy.is_spaces_allowed', 'false');
 
         $this->getDataGroupHelper()->insertApiPermissions(__DIR__ . '/permission/api.yaml');
@@ -168,6 +168,7 @@ class Migration extends AbstractMigration
         $this->changeClaimExpenseTypeTableStatusToBoolean();
         $this->modifyClaimTables();
         $this->modifyClaimRequestCurrencyToForeignKey();
+        $this->modifyDefaultRequiredPasswordStrength();
     }
 
     private function modifyClaimTables(): void
@@ -342,5 +343,20 @@ class Migration extends AbstractMigration
                 'title' => 'Claim',
             ])
             ->executeQuery();
+    }
+
+    public function modifyDefaultRequiredPasswordStrength(): void
+    {
+        $value = $this->getConfigHelper()->getConfigValue('authentication.default_required_password_strength');
+
+        $this->createQueryBuilder()
+            ->update('hs_hr_config', 'config')
+            ->set('config.value', ':value')
+            ->where('config.name = :name')
+            ->setParameter('name', 'auth.password_policy.default_required_password_strength')
+            ->setParameter('value', $value)
+            ->executeStatement();
+
+        $this->getConfigHelper()->deleteConfigValue('authentication.default_required_password_strength');
     }
 }

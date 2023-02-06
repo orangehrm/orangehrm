@@ -19,18 +19,16 @@
 
 namespace OrangeHRM\Core\Api\V2\Validator\Rules;
 
+use OrangeHRM\Authentication\Traits\Service\PasswordStrengthServiceTrait;
+use OrangeHRM\Authentication\Utility\PasswordStrengthValidation;
 use OrangeHRM\Core\Traits\Service\TextHelperTrait;
 
 class Password extends AbstractRule
 {
     use TextHelperTrait;
+    use PasswordStrengthServiceTrait;
 
     private bool $changePassword;
-
-    private const UPPERCASE_REGEX = '/[A-Z]/';
-    private const LOWERCASE_REGEX = '/[a-z]/';
-    private const NUMBER_REGEX = '/[0-9]/';
-    private const SPECIAL_CHAR_REGEX = '/[@#\\\\\/\-!$%^&*()_+|~=`{}\[\]:";\'<>?,.]/';
 
     public function __construct(?bool $changePassword)
     {
@@ -43,17 +41,14 @@ class Password extends AbstractRule
             return true;
         }
 
-        $uppercaseMatch = preg_match(self::UPPERCASE_REGEX, $input);
-        $lowercaseMatch = preg_match(self::LOWERCASE_REGEX, $input);
-        $numberMatch = preg_match(self::NUMBER_REGEX, $input);
-        $specialCharMatch = preg_match(self::SPECIAL_CHAR_REGEX, $input);
+        $passwordStrengthValidation = new PasswordStrengthValidation();
 
-        return (
-            $uppercaseMatch > 0 &&
-            $lowercaseMatch > 0 &&
-            $numberMatch > 0 &&
-            $specialCharMatch > 0 &&
-            $this->getTextHelper()->strLength($input) >= 8
-        );
+        $passwordStrength = $passwordStrengthValidation->checkPasswordStrength($input);
+        $messages = $this->getPasswordStrengthService()->validatePasswordPolicies($input, $passwordStrength);
+
+        if (count($messages) === 0) {
+            return true;
+        }
+        return false;
     }
 }
