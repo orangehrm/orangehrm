@@ -23,3 +23,6 @@ langStrings:
   -
     value: 'Your password meets the minimum requirements, but it could be guessable'
     unitId: password_could_be_guessable
+  -
+    value: 'Change Weak Password'
+    unitId: change_weak_password
