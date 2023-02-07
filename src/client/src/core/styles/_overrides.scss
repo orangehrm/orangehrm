@@ -18,6 +18,8 @@ $oxd-primary-one-color: var(--oxd-primary-one-color);
 $oxd-secondary-four-color: var(--oxd-secondary-four-color);
 $oxd-primary-gradient-start-color: var(--oxd-primary-gradient-start-color);
 $oxd-primary-gradient-end-color: var(--oxd-primary-gradient-end-color);
+$oxd-secondary-gradient-start-color: var(--oxd-secondary-gradient-start-color);
+$oxd-secondary-gradient-end-color: var(--oxd-secondary-gradient-end-color);
 $oxd-primary-font-color: var(--oxd-primary-font-color);
 $oxd-secondary-font-color: var(--oxd-secondary-font-color);
 
@@ -34,11 +36,3 @@ $oxd-secondary-four-darken-5-color: var(--oxd-secondary-four-darken-5-color);
 $oxd-secondary-four-alpha-10-color: var(--oxd-secondary-four-alpha-10-color);
 $oxd-secondary-four-alpha-15-color: var(--oxd-secondary-four-alpha-15-color);
 $oxd-secondary-four-alpha-20-color: var(--oxd-secondary-four-alpha-20-color);
-
-$oxd-primary-gradient: linear-gradient(
-  90deg,
-  var(--oxd-primary-gradient-start-color) 0%,
-  var(--oxd-primary-gradient-end-color) 90%
-);
-
-$oxd-menu-item-active-gradient: $oxd-primary-gradient;
