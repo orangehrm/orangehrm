@@ -171,7 +171,7 @@ class PasswordStrengthService
         $defaultPasswordStrength = $this->getConfigService()->getConfigDao()->getValue(
             ConfigService::KEY_DEFAULT_PASSWORD_STRENGTH
         );
-        if (($defaultPasswordStrength === 'very weak' && $passwordStrength < 0)
+        if (($defaultPasswordStrength === 'veryWeak' && $passwordStrength < 0)
             || ($defaultPasswordStrength === 'weak'
                 && $passwordStrength < 1)
             || ($defaultPasswordStrength === 'better' && $passwordStrength < 2)

@@ -27,6 +27,9 @@ trait PasswordStrengthServiceTrait
 {
     use ServiceContainerTrait;
 
+    /**
+     * @return PasswordStrengthService
+     */
     protected function getPasswordStrengthService(): PasswordStrengthService
     {
         return $this->getContainer()->get(Services::PASSWORD_STRENGTH_SERVICE);

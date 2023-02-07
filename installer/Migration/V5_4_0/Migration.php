@@ -349,13 +349,22 @@ class Migration extends AbstractMigration
     {
         $value = $this->getConfigHelper()->getConfigValue('authentication.default_required_password_strength');
 
-        $this->createQueryBuilder()
-            ->update('hs_hr_config', 'config')
-            ->set('config.value', ':value')
-            ->where('config.name = :name')
-            ->setParameter('name', 'auth.password_policy.default_required_password_strength')
-            ->setParameter('value', $value)
-            ->executeStatement();
+        if ($value === "veryWeak" || $value === "weak" || $value === "better"
+            || $value === "medium"
+            || $value === "strong"
+            || $value === "strongest"
+        ) {
+            if ($value === "medium") {
+                $value = "better";
+            }
+            $this->createQueryBuilder()
+                ->update('hs_hr_config', 'config')
+                ->set('config.value', ':value')
+                ->where('config.name = :name')
+                ->setParameter('name', 'auth.password_policy.default_required_password_strength')
+                ->setParameter('value', $value)
+                ->executeStatement();
+        }
 
         $this->getConfigHelper()->deleteConfigValue('authentication.default_required_password_strength');
     }
