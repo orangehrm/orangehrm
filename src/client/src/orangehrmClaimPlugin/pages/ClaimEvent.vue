@@ -128,7 +128,7 @@ export default {
 
     const serializedFilters = computed(() => {
       return {
-        claimId:
+        eventId:
           typeof filters.value.name === 'object' ? filters.value.name.id : null,
         name:
           typeof filters.value.name === 'string' ? filters.value.name : null,

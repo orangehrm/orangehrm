@@ -114,6 +114,9 @@ class ClaimEventAPI extends Endpoint implements CrudEndpoint
      *     @OA\Parameter(ref="#/components/parameters/sortOrder"),
      *     @OA\Parameter(ref="#/components/parameters/limit"),
      *     @OA\Parameter(ref="#/components/parameters/offset"),
+     *     @OA\Parameter(ref="#/components/parameters/eventId"),
+     *     @OA\Parameter(ref="#/components/parameters/name"),
+     *     @OA\Parameter(ref="#/components/parameters/status"),
      *     @OA\Response(
      *         response="200",
      *         description="Success",
@@ -153,25 +156,19 @@ class ClaimEventAPI extends Endpoint implements CrudEndpoint
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_NAME,
-                    new Rule(
-                        Rules::STRING_TYPE
-                    )
+                    new Rule(Rules::STRING_TYPE)
                 )
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_STATUS,
-                    new Rule(
-                        Rules::STRING_TYPE
-                    )
+                    new Rule(Rules::STRING_TYPE)
                 )
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_EVENTID,
-                    new Rule(
-                        Rules::POSITIVE
-                    )
+                    new Rule(Rules::POSITIVE)
                 )
             ),
             ...$this->getSortingAndPaginationParamsRules(ClaimEventSearchFilterParams::ALLOWED_SORT_FIELDS)
@@ -190,9 +187,7 @@ class ClaimEventAPI extends Endpoint implements CrudEndpoint
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_DESCRIPTION,
-                    new Rule(
-                        Rules::STRING_TYPE
-                    ),
+                    new Rule(Rules::STRING_TYPE),
                     new Rule(Rules::LENGTH, [null, self::DESCRIPTION_MAX_LENGTH]),
                 ),
                 true
@@ -355,10 +350,13 @@ class ClaimEventAPI extends Endpoint implements CrudEndpoint
                 self::PARAMETER_ID,
                 new Rule(Rules::POSITIVE)
             ),
-            new ParamRule(
-                self::PARAMETER_DESCRIPTION,
-                new Rule(Rules::STRING_TYPE),
-                new Rule(Rules::LENGTH, [null, self::DESCRIPTION_MAX_LENGTH]),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_DESCRIPTION,
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::LENGTH, [null, self::DESCRIPTION_MAX_LENGTH]),
+                ),
+                true
             ),
             new ParamRule(
                 self::PARAMETER_STATUS,
