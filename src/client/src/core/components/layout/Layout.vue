@@ -34,6 +34,9 @@
         </a>
       </li>
     </template>
+    <template #nav-actions>
+      <oxd-icon-button name="question-lg" @click="onClickSupport" />
+    </template>
   </oxd-layout>
   <about v-if="showAboutModel" @close="closeAboutModel"></about>
 </template>
@@ -71,6 +74,10 @@ export default {
       type: Object,
       default: null,
     },
+    helpUrl: {
+      type: String,
+      default: null,
+    },
   },
   setup(props) {
     const showAboutModel = ref(false);
@@ -85,7 +92,12 @@ export default {
       showAboutModel.value = false;
     };
 
+    const onClickSupport = () => {
+      if (props.helpUrl) window.open(props.helpUrl, '_blank');
+    };
+
     return {
+      onClickSupport,
       showAboutModel,
       openAboutModel,
       closeAboutModel,
