@@ -38,49 +38,48 @@
           <oxd-form-row>
             <oxd-input-field
               :value="username"
-              name="username"
               :label="$t('auth.username')"
-              label-icon="person"
               readonly
+              name="username"
+              label-icon="person"
             />
           </oxd-form-row>
           <oxd-form-row class="orangehrm-forgot-password-row">
-            <oxd-chip
+            <password-strength-indicator
               v-if="user.newPassword"
-              :class="chipClasses"
-              :label="passwordStrengthLabel"
-            />
+              :password-strength="passwordStrength"
+            ></password-strength-indicator>
             <oxd-input-field
               v-model="user.newPassword"
-              name="password"
-              :label="$t('auth.new_password')"
-              label-icon="key"
-              :placeholder="$t('auth.password')"
-              type="password"
               :rules="rules.newPassword"
+              :label="$t('auth.new_password')"
+              :placeholder="$t('auth.password')"
+              name="password"
+              type="password"
+              label-icon="key"
               autocomplete="off"
             />
           </oxd-form-row>
           <oxd-form-row>
             <oxd-input-field
               v-model="user.confirmPassword"
-              name="confirmPassword"
-              :label="$t('general.confirm_password')"
-              label-icon="key"
-              :placeholder="$t('auth.password')"
-              type="password"
               :rules="rules.confirmPassword"
+              :placeholder="$t('auth.password')"
+              :label="$t('general.confirm_password')"
+              type="password"
+              label-icon="key"
               autocomplete="off"
+              name="confirmPassword"
             />
           </oxd-form-row>
           <oxd-divider />
           <div class="orangehrm-forgot-password-buttons">
             <oxd-button
-              class="orangehrm-forgot-password-button"
-              display-type="secondary"
+              :label="$t('general.save')"
               size="large"
-              :label="$t('auth.reset_password')"
               type="submit"
+              display-type="secondary"
+              class="orangehrm-forgot-password-button"
             />
           </div>
         </oxd-form>
@@ -91,21 +90,25 @@
 </template>
 
 <script>
-import CardNote from '../components/CardNote';
 import {
   required,
   shouldNotExceedCharLength,
 } from '@ohrm/core/util/validation/rules';
+import {promiseDebounce} from '@ohrm/oxd';
+import CardNote from '../components/CardNote';
 import {urlFor} from '@/core/util/helper/url';
-import {OxdChip, promiseDebounce} from '@ohrm/oxd';
 import {APIService} from '@/core/util/services/api.service';
+import usePasswordPolicy from '@/core/util/composable/usePasswordPolicy';
+import PasswordStrengthIndicator from '@/core/components/labels/PasswordStrengthIndicator';
 
 export default {
   name: 'ResetPassword',
+
   components: {
-    'oxd-chip': OxdChip,
     'card-note': CardNote,
+    'password-strength-indicator': PasswordStrengthIndicator,
   },
+
   props: {
     username: {
       type: String,
@@ -116,15 +119,20 @@ export default {
       required: true,
     },
   },
+
   setup() {
     const http = new APIService(window.appGlobal.baseUrl, '');
+    const {passwordStrength, validatePassword} = usePasswordPolicy(http);
+
     return {
       http,
+      passwordStrength,
+      validatePassword,
     };
   },
+
   data() {
     return {
-      passwordStrength: 0,
       user: {
         username: '',
         newPassword: '',
@@ -134,7 +142,7 @@ export default {
         newPassword: [
           required,
           shouldNotExceedCharLength(64),
-          promiseDebounce(this.checkPassword, 500),
+          promiseDebounce(this.validatePassword, 500),
         ],
         confirmPassword: [
           required,
@@ -146,62 +154,16 @@ export default {
       },
     };
   },
+
   computed: {
     submitUrl() {
       return urlFor('/auth/resetPassword');
     },
-    passwordStrengthLabel() {
-      switch (this.passwordStrength) {
-        case 1:
-          return this.$t('general.weak');
-        case 2:
-          return this.$t('general.better');
-        case 3:
-          return this.$t('general.strong');
-        case 4:
-          return this.$t('general.strongest');
-        default:
-          return this.$t('general.very_weak');
-      }
-    },
-    chipClasses() {
-      return {
-        'orangehrm-forgot-password-chip': true,
-        '--green': this.passwordStrength === 4,
-        '--lightGreen': this.passwordStrength === 3,
-        '--yellow': this.passwordStrength === 2,
-      };
-    },
   },
+
   methods: {
     onSubmit() {
       this.$refs.resetForm.$el.submit();
-    },
-    checkPassword(password) {
-      return new Promise((resolve) => {
-        if (password.trim() !== '') {
-          this.http
-            .request({
-              method: 'POST',
-              url: `api/v2/auth/public/validation/password`,
-              data: {
-                password,
-              },
-            })
-            .then((response) => {
-              const {data, meta} = response.data;
-              this.passwordStrength = meta?.strength || 0;
-              if (Array.isArray(data?.messages) && data.messages.length > 0) {
-                resolve(data.messages[0]);
-              } else {
-                resolve(true);
-              }
-            });
-        } else {
-          this.passwordStrength = 0;
-          resolve(true);
-        }
-      });
     },
   },
 };
