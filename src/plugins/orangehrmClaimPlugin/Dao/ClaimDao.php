@@ -194,7 +194,7 @@ class ClaimDao extends BaseDao
     }
 
     /**
-     * @param array[] $ids
+     * @param int[] $ids
      * @return int
      */
     public function deleteExpenseTypes(array $ids): int

@@ -46,8 +46,6 @@ class ClaimExpenseTypeAPI extends Endpoint implements CrudEndpoint
 
     public const PARAMETER_NAME = 'name';
     public const PARAMETER_DESCRIPTION = 'description';
-    public const PARAMETER_ID = 'id';
-    public const PARAMETER_IDS = 'ids';
     public const PARAMETER_EXPENSE_TYPE_ID = 'expenseId';
     public const PARAMETER_STATUS = 'status';
     public const DESCRIPTION_MAX_LENGTH = 1000;
@@ -66,6 +64,9 @@ class ClaimExpenseTypeAPI extends Endpoint implements CrudEndpoint
      *     @OA\Parameter(ref="#/components/parameters/sortOrder"),
      *     @OA\Parameter(ref="#/components/parameters/limit"),
      *     @OA\Parameter(ref="#/components/parameters/offset"),
+     *     @OA\Parameter(ref="#/components/parameters/expenseId"),
+     *     @OA\Parameter(ref="#/components/parameters/name"),
+     *     @OA\Parameter(ref="#/components/parameters/status"),
      *     @OA\Response(
      *         response="200",
      *         description="Success",
@@ -100,7 +101,9 @@ class ClaimExpenseTypeAPI extends Endpoint implements CrudEndpoint
         $claimExpenseTypes = $this->getClaimService()->getClaimDao()->getExpenseTypeList(
             $claimExpenseTypeSearchFilterParams
         );
-        $count = $this->getClaimService()->getClaimDao()->getClaimExpenseTypeCount($claimExpenseTypeSearchFilterParams);
+        $count = $this->getClaimService()
+            ->getClaimDao()
+            ->getClaimExpenseTypeCount($claimExpenseTypeSearchFilterParams);
         return new EndpointCollectionResult(
             ClaimExpenseTypeModel::class,
             $claimExpenseTypes,
@@ -110,33 +113,23 @@ class ClaimExpenseTypeAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @inheritDoc
-     * @return ParamRuleCollection
      */
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
         return new ParamRuleCollection(
             $this->getValidationDecorator()->notRequiredParamRule(
-                new ParamRule(
-                    self::PARAMETER_NAME,
-                    new Rule(
-                        Rules::STRING_TYPE
-                    )
-                )
+                new ParamRule(self::PARAMETER_NAME, new Rule(Rules::STRING_TYPE), new Rule(Rules::LENGTH, [null, self::NAME_MAX_LENGTH]))
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_STATUS,
-                    new Rule(
-                        Rules::STRING_TYPE
-                    )
+                    new Rule(Rules::STRING_TYPE)
                 )
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_EXPENSE_TYPE_ID,
-                    new Rule(
-                        Rules::POSITIVE
-                    )
+                    new Rule(Rules::POSITIVE)
                 )
             ),
             ...$this->getSortingAndPaginationParamsRules(ClaimExpenseTypeSearchFilterParams::ALLOWED_SORT_FIELDS)
@@ -253,7 +246,7 @@ class ClaimExpenseTypeAPI extends Endpoint implements CrudEndpoint
      */
     public function delete(): EndpointResult
     {
-        $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_IDS);
+        $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
         $this->getClaimService()->getClaimDao()->deleteExpenseTypes($ids);
         return new EndpointResourceResult(ArrayModel::class, $ids);
     }
@@ -265,8 +258,8 @@ class ClaimExpenseTypeAPI extends Endpoint implements CrudEndpoint
     {
         return new ParamRuleCollection(
             new ParamRule(
-                self::PARAMETER_IDS,
-                new Rule(Rules::ARRAY_TYPE)
+                CommonParams::PARAMETER_IDS,
+                new Rule(Rules::INT_ARRAY)
             ),
         );
     }
@@ -379,7 +372,7 @@ class ClaimExpenseTypeAPI extends Endpoint implements CrudEndpoint
             ),
             new ParamRule(
                 self::PARAMETER_STATUS,
-                new Rule(Rules::BOOL_TYPE)
+                new Rule(Rules::BOOL_VAL)
             )
         );
     }

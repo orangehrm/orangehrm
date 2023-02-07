@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\test\Claim\Dao;
+namespace OrangeHRM\Test\Claim\Dao;
 
 use OrangeHRM\Claim\Dao\ClaimDao;
 use OrangeHRM\Claim\Dto\ClaimExpenseTypeSearchFilterParams;
@@ -30,7 +30,7 @@ use OrangeHRM\Tests\Util\TestDataService;
  * @group Claim
  * @group Dao
  */
-class ClaimExpenseTypeDaoTest extends KernelTestCase
+class ClaimDaoExpenseTypeTest extends KernelTestCase
 {
     use EntityManagerHelperTrait;
 

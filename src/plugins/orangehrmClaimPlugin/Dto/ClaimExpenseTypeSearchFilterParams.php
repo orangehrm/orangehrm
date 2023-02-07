@@ -25,14 +25,13 @@ class ClaimExpenseTypeSearchFilterParams extends FilterParams
 {
     public const ALLOWED_SORT_FIELDS = ['expenseType.name','expenseType.status'];
 
+    protected ?string $name;
+    protected ?bool $status;
+    protected ?int $id;
     public function __construct()
     {
         $this->setSortField('expenseType.name');
     }
-
-    protected ?string $name;
-    protected ?bool $status;
-    protected ?int $id;
 
     /**
      * @return string|null
