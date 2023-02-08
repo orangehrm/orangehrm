@@ -58,130 +58,187 @@ class PasswordStrengthService
         return $this->enforcePasswordDao;
     }
 
+    private int $minLength;
+    private int $maxLength;
+    private int $minNoOfLowercaseLetters;
+    private int $minNoOfUppercaseLetters;
+    private int $minNoOfNumbers;
+    private int $minNoOfSpecialCharacters;
+    private string $isSpacesAllowed;
+    private string $defaultPasswordStrength;
+
     /**
-     * @param string $password
-     * @return string|null
+     * @return int
      */
-    private function checkMinPasswordLength(string $password): ?string
+    private function getMinLength(): int
     {
-        $minLength = $this->getConfigService()->getConfigDao()->getValue(ConfigService::KEY_MIN_PASSWORD_LENGTH);
-        if ($this->getTextHelper()->strLength($password) < $minLength && $minLength >= 0) {
-            return $this->getI18NHelper()->trans('auth.password_min_length', ['count' => $minLength]);
-        }
-        return null;
+        return $this->minLength ??= $this->getConfigService()->getConfigDao()->getValue(
+            ConfigService::KEY_MIN_PASSWORD_LENGTH
+        );
     }
 
     /**
-     * @param string $password
-     * @return string|null
+     * @return int
      */
-    private function checkMaxPasswordLength(string $password): ?string
+    private function getMaxLength(): int
     {
-        if ($this->getTextHelper()->strLength($password) > ConfigService::MAX_PASSWORD_LENGTH) {
-            return $this->getI18NHelper()->trans(
-                'auth.password_max_length',
-                ['count' => ConfigService::MAX_PASSWORD_LENGTH]
-            );
-        }
-        return null;
+        return $this->maxLength ??= ConfigService::MAX_PASSWORD_LENGTH;
     }
 
     /**
-     * @param string $password
-     * @return string|null
+     * @return int
      */
-    private function checkMinLowercaseLetters(string $password): ?string
+    private function getMinNoOfLowercaseLetters(): int
     {
-        $minNoOfLowercaseLetters = $this->getConfigService()->getConfigDao()->getValue(
+        return $this->minNoOfLowercaseLetters ??= $this->getConfigService()->getConfigDao()->getValue(
             ConfigService::KEY_MIN_LOWERCASE_LETTERS
         );
+    }
+
+    /**
+     * @return int
+     */
+    private function getMinNoOfUppercaseLetters(): int
+    {
+        return $this->minNoOfUppercaseLetters ??= $this->getConfigService()->getConfigDao()->getValue(
+            ConfigService::KEY_MIN_UPPERCASE_LETTERS
+        );
+    }
+
+    /**
+     * @return int
+     */
+    private function getMinNoOfNumbers(): int
+    {
+        return $this->minNoOfNumbers ??= $this->getConfigService()->getConfigDao()->getValue(
+            ConfigService::KEY_MIN_NUMBERS_IN_PASSWORD
+        );
+    }
+
+    /**
+     * @return int
+     */
+    private function getMinNoOfSpecialCharacters(): int
+    {
+        return $this->minNoOfSpecialCharacters ??= $this->getConfigService()->getConfigDao()->getValue(
+            ConfigService::KEY_MIN_SPECIAL_CHARACTERS
+        );
+    }
+
+    /**
+     * @return string
+     */
+    private function getIsSpacesAllowed(): string
+    {
+        return $this->isSpacesAllowed ??= $this->getConfigService()->getConfigDao()->getValue(
+            ConfigService::KEY_IS_SPACES_ALLOWED
+        );
+    }
+
+    /**
+     * @return string
+     */
+    private function getDefaultPasswordStrength(): string
+    {
+        return $this->defaultPasswordStrength ??= $this->getConfigService()->getConfigDao()->getValue(
+            ConfigService::KEY_DEFAULT_PASSWORD_STRENGTH
+        );
+    }
+
+    /**
+     * @param string $password
+     * @return bool
+     */
+    private function checkMinPasswordLength(string $password): bool
+    {
+        $minLength = $this->getMinLength();
+
+        if ($minLength < 0) {
+            $minLength = 0;
+        }
+        return $this->getTextHelper()->strLength($password) <= $minLength;
+    }
+
+    /**
+     * @param string $password
+     * @return bool
+     */
+    private function checkMaxPasswordLength(string $password): bool
+    {
+        $maxLength = $this->getMaxLength();
+
+        if ($maxLength < 0) {
+            $maxLength = 0;
+        }
+
+        return $this->getTextHelper()->strLength($password) > $maxLength;
+    }
+
+    /**
+     * @param string $password
+     * @return bool
+     */
+    private function checkMinLowercaseLetters(string $password): bool
+    {
+        $minNoOfLowercaseLetters = $this->getMinNoOfLowercaseLetters();
+
         $noOfLowercaseLetters = preg_match_all(self::LOWERCASE_REGEX, $password);
         if ($minNoOfLowercaseLetters < 0) {
             $minNoOfLowercaseLetters = 0;
         }
-        if ($minNoOfLowercaseLetters > $noOfLowercaseLetters) {
-            return $this->getI18NHelper()->trans(
-                'auth.password_n_lowercase_letters',
-                ['count' => $minNoOfLowercaseLetters]
-            );
-        }
-        return null;
+        return $minNoOfLowercaseLetters > $noOfLowercaseLetters;
     }
 
     /**
      * @param string $password
-     * @return string|null
+     * @return bool
      */
-    private function checkMinUppercaseLetters(string $password): ?string
+    private function checkMinUppercaseLetters(string $password): bool
     {
-        $minNoOfUppercaseLetters = $this->getConfigService()->getConfigDao()->getValue(
-            ConfigService::KEY_MIN_UPPERCASE_LETTERS
-        );
+        $minNoOfUppercaseLetters = $this->getMinNoOfUppercaseLetters();
         $noOfUppercaseLetters = preg_match_all(self::UPPERCASE_REGEX, $password);
         if ($minNoOfUppercaseLetters < 0) {
             $minNoOfUppercaseLetters = 0;
         }
-        if ($minNoOfUppercaseLetters > $noOfUppercaseLetters) {
-            return $this->getI18NHelper()->trans(
-                'auth.password_n_uppercase_letters',
-                ['count' => $minNoOfUppercaseLetters]
-            );
-        }
-        return null;
+        return $minNoOfUppercaseLetters > $noOfUppercaseLetters;
     }
 
     /**
      * @param string $password
-     * @return string|null
+     * @return bool
      */
-    private function checkMinNumbersInPassword(string $password): ?string
+    private function checkMinNumbersInPassword(string $password): bool
     {
-        $minNoOfNumbers = $this->getConfigService()->getConfigDao()->getValue(
-            ConfigService::KEY_MIN_NUMBERS_IN_PASSWORD
-        );
+        $minNoOfNumbers = $this->getMinNoOfNumbers();
         $noOfNumbers = preg_match_all(self::NUMBER_REGEX, $password);
         if ($minNoOfNumbers < 0) {
             $minNoOfNumbers = 0;
         }
-        if ($minNoOfNumbers > $noOfNumbers) {
-            return $this->getI18NHelper()->trans('auth.password_n_numbers', ['count' => $minNoOfNumbers]);
-        }
-        return null;
+        return $minNoOfNumbers > $noOfNumbers;
     }
 
     /**
      * @param string $password
-     * @return string|null
+     * @return bool
      */
-    private function checkMinSpecialCharacters(string $password): ?string
+    private function checkMinSpecialCharacters(string $password): bool
     {
-        $minNoOfSpecialCharacters = $this->getConfigService()->getConfigDao()->getValue(
-            ConfigService::KEY_MIN_SPECIAL_CHARACTERS
-        );
+        $minNoOfSpecialCharacters = $this->getMinNoOfSpecialCharacters();
         $noOfSpecialCharacters = preg_match_all(self::SPECIAL_CHARACTER_REGEX, $password);
         if ($minNoOfSpecialCharacters < 0) {
             $minNoOfSpecialCharacters = 0;
         }
-        if ($minNoOfSpecialCharacters > $noOfSpecialCharacters) {
-            return $this->getI18NHelper()->trans(
-                'auth.password_n_special_characters',
-                ['count' => $minNoOfSpecialCharacters]
-            );
-        }
-        return null;
+        return $minNoOfSpecialCharacters > $noOfSpecialCharacters;
     }
 
     /**
      * @param string $password
-     * @return string|null
+     * @return bool
      */
-    private function checkSpacesInPassword(string $password): ?string
+    private function checkSpacesInPassword(string $password): bool
     {
-        $isSpacesAllowed = $this->getConfigService()->getConfigDao()->getValue(ConfigService::KEY_IS_SPACES_ALLOWED);
-        if ($isSpacesAllowed === 'false' && preg_match_all(self::SPACES_REGEX, $password) > 0) {
-            return $this->getI18NHelper()->trans('auth.password_spaces_not_allowed');
-        }
-        return null;
+        $isSpacesAllowed = $this->getIsSpacesAllowed();
+        return $isSpacesAllowed === 'false' && preg_match_all(self::SPACES_REGEX, $password) > 0;
     }
 
     /**
@@ -190,51 +247,52 @@ class PasswordStrengthService
      */
     private function checkRequiredDefaultPasswordStrength(int $passwordStrength): ?string
     {
-        $defaultPasswordStrength = $this->getConfigService()->getConfigDao()->getValue(
-            ConfigService::KEY_DEFAULT_PASSWORD_STRENGTH
-        );
-        if (($defaultPasswordStrength === 'veryWeak' && $passwordStrength < 0)
+        $defaultPasswordStrength = $this->getDefaultPasswordStrength();
+        return (($defaultPasswordStrength === 'veryWeak' && $passwordStrength < 0)
             || ($defaultPasswordStrength === 'weak'
                 && $passwordStrength < 1)
             || ($defaultPasswordStrength === 'better' && $passwordStrength < 2)
             || ($defaultPasswordStrength === 'strong' && $passwordStrength < 3)
             || ($defaultPasswordStrength === 'strongest' && $passwordStrength < 4)
-        ) {
-            return $this->getI18NHelper()->trans('auth.password_could_be_guessable');
-        }
-        return null;
+        );
     }
 
     /**
      * @param string $password
      * @return array
      */
-    public function validatePasswordPolicies(string $password, int $passwordStrength): array
+    public function checkPasswordPolicies(string $password, int $passwordStrength): array
     {
         $messages = [];
-        if ($check = $this->checkMinPasswordLength($password)) {
-            $messages[] = $check;
+        if ($this->checkMinPasswordLength($password)) {
+            $messages[] = $this->getI18NHelper()
+                ->trans('auth.password_min_length', ['count' => $this->getMinLength()]);
         }
-        if ($check = $this->checkMaxPasswordLength($password)) {
-            $messages[] = $check;
+        if ($this->checkMaxPasswordLength($password)) {
+            $messages[] = $this->getI18NHelper()
+                ->trans('auth.password_max_length',['count' => $this->getMaxLength()]);
         }
-        if ($check = $this->checkMinLowercaseLetters($password)) {
-            $messages[] = $check;
+        if ($this->checkMinLowercaseLetters($password)) {
+            $messages[] = $this->getI18NHelper()
+                ->trans('auth.password_n_lowercase_letters',['count' => $this->getMinNoOfLowercaseLetters()]);
         }
-        if ($check = $this->checkMinUppercaseLetters($password)) {
-            $messages[] = $check;
+        if ($this->checkMinUppercaseLetters($password)) {
+            $messages[] = $this->getI18NHelper()
+                ->trans('auth.password_n_uppercase_letters',['count' => $this->getMinNoOfUppercaseLetters()]);
         }
-        if ($check = $this->checkMinNumbersInPassword($password)) {
-            $messages[] = $check;
+        if ($this->checkMinNumbersInPassword($password)) {
+            $messages[] = $this->getI18NHelper()
+                ->trans('auth.password_n_numbers', ['count' => $this->getMinNoOfNumbers()]);
         }
-        if ($check = $this->checkMinSpecialCharacters($password)) {
-            $messages[] = $check;
+        if ($this->checkMinSpecialCharacters($password)) {
+            $messages[] = $this->getI18NHelper()
+                ->trans('auth.password_n_special_characters',['count' => $this->getMinNoOfSpecialCharacters()]);
         }
-        if ($check = $this->checkSpacesInPassword($password)) {
-            $messages[] = $check;
+        if ($this->checkSpacesInPassword($password)) {
+            $messages[] = $this->getI18NHelper()->trans('auth.password_spaces_not_allowed');
         }
         if ($this->checkRequiredDefaultPasswordStrength($passwordStrength) && count($messages) === 0) {
-            $messages[] = $this->checkRequiredDefaultPasswordStrength($passwordStrength);
+            $messages[] = $this->getI18NHelper()->trans('auth.password_could_be_guessable');
         }
         return $messages;
     }
