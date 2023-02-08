@@ -51,3 +51,18 @@ edit_claim_events:
   path: /claim/saveEvents/{id}
   controller: OrangeHRM\Claim\Controller\SaveClaimController::handle
   methods: [ GET ]
+  
+claim_expense_types:
+  path: /claim/expenses/viewExpenseTypes
+  controller: OrangeHRM\Claim\Controller\ClaimExpenseTypeController::handle
+  methods: [ GET ]
+
+save_claim_expense_types:
+    path: /claim/expenses/saveExpenseTypes
+    controller: OrangeHRM\Claim\Controller\SaveClaimExpenseTypeController::handle
+    methods: [ GET ]
+
+edit_claim_expense_types:
+    path: /claim/expenses/saveExpenseTypes/{id}
+    controller: OrangeHRM\Claim\Controller\SaveClaimExpenseTypeController::handle
+    methods: [ GET ]
