@@ -4,12 +4,12 @@ Create:
     services:
       claim.claim_service: OrangeHRM\Claim\Service\ClaimService
     body:
-      name: 'event 0001'
+      name: 'Property damage claim'
       description: 'sample description'
       status: true
     data:
       id: 6
-      name: event 0001
+      name: Property damage claim
       description: sample description
       status: true
     meta: [ ]
@@ -30,7 +30,7 @@ Create:
     services:
       claim.claim_service: OrangeHRM\Claim\Service\ClaimService
     body:
-      name: 'event1'
+      name: 'Health insurance claim'
       description: 'sample description'
       status: true
     exception:
@@ -42,12 +42,12 @@ Create:
     services:
       claim.claim_service: OrangeHRM\Claim\Service\ClaimService
     body:
-      name: 'event 0002'
+      name: 'Property damage claim'
       description: ''
       status: true
     data:
       id: 6
-      name: event 0002
+      name: Property damage claim
       description: null
       status: true
     meta: [ ]
@@ -57,12 +57,12 @@ Create:
     services:
       claim.claim_service: OrangeHRM\Claim\Service\ClaimService
     body:
-      name: 'event 0003'
+      name: 'Property damage claim'
       description: 'sample description'
       status:
     data:
       id: 6
-      name: event 0003
+      name: Property damage claim
       description: sample description
       status: null
     meta: [ ]
@@ -72,12 +72,12 @@ Create:
     services:
       claim.claim_service: OrangeHRM\Claim\Service\ClaimService
     body:
-      name: 'event 0003'
+      name: 'Property damage claim'
       description: null
       status: null
     data:
       id: 6
-      name: event 0003
+      name: Property damage claim
       description: null
       status: null
     meta: [ ]
@@ -87,11 +87,11 @@ Create:
     services:
       claim.claim_service: OrangeHRM\Claim\Service\ClaimService
     body:
-      name: 'event 0003'
+      name: 'Property damage claim'
       description: 'sample description'
     data:
       id: 6
-      name: event 0003
+      name: Property damage claim
       description: sample description
       status: true
     meta: [ ]
@@ -101,11 +101,11 @@ Create:
     services:
       claim.claim_service: OrangeHRM\Claim\Service\ClaimService
     body:
-      name: 'event 0003'
+      name: 'Property damage claim'
       status: false
     data:
       id: 6
-      name: event 0003
+      name: Property damage claim
       description: null
       status: false
     meta: [ ]
@@ -115,10 +115,10 @@ Create:
     services:
       claim.claim_service: OrangeHRM\Claim\Service\ClaimService
     body:
-      name: 'event 0003'
+      name: 'Property damage claim'
     data:
       id: 6
-      name: event 0003
+      name: Property damage claim
       description: null
       status: true
     meta: [ ]
@@ -130,27 +130,27 @@ GetAll:
       claim.claim_service: OrangeHRM\Claim\Service\ClaimService
     data: [
       {
-        "id": 1,
-        "name": "event1",
-        "description": "event1 desc",
-        "status": true
+        "id": 4,
+        "name": "Auto insurance claim",
+        "description": "This is a claim event",
+        "status": false
       },
       {
         "id": 2,
-        "name": "event2",
-        "description": "event2 desc",
+        "name": "Environmental liability claim",
+        "description": "This is a claim event",
+        "status": true
+      },
+      {
+        "id": 1,
+        "name": "Health insurance claim",
+        "description": "This is a claim event",
         "status": true
       },
       {
         "id": 3,
-        "name": "event3",
-        "description": "event3 desc",
-        "status": false
-      },
-      {
-        "id": 4,
-        "name": "event4",
-        "description": "event4 desc",
+        "name": "Professional liability claim",
+        "description": "This is a claim event",
         "status": false
       },
     ]
@@ -166,27 +166,27 @@ GetAll:
       offset: 0
     data: [
       {
-        "id": 1,
-        "name": "event1",
-        "description": "event1 desc",
-        "status": true
+        "id": 4,
+        "name": "Auto insurance claim",
+        "description": "This is a claim event",
+        "status": false
       },
       {
         "id": 2,
-        "name": "event2",
-        "description": "event2 desc",
+        "name": "Environmental liability claim",
+        "description": "This is a claim event",
+        "status": true
+      },
+      {
+        "id": 1,
+        "name": "Health insurance claim",
+        "description": "This is a claim event",
         "status": true
       },
       {
         "id": 3,
-        "name": "event3",
-        "description": "event3 desc",
-        "status": false
-      },
-      {
-        "id": 4,
-        "name": "event4",
-        "description": "event4 desc",
+        "name": "Professional liability claim",
+        "description": "This is a claim event",
         "status": false
       },
     ]
@@ -203,20 +203,20 @@ GetAll:
     data: [
       {
         "id": 2,
-        "name": "event2",
-        "description": "event2 desc",
+        "name": "Environmental liability claim",
+        "description": "This is a claim event",
+        "status": true
+      },
+      {
+        "id": 1,
+        "name": "Health insurance claim",
+        "description": "This is a claim event",
         "status": true
       },
       {
         "id": 3,
-        "name": "event3",
-        "description": "event3 desc",
-        "status": false
-      },
-      {
-        "id": 4,
-        "name": "event4",
-        "description": "event4 desc",
+        "name": "Professional liability claim",
+        "description": "This is a claim event",
         "status": false
       },
     ]
@@ -234,15 +234,15 @@ GetAll:
     data: [
       {
         "id": 2,
-        "name": "event2",
-        "description": "event2 desc",
+        "name": "Environmental liability claim",
+        "description": "This is a claim event",
         "status": true
       },
       {
-        "id": 3,
-        "name": "event3",
-        "description": "event3 desc",
-        "status": false
+        "id": 1,
+        "name": "Health insurance claim",
+        "description": "This is a claim event",
+        "status": true
       },
     ]
     meta: {
@@ -258,27 +258,27 @@ GetAll:
     data: [
       {
         "id": 3,
-        "name": "event3",
-        "description": "event3 desc",
+        "name": "Professional liability claim",
+        "description": "This is a claim event",
         "status": false
       },
       {
         "id": 4,
-        "name": "event4",
-        "description": "event4 desc",
+        "name": "Auto insurance claim",
+        "description": "This is a claim event",
         "status": false
       },
       {
         "id": 1,
-        "name": "event1",
-        "description": "event1 desc",
+        "name": "Health insurance claim",
+        "description": "This is a claim event",
         "status": true
       },
       {
-        "id": 2,
-        "name": "event2",
-        "description": "event2 desc",
-        "status": true
+          "id": 2,
+          "name": "Environmental liability claim",
+          "description": "This is a claim event",
+          "status": true
       },
     ]
     meta: {
@@ -295,28 +295,28 @@ GetAll:
     data: [
       {
         "id": 1,
-        "name": "event1",
-        "description": "event1 desc",
+        "name": "Health insurance claim",
+        "description": "This is a claim event",
         "status": true
       },
-      {
-        "id": 2,
-        "name": "event2",
-        "description": "event2 desc",
-        "status": true
-      },
+        {
+            "id": 2,
+            "name": "Environmental liability claim",
+            "description": "This is a claim event",
+            "status": true
+        },
       {
         "id": 3,
-        "name": "event3",
-        "description": "event3 desc",
-        "status": false
-      },
-      {
-        "id": 4,
-        "name": "event4",
-        "description": "event4 desc",
+        "name": "Professional liability claim",
+        "description": "This is a claim event",
         "status": false
       }
+        {
+            "id": 4,
+            "name": "Auto insurance claim",
+            "description": "This is a claim event",
+            "status": false
+        },
     ]
     meta: {
       "total": 4
@@ -331,29 +331,29 @@ GetAll:
       sortOrder: ASC
     data: [
       {
-        "id": 1,
-        "name": "event1",
-        "description": "event1 desc",
-        "status": true
+        "id": 4,
+        "name": "Auto insurance claim",
+        "description": "This is a claim event",
+        "status": false
       },
       {
         "id": 2,
-        "name": "event2",
-        "description": "event2 desc",
+        "name": "Environmental liability claim",
+        "description": "This is a claim event",
+        "status": true
+      },
+      {
+        "id": 1,
+        "name": "Health insurance claim",
+        "description": "This is a claim event",
         "status": true
       },
       {
         "id": 3,
-        "name": "event3",
-        "description": "event3 desc",
+        "name": "Professional liability claim",
+        "description": "This is a claim event",
         "status": false
       },
-      {
-        "id": 4,
-        "name": "event4",
-        "description": "event4 desc",
-        "status": false
-      }
     ]
     meta: {
       "total": 4
@@ -367,30 +367,30 @@ GetAll:
       sortField: claimEvent.name
       sortOrder: DESC
     data: [
-      {
-        "id": 4,
-        "name": "event4",
-        "description": "event4 desc",
-        "status": false
-      },
-      {
-        "id": 3,
-        "name": "event3",
-        "description": "event3 desc",
-        "status": false
-      },
-      {
-        "id": 2,
-        "name": "event2",
-        "description": "event2 desc",
-        "status": true
-      },
-      {
-        "id": 1,
-        "name": "event1",
-        "description": "event1 desc",
-        "status": true
-      }
+        {
+            "id": 3,
+            "name": "Professional liability claim",
+            "description": "This is a claim event",
+            "status": false
+        },
+        {
+            "id": 1,
+            "name": "Health insurance claim",
+            "description": "This is a claim event",
+            "status": true
+        },
+        {
+            "id": 2,
+            "name": "Environmental liability claim",
+            "description": "This is a claim event",
+            "status": true
+        },
+        {
+            "id": 4,
+            "name": "Auto insurance claim",
+            "description": "This is a claim event",
+            "status": false
+        },
     ]
     meta: {
       "total": 4
@@ -401,12 +401,12 @@ GetAll:
     services:
       claim.claim_service: OrangeHRM\Claim\Service\ClaimService
     query:
-      name: "nt3"
+      name: "auto"
     data: [
       {
-        "id": 3,
-        "name": "event3",
-        "description": "event3 desc",
+        "id": 4,
+        "name": "Auto insurance claim",
+        "description": "This is a claim event",
         "status": false
       }
     ]
@@ -419,15 +419,16 @@ GetAll:
     services:
       claim.claim_service: OrangeHRM\Claim\Service\ClaimService
     query:
-      name: "event1"
-    data: [
-      {
-        "id": 1,
-        "name": "event1",
-        "description": "event1 desc",
-        "status": true
-      }
-    ]
+      name: "Auto insurance claim"
+    data:
+      [
+        {
+          "id": 4,
+          "name": "Auto insurance claim",
+          "description": "This is a claim event",
+          "status": false
+        }
+      ]
     meta: {
       "total": 1
     }
@@ -439,18 +440,18 @@ GetAll:
     query:
       status: "false"
     data: [
-      {
-        "id": 3,
-        "name": "event3",
-        "description": "event3 desc",
-        "status": false
-      },
-      {
-        "id": 4,
-        "name": "event4",
-        "description": "event4 desc",
-        "status": false
-      }
+        {
+            "id": 4,
+            "name": "Auto insurance claim",
+            "description": "This is a claim event",
+            "status": false
+        },
+        {
+            "id": 3,
+            "name": "Professional liability claim",
+            "description": "This is a claim event",
+            "status": false
+        }
     ]
     meta: {
       "total": 2
@@ -461,8 +462,8 @@ GetAll:
     services:
       claim.claim_service: OrangeHRM\Claim\Service\ClaimService
     query:
-      name: "event1"
-      status: "false"
+      name: "Auto insurance claim"
+      status: "true"
     data: [ ]
     meta: {
       "total": 0
@@ -473,14 +474,14 @@ GetAll:
     services:
       claim.claim_service: OrangeHRM\Claim\Service\ClaimService
     query:
-      claimId: "1"
+      eventId: "4"
     data: [
       {
-        "id": 1,
-        "name": "event1",
-        "description": "event1 desc",
-        "status": true
-      }
+        "id": 4,
+        "name": "Auto insurance claim",
+        "description": "This is a claim event",
+        "status": false
+      },
     ]
     meta: {
       "total": 1
@@ -491,43 +492,15 @@ GetAll:
     services:
       claim.claim_service: OrangeHRM\Claim\Service\ClaimService
     query:
-      claimId: "0"
-    data: [
-      {
-        "id": 1,
-        "name": "event1",
-        "description": "event1 desc",
-        "status": true
-      },
-      {
-        "id": 2,
-        "name": "event2",
-        "description": "event2 desc",
-        "status": true
-      },
-      {
-        "id": 3,
-        "name": "event3",
-        "description": "event3 desc",
-        "status": false
-      },
-      {
-        "id": 4,
-        "name": "event4",
-        "description": "event4 desc",
-        "status": false
-      }
-    ]
-    meta: {
-      "total": 4
-    }
+      eventId: "0"
+    invalidOnly: [ 'eventId' ]
 
   'get all with query not existing id':
     userId: 1
     services:
       claim.claim_service: OrangeHRM\Claim\Service\ClaimService
     query:
-      claimId: "100"
+      eventId: "100"
     data: [ ]
     meta: {
       "total": 0
@@ -538,7 +511,7 @@ GetAll:
     services:
       claim.claim_service: OrangeHRM\Claim\Service\ClaimService
     query:
-      claimId: "5"
+      eventId: "5"
     data: [ ]
     meta: {
       "total": 0
@@ -550,14 +523,14 @@ GetOne:
     services:
       claim.claim_service: OrangeHRM\Claim\Service\ClaimService
     attributes:
-      id: 1
+      id: 4
     data:
       {
-        "id": 1,
-        "name": "event1",
-        "description": "event1 desc",
-        "status": true
-      }
+        "id": 4,
+        "name": "Auto insurance claim",
+        "description": "This is a claim event",
+        "status": false
+      },
     meta: {
       "total": 1
     }
@@ -578,15 +551,15 @@ Update:
     services:
       claim.claim_service: OrangeHRM\Claim\Service\ClaimService
     attributes:
-      id: 1
+      id: 4
     body:
       description: 'sample description updated'
       status: true
     data: {
-      "id": 1,
-      "name": "event1",
-      "description": "sample description updated",
-      "status": true
+        "id": 4,
+        "name": "Auto insurance claim",
+        "description": "sample description updated",
+        "status": true
     }
     meta: [ ]
 
@@ -608,7 +581,7 @@ Update:
     services:
       claim.claim_service: OrangeHRM\Claim\Service\ClaimService
     attributes:
-      id: 2
+      id: 4
     body:
       name: 'event2 updated'
       description: 'sample description updated'

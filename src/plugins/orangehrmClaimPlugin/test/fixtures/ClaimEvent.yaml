@@ -14,8 +14,8 @@ User:
   - { "id": 3, "user_role_id": 2, "emp_number": 2, "user_name": "Ashley","user_password": "Ashley","deleted": "0","status": "1","date_entered": "2022-09-15 16:47:14","created_by": "1" }
 
 ClaimEvent:
-  0: { id: 1, name: "event1", description: "event1 desc", status: true, is_deleted: false}
-  1: { id: 2, name: "event2", description: "event2 desc", status: true, is_deleted: false }
-  2: { id: 3, name: "event3", description: "event3 desc", status: false, is_deleted: false }
-  3: { id: 4, name: "event4", description: "event4 desc", status: false, is_deleted: false }
-  4: { id: 5, name: "event5", description: "event5 desc", status: true, is_deleted: true }
+  0: { id: 1, name: "Health insurance claim", description: "This is a claim event", status: true, is_deleted: false }
+  1: { id: 2, name: "Environmental liability claim", description: "This is a claim event", status: true, is_deleted: false }
+  2: { id: 3, name: "Professional liability claim", description: "This is a claim event", status: false, is_deleted: false }
+  3: { id: 4, name: "Auto insurance claim", description: "This is a claim event", status: false, is_deleted: false }
+  4: { id: 5, name: "Business interruption claim", description: "This is a claim event", status: true, is_deleted: true }

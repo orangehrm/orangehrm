@@ -49,7 +49,7 @@ class ClaimEventAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_NAME = 'name';
     public const PARAMETER_DESCRIPTION = 'description';
     public const PARAMETER_ID = 'id';
-    public const PARAMETER_CLAIMID = 'claimId';
+    public const PARAMETER_EVENTID = 'eventId';
     public const PARAMETER_IDS = 'ids';
     public const PARAMETER_STATUS = 'status';
     public const DESCRIPTION_MAX_LENGTH = 1000;
@@ -111,6 +111,24 @@ class ClaimEventAPI extends Endpoint implements CrudEndpoint
      *         required=false,
      *         @OA\Schema(type="string", enum=ClaimEventSearchFilterParams::ALLOWED_SORT_FIELDS)
      *     ),
+     *     @OA\Parameter(
+     *         name="status",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="boolean")
+     *     ),
+     *     @OA\Parameter(
+     *         name="name",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         name="eventId",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="integer")
+     *     ),
      *     @OA\Parameter(ref="#/components/parameters/sortOrder"),
      *     @OA\Parameter(ref="#/components/parameters/limit"),
      *     @OA\Parameter(ref="#/components/parameters/offset"),
@@ -138,7 +156,7 @@ class ClaimEventAPI extends Endpoint implements CrudEndpoint
         $this->setSortingAndPaginationParams($claimEventSearchFilterParams);
         $claimEventSearchFilterParams->setName($this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_NAME));
         $claimEventSearchFilterParams->setStatus($this->getRequestParams()->getBooleanOrNull(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_STATUS));
-        $claimEventSearchFilterParams->setId($this->getRequestParams()->getIntOrNull(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_CLAIMID));
+        $claimEventSearchFilterParams->setId($this->getRequestParams()->getIntOrNull(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_EVENTID));
         $claimEvents = $this->getClaimService()->getClaimDao()->getClaimEventList($claimEventSearchFilterParams);
         $count = $this->getClaimService()->getClaimDao()->getClaimEventCount($claimEventSearchFilterParams);
         return new EndpointCollectionResult(ClaimEventModel::class, $claimEvents, new ParameterBag([CommonParams::PARAMETER_TOTAL => $count]));
@@ -153,25 +171,17 @@ class ClaimEventAPI extends Endpoint implements CrudEndpoint
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_NAME,
-                    new Rule(
-                        Rules::STRING_TYPE
-                    )
+                    new Rule(Rules::STRING_TYPE)
                 )
+            ),
+            new ParamRule(
+                self::PARAMETER_STATUS,
+                new Rule(Rules::BOOL_VAL)
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
-                    self::PARAMETER_STATUS,
-                    new Rule(
-                        Rules::STRING_TYPE
-                    )
-                )
-            ),
-            $this->getValidationDecorator()->notRequiredParamRule(
-                new ParamRule(
-                    self::PARAMETER_CLAIMID,
-                    new Rule(
-                        Rules::STRING_TYPE
-                    )
+                    self::PARAMETER_EVENTID,
+                    new Rule(Rules::POSITIVE)
                 )
             ),
             ...$this->getSortingAndPaginationParamsRules(ClaimEventSearchFilterParams::ALLOWED_SORT_FIELDS)
@@ -190,19 +200,15 @@ class ClaimEventAPI extends Endpoint implements CrudEndpoint
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_DESCRIPTION,
-                    new Rule(
-                        Rules::STRING_TYPE
-                    ),
+                    new Rule(Rules::STRING_TYPE),
                     new Rule(Rules::LENGTH, [null, self::DESCRIPTION_MAX_LENGTH]),
                 ),
                 true
             ),
-            $this->getValidationDecorator()->notRequiredParamRule(
-                new ParamRule(
-                    self::PARAMETER_STATUS,
-                    new Rule(Rules::BOOL_TYPE)
-                )
-            ),
+            new ParamRule(
+                self::PARAMETER_STATUS,
+                new Rule(Rules::BOOL_VAL)
+            )
         );
     }
 
@@ -250,7 +256,7 @@ class ClaimEventAPI extends Endpoint implements CrudEndpoint
         return new ParamRuleCollection(
             new ParamRule(
                 self::PARAMETER_IDS,
-                new Rule(Rules::ARRAY_TYPE)
+                new Rule(Rules::INT_ARRAY)
             ),
         );
     }
@@ -312,10 +318,6 @@ class ClaimEventAPI extends Endpoint implements CrudEndpoint
      *         required=true,
      *         @OA\JsonContent(
      *             @OA\Property(
-     *                 property="name",
-     *                 type="string"
-     *             ),
-     *             @OA\Property(
      *                 property="description",
      *                 type="string"
      *             ),
@@ -359,14 +361,17 @@ class ClaimEventAPI extends Endpoint implements CrudEndpoint
                 self::PARAMETER_ID,
                 new Rule(Rules::POSITIVE)
             ),
-            new ParamRule(
-                self::PARAMETER_DESCRIPTION,
-                new Rule(Rules::STRING_TYPE),
-                new Rule(Rules::LENGTH, [null, self::DESCRIPTION_MAX_LENGTH]),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_DESCRIPTION,
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::LENGTH, [null, self::DESCRIPTION_MAX_LENGTH]),
+                ),
+                true
             ),
             new ParamRule(
                 self::PARAMETER_STATUS,
-                new Rule(Rules::BOOL_TYPE)
+                new Rule(Rules::BOOL_VAL)
             )
         );
     }

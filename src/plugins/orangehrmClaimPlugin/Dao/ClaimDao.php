@@ -20,6 +20,7 @@
 namespace OrangeHRM\Claim\Dao;
 
 use OrangeHRM\Claim\Dto\ClaimEventSearchFilterParams;
+use OrangeHRM\Claim\Dto\ClaimExpenseTypeSearchFilterParams;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Entity\ClaimEvent;
 use OrangeHRM\Entity\ClaimRequest;
@@ -137,5 +138,73 @@ class ClaimDao extends BaseDao
         $id[0][1]++;
 
         return $id[0][1];
+    }
+
+    /**
+     * @param ClaimExpenseTypeSearchFilterParams $claimExpenseTypeSearchFilterParams
+     * @return array
+     */
+    public function getExpenseTypeList(ClaimExpenseTypeSearchFilterParams $claimExpenseTypeSearchFilterParams): array
+    {
+        $qb = $this->getClaimExpenseTypePaginator($claimExpenseTypeSearchFilterParams);
+        return $qb->getQuery()->execute();
+    }
+
+    /**
+     * @param ClaimExpenseTypeSearchFilterParams $claimExpenseTypeSearchFilterParams
+     * @return Paginator
+     */
+    protected function getClaimExpenseTypePaginator(ClaimExpenseTypeSearchFilterParams $claimExpenseTypeSearchFilterParams): Paginator
+    {
+        $q = $this->createQueryBuilder(ExpenseType::class, 'expenseType');
+        $this->setSortingAndPaginationParams($q, $claimExpenseTypeSearchFilterParams);
+        if (!is_null($claimExpenseTypeSearchFilterParams->getName())) {
+            $q->andWhere($q->expr()->like('expenseType.name', ':name'));
+            $q->setParameter('name', '%' . $claimExpenseTypeSearchFilterParams->getName() . '%');
+        }
+        if (!is_null($claimExpenseTypeSearchFilterParams->getStatus())) {
+            $q->andWhere('expenseType.status = :status');
+            $q->setParameter('status', $claimExpenseTypeSearchFilterParams->getStatus());
+        }
+        if (!is_null($claimExpenseTypeSearchFilterParams->getId())) {
+            $q->andWhere('expenseType.id = :id');
+            $q->setParameter('id', $claimExpenseTypeSearchFilterParams->getId());
+        }
+        $q->andWhere('expenseType.isDeleted = :isDeleted');
+        $q->setParameter('isDeleted', false);
+        return $this->getPaginator($q);
+    }
+
+    /**
+     * @param ClaimExpenseTypeSearchFilterParams $claimExpenseTypeSearchFilterParams
+     * @return int
+     */
+    public function getClaimExpenseTypeCount(ClaimExpenseTypeSearchFilterParams $claimExpenseTypeSearchFilterParams): int
+    {
+        return $this->getClaimExpenseTypePaginator($claimExpenseTypeSearchFilterParams)->count();
+    }
+
+    /**
+     * @param int $id
+     * @return ExpenseType|null
+     */
+    public function getExpenseTypeById(int $id): ?ExpenseType
+    {
+        return $this->getRepository(ExpenseType::class)->findOneBy(['id' => $id, 'isDeleted' => false]);
+    }
+
+    /**
+     * @param int[] $ids
+     * @return int
+     */
+    public function deleteExpenseTypes(array $ids): int
+    {
+        $q = $this->createQueryBuilder(ExpenseType::class, 'expenseType');
+        $q->update()
+            ->set('expenseType.isDeleted', ':isDeleted')
+            ->where($q->expr()->in('expenseType.id', ':ids'))
+            ->setParameter('ids', $ids)
+            ->setParameter('isDeleted', true);
+        return $q->getQuery()->execute();
     }
 }

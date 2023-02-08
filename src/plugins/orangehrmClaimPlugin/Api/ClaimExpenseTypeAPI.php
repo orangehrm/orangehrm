@@ -20,11 +20,16 @@
 namespace OrangeHRM\Claim\Api;
 
 use OrangeHRM\Claim\Api\Model\ClaimExpenseTypeModel;
+use OrangeHRM\Claim\Dto\ClaimExpenseTypeSearchFilterParams;
 use OrangeHRM\Claim\Traits\Service\ClaimServiceTrait;
+use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
+use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
+use OrangeHRM\Core\Api\V2\Model\ArrayModel;
+use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
@@ -41,17 +46,84 @@ class ClaimExpenseTypeAPI extends Endpoint implements CrudEndpoint
 
     public const PARAMETER_NAME = 'name';
     public const PARAMETER_DESCRIPTION = 'description';
-
+    public const PARAMETER_EXPENSE_TYPE_ID = 'expenseTypeId';
     public const PARAMETER_STATUS = 'status';
     public const DESCRIPTION_MAX_LENGTH = 1000;
     public const NAME_MAX_LENGTH = 100;
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/claim/expenses/types",
+     *     tags={"Claim/ExpenseTypes"},
+     *     @OA\Parameter(
+     *         name="sortField",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string", enum=ClaimExpenseTypeSearchFilterParams::ALLOWED_SORT_FIELDS)
+     *     ),
+     *     @OA\Parameter(
+     *         name="expenseTypeId",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         name="name",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         name="status",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="boolean")
+     *     ),
+     *     @OA\Parameter(ref="#/components/parameters/sortOrder"),
+     *     @OA\Parameter(ref="#/components/parameters/limit"),
+     *     @OA\Parameter(ref="#/components/parameters/offset"),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="array",
+     *                 @OA\Items(ref="#/components/schemas/Claim-ClaimExpenseTypeModel")
+     *             ),
+     *             @OA\Property(property="meta",
+     *                 type="object",
+     *                 @OA\Property(property="total", type="integer")
+     *             )
+     *         )
+     *     )
+     * )
      * @inheritDoc
      */
     public function getAll(): EndpointResult
     {
-        throw $this->getNotImplementedException();
+        $claimExpenseTypeSearchFilterParams = new ClaimExpenseTypeSearchFilterParams();
+        $this->setSortingAndPaginationParams($claimExpenseTypeSearchFilterParams);
+        $claimExpenseTypeSearchFilterParams->setName(
+            $this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_NAME)
+        );
+        $claimExpenseTypeSearchFilterParams->setStatus(
+            $this->getRequestParams()->getBooleanOrNull(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_STATUS)
+        );
+        $claimExpenseTypeSearchFilterParams->setId(
+            $this->getRequestParams()->getIntOrNull(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_EXPENSE_TYPE_ID)
+        );
+        $claimExpenseTypes = $this->getClaimService()->getClaimDao()->getExpenseTypeList(
+            $claimExpenseTypeSearchFilterParams
+        );
+        $count = $this->getClaimService()
+            ->getClaimDao()
+            ->getClaimExpenseTypeCount($claimExpenseTypeSearchFilterParams);
+        return new EndpointCollectionResult(
+            ClaimExpenseTypeModel::class,
+            $claimExpenseTypes,
+            new ParameterBag([CommonParams::PARAMETER_TOTAL => $count])
+        );
     }
 
     /**
@@ -59,7 +131,24 @@ class ClaimExpenseTypeAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
-        throw $this->getNotImplementedException();
+        return new ParamRuleCollection(
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(self::PARAMETER_NAME, new Rule(Rules::STRING_TYPE), new Rule(Rules::LENGTH, [null, self::NAME_MAX_LENGTH]))
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_STATUS,
+                    new Rule(Rules::STRING_TYPE)
+                )
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_EXPENSE_TYPE_ID,
+                    new Rule(Rules::POSITIVE)
+                )
+            ),
+            ...$this->getSortingAndPaginationParamsRules(ClaimExpenseTypeSearchFilterParams::ALLOWED_SORT_FIELDS)
+        );
     }
 
     /**
@@ -91,6 +180,9 @@ class ClaimExpenseTypeAPI extends Endpoint implements CrudEndpoint
     public function create(): EndpointResourceResult
     {
         $expenseType = new ExpenseType();
+        $expenseType->setName(
+            $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_NAME)
+        );
         $this->setExpenseType($expenseType);
 
         $userId = $this->getAuthUser()->getUserId();
@@ -117,12 +209,10 @@ class ClaimExpenseTypeAPI extends Endpoint implements CrudEndpoint
                 ),
                 true
             ),
-            $this->getValidationDecorator()->notRequiredParamRule(
-                new ParamRule(
-                    self::PARAMETER_STATUS,
-                    new Rule(Rules::BOOL_TYPE)
-                ),
-            )
+            new ParamRule(
+                self::PARAMETER_STATUS,
+                new Rule(Rules::BOOL_VAL)
+            ),
         );
     }
 
@@ -148,9 +238,6 @@ class ClaimExpenseTypeAPI extends Endpoint implements CrudEndpoint
      */
     private function setExpenseType(ExpenseType $expenseType): void
     {
-        $expenseType->setName(
-            $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_NAME)
-        );
         $expenseType->setDescription(
             $this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_DESCRIPTION)
         );
@@ -162,11 +249,19 @@ class ClaimExpenseTypeAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Delete(
+     *     path="/api/v2/claim/expenses/types",
+     *     tags={"Claim/ExpenseTypes"},
+     *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),
+     *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse")
+     * )
      * @inheritDoc
      */
     public function delete(): EndpointResult
     {
-        throw $this->getNotImplementedException();
+        $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
+        $this->getClaimService()->getClaimDao()->deleteExpenseTypes($ids);
+        return new EndpointResourceResult(ArrayModel::class, $ids);
     }
 
     /**
@@ -174,15 +269,44 @@ class ClaimExpenseTypeAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForDelete(): ParamRuleCollection
     {
-        throw $this->getNotImplementedException();
+        return new ParamRuleCollection(
+            new ParamRule(
+                CommonParams::PARAMETER_IDS,
+                new Rule(Rules::INT_ARRAY)
+            ),
+        );
     }
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/claim/expenses/types/{id}",
+     *     tags={"Claim/ExpenseTypes"},
+     *     @OA\PathParameter(
+     *         name="id",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Claim-ClaimExpenseTypeModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
+     * )
+     *
      * @inheritDoc
      */
     public function getOne(): EndpointResult
     {
-        throw $this->getNotImplementedException();
+        $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
+        $expenseType = $this->getClaimService()->getClaimDao()->getExpenseTypeById($id);
+        $this->throwRecordNotFoundExceptionIfNotExist($expenseType, ExpenseType::class);
+        return new EndpointResourceResult(ClaimExpenseTypeModel::class, $expenseType);
     }
 
     /**
@@ -190,15 +314,58 @@ class ClaimExpenseTypeAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForGetOne(): ParamRuleCollection
     {
-        throw $this->getNotImplementedException();
+        return new ParamRuleCollection(
+            new ParamRule(
+                CommonParams::PARAMETER_ID,
+                new Rule(Rules::POSITIVE)
+            ),
+        );
     }
 
     /**
+     * @OA\Put(
+     *     path="/api/v2/claim/expenses/types/{id}",
+     *     tags={"Claim/ExpenseTypes"},
+     *     @OA\PathParameter(
+     *         name="id",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="description",
+     *                 type="string"
+     *             ),
+     *             @OA\Property(
+     *                 property="status",
+     *                 type="boolean"
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Claim-ClaimExpenseTypeModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
+     * )
      * @inheritDoc
      */
     public function update(): EndpointResult
     {
-        throw $this->getNotImplementedException();
+        $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
+        $expenseType = $this->getClaimService()->getClaimDao()->getExpenseTypeById($id);
+        $this->throwRecordNotFoundExceptionIfNotExist($expenseType, ExpenseType::class);
+        $this->setExpenseType($expenseType);
+        $this->getClaimService()->getClaimDao()->saveExpenseType($expenseType);
+        return new EndpointResourceResult(ClaimExpenseTypeModel::class, $expenseType);
     }
 
     /**
@@ -206,6 +373,23 @@ class ClaimExpenseTypeAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
-        throw $this->getNotImplementedException();
+        return new ParamRuleCollection(
+            new ParamRule(
+                CommonParams::PARAMETER_ID,
+                new Rule(Rules::POSITIVE)
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_DESCRIPTION,
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::LENGTH, [null, self::DESCRIPTION_MAX_LENGTH]),
+                ),
+                true
+            ),
+            new ParamRule(
+                self::PARAMETER_STATUS,
+                new Rule(Rules::BOOL_VAL)
+            )
+        );
     }
 }
