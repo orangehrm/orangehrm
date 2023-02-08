@@ -65,19 +65,19 @@ class ClaimExpenseTypeAPI extends Endpoint implements CrudEndpoint
      *         name="expenseTypeId",
      *         in="query",
      *         required=false,
-     *         @OA\Schema(type="integer", enum=ClaimExpenseTypeSearchFilterParams::ALLOWED_SORT_FIELDS)
+     *         @OA\Schema(type="integer")
      *     ),
      *     @OA\Parameter(
      *         name="name",
      *         in="query",
      *         required=false,
-     *         @OA\Schema(type="string", enum=ClaimExpenseTypeSearchFilterParams::ALLOWED_SORT_FIELDS)
+     *         @OA\Schema(type="string")
      *     ),
      *     @OA\Parameter(
      *         name="status",
      *         in="query",
      *         required=false,
-     *         @OA\Schema(type="boolean", enum=ClaimExpenseTypeSearchFilterParams::ALLOWED_SORT_FIELDS)
+     *         @OA\Schema(type="boolean")
      *     ),
      *     @OA\Parameter(ref="#/components/parameters/sortOrder"),
      *     @OA\Parameter(ref="#/components/parameters/limit"),

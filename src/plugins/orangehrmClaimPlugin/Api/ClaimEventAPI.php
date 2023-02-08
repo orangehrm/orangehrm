@@ -106,28 +106,28 @@ class ClaimEventAPI extends Endpoint implements CrudEndpoint
      *     path="/api/v2/claim/events",
      *     tags={"Claim/Events"},
      *     @OA\Parameter(
- *         name="sortField",
- *         in="query",
- *         required=false,
- *         @OA\Schema(type="string", enum=ClaimEventSearchFilterParams::ALLOWED_SORT_FIELDS)
+     *         name="sortField",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string", enum=ClaimEventSearchFilterParams::ALLOWED_SORT_FIELDS)
      *     ),
      *     @OA\Parameter(
      *         name="status",
      *         in="query",
      *         required=false,
-     *         @OA\Schema(type="boolean", enum=CandidateSearchFilterParams::ALLOWED_SORT_FIELDS)
+     *         @OA\Schema(type="boolean")
      *     ),
      *     @OA\Parameter(
      *         name="name",
      *         in="query",
      *         required=false,
-     *         @OA\Schema(type="string", enum=CandidateSearchFilterParams::ALLOWED_SORT_FIELDS)
+     *         @OA\Schema(type="string")
      *     ),
      *     @OA\Parameter(
      *         name="eventId",
      *         in="query",
      *         required=false,
-     *         @OA\Schema(type="integer", enum=CandidateSearchFilterParams::ALLOWED_SORT_FIELDS)
+     *         @OA\Schema(type="integer")
      *     ),
      *     @OA\Parameter(ref="#/components/parameters/sortOrder"),
      *     @OA\Parameter(ref="#/components/parameters/limit"),
