@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Core\Api\V2\Validator\Rules;
 
+use OrangeHRM\Authentication\Dto\UserCredential;
 use OrangeHRM\Authentication\Traits\Service\PasswordStrengthServiceTrait;
 use OrangeHRM\Authentication\Utility\PasswordStrengthValidation;
 use OrangeHRM\Core\Traits\Service\TextHelperTrait;
@@ -42,8 +43,9 @@ class Password extends AbstractRule
         }
 
         $passwordStrengthValidation = new PasswordStrengthValidation();
+        $credentials = new UserCredential(null, $input);
 
-        $passwordStrength = $passwordStrengthValidation->checkPasswordStrength($input);
+        $passwordStrength = $passwordStrengthValidation->checkPasswordStrength($credentials->getPassword());
         $messages = $this->getPasswordStrengthService()->validatePasswordPolicies($input, $passwordStrength);
 
         if (count($messages) === 0) {
