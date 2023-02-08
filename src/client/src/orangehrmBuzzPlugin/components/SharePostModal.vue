@@ -66,8 +66,8 @@ import PostModal from '@/orangehrmBuzzPlugin/components/PostModal';
 import PhotoFrame from '@/orangehrmBuzzPlugin/components/PhotoFrame';
 import VideoFrame from '@/orangehrmBuzzPlugin/components/VideoFrame';
 import {shouldNotExceedCharLength} from '@/core/util/validation/rules';
-import BuzzPostInput from '@ohrm/oxd/core/components/Buzz/BuzzPostInput';
 import useEmployeeNameTranslate from '@/core/util/composable/useEmployeeNameTranslate';
+import {OxdBuzzPostInput} from '@ohrm/oxd';
 
 export default {
   name: 'SharePostModal',
@@ -76,7 +76,7 @@ export default {
     'post-modal': PostModal,
     'photo-frame': PhotoFrame,
     'video-frame': VideoFrame,
-    'oxd-buzz-post-input': BuzzPostInput,
+    'oxd-buzz-post-input': OxdBuzzPostInput,
   },
 
   props: {

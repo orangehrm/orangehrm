@@ -381,13 +381,11 @@ import {
   numberShouldBeBetweenMinAndMaxValue,
 } from '@/core/util/validation/rules';
 import useForm from '@/core/util/composable/useForm';
-import Icon from '@ohrm/oxd/core/components/Icon/Icon';
-import Alert from '@ohrm/oxd/core/components/Alert/Alert';
 import {reloadPage} from '@/core/util/helper/navigation';
 import {APIService} from '@ohrm/core/util/services/api.service';
-import SwitchInput from '@ohrm/oxd/core/components/Input/SwitchInput';
 import LdapSyncConnection from '@/orangehrmAdminPlugin/components/LdapSyncConnection';
 import LdapTestConnectionModal from '@/orangehrmAdminPlugin/components/LdapTestConnectionModal';
+import {OxdAlert, OxdIcon, OxdSwitchInput} from '@ohrm/oxd';
 
 const configurationModel = {
   enable: false,
@@ -420,9 +418,9 @@ const dataMappingModel = {
 
 export default {
   components: {
-    'oxd-icon': Icon,
-    'oxd-alert': Alert,
-    'oxd-switch-input': SwitchInput,
+    'oxd-icon': OxdIcon,
+    'oxd-alert': OxdAlert,
+    'oxd-switch-input': OxdSwitchInput,
     'ldap-sync-connection': LdapSyncConnection,
     'ldap-test-connection-modal': LdapTestConnectionModal,
   },

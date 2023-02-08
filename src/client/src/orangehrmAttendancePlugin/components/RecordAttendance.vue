@@ -126,7 +126,7 @@ import {
   getStandardTimezone,
 } from '@/core/util/helper/datefns';
 import {reloadPage, navigate} from '@/core/util/helper/navigation';
-import promiseDebounce from '@ohrm/oxd/utils/promiseDebounce';
+import {promiseDebounce} from '@ohrm/oxd';
 import {APIService} from '@ohrm/core/util/services/api.service';
 import TimezoneDropdown from '@/orangehrmAttendancePlugin/components/TimezoneDropdown.vue';
 import useDateFormat from '@/core/util/composable/useDateFormat';

@@ -90,7 +90,7 @@
 </template>
 
 <script>
-import OxdDivider from '@ohrm/oxd/core/components/Divider/Divider';
+import {OxdDivider} from '@ohrm/oxd';
 import {APIService} from '@/core/util/services/api.service';
 
 export default {
@@ -159,8 +159,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@ohrm/oxd/styles/_mixins.scss';
-
 .orangehrm-directory-card {
   height: auto;
   overflow: hidden;

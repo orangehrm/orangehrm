@@ -23,7 +23,12 @@
     <div class="employee-image-wrapper">
       <img alt="profile picture" class="employee-image" :src="imgSrc" />
     </div>
-    <oxd-icon-button class="employee-image-action" name="plus" role="none" />
+    <oxd-icon-button
+      name="plus"
+      role="none"
+      display-type="solid-main"
+      class="employee-image-action"
+    />
   </oxd-input-field>
   <oxd-text class="orangehrm-input-hint" tag="p">
     {{
@@ -46,44 +51,37 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@ohrm/oxd/core/components/Button/_variables.scss';
-@import '@ohrm/oxd/core/components/Button/_mixins.scss';
-
 .employee-image {
   height: 8rem;
 }
 .orangehrm-input-hint {
-  text-align: center;
   margin: 0 auto;
+  text-align: center;
 }
 ::v-deep(.oxd-file-div) {
-  border: $oxd-input-control-border--active;
-  border-radius: 100% !important;
-  width: 8rem !important;
-  height: 8rem !important;
   margin: 0 auto;
   display: flex;
+  position: relative;
   align-items: center;
   justify-content: center;
-  position: relative;
+  width: 8rem !important;
+  height: 8rem !important;
+  border-radius: 100% !important;
+  border: $oxd-border $oxd-interface-gray-lighten-2-color;
 }
 .employee-image-wrapper {
   height: 90%;
   width: 90%;
-  overflow: hidden;
-  border: $oxd-input-control-border--active;
-  border-radius: 100%;
   display: flex;
+  overflow: hidden;
+  border-radius: 100%;
   justify-content: center;
   align-items: flex-start;
+  border: $oxd-border $oxd-interface-gray-lighten-2-color;
 }
 .employee-image-action {
-  position: absolute;
   right: 0;
   bottom: 0;
-  @include oxd-button-solid('main');
-  ::v-deep(.oxd-icon) {
-    color: $oxd-white-color;
-  }
+  position: absolute;
 }
 </style>

@@ -72,11 +72,11 @@
 
 <script>
 import {APIService} from '@/core/util/services/api.service';
-import Dialog from '@ohrm/oxd/core/components/Dialog/Dialog';
 import {
   required,
   shouldNotExceedCharLength,
 } from '@ohrm/core/util/validation/rules';
+import {OxdDialog} from '@ohrm/oxd';
 
 const orgUnitModel = {
   unitId: '',
@@ -87,7 +87,7 @@ const orgUnitModel = {
 export default {
   name: 'SaveOrgUnit',
   components: {
-    'oxd-dialog': Dialog,
+    'oxd-dialog': OxdDialog,
   },
   props: {
     data: {

@@ -36,16 +36,15 @@
 
 <script>
 import {APIService} from '@/core/util/services/api.service';
-import {CHART_COLORS} from '@ohrm/oxd/core/components/Chart/types';
-import PieChart from '@ohrm/oxd/core/components/Chart/PieChart.vue';
 import BaseWidget from '@/orangehrmDashboardPlugin/components/BaseWidget.vue';
+import {OxdPieChart, CHART_COLORS} from '@ohrm/oxd';
 
 export default {
   name: 'EmployeeLocationWidget',
 
   components: {
     'base-widget': BaseWidget,
-    'oxd-pie-chart': PieChart,
+    'oxd-pie-chart': OxdPieChart,
   },
 
   setup() {

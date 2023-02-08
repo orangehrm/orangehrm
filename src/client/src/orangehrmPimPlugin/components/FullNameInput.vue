@@ -105,8 +105,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@ohrm/oxd/styles/_mixins.scss';
-
 @include oxd-respond-to('md') {
   ::v-deep(.--name-grouped-field) {
     display: flex;

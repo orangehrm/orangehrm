@@ -98,8 +98,8 @@ import {
   required,
   shouldNotExceedCharLength,
 } from '@ohrm/core/util/validation/rules';
-import Label from '@ohrm/oxd/core/components/Label/Label';
 import EntitlementSituationalModal from '@/orangehrmLeavePlugin/components/EntitlementSituationalModal';
+import {OxdLabel} from '@ohrm/oxd';
 
 const leaveTypeModel = {
   id: '',
@@ -109,7 +109,7 @@ const leaveTypeModel = {
 
 export default {
   components: {
-    'oxd-label': Label,
+    'oxd-label': OxdLabel,
     'entitlement-situational-modal': EntitlementSituationalModal,
   },
 

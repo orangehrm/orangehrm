@@ -37,12 +37,12 @@
 </template>
 
 <script>
-import Icon from '@ohrm/oxd/core/components/Icon/Icon.vue';
+import {OxdIcon} from '@ohrm/oxd';
 
 export default {
   name: 'CardNote',
   components: {
-    'oxd-icon': Icon,
+    'oxd-icon': OxdIcon,
   },
   props: {
     noteText: {
@@ -62,8 +62,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import '@ohrm/oxd/core/components/Alert/_variables.scss';
-
 .orangehrm-card {
   &-icon {
     font-size: 1.5rem;
@@ -91,7 +89,7 @@ export default {
   &-note--icon {
     display: flex;
     align-items: center;
-    background-color: $oxd-alert-bg-color-error;
+    background-color: rgba($oxd-feedback-danger-color, 0.06);
     border-radius: $oxd-border-radius;
     padding: 1rem;
   }

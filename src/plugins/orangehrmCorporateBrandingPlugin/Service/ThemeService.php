@@ -191,6 +191,8 @@ class ThemeService
             '--oxd-secondary-font-color' => $variables->getSecondaryFontColor(),
             '--oxd-primary-gradient-start-color' => $variables->getPrimaryGradientStartColor(),
             '--oxd-primary-gradient-end-color' => $variables->getPrimaryGradientEndColor(),
+            '--oxd-secondary-gradient-start-color' => $variables->getPrimaryGradientStartColor(),
+            '--oxd-secondary-gradient-end-color' => $variables->getPrimaryGradientEndColor(),
 
             // Primary
             '--oxd-primary-one-lighten-5-color' => $this->getScssHelper()->lighten($variables->getPrimaryColor(), '5%'),

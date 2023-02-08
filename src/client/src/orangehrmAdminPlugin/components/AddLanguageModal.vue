@@ -64,14 +64,14 @@
 
 <script>
 import {APIService} from '@ohrm/core/util/services/api.service';
-import Dialog from '@ohrm/oxd/core/components/Dialog/Dialog';
 import LanguagesDropdown from '@/orangehrmAdminPlugin/components/LanguagesDropdown.vue';
 import {required} from '@/core/util/validation/rules';
+import {OxdDialog} from '@ohrm/oxd';
 
 export default {
   name: 'AddLanguageModal',
   components: {
-    'oxd-dialog': Dialog,
+    'oxd-dialog': OxdDialog,
     'languages-dropdown': LanguagesDropdown,
   },
   emits: ['close'],

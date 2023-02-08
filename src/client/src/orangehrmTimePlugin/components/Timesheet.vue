@@ -235,20 +235,19 @@
 </template>
 
 <script>
-import Alert from '@ohrm/oxd/core/components/Alert/Alert';
 import {validSelection} from '@/core/util/validation/rules';
-import Spinner from '@ohrm/oxd/core/components/Loader/Spinner.vue';
 import {parseDate, parseTimeInSeconds} from '@ohrm/core/util/helper/datefns';
 import ActivityDropdown from '@/orangehrmTimePlugin/components/ActivityDropdown.vue';
 import ProjectAutocomplete from '@/orangehrmTimePlugin/components/ProjectAutocomplete.vue';
 import TimesheetCommentModal from '@/orangehrmTimePlugin/components/TimesheetCommentModal.vue';
+import {OxdAlert, OxdSpinner} from '@ohrm/oxd';
 
 export default {
   name: 'Timesheet',
 
   components: {
-    'oxd-alert': Alert,
-    'oxd-loading-spinner': Spinner,
+    'oxd-alert': OxdAlert,
+    'oxd-loading-spinner': OxdSpinner,
     'activity-dropdown': ActivityDropdown,
     'project-autocomplete': ProjectAutocomplete,
     'timesheet-comment-modal': TimesheetCommentModal,

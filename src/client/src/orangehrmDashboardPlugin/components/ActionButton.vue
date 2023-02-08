@@ -22,12 +22,12 @@
   <oxd-icon :name="icon" @click="$emit('show-actions', true)"></oxd-icon>
 </template>
 <script>
-import Icon from '@ohrm/oxd/core/components/Icon/Icon';
+import {OxdIcon} from '@ohrm/oxd';
 
 export default {
   name: 'ActionButton',
   components: {
-    'oxd-icon': Icon,
+    'oxd-icon': OxdIcon,
   },
   props: {
     icon: {

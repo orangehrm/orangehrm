@@ -94,13 +94,13 @@
 import {urlFor} from '@ohrm/core/util/helper/url';
 import {navigate} from '@/core/util/helper/navigation';
 import {required} from '@/core/util/validation/rules';
-import Alert from '@ohrm/oxd/core/components/Alert/Alert';
+import {OxdAlert} from '@ohrm/oxd';
 
 export default {
   name: 'AdministratorAccess',
 
   components: {
-    'oxd-alert': Alert,
+    'oxd-alert': OxdAlert,
   },
 
   props: {
@@ -156,8 +156,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@ohrm/oxd/styles/_mixins.scss';
-
 .orangehrm-card-container {
   box-shadow: 3px 3px 10px $oxd-interface-gray-color;
 }

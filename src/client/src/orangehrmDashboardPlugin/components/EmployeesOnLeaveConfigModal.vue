@@ -59,15 +59,14 @@
 </template>
 
 <script>
-import Icon from '@ohrm/oxd/core/components/Icon/Icon.vue';
 import {APIService} from '@/core/util/services/api.service';
-import Dialog from '@ohrm/oxd/core/components/Dialog/Dialog';
+import {OxdDialog, OxdIcon} from '@ohrm/oxd';
 
 export default {
   name: 'EmployeesOnLeaveConfigModal',
   components: {
-    'oxd-icon': Icon,
-    'oxd-dialog': Dialog,
+    'oxd-icon': OxdIcon,
+    'oxd-dialog': OxdDialog,
   },
   emits: ['close'],
   setup() {

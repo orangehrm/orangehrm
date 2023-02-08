@@ -114,7 +114,6 @@ import {
 } from '@/core/util/validation/rules';
 import {computed, reactive, toRefs} from 'vue';
 import useLocale from '@/core/util/composable/useLocale';
-import Icon from '@ohrm/oxd/core/components/Icon/Icon.vue';
 import {APIService} from '@/core/util/services/api.service';
 import useAutoFocus from '@/core/util/composable/useAutoFocus';
 import {formatDate, parseDate} from '@/core/util/helper/datefns';
@@ -122,12 +121,13 @@ import useDateFormat from '@/core/util/composable/useDateFormat';
 import ProfileImage from '@/orangehrmBuzzPlugin/components/ProfileImage';
 import useBuzzAPIs from '@/orangehrmBuzzPlugin/util/composable/useBuzzAPIs';
 import useEmployeeNameTranslate from '@/core/util/composable/useEmployeeNameTranslate';
+import {OxdIcon} from '@ohrm/oxd';
 
 export default {
   name: 'PostComment',
 
   components: {
-    'oxd-icon': Icon,
+    'oxd-icon': OxdIcon,
     'profile-image': ProfileImage,
   },
 

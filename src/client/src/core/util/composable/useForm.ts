@@ -17,7 +17,7 @@
  */
 
 import {ref, computed} from 'vue';
-import Form from '@ohrm/oxd/core/components/Form/Form.vue';
+import {OxdForm} from '@ohrm/oxd';
 
 type useFormArgs = {
   refName?: string;
@@ -25,7 +25,7 @@ type useFormArgs = {
 
 export default function useForm({refName = 'formRef'}: useFormArgs = {}) {
   // https://v3.vuejs.org/guide/typescript-support.html#typing-template-refs
-  const form = ref<InstanceType<typeof Form>>();
+  const form = ref<InstanceType<typeof OxdForm>>();
 
   const submit = () => form.value?.onSubmit(new Event('submit'));
   const reset = () => form.value?.onReset();

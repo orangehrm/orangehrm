@@ -222,8 +222,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@ohrm/oxd/styles/_mixins.scss';
-
 .orangehrm-recruitment {
   display: flex;
   justify-content: space-between;

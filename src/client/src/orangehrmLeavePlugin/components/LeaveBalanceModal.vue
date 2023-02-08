@@ -93,7 +93,7 @@
 </template>
 
 <script>
-import Dialog from '@ohrm/oxd/core/components/Dialog/Dialog';
+import {OxdDialog} from '@ohrm/oxd';
 import useDateFormat from '@/core/util/composable/useDateFormat';
 import {formatDate, parseDate} from '@/core/util/helper/datefns';
 import useLocale from '@/core/util/composable/useLocale';
@@ -101,7 +101,7 @@ import useLocale from '@/core/util/composable/useLocale';
 export default {
   name: 'LeaveBalanceModal',
   components: {
-    'oxd-dialog': Dialog,
+    'oxd-dialog': OxdDialog,
   },
   props: {
     data: {

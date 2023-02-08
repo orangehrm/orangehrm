@@ -75,10 +75,10 @@
 </template>
 
 <script>
+import {OxdSwitchInput} from '@ohrm/oxd';
 import {navigate} from '@ohrm/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
 import {shouldNotExceedCharLength} from '@ohrm/core/util/validation/rules';
-import SwitchInput from '@ohrm/oxd/core/components/Input/SwitchInput';
 
 const initialClaimEvent = {
   name: '',
@@ -88,7 +88,7 @@ const initialClaimEvent = {
 
 export default {
   components: {
-    'oxd-switch-input': SwitchInput,
+    'oxd-switch-input': OxdSwitchInput,
   },
   props: {
     id: {

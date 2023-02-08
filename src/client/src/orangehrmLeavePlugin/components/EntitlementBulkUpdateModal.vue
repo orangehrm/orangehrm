@@ -68,13 +68,13 @@
 </template>
 
 <script>
-import Dialog from '@ohrm/oxd/core/components/Dialog/Dialog';
 import {APIService} from '@ohrm/core/util/services/api.service';
+import {OxdDialog} from '@ohrm/oxd';
 
 export default {
   name: 'EntitlementBulkUpdateModal',
   components: {
-    'oxd-dialog': Dialog,
+    'oxd-dialog': OxdDialog,
   },
   props: {
     data: {
@@ -163,8 +163,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@ohrm/oxd/styles/_mixins.scss';
-
 .orangehrm-container {
   max-height: 165px;
   overflow-y: auto;

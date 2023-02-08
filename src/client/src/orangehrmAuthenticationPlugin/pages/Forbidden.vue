@@ -27,11 +27,11 @@
 </template>
 
 <script>
-import Alert from '@ohrm/oxd/core/components/Alert/Alert';
+import {OxdAlert} from '@ohrm/oxd';
 
 export default {
   components: {
-    'oxd-alert': Alert,
+    'oxd-alert': OxdAlert,
   },
 };
 </script>

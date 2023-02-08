@@ -72,13 +72,13 @@
 </template>
 
 <script>
-import {navigate} from '@ohrm/core/util/helper/navigation';
-import {APIService} from '@/core/util/services/api.service';
-import SwitchInput from '@ohrm/oxd/core/components/Input/SwitchInput';
 import {
   required,
   shouldNotExceedCharLength,
 } from '@ohrm/core/util/validation/rules';
+import {OxdSwitchInput} from '@ohrm/oxd';
+import {navigate} from '@ohrm/core/util/helper/navigation';
+import {APIService} from '@/core/util/services/api.service';
 
 const initialClaimEvent = {
   name: '',
@@ -88,7 +88,7 @@ const initialClaimEvent = {
 
 export default {
   components: {
-    'oxd-switch-input': SwitchInput,
+    'oxd-switch-input': OxdSwitchInput,
   },
   setup() {
     const http = new APIService(

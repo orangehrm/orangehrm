@@ -115,15 +115,13 @@ import {urlFor} from '@ohrm/core/util/helper/url';
 import {required} from '@ohrm/core/util/validation/rules';
 import {navigate, reloadPage} from '@ohrm/core/util/helper/navigation';
 import LoginLayout from '../components/LoginLayout';
-import Alert from '@ohrm/oxd/core/components/Alert/Alert';
-import Icon from '@ohrm/oxd/core/components/Icon/Icon.vue';
-import Sheet from '@ohrm/oxd/core/components/Sheet/Sheet';
+import {OxdAlert, OxdIcon, OxdSheet} from '@ohrm/oxd';
 
 export default {
   components: {
-    'oxd-icon': Icon,
-    'oxd-alert': Alert,
-    'oxd-sheet': Sheet,
+    'oxd-icon': OxdIcon,
+    'oxd-alert': OxdAlert,
+    'oxd-sheet': OxdSheet,
     'login-layout': LoginLayout,
   },
 

@@ -91,19 +91,17 @@ import {
 } from '@/core/util/helper/datefns';
 import {navigate} from '@/core/util/helper/navigation';
 import useLocale from '@/core/util/composable/useLocale';
-import Icon from '@ohrm/oxd/core/components/Icon/Icon.vue';
 import {APIService} from '@/core/util/services/api.service';
-import BarChart from '@ohrm/oxd/core/components/Chart/BarChart.vue';
-import {COLOR_HEAT_WAVE} from '@ohrm/oxd/core/components/Chart/types';
 import BaseWidget from '@/orangehrmDashboardPlugin/components/BaseWidget.vue';
+import {OxdBarChart, OxdIcon, CHART_COLORS} from '@ohrm/oxd';
 
 export default {
   name: 'EmployeeAttendanceWidget',
 
   components: {
-    'oxd-icon': Icon,
+    'oxd-icon': OxdIcon,
     'base-widget': BaseWidget,
-    'oxd-bar-chart': BarChart,
+    'oxd-bar-chart': OxdBarChart,
   },
 
   setup() {
@@ -217,7 +215,7 @@ export default {
             label: this.$t(
               `general.${new String(item.workDay.day).toLowerCase()}`,
             ),
-            color: COLOR_HEAT_WAVE,
+            color: CHART_COLORS.COLOR_HEAT_WAVE,
           }));
 
           const {lastAction, currentDay, currentWeek, currentUser} = meta;

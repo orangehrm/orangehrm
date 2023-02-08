@@ -53,15 +53,13 @@ import {computed, onBeforeMount, ref, watch} from 'vue';
 import {APIService} from '@/core/util/services/api.service';
 import {navigate} from '@ohrm/core/util/helper/navigation';
 import usePaginate from '@ohrm/core/util/composable/usePaginate';
-import ReportTable from '@ohrm/oxd/core/components/ReportTable/ReportTable';
-import CellAdapter from '@ohrm/oxd/core/components/ReportTable/CellAdapter';
-import MultilineCell from '@ohrm/oxd/core/components/ReportTable/Cell/MultilineCell';
+import {CellAdapter, OxdMultilineCell, OxdReportTable} from '@ohrm/oxd';
 
 export default {
   name: 'ReportsTable',
 
   components: {
-    'oxd-report-table': ReportTable,
+    'oxd-report-table': OxdReportTable,
   },
 
   props: {
@@ -113,13 +111,6 @@ export default {
       prefetch: false,
     });
 
-    const itemCountText = computed(() => {
-      if (!total.value) return `No Records Found`;
-      return total.value === 1
-        ? `(${total.value}) Record Found`
-        : `(${total.value}) Records Found`;
-    });
-
     const items = computed(() => {
       const _items = Array.isArray(response.value.data)
         ? response.value.data
@@ -148,7 +139,8 @@ export default {
       return {
         ...header,
         cellProperties,
-        cellTemplate: type === 'list' ? CellAdapter(MultilineCell) : undefined,
+        cellTemplate:
+          type === 'list' ? CellAdapter(OxdMultilineCell) : undefined,
       };
     };
 
@@ -205,7 +197,6 @@ export default {
       response,
       isLoading,
       currentPage,
-      itemCountText,
       showPaginator,
       generateReport,
     };

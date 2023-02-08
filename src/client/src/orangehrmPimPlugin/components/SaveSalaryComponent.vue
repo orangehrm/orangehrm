@@ -166,13 +166,13 @@
 </template>
 
 <script>
-import SwitchInput from '@ohrm/oxd/core/components/Input/SwitchInput';
 import {
   digitsOnlyWithDecimalPoint,
   maxCurrency,
   required,
   shouldNotExceedCharLength,
 } from '@ohrm/core/util/validation/rules';
+import {OxdSwitchInput} from '@ohrm/oxd';
 
 const salComponentModel = {
   name: '',
@@ -194,7 +194,7 @@ export default {
   name: 'SaveSalaryComponent',
 
   components: {
-    'oxd-switch-input': SwitchInput,
+    'oxd-switch-input': OxdSwitchInput,
   },
 
   props: {

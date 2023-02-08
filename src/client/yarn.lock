@@ -1997,6 +1997,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@kurkle/color@npm:^0.3.0":
+  version: 0.3.2
+  resolution: "@kurkle/color@npm:0.3.2"
+  checksum: 79e97b31f8f6efb28c69d373f94b0c7480226fe8ec95221f518ac998e156444a496727ce47de6d728eb5c3369288e794cba82cae34253deb0d472d3bfe080e49
+  languageName: node
+  linkType: hard
+
 "@leichtgewicht/ip-codec@npm:^2.0.1":
   version: 2.0.4
   resolution: "@leichtgewicht/ip-codec@npm:2.0.4"
@@ -2060,19 +2067,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ohrm/oxd@npm:1.0.9-alpha.2":
-  version: 1.0.9-alpha.2
-  resolution: "@ohrm/oxd@npm:1.0.9-alpha.2"
+"@ohrm/oxd@npm:2.0.0-alpha.7":
+  version: 2.0.0-alpha.7
+  resolution: "@ohrm/oxd@npm:2.0.0-alpha.7"
   dependencies:
     "@revolist/vue3-datagrid": ^3.2.17
-    bootstrap-icons: ^1.3.0
-    chart.js: ^3.9.1
-    core-js: ^3.26.1
-    date-fns: ^2.22.1
+    chart.js: ^4.1.2
+    date-fns: ^2.29.3
     mitt: ^3.0.0
     nanoid: ^4.0.0
-    vue: ^3.2.45
-  checksum: 5ec7da77aca304b89a4e3fc046b8a68acb2f69f1d6fa6464d993d70f45f096eeb75b385a86be45b5141bae6436953929dcafad10a9d9b72ea0c3fc87f61b911b
+  peerDependencies:
+    vue: 3.x
+  checksum: 6101f00ac6c87160cf3d15813817a5a9d2de68c6aecc536e4108fe54b2f7c3e25857e735eb603693d064cf9fb3c6a2d405ef05847f6fee1fcb53fdf8d7cbcea5
   languageName: node
   linkType: hard
 
@@ -2084,11 +2090,11 @@ __metadata:
   linkType: hard
 
 "@revolist/revogrid@npm:^3.2.16":
-  version: 3.3.0
-  resolution: "@revolist/revogrid@npm:3.3.0"
+  version: 3.3.2
+  resolution: "@revolist/revogrid@npm:3.3.2"
   dependencies:
     lodash: ^4.17.20
-  checksum: 0bce54d722a7d79b9791ea7db9fd1d769dd7572c17cca71688d1169da81bc54cd7ed6a93f66a930ef29c8eeccbd9de2d6a98fa96cbb3b2ada677206c12440312
+  checksum: cf17a4f17c2784e8885182cd4ec13a9e1b7cda77c1950f19659330b16c397942c90ba36c17e5cfa660a291430f9f305adf6135c96c5a494cf4301e0e789f7663
   languageName: node
   linkType: hard
 
@@ -2172,11 +2178,11 @@ __metadata:
   linkType: hard
 
 "@stencil/core@npm:^2.17.3":
-  version: 2.19.3
-  resolution: "@stencil/core@npm:2.19.3"
+  version: 2.22.2
+  resolution: "@stencil/core@npm:2.22.2"
   bin:
     stencil: bin/stencil
-  checksum: 2f5dfa809bf1f0f3e55874084f51d38e02899b91bfadb0f36243ba2a0fc5ee82a9e6ff94c1cfdd220723939c080e49fb1e44cae5ff99c46622d477563fa6b80e
+  checksum: 139a7b63b81c7eaa5026e76e1c947a402f58d0a6d1d353a34883995ea7e480fa6991e71c0c3d812f7046d395b99d0f7f7b11af9277f04a3c62aba96cda18dd5d
   languageName: node
   linkType: hard
 
@@ -4102,13 +4108,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bootstrap-icons@npm:^1.3.0":
-  version: 1.10.2
-  resolution: "bootstrap-icons@npm:1.10.2"
-  checksum: 1d73556a70b05c1b219c379243c24ea8186c773990b3bc5e8248825e7eae1c8137be90a2b7dd81fd46060a99558763886a069587a65a7f70a362bf5934e795e7
-  languageName: node
-  linkType: hard
-
 "brace-expansion@npm:^1.1.7":
   version: 1.1.11
   resolution: "brace-expansion@npm:1.1.11"
@@ -4352,10 +4351,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chart.js@npm:^3.9.1":
-  version: 3.9.1
-  resolution: "chart.js@npm:3.9.1"
-  checksum: 9ab0c0ac01215af0b3f020f2e313030fd6e347b48ed17d5484ee9c4e8ead45e78ae71bea16c397621c386b409ce0b14bf17f9f6c2492cd15b56c0f433efdfff6
+"chart.js@npm:^4.1.2":
+  version: 4.2.0
+  resolution: "chart.js@npm:4.2.0"
+  dependencies:
+    "@kurkle/color": ^0.3.0
+  checksum: 281b023c013de8700a5208a45d35248b02119fadb574d0c104c7e0720605e085195ce546fd3aa27625e9db1188fdd5f7491a411463b9c30b7654a5f4b13d8d80
   languageName: node
   linkType: hard
 
@@ -4762,7 +4763,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"core-js@npm:^3.26.1, core-js@npm:^3.27.1, core-js@npm:^3.8.3":
+"core-js@npm:^3.27.1, core-js@npm:^3.8.3":
   version: 3.27.1
   resolution: "core-js@npm:3.27.1"
   checksum: d50b5f88aea4302512ad9446c18e90f4d35dea1e6d8d3f87337690677061565ff11a670f1e0c87de57aa6074375fbb25ed5784076c040d3c4de8b4bce7d2ebeb
@@ -5049,7 +5050,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"date-fns@npm:^2.22.1":
+"date-fns@npm:^2.22.1, date-fns@npm:^2.29.3":
   version: 2.29.3
   resolution: "date-fns@npm:2.29.3"
   checksum: e01cf5b62af04e05dfff921bb9c9933310ed0e1ae9a81eb8653452e64dc841acf7f6e01e1a5ae5644d0337e9a7f936175fd2cb6819dc122fdd9c5e86c56be484
@@ -8918,7 +8919,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "orangehrm@workspace:."
   dependencies:
-    "@ohrm/oxd": 1.0.9-alpha.2
+    "@ohrm/oxd": 2.0.0-alpha.7
     "@types/hammerjs": ^2.0.41
     "@types/jest": ^27.0.1
     "@typescript-eslint/eslint-plugin": ^5.4.0

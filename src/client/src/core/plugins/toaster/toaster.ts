@@ -1,14 +1,7 @@
-import {h, defineComponent, TransitionGroup, App, reactive, toRefs} from 'vue';
-import ToastComponent from '@ohrm/oxd/core/components/Toast/Toast.vue';
-import {
-  TYPE_SUCCESS,
-  TYPE_DEFAULT,
-  TYPE_ERROR,
-  TYPE_INFO,
-  TYPE_WARN,
-} from '@ohrm/oxd/core/components/Toast/types';
 import {nanoid} from 'nanoid';
+import {OxdToast, TOAST_TYPES} from '@ohrm/oxd';
 import {translate as translatorFactory} from '@/core/plugins/i18n/translate';
+import {h, defineComponent, TransitionGroup, App, reactive, toRefs} from 'vue';
 
 const translate = translatorFactory();
 
@@ -96,7 +89,7 @@ const Toaster = defineComponent({
       {
         default: () =>
           this.toasts.map((toast: Toast, index: number) => {
-            return h(ToastComponent, {
+            return h(OxdToast, {
               key: toast.id,
               type: toast.type,
               title: toast.title,
@@ -150,7 +143,7 @@ export default {
     const success = (message: ToastMessage): Promise<string> => {
       return notify({
         id: '', // Auto setting
-        type: TYPE_SUCCESS,
+        type: TOAST_TYPES.TYPE_SUCCESS,
         show: true,
         ...message,
       });
@@ -159,7 +152,7 @@ export default {
     const error = (message: ToastMessage): Promise<string> => {
       return notify({
         id: '', // Auto setting
-        type: TYPE_ERROR,
+        type: TOAST_TYPES.TYPE_ERROR,
         show: true,
         ...message,
       });
@@ -168,7 +161,7 @@ export default {
     const info = (message: ToastMessage): Promise<string> => {
       return notify({
         id: '', // Auto setting
-        type: TYPE_INFO,
+        type: TOAST_TYPES.TYPE_INFO,
         show: true,
         ...message,
       });
@@ -177,7 +170,7 @@ export default {
     const warn = (message: ToastMessage): Promise<string> => {
       return notify({
         id: '', // Auto setting
-        type: TYPE_WARN,
+        type: TOAST_TYPES.TYPE_WARN,
         show: true,
         ...message,
       });
@@ -186,7 +179,7 @@ export default {
     const show = (message: ToastMessage): Promise<string> => {
       return notify({
         id: '', // Auto setting
-        type: TYPE_DEFAULT,
+        type: TOAST_TYPES.TYPE_DEFAULT,
         show: true,
         ...message,
       });

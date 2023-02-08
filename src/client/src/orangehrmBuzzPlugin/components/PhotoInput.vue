@@ -58,16 +58,16 @@
 <script>
 import {computed, ref} from 'vue';
 import usei18n from '@/core/util/composable/usei18n';
-import Alert from '@ohrm/oxd/core/components/Alert/Alert';
 import PhotoFrame from '@/orangehrmBuzzPlugin/components/PhotoFrame';
 import {maxFileSize, validFileTypes} from '@/core/util/validation/rules';
 import PhotoUploadArea from '@/orangehrmBuzzPlugin/components/PhotoUploadArea';
+import {OxdAlert} from '@ohrm/oxd';
 
 export default {
   name: 'PhotoInput',
 
   components: {
-    'oxd-alert': Alert,
+    'oxd-alert': OxdAlert,
     'photo-frame': PhotoFrame,
     'photo-upload-area': PhotoUploadArea,
   },

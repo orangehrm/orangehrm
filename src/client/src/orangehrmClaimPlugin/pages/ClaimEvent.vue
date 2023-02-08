@@ -96,13 +96,13 @@
 
 <script>
 import {ref, computed} from 'vue';
+import usei18n from '@/core/util/composable/usei18n';
+import {navigate} from '@/core/util/helper/navigation';
+import useSort from '@ohrm/core/util/composable/useSort';
 import {APIService} from '@/core/util/services/api.service';
 import usePaginate from '@ohrm/core/util/composable/usePaginate';
-import useSort from '@ohrm/core/util/composable/useSort';
-import {navigate} from '@/core/util/helper/navigation';
-import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmationDialog.vue';
-import usei18n from '@/core/util/composable/usei18n';
 import EventAutocomplete from '@/orangehrmClaimPlugin/components/EventAutocomplete.vue';
+import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmationDialog.vue';
 
 const defaultFilters = {
   name: '',

@@ -54,7 +54,7 @@ import {computed} from 'vue';
 import useDateFormat from '@/core/util/composable/useDateFormat';
 import {formatDate, parseDate} from '@/core/util/helper/datefns';
 import useLocale from '@/core/util/composable/useLocale';
-const defaultPic = `${window.appGlobal.baseUrl}/../dist/img/user-default-400.png`;
+const defaultPic = `${window.appGlobal.baseUrl}/../images/default-photo.png`;
 
 export default {
   name: 'LeaveComment',

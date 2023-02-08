@@ -69,14 +69,14 @@
 
 <script>
 import {APIService} from '@/core/util/services/api.service';
-import Dialog from '@ohrm/oxd/core/components/Dialog/Dialog';
+import {OxdDialog} from '@ohrm/oxd';
 import {required, validSelection} from '@ohrm/core/util/validation/rules';
 import ProjectAutocomplete from '@/orangehrmTimePlugin/components/ProjectAutocomplete.vue';
 
 export default {
   name: 'CopyActivityModal',
   components: {
-    'oxd-dialog': Dialog,
+    'oxd-dialog': OxdDialog,
     'project-autocomplete': ProjectAutocomplete,
   },
   props: {
@@ -172,7 +172,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@ohrm/oxd/styles/_mixins.scss';
 .orangehrm-activites-container {
   max-height: 180px;
   overflow-y: auto;

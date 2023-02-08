@@ -138,20 +138,18 @@ import useEmployeeNameTranslate from '@/core/util/composable/useEmployeeNameTran
 import useDateFormat from '@/core/util/composable/useDateFormat';
 import useLocale from '@/core/util/composable/useLocale';
 import useInfiniteScroll from '@/core/util/composable/useInfiniteScroll';
-import Icon from '@ohrm/oxd/core/components/Icon/Icon.vue';
-import Sheet from '@ohrm/oxd/core/components/Sheet/Sheet';
-import Spinner from '@ohrm/oxd/core/components/Loader/Spinner';
 import AddTrackerLogModal from '@/orangehrmPerformancePlugin/components/AddTrackerLogModal';
 import EditTrackerLogModal from '@/orangehrmPerformancePlugin/components/EditTrackerLogModal';
 import DeleteConfirmationDialog from '@/core/components/dialogs/DeleteConfirmationDialog';
 import EmployeeTrackerLogCard from '@/orangehrmPerformancePlugin/components/EmployeeTrackerLogCard';
+import {OxdIcon, OxdSheet, OxdSpinner} from '@ohrm/oxd';
 
 export default {
   name: 'ViewEmployeeTrackerLogs',
   components: {
-    'oxd-icon': Icon,
-    'oxd-sheet': Sheet,
-    'oxd-loading-spinner': Spinner,
+    'oxd-icon': OxdIcon,
+    'oxd-sheet': OxdSheet,
+    'oxd-loading-spinner': OxdSpinner,
     'add-tracker-log-modal': AddTrackerLogModal,
     'edit-tracker-log-modal': EditTrackerLogModal,
     'delete-confirmation': DeleteConfirmationDialog,

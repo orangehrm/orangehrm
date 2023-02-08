@@ -265,8 +265,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@ohrm/oxd/styles/_mixins.scss';
-
 .orangehrm-main-actions {
   gap: 0.4rem;
   display: flex;

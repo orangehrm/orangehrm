@@ -132,9 +132,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@ohrm/oxd/styles/_mixins.scss';
-@import '@ohrm/oxd/styles/_colors.scss';
-
 .orangehrm-selected-employee {
   display: flex;
   @include oxd-respond-to('xs') {

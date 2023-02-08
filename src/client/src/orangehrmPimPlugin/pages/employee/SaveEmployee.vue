@@ -128,7 +128,6 @@
 import {ref} from 'vue';
 import {APIService} from '@/core/util/services/api.service';
 import {navigate} from '@ohrm/core/util/helper/navigation';
-import SwitchInput from '@ohrm/oxd/core/components/Input/SwitchInput';
 import ProfileImageInput from '@/orangehrmPimPlugin/components/ProfileImageInput';
 import FullNameInput from '@/orangehrmPimPlugin/components/FullNameInput';
 import PasswordInput from '@/core/components/inputs/PasswordInput';
@@ -139,8 +138,9 @@ import {
   shouldNotLessThanCharLength,
   validFileTypes,
 } from '@ohrm/core/util/validation/rules';
+import {OxdSwitchInput} from '@ohrm/oxd';
 
-const defaultPic = `${window.appGlobal.baseUrl}/../dist/img/user-default-400.png`;
+const defaultPic = `${window.appGlobal.baseUrl}/../images/default-photo.png`;
 
 const employeeModel = {
   firstName: '',
@@ -161,7 +161,7 @@ const userModel = {
 
 export default {
   components: {
-    'oxd-switch-input': SwitchInput,
+    'oxd-switch-input': OxdSwitchInput,
     'profile-image-input': ProfileImageInput,
     'full-name-input': FullNameInput,
     'password-input': PasswordInput,

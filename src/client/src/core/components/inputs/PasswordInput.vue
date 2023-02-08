@@ -63,14 +63,13 @@ import {
   required,
   shouldNotExceedCharLength,
 } from '@ohrm/core/util/validation/rules';
-import Chip from '@ohrm/oxd/core/components/Chip/Chip.vue';
+import {OxdChip, promiseDebounce} from '@ohrm/oxd';
 import {APIService} from '@/core/util/services/api.service';
-import promiseDebounce from '@ohrm/oxd/utils/promiseDebounce';
 
 export default {
   name: 'PasswordInput',
   components: {
-    'oxd-chip': Chip,
+    'oxd-chip': OxdChip,
   },
   props: {
     password: {

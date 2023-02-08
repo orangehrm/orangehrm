@@ -54,7 +54,7 @@
               :name="`thumbs${trackerLog.achievement === '1' ? 'up' : 'down'}`"
             />
           </div>
-          <oxd-dropdown
+          <oxd-table-dropdown
             v-if="trackerLog.editable"
             :options="dropdownOptions"
             @click="onTrackerDropdownAction($event, trackerLog)"
@@ -96,14 +96,13 @@
 </template>
 
 <script>
-import Icon from '@ohrm/oxd/core/components/Icon/Icon.vue';
-import Dropdown from '@ohrm/oxd/core/components/CardTable/Cell/Dropdown.vue';
+import {OxdIcon, OxdTableDropdown} from '@ohrm/oxd';
 
 export default {
   name: 'EmployeeTrackerLogCard',
   components: {
-    'oxd-icon': Icon,
-    'oxd-dropdown': Dropdown,
+    'oxd-icon': OxdIcon,
+    'oxd-table-dropdown': OxdTableDropdown,
   },
   props: {
     trackerLog: {

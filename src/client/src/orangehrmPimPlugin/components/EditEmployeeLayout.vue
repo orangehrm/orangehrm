@@ -73,7 +73,7 @@ import TabsNavigation from '@/orangehrmPimPlugin/components/TabsNavigation';
 import ProfileAttachments from '@/orangehrmPimPlugin/components/ProfileAttachments';
 import ProfileCustomFields from '@/orangehrmPimPlugin/components/ProfileCustomFields';
 
-const defaultPic = `${window.appGlobal.baseUrl}/../dist/img/user-default-400.png`;
+const defaultPic = `${window.appGlobal.baseUrl}/../images/default-photo.png`;
 
 export default {
   name: 'EditEmployeeLayout',
@@ -156,8 +156,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@ohrm/oxd/styles/_mixins.scss';
-
 .orangehrm-card-container {
   padding: unset;
   overflow: hidden;

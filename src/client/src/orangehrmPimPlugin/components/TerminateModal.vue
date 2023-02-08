@@ -72,7 +72,7 @@
 
 <script>
 import {APIService} from '@/core/util/services/api.service';
-import Dialog from '@ohrm/oxd/core/components/Dialog/Dialog';
+import {OxdDialog} from '@ohrm/oxd';
 import {
   required,
   shouldNotExceedCharLength,
@@ -89,7 +89,7 @@ const terminationModel = {
 export default {
   name: 'TerminateModal',
   components: {
-    'oxd-dialog': Dialog,
+    'oxd-dialog': OxdDialog,
   },
   props: {
     employeeId: {

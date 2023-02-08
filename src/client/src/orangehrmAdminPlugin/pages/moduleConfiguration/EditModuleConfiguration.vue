@@ -98,9 +98,9 @@
 </template>
 
 <script>
-import SwitchInput from '@ohrm/oxd/core/components/Input/SwitchInput';
 import {APIService} from '@/core/util/services/api.service';
 import {reloadPage} from '@/core/util/helper/navigation';
+import {OxdSwitchInput} from '@ohrm/oxd';
 
 const modulesModel = {
   admin: false,
@@ -116,7 +116,7 @@ const modulesModel = {
 
 export default {
   components: {
-    'oxd-switch-input': SwitchInput,
+    'oxd-switch-input': OxdSwitchInput,
   },
   setup() {
     const http = new APIService(
@@ -186,8 +186,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import '@ohrm/oxd/styles/_mixins.scss';
-
 .orangehrm-module-field-row {
   grid-column-start: 1;
   display: flex;

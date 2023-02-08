@@ -70,18 +70,18 @@
 </template>
 
 <script>
-import Icon from '@ohrm/oxd/core/components/Icon/Icon.vue';
 import {APIService} from '@/core/util/services/api.service';
 import {freshDate, formatDate} from '@ohrm/core/util/helper/datefns';
 import BaseWidget from '@/orangehrmDashboardPlugin/components/BaseWidget.vue';
 import useEmployeeNameTranslate from '@/core/util/composable/useEmployeeNameTranslate';
 import EmployeesOnLeaveConfigModal from '@/orangehrmDashboardPlugin/components/EmployeesOnLeaveConfigModal.vue';
+import {OxdIcon} from '@ohrm/oxd';
 
 export default {
   name: 'EmployeesOnLeaveWidget',
 
   components: {
-    'oxd-icon': Icon,
+    'oxd-icon': OxdIcon,
     'base-widget': BaseWidget,
     'employees-on-leave-config-modal': EmployeesOnLeaveConfigModal,
   },

@@ -80,21 +80,19 @@
 
 <script>
 import {computed} from 'vue';
-import Icon from '@ohrm/oxd/core/components/Icon/Icon';
 import useLocale from '@/core/util/composable/useLocale';
-import Sheet from '@ohrm/oxd/core/components/Sheet/Sheet';
 import useDateFormat from '@/core/util/composable/useDateFormat';
 import {formatDate, parseDate} from '@/core/util/helper/datefns';
 import ProfileImage from '@/orangehrmBuzzPlugin/components/ProfileImage';
-import Dropdown from '@ohrm/oxd/core/components/DropdownMenu/DropdownMenu.vue';
 import useEmployeeNameTranslate from '@/core/util/composable/useEmployeeNameTranslate';
+import {OxdDropdownMenu, OxdIcon, OxdSheet} from '@ohrm/oxd';
 
 export default {
   name: 'PostContainer',
   components: {
-    'oxd-icon': Icon,
-    'oxd-sheet': Sheet,
-    'oxd-dropdown': Dropdown,
+    'oxd-icon': OxdIcon,
+    'oxd-sheet': OxdSheet,
+    'oxd-dropdown': OxdDropdownMenu,
     'profile-image': ProfileImage,
   },
   props: {

@@ -56,14 +56,14 @@
 
 <script>
 import {APIService} from '@/core/util/services/api.service';
-import Dialog from '@ohrm/oxd/core/components/Dialog/Dialog';
+import {OxdDialog} from '@ohrm/oxd';
 import {required, validDateFormat} from '@ohrm/core/util/validation/rules';
 import useDateFormat from '@/core/util/composable/useDateFormat';
 
 export default {
   name: 'AddTimesheetModal',
   components: {
-    'oxd-dialog': Dialog,
+    'oxd-dialog': OxdDialog,
   },
 
   props: {

@@ -58,7 +58,7 @@
 
 <script>
 import {APIService} from '@/core/util/services/api.service';
-import Dialog from '@ohrm/oxd/core/components/Dialog/Dialog';
+import {OxdDialog} from '@ohrm/oxd';
 import {
   required,
   shouldNotExceedCharLength,
@@ -68,7 +68,7 @@ import LeaveComment from '@/orangehrmLeavePlugin/components/LeaveComment';
 export default {
   name: 'LeaveCommentModal',
   components: {
-    'oxd-dialog': Dialog,
+    'oxd-dialog': OxdDialog,
     'leave-comment': LeaveComment,
   },
   props: {

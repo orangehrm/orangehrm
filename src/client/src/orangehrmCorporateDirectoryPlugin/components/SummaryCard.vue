@@ -64,15 +64,14 @@
 </template>
 
 <script>
-import Sheet from '@ohrm/oxd/core/components/Sheet/Sheet';
-import Icon from '@ohrm/oxd/core/components/Icon/Icon';
 import ProfilePicture from '@/orangehrmCorporateDirectoryPlugin/components/ProfilePicture';
+import {OxdIcon, OxdSheet} from '@ohrm/oxd';
 
 export default {
   name: 'SummaryCard',
   components: {
-    'oxd-sheet': Sheet,
-    'oxd-icon': Icon,
+    'oxd-icon': OxdIcon,
+    'oxd-sheet': OxdSheet,
     'profile-picture': ProfilePicture,
   },
   props: {
@@ -130,8 +129,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@ohrm/oxd/styles/_mixins.scss';
-
 .orangehrm-directory-card {
   height: auto;
   cursor: pointer;

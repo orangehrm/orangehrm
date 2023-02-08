@@ -38,17 +38,17 @@
 </template>
 
 <script>
-import Icon from '@ohrm/oxd/core/components/Icon/Icon';
 import {APIService} from '@/core/util/services/api.service';
 import useBuzzAPIs from '@/orangehrmBuzzPlugin/util/composable/useBuzzAPIs';
 import PostLikeButton from '@/orangehrmBuzzPlugin/components/PostLikeButton';
 import PostCommentButton from '@/orangehrmBuzzPlugin/components/PostCommentButton';
+import {OxdIcon} from '@ohrm/oxd';
 
 export default {
   name: 'PostActionsPill',
 
   components: {
-    'oxd-icon': Icon,
+    'oxd-icon': OxdIcon,
     'post-like': PostLikeButton,
     'post-comment': PostCommentButton,
   },

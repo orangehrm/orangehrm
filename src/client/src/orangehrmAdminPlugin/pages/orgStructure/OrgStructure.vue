@@ -118,20 +118,17 @@
 
 <script>
 import {APIService} from '@/core/util/services/api.service';
-import TreeView from '@ohrm/oxd/core/components/TreeView/TreeView';
-import Sheet from '@ohrm/oxd/core/components/Sheet/Sheet';
-import SwitchInput from '@ohrm/oxd/core/components/Input/SwitchInput';
-import Spinner from '@ohrm/oxd/core/components/Loader/Spinner';
 import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmationDialog';
 import SaveOrgUnit from './SaveOrgUnit';
 import EditOrgUnit from './EditOrgUnit';
+import {OxdSheet, OxdSpinner, OxdSwitchInput, OxdTreeView} from '@ohrm/oxd';
 
 export default {
   components: {
-    'oxd-tree-view': TreeView,
-    'oxd-sheet': Sheet,
-    'oxd-switch-input': SwitchInput,
-    'oxd-loading-spinner': Spinner,
+    'oxd-tree-view': OxdTreeView,
+    'oxd-sheet': OxdSheet,
+    'oxd-switch-input': OxdSwitchInput,
+    'oxd-loading-spinner': OxdSpinner,
     'delete-confirmation': DeleteConfirmationDialog,
     'save-org-unit': SaveOrgUnit,
     'edit-org-unit': EditOrgUnit,

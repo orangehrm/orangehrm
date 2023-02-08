@@ -83,13 +83,12 @@
 
 <script>
 import {APIService} from '@/core/util/services/api.service';
-import Spinner from '@ohrm/oxd/core/components/Loader/Spinner';
-import Dialog from '@ohrm/oxd/core/components/Dialog/Dialog';
+import {OxdDialog, OxdSpinner} from '@ohrm/oxd';
 
 export default {
   components: {
-    'oxd-loading-spinner': Spinner,
-    'oxd-dialog': Dialog,
+    'oxd-loading-spinner': OxdSpinner,
+    'oxd-dialog': OxdDialog,
   },
   emits: ['close'],
   setup() {

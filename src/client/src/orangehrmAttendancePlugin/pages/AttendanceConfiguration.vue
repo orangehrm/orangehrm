@@ -77,7 +77,7 @@
 
 <script>
 import {APIService} from '@/core/util/services/api.service';
-import SwitchInput from '@ohrm/oxd/core/components/Input/SwitchInput';
+import {OxdSwitchInput} from '@ohrm/oxd';
 
 const configsModel = {
   canUserChangeCurrentTime: false,
@@ -87,7 +87,7 @@ const configsModel = {
 
 export default {
   components: {
-    'oxd-switch-input': SwitchInput,
+    'oxd-switch-input': OxdSwitchInput,
   },
   setup() {
     const http = new APIService(
@@ -139,8 +139,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import '@ohrm/oxd/styles/_mixins.scss';
-
 .orangehrm-attendance-field-row {
   grid-column-start: 1;
   display: flex;
