@@ -19,6 +19,11 @@
           {{ $t('general.support') }}
         </a>
       </li>
+      <li>
+        <a :href="subscribeUrl" role="menuitem" class="oxd-userdropdown-link">
+          {{ $t('general.subscribe') }}
+        </a>
+      </li>
       <li v-if="updatePasswordUrl">
         <a
           :href="updatePasswordUrl"
@@ -46,9 +51,9 @@
 </template>
 
 <script>
+import {OxdLayout} from '@ohrm/oxd';
 import {provide, readonly, ref} from 'vue';
 import About from '@/core/pages/About.vue';
-import {OxdLayout} from '@ohrm/oxd';
 import {dateFormatKey} from '@/core/util/composable/useDateFormat';
 
 export default {
@@ -71,6 +76,10 @@ export default {
       default: '#',
     },
     updatePasswordUrl: {
+      type: String,
+      default: '#',
+    },
+    subscribeUrl: {
       type: String,
       default: '#',
     },

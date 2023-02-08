@@ -5,3 +5,9 @@ langStrings:
   -
     value: 'Help'
     unitId: help
+  -
+    value: 'Subscribe'
+    unitId: subscribe
+  -
+    value: 'By subscribing you agree to receive periodic email updates from OrangeHRM.'
+    unitId: subscribe_notice
