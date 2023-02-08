@@ -46,7 +46,7 @@ class ClaimExpenseTypeAPI extends Endpoint implements CrudEndpoint
 
     public const PARAMETER_NAME = 'name';
     public const PARAMETER_DESCRIPTION = 'description';
-    public const PARAMETER_EXPENSE_TYPE_ID = 'expenseId';
+    public const PARAMETER_EXPENSE_TYPE_ID = 'expenseTypeId';
     public const PARAMETER_STATUS = 'status';
     public const DESCRIPTION_MAX_LENGTH = 1000;
     public const NAME_MAX_LENGTH = 100;
@@ -61,12 +61,27 @@ class ClaimExpenseTypeAPI extends Endpoint implements CrudEndpoint
      *         required=false,
      *         @OA\Schema(type="string", enum=ClaimExpenseTypeSearchFilterParams::ALLOWED_SORT_FIELDS)
      *     ),
+     *     @OA\Parameter(
+     *         name="expenseTypeId",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="integer", enum=ClaimExpenseTypeSearchFilterParams::ALLOWED_SORT_FIELDS)
+     *     ),
+     *     @OA\Parameter(
+     *         name="name",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string", enum=ClaimExpenseTypeSearchFilterParams::ALLOWED_SORT_FIELDS)
+     *     ),
+     *     @OA\Parameter(
+     *         name="status",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="boolean", enum=ClaimExpenseTypeSearchFilterParams::ALLOWED_SORT_FIELDS)
+     *     ),
      *     @OA\Parameter(ref="#/components/parameters/sortOrder"),
      *     @OA\Parameter(ref="#/components/parameters/limit"),
      *     @OA\Parameter(ref="#/components/parameters/offset"),
-     *     @OA\Parameter(ref="#/components/parameters/expenseId"),
-     *     @OA\Parameter(ref="#/components/parameters/name"),
-     *     @OA\Parameter(ref="#/components/parameters/status"),
      *     @OA\Response(
      *         response="200",
      *         description="Success",
@@ -194,12 +209,10 @@ class ClaimExpenseTypeAPI extends Endpoint implements CrudEndpoint
                 ),
                 true
             ),
-            $this->getValidationDecorator()->notRequiredParamRule(
-                new ParamRule(
-                    self::PARAMETER_STATUS,
-                    new Rule(Rules::BOOL_TYPE)
-                ),
-            )
+            new ParamRule(
+                self::PARAMETER_STATUS,
+                new Rule(Rules::BOOL_VAL)
+            ),
         );
     }
 

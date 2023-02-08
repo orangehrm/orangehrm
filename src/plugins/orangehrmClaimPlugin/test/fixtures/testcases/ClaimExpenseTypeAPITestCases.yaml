@@ -433,7 +433,7 @@ GetAll:
     services:
       claim.claim_service: OrangeHRM\Claim\Service\ClaimService
     query:
-      expenseId: "4"
+      expenseTypeId: "4"
     data: [
       {
         "id": 4,
@@ -451,15 +451,15 @@ GetAll:
     services:
       claim.claim_service: OrangeHRM\Claim\Service\ClaimService
     query:
-      expenseId: "0"
-    invalidOnly: [ 'expenseId' ]
+      expenseTypeId: "0"
+    invalidOnly: [ 'expenseTypeId' ]
 
   'get all with query not existing id':
     userId: 1
     services:
       claim.claim_service: OrangeHRM\Claim\Service\ClaimService
     query:
-      expenseId: "100"
+      expenseTypeId: "100"
     data: [ ]
     meta: {
       "total": 0
@@ -470,7 +470,7 @@ GetAll:
     services:
       claim.claim_service: OrangeHRM\Claim\Service\ClaimService
     query:
-      expenseId: "5"
+      expenseTypeId: "5"
     data: [ ]
     meta: {
       "total": 0

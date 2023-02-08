@@ -22,7 +22,6 @@ namespace OrangeHRM\Tests\Claim\Dao;
 use OrangeHRM\Claim\Dao\ClaimDao;
 use OrangeHRM\Claim\Dto\ClaimEventSearchFilterParams;
 use OrangeHRM\Config\Config;
-use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Entity\ClaimEvent;
 use OrangeHRM\Entity\ClaimRequest;
 use OrangeHRM\Entity\CurrencyType;
@@ -36,7 +35,6 @@ use OrangeHRM\Tests\Util\TestDataService;
  */
 class ClaimDaoTest extends KernelTestCase
 {
-    use EntityManagerHelperTrait;
     private ClaimDao $claimDao;
 
     protected function setUp(): void

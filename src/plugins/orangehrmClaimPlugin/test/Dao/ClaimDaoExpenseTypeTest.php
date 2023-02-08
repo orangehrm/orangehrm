@@ -22,7 +22,6 @@ namespace OrangeHRM\Test\Claim\Dao;
 use OrangeHRM\Claim\Dao\ClaimDao;
 use OrangeHRM\Claim\Dto\ClaimExpenseTypeSearchFilterParams;
 use OrangeHRM\Config\Config;
-use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Tests\Util\KernelTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 
@@ -32,8 +31,6 @@ use OrangeHRM\Tests\Util\TestDataService;
  */
 class ClaimDaoExpenseTypeTest extends KernelTestCase
 {
-    use EntityManagerHelperTrait;
-
     private ClaimDao $claimDao;
 
     protected function setUp(): void
