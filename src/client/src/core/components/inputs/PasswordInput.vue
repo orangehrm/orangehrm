@@ -23,11 +23,11 @@
   <oxd-form-row class="user-password-row">
     <oxd-grid :cols="2" class="orangehrm-full-width-grid">
       <oxd-grid-item class="user-password-cell">
-        <oxd-chip
+        <password-strength-indicator
           v-if="password"
-          :class="chipClasses"
-          :label="passwordStrengthLabel"
-        />
+          :password-strength="passwordStrength"
+        >
+        </password-strength-indicator>
         <oxd-input-field
           type="password"
           autocomplete="off"
@@ -63,13 +63,15 @@ import {
   required,
   shouldNotExceedCharLength,
 } from '@ohrm/core/util/validation/rules';
-import {OxdChip, promiseDebounce} from '@ohrm/oxd';
+import {promiseDebounce} from '@ohrm/oxd';
 import {APIService} from '@/core/util/services/api.service';
+import usePasswordPolicy from '@/core/util/composable/usePasswordPolicy';
+import PasswordStrengthIndicator from '@/core/components/labels/PasswordStrengthIndicator';
 
 export default {
   name: 'PasswordInput',
   components: {
-    'oxd-chip': OxdChip,
+    'password-strength-indicator': PasswordStrengthIndicator,
   },
   props: {
     password: {
@@ -84,18 +86,20 @@ export default {
   emits: ['update:password', 'update:passwordConfirm'],
   setup() {
     const http = new APIService(window.appGlobal.baseUrl, '');
+    const {passwordStrength, validatePassword} = usePasswordPolicy(http);
+
     return {
-      http,
+      passwordStrength,
+      validatePassword,
     };
   },
   data() {
     return {
-      passwordStrength: 0,
       rules: {
         password: [
           required,
           shouldNotExceedCharLength(64),
-          promiseDebounce(this.checkPassword, 500),
+          promiseDebounce(this.validatePassword, 500),
         ],
         passwordConfirm: [
           required,
@@ -108,31 +112,6 @@ export default {
     };
   },
 
-  computed: {
-    passwordStrengthLabel() {
-      switch (this.passwordStrength) {
-        case 1:
-          return this.$t('general.weak');
-        case 2:
-          return this.$t('general.better');
-        case 3:
-          return this.$t('general.strong');
-        case 4:
-          return this.$t('general.strongest');
-        default:
-          return this.$t('general.very_weak');
-      }
-    },
-    chipClasses() {
-      return {
-        'user-password-chip': true,
-        '--green': this.passwordStrength === 4,
-        '--lightGreen': this.passwordStrength === 3,
-        '--yellow': this.passwordStrength === 2,
-      };
-    },
-  },
-
   watch: {
     password(value) {
       if (
@@ -141,35 +120,6 @@ export default {
       ) {
         this.$nextTick(this.$refs.passwordConfirm.triggerUpdate);
       }
-    },
-  },
-
-  methods: {
-    checkPassword(password) {
-      return new Promise((resolve) => {
-        if (password.trim() !== '') {
-          this.http
-            .request({
-              method: 'POST',
-              url: `api/v2/auth/public/validation/password`,
-              data: {
-                password,
-              },
-            })
-            .then((response) => {
-              const {data, meta} = response.data;
-              this.passwordStrength = meta?.strength || 0;
-              if (Array.isArray(data?.messages) && data.messages.length > 0) {
-                resolve(data.messages[0]);
-              } else {
-                resolve(true);
-              }
-            });
-        } else {
-          this.passwordStrength = 0;
-          resolve(true);
-        }
-      });
     },
   },
 };
@@ -181,29 +131,16 @@ export default {
     padding: 10px;
     background-color: $oxd-background-white-shadow-color;
     border-radius: 0.75rem;
+    ::v-deep(.orangehrm-password-chip) {
+      top: -5px;
+      right: 8px;
+    }
   }
   &-hint {
     font-size: 0.75rem;
   }
   &-cell {
     position: relative;
-  }
-  &-chip {
-    font-family: $oxd-font-family;
-    font-weight: 600;
-    font-size: 0.75rem;
-    position: absolute;
-    right: 8px;
-    top: -5px;
-    &.--green {
-      background-color: #93b40f;
-    }
-    &.--lightGreen {
-      background-color: #bde813;
-    }
-    &.--yellow {
-      background-color: #fcff00;
-    }
   }
 }
 </style>
