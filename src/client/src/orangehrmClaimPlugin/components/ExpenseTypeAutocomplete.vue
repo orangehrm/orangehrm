@@ -22,7 +22,7 @@
   <oxd-input-field
     type="autocomplete"
     :clear="false"
-    label="Name"
+    :label="$t('general.name')"
     :create-options="loadTypes"
   >
     <template #option="{data}">

@@ -27,7 +27,7 @@
 
       <oxd-divider />
 
-      <oxd-form novalidate="true" :loading="isLoading" @submit-valid="onSave">
+      <oxd-form :loading="isLoading" @submit-valid="onSave">
         <oxd-grid :cols="2" class="orangehrm-full-width-grid">
           <oxd-grid-item>
             <oxd-form-row>
@@ -83,7 +83,7 @@ import {shouldNotExceedCharLength} from '@ohrm/core/util/validation/rules';
 const initialExpenseTypes = {
   name: '',
   description: '',
-  status: null,
+  status: false,
 };
 
 export default {
@@ -152,15 +152,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-.orangehrm-sm-field {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: $oxd-input-control-vertical-padding 0rem;
-  &-label {
-    font-weight: 700;
-    font-size: $oxd-input-control-font-size;
-  }
-}
-</style>
+<style src="../claim-style.scss" lang="scss" scoped></style>

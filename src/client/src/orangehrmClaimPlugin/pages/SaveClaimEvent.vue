@@ -151,15 +151,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-.orangehrm-sm-field {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: $oxd-input-control-vertical-padding 0rem;
-  &-label {
-    font-weight: 700;
-    font-size: $oxd-input-control-font-size;
-  }
-}
-</style>
+<style src="./claim-style.scss" lang="scss" scoped></style>

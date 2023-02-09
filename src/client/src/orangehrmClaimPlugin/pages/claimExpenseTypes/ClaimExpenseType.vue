@@ -24,7 +24,7 @@
       <oxd-form-row>
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item>
-            <type-autocomplete
+            <expense-type-autocomplete
               v-model="filters.name"
               :label="$t('general.name')"
             />
@@ -117,7 +117,7 @@ const defaultSortOrder = {
 export default {
   components: {
     'delete-confirmation': DeleteConfirmationDialog,
-    'type-autocomplete': ExpenseTypeAutocomplete,
+    'expense-type-autocomplete': ExpenseTypeAutocomplete,
   },
   setup() {
     const filters = ref({...defaultFilters});
