@@ -18,20 +18,22 @@
 
 import Login from './pages/Login.vue';
 import Forbidden from './pages/Forbidden.vue';
+import ResetPassword from './pages/ResetPassword.vue';
+import ResetWeakPassword from './pages/ResetWeakPassword.vue';
+import ResetPasswordError from './pages/ResetPasswordError.vue';
 import AdministratorAccess from './pages/AdministratorAccess.vue';
 import RequestResetPassword from './pages/RequestResetPassword.vue';
 import ResetPasswordSuccess from './pages/ResetPasswordSuccess.vue';
-import ResetPasswordError from './pages/ResetPasswordError.vue';
-import ResetPassword from './pages/ResetPassword.vue';
 import EmailConfigurationWarning from './pages/EmailConfigurationWarning.vue';
 
 export default {
   'auth-login': Login,
   'auth-forbidden': Forbidden,
-  'auth-admin-access': AdministratorAccess,
-  'request-reset-password': RequestResetPassword,
-  'reset-password-success': ResetPasswordSuccess,
-  'reset-password-error': ResetPasswordError,
   'reset-password': ResetPassword,
+  'auth-admin-access': AdministratorAccess,
+  'reset-weak-password': ResetWeakPassword,
+  'reset-password-error': ResetPasswordError,
+  'reset-password-success': ResetPasswordSuccess,
+  'request-reset-password': RequestResetPassword,
   'email-configuration-warning': EmailConfigurationWarning,
 };

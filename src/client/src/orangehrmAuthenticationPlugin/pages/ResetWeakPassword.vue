@@ -27,14 +27,9 @@
           @submit-valid="onSubmit"
         >
           <oxd-text tag="h6">
-            {{ $t('auth.reset_password') }}
+            {{ $t('auth.change_weak_password') }}
           </oxd-text>
           <oxd-divider />
-          <card-note
-            :note-text="$t('auth.set_new_password')"
-            class="orangehrm-forgot-password-card-note"
-          />
-          <input name="_token" :value="token" type="hidden" />
           <oxd-form-row>
             <oxd-input-field
               :value="username"
@@ -44,11 +39,23 @@
               label-icon="person"
             />
           </oxd-form-row>
+          <oxd-form-row>
+            <oxd-input-field
+              v-model="user.currentPassword"
+              :rules="rules.currentPassword"
+              :label="$t('pim.current_password')"
+              type="password"
+              label-icon="key"
+              autocomplete="off"
+              name="currentPassword"
+            />
+          </oxd-form-row>
           <oxd-form-row class="orangehrm-forgot-password-row">
             <password-strength-indicator
               v-if="user.newPassword"
               :password-strength="passwordStrength"
-            ></password-strength-indicator>
+            >
+            </password-strength-indicator>
             <oxd-input-field
               v-model="user.newPassword"
               :rules="rules.newPassword"
@@ -95,26 +102,20 @@ import {
   shouldNotExceedCharLength,
 } from '@ohrm/core/util/validation/rules';
 import {promiseDebounce} from '@ohrm/oxd';
-import CardNote from '../components/CardNote';
 import {urlFor} from '@/core/util/helper/url';
 import {APIService} from '@/core/util/services/api.service';
 import usePasswordPolicy from '@/core/util/composable/usePasswordPolicy';
 import PasswordStrengthIndicator from '@/core/components/labels/PasswordStrengthIndicator';
 
 export default {
-  name: 'ResetPassword',
+  name: 'ResetWeakPassword',
 
   components: {
-    'card-note': CardNote,
     'password-strength-indicator': PasswordStrengthIndicator,
   },
 
   props: {
     username: {
-      type: String,
-      required: true,
-    },
-    token: {
       type: String,
       required: true,
     },
@@ -136,9 +137,11 @@ export default {
       user: {
         username: '',
         newPassword: '',
+        currentPassword: '',
         confirmPassword: '',
       },
       rules: {
+        currentPassword: [required, shouldNotExceedCharLength(64)],
         newPassword: [
           required,
           shouldNotExceedCharLength(64),
@@ -157,7 +160,8 @@ export default {
 
   computed: {
     submitUrl() {
-      return urlFor('/auth/resetPassword');
+      // TODO: Replace correct URL
+      return urlFor('/auth/resetWeakPassword');
     },
   },
 
