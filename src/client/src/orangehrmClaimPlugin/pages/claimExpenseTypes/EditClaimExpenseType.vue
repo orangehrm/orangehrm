@@ -152,4 +152,4 @@ export default {
 };
 </script>
 
-<style src="../claim-style.scss" lang="scss" scoped></style>
+<style src="../save-claim-event.scss" lang="scss" scoped></style>
