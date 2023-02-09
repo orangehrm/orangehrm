@@ -14,19 +14,40 @@
  *
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
- * Boston, MA  02110-1301, USA
+ * Boston, MA 02110-1301, USA
  */
+
+namespace OrangeHRM\Help\Processor;
 
 interface HelpProcessor
 {
+    /**
+     * @return string
+     */
+    public function getBaseUrl(): string;
 
-    public function getBaseUrl();
+    /**
+     * @param string $label
+     * @return string
+     */
+    public function getSearchUrl(string $label): string;
 
-    public function getSearchUrl($label);
+    /**
+     * @param string $label
+     * @return string
+     */
+    public function getRedirectUrl(string $label): string;
 
-    public function getRedirectUrl($label);
+    /**
+     * @return string
+     */
+    public function getDefaultRedirectUrl(): string;
 
-    public function getDefaultRedirectUrl();
-
-    public function getRedirectUrlList($query, $labels, $categories);
+    /**
+     * @param string $query
+     * @param array $labels
+     * @param array $categoryIds
+     * @return array
+     */
+    public function getRedirectUrlList(string $query, array $labels, array $categoryIds): array;
 }

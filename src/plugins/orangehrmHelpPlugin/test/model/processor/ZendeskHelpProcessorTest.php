@@ -17,6 +17,9 @@
  * Boston, MA  02110-1301, USA
  */
 
+use OrangeHRM\Help\Processor\ZendeskHelpProcessor;
+use OrangeHRM\Help\Service\HelpConfigService;
+
 
 /**
  * Test class of Api/EmployeeService

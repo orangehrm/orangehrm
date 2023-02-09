@@ -14,52 +14,54 @@
  *
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
- * Boston, MA  02110-1301, USA
+ * Boston, MA 02110-1301, USA
  */
+
+namespace OrangeHRM\Help\Processor;
+
+use Exception;
+use GuzzleHttp\Client;
+use GuzzleHttp\RequestOptions;
+use OrangeHRM\Help\Service\HelpConfigService;
 
 class ZendeskHelpProcessor implements HelpProcessor
 {
+    public const DEFAULT_CONTENT_TYPE = "application/json";
+    public const ZENDESK_SEARCH_URL = '/api/v2/help_center/articles/search.json?';
+    public const ZENDESK_CATEGORY_URL = '/api/v2/help_center/categories';
+    public const ZENDESK_DEFAULT_URL_PATH = '/hc/en-us';
 
-    const DEFAULT_CONTENT_TYPE = "application/json";
-    const ZENDESK_SEARCH_URL = '/api/v2/help_center/articles/search.json?';
-    const ZENDESK_CATEGORY_URL = '/api/v2/help_center/categories';
-    const ZENDESK_DEFAULT_URL_PATH = '/hc/en-us';
-    protected $helpConfigService;
+    protected ?HelpConfigService $helpConfigService = null;
+    private ?Client $httpClient = null;
 
     /**
-     * @return mixed
+     * @return HelpConfigService
      */
-    public function getHelpConfigService()
+    public function getHelpConfigService(): HelpConfigService
     {
-        if (!$this->helpConfigService instanceof HelpConfigService) {
-            $this->helpConfigService = new HelpConfigService();
-        }
-        return $this->helpConfigService;
+        return $this->helpConfigService ??= new HelpConfigService();
     }
 
-    /**
-     * @param mixed $helpConfigService
-     */
-    public function setHelpConfigService($helpConfigService)
+    public function getHttpClient(): Client
     {
-        $this->helpConfigService = $helpConfigService;
+        return $this->httpClient ??= new Client();
     }
 
     /**
      * @return String
      */
-    public function getBaseUrl()
+    public function getBaseUrl(): string
     {
         return $this->getHelpConfigService()->getBaseHelpUrl();
     }
 
     /**
-     * @param null $query
+     * @param string|null $query
      * @param array $labels
      * @param array $categoryIds
-     * @return false|string
+     * @return string
      */
-    public function getSearchUrlFromQuery($query = null, $labels = [], $categoryIds = [])
+    public function getSearchUrlFromQuery(string $query = null, array $labels = [], array $categoryIds = []): string
     {
         $mainUrl = $this->getBaseUrl() . self::ZENDESK_SEARCH_URL;
         if ($query != null) {
@@ -89,19 +91,19 @@ class ZendeskHelpProcessor implements HelpProcessor
     }
 
     /**
-     * @param $label
+     * @param string $label
      * @return string
      */
-    public function getSearchUrl($label)
+    public function getSearchUrl(string $label): string
     {
         return $this->getBaseUrl() . self::ZENDESK_SEARCH_URL . 'label_names=' . $label;
     }
 
     /**
-     * @param $label
-     * @return mixed|string
+     * @param string $label
+     * @return string
      */
-    public function getRedirectUrl($label)
+    public function getRedirectUrl(string $label): string
     {
         $searchUrl = $this->getSearchUrl($label);
 
@@ -119,47 +121,44 @@ class ZendeskHelpProcessor implements HelpProcessor
     }
 
     /**
-     * @param $url
+     * @param string $url
      * @param string $contentType
      * @return array|null
      */
-    protected function sendQuery($url, $contentType = self::DEFAULT_CONTENT_TYPE)
+    protected function sendQuery(string $url, string $contentType = self::DEFAULT_CONTENT_TYPE): ?array
     {
-        $headerOptions = array();
+        $headerOptions = [];
 
-        $headerOptions[GuzzleHttp\RequestOptions::TIMEOUT] = 30;
-        $headerOptions[GuzzleHttp\RequestOptions::HEADERS] = [
+        $headerOptions[RequestOptions::TIMEOUT] = 30;
+        $headerOptions[RequestOptions::HEADERS] = [
             'Content-Type' => $contentType
         ];
-        $client = new GuzzleHttp\Client();
+
         try {
-            $response = $client->get($url, $headerOptions);
+            $response = $this->getHttpClient()->get($url, $headerOptions);
+            $body = $response->getBody();
+            $responseCode = $response->getStatusCode();
+            return ['responseCode' => $responseCode, 'response' => $body];
         } catch (Exception $e) {
             return null;
         }
-        $body = $response->getBody();
-        $responseCode = $response->getStatusCode();
-        return array(
-            'responseCode' => $responseCode,
-            'response' => $body,
-        );
     }
 
     /**
      * @return string
      */
-    public function getDefaultRedirectUrl()
+    public function getDefaultRedirectUrl(): string
     {
         return $this->getBaseUrl() . self::ZENDESK_DEFAULT_URL_PATH;
     }
 
     /**
-     * @param null $query
+     * @param string|null $query
      * @param array $labels
      * @param array $categoryIds
      * @return array
      */
-    public function getRedirectUrlList($query = null, $labels = [], $categoryIds = [])
+    public function getRedirectUrlList(string $query = null, array $labels = [], array $categoryIds = []): array
     {
         if ($query == null && $labels == [] && $categoryIds == []) {
             return [];
@@ -169,13 +168,13 @@ class ZendeskHelpProcessor implements HelpProcessor
         if ($results['response']) {
             $response = json_decode($results['response'], true);
         }
-        $redirectUrls = array();
+        $redirectUrls = [];
         $count = $response['count'];
         if (($count >= 1) && ($results['responseCode'] == 200)) {
             foreach ($response['results'] as $result) {
                 $redirectUrl = $result['html_url'];
                 $name = $result['name'];
-                array_push($redirectUrls, array('name' => $name, 'url' => $redirectUrl));
+                $redirectUrls[] = ['name' => $name, 'url' => $redirectUrl];
             }
             return $redirectUrls;
         } else {
@@ -184,12 +183,12 @@ class ZendeskHelpProcessor implements HelpProcessor
     }
 
     /**
-     * @param $category
-     * @return mixed|string
+     * @param string $categoryId
+     * @return string
      */
-    public function getCategoryRedirectUrl($category)
+    public function getCategoryRedirectUrl(string $categoryId): string
     {
-        $url = $this->getBaseUrl() . self::ZENDESK_CATEGORY_URL . '/' . $category;
+        $url = $this->getBaseUrl() . self::ZENDESK_CATEGORY_URL . '/' . $categoryId;
         $results = $this->sendQuery($url);
         if ($results['response']) {
             $response = json_decode($results['response'], true);
@@ -203,27 +202,27 @@ class ZendeskHelpProcessor implements HelpProcessor
     }
 
     /**
-     * @param null $query
+     * @param string|null $query
      * @return array
      */
-    public function getCategoriesFromSearchQuery($query = null)
+    public function getCategoriesFromSearchQuery(string $query = null): array
     {
         $url = $this->getBaseUrl() . self::ZENDESK_CATEGORY_URL;
         $results = $this->sendQuery($url);
         if ($results['response']) {
             $response = json_decode($results['response'], true);
         }
-        $categories = array();
+        $categories = [];
         if (($results['responseCode'] == 200)) {
             foreach ($response['categories'] as $category) {
                 $redirectUrl = $category['html_url'];
                 $name = $category['name'];
                 if ($query != null) {
                     if (strpos($name, $query) !== false) {
-                        array_push($categories, array('name' => $name, 'url' => $redirectUrl));
+                        $categories[] = ['name' => $name, 'url' => $redirectUrl];
                     }
                 } else {
-                    array_push($categories, array('name' => $name, 'url' => $redirectUrl));
+                    $categories[] = ['name' => $name, 'url' => $redirectUrl];
                 }
             }
         }

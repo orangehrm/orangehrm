@@ -1,0 +1,108 @@
+<?php
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ */
+
+namespace OrangeHRM\Help\Service;
+
+use OrangeHRM\Help\Processor\HelpProcessor;
+
+class HelpService
+{
+    protected ?HelpConfigService $helpConfigService = null;
+    public ?HelpProcessor $helpProcessorClass = null;
+
+    /**
+     * @return HelpConfigService
+     */
+    public function getHelpConfigService(): HelpConfigService
+    {
+        return $this->helpConfigService ??= new HelpConfigService();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getHelpProcessorClass(): HelpProcessor
+    {
+        if (!$this->helpProcessorClass instanceof HelpProcessor) {
+            $helpProcessorClassName = 'OrangeHRM\\Help\\Processor\\' . $this->getHelpConfigService()->getHelpProcessorClass();
+            $this->helpProcessorClass = new $helpProcessorClassName();
+        }
+        return $this->helpProcessorClass;
+    }
+
+    /**
+     * @param string $label
+     * @return string
+     */
+    public function getRedirectUrl(string $label): string
+    {
+        return $this->getHelpProcessorClass()->getRedirectUrl($label);
+    }
+
+    /**
+     * @return string
+     */
+    public function getDefaultRedirectUrl(): string
+    {
+        return $this->getHelpProcessorClass()->getDefaultRedirectUrl();
+    }
+
+    /**
+     * @return string
+     */
+    public function getBaseUrl(): string
+    {
+        return $this->getHelpProcessorClass()->getBaseUrl();
+    }
+
+    /**
+     * @param string $label
+     * @return string
+     */
+    public function getSearchUrl(string $label): string
+    {
+        return $this->getHelpProcessorClass()->getSearchUrl($label);
+    }
+
+    // TODO argument type, return type
+    public function getRedirectUrlList($query, $labels = [], $categoryIds = [])
+    {
+        return $this->getHelpProcessorClass()->getRedirectUrlList($query, $labels, $categoryIds);
+    }
+
+    // TODO argument type, return type
+    public function getCategoryRedirectUrl($category)
+    {
+        return $this->getHelpProcessorClass()->getCategoryRedirectUrl($category);
+    }
+
+    // TODO argument type, return type
+    public function getCategoriesFromSearchQuery($query = null)
+    {
+        return $this->getHelpProcessorClass()->getCategoriesFromSearchQuery($query);
+    }
+
+    /**
+     * @return bool
+     */
+    public function isValidUrl(): bool
+    {
+        return filter_var($this->getHelpConfigService()->getBaseHelpUrl(), FILTER_VALIDATE_URL);
+    }
+}
