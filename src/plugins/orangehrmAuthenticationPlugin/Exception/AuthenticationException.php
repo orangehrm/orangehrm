@@ -42,7 +42,7 @@ class AuthenticationException extends Exception
      * @param string $name
      * @param string $message
      */
-    private function __construct(string $name, string $message)
+    protected function __construct(string $name, string $message)
     {
         $this->name = $name;
         parent::__construct($message);

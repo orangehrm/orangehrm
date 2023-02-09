@@ -24,11 +24,13 @@ use OrangeHRM\Authentication\Auth\User as AuthUser;
 use OrangeHRM\Authentication\Dto\AuthParams;
 use OrangeHRM\Authentication\Dto\UserCredential;
 use OrangeHRM\Authentication\Exception\AuthenticationException;
+use OrangeHRM\Authentication\Exception\PasswordEnforceException;
 use OrangeHRM\Authentication\Service\LoginService;
 use OrangeHRM\Authentication\Traits\CsrfTokenManagerTrait;
 use OrangeHRM\Core\Authorization\Service\HomePageService;
 use OrangeHRM\Core\Controller\AbstractController;
 use OrangeHRM\Core\Controller\PublicControllerInterface;
+use OrangeHRM\Core\Exception\RedirectableException;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Framework\Http\RedirectResponse;
@@ -79,7 +81,7 @@ class ValidateController extends AbstractController implements PublicControllerI
         return $this->loginService;
     }
 
-    public function handle(Request $request): RedirectResponse
+    public function handle(Request $request, $enforcePasswordUrl): RedirectResponse
     {
         $username = $request->request->get(self::PARAMETER_USERNAME, '');
         $password = $request->request->get(self::PARAMETER_PASSWORD, '');
@@ -106,6 +108,9 @@ class ValidateController extends AbstractController implements PublicControllerI
             $this->getLoginService()->addLogin($credentials);
         } catch (AuthenticationException $e) {
             $this->getAuthUser()->addFlash(AuthUser::FLASH_LOGIN_ERROR, $e->normalize());
+            if ($e instanceof RedirectableException) {
+                return new RedirectResponse($e->getRedirectUrl());
+            }
             return new RedirectResponse($loginUrl);
         } catch (Throwable $e) {
             $this->getAuthUser()->addFlash(

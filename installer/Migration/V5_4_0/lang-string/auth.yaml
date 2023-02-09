@@ -26,3 +26,6 @@ langStrings:
   -
     value: 'Change Weak Password'
     unitId: change_weak_password
+  -
+    value: 'Your Current Password Is Weak. Please Create a Strong Password'
+    unitId: password_not_strong

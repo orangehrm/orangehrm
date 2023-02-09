@@ -298,6 +298,23 @@ class PasswordStrengthService
     }
 
     /**
+    * @param string $password
+    * @param int    $passwordStrength
+    * @return bool
+    */
+   public function isValidPassword(string $password, int $passwordStrength): bool
+   {
+       return ($this->checkMinPasswordLength($password) &&
+           $this->checkMaxPasswordLength($password) &&
+           $this->checkMinLowercaseLetters($password) &&
+           $this->checkMinUppercaseLetters($password) &&
+           $this->checkMinNumbersInPassword($password) &&
+           $this->checkMinSpecialCharacters($password) &&
+           $this->checkSpacesInPassword($password) &&
+           ($this->checkRequiredDefaultPasswordStrength($passwordStrength)));
+   }
+
+    /**
      * @return array|false|string|string[]
      */
     public function generateEnforcePasswordResetCode()

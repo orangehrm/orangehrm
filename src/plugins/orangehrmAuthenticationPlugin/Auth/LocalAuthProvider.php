@@ -21,10 +21,24 @@ namespace OrangeHRM\Authentication\Auth;
 
 use OrangeHRM\Authentication\Dto\AuthParamsInterface;
 use OrangeHRM\Authentication\Dto\UserCredentialInterface;
+use OrangeHRM\Authentication\Exception\AuthenticationException;
+use OrangeHRM\Authentication\Exception\PasswordEnforceException;
 use OrangeHRM\Authentication\Service\AuthenticationService;
+use OrangeHRM\Authentication\Traits\Service\PasswordStrengthServiceTrait;
+use OrangeHRM\Authentication\Utility\PasswordStrengthValidation;
+use OrangeHRM\Core\Service\ConfigService;
+use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
+use OrangeHRM\Framework\Http\RedirectResponse;
+
+use OrangeHRM\Framework\Services;
+
+use function PHPUnit\Framework\throwException;
 
 class LocalAuthProvider extends AbstractAuthProvider
 {
+    use ConfigServiceTrait;
+    use PasswordStrengthServiceTrait;
+
     private AuthenticationService $authenticationService;
 
     /**
@@ -37,13 +51,32 @@ class LocalAuthProvider extends AbstractAuthProvider
 
     /**
      * @inheritDoc
+     * @throws PasswordEnforceException
      */
     public function authenticate(AuthParamsInterface $authParams): bool
     {
         if (!$authParams->getCredential() instanceof UserCredentialInterface) {
             return false;
         }
-        return $this->getAuthenticationService()->setCredentials($authParams->getCredential());
+        $success = $this->getAuthenticationService()->setCredentials($authParams->getCredential());
+        if ($success) {
+            if ($this->getConfigService()->getConfigDao()
+                    ->getValue(ConfigService::KEY_ENFORCE_PASSWORD_STRENGTH) === 'on') {
+
+                $passwordStrengthValidation = new PasswordStrengthValidation();
+                $passwordStrength = $passwordStrengthValidation->checkPasswordStrength(
+                    $authParams->getCredential()->getPassword());
+
+                if (!($this->getPasswordStrengthService()
+                    ->isValidPassword($authParams->getCredential()->getPassword(),$passwordStrength))
+                ) {
+                    $session = $this->getContainer()->get(Services::SESSION);
+                    $session->invalidate();
+                    throw new PasswordEnforceException(AuthenticationException::INVALID_CREDENTIALS, 'enforce strength');
+                }
+            }
+        }
+        return $success;
     }
 
     /**
