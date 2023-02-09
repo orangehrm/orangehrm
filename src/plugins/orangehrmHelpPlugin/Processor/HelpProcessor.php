@@ -42,12 +42,4 @@ interface HelpProcessor
      * @return string
      */
     public function getDefaultRedirectUrl(): string;
-
-    /**
-     * @param string $query
-     * @param array $labels
-     * @param array $categoryIds
-     * @return array
-     */
-    public function getRedirectUrlList(string $query, array $labels, array $categoryIds): array;
 }

@@ -28,7 +28,6 @@ class ZendeskHelpProcessor implements HelpProcessor
 {
     public const DEFAULT_CONTENT_TYPE = "application/json";
     public const ZENDESK_SEARCH_URL = '/api/v2/help_center/articles/search.json?';
-    public const ZENDESK_CATEGORY_URL = '/api/v2/help_center/categories';
     public const ZENDESK_DEFAULT_URL_PATH = '/hc/en-us';
 
     protected ?HelpConfigService $helpConfigService = null;
@@ -53,41 +52,6 @@ class ZendeskHelpProcessor implements HelpProcessor
     public function getBaseUrl(): string
     {
         return $this->getHelpConfigService()->getBaseHelpUrl();
-    }
-
-    /**
-     * @param string|null $query
-     * @param array $labels
-     * @param array $categoryIds
-     * @return string
-     */
-    public function getSearchUrlFromQuery(string $query = null, array $labels = [], array $categoryIds = []): string
-    {
-        $mainUrl = $this->getBaseUrl() . self::ZENDESK_SEARCH_URL;
-        if ($query != null) {
-            $mainUrl .= 'query=' . $query;
-        }
-        if (count($labels) > 0) {
-            if (substr($mainUrl, -1) != '?') {
-                $mainUrl .= '&';
-            }
-            $mainUrl .= 'label_names=';
-            foreach ($labels as $label) {
-                $mainUrl .= $label . ',';
-            }
-            $mainUrl = substr($mainUrl, 0, -1);
-        }
-        if (count($categoryIds) > 0) {
-            if (substr($mainUrl, -1) != '?') {
-                $mainUrl .= '&';
-            }
-            $mainUrl .= 'category=';
-            foreach ($categoryIds as $categoryId) {
-                $mainUrl .= $categoryId . ',';
-            }
-            $mainUrl = substr($mainUrl, 0, -1);
-        }
-        return $mainUrl;
     }
 
     /**
@@ -150,82 +114,5 @@ class ZendeskHelpProcessor implements HelpProcessor
     public function getDefaultRedirectUrl(): string
     {
         return $this->getBaseUrl() . self::ZENDESK_DEFAULT_URL_PATH;
-    }
-
-    /**
-     * @param string|null $query
-     * @param array $labels
-     * @param array $categoryIds
-     * @return array
-     */
-    public function getRedirectUrlList(string $query = null, array $labels = [], array $categoryIds = []): array
-    {
-        if ($query == null && $labels == [] && $categoryIds == []) {
-            return [];
-        }
-        $searchUrl = $this->getSearchUrlFromQuery($query, $labels, $categoryIds);
-        $results = $this->sendQuery($searchUrl);
-        if ($results['response']) {
-            $response = json_decode($results['response'], true);
-        }
-        $redirectUrls = [];
-        $count = $response['count'];
-        if (($count >= 1) && ($results['responseCode'] == 200)) {
-            foreach ($response['results'] as $result) {
-                $redirectUrl = $result['html_url'];
-                $name = $result['name'];
-                $redirectUrls[] = ['name' => $name, 'url' => $redirectUrl];
-            }
-            return $redirectUrls;
-        } else {
-            return [];
-        }
-    }
-
-    /**
-     * @param string $categoryId
-     * @return string
-     */
-    public function getCategoryRedirectUrl(string $categoryId): string
-    {
-        $url = $this->getBaseUrl() . self::ZENDESK_CATEGORY_URL . '/' . $categoryId;
-        $results = $this->sendQuery($url);
-        if ($results['response']) {
-            $response = json_decode($results['response'], true);
-        }
-        if (($results['responseCode'] == 200)) {
-            $redirectUrl = $response['category']['html_url'];
-        } else {
-            $redirectUrl = $this->getDefaultRedirectUrl();
-        }
-        return $redirectUrl;
-    }
-
-    /**
-     * @param string|null $query
-     * @return array
-     */
-    public function getCategoriesFromSearchQuery(string $query = null): array
-    {
-        $url = $this->getBaseUrl() . self::ZENDESK_CATEGORY_URL;
-        $results = $this->sendQuery($url);
-        if ($results['response']) {
-            $response = json_decode($results['response'], true);
-        }
-        $categories = [];
-        if (($results['responseCode'] == 200)) {
-            foreach ($response['categories'] as $category) {
-                $redirectUrl = $category['html_url'];
-                $name = $category['name'];
-                if ($query != null) {
-                    if (strpos($name, $query) !== false) {
-                        $categories[] = ['name' => $name, 'url' => $redirectUrl];
-                    }
-                } else {
-                    $categories[] = ['name' => $name, 'url' => $redirectUrl];
-                }
-            }
-        }
-        return $categories;
     }
 }

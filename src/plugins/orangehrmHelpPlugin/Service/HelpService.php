@@ -64,41 +64,6 @@ class HelpService
     }
 
     /**
-     * @return string
-     */
-    public function getBaseUrl(): string
-    {
-        return $this->getHelpProcessorClass()->getBaseUrl();
-    }
-
-    /**
-     * @param string $label
-     * @return string
-     */
-    public function getSearchUrl(string $label): string
-    {
-        return $this->getHelpProcessorClass()->getSearchUrl($label);
-    }
-
-    // TODO argument type, return type
-    public function getRedirectUrlList($query, $labels = [], $categoryIds = [])
-    {
-        return $this->getHelpProcessorClass()->getRedirectUrlList($query, $labels, $categoryIds);
-    }
-
-    // TODO argument type, return type
-    public function getCategoryRedirectUrl($category)
-    {
-        return $this->getHelpProcessorClass()->getCategoryRedirectUrl($category);
-    }
-
-    // TODO argument type, return type
-    public function getCategoriesFromSearchQuery($query = null)
-    {
-        return $this->getHelpProcessorClass()->getCategoriesFromSearchQuery($query);
-    }
-
-    /**
      * @return bool
      */
     public function isValidUrl(): bool
