@@ -21,6 +21,7 @@ use OrangeHRM\Authentication\Auth\AuthProviderChain;
 use OrangeHRM\Authentication\Auth\LocalAuthProvider;
 use OrangeHRM\Authentication\Auth\User as AuthUser;
 use OrangeHRM\Authentication\Csrf\CsrfTokenManager;
+use OrangeHRM\Authentication\Service\PasswordStrengthService;
 use OrangeHRM\Authentication\Subscriber\AdministratorAccessSubscriber;
 use OrangeHRM\Authentication\Subscriber\AuthenticationSubscriber;
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
@@ -51,5 +52,7 @@ class AuthenticationPluginConfiguration implements PluginConfigurationInterface
         /** @var AuthProviderChain $authProviderChain */
         $authProviderChain = $this->getContainer()->get(Services::AUTH_PROVIDER_CHAIN);
         $authProviderChain->addProvider(new LocalAuthProvider());
+
+        $this->getContainer()->register(Services::PASSWORD_STRENGTH_SERVICE, PasswordStrengthService::class);
     }
 }

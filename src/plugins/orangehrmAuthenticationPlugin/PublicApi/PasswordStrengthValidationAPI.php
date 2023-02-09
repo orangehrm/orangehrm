@@ -17,10 +17,10 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Authentication\Api;
+namespace OrangeHRM\Authentication\PublicApi;
 
 use OrangeHRM\Authentication\Dto\UserCredential;
-use OrangeHRM\Authentication\Service\PasswordStrengthService;
+use OrangeHRM\Authentication\Traits\Service\PasswordStrengthServiceTrait;
 use OrangeHRM\Authentication\Utility\PasswordStrengthValidation;
 use OrangeHRM\Core\Api\V2\CollectionEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
@@ -40,6 +40,7 @@ class PasswordStrengthValidationAPI extends Endpoint implements CollectionEndpoi
 {
     use ConfigServiceTrait;
     use I18NHelperTrait;
+    use PasswordStrengthServiceTrait;
 
     public const PARAMETER_PASSWORD = 'password';
     public const PARAMETER_PASSWORD_STRENGTH = 'strength';
@@ -97,10 +98,9 @@ class PasswordStrengthValidationAPI extends Endpoint implements CollectionEndpoi
         $credentials = new UserCredential(null, $password);
 
         $passwordStrengthValidation = new PasswordStrengthValidation();
-        $passwordStrengthService = new PasswordStrengthService();
 
         $passwordStrength = $passwordStrengthValidation->checkPasswordStrength($credentials->getPassword());
-        $messages = $passwordStrengthService->validatePasswordPolicies($password, $passwordStrength);
+        $messages = $this->getPasswordStrengthService()->validatePasswordPolicies($password, $passwordStrength);
 
         if (count($messages) > 0 && $passwordStrength > PasswordStrengthValidation::BETTER) {
             $passwordStrength = PasswordStrengthValidation::BETTER;

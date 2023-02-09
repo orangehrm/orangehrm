@@ -484,11 +484,12 @@ Create:
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      auth.password_strength_service: \OrangeHRM\Authentication\Service\PasswordStrengthService
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     body: {
       "username": "Jacqueline",
-      "password": "Jacqueline@123",
+      "password": "Jacqueline@OHRM123",
       "status": true,
       "userRoleId": 2,
       "empNumber": 16
@@ -523,11 +524,12 @@ Create:
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      auth.password_strength_service: \OrangeHRM\Authentication\Service\PasswordStrengthService
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     body: {
       "username": "Jacqueline",
-      "password": "Jacqueline@123",
+      "password": "Jacqueline@OHRM123",
       "status": false,
       "userRoleId": 1,
       "empNumber": 16
@@ -562,11 +564,12 @@ Create:
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      auth.password_strength_service: \OrangeHRM\Authentication\Service\PasswordStrengthService
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     body: {
       "username": "Linda",
-      "password": "Linda@123",
+      "password": "Linda@OHRM123",
       "status": false,
       "userRoleId": 1,
       "empNumber": 2
@@ -599,11 +602,12 @@ Create:
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      auth.password_strength_service: \OrangeHRM\Authentication\Service\PasswordStrengthService
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     body: {
       "username": "Linda",
-      "password": "Linda@123",
+      "password": "Linda@OHRM123",
       "status": false,
       "userRoleId": 1,
       "empNumber": 100
@@ -617,11 +621,12 @@ Create:
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      auth.password_strength_service: \OrangeHRM\Authentication\Service\PasswordStrengthService
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     body: {
       "username": "Alice",
-      "password": "Alice@123",
+      "password": "Alice@OHRM123",
       "status": false,
       "userRoleId": 1,
       "empNumber": 3
@@ -637,11 +642,12 @@ Create:
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      auth.password_strength_service: \OrangeHRM\Authentication\Service\PasswordStrengthService
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     body: {
       "username": "Mathews",
-      "password": "Mathews@123",
+      "password": "Mathews@OHRM123",
       "status": true,
       "userRoleId": 2,
       "empNumber": 17
@@ -822,6 +828,7 @@ Update:
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      auth.password_strength_service: \OrangeHRM\Authentication\Service\PasswordStrengthService
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     attributes:
@@ -845,6 +852,7 @@ Update:
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      auth.password_strength_service: \OrangeHRM\Authentication\Service\PasswordStrengthService
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     attributes:
@@ -855,7 +863,7 @@ Update:
       "userRoleId": 1,
       "empNumber": 5,
       "changePassword": true,
-      "password": "Mathews@123",
+      "password": "Mathews@OHRM123",
     }
     data: {
       "id": 5,
