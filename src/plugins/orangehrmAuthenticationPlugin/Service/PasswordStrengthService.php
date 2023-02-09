@@ -34,7 +34,7 @@ class PasswordStrengthService
     private const LOWERCASE_REGEX = '/[a-z]/';
     private const NUMBER_REGEX = '/[0-9]/';
     private const SPACES_REGEX = '/\s/';
-    private const SPECIAL_CHARACTER_REGEX = '/[!@#\$%^&*(),.?":{}|<>]/';
+    private const SPECIAL_CHARACTER_REGEX = '/[@#\\\\\/\-!$%^&*()_+|~=`{}\[\]:";\'<>?,.]/';
 
     /**
      * @param string $password
@@ -55,10 +55,10 @@ class PasswordStrengthService
      */
     private function checkMaxPasswordLength(string $password): ?string
     {
-        if ($this->getTextHelper()->strLength($password) > ConfigService::KEY_MAX_PASSWORD_LENGTH) {
+        if ($this->getTextHelper()->strLength($password) > ConfigService::MAX_PASSWORD_LENGTH) {
             return $this->getI18NHelper()->trans(
                 'auth.password_max_length',
-                ['count' => ConfigService::KEY_MAX_PASSWORD_LENGTH]
+                ['count' => ConfigService::MAX_PASSWORD_LENGTH]
             );
         }
         return null;
@@ -78,7 +78,10 @@ class PasswordStrengthService
             $minNoOfLowercaseLetters = 0;
         }
         if ($minNoOfLowercaseLetters > $noOfLowercaseLetters) {
-            return $this->getI18NHelper()->trans('auth.password_n_lowercase_letters', ['count' => $minNoOfLowercaseLetters]);
+            return $this->getI18NHelper()->trans(
+                'auth.password_n_lowercase_letters',
+                ['count' => $minNoOfLowercaseLetters]
+            );
         }
         return null;
     }
@@ -97,7 +100,10 @@ class PasswordStrengthService
             $minNoOfUppercaseLetters = 0;
         }
         if ($minNoOfUppercaseLetters > $noOfUppercaseLetters) {
-            return $this->getI18NHelper()->trans('auth.password_n_uppercase_letters', ['count' => $minNoOfUppercaseLetters]);
+            return $this->getI18NHelper()->trans(
+                'auth.password_n_uppercase_letters',
+                ['count' => $minNoOfUppercaseLetters]
+            );
         }
         return null;
     }
@@ -162,8 +168,15 @@ class PasswordStrengthService
      */
     private function checkRequiredDefaultPasswordStrength(int $passwordStrength): ?string
     {
-        if ($this->getConfigService()->getConfigDao()->getValue(ConfigService::KEY_DEFAULT_PASSWORD_STRENGTH)
-            > $passwordStrength
+        $defaultPasswordStrength = $this->getConfigService()->getConfigDao()->getValue(
+            ConfigService::KEY_DEFAULT_PASSWORD_STRENGTH
+        );
+        if (($defaultPasswordStrength === 'veryWeak' && $passwordStrength < 0)
+            || ($defaultPasswordStrength === 'weak'
+                && $passwordStrength < 1)
+            || ($defaultPasswordStrength === 'better' && $passwordStrength < 2)
+            || ($defaultPasswordStrength === 'strong' && $passwordStrength < 3)
+            || ($defaultPasswordStrength === 'strongest' && $passwordStrength < 4)
         ) {
             return $this->getI18NHelper()->trans('auth.password_could_be_guessable');
         }

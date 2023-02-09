@@ -19,7 +19,7 @@
 
 namespace OrangeHRM\Tests\Authentication\Api;
 
-use OrangeHRM\Authentication\Api\PasswordStrengthValidationAPI;
+use OrangeHRM\Authentication\PublicApi\PasswordStrengthValidationAPI;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Service\CacheService;
 use OrangeHRM\Framework\ServiceContainer;
