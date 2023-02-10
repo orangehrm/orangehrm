@@ -17,19 +17,21 @@
  * Boston, MA  02110-1301, USA
  */
 
+namespace OrangeHRM\Help\Service;
+
+use OrangeHRM\Core\Service\ConfigService;
+
 class HelpConfigService extends ConfigService
 {
-
-    const HELP_PROCESSOR_CLASS = 'help.processorClass';
-    const HELP_URL = 'help.url';
-
+    public const HELP_PROCESSOR_CLASS = 'help.processorClass';
+    public const HELP_URL = 'help.url';
 
     /**
      * Gets Help Processor Class
      *
-     * @return String
+     * @return string
      */
-    public function getHelpProcessorClass()
+    public function getHelpProcessorClass(): string
     {
         return $this->_getConfigValue(self::HELP_PROCESSOR_CLASS);
     }
@@ -37,9 +39,9 @@ class HelpConfigService extends ConfigService
     /**
      * Gets Help Base Url
      *
-     * @return String
+     * @return string
      */
-    public function getBaseHelpUrl()
+    public function getBaseHelpUrl(): string
     {
         return $this->_getConfigValue(self::HELP_URL);
     }

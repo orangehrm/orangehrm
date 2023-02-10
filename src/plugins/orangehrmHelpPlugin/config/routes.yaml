@@ -2,3 +2,8 @@ view_help_support:
   path: /help/support
   controller: OrangeHRM\Help\Controller\ViewSupportController::handle
   methods: [ GET ]
+
+help_help:
+  path: /help/help
+  controller: OrangeHRM\Help\Controller\HelpController::handle
+  methods: [ GET ]
