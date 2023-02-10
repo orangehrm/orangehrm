@@ -19,6 +19,8 @@
 
 namespace OrangeHRM\Authentication\Controller;
 
+use OrangeHRM\Authentication\Service\PasswordStrengthService;
+use OrangeHRM\Authentication\Traits\Service\PasswordStrengthServiceTrait;
 use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Framework\Http\Request;
@@ -31,17 +33,24 @@ class WeakPasswordResetController extends AbstractVueController implements Publi
 {
     use AuthUserTrait;
     use UserRoleManagerTrait;
+    use PasswordStrengthServiceTrait;
 
     /**
      * @inheritDoc
      */
     public function preRender(Request $request): void
     {
-        $component = new Component('reset-weak-password');
-        $username = $this->getUserRoleManager()->getUser()->getUserName();
-        $component->addProp(
-            new Prop('username', Prop::TYPE_STRING, $username)
-        );
+        $resetCode = $request->attributes->get('resetCode');
+        if ($this->getPasswordStrengthService()->validateUrl($resetCode)) {
+            $component = new Component('reset-weak-password');
+            $username = $this->getUserRoleManager()->getUser()->getUserName();
+            $component->addProp(
+                new Prop('username', Prop::TYPE_STRING, $username)
+            );
+        } else {
+            //TODO
+            $component = new Component('auth-login');
+        }
         $this->setComponent($component);
         $this->setTemplate('no_header.html.twig');
     }

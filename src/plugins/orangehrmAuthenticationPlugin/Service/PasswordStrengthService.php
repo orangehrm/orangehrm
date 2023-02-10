@@ -19,9 +19,15 @@
 
 namespace OrangeHRM\Authentication\Service;
 
+use OrangeHRM\Authentication\Dao\EnforcePasswordDao;
 use OrangeHRM\Core\Service\ConfigService;
+use OrangeHRM\Core\Traits\LoggerTrait;
+use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
+use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Core\Traits\Service\TextHelperTrait;
+use OrangeHRM\Core\Utility\Base64Url;
+use OrangeHRM\Entity\EnforcePasswordRequest;
 use OrangeHRM\I18N\Traits\Service\I18NHelperTrait;
 
 class PasswordStrengthService
@@ -29,12 +35,28 @@ class PasswordStrengthService
     use ConfigServiceTrait;
     use I18NHelperTrait;
     use TextHelperTrait;
+    use EntityManagerHelperTrait;
+    use DateTimeHelperTrait;
+    use LoggerTrait;
 
     private const UPPERCASE_REGEX = '/[A-Z]/';
     private const LOWERCASE_REGEX = '/[a-z]/';
     private const NUMBER_REGEX = '/[0-9]/';
     private const SPACES_REGEX = '/\s/';
     private const SPECIAL_CHARACTER_REGEX = '/[@#\\\\\/\-!$%^&*()_+|~=`{}\[\]:";\'<>?,.]/';
+    protected ?EnforcePasswordDao $enforcePasswordDao = null;
+    public const ENFORCE_PASSWORD_RESET_CODE_BYTES_LENGTH = 16;
+
+    /**
+     * @return EnforcePasswordDao
+     */
+    public function getEnforcePasswordDao(): EnforcePasswordDao
+    {
+        if (!$this->enforcePasswordDao instanceof EnforcePasswordDao) {
+            $this->enforcePasswordDao = new EnforcePasswordDao();
+        }
+        return $this->enforcePasswordDao;
+    }
 
     /**
      * @param string $password
@@ -215,5 +237,66 @@ class PasswordStrengthService
             $messages[] = $this->checkRequiredDefaultPasswordStrength($passwordStrength);
         }
         return $messages;
+    }
+
+    /**
+     * @return array|false|string|string[]
+     */
+    public function generateEnforcePasswordResetCode()
+    {
+        return Base64Url::encode(
+            random_bytes(static::ENFORCE_PASSWORD_RESET_CODE_BYTES_LENGTH)
+        );
+    }
+
+    /**
+     * @return bool
+     */
+    public function logPasswordEnforceRequest(): bool
+    {
+        $enforcePasswordRequest = new EnforcePasswordRequest();
+        $date = $this->getDateTimeHelper()->getNow();
+        $resetCode = $this->generateEnforcePasswordResetCode();
+        $enforcePasswordRequest->setResetRequestDate($date);
+        $enforcePasswordRequest->setResetCode($resetCode);
+        $enforcePasswordRequest->setExpired(1);
+
+        $this->getEnforcePasswordDao()->saveEnforcedPasswordRequest($enforcePasswordRequest);
+        return true;
+    }
+
+    /**
+     * @param string $resetCode
+     * @return bool|null
+     */
+    public function validateUrl(string $resetCode): ?bool
+    {
+        $enforcedPasswordLog = $this->getEnforcePasswordDao()->getEnforcedPasswordLogByResetCode($resetCode);
+        if ($enforcedPasswordLog instanceof EnforcePasswordRequest) {
+            if ($enforcedPasswordLog->isExpired()) {
+                $this->getLogger()->error('Enforce Password reset code expired');
+                return null;
+            }
+            if ($this->isResetCodeTimeOut($enforcedPasswordLog)) {
+                $this->getLogger()->error('Enforce Password reset code expired');
+                return null;
+            }
+            return true;
+        }
+        $this->getLogger()->error('Invalid reset code');
+        return null;
+    }
+
+    /**
+     * @param EnforcePasswordRequest $enforcedPasswordLog
+     * @return bool
+     */
+    private function isResetCodeTimeOut(EnforcePasswordRequest $enforcedPasswordLog): bool
+    {
+        $resetRequestTime = $enforcedPasswordLog->getResetRequestDate();
+        $currentTime = $this->getDateTimeHelper()->getNow();
+
+        $timeDiff = $currentTime->diff($resetRequestTime);
+        return $timeDiff->h >= 1;
     }
 }
