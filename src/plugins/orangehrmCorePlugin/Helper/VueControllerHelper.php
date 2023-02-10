@@ -26,7 +26,6 @@ use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Authorization\Service\ScreenPermissionService;
 use OrangeHRM\Core\Dto\AttributeBag;
 use OrangeHRM\Core\Exception\ServiceException;
-use OrangeHRM\Core\Service\MenuService;
 use OrangeHRM\Core\Traits\ModuleScreenHelperTrait;
 use OrangeHRM\Core\Traits\Service\MenuServiceTrait;
 use OrangeHRM\Core\Vue\Component;
@@ -64,6 +63,7 @@ class VueControllerHelper
     public const CLIENT_LOGO_URL = 'clientLogoUrl';
     public const CLIENT_BANNER_URL = 'clientBannerUrl';
     public const THEME_VARIABLES = 'themeVariables';
+    public const HELP_URL = 'helpUrl';
 
     /**
      * @var Request|null
@@ -77,11 +77,6 @@ class VueControllerHelper
      * @var AttributeBag
      */
     protected AttributeBag $context;
-
-    /**
-     * @var MenuService|null
-     */
-    protected ?MenuService $menuService = null;
 
     /**
      * @var ScreenPermissionService|null
@@ -154,6 +149,7 @@ class VueControllerHelper
                 self::CLIENT_LOGO_URL => $clientLogoUrl,
                 self::CLIENT_BANNER_URL => $clientBannerUrl,
                 self::THEME_VARIABLES => $themeVariables,
+                self::HELP_URL => $this->getHelpUrl(),
             ]
         );
         return $this->context->all();
@@ -188,7 +184,7 @@ class VueControllerHelper
         $user = $this->getUserService()->getSystemUser($this->getUserId());
         if (is_null($user->getEmployee())) {
             $profileImgUrl = sprintf(
-                '%s/dist/img/user-default-400.png?%s',
+                '%s/images/default-photo.png?%s',
                 $this->getRequest()->getBasePath(),
                 $this->getAssetsVersion()
             );
@@ -294,5 +290,16 @@ class VueControllerHelper
         $themeVariables = $this->getThemeService()->getCurrentThemeVariables();
 
         return [$clientLogoUrl, $clientBannerUrl, $themeVariables];
+    }
+
+    /**
+     * @return string
+     */
+    private function getHelpUrl(): string
+    {
+        return $this->getRequest()->getBaseUrl()
+            . '/help/help?label='
+            . $this->getCurrentModuleAndScreen()->getModule() . '_'
+            . $this->getCurrentModuleAndScreen()->getScreen();
     }
 }

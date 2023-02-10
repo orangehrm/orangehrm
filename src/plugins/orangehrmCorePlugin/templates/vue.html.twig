@@ -35,6 +35,7 @@
         :permissions="{{ (permissions ? permissions : []) | json_encode() }}"
         :breadcrumb="{{ breadcrumb | json_encode() }}"
         :date-format="{{ dateFormat | json_encode() }}"
+        help-url="{{ helpUrl }}"
     >
       <{{ componentName }}
       {% for prop in componentProps %}
