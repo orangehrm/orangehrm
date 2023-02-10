@@ -22,39 +22,36 @@
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
       <oxd-text tag="h6" class="orangehrm-main-title">
-        {{ $t('claim.edit_event') }}
+        {{ $t('claim.add_expense_type') }}
       </oxd-text>
 
       <oxd-divider />
 
-      <oxd-form novalidate="true" :loading="isLoading" @submit-valid="onSave">
+      <oxd-form :loading="isLoading" @submit-valid="onSave">
         <oxd-grid :cols="2" class="orangehrm-full-width-grid">
           <oxd-grid-item>
-            <oxd-form-row>
-              <oxd-input-field
-                v-model="claimEvent.name"
-                :label="$t('claim.event_name')"
-                disabled
-                required
-              />
-            </oxd-form-row>
+            <oxd-input-field
+              v-model="expenseTypes.name"
+              :label="$t('general.name')"
+              :rules="rules.name"
+              required
+            />
           </oxd-grid-item>
           <oxd-grid-item class="--offset-row-2">
-            <oxd-form-row>
-              <oxd-input-field
-                v-model="claimEvent.description"
-                type="textarea"
-                :label="$t('general.description')"
-                :rules="rules.description"
-              />
-            </oxd-form-row>
+            <oxd-input-field
+              v-model="expenseTypes.description"
+              type="textarea"
+              :label="$t('general.description')"
+              :rules="rules.description"
+            />
           </oxd-grid-item>
+
           <oxd-grid-item class="--offset-row-3">
             <div class="orangehrm-sm-field">
               <oxd-text tag="p" class="orangehrm-sm-field-label">
                 {{ $t('general.active') }}
               </oxd-text>
-              <oxd-switch-input v-model="claimEvent.status" />
+              <oxd-switch-input v-model="expenseTypes.status" />
             </div>
           </oxd-grid-item>
         </oxd-grid>
@@ -75,32 +72,28 @@
 </template>
 
 <script>
+import {
+  required,
+  shouldNotExceedCharLength,
+} from '@ohrm/core/util/validation/rules';
 import {OxdSwitchInput} from '@ohrm/oxd';
 import {navigate} from '@ohrm/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
-import {shouldNotExceedCharLength} from '@ohrm/core/util/validation/rules';
 
-const initialClaimEvent = {
+const initialExpenseTypes = {
   name: '',
   description: '',
-  status: null,
+  status: true,
 };
 
 export default {
   components: {
     'oxd-switch-input': OxdSwitchInput,
   },
-  props: {
-    id: {
-      type: Number,
-      required: true,
-    },
-  },
-
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/claim/events',
+      'api/v2/claim/expenses/types',
     );
     return {
       http,
@@ -110,20 +103,26 @@ export default {
   data() {
     return {
       isLoading: false,
-      claimEvent: {...initialClaimEvent},
+      expenseTypes: {...initialExpenseTypes},
       rules: {
+        name: [required, shouldNotExceedCharLength(100)],
         description: [shouldNotExceedCharLength(1000)],
       },
     };
   },
 
-  beforeMount() {
+  created() {
     this.isLoading = true;
     this.http
-      .get(this.id)
+      .getAll({limit: 0})
       .then((response) => {
         const {data} = response.data;
-        this.claimEvent = {...data};
+        this.rules.name.push((v) => {
+          const index = data.findIndex(
+            (item) => item.name.toLowerCase() == v.toLowerCase(),
+          );
+          return index === -1 || this.$t('general.already_exists');
+        });
       })
       .finally(() => {
         this.isLoading = false;
@@ -132,17 +131,16 @@ export default {
 
   methods: {
     onCancel() {
-      navigate('/claim/viewEvents');
+      navigate('/claim/expenses/viewExpenseTypes');
     },
     onSave() {
       this.isLoading = true;
       this.http
-        .update(this.id, {
-          description: this.claimEvent.description,
-          status: this.claimEvent.status,
+        .create({
+          ...this.expenseTypes,
         })
         .then(() => {
-          return this.$toast.updateSuccess();
+          return this.$toast.saveSuccess();
         })
         .then(() => {
           this.onCancel();
@@ -152,4 +150,4 @@ export default {
 };
 </script>
 
-<style src="./save-claim-event.scss" lang="scss" scoped></style>
+<style src="../save-claim-event.scss" lang="scss" scoped></style>

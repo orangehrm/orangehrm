@@ -14,3 +14,12 @@ langStrings:
   -
     value: "Event Name"
     unitId: event_name
+  -
+    value: "Expense Types"
+    unitId: expense_types
+  -
+    value: "Add Expense Type"
+    unitId: add_expense_type
+  -
+    value: "Edit Expense Type"
+    unitId: edit_expense_type
