@@ -167,6 +167,24 @@ class Migration extends AbstractMigration
             $this->getSchemaHelper()->addForeignKey('ohrm_claim_request', $foreignKeyConstraint3);
         }
 
+        //TODO add migration for ohrm_enforce_password
+        $this->getSchemaHelper()->createTable('ohrm_enforce_password')
+            ->addColumn('id', Types::INTEGER, ['Autoincrement' => true])
+            ->addColumn('user_id', Types::INTEGER, ['Notnull' => true, 'Length' => 11])
+            ->addColumn('enforce_request_date', Types::DATETIME_MUTABLE, ['Notnull' => false])
+            ->addColumn('reset_code', Types::STRING, ['Notnull' => false])
+            ->addColumn('expired', Types::BOOLEAN, ['Notnull' => true, 'Default' => 0])
+            ->setPrimaryKey(['id'])
+            ->create();
+        $foreignKeyConstraint = new ForeignKeyConstraint(
+            ['user_id'],
+            'ohrm_user',
+            ['id'],
+            'enforcePasswordUser',
+            ['onDelete' => 'CASCADE']
+        );
+        $this->getSchemaHelper()->addForeignKey('ohrm_enforce_password', $foreignKeyConstraint);
+
         $this->changeClaimExpenseTypeTableStatusToBoolean();
         $this->modifyClaimTables();
         $this->modifyClaimRequestCurrencyToForeignKey();

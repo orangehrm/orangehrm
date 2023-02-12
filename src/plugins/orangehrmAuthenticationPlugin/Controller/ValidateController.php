@@ -24,7 +24,6 @@ use OrangeHRM\Authentication\Auth\User as AuthUser;
 use OrangeHRM\Authentication\Dto\AuthParams;
 use OrangeHRM\Authentication\Dto\UserCredential;
 use OrangeHRM\Authentication\Exception\AuthenticationException;
-use OrangeHRM\Authentication\Exception\PasswordEnforceException;
 use OrangeHRM\Authentication\Service\LoginService;
 use OrangeHRM\Authentication\Traits\CsrfTokenManagerTrait;
 use OrangeHRM\Core\Authorization\Service\HomePageService;
@@ -81,7 +80,7 @@ class ValidateController extends AbstractController implements PublicControllerI
         return $this->loginService;
     }
 
-    public function handle(Request $request, $enforcePasswordUrl): RedirectResponse
+    public function handle(Request $request): RedirectResponse
     {
         $username = $request->request->get(self::PARAMETER_USERNAME, '');
         $password = $request->request->get(self::PARAMETER_PASSWORD, '');

@@ -19,11 +19,12 @@
 
 namespace OrangeHRM\Authentication\Exception;
 
+use OrangeHRM\Authentication\Traits\Service\PasswordStrengthServiceTrait;
 use OrangeHRM\Core\Exception\RedirectableException;
 
 class PasswordEnforceException extends AuthenticationException implements RedirectableException
 {
-    public const PASSWORD_NOT_STRONG = 'password_not_strong';
+    use PasswordStrengthServiceTrait;
 
     public function __construct(string $name, string $message)
     {
@@ -32,6 +33,6 @@ class PasswordEnforceException extends AuthenticationException implements Redire
 
     public function getRedirectUrl(): string
     {
-        return 'http://php74/orangehrm5/web/index.php/auth/changeWeakPassword';
+        return 'changeWeakPassword/resetCode/'.$this->getPasswordStrengthService()->logPasswordEnforceRequest();
     }
 }

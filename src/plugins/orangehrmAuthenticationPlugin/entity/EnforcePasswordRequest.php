@@ -38,6 +38,14 @@ class EnforcePasswordRequest
     private int $id;
 
     /**
+     * @var User
+     *
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\User")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     */
+    private User $user;
+
+    /**
      * @var DateTime
      *
      * @ORM\Column(name="enforce_request_date", type="datetime")
@@ -72,6 +80,22 @@ class EnforcePasswordRequest
     public function setId(int $id): void
     {
         $this->id = $id;
+    }
+
+    /**
+     * @return User
+     */
+    public function getUser(): User
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param User $user
+     */
+    public function setUser(User $user): void
+    {
+        $this->user = $user;
     }
 
     /**

@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Authentication\Service;
 
+use Exception;
 use OrangeHRM\Authentication\Dao\EnforcePasswordDao;
 use OrangeHRM\Core\Service\ConfigService;
 use OrangeHRM\Core\Traits\LoggerTrait;
@@ -26,6 +27,7 @@ use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Core\Traits\Service\TextHelperTrait;
+use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Core\Utility\Base64Url;
 use OrangeHRM\Entity\EnforcePasswordRequest;
 use OrangeHRM\I18N\Traits\Service\I18NHelperTrait;
@@ -38,6 +40,7 @@ class PasswordStrengthService
     use EntityManagerHelperTrait;
     use DateTimeHelperTrait;
     use LoggerTrait;
+    use UserRoleManagerTrait;
 
     private const UPPERCASE_REGEX = '/[A-Z]/';
     private const LOWERCASE_REGEX = '/[a-z]/';
@@ -66,6 +69,8 @@ class PasswordStrengthService
     private int $minNoOfSpecialCharacters;
     private string $isSpacesAllowed;
     private string $defaultPasswordStrength;
+
+    private string $username;
 
     /**
      * @return int
@@ -243,9 +248,9 @@ class PasswordStrengthService
 
     /**
      * @param int $passwordStrength
-     * @return string|null
+     * @return bool
      */
-    private function checkRequiredDefaultPasswordStrength(int $passwordStrength): ?string
+    private function checkRequiredDefaultPasswordStrength(int $passwordStrength): bool
     {
         $defaultPasswordStrength = $this->getDefaultPasswordStrength();
         return (($defaultPasswordStrength === 'veryWeak' && $passwordStrength < 0)
@@ -259,6 +264,8 @@ class PasswordStrengthService
 
     /**
      * @param string $password
+     * @param int    $passwordStrength
+     *
      * @return array
      */
     public function checkPasswordPolicies(string $password, int $passwordStrength): array
@@ -270,15 +277,15 @@ class PasswordStrengthService
         }
         if ($this->checkMaxPasswordLength($password)) {
             $messages[] = $this->getI18NHelper()
-                ->trans('auth.password_max_length',['count' => $this->getMaxLength()]);
+                ->trans('auth.password_max_length', ['count' => $this->getMaxLength()]);
         }
         if ($this->checkMinLowercaseLetters($password)) {
             $messages[] = $this->getI18NHelper()
-                ->trans('auth.password_n_lowercase_letters',['count' => $this->getMinNoOfLowercaseLetters()]);
+                ->trans('auth.password_n_lowercase_letters', ['count' => $this->getMinNoOfLowercaseLetters()]);
         }
         if ($this->checkMinUppercaseLetters($password)) {
             $messages[] = $this->getI18NHelper()
-                ->trans('auth.password_n_uppercase_letters',['count' => $this->getMinNoOfUppercaseLetters()]);
+                ->trans('auth.password_n_uppercase_letters', ['count' => $this->getMinNoOfUppercaseLetters()]);
         }
         if ($this->checkMinNumbersInPassword($password)) {
             $messages[] = $this->getI18NHelper()
@@ -286,7 +293,7 @@ class PasswordStrengthService
         }
         if ($this->checkMinSpecialCharacters($password)) {
             $messages[] = $this->getI18NHelper()
-                ->trans('auth.password_n_special_characters',['count' => $this->getMinNoOfSpecialCharacters()]);
+                ->trans('auth.password_n_special_characters', ['count' => $this->getMinNoOfSpecialCharacters()]);
         }
         if ($this->checkSpacesInPassword($password)) {
             $messages[] = $this->getI18NHelper()->trans('auth.password_spaces_not_allowed');
@@ -302,20 +309,21 @@ class PasswordStrengthService
     * @param int    $passwordStrength
     * @return bool
     */
-   public function isValidPassword(string $password, int $passwordStrength): bool
-   {
-       return ($this->checkMinPasswordLength($password) &&
-           $this->checkMaxPasswordLength($password) &&
-           $this->checkMinLowercaseLetters($password) &&
-           $this->checkMinUppercaseLetters($password) &&
-           $this->checkMinNumbersInPassword($password) &&
-           $this->checkMinSpecialCharacters($password) &&
-           $this->checkSpacesInPassword($password) &&
-           ($this->checkRequiredDefaultPasswordStrength($passwordStrength)));
-   }
+    public function isValidPassword(string $password, int $passwordStrength): bool
+    {
+        return (!$this->checkMinPasswordLength($password) &&
+           !$this->checkMaxPasswordLength($password) &&
+           !$this->checkMinLowercaseLetters($password) &&
+           !$this->checkMinUppercaseLetters($password) &&
+           !$this->checkMinNumbersInPassword($password) &&
+           !$this->checkMinSpecialCharacters($password) &&
+           !$this->checkSpacesInPassword($password) &&
+           (!$this->checkRequiredDefaultPasswordStrength($passwordStrength)));
+    }
 
     /**
      * @return array|false|string|string[]
+     * @throws Exception
      */
     public function generateEnforcePasswordResetCode()
     {
@@ -325,19 +333,24 @@ class PasswordStrengthService
     }
 
     /**
-     * @return bool
+     * @return string
+     * @throws Exception
      */
-    public function logPasswordEnforceRequest(): bool
+    public function logPasswordEnforceRequest(): string
     {
         $enforcePasswordRequest = new EnforcePasswordRequest();
         $date = $this->getDateTimeHelper()->getNow();
+        $user = $this->getUserRoleManager()->getUser();
+        $this->username = $user->getUserName();
         $resetCode = $this->generateEnforcePasswordResetCode();
+
         $enforcePasswordRequest->setResetRequestDate($date);
+        $enforcePasswordRequest->setUser($user);
         $enforcePasswordRequest->setResetCode($resetCode);
-        $enforcePasswordRequest->setExpired(1);
+        $enforcePasswordRequest->setExpired(false);
 
         $this->getEnforcePasswordDao()->saveEnforcedPasswordRequest($enforcePasswordRequest);
-        return true;
+        return $resetCode;
     }
 
     /**
@@ -373,5 +386,13 @@ class PasswordStrengthService
 
         $timeDiff = $currentTime->diff($resetRequestTime);
         return $timeDiff->h >= 1;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUserNameForPasswordStrengthEnforceScreen(): string
+    {
+        return $this->username;
     }
 }

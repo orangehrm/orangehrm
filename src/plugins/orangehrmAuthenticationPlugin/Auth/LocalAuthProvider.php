@@ -28,11 +28,8 @@ use OrangeHRM\Authentication\Traits\Service\PasswordStrengthServiceTrait;
 use OrangeHRM\Authentication\Utility\PasswordStrengthValidation;
 use OrangeHRM\Core\Service\ConfigService;
 use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
-use OrangeHRM\Framework\Http\RedirectResponse;
 
 use OrangeHRM\Framework\Services;
-
-use function PHPUnit\Framework\throwException;
 
 class LocalAuthProvider extends AbstractAuthProvider
 {
@@ -62,16 +59,18 @@ class LocalAuthProvider extends AbstractAuthProvider
         if ($success) {
             if ($this->getConfigService()->getConfigDao()
                     ->getValue(ConfigService::KEY_ENFORCE_PASSWORD_STRENGTH) === 'on') {
-
                 $passwordStrengthValidation = new PasswordStrengthValidation();
                 $passwordStrength = $passwordStrengthValidation->checkPasswordStrength(
-                    $authParams->getCredential()->getPassword());
+                    $authParams->getCredential()->getPassword()
+                );
 
                 if (!($this->getPasswordStrengthService()
-                    ->isValidPassword($authParams->getCredential()->getPassword(),$passwordStrength))
+                    ->isValidPassword($authParams->getCredential()->getPassword(), $passwordStrength))
                 ) {
-                    $session = $this->getContainer()->get(Services::SESSION);
-                    $session->invalidate();
+                    //TODO check possibility to navigate to other screen
+//                    $session = $this->getContainer()->get(Services::SESSION);
+//                    $session->invalidate();
+                    //TODO - change exception
                     throw new PasswordEnforceException(AuthenticationException::INVALID_CREDENTIALS, 'enforce strength');
                 }
             }
