@@ -67,3 +67,8 @@ auth_weak_password_reset:
   path: /auth/changeWeakPassword/resetCode/{resetCode}
   controller: OrangeHRM\Authentication\Controller\WeakPasswordResetController::handle
   methods: [ GET ]
+
+auth_request_enforce_password:
+  path: /auth/resetWeakPassword
+  controller: OrangeHRM\Authentication\Controller\RequestResetWeakPasswordController::handle
+  methods: [ POST ]

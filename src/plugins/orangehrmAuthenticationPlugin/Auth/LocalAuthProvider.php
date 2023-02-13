@@ -29,8 +29,6 @@ use OrangeHRM\Authentication\Utility\PasswordStrengthValidation;
 use OrangeHRM\Core\Service\ConfigService;
 use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 
-use OrangeHRM\Framework\Services;
-
 class LocalAuthProvider extends AbstractAuthProvider
 {
     use ConfigServiceTrait;
@@ -47,7 +45,9 @@ class LocalAuthProvider extends AbstractAuthProvider
     }
 
     /**
-     * @inheritDoc
+     * @param AuthParamsInterface $authParams
+     * @return bool
+     * @throws AuthenticationException
      * @throws PasswordEnforceException
      */
     public function authenticate(AuthParamsInterface $authParams): bool
@@ -67,10 +67,8 @@ class LocalAuthProvider extends AbstractAuthProvider
                 if (!($this->getPasswordStrengthService()
                     ->isValidPassword($authParams->getCredential()->getPassword(), $passwordStrength))
                 ) {
-                    //TODO check possibility to navigate to other screen
-//                    $session = $this->getContainer()->get(Services::SESSION);
-//                    $session->invalidate();
-                    //TODO - change exception
+                    //Remove invalidate session from here
+                    //TODO - check and change exception error message
                     throw new PasswordEnforceException(AuthenticationException::INVALID_CREDENTIALS, 'enforce strength');
                 }
             }

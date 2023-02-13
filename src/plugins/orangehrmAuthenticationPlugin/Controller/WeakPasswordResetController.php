@@ -19,16 +19,31 @@
 
 namespace OrangeHRM\Authentication\Controller;
 
+use OrangeHRM\Authentication\Service\ResetPasswordService;
 use OrangeHRM\Authentication\Traits\Service\PasswordStrengthServiceTrait;
 use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Controller\PublicControllerInterface;
+use OrangeHRM\Framework\Services;
 
 class WeakPasswordResetController extends AbstractVueController implements PublicControllerInterface
 {
     use PasswordStrengthServiceTrait;
+
+    protected ?ResetPasswordService $resetPasswordService = null;
+
+    /**
+     * @return ResetPasswordService
+     */
+    public function getResetPasswordService(): ResetPasswordService
+    {
+        if (!$this->resetPasswordService instanceof ResetPasswordService) {
+            $this->resetPasswordService = new ResetPasswordService();
+        }
+        return $this->resetPasswordService;
+    }
 
     /**
      * @inheritDoc
@@ -38,12 +53,13 @@ class WeakPasswordResetController extends AbstractVueController implements Publi
         $resetCode = $request->attributes->get('resetCode');
         if ($this->getPasswordStrengthService()->validateUrl($resetCode)) {
             $component = new Component('reset-weak-password');
-            $username = $this->getPasswordStrengthService()->getUserNameForPasswordStrengthEnforceScreen();
+            $username = $this->getPasswordStrengthService()->getUserNameByResetCode($resetCode);
             $component->addProp(
                 new Prop('username', Prop::TYPE_STRING, $username)
             );
+            $session = $this->getContainer()->get(Services::SESSION);
+            $session->invalidate();
         } else {
-            //TODO
             $component = new Component('auth-login');
         }
         $this->setComponent($component);

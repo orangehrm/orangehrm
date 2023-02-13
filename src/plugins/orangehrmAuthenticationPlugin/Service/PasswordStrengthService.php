@@ -20,7 +20,9 @@
 namespace OrangeHRM\Authentication\Service;
 
 use Exception;
+use OrangeHRM\Admin\Traits\Service\UserServiceTrait;
 use OrangeHRM\Authentication\Dao\EnforcePasswordDao;
+use OrangeHRM\Authentication\Dto\UserCredential;
 use OrangeHRM\Core\Service\ConfigService;
 use OrangeHRM\Core\Traits\LoggerTrait;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
@@ -30,7 +32,9 @@ use OrangeHRM\Core\Traits\Service\TextHelperTrait;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Core\Utility\Base64Url;
 use OrangeHRM\Entity\EnforcePasswordRequest;
+use OrangeHRM\Entity\User;
 use OrangeHRM\I18N\Traits\Service\I18NHelperTrait;
+use OrangeHRM\ORM\Exception\TransactionException;
 
 class PasswordStrengthService
 {
@@ -41,6 +45,7 @@ class PasswordStrengthService
     use DateTimeHelperTrait;
     use LoggerTrait;
     use UserRoleManagerTrait;
+    use UserServiceTrait;
 
     private const UPPERCASE_REGEX = '/[A-Z]/';
     private const LOWERCASE_REGEX = '/[a-z]/';
@@ -69,8 +74,6 @@ class PasswordStrengthService
     private int $minNoOfSpecialCharacters;
     private string $isSpacesAllowed;
     private string $defaultPasswordStrength;
-
-    private string $username;
 
     /**
      * @return int
@@ -341,7 +344,6 @@ class PasswordStrengthService
         $enforcePasswordRequest = new EnforcePasswordRequest();
         $date = $this->getDateTimeHelper()->getNow();
         $user = $this->getUserRoleManager()->getUser();
-        $this->username = $user->getUserName();
         $resetCode = $this->generateEnforcePasswordResetCode();
 
         $enforcePasswordRequest->setResetRequestDate($date);
@@ -389,10 +391,55 @@ class PasswordStrengthService
     }
 
     /**
+     * @param string $resetCode
      * @return string
      */
-    public function getUserNameForPasswordStrengthEnforceScreen(): string
+    public function getUserNameByResetCode(string $resetCode): string
     {
-        return $this->username;
+        //TODO - check for delete user
+        $request = $this->getEnforcePasswordDao()->getUserByRestCode($resetCode);
+        return $request->getUser()->getUserName();
+    }
+
+    //TODO - check and reuse
+    /**
+     * @param User|null $user
+     * @return User|null
+     */
+    public function validateUser(?User $user): ?User
+    {
+        if ($user instanceof User) {
+            if ($user->getEmployee()->getEmployeeTerminationRecord()) {
+                $this->getLogger()->error('employee was terminated');
+                return null;
+            }
+            return $user;
+        }
+        $this->getLogger()->error('user account was deleted');
+        return null;
+    }
+
+    /**
+     * @param UserCredential $credential
+     * @return bool
+     * @throws TransactionException
+     */
+    public function saveEnforcedPassword(UserCredential $credential): bool
+    {
+        $this->beginTransaction();
+        try {
+            $success = false;
+            $user = $this->getUserService()->geUserDao()->getUserByUserName($credential->getUsername());
+            if ($this->validateUser($user) instanceof User) {
+                $user->getDecorator()->setNonHashedPassword($credential->getPassword());
+                $this->getUserService()->saveSystemUser($user);
+                $success= $this->getEnforcePasswordDao()->updateEnforcedPasswordValid($user->getId(), true);
+            }
+            $this->commitTransaction();
+            return $success;
+        } catch (Exception $e) {
+            $this->rollBackTransaction();
+            throw new TransactionException($e);
+        }
     }
 }

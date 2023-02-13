@@ -167,7 +167,7 @@ class Migration extends AbstractMigration
             $this->getSchemaHelper()->addForeignKey('ohrm_claim_request', $foreignKeyConstraint3);
         }
 
-        //TODO add migration for ohrm_enforce_password
+        //TODO - check whether this available in old versions
         $this->getSchemaHelper()->createTable('ohrm_enforce_password')
             ->addColumn('id', Types::INTEGER, ['Autoincrement' => true])
             ->addColumn('user_id', Types::INTEGER, ['Notnull' => true, 'Length' => 11])

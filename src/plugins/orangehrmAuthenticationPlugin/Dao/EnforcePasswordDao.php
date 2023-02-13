@@ -43,26 +43,39 @@ class EnforcePasswordDao extends BaseDao
      */
     public function getEnforcedPasswordLogByResetCode(string $resetCode): ?EnforcePasswordRequest
     {
-        $q = $this->createQueryBuilder(EnforcePasswordRequest::class, 'enforce');
-        $q->andWhere('enforce.resetCode = :code');
+        $q = $this->createQueryBuilder(EnforcePasswordRequest::class, 'request');
+        $q->andWhere('request.resetCode = :code');
         $q->setParameter('code', $resetCode);
         return $q->getQuery()->getOneOrNullResult();
     }
 
     /**
-     * @param string $resetCode
-     * @param int    $value
+     * @param string $userId
+     * @param bool   $expired
      * @return bool
      */
-    public function updateEnforcedPasswordValid(string $resetCode, int $value): bool
+    public function updateEnforcedPasswordValid(string $userId, bool $expired): bool
     {
-        $q = $this->createQueryBuilder(EnforcePasswordRequest::class, 'enforce');
+        $q = $this->createQueryBuilder(EnforcePasswordRequest::class, 'request');
         $q->update()
-            ->set('enforce.expired', ':value')
-            ->setParameter('value', $value)
-            ->andWhere('enforce.resetCode = :resetCode')
-            ->setParameter('resetCode', $resetCode);
+            ->set('request.expired', ':expired')
+            ->setParameter('expired', $expired)
+            ->where('request.user = :userId')
+            ->setParameter('userId', $userId);
         $result = $q->getQuery()->execute();
         return $result > 0;
+    }
+
+    /**
+     * @param string $resetCode
+     * @return EnforcePasswordRequest|null
+     */
+    public function getUserByRestCode(string $resetCode): ?EnforcePasswordRequest
+    {
+        $q = $this->createQueryBuilder(EnforcePasswordRequest::class, 'request');
+        $q->leftJoin('request.user', 'user', 'request.user_id = user.id');
+        $q->andWhere('request.resetCode = :code');
+        $q->setParameter('code', $resetCode);
+        return $q->getQuery()->getOneOrNullResult();
     }
 }

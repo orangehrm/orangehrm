@@ -160,7 +160,6 @@ export default {
 
   computed: {
     submitUrl() {
-      // TODO: Replace correct URL
       return urlFor('/auth/resetWeakPassword');
     },
   },
