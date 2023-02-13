@@ -688,7 +688,7 @@ update_password:
   controller: OrangeHRM\Pim\Controller\UpdatePasswordController::handle
   methods: [ GET ]
 
-subscribe:
+pim_subscribe:
   path: /pim/subscriber
   controller: OrangeHRM\Pim\Controller\SubscribeController::handle
   methods: [ GET ]
