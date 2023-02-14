@@ -85,8 +85,10 @@
           </oxd-text>
         </div>
       </oxd-form>
-      <oxd-divider class="orangehrm-login-seperator"></oxd-divider>
-      <social-media-auth></social-media-auth>
+      <template v-if="authenticators.length > 0">
+        <oxd-divider class="orangehrm-login-seperator"></oxd-divider>
+        <social-media-auth :authenticators="authenticators"></social-media-auth>
+      </template>
     </div>
     <div class="orangehrm-login-footer">
       <div v-if="showSocialMedia" class="orangehrm-login-footer-sm">
@@ -144,6 +146,10 @@ export default {
     isDemoMode: {
       type: Boolean,
       default: false,
+    },
+    authenticators: {
+      type: Array,
+      default: () => [],
     },
   },
 

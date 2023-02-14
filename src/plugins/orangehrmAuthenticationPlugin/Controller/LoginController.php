@@ -89,6 +89,9 @@ class LoginController extends AbstractVueController implements PublicControllerI
             new Prop('show-social-media', Prop::TYPE_BOOLEAN, $this->getThemeService()->showSocialMediaImages())
         );
         $component->addProp(new Prop('is-demo-mode', Prop::TYPE_BOOLEAN, Config::PRODUCT_MODE === Config::MODE_DEMO));
+
+        // TODO: Get authenticators
+        $component->addProp(new Prop('authenticators', Prop::TYPE_ARRAY, []));
         $this->setComponent($component);
         $this->setTemplate('no_header.html.twig');
     }
