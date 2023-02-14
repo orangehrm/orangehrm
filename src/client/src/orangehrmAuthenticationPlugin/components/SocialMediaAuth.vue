@@ -20,7 +20,7 @@
 <template>
   <div class="orangehrm-social-auth">
     <auth-button
-      v-for="authenticator in authenticators"
+      v-for="authenticator in socialAuthenticators"
       :key="authenticator.id"
       :url="authenticator.url"
       :color="authenticator.color"
@@ -41,71 +41,14 @@ export default {
     'auth-button': AuthButton,
   },
 
-  setup() {
-    // TODO: Pass authenticators via BE prop
-    const auths = [
-      {
-        id: 1,
-        label: 'Google',
-        url: '',
-      },
-      {
-        id: 2,
-        label: 'Facebook',
-        url: '',
-      },
-      {
-        id: 3,
-        label: 'LinkedIn',
-        url: '',
-      },
-      {
-        id: 4,
-        label: 'Okta',
-        url: '',
-      },
-      {
-        id: 5,
-        label: 'Keycloak',
-        url: '',
-      },
-      {
-        id: 6,
-        label: 'Auth0',
-        url: '',
-      },
-      {
-        id: 7,
-        label: 'Github',
-        url: '',
-      },
-      {
-        id: 8,
-        label: 'Youtube',
-        url: '',
-      },
-      {
-        id: 9,
-        label: 'Twitter',
-        url: '',
-      },
-      {
-        id: 10,
-        label: 'Reddit',
-        url: '',
-      },
-      {
-        id: 11,
-        label: 'Instagram',
-        url: '',
-      },
-      {
-        id: 12,
-        label: 'Spotify',
-        url: '',
-      },
-    ];
+  props: {
+    authenticators: {
+      type: Array,
+      default: () => [],
+    },
+  },
 
+  setup(props) {
     function* getColor() {
       let index = 0;
       const colors = [
@@ -125,16 +68,16 @@ export default {
       }
     }
 
-    const authenticators = computed(() => {
+    const socialAuthenticators = computed(() => {
       const colorGenerator = getColor();
-      return auths.map((authenticator) => ({
+      return props.authenticators.map((authenticator) => ({
         ...authenticator,
         color: colorGenerator.next().value,
       }));
     });
 
     return {
-      authenticators,
+      socialAuthenticators,
     };
   },
 };
