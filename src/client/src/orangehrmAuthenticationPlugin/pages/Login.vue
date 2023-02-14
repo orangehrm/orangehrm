@@ -85,7 +85,8 @@
           </oxd-text>
         </div>
       </oxd-form>
-      <br />
+      <oxd-divider class="orangehrm-login-seperator"></oxd-divider>
+      <social-media-auth></social-media-auth>
     </div>
     <div class="orangehrm-login-footer">
       <div v-if="showSocialMedia" class="orangehrm-login-footer-sm">
@@ -112,10 +113,11 @@
 
 <script>
 import {urlFor} from '@ohrm/core/util/helper/url';
+import {OxdAlert, OxdIcon, OxdSheet} from '@ohrm/oxd';
 import {required} from '@ohrm/core/util/validation/rules';
 import {navigate, reloadPage} from '@ohrm/core/util/helper/navigation';
-import LoginLayout from '../components/LoginLayout';
-import {OxdAlert, OxdIcon, OxdSheet} from '@ohrm/oxd';
+import LoginLayout from '@/orangehrmAuthenticationPlugin/components/LoginLayout.vue';
+import SocialMediaAuth from '@/orangehrmAuthenticationPlugin/components/SocialMediaAuth.vue';
 
 export default {
   components: {
@@ -123,6 +125,7 @@ export default {
     'oxd-alert': OxdAlert,
     'oxd-sheet': OxdSheet,
     'login-layout': LoginLayout,
+    'social-media-auth': SocialMediaAuth,
   },
 
   props: {
