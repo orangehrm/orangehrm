@@ -102,7 +102,9 @@ class Migration extends AbstractMigration
         $this->getConfigHelper()->setConfigValue('auth.password_policy.is_spaces_allowed', 'false');
 
         $this->getDataGroupHelper()->insertApiPermissions(__DIR__ . '/permission/api.yaml');
-        $this->getDataGroupHelper()->insertScreenPermissions(__DIR__.'/permission/screens.yaml');
+        if (!$this->checkClaimScreenExists()) {
+            $this->getDataGroupHelper()->insertScreenPermissions(__DIR__.'/permission/screens.yaml');
+        }
         $this->changeClaimEventTableStatusToBoolean();
 
         if (!$this->getSchemaHelper()->tableExists(['ohrm_expense_type'])) {
@@ -173,30 +175,30 @@ class Migration extends AbstractMigration
 
         if (!$this->checkClaimExists()) {
             $this->getConnection()->createQueryBuilder()
-            ->insert('ohrm_module_default_page')
-            ->values(
-                [
-                    'module_id' => ':module_id',
-                    'user_role_id' => ':user_role_id',
-                    'action' => ':action',
-                ]
-            )
-            ->setParameter('module_id', $this->getDataGroupHelper()->getModuleIdByName('claim'))
-            ->setParameter('user_role_id', 1)
-            ->setParameter('action', 'claim/viewEvents')
-            ->executeQuery();
+                ->insert('ohrm_module_default_page')
+                ->values(
+                    [
+                        'module_id' => ':module_id',
+                        'user_role_id' => ':user_role_id',
+                        'action' => ':action',
+                    ]
+                )
+                ->setParameter('module_id', $this->getDataGroupHelper()->getModuleIdByName('claim'))
+                ->setParameter('user_role_id', $this->getDataGroupHelper()->getUserRoleIdByName('Admin'))
+                ->setParameter('action', 'claim/viewEvents')
+                ->executeQuery();
 
             $viewClaimModuleScreenId = $this->getConnection()
-            ->createQueryBuilder()
-            ->select('id')
-            ->from('ohrm_screen')
-            ->where('action_url = :action_url')
-            ->setParameter('action_url', 'ViewClaimModule')
-            ->executeQuery()
-            ->fetchOne();
+                ->createQueryBuilder()
+                ->select('id')
+                ->from('ohrm_screen')
+                ->where('action_url = :action_url')
+                ->setParameter('action_url', 'ViewClaimModule')
+                ->executeQuery()
+                ->fetchOne();
 
             $this-> insertMenuItems('Claim', $viewClaimModuleScreenId, null, 1, 1300, 1, '{"icon":"admin"}');
-            $parentIdLevel1 = $this->getConnection()
+            $claimMenuItemId = $this->getConnection()
                 ->createQueryBuilder()
                 ->select('id')
                 ->from('ohrm_menu_item')
@@ -204,12 +206,12 @@ class Migration extends AbstractMigration
                 ->setParameter('menu_title', 'Claim')
                 ->executeQuery()
                 ->fetchOne();
-            $this->insertMenuItems('Configuration', null, $parentIdLevel1, 2, 100, 1, null);
-            $eventListScreenId = $this->getScreenId('Claim events list');
-            $parentId = $this->getParentId('Configuration', $parentIdLevel1);
-            $this->insertMenuItems('Events', $eventListScreenId, $parentId, 3, 100, 1, null);
-            $expenseTypeScreenId = $this->getScreenId('Claim expense types list');
-            $this->insertMenuItems('Expense types', $expenseTypeScreenId, $parentId, 3, 200, 1, null);
+            $this->insertMenuItems('Configuration', null, $claimMenuItemId, 2, 100, 1, null);
+            $eventListScreenId = $this->getScreenId('Events');
+            $claimConfigMenuItemId = $this->getParentId('Configuration', $claimMenuItemId);
+            $this->insertMenuItems('Events', $eventListScreenId, $claimConfigMenuItemId, 3, 100, 1, null);
+            $expenseTypeScreenId = $this->getScreenId('Expense Types');
+            $this->insertMenuItems('Expense types', $expenseTypeScreenId, $claimConfigMenuItemId, 3, 200, 1, null);
         }
     }
 
@@ -419,7 +421,7 @@ class Migration extends AbstractMigration
         int $order_hint,
         int $status,
         ?string $additional_params
-    ) {
+    ): void {
         $this->getConnection()->createQueryBuilder()
             ->insert('ohrm_menu_item')
             ->values([
@@ -479,5 +481,24 @@ class Migration extends AbstractMigration
             ->executeQuery()
             ->fetchOne();
         return $claimExists;
+    }
+
+    public function checkClaimScreenExists(): bool
+    {
+        $claimModuleId = $this->getConnection()->createQueryBuilder()
+            ->select('id')
+            ->from('ohrm_module')
+            ->where('name = :name')
+            ->setParameter('name', 'claim')
+            ->executeQuery()
+            ->fetchOne();
+        $screenPermissionExists = $this->getConnection()->createQueryBuilder()
+            ->select('id')
+            ->from('ohrm_screen')
+            ->where('module_id = :module_id')
+            ->setParameter('module_id', $claimModuleId)
+            ->executeQuery()
+            ->fetchOne();
+        return $screenPermissionExists;
     }
 }

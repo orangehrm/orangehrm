@@ -5,28 +5,28 @@
       - { role: Admin, permission: { read: true } }
       - { role: ESS, permission: { read: false, create: false, update: false, delete: false } }
 
-'Claim events list':
+'Events':
   module: claim
   url: viewEvents
   permissions:
       - { role: Admin, permission: { read: true } }
       - { role: ESS, permission: { read: false, create: false, update: false, delete: false } }
 
-'Save claim event':
+'View Create Event':
     module: claim
     url: saveEvents
     permissions:
         - { role: Admin, permission: { read: true, create: true, update: true} }
         - { role: ESS, permission: { read: false, create: false, update: false, delete: false } }
 
-'Claim expense types list':
+'Expense Types':
   module: claim
   url: viewExpense
   permissions:
       - { role: Admin, permission: { read: true } }
       - { role: ESS, permission: { read: false, create: false, update: false, delete: false } }
 
-'Save claim expense type':
+'View Create Expense':
     module: claim
     url: saveExpense
     permissions:
