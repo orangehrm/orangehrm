@@ -67,9 +67,10 @@ class LocalAuthProvider extends AbstractAuthProvider
                 if (!($this->getPasswordStrengthService()
                     ->isValidPassword($authParams->getCredential()->getPassword(), $passwordStrength))
                 ) {
-                    //Remove invalidate session from here
-                    //TODO - check and change exception error message
-                    throw new PasswordEnforceException(AuthenticationException::INVALID_CREDENTIALS, 'enforce strength');
+                    throw new PasswordEnforceException(
+                        AuthenticationException::PASSWORD_NOT_STRONG,
+                        'Your Current Password Is Weak. Please Create a Strong Password'
+                    );
                 }
             }
         }

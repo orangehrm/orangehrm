@@ -19,31 +19,17 @@
 
 namespace OrangeHRM\Authentication\Controller;
 
-use OrangeHRM\Authentication\Service\ResetPasswordService;
 use OrangeHRM\Authentication\Traits\Service\PasswordStrengthServiceTrait;
-use OrangeHRM\Core\Vue\Prop;
-use OrangeHRM\Core\Vue\Component;
-use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Controller\PublicControllerInterface;
+use OrangeHRM\Core\Vue\Component;
+use OrangeHRM\Core\Vue\Prop;
+use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\Services;
 
 class WeakPasswordResetController extends AbstractVueController implements PublicControllerInterface
 {
     use PasswordStrengthServiceTrait;
-
-    protected ?ResetPasswordService $resetPasswordService = null;
-
-    /**
-     * @return ResetPasswordService
-     */
-    public function getResetPasswordService(): ResetPasswordService
-    {
-        if (!$this->resetPasswordService instanceof ResetPasswordService) {
-            $this->resetPasswordService = new ResetPasswordService();
-        }
-        return $this->resetPasswordService;
-    }
 
     /**
      * @inheritDoc

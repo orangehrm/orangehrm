@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Authentication\Controller;
 
+use OrangeHRM\Admin\Traits\Service\UserServiceTrait;
 use OrangeHRM\Authentication\Dto\UserCredential;
 use OrangeHRM\Authentication\Traits\Service\PasswordStrengthServiceTrait;
 use OrangeHRM\Core\Controller\AbstractController;
@@ -29,6 +30,7 @@ use OrangeHRM\Framework\Http\Request;
 class RequestResetWeakPasswordController extends AbstractController implements PublicControllerInterface
 {
     use PasswordStrengthServiceTrait;
+    use UserServiceTrait;
 
     /**
      * @param Request $request
@@ -36,13 +38,15 @@ class RequestResetWeakPasswordController extends AbstractController implements P
      */
     public function handle(Request $request): RedirectResponse
     {
-        //TODO - check validity of currentPassword
         $currentPassword = $request->request->get('currentPassword');
         $username = $request->request->get('username');
         $password = $request->request->get('password');
 
-        $credentials = new UserCredential($username, $password);
-        $this->getPasswordStrengthService()->saveEnforcedPassword($credentials);
+        $userId = $this->getUserService()->geUserDao()->getUserByUserName($username)->getId();
+        if (!$this->getUserService()->isCurrentPassword($userId, $currentPassword)) {
+            $credentials = new UserCredential($username, $password);
+            $this->getPasswordStrengthService()->saveEnforcedPassword($credentials);
+        }
         return $this->redirect("auth/login");
     }
 }

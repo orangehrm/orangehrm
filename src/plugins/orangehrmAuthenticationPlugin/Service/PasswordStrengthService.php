@@ -368,6 +368,10 @@ class PasswordStrengthService
                 return null;
             }
             if ($this->isResetCodeTimeOut($enforcedPasswordLog)) {
+                $this->getEnforcePasswordDao()->updateEnforcedPasswordValid(
+                    $enforcedPasswordLog->getUser()->getId(),
+                    true
+                );
                 $this->getLogger()->error('Enforce Password reset code expired');
                 return null;
             }
@@ -392,16 +396,14 @@ class PasswordStrengthService
 
     /**
      * @param string $resetCode
-     * @return string
+     * @return string|null
      */
-    public function getUserNameByResetCode(string $resetCode): string
+    public function getUserNameByResetCode(string $resetCode): ?string
     {
-        //TODO - check for delete user
         $request = $this->getEnforcePasswordDao()->getUserByRestCode($resetCode);
         return $request->getUser()->getUserName();
     }
 
-    //TODO - check and reuse
     /**
      * @param User|null $user
      * @return User|null
