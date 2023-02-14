@@ -102,6 +102,7 @@ class Migration extends AbstractMigration
         $this->getConfigHelper()->setConfigValue('auth.password_policy.is_spaces_allowed', 'false');
 
         $this->getDataGroupHelper()->insertApiPermissions(__DIR__ . '/permission/api.yaml');
+        $this->getDataGroupHelper()->insertScreenPermissions(__DIR__.'/permission/screens.yaml');
         $this->changeClaimEventTableStatusToBoolean();
 
         if (!$this->getSchemaHelper()->tableExists(['ohrm_expense_type'])) {
@@ -169,6 +170,47 @@ class Migration extends AbstractMigration
         $this->modifyClaimTables();
         $this->modifyClaimRequestCurrencyToForeignKey();
         $this->modifyDefaultRequiredPasswordStrength();
+
+        if (!$this->checkClaimExists()) {
+            $this->getConnection()->createQueryBuilder()
+            ->insert('ohrm_module_default_page')
+            ->values(
+                [
+                    'module_id' => ':module_id',
+                    'user_role_id' => ':user_role_id',
+                    'action' => ':action',
+                ]
+            )
+            ->setParameter('module_id', $this->getDataGroupHelper()->getModuleIdByName('claim'))
+            ->setParameter('user_role_id', 1)
+            ->setParameter('action', 'claim/viewEvents')
+            ->executeQuery();
+
+            $viewClaimModuleScreenId = $this->getConnection()
+            ->createQueryBuilder()
+            ->select('id')
+            ->from('ohrm_screen')
+            ->where('action_url = :action_url')
+            ->setParameter('action_url', 'ViewClaimModule')
+            ->executeQuery()
+            ->fetchOne();
+
+            $this-> insertMenuItems('Claim', $viewClaimModuleScreenId, null, 1, 1300, 1, '{"icon":"admin"}');
+            $parentIdLevel1 = $this->getConnection()
+                ->createQueryBuilder()
+                ->select('id')
+                ->from('ohrm_menu_item')
+                ->Where('menu_title = :menu_title')
+                ->setParameter('menu_title', 'Claim')
+                ->executeQuery()
+                ->fetchOne();
+            $this->insertMenuItems('Configuration', null, $parentIdLevel1, 2, 100, 1, null);
+            $eventListScreenId = $this->getScreenId('Claim events list');
+            $parentId = $this->getParentId('Configuration', $parentIdLevel1);
+            $this->insertMenuItems('Events', $eventListScreenId, $parentId, 3, 100, 1, null);
+            $expenseTypeScreenId = $this->getScreenId('Claim expense types list');
+            $this->insertMenuItems('Expense types', $expenseTypeScreenId, $parentId, 3, 200, 1, null);
+        }
     }
 
     private function modifyClaimTables(): void
@@ -367,5 +409,75 @@ class Migration extends AbstractMigration
         }
 
         $this->getConfigHelper()->deleteConfigValue('authentication.default_required_password_strength');
+    }
+
+    public function insertMenuItems(
+        string $menu_title,
+        ?int $screen_id,
+        ?int $parent_id,
+        int $level,
+        int $order_hint,
+        int $status,
+        ?string $additional_params
+    ) {
+        $this->getConnection()->createQueryBuilder()
+            ->insert('ohrm_menu_item')
+            ->values([
+                'menu_title' => ':menu_title',
+                'screen_id' => ':screen_id',
+                'parent_id' => ':parent_id',
+                'level' => ':level',
+                'order_hint' => ':order_hint',
+                'status' => ':status',
+                'additional_params' => ':additional_params',
+            ])
+            ->setParameters([
+                'menu_title' => $menu_title,
+                'screen_id' => $screen_id,
+                'parent_id' => $parent_id,
+                'level' => $level,
+                'order_hint' => $order_hint,
+                'status' => $status,
+                'additional_params' => $additional_params,
+            ])
+            ->executeQuery();
+    }
+
+    public function getParentId(String $menu_title, ?int $parent_id): int
+    {
+        $parent_id = $this->getConnection()->createQueryBuilder()
+            ->select('id')
+            ->from('ohrm_menu_item')
+            ->where('menu_title = :menu_title')
+            ->setParameter('menu_title', $menu_title)
+            ->andWhere('parent_id = :parent_id')
+            ->setParameter('parent_id', $parent_id)
+            ->executeQuery()
+            ->fetchOne();
+        return $parent_id;
+    }
+
+    public function getScreenId(string $name): int
+    {
+        $id = $this->getConnection()->createQueryBuilder()
+            ->select('id')
+            ->from('ohrm_screen')
+            ->where('name = :name')
+            ->setParameter('name', $name)
+            ->executeQuery()
+            ->fetchOne();
+        return $id;
+    }
+
+    public function checkClaimExists(): bool
+    {
+        $claimExists = $this->getConnection()->createQueryBuilder()
+            ->select('id')
+            ->from('ohrm_menu_item')
+            ->where('menu_title = :menu_title')
+            ->setParameter('menu_title', 'Claim')
+            ->executeQuery()
+            ->fetchOne();
+        return $claimExists;
     }
 }

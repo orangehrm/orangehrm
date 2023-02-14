@@ -37,6 +37,11 @@ apiv2_claim_requests:
 #        Screens
 ##########################
 
+claim_module:
+  path: /claim/viewClaimModule
+  controller: OrangeHRM\Claim\Controller\ClaimModuleController::handle
+  methods: [ GET ]
+
 claim_events:
   path: /claim/viewEvents
   controller: OrangeHRM\Claim\Controller\ClaimController::handle
@@ -53,16 +58,16 @@ edit_claim_events:
   methods: [ GET ]
   
 claim_expense_types:
-  path: /claim/expenses/viewExpenseTypes
+  path: /claim/viewExpense
   controller: OrangeHRM\Claim\Controller\ClaimExpenseTypeController::handle
   methods: [ GET ]
 
 save_claim_expense_types:
-    path: /claim/expenses/saveExpenseTypes
+    path: /claim/saveExpense
     controller: OrangeHRM\Claim\Controller\SaveClaimExpenseTypeController::handle
     methods: [ GET ]
 
 edit_claim_expense_types:
-    path: /claim/expenses/saveExpenseTypes/{id}
+    path: /claim/saveExpense/{id}
     controller: OrangeHRM\Claim\Controller\SaveClaimExpenseTypeController::handle
     methods: [ GET ]

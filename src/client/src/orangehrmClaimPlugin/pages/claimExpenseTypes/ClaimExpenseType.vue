@@ -245,7 +245,7 @@ export default {
       this.filterItems();
     },
     onClickAdd() {
-      navigate('/claim/expenses/saveExpenseTypes');
+      navigate('/claim/saveExpense');
     },
     onClickDeleteSelected() {
       const ids = [];
@@ -282,7 +282,7 @@ export default {
       });
     },
     onClickEdit(item) {
-      navigate('/claim/expenses/saveExpenseTypes/{id}', {id: item.id});
+      navigate('/claim/saveExpense/{id}', {id: item.id});
     },
   },
 };

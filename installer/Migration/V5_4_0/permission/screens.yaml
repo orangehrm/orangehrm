@@ -1,0 +1,34 @@
+'View claim module':
+  module: claim
+  url: viewClaimModule
+  permissions:
+      - { role: Admin, permission: { read: true } }
+      - { role: ESS, permission: { read: false, create: false, update: false, delete: false } }
+
+'Claim events list':
+  module: claim
+  url: viewEvents
+  permissions:
+      - { role: Admin, permission: { read: true } }
+      - { role: ESS, permission: { read: false, create: false, update: false, delete: false } }
+
+'Save claim event':
+    module: claim
+    url: saveEvents
+    permissions:
+        - { role: Admin, permission: { read: true, create: true, update: true} }
+        - { role: ESS, permission: { read: false, create: false, update: false, delete: false } }
+
+'Claim expense types list':
+  module: claim
+  url: viewExpense
+  permissions:
+      - { role: Admin, permission: { read: true } }
+      - { role: ESS, permission: { read: false, create: false, update: false, delete: false } }
+
+'Save claim expense type':
+    module: claim
+    url: saveExpense
+    permissions:
+        - { role: Admin, permission: { read: true, create: true, update: true} }
+        - { role: ESS, permission: { read: false, create: false, update: false, delete: false } }
