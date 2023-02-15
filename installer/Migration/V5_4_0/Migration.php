@@ -85,7 +85,7 @@ class Migration extends AbstractMigration
                 [
                     'name' => ':name',
                     'status' => ':status',
-                    'display_name'=> ':display_name'
+                    'display_name' => ':display_name'
                 ]
             )
             ->setParameter('name', "auth")
@@ -102,9 +102,8 @@ class Migration extends AbstractMigration
         $this->getConfigHelper()->setConfigValue('auth.password_policy.is_spaces_allowed', 'false');
 
         $this->getDataGroupHelper()->insertApiPermissions(__DIR__ . '/permission/api.yaml');
-        if (!$this->checkClaimScreenExists()) {
-            $this->getDataGroupHelper()->insertScreenPermissions(__DIR__.'/permission/screens.yaml');
-        }
+        $this->cleanClaimScreens();
+        $this->getDataGroupHelper()->insertScreenPermissions(__DIR__ . '/permission/screens.yaml');
         $this->changeClaimEventTableStatusToBoolean();
 
         if (!$this->getSchemaHelper()->tableExists(['ohrm_expense_type'])) {
@@ -197,7 +196,7 @@ class Migration extends AbstractMigration
                 ->executeQuery()
                 ->fetchOne();
 
-            $this-> insertMenuItems('Claim', $viewClaimModuleScreenId, null, 1, 1300, 1, '{"icon":"claim"}');
+            $this->insertMenuItems('Claim', $viewClaimModuleScreenId, null, 1, 1300, 1, '{"icon":"claim"}');
             $claimMenuItemId = $this->getConnection()
                 ->createQueryBuilder()
                 ->select('id')
@@ -414,12 +413,12 @@ class Migration extends AbstractMigration
     }
 
     public function insertMenuItems(
-        string $menu_title,
-        ?int $screen_id,
-        ?int $parent_id,
-        int $level,
-        int $order_hint,
-        int $status,
+        string  $menu_title,
+        ?int    $screen_id,
+        ?int    $parent_id,
+        int     $level,
+        int     $order_hint,
+        int     $status,
         ?string $additional_params
     ): void {
         $this->getConnection()->createQueryBuilder()
@@ -445,7 +444,7 @@ class Migration extends AbstractMigration
             ->executeQuery();
     }
 
-    public function getParentId(String $menu_title, ?int $parent_id): int
+    public function getParentId(string $menu_title, ?int $parent_id): int
     {
         $parent_id = $this->getConnection()->createQueryBuilder()
             ->select('id')
@@ -483,22 +482,15 @@ class Migration extends AbstractMigration
         return $claimExists;
     }
 
-    public function checkClaimScreenExists(): bool
+    private function cleanClaimScreens(): void
     {
-        $claimModuleId = $this->getConnection()->createQueryBuilder()
-            ->select('id')
-            ->from('ohrm_module')
-            ->where('name = :name')
-            ->setParameter('name', 'claim')
-            ->executeQuery()
-            ->fetchOne();
-        $screenPermissionExists = $this->getConnection()->createQueryBuilder()
-            ->select('id')
-            ->from('ohrm_screen')
-            ->where('module_id = :module_id')
-            ->setParameter('module_id', $claimModuleId)
-            ->executeQuery()
-            ->fetchOne();
-        return $screenPermissionExists;
+        $screenNames = ['Events', 'Expense Types', 'Employee Claim List', 'Assign Claim', 'Submit Claim', 'My Claims List', 'View Claim Module', 'View Create Event', 'View Create Expense'];
+        foreach ($screenNames as $screenName) {
+            $this->createQueryBuilder()
+                ->delete('ohrm_screen')
+                ->andWhere('ohrm_screen.name = :screenName')
+                ->setParameter('screenName', $screenName)
+                ->executeQuery();
+        }
     }
 }

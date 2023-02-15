@@ -1,34 +1,34 @@
-'View claim module':
+'View Claim Module':
   module: claim
   url: viewClaimModule
   permissions:
-      - { role: Admin, permission: { read: true } }
-      - { role: ESS, permission: { read: false, create: false, update: false, delete: false } }
+    - { role: Admin, permission: { read: true } }
+    - { role: ESS, permission: { read: false, create: false, update: false, delete: false } }
 
 'Events':
   module: claim
   url: viewEvents
   permissions:
-      - { role: Admin, permission: { read: true } }
-      - { role: ESS, permission: { read: false, create: false, update: false, delete: false } }
+    - { role: Admin, permission: { read: true } }
+    - { role: ESS, permission: { read: false, create: false, update: false, delete: false } }
 
-'View Create Event':
-    module: claim
-    url: saveEvents
-    permissions:
-        - { role: Admin, permission: { read: true, create: true, update: true} }
-        - { role: ESS, permission: { read: false, create: false, update: false, delete: false } }
+'Create Event':
+  module: claim
+  url: saveEvents
+  permissions:
+    - { role: Admin, permission: { read: true, create: true, update: true } }
+    - { role: ESS, permission: { read: false, create: false, update: false, delete: false } }
 
 'Expense Types':
   module: claim
   url: viewExpense
   permissions:
-      - { role: Admin, permission: { read: true } }
-      - { role: ESS, permission: { read: false, create: false, update: false, delete: false } }
+    - { role: Admin, permission: { read: true } }
+    - { role: ESS, permission: { read: false, create: false, update: false, delete: false } }
 
-'View Create Expense':
-    module: claim
-    url: saveExpense
-    permissions:
-        - { role: Admin, permission: { read: true, create: true, update: true} }
-        - { role: ESS, permission: { read: false, create: false, update: false, delete: false } }
+'Create Expense':
+  module: claim
+  url: saveExpense
+  permissions:
+    - { role: Admin, permission: { read: true, create: true, update: true } }
+    - { role: ESS, permission: { read: false, create: false, update: false, delete: false } }
