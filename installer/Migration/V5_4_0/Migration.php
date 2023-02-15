@@ -197,7 +197,7 @@ class Migration extends AbstractMigration
                 ->executeQuery()
                 ->fetchOne();
 
-            $this-> insertMenuItems('Claim', $viewClaimModuleScreenId, null, 1, 1300, 1, '{"icon":"admin"}');
+            $this-> insertMenuItems('Claim', $viewClaimModuleScreenId, null, 1, 1300, 1, '{"icon":"claim"}');
             $claimMenuItemId = $this->getConnection()
                 ->createQueryBuilder()
                 ->select('id')
@@ -211,7 +211,7 @@ class Migration extends AbstractMigration
             $claimConfigMenuItemId = $this->getParentId('Configuration', $claimMenuItemId);
             $this->insertMenuItems('Events', $eventListScreenId, $claimConfigMenuItemId, 3, 100, 1, null);
             $expenseTypeScreenId = $this->getScreenId('Expense Types');
-            $this->insertMenuItems('Expense types', $expenseTypeScreenId, $claimConfigMenuItemId, 3, 200, 1, null);
+            $this->insertMenuItems('Expense Types', $expenseTypeScreenId, $claimConfigMenuItemId, 3, 200, 1, null);
         }
     }
 
