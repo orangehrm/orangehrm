@@ -74,11 +74,79 @@ describe('Admin - Job Titles', function () {
           .isInvalid('Should not exceed 400 characters');
       });
     });
+
+    it('cancel button behaviour on jobTitle form', function () {
+      cy.loginTo(this.user, '/admin/saveJobTitle');
+      cy.getOXD('form').within(() => {
+        cy.getOXDInput('Job Title').type(this.strings.chars50.text);
+        cy.getOXD('button').contains('Cancel').click();
+      });
+      cy.wait('@getJobTitles');
+      cy.getOXD('pageTitle').contains('Job Titles');
+    });
   });
 
   // Update
-  describe('update job title', function () {});
+  describe('update job title', function () {
+    it('Edit Job Title', function () {
+      cy.task('db:restore', {name: 'jobTitle'});
+      cy.loginTo(this.user, '/admin/saveJobTitle/1');
+      cy.getOXD('form').within(() => {
+        cy.getOXDInput('Job Title')
+          .clear()
+          .type('Updated the Job Title name with this text');
+        cy.getOXDInput('Job Description')
+          .clear()
+          .type('Updated the Job Title description with this text');
+        cy.getOXDInput('Note')
+          .clear()
+          .type('Updated the Job Title Note with this text');
+        cy.getOXD('button').contains('Save').click();
+      });
+      cy.wait('@updateJobTitles');
+      cy.toast('success', 'Successfully Updated');
+    });
+
+    it('cancel button behaviour on edit Job Title', function () {
+      cy.task('db:restore', {name: 'jobTitle'});
+      cy.loginTo(this.user, '/admin/saveJobTitle/1');
+      cy.getOXD('form').within(() => {
+        cy.getOXDInput('Job Title')
+          .clear()
+          .type('Updated the Job Title name with this text');
+        cy.getOXDInput('Job Description')
+          .clear()
+          .type('Updated the Job title description with this text');
+        cy.getOXD('button').contains('Cancel').click();
+      });
+      cy.wait('@getJobTitles');
+      cy.getOXD('pageTitle').contains('Job Titles');
+    });
+  });
 
   // Delete
-  describe('delete job title', function () {});
+  describe('delete job title', function () {
+    it('Delete a Single Job Title', function () {
+      cy.task('db:restore', {name: 'jobTitle'});
+      cy.loginTo(this.user, '/admin/viewJobTitleList');
+      cy.wait('@getJobTitles');
+      cy.get(
+        '.oxd-table-body > :nth-child(1) .oxd-table-cell-actions > :nth-child(1)',
+      ).click();
+      cy.getOXD('button').contains('Yes, Delete').click();
+      cy.wait('@getJobTitles');
+      cy.toast('success', 'Successfully Deleted');
+    });
+
+    it('Bulk Delete Job Title', function () {
+      cy.task('db:restore', {name: 'jobTitle'});
+      cy.loginTo(this.user, '/admin/viewJobTitleList');
+      cy.wait('@getJobTitles');
+      cy.get('.oxd-table-header .oxd-checkbox-input').click();
+      cy.getOXD('button').contains('Delete Selected').click();
+      cy.getOXD('button').contains('Yes, Delete').click();
+      cy.wait('@getJobTitles');
+      cy.toast('success', 'Successfully Deleted');
+    });
+  });
 });
