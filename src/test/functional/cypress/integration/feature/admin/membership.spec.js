@@ -71,6 +71,8 @@ describe('Admin - Membership', function () {
       });
       cy.wait('@updateMembership');
       cy.toast('success', 'Successfully Updated');
+      // eslint-disable-next-line cypress/no-unnecessary-waiting
+      cy.wait(3000);
     });
     it('cancel button behaviour on edit membership', function () {
       cy.task('db:restore', {name: 'Membership'});
