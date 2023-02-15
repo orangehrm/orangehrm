@@ -132,6 +132,9 @@ export default {
             newPassword: this.user.password,
             currentPassword: this.user.currentPassword,
           },
+          validateStatus: (status) => {
+            return (status >= 200 && status < 300) || status === 422;
+          },
         })
         .then((response) => {
           if (response.status === 200) {
