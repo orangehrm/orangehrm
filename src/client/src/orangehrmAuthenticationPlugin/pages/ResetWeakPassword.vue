@@ -30,6 +30,13 @@
             {{ $t('auth.change_weak_password') }}
           </oxd-text>
           <oxd-divider />
+          <div class="orangehrm-login-error">
+            <oxd-alert
+              :show="error !== null"
+              :message="error?.message || ''"
+              type="error"
+            ></oxd-alert>
+          </div>
           <oxd-form-row>
             <oxd-input-field
               :value="username"
@@ -101,7 +108,7 @@ import {
   required,
   shouldNotExceedCharLength,
 } from '@ohrm/core/util/validation/rules';
-import {promiseDebounce} from '@ohrm/oxd';
+import {promiseDebounce, OxdAlert} from '@ohrm/oxd';
 import {urlFor} from '@/core/util/helper/url';
 import {APIService} from '@/core/util/services/api.service';
 import usePasswordPolicy from '@/core/util/composable/usePasswordPolicy';
@@ -112,12 +119,17 @@ export default {
 
   components: {
     'password-strength-indicator': PasswordStrengthIndicator,
+    'oxd-alert': OxdAlert,
   },
 
   props: {
     username: {
       type: String,
       required: true,
+    },
+    error: {
+      type: Object,
+      default: () => null,
     },
   },
 

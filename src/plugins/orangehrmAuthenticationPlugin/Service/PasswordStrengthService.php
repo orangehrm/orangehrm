@@ -408,7 +408,7 @@ class PasswordStrengthService
      * @param User|null $user
      * @return User|null
      */
-    public function validateUser(?User $user): ?User
+    private function validateUser(?User $user): ?User
     {
         if ($user instanceof User) {
             if ($user->getEmployee()->getEmployeeTerminationRecord()) {
