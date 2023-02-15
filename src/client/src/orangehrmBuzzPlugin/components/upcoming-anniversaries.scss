@@ -62,7 +62,7 @@
     @include truncate(2, 1, #fff);
   }
   &-duration {
-    padding: 0 20px;
+    width: 4rem;
     font-weight: 600;
     margin-left: auto;
     white-space: nowrap;
@@ -79,7 +79,6 @@
     }
   }
   &-durations-text {
-    margin-left: 1.2rem;
     text-align: center;
   }
   &-footer {
