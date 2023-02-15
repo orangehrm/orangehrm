@@ -115,10 +115,14 @@ export default {
   methods: {
     onSave() {
       this.isLoading = true;
-      this.http.http
-        .put('api/v2/admin/localization', {
-          language: this.configuration.language?.id,
-          dateFormat: this.configuration.dateFormat?.id,
+      this.http
+        .request({
+          method: 'PUT',
+          url: 'api/v2/admin/localization',
+          data: {
+            language: this.configuration.language?.id,
+            dateFormat: this.configuration.dateFormat?.id,
+          },
         })
         .then(() => {
           return this.$toast.updateSuccess();

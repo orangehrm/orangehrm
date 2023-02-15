@@ -253,7 +253,10 @@ export default {
             return true;
           }
         });
-        return this.http.http.get('api/v2/admin/users');
+        return this.http.request({
+          type: 'GET',
+          url: 'api/v2/admin/users',
+        });
       })
       .then((response) => {
         const {data} = response.data;
@@ -290,12 +293,16 @@ export default {
             this.empNumber = data.data.empNumber;
           }
           if (this.createLogin && data?.data) {
-            return this.http.http.post('api/v2/admin/users', {
-              username: this.user.username,
-              password: this.user.password,
-              status: this.user.status == '1',
-              userRoleId: this.user.userRoleId,
-              empNumber: data.data.empNumber,
+            return this.http.request({
+              type: 'GET',
+              url: 'api/v2/admin/users',
+              data: {
+                username: this.user.username,
+                password: this.user.password,
+                status: this.user.status == '1',
+                userRoleId: this.user.userRoleId,
+                empNumber: data.data.empNumber,
+              },
             });
           } else {
             return;
