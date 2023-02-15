@@ -63,11 +63,11 @@ class LocalAuthProvider extends AbstractAuthProvider
                     ->getValue(ConfigService::KEY_ENFORCE_PASSWORD_STRENGTH) === 'on') {
                 $passwordStrengthValidation = new PasswordStrengthValidation();
                 $passwordStrength = $passwordStrengthValidation->checkPasswordStrength(
-                    $authParams->getCredential()->getPassword()
+                    $authParams->getCredential()
                 );
 
                 if (!($this->getPasswordStrengthService()
-                    ->isValidPassword($authParams->getCredential()->getPassword(), $passwordStrength))
+                    ->isValidPassword($authParams->getCredential(), $passwordStrength))
                 ) {
                     throw new PasswordEnforceException(
                         AuthenticationException::PASSWORD_NOT_STRONG,

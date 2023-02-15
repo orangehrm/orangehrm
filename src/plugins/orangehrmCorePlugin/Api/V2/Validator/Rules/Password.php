@@ -45,8 +45,8 @@ class Password extends AbstractRule
         $passwordStrengthValidation = new PasswordStrengthValidation();
         $credentials = new UserCredential(null, $input);
 
-        $passwordStrength = $passwordStrengthValidation->checkPasswordStrength($credentials->getPassword());
-        $messages = $this->getPasswordStrengthService()->checkPasswordPolicies($input, $passwordStrength);
+        $passwordStrength = $passwordStrengthValidation->checkPasswordStrength($credentials);
+        $messages = $this->getPasswordStrengthService()->checkPasswordPolicies($credentials, $passwordStrength);
 
         if (count($messages) === 0) {
             return true;

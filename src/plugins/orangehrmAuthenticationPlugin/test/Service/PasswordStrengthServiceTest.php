@@ -72,19 +72,23 @@ class PasswordStrengthServiceTest extends KernelTestCase
 
     public function testCheckPasswordPolicies(): void
     {
-        $messages = $this->passwordStrengthService->checkPasswordPolicies('Admin123', 2);
+        $credential = new UserCredential('admin', 'Admin123');
+        $messages = $this->passwordStrengthService->checkPasswordPolicies($credential, 2);
         $this->assertEquals($messages[0], 'Should have at least 8 characters');
 
-        $messages = $this->passwordStrengthService->checkPasswordPolicies('Admin@OHRM123', 2);
+        $credential = new UserCredential('admin', 'Admin@OHRM123');
+        $messages = $this->passwordStrengthService->checkPasswordPolicies($credential, 2);
         $this->assertEquals($messages[0], 'Your password meets the minimum requirements, but it could be guessable');
     }
 
     public function testIsValidPassword(): void
     {
-        $isValid = $this->passwordStrengthService->isValidPassword('Admin@OHRM123', 4);
+        $credential = new UserCredential('admin', 'Admin@OHRM123');
+        $isValid = $this->passwordStrengthService->isValidPassword($credential, 4);
         $this->assertEquals(true, $isValid);
 
-        $isValid = $this->passwordStrengthService->isValidPassword('Admin123', 2);
+        $credential = new UserCredential('Adalwin', 'Admin@OHRM123');
+        $isValid = $this->passwordStrengthService->isValidPassword($credential, 2);
         $this->assertEquals(false, $isValid);
     }
 
@@ -139,6 +143,13 @@ class PasswordStrengthServiceTest extends KernelTestCase
 
     public function testSaveEnforcedPassword(): void
     {
+        $this->createKernelWithMockServices(
+            [
+                Services::USER_SERVICE =>  new UserService(),
+                Services::DATETIME_HELPER_SERVICE => new DateTimeHelperService(),
+            ]
+        );
+
         $username = 'admin';
         $password = 'admin@OHRM123';
         $credentials = new UserCredential($username, $password);

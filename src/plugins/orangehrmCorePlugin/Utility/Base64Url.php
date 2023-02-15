@@ -23,9 +23,9 @@ class Base64Url
 {
     /**
      * @param string $value
-     * @return array|false|string|string[]
+     * @return string
      */
-    public static function encode(string $value)
+    public static function encode(string $value): string
     {
         $base64 = base64_encode($value);
         if ($base64 === false) {

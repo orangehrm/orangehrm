@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\Authentication\Dao;
 
-use Doctrine\ORM\NonUniqueResultException;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Entity\EnforcePasswordRequest;
 
@@ -37,14 +36,15 @@ class EnforcePasswordDao extends BaseDao
 
     /**
      * @param string $resetCode
-     *
      * @return EnforcePasswordRequest|null
-     * @throws NonUniqueResultException
      */
     public function getEnforcedPasswordLogByResetCode(string $resetCode): ?EnforcePasswordRequest
     {
         $q = $this->createQueryBuilder(EnforcePasswordRequest::class, 'request');
+        $q->leftJoin('request.user', 'user');
         $q->andWhere('request.resetCode = :code');
+        $q->andWhere('user.deleted = :deleted');
+        $q->setParameter('deleted', false);
         $q->setParameter('code', $resetCode);
         return $q->getQuery()->getOneOrNullResult();
     }
@@ -64,21 +64,5 @@ class EnforcePasswordDao extends BaseDao
             ->setParameter('userId', $userId);
         $result = $q->getQuery()->execute();
         return $result > 0;
-    }
-
-    /**
-     * @param string $resetCode
-     * @return EnforcePasswordRequest|null
-     * @throws NonUniqueResultException
-     */
-    public function getUserByRestCode(string $resetCode): ?EnforcePasswordRequest
-    {
-        $q = $this->createQueryBuilder(EnforcePasswordRequest::class, 'request');
-        $q->leftJoin('request.user', 'user', 'request.user_id = user.id');
-        $q->andWhere('request.resetCode = :code');
-        $q->andWhere('user.deleted = :deleted');
-        $q->setParameter('deleted', false);
-        $q->setParameter('code', $resetCode);
-        return $q->getQuery()->getOneOrNullResult();
     }
 }

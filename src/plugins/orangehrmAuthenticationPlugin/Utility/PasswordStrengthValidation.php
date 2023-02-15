@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Authentication\Utility;
 
+use OrangeHRM\Authentication\Dto\UserCredential;
 use ZxcvbnPhp\Zxcvbn;
 
 class PasswordStrengthValidation
@@ -37,14 +38,14 @@ class PasswordStrengthValidation
     }
 
     /**
-     * @param string $password
+     * @param UserCredential $credential
      * @return int
      */
-    public function checkPasswordStrength(string $password): int
+    public function checkPasswordStrength(UserCredential $credential): int
     {
         //Add if condition in case of library change
         try {
-            $strength =  $this->zxcvbn->passwordStrength($password);
+            $strength =  $this->zxcvbn->passwordStrength($credential->getPassword());
             if ($strength['score'] == 0) {
                 return self::VERY_WEAK;
             }

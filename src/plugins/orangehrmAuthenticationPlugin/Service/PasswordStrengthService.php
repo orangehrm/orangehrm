@@ -52,19 +52,9 @@ class PasswordStrengthService
     private const NUMBER_REGEX = '/[0-9]/';
     private const SPACES_REGEX = '/\s/';
     private const SPECIAL_CHARACTER_REGEX = '/[@#\\\\\/\-!$%^&*()_+|~=`{}\[\]:";\'<>?,.]/';
-    protected ?EnforcePasswordDao $enforcePasswordDao = null;
-    public const ENFORCE_PASSWORD_RESET_CODE_BYTES_LENGTH = 16;
+    private const ENFORCE_PASSWORD_RESET_CODE_BYTES_LENGTH = 16;
 
-    /**
-     * @return EnforcePasswordDao
-     */
-    public function getEnforcePasswordDao(): EnforcePasswordDao
-    {
-        if (!$this->enforcePasswordDao instanceof EnforcePasswordDao) {
-            $this->enforcePasswordDao = new EnforcePasswordDao();
-        }
-        return $this->enforcePasswordDao;
-    }
+    protected ?EnforcePasswordDao $enforcePasswordDao = null;
 
     private int $minLength;
     private int $maxLength;
@@ -74,6 +64,14 @@ class PasswordStrengthService
     private int $minNoOfSpecialCharacters;
     private string $isSpacesAllowed;
     private string $defaultPasswordStrength;
+
+    /**
+     * @return EnforcePasswordDao
+     */
+    public function getEnforcePasswordDao(): EnforcePasswordDao
+    {
+        return $this->enforcePasswordDao ??= new EnforcePasswordDao();
+    }
 
     /**
      * @return int
@@ -266,14 +264,15 @@ class PasswordStrengthService
     }
 
     /**
-     * @param string $password
-     * @param int    $passwordStrength
+     * @param UserCredential $credential
+     * @param int $passwordStrength
      *
      * @return array
      */
-    public function checkPasswordPolicies(string $password, int $passwordStrength): array
+    public function checkPasswordPolicies(UserCredential $credential, int $passwordStrength): array
     {
         $messages = [];
+        $password = $credential->getPassword();
         if ($this->checkMinPasswordLength($password)) {
             $messages[] = $this->getI18NHelper()
                 ->trans('auth.password_min_length', ['count' => $this->getMinLength()]);
@@ -308,12 +307,13 @@ class PasswordStrengthService
     }
 
     /**
-    * @param string $password
-    * @param int    $passwordStrength
-    * @return bool
-    */
-    public function isValidPassword(string $password, int $passwordStrength): bool
+     * @param UserCredential $credential
+     * @param int $passwordStrength
+     * @return bool
+     */
+    public function isValidPassword(UserCredential $credential, int $passwordStrength): bool
     {
+        $password = $credential->getPassword();
         return (!$this->checkMinPasswordLength($password) &&
            !$this->checkMaxPasswordLength($password) &&
            !$this->checkMinLowercaseLetters($password) &&
@@ -325,10 +325,9 @@ class PasswordStrengthService
     }
 
     /**
-     * @return array|false|string|string[]
-     * @throws Exception
+     * @return string
      */
-    public function generateEnforcePasswordResetCode()
+    private function generateEnforcePasswordResetCode(): string
     {
         return Base64Url::encode(
             random_bytes(static::ENFORCE_PASSWORD_RESET_CODE_BYTES_LENGTH)
@@ -337,7 +336,6 @@ class PasswordStrengthService
 
     /**
      * @return string
-     * @throws Exception
      */
     public function logPasswordEnforceRequest(): string
     {
@@ -364,21 +362,21 @@ class PasswordStrengthService
         $enforcedPasswordLog = $this->getEnforcePasswordDao()->getEnforcedPasswordLogByResetCode($resetCode);
         if ($enforcedPasswordLog instanceof EnforcePasswordRequest) {
             if ($enforcedPasswordLog->isExpired()) {
-                $this->getLogger()->error('Enforce Password reset code expired');
-                return null;
+                $this->getLogger()->warning('Enforce password reset code already used', ['resetCode'=>$resetCode]);
+                return false;
             }
             if ($this->isResetCodeTimeOut($enforcedPasswordLog)) {
                 $this->getEnforcePasswordDao()->updateEnforcedPasswordValid(
                     $enforcedPasswordLog->getUser()->getId(),
                     true
                 );
-                $this->getLogger()->error('Enforce Password reset code expired');
-                return null;
+                $this->getLogger()->warning('Enforce password reset code expired', ['resetCode'=>$resetCode]);
+                return false;
             }
             return true;
         }
-        $this->getLogger()->error('Invalid reset code');
-        return null;
+        $this->getLogger()->warning('Invalid reset code', ['resetCode'=>$resetCode]);
+        return false;
     }
 
     /**
@@ -400,7 +398,7 @@ class PasswordStrengthService
      */
     public function getUserNameByResetCode(string $resetCode): ?string
     {
-        $request = $this->getEnforcePasswordDao()->getUserByRestCode($resetCode);
+        $request = $this->getEnforcePasswordDao()->getEnforcedPasswordLogByResetCode($resetCode);
         return $request->getUser()->getUserName();
     }
 
@@ -412,12 +410,10 @@ class PasswordStrengthService
     {
         if ($user instanceof User) {
             if ($user->getEmployee()->getEmployeeTerminationRecord()) {
-                $this->getLogger()->error('employee was terminated');
                 return null;
             }
             return $user;
         }
-        $this->getLogger()->error('user account was deleted');
         return null;
     }
 
@@ -434,6 +430,8 @@ class PasswordStrengthService
             $user = $this->getUserService()->geUserDao()->getUserByUserName($credential->getUsername());
             if ($this->validateUser($user) instanceof User) {
                 $user->getDecorator()->setNonHashedPassword($credential->getPassword());
+                $user->setDateModified($this->getDateTimeHelper()->getNow());
+                $user->setModifiedUserId($user->getId());
                 $this->getUserService()->saveSystemUser($user);
                 $success= $this->getEnforcePasswordDao()->updateEnforcedPasswordValid($user->getId(), true);
             }

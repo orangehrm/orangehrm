@@ -64,7 +64,7 @@ class EnforcePasswordRequest
      *
      * @ORM\Column(name="expired", type="boolean")
      */
-    private bool $expired;
+    private bool $expired = false;
 
     /**
      * @return int

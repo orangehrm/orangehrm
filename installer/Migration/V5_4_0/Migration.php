@@ -20,6 +20,7 @@
 namespace OrangeHRM\Installer\Migration\V5_4_0;
 
 use Doctrine\DBAL\Schema\ForeignKeyConstraint;
+use Doctrine\DBAL\Schema\Index;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Types\Types;
 use OrangeHRM\Installer\Util\V1\AbstractMigration;
@@ -169,18 +170,25 @@ class Migration extends AbstractMigration
 
         $this->getSchemaHelper()->createTable('ohrm_enforce_password')
             ->addColumn('id', Types::INTEGER, ['Autoincrement' => true])
-            ->addColumn('user_id', Types::INTEGER, ['Notnull' => true, 'Length' => 11])
+            ->addColumn('user_id', Types::INTEGER, ['Notnull' => true])
             ->addColumn('enforce_request_date', Types::DATETIME_MUTABLE, ['Notnull' => false])
-            ->addColumn('reset_code', Types::STRING, ['Notnull' => false])
+            ->addColumn('reset_code', Types::STRING, ['Notnull' => true])
             ->addColumn('expired', Types::BOOLEAN, ['Notnull' => true, 'Default' => 0])
             ->setPrimaryKey(['id'])
             ->create();
+
+        $resetCode = new Index(
+            'reset_code',
+            ['reset_code']
+        );
+        $this->getSchemaManager()->createIndex($resetCode, 'ohrm_enforce_password');
+
         $foreignKeyConstraint = new ForeignKeyConstraint(
             ['user_id'],
             'ohrm_user',
             ['id'],
             'enforcePasswordUser',
-            ['onDelete' => 'CASCADE']
+            ['onDelete' => 'NO ACTION']
         );
         $this->getSchemaHelper()->addForeignKey('ohrm_enforce_password', $foreignKeyConstraint);
 

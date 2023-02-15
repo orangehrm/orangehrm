@@ -99,8 +99,8 @@ class PasswordStrengthValidationAPI extends Endpoint implements CollectionEndpoi
 
         $passwordStrengthValidation = new PasswordStrengthValidation();
 
-        $passwordStrength = $passwordStrengthValidation->checkPasswordStrength($credentials->getPassword());
-        $messages = $this->getPasswordStrengthService()->checkPasswordPolicies($password, $passwordStrength);
+        $passwordStrength = $passwordStrengthValidation->checkPasswordStrength($credentials);
+        $messages = $this->getPasswordStrengthService()->checkPasswordPolicies($credentials, $passwordStrength);
 
         if (count($messages) > 0 && $passwordStrength > PasswordStrengthValidation::BETTER) {
             $passwordStrength = PasswordStrengthValidation::BETTER;

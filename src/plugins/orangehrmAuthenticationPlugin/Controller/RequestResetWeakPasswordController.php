@@ -27,8 +27,11 @@ use OrangeHRM\Authentication\Traits\Service\PasswordStrengthServiceTrait;
 use OrangeHRM\Core\Controller\AbstractController;
 use OrangeHRM\Core\Controller\PublicControllerInterface;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
+use OrangeHRM\Entity\User;
 use OrangeHRM\Framework\Http\RedirectResponse;
 use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Framework\Routing\UrlGenerator;
+use OrangeHRM\Framework\Services;
 use OrangeHRM\I18N\Traits\Service\I18NHelperTrait;
 
 class RequestResetWeakPasswordController extends AbstractController implements PublicControllerInterface
@@ -47,18 +50,34 @@ class RequestResetWeakPasswordController extends AbstractController implements P
         $currentPassword = $request->request->get('currentPassword');
         $username = $request->request->get('username');
         $password = $request->request->get('password');
+        $resetCode = $request->request->get('resetCode');
 
-        $userId = $this->getUserService()->geUserDao()->getUserByUserName($username)->getId();
-        if (!$this->getUserService()->isCurrentPassword($userId, $currentPassword)) {
+        $user = $this->getUserService()->geUserDao()->getUserByUserName($username);
+
+        if (!$this->getPasswordStrengthService()->validateUrl($resetCode)) {
             $this->getAuthUser()->addFlash(
                 AuthUser::FLASH_LOGIN_ERROR,
                 [
                     'error' => AuthenticationException::UNEXPECT_ERROR,
-                    'message' => $this->getI18NHelper()->transBySource('Current password is incorrect'),
+                    'message' => 'Invalid credentials',
                 ]
             );
-            $route = $request->headers->get('referer');
-            return new RedirectResponse($route);
+            return $this->redirect("auth/login");
+        }
+
+        if (!$user instanceof User || !$this->getUserService()->isCurrentPassword($user->getId(), $currentPassword)) {
+            $this->getAuthUser()->addFlash(
+                AuthUser::FLASH_LOGIN_ERROR,
+                [
+                    'error' => AuthenticationException::INVALID_CREDENTIALS,
+                    'message' => $this->getI18NHelper()->transBySource('Invalid credentials'),
+                ]
+            );
+
+            /** @var UrlGenerator $urlGenerator */
+            $urlGenerator = $this->getContainer()->get(Services::URL_GENERATOR);
+            $redirectUrl = $urlGenerator->generate('auth_weak_password_reset', ['resetCode'=>$resetCode], UrlGenerator::ABSOLUTE_URL);
+            return new RedirectResponse($redirectUrl);
         } else {
             $credentials = new UserCredential($username, $password);
             $this->getPasswordStrengthService()->saveEnforcedPassword($credentials);

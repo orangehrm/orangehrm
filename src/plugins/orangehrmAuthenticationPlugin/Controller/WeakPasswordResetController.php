@@ -46,6 +46,9 @@ class WeakPasswordResetController extends AbstractVueController implements Publi
             $component->addProp(
                 new Prop('username', Prop::TYPE_STRING, $username)
             );
+            $component->addProp(
+                new Prop('token', Prop::TYPE_STRING, $resetCode)
+            );
             if ($this->getAuthUser()->hasFlash(AuthUser::FLASH_LOGIN_ERROR)) {
                 $error = $this->getAuthUser()->getFlash(AuthUser::FLASH_LOGIN_ERROR);
                 $component->addProp(

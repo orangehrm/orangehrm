@@ -29,6 +29,3 @@ langStrings:
   -
     value: 'Your current password is weak. please create a strong password'
     unitId: password_not_strong
-  -
-    value: 'Current password is incorrect'
-    unitId: incorrect_current_password
