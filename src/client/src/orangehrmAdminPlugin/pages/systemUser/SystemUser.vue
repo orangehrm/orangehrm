@@ -276,7 +276,7 @@ export default {
       ],
       userStatuses: [
         {id: 1, label: this.$t('general.enabled')},
-        {id: 2, label: this.$t('general.disabled')},
+        {id: 0, label: this.$t('general.disabled')},
       ],
       checkedItems: [],
       rules: {
