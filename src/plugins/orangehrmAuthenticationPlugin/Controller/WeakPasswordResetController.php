@@ -19,9 +19,11 @@
 
 namespace OrangeHRM\Authentication\Controller;
 
+use OrangeHRM\Authentication\Auth\User as AuthUser;
 use OrangeHRM\Authentication\Traits\Service\PasswordStrengthServiceTrait;
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Controller\PublicControllerInterface;
+use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Framework\Http\Request;
@@ -30,6 +32,7 @@ use OrangeHRM\Framework\Services;
 class WeakPasswordResetController extends AbstractVueController implements PublicControllerInterface
 {
     use PasswordStrengthServiceTrait;
+    use AuthUserTrait;
 
     /**
      * @inheritDoc
@@ -43,6 +46,16 @@ class WeakPasswordResetController extends AbstractVueController implements Publi
             $component->addProp(
                 new Prop('username', Prop::TYPE_STRING, $username)
             );
+            if ($this->getAuthUser()->hasFlash(AuthUser::FLASH_LOGIN_ERROR)) {
+                $error = $this->getAuthUser()->getFlash(AuthUser::FLASH_LOGIN_ERROR);
+                $component->addProp(
+                    new Prop(
+                        'error',
+                        Prop::TYPE_OBJECT,
+                        $error[0] ?? []
+                    )
+                );
+            }
             $session = $this->getContainer()->get(Services::SESSION);
             $session->invalidate();
         } else {

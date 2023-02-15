@@ -28,11 +28,13 @@ use OrangeHRM\Authentication\Traits\Service\PasswordStrengthServiceTrait;
 use OrangeHRM\Authentication\Utility\PasswordStrengthValidation;
 use OrangeHRM\Core\Service\ConfigService;
 use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
+use OrangeHRM\I18N\Traits\Service\I18NHelperTrait;
 
 class LocalAuthProvider extends AbstractAuthProvider
 {
     use ConfigServiceTrait;
     use PasswordStrengthServiceTrait;
+    use I18NHelperTrait;
 
     private AuthenticationService $authenticationService;
 
@@ -69,7 +71,7 @@ class LocalAuthProvider extends AbstractAuthProvider
                 ) {
                     throw new PasswordEnforceException(
                         AuthenticationException::PASSWORD_NOT_STRONG,
-                        'Your Current Password Is Weak. Please Create a Strong Password'
+                        $this->getI18NHelper()->transBySource('Your current password is weak. please create a strong password'),
                     );
                 }
             }

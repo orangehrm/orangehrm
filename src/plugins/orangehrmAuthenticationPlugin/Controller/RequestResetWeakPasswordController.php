@@ -20,17 +20,23 @@
 namespace OrangeHRM\Authentication\Controller;
 
 use OrangeHRM\Admin\Traits\Service\UserServiceTrait;
+use OrangeHRM\Authentication\Auth\User as AuthUser;
 use OrangeHRM\Authentication\Dto\UserCredential;
+use OrangeHRM\Authentication\Exception\AuthenticationException;
 use OrangeHRM\Authentication\Traits\Service\PasswordStrengthServiceTrait;
 use OrangeHRM\Core\Controller\AbstractController;
 use OrangeHRM\Core\Controller\PublicControllerInterface;
+use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Framework\Http\RedirectResponse;
 use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\I18N\Traits\Service\I18NHelperTrait;
 
 class RequestResetWeakPasswordController extends AbstractController implements PublicControllerInterface
 {
     use PasswordStrengthServiceTrait;
     use UserServiceTrait;
+    use AuthUserTrait;
+    use I18NHelperTrait;
 
     /**
      * @param Request $request
@@ -44,9 +50,19 @@ class RequestResetWeakPasswordController extends AbstractController implements P
 
         $userId = $this->getUserService()->geUserDao()->getUserByUserName($username)->getId();
         if (!$this->getUserService()->isCurrentPassword($userId, $currentPassword)) {
+            $this->getAuthUser()->addFlash(
+                AuthUser::FLASH_LOGIN_ERROR,
+                [
+                    'error' => AuthenticationException::UNEXPECT_ERROR,
+                    'message' => $this->getI18NHelper()->transBySource('Current password is incorrect'),
+                ]
+            );
+            $route = $request->headers->get('referer');
+            return new RedirectResponse($route);
+        } else {
             $credentials = new UserCredential($username, $password);
             $this->getPasswordStrengthService()->saveEnforcedPassword($credentials);
+            return $this->redirect("auth/login");
         }
-        return $this->redirect("auth/login");
     }
 }
