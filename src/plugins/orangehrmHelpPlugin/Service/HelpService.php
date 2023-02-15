@@ -35,9 +35,9 @@ class HelpService
     }
 
     /**
-     * @return mixed
+     * @return HelpProcessor
      */
-    public function getHelpProcessorClass(): HelpProcessor
+    public function getHelpProcessor(): HelpProcessor
     {
         if (!$this->helpProcessorClass instanceof HelpProcessor) {
             $helpProcessorClassName = 'OrangeHRM\\Help\\Processor\\' . $this->getHelpConfigService()->getHelpProcessorClass();
@@ -52,7 +52,7 @@ class HelpService
      */
     public function getRedirectUrl(string $label): string
     {
-        return $this->getHelpProcessorClass()->getRedirectUrl($label);
+        return $this->getHelpProcessor()->getRedirectUrl($label);
     }
 
     /**
@@ -60,7 +60,7 @@ class HelpService
      */
     public function getDefaultRedirectUrl(): string
     {
-        return $this->getHelpProcessorClass()->getDefaultRedirectUrl();
+        return $this->getHelpProcessor()->getDefaultRedirectUrl();
     }
 
     /**

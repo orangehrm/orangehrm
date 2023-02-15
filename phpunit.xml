@@ -74,5 +74,8 @@
     <testsuite name="Claim">
       <directory>src/plugins/orangehrmClaimPlugin/test</directory>
     </testsuite>
+    <testsuite name="Help">
+      <directory>src/plugins/orangehrmHelpPlugin/test</directory>
+    </testsuite>
   </testsuites>
 </phpunit>
