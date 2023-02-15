@@ -17,7 +17,7 @@
  * Boston, MA 02110-1301, USA
  */
 
-namespace OrangeHRM\Help\test\Service;
+namespace OrangeHRM\Tests\Help\Service;
 
 use OrangeHRM\Config\Config;
 use OrangeHRM\Help\Service\HelpConfigService;

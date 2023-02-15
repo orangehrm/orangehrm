@@ -17,7 +17,7 @@
  * Boston, MA 02110-1301, USA
  */
 
-namespace OrangeHRM\Help\test\Processor;
+namespace OrangeHRM\Tests\Help\Processor;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
