@@ -178,7 +178,7 @@ class MenuServiceTest extends KernelTestCase
                 'id' => 105,
                 'name' => 'Claim',
                 'url' => '/claim/viewClaimModule',
-                'icon' => 'admin',
+                'icon' => 'claim',
             ],
             [
                 'id' => 101,
