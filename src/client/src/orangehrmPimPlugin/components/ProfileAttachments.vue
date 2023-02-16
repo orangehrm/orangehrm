@@ -298,4 +298,8 @@ export default {
   margin-top: 0;
   margin-bottom: 0;
 }
+.orangehrm-attachment {
+  border-bottom-right-radius: 1.2rem;
+  overflow: hidden;
+}
 </style>
