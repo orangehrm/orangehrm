@@ -26,6 +26,9 @@ use OrangeHRM\Framework\Http\Request;
 
 class SaveClaimController extends AbstractVueController
 {
+    /**
+     * @inheritDoc
+     */
     public function preRender(Request $request): void
     {
         if ($request->attributes->has('id')) {

@@ -132,7 +132,7 @@ export default {
 
   methods: {
     onCancel() {
-      navigate('/claim/expenses/viewExpenseTypes');
+      navigate('/claim/viewExpense');
     },
     onSave() {
       this.isLoading = true;

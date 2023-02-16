@@ -85,7 +85,7 @@ class Migration extends AbstractMigration
                 [
                     'name' => ':name',
                     'status' => ':status',
-                    'display_name'=> ':display_name'
+                    'display_name' => ':display_name'
                 ]
             )
             ->setParameter('name', "auth")
@@ -102,6 +102,8 @@ class Migration extends AbstractMigration
         $this->getConfigHelper()->setConfigValue('auth.password_policy.is_spaces_allowed', 'false');
 
         $this->getDataGroupHelper()->insertApiPermissions(__DIR__ . '/permission/api.yaml');
+        $this->cleanClaimScreens();
+        $this->getDataGroupHelper()->insertScreenPermissions(__DIR__ . '/permission/screens.yaml');
         $this->changeClaimEventTableStatusToBoolean();
 
         if (!$this->getSchemaHelper()->tableExists(['ohrm_expense_type'])) {
@@ -169,6 +171,47 @@ class Migration extends AbstractMigration
         $this->modifyClaimTables();
         $this->modifyClaimRequestCurrencyToForeignKey();
         $this->modifyDefaultRequiredPasswordStrength();
+
+        if (!$this->checkClaimExists()) {
+            $this->getConnection()->createQueryBuilder()
+                ->insert('ohrm_module_default_page')
+                ->values(
+                    [
+                        'module_id' => ':module_id',
+                        'user_role_id' => ':user_role_id',
+                        'action' => ':action',
+                    ]
+                )
+                ->setParameter('module_id', $this->getDataGroupHelper()->getModuleIdByName('claim'))
+                ->setParameter('user_role_id', $this->getDataGroupHelper()->getUserRoleIdByName('Admin'))
+                ->setParameter('action', 'claim/viewEvents')
+                ->executeQuery();
+
+            $viewClaimModuleScreenId = $this->getConnection()
+                ->createQueryBuilder()
+                ->select('id')
+                ->from('ohrm_screen')
+                ->where('action_url = :action_url')
+                ->setParameter('action_url', 'ViewClaimModule')
+                ->executeQuery()
+                ->fetchOne();
+
+            $this->insertMenuItems('Claim', $viewClaimModuleScreenId, null, 1, 1300, 1, '{"icon":"claim"}');
+            $claimMenuItemId = $this->getConnection()
+                ->createQueryBuilder()
+                ->select('id')
+                ->from('ohrm_menu_item')
+                ->Where('menu_title = :menu_title')
+                ->setParameter('menu_title', 'Claim')
+                ->executeQuery()
+                ->fetchOne();
+            $this->insertMenuItems('Configuration', null, $claimMenuItemId, 2, 100, 1, null);
+            $eventListScreenId = $this->getScreenId('Events');
+            $claimConfigMenuItemId = $this->getParentId('Configuration', $claimMenuItemId);
+            $this->insertMenuItems('Events', $eventListScreenId, $claimConfigMenuItemId, 3, 100, 1, null);
+            $expenseTypeScreenId = $this->getScreenId('Expense Types');
+            $this->insertMenuItems('Expense Types', $expenseTypeScreenId, $claimConfigMenuItemId, 3, 200, 1, null);
+        }
     }
 
     private function modifyClaimTables(): void
@@ -367,5 +410,87 @@ class Migration extends AbstractMigration
         }
 
         $this->getConfigHelper()->deleteConfigValue('authentication.default_required_password_strength');
+    }
+
+    public function insertMenuItems(
+        string  $menu_title,
+        ?int    $screen_id,
+        ?int    $parent_id,
+        int     $level,
+        int     $order_hint,
+        int     $status,
+        ?string $additional_params
+    ): void {
+        $this->getConnection()->createQueryBuilder()
+            ->insert('ohrm_menu_item')
+            ->values([
+                'menu_title' => ':menu_title',
+                'screen_id' => ':screen_id',
+                'parent_id' => ':parent_id',
+                'level' => ':level',
+                'order_hint' => ':order_hint',
+                'status' => ':status',
+                'additional_params' => ':additional_params',
+            ])
+            ->setParameters([
+                'menu_title' => $menu_title,
+                'screen_id' => $screen_id,
+                'parent_id' => $parent_id,
+                'level' => $level,
+                'order_hint' => $order_hint,
+                'status' => $status,
+                'additional_params' => $additional_params,
+            ])
+            ->executeQuery();
+    }
+
+    public function getParentId(string $menu_title, ?int $parent_id): int
+    {
+        $parent_id = $this->getConnection()->createQueryBuilder()
+            ->select('id')
+            ->from('ohrm_menu_item')
+            ->where('menu_title = :menu_title')
+            ->setParameter('menu_title', $menu_title)
+            ->andWhere('parent_id = :parent_id')
+            ->setParameter('parent_id', $parent_id)
+            ->executeQuery()
+            ->fetchOne();
+        return $parent_id;
+    }
+
+    public function getScreenId(string $name): int
+    {
+        $id = $this->getConnection()->createQueryBuilder()
+            ->select('id')
+            ->from('ohrm_screen')
+            ->where('name = :name')
+            ->setParameter('name', $name)
+            ->executeQuery()
+            ->fetchOne();
+        return $id;
+    }
+
+    public function checkClaimExists(): bool
+    {
+        $claimExists = $this->getConnection()->createQueryBuilder()
+            ->select('id')
+            ->from('ohrm_menu_item')
+            ->where('menu_title = :menu_title')
+            ->setParameter('menu_title', 'Claim')
+            ->executeQuery()
+            ->fetchOne();
+        return $claimExists;
+    }
+
+    private function cleanClaimScreens(): void
+    {
+        $screenNames = ['Events', 'Expense Types', 'Employee Claim List', 'Assign Claim', 'Submit Claim', 'My Claims List', 'View Claim Module', 'View Create Event', 'View Create Expense'];
+        foreach ($screenNames as $screenName) {
+            $this->createQueryBuilder()
+                ->delete('ohrm_screen')
+                ->andWhere('ohrm_screen.name = :screenName')
+                ->setParameter('screenName', $screenName)
+                ->executeQuery();
+        }
     }
 }

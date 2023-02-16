@@ -19,24 +19,20 @@
 
 namespace OrangeHRM\Claim\Controller;
 
-use OrangeHRM\Core\Controller\AbstractVueController;
-use OrangeHRM\Core\Vue\Component;
-use OrangeHRM\Core\Vue\Prop;
-use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Core\Controller\AbstractModuleController;
+use OrangeHRM\Core\Traits\UserRoleManagerTrait;
+use OrangeHRM\Framework\Http\RedirectResponse;
 
-class SaveClaimExpenseTypeController extends AbstractVueController
+class ClaimModuleController extends AbstractModuleController
 {
+    use UserRoleManagerTrait;
+
     /**
      * @inheritDoc
      */
-    public function preRender(Request $request): void
+    public function handle(): RedirectResponse
     {
-        if ($request->attributes->has('id')) {
-            $component = new Component('claim-expense-type-edit');
-            $component->addProp(new Prop('id', Prop::TYPE_NUMBER, $request->attributes->getInt('id')));
-        } else {
-            $component = new Component('claim-expense-type-create');
-        }
-        $this->setComponent($component);
+        $defaultPath = $this->getUserRoleManager()->getModuleDefaultPage('claim');
+        return $this->redirect($defaultPath);
     }
 }
