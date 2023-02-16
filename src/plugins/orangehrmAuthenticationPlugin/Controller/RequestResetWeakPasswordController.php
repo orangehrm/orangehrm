@@ -65,7 +65,14 @@ class RequestResetWeakPasswordController extends AbstractController implements P
                     'message' => 'CSRF token validation failed',
                 ]
             );
-            return $this->redirect("auth/login");
+            /** @var UrlGenerator $urlGenerator */
+            $urlGenerator = $this->getContainer()->get(Services::URL_GENERATOR);
+            $redirectUrl = $urlGenerator->generate(
+                'auth_weak_password_reset',
+                ['resetCode' => $resetCode],
+                UrlGenerator::ABSOLUTE_URL
+            );
+            return new RedirectResponse($redirectUrl);
         }
 
         if (!$this->getPasswordStrengthService()->validateUrl($resetCode)) {
@@ -73,7 +80,7 @@ class RequestResetWeakPasswordController extends AbstractController implements P
                 AuthUser::FLASH_LOGIN_ERROR,
                 [
                     'error' => AuthenticationException::UNEXPECT_ERROR,
-                    'message' => 'Invalid credentials',
+                    'message' => 'Unexpected error occurred',
                 ]
             );
             return $this->redirect("auth/login");

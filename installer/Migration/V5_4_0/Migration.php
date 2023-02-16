@@ -196,6 +196,7 @@ class Migration extends AbstractMigration
         $this->modifyClaimTables();
         $this->modifyClaimRequestCurrencyToForeignKey();
         $this->modifyDefaultRequiredPasswordStrength();
+        $this->modifyDefaultPasswordEnforcement();
 
         if (!$this->checkClaimExists()) {
             $this->getConnection()->createQueryBuilder()
@@ -517,5 +518,26 @@ class Migration extends AbstractMigration
                 ->setParameter('screenName', $screenName)
                 ->executeQuery();
         }
+    }
+
+    public function modifyDefaultPasswordEnforcement(): void
+    {
+        $value = $this->getConfigHelper()->getConfigValue('authentication.enforce_password_strength');
+
+        if ($value !== 'on') {
+            $value = 'off';
+        }
+        $this->getConnection()->createQueryBuilder()
+            ->insert('hs_hr_config')
+            ->values([
+                'name' => ':name',
+                'value' => ':value',
+            ])
+            ->setParameters([
+                'name' => 'auth.password_policy.enforce_password_strength',
+                'value' => $value,
+            ])
+            ->executeQuery();
+        $this->getConfigHelper()->deleteConfigValue('authentication.enforce_password_strength');
     }
 }

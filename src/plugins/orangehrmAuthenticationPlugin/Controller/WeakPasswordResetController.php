@@ -68,8 +68,6 @@ class WeakPasswordResetController extends AbstractVueController implements Publi
                     )
                 );
             }
-            $session = $this->getContainer()->get(Services::SESSION);
-            $session->invalidate();
         } else {
             $component = new Component('auth-login');
         }

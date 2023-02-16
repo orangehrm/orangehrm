@@ -26,13 +26,20 @@ class PasswordEnforceException extends AuthenticationException implements Redire
 {
     use PasswordStrengthServiceTrait;
 
+    private string $resetCode;
+
     public function __construct(string $name, string $message)
     {
         parent::__construct($name, $message);
     }
 
+    public function generateResetCode(): void
+    {
+        $this->resetCode = $this->getPasswordStrengthService()->logPasswordEnforceRequest();
+    }
+
     public function getRedirectUrl(): string
     {
-        return 'changeWeakPassword/resetCode/'.$this->getPasswordStrengthService()->logPasswordEnforceRequest();
+        return 'changeWeakPassword/resetCode/' . $this->resetCode;
     }
 }
