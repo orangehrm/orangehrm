@@ -23,7 +23,8 @@ namespace OrangeHRM\Claim\Api;
 use Exception;
 use OrangeHRM\Claim\Api\Model\ClaimRequestModel;
 use OrangeHRM\Claim\Traits\Service\ClaimServiceTrait;
-use OrangeHRM\Core\Api\V2\CollectionEndpoint;
+use OrangeHRM\Core\Api\CommonParams;
+use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
@@ -40,7 +41,7 @@ use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\ClaimRequest;
 use OrangeHRM\ORM\Exception\TransactionException;
 
-class ClaimRequestAPI extends Endpoint implements CollectionEndpoint
+class ClaimRequestAPI extends Endpoint implements CrudEndpoint
 {
     use EntityManagerHelperTrait;
     use ClaimServiceTrait;
@@ -179,19 +180,48 @@ class ClaimRequestAPI extends Endpoint implements CollectionEndpoint
     }
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/claim/requests/{id}",
+     *     tags={"Claim/Requests"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="Claim Request Id",
+     *         @OA\Schema(type="integer"),
+     *         required=true
+     *     ),
+     *     @OA\Response(response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Claim-RequestModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     )
+     * )
      * @inheritDoc
      */
     public function getOne(): EndpointResult
     {
-        throw $this->getNotImplementedException();
+        $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
+        $claimRequest = $this->getClaimService()->getClaimDao()->getClaimRequestById($id);
+        $this->throwRecordNotFoundExceptionIfNotExist($claimRequest, ClaimRequest::class);
+        return new EndpointResourceResult(ClaimRequestModel::class, $claimRequest);
     }
 
     /**
-     * @inheritDoc
+     * @return ParamRuleCollection
      */
     public function getValidationRuleForGetOne(): ParamRuleCollection
     {
-        throw $this->getNotImplementedException();
+        return new ParamRuleCollection(
+            new ParamRule(
+                CommonParams::PARAMETER_ID,
+                new Rule(Rules::POSITIVE)
+            ),
+        );
     }
 
     /**
@@ -206,6 +236,16 @@ class ClaimRequestAPI extends Endpoint implements CollectionEndpoint
      * @inheritDoc
      */
     public function getValidationRuleForDelete(): ParamRuleCollection
+    {
+        throw $this->getNotImplementedException();
+    }
+
+    public function update(): EndpointResult
+    {
+        throw $this->getNotImplementedException();
+    }
+
+    public function getValidationRuleForUpdate(): ParamRuleCollection
     {
         throw $this->getNotImplementedException();
     }

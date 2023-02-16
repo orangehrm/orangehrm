@@ -23,6 +23,7 @@ use OrangeHRM\Claim\Dto\ClaimEventSearchFilterParams;
 use OrangeHRM\Claim\Dto\ClaimExpenseTypeSearchFilterParams;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Entity\ClaimEvent;
+use OrangeHRM\Entity\ClaimExpense;
 use OrangeHRM\Entity\ClaimRequest;
 use OrangeHRM\Entity\ExpenseType;
 use OrangeHRM\ORM\Paginator;
@@ -128,6 +129,15 @@ class ClaimDao extends BaseDao
     }
 
     /**
+     * @param int $id
+     * @return ClaimRequest|null
+     */
+    public function getClaimRequestById(int $id): ?ClaimRequest
+    {
+        return $this->getRepository(ClaimRequest::class)->findOneBy(['id' => $id, 'isDeleted' => false]);
+    }
+
+    /**
      * @return int
      */
     public function getNextId(): int
@@ -206,5 +216,15 @@ class ClaimDao extends BaseDao
             ->setParameter('ids', $ids)
             ->setParameter('isDeleted', true);
         return $q->getQuery()->execute();
+    }
+
+    /**
+     * @param ClaimExpense $claimExpense
+     * @return ClaimExpense
+     */
+    public function saveClaimExpense(ClaimExpense $claimExpense): ClaimExpense
+    {
+        $this->persist($claimExpense);
+        return $claimExpense;
     }
 }
