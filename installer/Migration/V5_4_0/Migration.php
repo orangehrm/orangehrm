@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -191,6 +192,94 @@ class Migration extends AbstractMigration
             ['onDelete' => 'NO ACTION']
         );
         $this->getSchemaHelper()->addForeignKey('ohrm_enforce_password', $foreignKeyConstraint);
+        if (!$this->getSchemaHelper()->tableExists(['ohrm_expense'])) {
+            $this->getSchemaHelper()->createTable('ohrm_expense')
+                ->addColumn('id', Types::INTEGER, ['Autoincrement' => true])
+                ->addColumn('expense_type_id', Types::INTEGER, ['Notnull' => false])
+                ->addColumn('date', Types::DATETIME_MUTABLE, ['Notnull' => false])
+                ->addColumn('amount', Types::DECIMAL, ['Notnull' => false, 'Scale' => 2, 'Precision' => 12])
+                ->addColumn('note', Types::STRING, ['Notnull' => false, 'Length' => 1000])
+                ->addColumn('request_id', Types::INTEGER, ['Notnull' => false])
+                ->addColumn('is_deleted', Types::BOOLEAN, ['Notnull' => true, 'Default' => 0])
+                ->setPrimaryKey(['id'])
+                ->create();
+            $foreignKeyConstraint1 = new ForeignKeyConstraint(
+                ['expense_type_id'],
+                'ohrm_expense_type',
+                ['id'],
+                'expenseTypeId',
+                ['onDelete' => 'CASCADE']
+            );
+            $this->getSchemaHelper()->addForeignKey('ohrm_expense', $foreignKeyConstraint1);
+            $foreignKeyConstraint2 = new ForeignKeyConstraint(
+                ['request_id'],
+                'ohrm_claim_request',
+                ['id'],
+                'claimRequsetId',
+                ['onDelete' => 'CASCADE']
+            );
+            $this->getSchemaHelper()->addForeignKey('ohrm_expense', $foreignKeyConstraint2);
+        }
+
+        if (!$this->getSchemaHelper()->tableExists(['ohrm_claim_attachment'])) {
+            $this->getSchemaHelper()->createTable('ohrm_claim_attachment')
+                ->addColumn('request_id', Types::INTEGER)
+                ->addColumn('eattach_id', Types::BIGINT)
+                ->addColumn('eattach_size', Types::INTEGER, ['Default' => 0])
+                ->addColumn('eattach_desc', Types::STRING, ['Length' => 1000])
+                ->addColumn('eattach_filename', Types::STRING, ['Length' => 1000])
+                ->addColumn('eattach_attachment', Types::BLOB)
+                ->addColumn('eattach_type', Types::STRING, ['Length' => 200])
+                ->addColumn('attached_by', Types::INTEGER, ['Default' => null])
+                ->addColumn('attached_by_name', Types::STRING, ['Length' => 200])
+                ->addColumn('attached_time', Types::DATETIME_MUTABLE)
+                ->setPrimaryKey(['request_id', 'eattach_id'])
+                ->create();
+            $foreignKeyConstraint1 = new ForeignKeyConstraint(
+                ['attached_by'],
+                'hs_hr_employee',
+                ['emp_number'],
+                'attachedById',
+                ['onDelete' => 'CASCADE']
+            );
+            $this->getSchemaHelper()->addForeignKey('ohrm_claim_attachment', $foreignKeyConstraint1);
+            $foreignKeyConstraint2 = new ForeignKeyConstraint(
+                ['request_id'],
+                'ohrm_claim_request',
+                ['id'],
+                'claimRequestId',
+                ['onDelete' => 'CASCADE']
+            );
+            $this->getSchemaHelper()->addForeignKey('ohrm_claim_attachment', $foreignKeyConstraint2);
+        }
+
+        if (!$this->getSchemaHelper()->tableExists(['ohrm_claim_request_action_log'])) {
+            $this->getSchemaHelper()->createTable('ohrm_claim_request_action_log')
+                ->addColumn('id', Types::BIGINT, ['Autoincrement' => true])
+                ->addColumn('claim_request_id', Types::INTEGER, ['Notnull' => false])
+                ->addColumn('performed_by_id', Types::INTEGER, ['Notnull' => false])
+                ->addColumn('action', Types::STRING, ['Length' => 255])
+                ->addColumn('note', Types::STRING, ['Length' => 1000])
+                ->addColumn('date_time', Types::DATETIME_MUTABLE)
+                ->setPrimaryKey(['id'])
+                ->create();
+            $foreignKeyConstraint1 = new ForeignKeyConstraint(
+                ['claim_request_id'],
+                'ohrm_claim_request',
+                ['id'],
+                'claimRequestId2',
+                ['onDelete' => 'CASCADE']
+            );
+            $this->getSchemaHelper()->addForeignKey('ohrm_claim_request_action_log', $foreignKeyConstraint1);
+            $foreignKeyConstraint2 = new ForeignKeyConstraint(
+                ['performed_by_id'],
+                'hs_hr_employee',
+                ['emp_number'],
+                'performedById',
+                ['onDelete' => 'CASCADE']
+            );
+            $this->getSchemaHelper()->addForeignKey('ohrm_claim_request_action_log', $foreignKeyConstraint2);
+        }
 
         $this->changeClaimExpenseTypeTableStatusToBoolean();
         $this->modifyClaimTables();
@@ -298,6 +387,18 @@ class Migration extends AbstractMigration
             ],
             'description' => [
                 'Length' => 1000
+            ],
+            'is_deleted' => [
+                'Type' => Type::getType(Types::BOOLEAN),
+            ],
+        ]);
+
+        $this->getSchemaHelper()->addOrChangeColumns('ohrm_expense', [
+            'date' => [
+                'Type' => Type::getType(Types::DATETIME_MUTABLE)
+            ],
+            'note' => [
+                'Type' => Type::getType(Types::STRING)
             ],
             'is_deleted' => [
                 'Type' => Type::getType(Types::BOOLEAN),
@@ -418,7 +519,8 @@ class Migration extends AbstractMigration
     {
         $value = $this->getConfigHelper()->getConfigValue('authentication.default_required_password_strength');
 
-        if ($value === "veryWeak" || $value === "weak" || $value === "better"
+        if (
+            $value === "veryWeak" || $value === "weak" || $value === "better"
             || $value === "medium"
             || $value === "strong"
             || $value === "strongest"
