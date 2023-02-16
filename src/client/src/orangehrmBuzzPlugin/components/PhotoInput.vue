@@ -37,6 +37,7 @@
       <oxd-input-field
         v-if="showUploadButton"
         type="file"
+        value=""
         @update:model-value="onFileChange"
       >
         <oxd-button icon-name="file-image" :label="$t('buzz.add_photos')" />
