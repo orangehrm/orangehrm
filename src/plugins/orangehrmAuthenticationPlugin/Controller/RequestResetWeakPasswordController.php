@@ -23,6 +23,7 @@ use OrangeHRM\Admin\Traits\Service\UserServiceTrait;
 use OrangeHRM\Authentication\Auth\User as AuthUser;
 use OrangeHRM\Authentication\Dto\UserCredential;
 use OrangeHRM\Authentication\Exception\AuthenticationException;
+use OrangeHRM\Authentication\Traits\CsrfTokenManagerTrait;
 use OrangeHRM\Authentication\Traits\Service\PasswordStrengthServiceTrait;
 use OrangeHRM\Core\Controller\AbstractController;
 use OrangeHRM\Core\Controller\PublicControllerInterface;
@@ -37,6 +38,7 @@ use OrangeHRM\I18N\Traits\Service\I18NHelperTrait;
 class RequestResetWeakPasswordController extends AbstractController implements PublicControllerInterface
 {
     use PasswordStrengthServiceTrait;
+    use CsrfTokenManagerTrait;
     use UserServiceTrait;
     use AuthUserTrait;
     use I18NHelperTrait;
@@ -51,8 +53,20 @@ class RequestResetWeakPasswordController extends AbstractController implements P
         $username = $request->request->get('username');
         $password = $request->request->get('password');
         $resetCode = $request->request->get('resetCode');
+        $token = $request->request->get('_token');
 
         $user = $this->getUserService()->geUserDao()->getUserByUserName($username);
+
+        if (!$this->getCsrfTokenManager()->isValid('reset-weak-password', $token)) {
+            $this->getAuthUser()->addFlash(
+                AuthUser::FLASH_LOGIN_ERROR,
+                [
+                    'error' => AuthenticationException::INVALID_CSRF_TOKEN,
+                    'message' => 'CSRF token validation failed',
+                ]
+            );
+            return $this->redirect("auth/login");
+        }
 
         if (!$this->getPasswordStrengthService()->validateUrl($resetCode)) {
             $this->getAuthUser()->addFlash(

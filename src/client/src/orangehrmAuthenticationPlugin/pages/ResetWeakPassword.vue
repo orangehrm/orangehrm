@@ -37,7 +37,8 @@
               type="error"
             ></oxd-alert>
           </div>
-          <input name="resetCode" :value="token" type="hidden" />
+          <input name="resetCode" :value="code" type="hidden" />
+          <input name="_token" :value="token" type="hidden" />
           <oxd-form-row>
             <oxd-input-field
               :value="username"
@@ -125,6 +126,10 @@ export default {
 
   props: {
     username: {
+      type: String,
+      required: true,
+    },
+    code: {
       type: String,
       required: true,
     },

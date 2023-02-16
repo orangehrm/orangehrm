@@ -20,6 +20,7 @@
 namespace OrangeHRM\Authentication\Controller;
 
 use OrangeHRM\Authentication\Auth\User as AuthUser;
+use OrangeHRM\Authentication\Traits\CsrfTokenManagerTrait;
 use OrangeHRM\Authentication\Traits\Service\PasswordStrengthServiceTrait;
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Controller\PublicControllerInterface;
@@ -32,6 +33,7 @@ use OrangeHRM\Framework\Services;
 class WeakPasswordResetController extends AbstractVueController implements PublicControllerInterface
 {
     use PasswordStrengthServiceTrait;
+    use CsrfTokenManagerTrait;
     use AuthUserTrait;
 
     /**
@@ -47,7 +49,14 @@ class WeakPasswordResetController extends AbstractVueController implements Publi
                 new Prop('username', Prop::TYPE_STRING, $username)
             );
             $component->addProp(
-                new Prop('token', Prop::TYPE_STRING, $resetCode)
+                new Prop('code', Prop::TYPE_STRING, $resetCode)
+            );
+            $component->addProp(
+                new Prop(
+                    'token',
+                    Prop::TYPE_STRING,
+                    $this->getCsrfTokenManager()->getToken('reset-weak-password')->getValue()
+                )
             );
             if ($this->getAuthUser()->hasFlash(AuthUser::FLASH_LOGIN_ERROR)) {
                 $error = $this->getAuthUser()->getFlash(AuthUser::FLASH_LOGIN_ERROR);
