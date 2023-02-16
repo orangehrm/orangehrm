@@ -1,3 +1,14 @@
+##########################
+#     Public APIs
+##########################
+
+apiv2_core_public_api_version:
+  path: /api/v2/auth/public/version
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericPublicRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Authentication\PublicApi\VersionAPI
+
 apiv2_core_data_groups:
   path: /api/v2/core/data-groups
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
