@@ -32,72 +32,78 @@
           <oxd-divider />
           <div class="orangehrm-login-error">
             <oxd-alert
-              :show="error !== null"
-              :message="error?.message || ''"
+              :show="true"
+              :message="
+                invalidCode
+                  ? $t('auth.invalid_password_reset_code')
+                  : error?.message || $t('auth.password_not_strong')
+              "
               type="error"
             ></oxd-alert>
           </div>
-          <input name="resetCode" :value="code" type="hidden" />
-          <input name="_token" :value="token" type="hidden" />
-          <oxd-form-row>
-            <oxd-input-field
-              :value="username"
-              :label="$t('auth.username')"
-              readonly
-              name="username"
-              label-icon="person"
-            />
-          </oxd-form-row>
-          <oxd-form-row>
-            <oxd-input-field
-              v-model="user.currentPassword"
-              :rules="rules.currentPassword"
-              :label="$t('pim.current_password')"
-              type="password"
-              label-icon="key"
-              autocomplete="off"
-              name="currentPassword"
-            />
-          </oxd-form-row>
-          <oxd-form-row class="orangehrm-forgot-password-row">
-            <password-strength-indicator
-              v-if="user.newPassword"
-              :password-strength="passwordStrength"
-            >
-            </password-strength-indicator>
-            <oxd-input-field
-              v-model="user.newPassword"
-              :rules="rules.newPassword"
-              :label="$t('auth.new_password')"
-              :placeholder="$t('auth.password')"
-              name="password"
-              type="password"
-              label-icon="key"
-              autocomplete="off"
-            />
-          </oxd-form-row>
-          <oxd-form-row>
-            <oxd-input-field
-              v-model="user.confirmPassword"
-              :rules="rules.confirmPassword"
-              :placeholder="$t('auth.password')"
-              :label="$t('general.confirm_password')"
-              type="password"
-              label-icon="key"
-              autocomplete="off"
-              name="confirmPassword"
-            />
-          </oxd-form-row>
-          <oxd-divider />
-          <div class="orangehrm-forgot-password-buttons">
-            <oxd-button
-              :label="$t('general.save')"
-              size="large"
-              type="submit"
-              display-type="secondary"
-              class="orangehrm-forgot-password-button"
-            />
-          </div>
+          <template v-if="!invalidCode">
+            <input name="resetCode" :value="code" type="hidden" />
+            <input name="_token" :value="token" type="hidden" />
+            <oxd-form-row>
+              <oxd-input-field
+                :value="username"
+                :label="$t('auth.username')"
+                readonly
+                name="username"
+                label-icon="person"
+              />
+            </oxd-form-row>
+            <oxd-form-row>
+              <oxd-input-field
+                v-model="user.currentPassword"
+                :rules="rules.currentPassword"
+                :label="$t('pim.current_password')"
+                type="password"
+                label-icon="key"
+                autocomplete="off"
+                name="currentPassword"
+              />
+            </oxd-form-row>
+            <oxd-form-row class="orangehrm-forgot-password-row">
+              <password-strength-indicator
+                v-if="user.newPassword"
+                :password-strength="passwordStrength"
+              >
+              </password-strength-indicator>
+              <oxd-input-field
+                v-model="user.newPassword"
+                :rules="rules.newPassword"
+                :label="$t('auth.new_password')"
+                :placeholder="$t('auth.password')"
+                name="password"
+                type="password"
+                label-icon="key"
+                autocomplete="off"
+              />
+            </oxd-form-row>
+            <oxd-form-row>
+              <oxd-input-field
+                v-model="user.confirmPassword"
+                :rules="rules.confirmPassword"
+                :placeholder="$t('auth.password')"
+                :label="$t('general.confirm_password')"
+                type="password"
+                label-icon="key"
+                autocomplete="off"
+                name="confirmPassword"
+              />
+            </oxd-form-row>
+            <oxd-divider />
+            <div class="orangehrm-forgot-password-buttons">
+              <oxd-button
+                :label="$t('general.save')"
+                size="large"
+                type="submit"
+                display-type="secondary"
+                class="orangehrm-forgot-password-button"
+              />
+            </div>
+          </template>
         </oxd-form>
       </div>
     </div>
@@ -140,6 +146,10 @@ export default {
     error: {
       type: Object,
       default: () => null,
+    },
+    invalidCode: {
+      type: Boolean,
+      default: () => false,
     },
   },
 

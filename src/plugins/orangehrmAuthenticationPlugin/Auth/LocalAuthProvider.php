@@ -72,7 +72,7 @@ class LocalAuthProvider extends AbstractAuthProvider
                 ) {
                     $e = new PasswordEnforceException(
                         AuthenticationException::PASSWORD_NOT_STRONG,
-                        $this->getI18NHelper()->transBySource('Your current password is weak. please create a strong password'),
+                        $this->getI18NHelper()->trans('password_not_strong'),
                     );
                     $e->generateResetCode();
 

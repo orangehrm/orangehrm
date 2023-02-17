@@ -40,9 +40,10 @@ class WeakPasswordResetController extends AbstractVueController implements Publi
      */
     public function preRender(Request $request): void
     {
+        $this->getAuthUser()->getFlash(AuthUser::FLASH_LOGIN_ERROR);
         $resetCode = $request->attributes->get('resetCode');
+        $component = new Component('reset-weak-password');
         if ($this->getPasswordStrengthService()->validateUrl($resetCode)) {
-            $component = new Component('reset-weak-password');
             $username = $this->getPasswordStrengthService()->getUserNameByResetCode($resetCode);
             $component->addProp(
                 new Prop('username', Prop::TYPE_STRING, $username)
@@ -57,8 +58,8 @@ class WeakPasswordResetController extends AbstractVueController implements Publi
                     $this->getCsrfTokenManager()->getToken('reset-weak-password')->getValue()
                 )
             );
-            if ($this->getAuthUser()->hasFlash(AuthUser::FLASH_LOGIN_ERROR)) {
-                $error = $this->getAuthUser()->getFlash(AuthUser::FLASH_LOGIN_ERROR);
+            if ($this->getAuthUser()->hasFlash(AuthUser::FLASH_PASSWORD_ENFORCE_ERROR)) {
+                $error = $this->getAuthUser()->getFlash(AuthUser::FLASH_PASSWORD_ENFORCE_ERROR);
                 $component->addProp(
                     new Prop(
                         'error',
@@ -68,7 +69,13 @@ class WeakPasswordResetController extends AbstractVueController implements Publi
                 );
             }
         } else {
-            $component = new Component('auth-login');
+            $component->addProp(
+                new Prop(
+                    'invalid-code',
+                    Prop::TYPE_BOOLEAN,
+                    true
+                )
+            );
         }
         $this->setComponent($component);
         $this->setTemplate('no_header.html.twig');

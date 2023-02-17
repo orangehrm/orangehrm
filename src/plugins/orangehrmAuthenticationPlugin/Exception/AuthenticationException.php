@@ -33,6 +33,7 @@ class AuthenticationException extends Exception
     public const INVALID_CSRF_TOKEN = 'invalid_csrf_token';
     public const UNEXPECT_ERROR = 'unexpected_error';
     public const PASSWORD_NOT_STRONG = 'password_not_strong';
+    public const INVALID_RESET_CODE = 'invalid_password_reset_code';
 
     /**
      * @var string

@@ -57,29 +57,44 @@ class RequestResetWeakPasswordController extends AbstractController implements P
 
         $user = $this->getUserService()->geUserDao()->getUserByUserName($username);
 
-        if (!$this->getPasswordStrengthService()->validateUrl($resetCode)) {
+        /** @var UrlGenerator $urlGenerator */
+        $urlGenerator = $this->getContainer()->get(Services::URL_GENERATOR);
+        $redirectUrl = $urlGenerator->generate(
+            'auth_weak_password_reset',
+            ['resetCode' => $resetCode],
+            UrlGenerator::ABSOLUTE_URL
+        );
+
+        if (!$this->getCsrfTokenManager()->isValid('reset-weak-password', $token)) {
             $this->getAuthUser()->addFlash(
-                AuthUser::FLASH_LOGIN_ERROR,
+                AuthUser::FLASH_PASSWORD_ENFORCE_ERROR,
                 [
-                    'error' => AuthenticationException::UNEXPECT_ERROR,
-                    'message' => 'Unexpected error occurred',
+                    'error' => AuthenticationException::INVALID_CSRF_TOKEN,
+                    'message' => 'CSRF token validation failed',
                 ]
             );
-            return $this->redirect("auth/login");
+            return new RedirectResponse($redirectUrl);
+        }
+
+        if (!$this->getPasswordStrengthService()->validateUrl($resetCode)) {
+            $this->getAuthUser()->addFlash(
+                AuthUser::FLASH_PASSWORD_ENFORCE_ERROR,
+                [
+                    'error' => AuthenticationException::INVALID_RESET_CODE,
+                    'message' => $this->getI18NHelper()->trans('auth.invalid_password_reset_code')
+                ]
+            );
+            return new RedirectResponse($redirectUrl);
         }
 
         if (!$user instanceof User || !$this->getUserService()->isCurrentPassword($user->getId(), $currentPassword)) {
             $this->getAuthUser()->addFlash(
-                AuthUser::FLASH_LOGIN_ERROR,
+                AuthUser::FLASH_PASSWORD_ENFORCE_ERROR,
                 [
                     'error' => AuthenticationException::INVALID_CREDENTIALS,
-                    'message' => $this->getI18NHelper()->transBySource('Invalid credentials'),
+                    'message' => $this->getI18NHelper()->trans('auth.invalid_credentials'),
                 ]
             );
-
-            /** @var UrlGenerator $urlGenerator */
-            $urlGenerator = $this->getContainer()->get(Services::URL_GENERATOR);
-            $redirectUrl = $urlGenerator->generate('auth_weak_password_reset', ['resetCode'=>$resetCode], UrlGenerator::ABSOLUTE_URL);
             return new RedirectResponse($redirectUrl);
         } else {
             $credentials = new UserCredential($username, $password);

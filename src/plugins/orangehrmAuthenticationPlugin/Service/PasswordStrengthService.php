@@ -388,8 +388,8 @@ class PasswordStrengthService
         $resetRequestTime = $enforcedPasswordLog->getResetRequestDate();
         $currentTime = $this->getDateTimeHelper()->getNow();
 
-        $timeDiff = $currentTime->diff($resetRequestTime);
-        return $timeDiff->h >= 1;
+        $timeDiff = $this->getDateTimeHelper()->dateDiffInHours($currentTime, $resetRequestTime);
+        return $timeDiff > 1;
     }
 
     /**
