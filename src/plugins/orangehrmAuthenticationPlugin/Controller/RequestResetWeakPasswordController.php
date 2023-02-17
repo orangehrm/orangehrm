@@ -70,7 +70,7 @@ class RequestResetWeakPasswordController extends AbstractController implements P
                 AuthUser::FLASH_PASSWORD_ENFORCE_ERROR,
                 [
                     'error' => AuthenticationException::INVALID_CSRF_TOKEN,
-                    'message' => 'CSRF token validation failed',
+                    'message' => $this->getI18NHelper()->trans('csrf_token_validation_failed'),
                 ]
             );
             return new RedirectResponse($redirectUrl);

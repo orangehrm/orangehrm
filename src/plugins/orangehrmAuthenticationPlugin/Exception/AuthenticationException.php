@@ -25,7 +25,6 @@ use OrangeHRM\I18N\Traits\Service\I18NHelperTrait;
 class AuthenticationException extends Exception
 {
     use I18NHelperTrait;
-    use I18NHelperTrait;
     public const EMPLOYEE_NOT_ASSIGNED = 'employee_not_assigned';
     public const EMPLOYEE_TERMINATED = 'employee_terminated';
     public const USER_DISABLED = 'user_disabled';
