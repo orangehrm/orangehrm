@@ -294,7 +294,7 @@ export default {
           }
           if (this.createLogin && data?.data) {
             return this.http.request({
-              type: 'GET',
+              type: 'POST',
               url: 'api/v2/admin/users',
               data: {
                 username: this.user.username,
