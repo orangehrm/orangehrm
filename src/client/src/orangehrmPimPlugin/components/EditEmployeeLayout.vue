@@ -158,7 +158,6 @@ export default {
 <style lang="scss" scoped>
 .orangehrm-card-container {
   padding: unset;
-  overflow: hidden;
 }
 
 .orangehrm-edit-employee {

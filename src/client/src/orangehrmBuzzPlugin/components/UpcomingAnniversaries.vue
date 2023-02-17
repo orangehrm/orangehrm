@@ -51,7 +51,9 @@
           />
           <div class="orangehrm-buzz-anniversary-durations-text">
             <oxd-text tag="p" class="orangehrm-buzz-anniversary-duration-years">
-              {{ anniversary.anniversaryYear }} <br />
+              {{ anniversary.anniversaryYear }}
+            </oxd-text>
+            <oxd-text tag="p" class="orangehrm-buzz-anniversary-duration-years">
               {{ $t('buzz.n_year', {yearsCount: anniversary.anniversaryYear}) }}
             </oxd-text>
             <oxd-text tag="p" class="orangehrm-buzz-anniversary-duration-date">

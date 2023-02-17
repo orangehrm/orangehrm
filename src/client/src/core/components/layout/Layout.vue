@@ -35,7 +35,11 @@
       </li>
     </template>
     <template #nav-actions>
-      <oxd-icon-button name="question-lg" @click="onClickSupport" />
+      <oxd-icon-button
+        name="question-lg"
+        :title="$t('general.help')"
+        @click="onClickSupport"
+      />
     </template>
   </oxd-layout>
   <about v-if="showAboutModel" @close="closeAboutModel"></about>

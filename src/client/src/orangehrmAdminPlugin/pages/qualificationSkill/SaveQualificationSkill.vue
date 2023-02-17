@@ -21,9 +21,9 @@
 <template>
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
-      <oxd-text tag="h6" class="orangehrm-main-title">{{
-        $t('general.add_skill')
-      }}</oxd-text>
+      <oxd-text tag="h6" class="orangehrm-main-title">
+        {{ $t('general.add_skill') }}
+      </oxd-text>
 
       <oxd-divider />
 
@@ -101,11 +101,14 @@ export default {
   created() {
     this.isLoading = true;
     this.http
-      .getAll()
+      .getAll({limit: 0})
       .then((response) => {
         const {data} = response.data;
         this.rules.name.push((v) => {
-          const index = data.findIndex((item) => item.name == v);
+          const index = data.findIndex(
+            (item) =>
+              String(item.name).toLowerCase() == String(v).toLowerCase(),
+          );
           return index === -1 || this.$t('general.already_exists');
         });
       })

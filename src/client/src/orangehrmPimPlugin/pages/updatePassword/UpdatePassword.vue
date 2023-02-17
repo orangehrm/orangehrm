@@ -21,9 +21,9 @@
 <template>
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
-      <oxd-text tag="h6" class="orangehrm-main-title">{{
-        $t('pim.update_password')
-      }}</oxd-text>
+      <oxd-text tag="h6" class="orangehrm-main-title">
+        {{ $t('pim.update_password') }}
+      </oxd-text>
       <oxd-divider />
 
       <oxd-form ref="formRef" :loading="isLoading" @submit-valid="onSave">
@@ -71,13 +71,13 @@
 </template>
 
 <script>
-import {APIService} from '@/core/util/services/api.service';
-import PasswordInput from '@/core/components/inputs/PasswordInput';
 import {
   required,
   shouldNotExceedCharLength,
 } from '@ohrm/core/util/validation/rules';
 import useForm from '@/core/util/composable/useForm';
+import {APIService} from '@/core/util/services/api.service';
+import PasswordInput from '@/core/components/inputs/PasswordInput';
 
 const userModel = {
   currentPassword: '',
@@ -124,29 +124,33 @@ export default {
     },
     onSave() {
       this.isLoading = true;
-      this.http.http
-        .put('api/v2/pim/update-password', {
-          currentPassword: this.user.currentPassword,
-          newPassword: this.user.password,
+      this.http
+        .request({
+          method: 'PUT',
+          url: 'api/v2/pim/update-password',
+          data: {
+            newPassword: this.user.password,
+            currentPassword: this.user.currentPassword,
+          },
+          validateStatus: (status) => {
+            return (status >= 200 && status < 300) || status === 422;
+          },
         })
         .then((response) => {
           if (response.status === 200) {
-            this.$toast.saveSuccess();
+            this.reset();
+            return this.$toast.saveSuccess();
           } else {
-            this.isLoading = false;
-            this.$toast.error({
+            return this.$toast.error({
               title: this.$t('general.error'),
               message: this.$t('pim.current_password_is_incorrect'),
             });
-            return Promise.reject();
           }
         })
-        .then(() => {
-          this.isLoading = false;
-          this.reset();
-        });
+        .finally(() => (this.isLoading = false));
     },
   },
 };
 </script>
+
 <style src="./update-password.scss" lang="scss" scoped></style>

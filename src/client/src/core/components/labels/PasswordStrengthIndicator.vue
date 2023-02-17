@@ -57,9 +57,9 @@ export default {
     chipClasses() {
       return {
         'orangehrm-password-chip': true,
-        '--green': this.passwordStrength === 4,
-        '--yellow': this.passwordStrength === 2,
-        '--lightGreen': this.passwordStrength === 3,
+        '--strength-better': this.passwordStrength === 2,
+        '--strength-strong': this.passwordStrength === 3,
+        '--strength-strongest': this.passwordStrength === 4,
       };
     },
   },
@@ -73,15 +73,18 @@ export default {
     right: 0px;
     font-weight: 600;
     position: absolute;
+    color: $oxd-white-color;
     font-family: $oxd-font-family;
-    &.--green {
-      background-color: #93b40f;
+
+    &.--strength-better {
+      color: #979900;
+      background-color: #fcff00;
     }
-    &.--lightGreen {
+    &.--strength-strong {
       background-color: #bde813;
     }
-    &.--yellow {
-      background-color: #fcff00;
+    &.--strength-strongest {
+      background-color: #93b40f;
     }
   }
 }

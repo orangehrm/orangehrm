@@ -149,7 +149,10 @@ export default {
       .then((response) => {
         const {data} = response.data;
         this.rules.title.push((v) => {
-          const index = data.findIndex((item) => item.title == v);
+          const index = data.findIndex(
+            (item) =>
+              String(item.title).toLowerCase() == String(v).toLowerCase(),
+          );
           return index === -1 || this.$t('general.already_exists');
         });
       })

@@ -180,7 +180,10 @@ export default {
       .then((response) => {
         const {data} = response.data;
         this.rules.title.push((v) => {
-          const index = data.findIndex((item) => item.title == v);
+          const index = data.findIndex(
+            (item) =>
+              String(item.title).toLowerCase() == String(v).toLowerCase(),
+          );
           if (index > -1) {
             const {id} = data[index];
             return id != this.jobTitleId
