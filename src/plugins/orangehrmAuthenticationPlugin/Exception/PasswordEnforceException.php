@@ -17,40 +17,29 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Core\Api\V2\Validator\Rules;
+namespace OrangeHRM\Authentication\Exception;
 
-use OrangeHRM\Authentication\Dto\UserCredential;
 use OrangeHRM\Authentication\Traits\Service\PasswordStrengthServiceTrait;
-use OrangeHRM\Authentication\Utility\PasswordStrengthValidation;
-use OrangeHRM\Core\Traits\Service\TextHelperTrait;
+use OrangeHRM\Core\Exception\RedirectableException;
 
-class Password extends AbstractRule
+class PasswordEnforceException extends AuthenticationException implements RedirectableException
 {
-    use TextHelperTrait;
     use PasswordStrengthServiceTrait;
 
-    private bool $changePassword;
+    private string $resetCode;
 
-    public function __construct(?bool $changePassword)
+    public function __construct(string $name, string $message)
     {
-        $this->changePassword = $changePassword ?? true;
+        parent::__construct($name, $message);
     }
 
-    public function validate($input): bool
+    public function generateResetCode(): void
     {
-        if (!$this->changePassword) {
-            return true;
-        }
+        $this->resetCode = $this->getPasswordStrengthService()->logPasswordEnforceRequest();
+    }
 
-        $passwordStrengthValidation = new PasswordStrengthValidation();
-        $credentials = new UserCredential(null, $input);
-
-        $passwordStrength = $passwordStrengthValidation->checkPasswordStrength($credentials);
-        $messages = $this->getPasswordStrengthService()->checkPasswordPolicies($credentials, $passwordStrength);
-
-        if (count($messages) === 0) {
-            return true;
-        }
-        return false;
+    public function getRedirectUrl(): string
+    {
+        return 'changeWeakPassword/resetCode/' . $this->resetCode;
     }
 }

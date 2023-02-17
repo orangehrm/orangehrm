@@ -25,13 +25,14 @@ use OrangeHRM\I18N\Traits\Service\I18NHelperTrait;
 class AuthenticationException extends Exception
 {
     use I18NHelperTrait;
-
     public const EMPLOYEE_NOT_ASSIGNED = 'employee_not_assigned';
     public const EMPLOYEE_TERMINATED = 'employee_terminated';
     public const USER_DISABLED = 'user_disabled';
     public const INVALID_CREDENTIALS = 'invalid_credentials';
     public const INVALID_CSRF_TOKEN = 'invalid_csrf_token';
     public const UNEXPECT_ERROR = 'unexpected_error';
+    public const PASSWORD_NOT_STRONG = 'password_not_strong';
+    public const INVALID_RESET_CODE = 'invalid_password_reset_code';
 
     /**
      * @var string
@@ -42,7 +43,7 @@ class AuthenticationException extends Exception
      * @param string $name
      * @param string $message
      */
-    private function __construct(string $name, string $message)
+    protected function __construct(string $name, string $message)
     {
         $this->name = $name;
         parent::__construct($message);

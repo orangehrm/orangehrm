@@ -20,6 +20,7 @@
 namespace OrangeHRM\Installer\Migration\V5_4_0;
 
 use Doctrine\DBAL\Schema\ForeignKeyConstraint;
+use Doctrine\DBAL\Schema\Index;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Types\Types;
 use OrangeHRM\Installer\Util\V1\AbstractMigration;
@@ -167,10 +168,35 @@ class Migration extends AbstractMigration
             $this->getSchemaHelper()->addForeignKey('ohrm_claim_request', $foreignKeyConstraint3);
         }
 
+        $this->getSchemaHelper()->createTable('ohrm_enforce_password')
+            ->addColumn('id', Types::INTEGER, ['Autoincrement' => true])
+            ->addColumn('user_id', Types::INTEGER, ['Notnull' => true])
+            ->addColumn('enforce_request_date', Types::DATETIME_MUTABLE, ['Notnull' => false])
+            ->addColumn('reset_code', Types::STRING, ['Notnull' => true])
+            ->addColumn('expired', Types::BOOLEAN, ['Notnull' => true, 'Default' => 0])
+            ->setPrimaryKey(['id'])
+            ->create();
+
+        $resetCode = new Index(
+            'reset_code',
+            ['reset_code']
+        );
+        $this->getSchemaManager()->createIndex($resetCode, 'ohrm_enforce_password');
+
+        $foreignKeyConstraint = new ForeignKeyConstraint(
+            ['user_id'],
+            'ohrm_user',
+            ['id'],
+            'enforcePasswordUser',
+            ['onDelete' => 'NO ACTION']
+        );
+        $this->getSchemaHelper()->addForeignKey('ohrm_enforce_password', $foreignKeyConstraint);
+
         $this->changeClaimExpenseTypeTableStatusToBoolean();
         $this->modifyClaimTables();
         $this->modifyClaimRequestCurrencyToForeignKey();
         $this->modifyDefaultRequiredPasswordStrength();
+        $this->modifyDefaultPasswordEnforcement();
 
         if (!$this->checkClaimExists()) {
             $this->getConnection()->createQueryBuilder()
@@ -492,5 +518,26 @@ class Migration extends AbstractMigration
                 ->setParameter('screenName', $screenName)
                 ->executeQuery();
         }
+    }
+
+    public function modifyDefaultPasswordEnforcement(): void
+    {
+        $value = $this->getConfigHelper()->getConfigValue('authentication.enforce_password_strength');
+
+        if ($value !== 'on') {
+            $value = 'off';
+        }
+        $this->getConnection()->createQueryBuilder()
+            ->insert('hs_hr_config')
+            ->values([
+                'name' => ':name',
+                'value' => ':value',
+            ])
+            ->setParameters([
+                'name' => 'auth.password_policy.enforce_password_strength',
+                'value' => $value,
+            ])
+            ->executeQuery();
+        $this->getConfigHelper()->deleteConfigValue('authentication.enforce_password_strength');
     }
 }

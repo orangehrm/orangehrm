@@ -14,33 +14,12 @@
  *
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
- * Boston, MA 02110-1301, USA
+ * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Core\Utility;
+namespace OrangeHRM\Core\Exception;
 
-class Base64Url
+interface RedirectableException
 {
-    /**
-     * @param string $value
-     * @return string
-     */
-    public static function encode(string $value): string
-    {
-        $base64 = base64_encode($value);
-        if ($base64 === false) {
-            return false;
-        }
-
-        return str_replace(['+', '/', '='], ['-', '_', ''], $base64);
-    }
-
-    /**
-     * @param string $value
-     * @return false|string
-     */
-    public static function decode(string $value)
-    {
-        return base64_decode(str_replace(['-', '_'], ['+', '/'], $value));
-    }
+    public function getRedirectUrl(): string;
 }

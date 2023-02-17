@@ -29,6 +29,7 @@ use OrangeHRM\Authentication\Traits\CsrfTokenManagerTrait;
 use OrangeHRM\Core\Authorization\Service\HomePageService;
 use OrangeHRM\Core\Controller\AbstractController;
 use OrangeHRM\Core\Controller\PublicControllerInterface;
+use OrangeHRM\Core\Exception\RedirectableException;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Framework\Http\RedirectResponse;
@@ -106,6 +107,9 @@ class ValidateController extends AbstractController implements PublicControllerI
             $this->getLoginService()->addLogin($credentials);
         } catch (AuthenticationException $e) {
             $this->getAuthUser()->addFlash(AuthUser::FLASH_LOGIN_ERROR, $e->normalize());
+            if ($e instanceof RedirectableException) {
+                return new RedirectResponse($e->getRedirectUrl());
+            }
             return new RedirectResponse($loginUrl);
         } catch (Throwable $e) {
             $this->getAuthUser()->addFlash(

@@ -1,17 +1,17 @@
 {
   "admin": {
     "username": "Admin",
-    "password": "Admin@123",
+    "password": "Jacqueline@OHRM123",
     "fullName": "Jacqueline White"
   },
   "john": {
     "username": "John",
-    "password": "John@123",
+    "password": "John@OHRM123",
     "fullName": "John Perera"
   },
   "mike": {
     "username": "Mike",
-    "password": "Mike@123",
+    "password": "Mike@OHRM123",
     "fullName": "Mike Combas"
   }
 }

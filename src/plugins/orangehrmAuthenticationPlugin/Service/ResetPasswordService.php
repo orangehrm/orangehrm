@@ -105,7 +105,7 @@ class ResetPasswordService
      * @param string $templateFile
      * @param array $placeholders
      * @param array $replacements
-     * @return array|string|string[]|null
+     * @return string
      */
     public function generateEmailBody(string $templateFile, array $placeholders, array $replacements)
     {

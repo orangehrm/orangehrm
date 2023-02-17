@@ -21,10 +21,22 @@ namespace OrangeHRM\Authentication\Auth;
 
 use OrangeHRM\Authentication\Dto\AuthParamsInterface;
 use OrangeHRM\Authentication\Dto\UserCredentialInterface;
+use OrangeHRM\Authentication\Exception\AuthenticationException;
+use OrangeHRM\Authentication\Exception\PasswordEnforceException;
 use OrangeHRM\Authentication\Service\AuthenticationService;
+use OrangeHRM\Authentication\Traits\Service\PasswordStrengthServiceTrait;
+use OrangeHRM\Authentication\Utility\PasswordStrengthValidation;
+use OrangeHRM\Core\Service\ConfigService;
+use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
+use OrangeHRM\Framework\Services;
+use OrangeHRM\I18N\Traits\Service\I18NHelperTrait;
 
 class LocalAuthProvider extends AbstractAuthProvider
 {
+    use ConfigServiceTrait;
+    use PasswordStrengthServiceTrait;
+    use I18NHelperTrait;
+
     private AuthenticationService $authenticationService;
 
     /**
@@ -36,14 +48,41 @@ class LocalAuthProvider extends AbstractAuthProvider
     }
 
     /**
-     * @inheritDoc
+     * @param AuthParamsInterface $authParams
+     * @return bool
+     * @throws AuthenticationException
+     * @throws PasswordEnforceException
      */
     public function authenticate(AuthParamsInterface $authParams): bool
     {
         if (!$authParams->getCredential() instanceof UserCredentialInterface) {
             return false;
         }
-        return $this->getAuthenticationService()->setCredentials($authParams->getCredential());
+        $success = $this->getAuthenticationService()->setCredentials($authParams->getCredential());
+        if ($success) {
+            if ($this->getConfigService()->getConfigDao()
+                    ->getValue(ConfigService::KEY_ENFORCE_PASSWORD_STRENGTH) === 'on') {
+                $passwordStrengthValidation = new PasswordStrengthValidation();
+                $passwordStrength = $passwordStrengthValidation->checkPasswordStrength(
+                    $authParams->getCredential()
+                );
+
+                if (!($this->getPasswordStrengthService()
+                    ->isValidPassword($authParams->getCredential(), $passwordStrength))
+                ) {
+                    $e = new PasswordEnforceException(
+                        AuthenticationException::PASSWORD_NOT_STRONG,
+                        $this->getI18NHelper()->trans('password_not_strong'),
+                    );
+                    $e->generateResetCode();
+
+                    $session = $this->getContainer()->get(Services::SESSION);
+                    $session->invalidate();
+                    throw $e;
+                }
+            }
+        }
+        return $success;
     }
 
     /**
