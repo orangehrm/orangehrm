@@ -9,6 +9,7 @@
       <directory suffix=".php">src</directory>
     </include>
     <exclude>
+      <directory>src/client</directory>
       <directory>src/cache</directory>
       <directory>src/config</directory>
       <directory>src/lib</directory>
@@ -73,6 +74,9 @@
     </testsuite>
     <testsuite name="Claim">
       <directory>src/plugins/orangehrmClaimPlugin/test</directory>
+    </testsuite>
+    <testsuite name="Help">
+      <directory>src/plugins/orangehrmHelpPlugin/test</directory>
     </testsuite>
   </testsuites>
 </phpunit>

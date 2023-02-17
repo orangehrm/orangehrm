@@ -114,7 +114,8 @@
             "OrangeHRM\\Tests\\Dashboard\\": "./plugins/orangehrmDashboardPlugin/test",
             "OrangeHRM\\Tests\\LDAP\\": "./plugins/orangehrmLDAPAuthenticationPlugin/test",
             "OrangeHRM\\Tests\\Buzz\\": "./plugins/orangehrmBuzzPlugin/test",
-            "OrangeHRM\\Tests\\Claim\\": "./plugins/orangehrmClaimPlugin/test"
+            "OrangeHRM\\Tests\\Claim\\": "./plugins/orangehrmClaimPlugin/test",
+            "OrangeHRM\\Tests\\Help\\": "./plugins/orangehrmHelpPlugin/test"
         }
     },
     "scripts": {

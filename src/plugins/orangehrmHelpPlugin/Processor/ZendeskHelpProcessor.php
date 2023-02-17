@@ -70,17 +70,17 @@ class ZendeskHelpProcessor implements HelpProcessor
     public function getRedirectUrl(string $label): string
     {
         $searchUrl = $this->getSearchUrl($label);
+        $redirectUrl = $this->getDefaultRedirectUrl();
 
         $results = $this->sendQuery($searchUrl);
-        if ($results['response']) {
+        if (isset($results['response'])) {
             $response = json_decode($results['response'], true);
+            $count = $response['count'];
+            if (($count >= 1) && ($results['responseCode'] == 200)) {
+                $redirectUrl = $response['results'][0]['html_url'];
+            }
         }
-        $count = $response['count'];
-        if (($count >= 1) && ($results['responseCode'] == 200)) {
-            $redirectUrl = $response['results'][0]['html_url'];
-        } else {
-            $redirectUrl = $this->getDefaultRedirectUrl();
-        }
+
         return $redirectUrl;
     }
 
