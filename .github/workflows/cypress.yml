@@ -56,6 +56,8 @@ jobs:
 
       - name: Start docker containers
         run: |
+          sed -i '156s/volumes/tmpfs/' docker-compose.yml
+          sed -i '157s/mysql-data-55://' docker-compose.yml
           docker-compose up -d php-8.0 mysql55
           docker ps
 

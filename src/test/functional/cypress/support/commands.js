@@ -191,7 +191,9 @@ Cypress.Commands.add(
       .click('center', {log: false})
       .then(($el) => {
         cy.wrap($el.closest(OXD_ELEMENTS.selectWrapper), {log: false})
-          .find(OXD_ELEMENTS.option, {log: false})
+          .find(`${OXD_ELEMENTS.option}, ${OXD_ELEMENTS.autoCompleteOption}`, {
+            log: false,
+          })
           .contains(value, {log: false})
           .click('center', {log: false});
       });
