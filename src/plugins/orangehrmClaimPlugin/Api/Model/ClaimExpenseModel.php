@@ -17,12 +17,43 @@
  * Boston, MA  02110-1301, USA
  *
  */
+
 namespace OrangeHRM\Claim\Api\Model;
 
 use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\ClaimExpense;
 
+/**
+ * @OA\Schema(
+ *     schema="Claim-ClaimExpenseModel",
+ *     type="object",
+ *     @OA\Property(
+ *         property="id",
+ *         type="integer"
+ *     ),
+ *     @OA\Property(
+ *         property="claimRequest
+ *         type="ClaimRequest",
+ *         @OA\Property( property="id", type="integer"),
+ *         @OA\Property( property="referenceId", type="integer"),
+ *     ),
+ *     @OA\Property(
+ *         property="expenseType",
+ *         type="ExpenseType",
+ *         @OA\Property( property="id", type="integer"),
+ *         @OA\Property( property="name", type="string"),
+ *     ),
+ *     @OA\Property(
+ *         property="amount",
+ *         type="float",
+ *     ),
+ *     @OA\Property(
+ *         property="note",
+ *         type="string"",
+ *     ),
+ * )
+ */
 class ClaimExpenseModel implements Normalizable
 {
     use ModelTrait;
@@ -34,8 +65,7 @@ class ClaimExpenseModel implements Normalizable
             [
                 'id',
                 ['getClaimRequest', 'getId'],
-                ['getExpenseType', 'getId'],
-                ['getExpenseType', 'getName'],
+                ['getClaimRequest', 'getReferenceId'],
                 ['getExpenseType', 'getId'],
                 ['getExpenseType', 'getName'],
                 'amount',
@@ -46,6 +76,7 @@ class ClaimExpenseModel implements Normalizable
             [
                 'id',
                 ['ClaimRequest', 'id'],
+                ['ClaimRequest', 'referenceId'],
                 ['ExpenseType', 'id'],
                 ['ExpenseType', 'name'],
                 'amount',

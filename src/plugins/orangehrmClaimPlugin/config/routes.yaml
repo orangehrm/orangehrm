@@ -26,12 +26,19 @@ apiv2_claim_expense_type:
   defaults:
     _api: OrangeHRM\Claim\Api\ClaimExpenseTypeAPI
 
-apiv2_claim_expense:
+apiv2_claim_expenses:
   path: /api/v2/claim/expenses
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
   methods: [ POST, GET, DELETE ]
   defaults:
-      _api: OrangeHRM\Claim\Api\ClaimExpenseAPI
+    _api: OrangeHRM\Claim\Api\ClaimExpenseAPI
+
+apiv2_claim_expense:
+  path: /api/v2/claim/expenses/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Claim\Api\ClaimExpenseAPI
 
 apiv2_claim_requests:
   path: /api/v2/claim/requests
@@ -41,11 +48,11 @@ apiv2_claim_requests:
     _api: OrangeHRM\Claim\Api\ClaimRequestAPI
 
 apiv2_claim_request:
-    path: /api/v2/claim/requests/{id}
-    controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
-    methods: [ GET ]
-    defaults:
-        _api: OrangeHRM\Claim\Api\ClaimRequestAPI
+  path: /api/v2/claim/requests/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Claim\Api\ClaimRequestAPI
 
 ##########################
 #        Screens
@@ -70,18 +77,18 @@ edit_claim_events:
   path: /claim/saveEvents/{id}
   controller: OrangeHRM\Claim\Controller\SaveClaimController::handle
   methods: [ GET ]
-  
+
 claim_expense_types:
   path: /claim/viewExpense
   controller: OrangeHRM\Claim\Controller\ClaimExpenseTypeController::handle
   methods: [ GET ]
 
 save_claim_expense_types:
-    path: /claim/saveExpense
-    controller: OrangeHRM\Claim\Controller\SaveClaimExpenseTypeController::handle
-    methods: [ GET ]
+  path: /claim/saveExpense
+  controller: OrangeHRM\Claim\Controller\SaveClaimExpenseTypeController::handle
+  methods: [ GET ]
 
 edit_claim_expense_types:
-    path: /claim/saveExpense/{id}
-    controller: OrangeHRM\Claim\Controller\SaveClaimExpenseTypeController::handle
-    methods: [ GET ]
+  path: /claim/saveExpense/{id}
+  controller: OrangeHRM\Claim\Controller\SaveClaimExpenseTypeController::handle
+  methods: [ GET ]

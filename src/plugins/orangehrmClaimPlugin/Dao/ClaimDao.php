@@ -20,6 +20,7 @@
 namespace OrangeHRM\Claim\Dao;
 
 use OrangeHRM\Claim\Dto\ClaimEventSearchFilterParams;
+use OrangeHRM\Claim\Dto\ClaimExpenseSearchFilterParams;
 use OrangeHRM\Claim\Dto\ClaimExpenseTypeSearchFilterParams;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Entity\ClaimEvent;
@@ -226,5 +227,66 @@ class ClaimDao extends BaseDao
     {
         $this->persist($claimExpense);
         return $claimExpense;
+    }
+
+    /**
+     * @param ClaimExpenseSearchFilterParams $claimExpenseSearchFilterParams
+     * @return array
+     */
+    public function getClaimExpenseList(ClaimExpenseSearchFilterParams $claimExpenseSearchFilterParams): array
+    {
+        $qb = $this->getClaimExpensePaginator($claimExpenseSearchFilterParams);
+        return $qb->getQuery()->execute();
+    }
+
+    /**
+     * @param ClaimExpenseSearchFilterParams $claimExpenseSearchFilterParams
+     * @return Paginator
+     */
+    protected function getClaimExpensePaginator(ClaimExpenseSearchFilterParams $claimExpenseSearchFilterParams): Paginator
+    {
+        $q = $this->createQueryBuilder(ClaimExpense::class, 'claimExpense');
+        if (!is_null($claimExpenseSearchFilterParams->getClaimRequestId())) {
+            $claimRequest = new ClaimRequest();
+            $claimRequest->setId($claimExpenseSearchFilterParams->getClaimRequestId());
+            $q->andWhere('claimExpense.claimRequest = :claimRequest');
+            $q->setParameter('claimRequest', $claimRequest);
+        }
+        $q->andWhere('claimExpense.isDeleted = :isDeleted');
+        $q->setParameter('isDeleted', false);
+        return $this->getPaginator($q);
+    }
+
+    /**
+     * @param ClaimExpenseSearchFilterParams $claimExpenseSearchFilterParams
+     * @return int
+     */
+    public function getClaimExpenseCount(ClaimExpenseSearchFilterParams $claimExpenseSearchFilterParams): int
+    {
+        return $this->getClaimExpensePaginator($claimExpenseSearchFilterParams)->count();
+    }
+
+    /**
+     * @param int $id
+     * @return ClaimExpense|null
+     */
+    public function getClaimExpenseById(int $id): ?ClaimExpense
+    {
+        return $this->getRepository(ClaimExpense::class)->findOneBy(['id' => $id, 'isDeleted' => false]);
+    }
+
+    /**
+     * @param array $ids int[] $ids
+     * @return int
+     */
+    public function deleteClaimExpense(array $ids): int
+    {
+        $q = $this->createQueryBuilder(ClaimExpense::class, 'claimExpense');
+        $q->update()
+            ->set('claimExpense.isDeleted', ':isDeleted')
+            ->where($q->expr()->in('claimExpense.id', ':ids'))
+            ->setParameter('ids', $ids)
+            ->setParameter('isDeleted', true);
+        return $q->getQuery()->execute();
     }
 }

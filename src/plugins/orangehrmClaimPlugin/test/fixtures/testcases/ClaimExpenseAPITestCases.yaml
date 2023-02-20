@@ -1,0 +1,264 @@
+Create:
+  'Create - Claim Expense':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    body:
+      expenseTypeId: 1
+      date: "2023-02-20"
+      amount: 7000.0
+      note: "sample note"
+      requestId: 1
+    data:
+      id: 4
+      ClaimRequest:
+        id: 1
+        referenceId: 202301170000001
+      ExpenseType:
+        id: 1
+        name: transport
+      amount: 7000
+      note: sample note
+    meta: [ ]
+
+  'Create - Without amount':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    body:
+      expenseTypeId: 1
+      date: "2023-02-20"
+      note: "sample note"
+      requestId: 1
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: 'Invalid Parameter'
+
+  'Create - without note':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    body:
+      expenseTypeId: 1
+      date: "2023-02-20"
+      amount: 7000.0
+      requestId: 1
+    data:
+      id: 4
+      ClaimRequest:
+        id: 1
+        referenceId: 202301170000001
+      ExpenseType:
+        id: 1
+        name: transport
+      amount: 7000
+      note: null
+    meta: [ ]
+
+GetAll:
+  'Get All - Claim Expense':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    data: [
+      {
+        "id": 1,
+        "ClaimRequest": {
+          "id": 1,
+          "referenceId": 202301170000001
+        },
+        "ExpenseType": {
+          "id": 1,
+          "name": "transport"
+        },
+        "amount": 100,
+        "note": "Travel expenses for business trip to New York"
+      },
+      {
+        "id": 2,
+        "ClaimRequest": {
+          "id": 1,
+          "referenceId": 202301170000001
+        },
+        "ExpenseType": {
+          "id": 2,
+          "name": "medical"
+        },
+        "amount": 200,
+        "note": "Marketing expenses for trade show"
+      },
+      {
+        "id": 3,
+        "ClaimRequest": {
+          "id": 3,
+          "referenceId": 202301170000003
+        },
+        "ExpenseType": {
+          "id": 3,
+          "name": "telephone"
+        },
+        "amount": 300,
+        "note": "Equipment purchase for IT department"
+      }
+    ]
+    meta: { "total": 3 }
+
+  'Get All - Claim Expense - for specific claim request':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    query:
+      requestId: 1
+    data: [
+      {
+        "id": 1,
+        "ClaimRequest": {
+          "id": 1,
+          "referenceId": 202301170000001
+        },
+        "ExpenseType": {
+          "id": 1,
+          "name": "transport"
+        },
+        "amount": 100,
+        "note": "Travel expenses for business trip to New York"
+      },
+      {
+        "id": 2,
+        "ClaimRequest": {
+          "id": 1,
+          "referenceId": 202301170000001
+        },
+        "ExpenseType": {
+          "id": 2,
+          "name": "medical"
+        },
+        "amount": 200,
+        "note": "Marketing expenses for trade show"
+      }
+    ]
+    meta: { "total": 2 }
+
+  'Get All - Claim Expense - for specific claim request - with invalid request id':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    query:
+      requestId: 100
+    data: [ ]
+    meta: { "total": 0 }
+
+GetOne:
+  'Get One - Claim Expense':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    attributes:
+      id: 1
+    data:
+      id: 1
+      ClaimRequest:
+        id: 1
+        referenceId: 202301170000001
+      ExpenseType:
+        id: 1
+        name: transport
+      amount: 100
+      note: Travel expenses for business trip to New York
+    meta: [ ]
+
+  'Get One - Claim Expense - with invalid id':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    attributes:
+      id: 100
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException'
+      message: 'Record Not Found'
+
+Update:
+  'Update - Claim Expense':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    attributes:
+      id: 1
+    body:
+      expenseTypeId: 2
+      date: "2023-02-20"
+      amount: 7000.0
+      note: "sample note"
+    data:
+      id: 1
+      ClaimRequest:
+        id: 1
+        referenceId: 202301170000001
+      ExpenseType:
+        id: 2
+        name: medical
+      amount: 7000
+      note: sample note
+    meta: [ ]
+
+  'Update - Claim Expense - with invalid id':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    attributes:
+      id: 100
+    body:
+      expenseTypeId: 2
+      date: "2023-02-20"
+      amount: 7000.0
+      note: "sample note"
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException'
+      message: 'Record Not Found'
+
+  'Update - Claim Expense - without amount':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    attributes:
+      id: 1
+    body:
+      expenseTypeId: 2
+      date: "2023-02-20"
+      note: "sample note"
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: 'Invalid Parameter'
+
+  'Update - Claim Expense - without note':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    attributes:
+      id: 1
+    body:
+      expenseTypeId: 2
+      date: "2023-02-20"
+      amount: 7000.0
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: 'Invalid Parameter'
+
+Delete:
+  'Delete - Claim Expense':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    body:
+      ids: [ 1 ]
+    data: [ 1 ]
+    meta: [ ]
+
+  'Delete - Claim Expense - with invalid id':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    body:
+      ids: [ 100 ]
+    data: [ 100 ]
+    meta: [ ]

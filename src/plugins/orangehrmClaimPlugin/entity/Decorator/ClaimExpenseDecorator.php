@@ -30,7 +30,7 @@ class ClaimExpenseDecorator
     use EntityManagerHelperTrait;
     use AuthUserTrait;
 
-    public function getClaimService():ClaimService
+    public function getClaimService(): ClaimService
     {
         return $this->getContainer()->get(Services::CLAIM_SERVICE);
     }

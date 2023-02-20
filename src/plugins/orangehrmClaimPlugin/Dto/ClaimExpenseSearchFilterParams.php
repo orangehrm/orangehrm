@@ -17,43 +17,27 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Entity\Decorator;
+namespace OrangeHRM\Claim\Dto;
 
-use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
-use OrangeHRM\Entity\ClaimAttachment;
-use OrangeHRM\Entity\User;
+use OrangeHRM\Core\Dto\FilterParams;
 
-class ClaimAttachmentDecorator
+class ClaimExpenseSearchFilterParams extends FilterParams
 {
-    use EntityManagerHelperTrait;
+    protected ?int $claimRequestId;
 
     /**
-     * @var ClaimAttachment
+     * @return int|null
      */
-    protected ClaimAttachment $claimAttachment;
-
-    /**
-     * @param ClaimAttachment $claimAttachment
-     */
-    public function __construct(ClaimAttachment $claimAttachment)
+    public function getClaimRequestId(): ?int
     {
-        $this->claimAttachment = $claimAttachment;
+        return $this->claimRequestId;
     }
 
     /**
-     * @return ClaimAttachment
+     * @param int|null $claimRequestId
      */
-    public function getClaimAttachment(): ClaimAttachment
+    public function setClaimRequestId(?int $claimRequestId): void
     {
-        return $this->claimAttachment;
-    }
-
-    /**
-     * @param int $userId
-     */
-    public function setUserByUserId(int $userId): void
-    {
-        $user = $this->getReference(User::class, $userId);
-        $this->getClaimAttachment()->setUser($user);
+        $this->claimRequestId = $claimRequestId;
     }
 }

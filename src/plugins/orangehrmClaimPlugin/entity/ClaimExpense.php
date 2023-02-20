@@ -49,7 +49,7 @@ class ClaimExpense
 
     /**
      * @var DateTime
-     * @ORM\Column(name="date", type="date", nullable=false)
+     * @ORM\Column(name="date", type="datetime")
      */
     private DateTime $date;
 
@@ -60,10 +60,10 @@ class ClaimExpense
     private float $amount;
 
     /**
-     * @var string
+     * @var string|null
      * @ORM\Column(name="note", type="string", nullable=true, length=1000)
      */
-    private string $note;
+    private ?string $note;
 
     /**
      * @var ClaimRequest
@@ -143,17 +143,17 @@ class ClaimExpense
     }
 
     /**
-     * @return string
+     * @return ?string
      */
-    public function getNote(): string
+    public function getNote(): ?string
     {
         return $this->note;
     }
 
     /**
-     * @param string $note
+     * @param ?string $note
      */
-    public function setNote(string $note): void
+    public function setNote(?string $note): void
     {
         $this->note = $note;
     }
