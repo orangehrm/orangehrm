@@ -27,4 +27,5 @@ apiv2_core_public_api_version:
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericPublicRestController::handle
   methods: [ GET ]
   defaults:
+    id: 0
     _api:  OrangeHRM\Core\PublicApi\VersionAPI
