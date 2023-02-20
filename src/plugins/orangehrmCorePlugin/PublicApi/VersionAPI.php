@@ -17,24 +17,35 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Core\Api;
+namespace OrangeHRM\Core\PublicApi;
 
 use OrangeHRM\Core\Api\V2\CollectionEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
+use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
+use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
-use OrangeHRM\Core\Controller\AbstractVueController;
-use OrangeHRM\Core\Controller\PublicControllerInterface;
+use OrangeHRM\Core\Service\ConfigService;
+use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 
 class VersionAPI extends Endpoint implements CollectionEndpoint
 {
+    use ConfigServiceTrait;
+    public const ORANGEHRM_API_VERSION = 'version';
 
     /**
+     *
      * @inheritDoc
      */
     public function getAll(): EndpointResult
     {
-        throw $this->getNotImplementedException();
+        $version = ConfigService::ORANGEHRM_API_VERSION;
+        return new EndpointResourceResult(
+            ArrayModel::class,
+            [
+                self::ORANGEHRM_API_VERSION => $version
+            ]
+        );
     }
 
     /**
