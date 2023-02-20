@@ -23,7 +23,7 @@ push_events:
 ##########################
 
 apiv2_core_public_api_version:
-  path: /api/v2/auth/public/version
+  path: /api/v2/core/public/version
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericPublicRestController::handle
   methods: [ GET ]
   defaults:

@@ -19,39 +19,36 @@
 
 namespace OrangeHRM\Core\PublicApi;
 
-use OrangeHRM\Core\Api\V2\CollectionEndpoint;
+use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
+use OrangeHRM\Core\Api\V2\ResourceEndpoint;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
-use OrangeHRM\Core\Service\ConfigService;
 use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 
-class VersionAPI extends Endpoint implements CollectionEndpoint
+class VersionAPI extends Endpoint implements ResourceEndpoint
 {
     use ConfigServiceTrait;
+
     public const ORANGEHRM_API_VERSION = 'version';
 
     /**
-     *
      * @inheritDoc
      */
-    public function getAll(): EndpointResult
+    public function getOne(): EndpointResult
     {
-        $version = ConfigService::ORANGEHRM_API_VERSION;
         return new EndpointResourceResult(
             ArrayModel::class,
-            [
-                self::ORANGEHRM_API_VERSION => $version
-            ]
+            [self::ORANGEHRM_API_VERSION => Config::ORANGEHRM_API_VERSION]
         );
     }
 
     /**
      * @inheritDoc
      */
-    public function getValidationRuleForGetAll(): ParamRuleCollection
+    public function getValidationRuleForGetOne(): ParamRuleCollection
     {
         return new ParamRuleCollection();
     }
@@ -59,7 +56,7 @@ class VersionAPI extends Endpoint implements CollectionEndpoint
     /**
      * @inheritDoc
      */
-    public function create(): EndpointResult
+    public function update(): EndpointResult
     {
         throw $this->getNotImplementedException();
     }
@@ -67,7 +64,7 @@ class VersionAPI extends Endpoint implements CollectionEndpoint
     /**
      * @inheritDoc
      */
-    public function getValidationRuleForCreate(): ParamRuleCollection
+    public function getValidationRuleForUpdate(): ParamRuleCollection
     {
         throw $this->getNotImplementedException();
     }

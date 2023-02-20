@@ -89,7 +89,7 @@ class ClaimExpenseTypeAPI extends Endpoint implements CrudEndpoint
      *             @OA\Property(
      *                 property="data",
      *                 type="array",
-     *                 @OA\Items(ref="#/components/schemas/Claim-ClaimExpenseTypeModel")
+     *                 @OA\Items(ref="#/components/schemas/Claim-ExpenseTypeModel")
      *             ),
      *             @OA\Property(property="meta",
      *                 type="object",
@@ -291,7 +291,7 @@ class ClaimExpenseTypeAPI extends Endpoint implements CrudEndpoint
      *         @OA\JsonContent(
      *             @OA\Property(
      *                 property="data",
-     *                 ref="#/components/schemas/Claim-ClaimExpenseTypeModel"
+     *                 ref="#/components/schemas/Claim-ExpenseTypeModel"
      *             ),
      *             @OA\Property(property="meta", type="object")
      *         )
@@ -349,7 +349,7 @@ class ClaimExpenseTypeAPI extends Endpoint implements CrudEndpoint
      *         @OA\JsonContent(
      *             @OA\Property(
      *                 property="data",
-     *                 ref="#/components/schemas/Claim-ClaimExpenseTypeModel"
+     *                 ref="#/components/schemas/Claim-ExpenseTypeModel"
      *             ),
      *             @OA\Property(property="meta", type="object")
      *         )

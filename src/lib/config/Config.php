@@ -56,6 +56,7 @@ class Config
     public const REGISTRATION_URL = 'https://ospenguin.orangehrm.com';
 
     public const DEFAULT_MAX_SESSION_IDLE_TIME = 1800;
+    public const ORANGEHRM_API_VERSION = '2.2.0';
 
     /**
      * @var array

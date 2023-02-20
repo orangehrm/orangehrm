@@ -63,7 +63,6 @@ class ConfigService
     public const KEY_ENFORCE_PASSWORD_STRENGTH = 'auth.password_policy.enforce_password_strength';
 
     public const MAX_ATTACHMENT_SIZE = 1048576; // 1 MB
-    public const ORANGEHRM_API_VERSION = '2.2.0';
     public const ALLOWED_FILE_TYPES = [
         'text/plain',
         'text/rtf',
