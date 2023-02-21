@@ -190,6 +190,7 @@ export default {
 .orangehrm-timesheet {
   &-grid {
     width: 100%;
+    padding: 0 0.625rem;
     grid-template-columns: 100px 1fr;
     margin-bottom: 1rem;
   }

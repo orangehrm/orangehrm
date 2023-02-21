@@ -148,6 +148,7 @@ export default {
         },
         {
           name: 'description',
+          cellType: 'oxd-table-cell-truncate',
           title: this.$t('admin.job_description'),
           style: {flex: 4},
         },
