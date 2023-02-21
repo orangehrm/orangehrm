@@ -74,19 +74,5 @@ describe('Admin - Nationalities', function () {
       cy.wait('@deleteNational');
       cy.toast('success', 'Successfully Deleted');
     });
-    //****** Removed this due to covering element issue, will fix this later..
-    //     it('Bulk Delete Nationality', function () {
-    //       cy.loginTo(this.user, '/admin/nationality');
-    //       cy.wait('@getNational');
-    //       cy.scrollTo('top');
-    //       cy.xpath(
-    //         '/html/body/div/div[1]/div[2]/div[2]/div/div/div[3]/div/div[1]/div/div[1]/div/label/span/i',
-    //       ).click();
-    //       //cy.get('.oxd-table-header .oxd-checkbox-input').click();
-    //       cy.getOXD('button').contains('Delete Selected').click();
-    //       cy.getOXD('button').contains('Yes, Delete').click();
-    //       cy.wait('@getNational');
-    //       cy.toast('success', 'Successfully Deleted');
-    //     });
   });
 });
