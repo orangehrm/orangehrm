@@ -43,14 +43,6 @@
           d="M29.144 20.773c-.063-.13-4.227-8.67-11.44-2.59C7.63 28.795 28.94 43.256 29.143 43.394c.204-.138 21.513-14.6 11.44-25.213-7.214-6.08-11.377 2.46-11.44 2.59z"
           fill="#64728c"
         />
-        <circle
-          class="orangehrm-heart-icon-circle"
-          fill="#E2264D"
-          opacity="0"
-          cx="29.5"
-          cy="29.5"
-          r="1.5"
-        />
 
         <g
           class="orangehrm-heart-icon-group7"
@@ -200,6 +192,7 @@
         </g>
       </g>
     </svg>
+    <span class="orangehrm-heart-icon-circle"></span>
   </div>
 </template>
 

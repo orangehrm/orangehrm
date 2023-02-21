@@ -25,20 +25,26 @@
     transform-origin: center;
     animation: animateHeartOut 0.3s linear forwards;
   }
-  &-circle {
-    transform-origin: 29.5px 29.5px;
-  }
+}
+
+.orangehrm-heart-icon-circle {
+  top: 0;
+  left: 0;
+  width: 32px;
+  height: 32px;
+  position: absolute;
+  border-radius: 100%;
 }
 
 .orangehrm-like-animation {
+  position: relative;
+
   .orangehrm-heart-icon-path {
     fill: #e2264d;
     transform: scale(0.2);
     animation: animateHeart 0.3s linear forwards 0.25s;
   }
   .orangehrm-heart-icon-circle {
-    opacity: 1;
-    transition: all 2s;
     animation: animateCircle 0.3s linear forwards;
   }
   .orangehrm-heart-icon-group1 {
@@ -142,48 +148,47 @@
 }
 
 @keyframes animateCircle {
+  0% {
+    border: 0px;
+    opacity: 0.6;
+    display: block;
+    transform: scale(0);
+    background-color: #e2264d;
+  }
   40% {
-    transform: scale(10);
-    opacity: 1;
-    fill: #dd4688;
+    transform: scale(0.2);
+    background-color: #dd4688;
   }
   55% {
-    transform: scale(11);
-    opacity: 1;
-    fill: #d46abf;
+    transform: scale(0.4);
+    background-color: #d46abf;
   }
   65% {
-    transform: scale(12);
-    opacity: 1;
-    fill: #cc8ef5;
+    transform: scale(0.6);
+    background-color: #cc8ef5;
   }
   75% {
-    transform: scale(13);
-    opacity: 1;
-    fill: transparent;
-    stroke: #cc8ef5;
-    stroke-width: 0.5;
+    opacity: 0.8;
+    transform: scale(0.8);
+    border: 5px solid #cc8ef5;
+    background-color: transparent;
   }
   85% {
-    transform: scale(17);
-    opacity: 1;
-    fill: transparent;
-    stroke: #cc8ef5;
-    stroke-width: 0.2;
+    border: 2.5px solid #cc8ef5;
+    background-color: transparent;
   }
   95% {
-    transform: scale(18);
-    opacity: 1;
-    fill: transparent;
-    stroke: #cc8ef5;
-    stroke-width: 0.1;
+    border: 2.5px solid #cc8ef5;
+    background-color: transparent;
+  }
+  99% {
+    display: block;
   }
   100% {
-    transform: scale(19);
-    opacity: 1;
-    fill: transparent;
-    stroke: #cc8ef5;
-    stroke-width: 0;
+    opacity: 0;
+    border: 0px;
+    display: none;
+    transform: scale(1);
   }
 }
 
