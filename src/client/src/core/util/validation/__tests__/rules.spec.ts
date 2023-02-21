@@ -246,6 +246,11 @@ describe('core/util/validation/rules::validEmailFormat', () => {
     expect(result).toBe('Expected format: admin@example.com');
   });
 
+  test('validEmailFormat:invalid character at first', () => {
+    const result = validEmailFormat('.test@deviohrm.com');
+    expect(result).toBe('Expected format: admin@example.com');
+  });
+
   test('validEmailFormat:noAtSign', () => {
     const result = validEmailFormat('deviohrm.com');
     expect(result).toBe('Expected format: admin@example.com');
@@ -276,12 +281,12 @@ describe('core/util/validation/rules::validEmailFormat', () => {
     expect(result).toBe('Expected format: admin@example.com');
   });
 
-  test('validEmailFormat:validEmail', () => {
+  test('validEmailFormat:validEmail main domain', () => {
     const result = validEmailFormat('devi@ohrm.com');
     expect(result).toStrictEqual(true);
   });
 
-  test('validEmailFormat:validEmail2', () => {
+  test('validEmailFormat:validEmail sub domain', () => {
     const result = validEmailFormat('devi@ohrm.co.uk');
     expect(result).toStrictEqual(true);
   });
