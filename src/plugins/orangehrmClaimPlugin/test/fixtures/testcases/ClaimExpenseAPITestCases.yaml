@@ -11,9 +11,6 @@ Create:
       requestId: 1
     data:
       id: 4
-      ClaimRequest:
-        id: 1
-        referenceId: 202301170000001
       ExpenseType:
         id: 1
         name: transport
@@ -45,9 +42,6 @@ Create:
       requestId: 1
     data:
       id: 4
-      ClaimRequest:
-        id: 1
-        referenceId: 202301170000001
       ExpenseType:
         id: 1
         name: transport
@@ -63,10 +57,6 @@ GetAll:
     data: [
       {
         "id": 1,
-        "ClaimRequest": {
-          "id": 1,
-          "referenceId": 202301170000001
-        },
         "ExpenseType": {
           "id": 1,
           "name": "transport"
@@ -76,10 +66,6 @@ GetAll:
       },
       {
         "id": 2,
-        "ClaimRequest": {
-          "id": 1,
-          "referenceId": 202301170000001
-        },
         "ExpenseType": {
           "id": 2,
           "name": "medical"
@@ -89,10 +75,6 @@ GetAll:
       },
       {
         "id": 3,
-        "ClaimRequest": {
-          "id": 3,
-          "referenceId": 202301170000003
-        },
         "ExpenseType": {
           "id": 3,
           "name": "telephone"
@@ -101,7 +83,7 @@ GetAll:
         "note": "Equipment purchase for IT department"
       }
     ]
-    meta: { "total": 3 }
+    meta: { "total": 3, "totalAmount": 600 }
 
   'Get All - Claim Expense - for specific claim request':
     userId: 1
@@ -112,10 +94,6 @@ GetAll:
     data: [
       {
         "id": 1,
-        "ClaimRequest": {
-          "id": 1,
-          "referenceId": 202301170000001
-        },
         "ExpenseType": {
           "id": 1,
           "name": "transport"
@@ -125,10 +103,6 @@ GetAll:
       },
       {
         "id": 2,
-        "ClaimRequest": {
-          "id": 1,
-          "referenceId": 202301170000001
-        },
         "ExpenseType": {
           "id": 2,
           "name": "medical"
@@ -137,7 +111,7 @@ GetAll:
         "note": "Marketing expenses for trade show"
       }
     ]
-    meta: { "total": 2 }
+    meta: { "total": 2, "totalAmount": 300 }
 
   'Get All - Claim Expense - for specific claim request - with invalid request id':
     userId: 1
@@ -146,7 +120,7 @@ GetAll:
     query:
       requestId: 100
     data: [ ]
-    meta: { "total": 0 }
+    meta: { "total": 0, "totalAmount": 0 }
 
 GetOne:
   'Get One - Claim Expense':
@@ -157,9 +131,6 @@ GetOne:
       id: 1
     data:
       id: 1
-      ClaimRequest:
-        id: 1
-        referenceId: 202301170000001
       ExpenseType:
         id: 1
         name: transport
@@ -191,9 +162,6 @@ Update:
       note: "sample note"
     data:
       id: 1
-      ClaimRequest:
-        id: 1
-        referenceId: 202301170000001
       ExpenseType:
         id: 2
         name: medical

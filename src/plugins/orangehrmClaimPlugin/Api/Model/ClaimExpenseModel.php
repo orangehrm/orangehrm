@@ -64,8 +64,6 @@ class ClaimExpenseModel implements Normalizable
         $this->setFilters(
             [
                 'id',
-                ['getClaimRequest', 'getId'],
-                ['getClaimRequest', 'getReferenceId'],
                 ['getExpenseType', 'getId'],
                 ['getExpenseType', 'getName'],
                 'amount',
@@ -75,8 +73,6 @@ class ClaimExpenseModel implements Normalizable
         $this->setAttributeNames(
             [
                 'id',
-                ['ClaimRequest', 'id'],
-                ['ClaimRequest', 'referenceId'],
                 ['ExpenseType', 'id'],
                 ['ExpenseType', 'name'],
                 'amount',

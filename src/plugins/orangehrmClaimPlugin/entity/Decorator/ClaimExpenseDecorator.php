@@ -23,6 +23,8 @@ use OrangeHRM\Claim\Service\ClaimService;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Entity\ClaimExpense;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
+use OrangeHRM\Entity\ClaimRequest;
+use OrangeHRM\Entity\ExpenseType;
 use OrangeHRM\Framework\Services;
 
 class ClaimExpenseDecorator
@@ -63,6 +65,22 @@ class ClaimExpenseDecorator
     {
         $claimRequest = $this->getClaimService()->getClaimDao()->getClaimRequestById($requestId);
         $this->getClaimExpense()->setClaimRequest($claimRequest);
+    }
+
+    /**
+     * @param int $requestId
+     * @return ClaimRequest|null
+     */
+    public function getClaimRequestById(int $requestId): ?ClaimRequest
+    {
+        $claimRequest = $this->getClaimService()->getClaimDao()->getClaimRequestById($requestId);
+        return $claimRequest;
+    }
+
+    public function getExpenseTypeById(int $expenseTypeId): ?ExpenseType
+    {
+        $expenseType = $this->getClaimService()->getClaimDao()->getExpenseTypeById($expenseTypeId);
+        return $expenseType;
     }
 
     /**

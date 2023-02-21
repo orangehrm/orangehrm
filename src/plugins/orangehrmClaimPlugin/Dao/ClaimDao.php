@@ -263,7 +263,22 @@ class ClaimDao extends BaseDao
      */
     public function getClaimExpenseCount(ClaimExpenseSearchFilterParams $claimExpenseSearchFilterParams): int
     {
+        $this->getClaimExpenseTotal($claimExpenseSearchFilterParams);
         return $this->getClaimExpensePaginator($claimExpenseSearchFilterParams)->count();
+    }
+
+    /**
+     * @param ClaimExpenseSearchFilterParams $claimExpenseSearchFilterParams
+     * @return float
+     */
+    public function getClaimExpenseTotal(ClaimExpenseSearchFilterParams $claimExpenseSearchFilterParams): float
+    {
+        $items = $this->getClaimExpensePaginator($claimExpenseSearchFilterParams)->getIterator();
+        $total = 0;
+        foreach ($items as $item) {
+            $total += $item->getAmount();
+        }
+        return $total;
     }
 
     /**

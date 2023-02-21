@@ -20,11 +20,13 @@
 namespace OrangeHRM\Claim\Service;
 
 use OrangeHRM\Claim\Dao\ClaimDao;
+use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 
 class ClaimService
 {
     use DateTimeHelperTrait;
+    use AuthUserTrait;
 
     /**
      * @var ClaimDao
@@ -47,5 +49,10 @@ class ClaimService
         $nextId = $this->getClaimDao()->getNextId();
         $date = $this->getDateTimeHelper()->getNow()->format('Ymd');
         return $date . str_pad("$nextId", 7, 0, STR_PAD_LEFT);
+    }
+
+    public function getUserRoleId(): int
+    {
+        return $this->getAuthUser()->getUserRoleId();
     }
 }
