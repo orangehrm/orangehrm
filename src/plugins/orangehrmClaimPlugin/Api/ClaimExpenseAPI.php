@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Claim\Api;
 
+use OpenApi\Annotations as OA;
 use OrangeHRM\Claim\Api\Model\ClaimExpenseModel;
 use OrangeHRM\Claim\Dto\ClaimExpenseSearchFilterParams;
 use OrangeHRM\Claim\Traits\Service\ClaimServiceTrait;
@@ -72,7 +73,7 @@ class ClaimExpenseAPI extends Endpoint implements CrudEndpoint
      *             @OA\Property(
      *                 property="data",
      *                 type="array",
-     *                 @OA\Property(ref="#/components/schemas/Claim-ClaimExpenseModel")
+     *                 @OA\Items(ref="#/components/schemas/Claim-ExpenseModel")
      *             ),
      *             @OA\Property(
      *                 property="meta",
@@ -82,7 +83,7 @@ class ClaimExpenseAPI extends Endpoint implements CrudEndpoint
      *         )
      *     )
      * )
-     *
+     * @inheritDoc
      */
     public function getAll(): EndpointResult
     {
@@ -125,7 +126,7 @@ class ClaimExpenseAPI extends Endpoint implements CrudEndpoint
      *         @OA\JsonContent(
      *             @OA\Property(
      *                 property="data",
-     *                 ref="#/components/schemas/Claim-ClaimExpenseModel"
+     *                 ref="#/components/schemas/Claim-ExpenseModel"
      *             ),
      *             @OA\Property(property="meta", type="object")
      *         )
@@ -227,7 +228,7 @@ class ClaimExpenseAPI extends Endpoint implements CrudEndpoint
      *         @OA\JsonContent(
      *             @OA\Property(
      *                 property="data",
-     *                 ref="#/components/schemas/Claim-ClaimExpenseModel"
+     *                 ref="#/components/schemas/Claim-ExpenseModel"
      *             ),
      *             @OA\Property(property="meta", type="object")
      *         )
@@ -280,7 +281,7 @@ class ClaimExpenseAPI extends Endpoint implements CrudEndpoint
      *         @OA\JsonContent(
      *             @OA\Property(
      *                 property="data",
-     *                 ref="#/components/schemas/Claim-ClaimExpenseModel"
+     *                 ref="#/components/schemas/Claim-ExpenseModel"
      *             ),
      *             @OA\Property(property="meta", type="object")
      *         )

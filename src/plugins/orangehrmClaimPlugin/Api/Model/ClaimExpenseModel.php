@@ -26,7 +26,7 @@ use OrangeHRM\Entity\ClaimExpense;
 
 /**
  * @OA\Schema(
- *     schema="Claim-ClaimExpenseModel",
+ *     schema="Claim-ExpenseModel",
  *     type="object",
  *     @OA\Property(
  *         property="id",
