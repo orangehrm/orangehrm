@@ -15,7 +15,7 @@
 // Boston, MA  02110-1301, USA
 
 .org-root-container {
-  padding: 0.5em 2.35rem;
+  padding: 0.5em 1.35rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -45,7 +45,7 @@
 
 .org-container {
   background-color: $oxd-interface-gray-lighten-2-color;
-  padding: 0.5rem 2rem;
+  padding: 0.5rem 1rem;
   & .loader {
     display: flex;
     justify-content: center;
