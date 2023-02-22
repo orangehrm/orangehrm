@@ -17,3 +17,15 @@ push_events:
   path: /events/push
   controller: OrangeHRM\Core\Registration\Controller\PushEventController::handle
   methods: [ POST ]
+
+##########################
+#     Public APIs
+##########################
+
+apiv2_core_public_api_version:
+  path: /api/v2/core/public/version
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericPublicRestController::handle
+  methods: [ GET ]
+  defaults:
+    id: 0
+    _api:  OrangeHRM\Core\PublicApi\VersionAPI

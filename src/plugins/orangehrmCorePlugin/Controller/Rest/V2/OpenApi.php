@@ -75,7 +75,7 @@ use OpenApi\Annotations as OA;
  * )
  * @OA\Info(
  *     title="OrangeHRM Open Source : REST API v2 docs",
- *     version="2.2.0",
+ *     version=\OrangeHRM\Config\Config::ORANGEHRM_API_VERSION,
  * )
  * @OA\Server(
  *     url="{orangehrm-url}",
