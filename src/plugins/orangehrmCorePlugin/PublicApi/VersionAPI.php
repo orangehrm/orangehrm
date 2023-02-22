@@ -26,14 +26,10 @@ use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\ResourceEndpoint;
-use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
-use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 
 class VersionAPI extends Endpoint implements ResourceEndpoint
 {
-    use ConfigServiceTrait;
-
     public const ORANGEHRM_API_VERSION = 'version';
 
     /**
@@ -52,11 +48,9 @@ class VersionAPI extends Endpoint implements ResourceEndpoint
      */
     public function getValidationRuleForGetOne(): ParamRuleCollection
     {
-        return new ParamRuleCollection(
-            new ParamRule(
-                CommonParams::PARAMETER_ID
-            ),
-        );
+        $paramRules = new ParamRuleCollection();
+        $paramRules->addExcludedParamKey(CommonParams::PARAMETER_ID);
+        return $paramRules;
     }
 
     /**
