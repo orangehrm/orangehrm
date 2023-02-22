@@ -3,12 +3,13 @@ Create:
     userId: 1
     services:
       claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    attributes:
+      claimRequestId: 1
     body:
       expenseTypeId: 1
       date: "2023-02-20"
       amount: 7000.0
       note: "sample note"
-      requestId: 1
     data:
       id: 4
       ExpenseType:
@@ -22,11 +23,12 @@ Create:
     userId: 1
     services:
       claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    attributes:
+      claimRequestId: 1
     body:
       expenseTypeId: 1
       date: "2023-02-20"
       note: "sample note"
-      requestId: 1
     exception:
       class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
       message: 'Invalid Parameter'
@@ -35,11 +37,12 @@ Create:
     userId: 1
     services:
       claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    attributes:
+      claimRequestId: 1
     body:
       expenseTypeId: 1
       date: "2023-02-20"
       amount: 7000.0
-      requestId: 1
     data:
       id: 4
       ExpenseType:
@@ -54,43 +57,8 @@ GetAll:
     userId: 1
     services:
       claim.claim_service: OrangeHRM\Claim\Service\ClaimService
-    data: [
-      {
-        "id": 1,
-        "ExpenseType": {
-          "id": 1,
-          "name": "transport"
-        },
-        "amount": 100,
-        "note": "Travel expenses for business trip to New York"
-      },
-      {
-        "id": 2,
-        "ExpenseType": {
-          "id": 2,
-          "name": "medical"
-        },
-        "amount": 200,
-        "note": "Marketing expenses for trade show"
-      },
-      {
-        "id": 3,
-        "ExpenseType": {
-          "id": 3,
-          "name": "telephone"
-        },
-        "amount": 300,
-        "note": "Equipment purchase for IT department"
-      }
-    ]
-    meta: { "total": 3, "totalAmount": 600 }
-
-  'Get All - Claim Expense - for specific claim request':
-    userId: 1
-    services:
-      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
-    query:
-      requestId: 1
+    attributes:
+      claimRequestId: 1
     data: [
       {
         "id": 1,
@@ -113,14 +81,15 @@ GetAll:
     ]
     meta: { "total": 2, "totalAmount": 300 }
 
-  'Get All - Claim Expense - for specific claim request - with invalid request id':
+  'Get All - Claim Expense - with invalid request id':
     userId: 1
     services:
       claim.claim_service: OrangeHRM\Claim\Service\ClaimService
-    query:
-      requestId: 100
-    data: [ ]
-    meta: { "total": 0, "totalAmount": 0 }
+    attributes:
+      claimRequestId: 10
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: 'Invalid Parameter'
 
 GetOne:
   'Get One - Claim Expense':
@@ -128,6 +97,7 @@ GetOne:
     services:
       claim.claim_service: OrangeHRM\Claim\Service\ClaimService
     attributes:
+      claimRequestId: 1
       id: 1
     data:
       id: 1
@@ -143,6 +113,7 @@ GetOne:
     services:
       claim.claim_service: OrangeHRM\Claim\Service\ClaimService
     attributes:
+      claimRequestId: 1
       id: 100
     exception:
       class: '\OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException'
@@ -154,6 +125,7 @@ Update:
     services:
       claim.claim_service: OrangeHRM\Claim\Service\ClaimService
     attributes:
+      claimRequestId: 1
       id: 1
     body:
       expenseTypeId: 2
@@ -174,6 +146,7 @@ Update:
     services:
       claim.claim_service: OrangeHRM\Claim\Service\ClaimService
     attributes:
+      claimRequestId: 1
       id: 100
     body:
       expenseTypeId: 2
@@ -189,6 +162,7 @@ Update:
     services:
       claim.claim_service: OrangeHRM\Claim\Service\ClaimService
     attributes:
+      claimRequestId: 1
       id: 1
     body:
       expenseTypeId: 2
@@ -203,6 +177,7 @@ Update:
     services:
       claim.claim_service: OrangeHRM\Claim\Service\ClaimService
     attributes:
+      claimRequestId: 1
       id: 1
     body:
       expenseTypeId: 2
@@ -217,6 +192,8 @@ Delete:
     userId: 1
     services:
       claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    attributes:
+      claimRequestId: 1
     body:
       ids: [ 1 ]
     data: [ 1 ]
@@ -226,7 +203,10 @@ Delete:
     userId: 1
     services:
       claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    attributes:
+      claimRequestId: 100
     body:
       ids: [ 100 ]
-    data: [ 100 ]
-    meta: [ ]
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: 'Invalid Parameter'

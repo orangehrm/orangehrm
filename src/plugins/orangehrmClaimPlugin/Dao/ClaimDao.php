@@ -20,7 +20,6 @@
 namespace OrangeHRM\Claim\Dao;
 
 use OrangeHRM\Claim\Dto\ClaimEventSearchFilterParams;
-use OrangeHRM\Claim\Dto\ClaimExpenseSearchFilterParams;
 use OrangeHRM\Claim\Dto\ClaimExpenseTypeSearchFilterParams;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Entity\ClaimEvent;
@@ -230,50 +229,48 @@ class ClaimDao extends BaseDao
     }
 
     /**
-     * @param ClaimExpenseSearchFilterParams $claimExpenseSearchFilterParams
+     * @param int $requestId
      * @return array
      */
-    public function getClaimExpenseList(ClaimExpenseSearchFilterParams $claimExpenseSearchFilterParams): array
+    public function getClaimExpenseList(int $requestId): array
     {
-        $qb = $this->getClaimExpensePaginator($claimExpenseSearchFilterParams);
+        $qb = $this->getClaimExpensePaginator($requestId);
         return $qb->getQuery()->execute();
     }
 
     /**
-     * @param ClaimExpenseSearchFilterParams $claimExpenseSearchFilterParams
+     * @param int $requestId
      * @return Paginator
      */
-    protected function getClaimExpensePaginator(ClaimExpenseSearchFilterParams $claimExpenseSearchFilterParams): Paginator
+    protected function getClaimExpensePaginator(int $requestId): Paginator
     {
         $q = $this->createQueryBuilder(ClaimExpense::class, 'claimExpense');
-        if (!is_null($claimExpenseSearchFilterParams->getClaimRequestId())) {
-            $claimRequest = new ClaimRequest();
-            $claimRequest->setId($claimExpenseSearchFilterParams->getClaimRequestId());
-            $q->andWhere('claimExpense.claimRequest = :claimRequest');
-            $q->setParameter('claimRequest', $claimRequest);
-        }
+        $claimRequest = new ClaimRequest();
+        $claimRequest->setId($requestId);
+        $q->andWhere('claimExpense.claimRequest = :claimRequest');
+        $q->setParameter('claimRequest', $claimRequest);
         $q->andWhere('claimExpense.isDeleted = :isDeleted');
         $q->setParameter('isDeleted', false);
         return $this->getPaginator($q);
     }
 
     /**
-     * @param ClaimExpenseSearchFilterParams $claimExpenseSearchFilterParams
+     * @param $requestId
      * @return int
      */
-    public function getClaimExpenseCount(ClaimExpenseSearchFilterParams $claimExpenseSearchFilterParams): int
+    public function getClaimExpenseCount($requestId): int
     {
-        $this->getClaimExpenseTotal($claimExpenseSearchFilterParams);
-        return $this->getClaimExpensePaginator($claimExpenseSearchFilterParams)->count();
+        $this->getClaimExpenseTotal($requestId);
+        return $this->getClaimExpensePaginator($requestId)->count();
     }
 
     /**
-     * @param ClaimExpenseSearchFilterParams $claimExpenseSearchFilterParams
+     * @param int $requestId
      * @return float
      */
-    public function getClaimExpenseTotal(ClaimExpenseSearchFilterParams $claimExpenseSearchFilterParams): float
+    public function getClaimExpenseTotal(int $requestId): float
     {
-        $items = $this->getClaimExpensePaginator($claimExpenseSearchFilterParams)->getIterator();
+        $items = $this->getClaimExpensePaginator($requestId)->getIterator();
         $total = 0;
         foreach ($items as $item) {
             $total += $item->getAmount();
@@ -288,6 +285,12 @@ class ClaimDao extends BaseDao
     public function getClaimExpenseById(int $id): ?ClaimExpense
     {
         return $this->getRepository(ClaimExpense::class)->findOneBy(['id' => $id, 'isDeleted' => false]);
+    }
+
+    public function getClaimRequestExpense(int $requestId, int $expenseId): ?ClaimExpense
+    {
+        $claimRequest = $this->getClaimRequestById($requestId);
+        return $this->getRepository(ClaimExpense::class)->findOneBy(['id' => $expenseId, 'claimRequest' => $claimRequest, 'isDeleted' => false]);
     }
 
     /**

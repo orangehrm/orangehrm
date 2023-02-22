@@ -20,7 +20,6 @@
 namespace OrangeHRM\Tests\Claim\Dao;
 
 use OrangeHRM\Claim\Dao\ClaimDao;
-use OrangeHRM\Claim\Dto\ClaimExpenseSearchFilterParams;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\ClaimExpense;
@@ -64,9 +63,8 @@ class ClaimDaoExpenseTest extends KernelTestCase
 
     public function testGetClaimExpenseList(): void
     {
-        $claimExpenseSearchFilterParams = new ClaimExpenseSearchFilterParams();
-        $claimExpenseSearchFilterParams->setClaimRequestId(1);
-        $result = $this->claimDao->getClaimExpenseList($claimExpenseSearchFilterParams);
+        $claimRequestId = 1;
+        $result = $this->claimDao->getClaimExpenseList($claimRequestId);
         $this->assertCount(2, $result);
     }
 
