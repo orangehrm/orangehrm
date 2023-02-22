@@ -16,6 +16,7 @@
     "date-fns": "^2.22.1",
     "hammerjs": "^2.0.8",
     "intl-messageformat": "^9.11.4",
+    "qrcode": "^1.5.1",
     "vue": "^3.2.45"
   },
   "devDependencies": {
