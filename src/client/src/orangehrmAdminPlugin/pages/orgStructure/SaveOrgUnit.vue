@@ -21,9 +21,9 @@
 <template>
   <oxd-dialog class="orangehrm-dialog-modal" @update:show="onCancel">
     <div class="orangehrm-modal-header">
-      <oxd-text type="card-title">{{
-        $t('admin.add_organization_unit')
-      }}</oxd-text>
+      <oxd-text type="card-title">
+        {{ $t('admin.add_organization_unit') }}
+      </oxd-text>
     </div>
     <oxd-divider />
     <oxd-form :loading="isLoading" @submit-valid="onSave">
@@ -52,7 +52,10 @@
         />
       </oxd-form-row>
       <oxd-text tag="p" class="level-label">
-        {{ $t('admin.this_unit_will_be_added_under') }} <b>{{ data?.name }}</b>
+        {{ $t('admin.this_unit_will_be_added_under') }}
+        <b>
+          {{ data?.unitId ? `${data.unitId}: ${data?.name}` : `${data?.name}` }}
+        </b>
       </oxd-text>
       <oxd-divider />
 
