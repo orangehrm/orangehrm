@@ -106,7 +106,7 @@ export default {
 
   setup(props) {
     const {locale} = useLocale();
-    const {jsDateFormat} = useDateFormat();
+    const {jsDateFormat, jsTimeFormat} = useDateFormat();
     const {$tEmpName} = useEmployeeNameTranslate();
 
     const employeeFullName = computed(() => {
@@ -124,7 +124,7 @@ export default {
         'yyyy-MM-dd HH:mm xxx',
       );
 
-      return formatDate(utcDate, `${jsDateFormat} HH:mm`, {
+      return formatDate(utcDate, `${jsDateFormat} ${jsTimeFormat}`, {
         locale,
       });
     });

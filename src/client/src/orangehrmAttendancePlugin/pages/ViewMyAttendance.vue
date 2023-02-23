@@ -84,16 +84,22 @@
 
 <script>
 import {computed, ref} from 'vue';
-import {required, validDateFormat} from '@/core/util/validation/rules';
+import {
+  freshDate,
+  parseDate,
+  parseTime,
+  formatTime,
+  formatDate,
+  getStandardTimezone,
+} from '@/core/util/helper/datefns';
 import {navigate} from '@/core/util/helper/navigation';
+import useLocale from '@/core/util/composable/useLocale';
 import {APIService} from '@/core/util/services/api.service';
 import usePaginate from '@ohrm/core/util/composable/usePaginate';
-import {freshDate, formatDate, parseDate} from '@ohrm/core/util/helper/datefns';
+import useDateFormat from '@/core/util/composable/useDateFormat';
+import {required, validDateFormat} from '@/core/util/validation/rules';
 import RecordCell from '@/orangehrmAttendancePlugin/components/RecordCell.vue';
 import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmationDialog';
-import {getStandardTimezone} from '@/core/util/helper/datefns';
-import useDateFormat from '@/core/util/composable/useDateFormat';
-import useLocale from '@/core/util/composable/useLocale';
 
 export default {
   components: {
@@ -113,7 +119,8 @@ export default {
 
   setup(props) {
     const {locale} = useLocale();
-    const {jsDateFormat, userDateFormat} = useDateFormat();
+    const {jsDateFormat, userDateFormat, timeFormat, jsTimeFormat} =
+      useDateFormat();
 
     const rules = {
       date: [required, validDateFormat(userDateFormat)],
@@ -141,20 +148,30 @@ export default {
           jsDateFormat,
           {locale},
         );
+        const punchInTime = formatTime(
+          parseTime(punchIn?.userTime, timeFormat),
+          jsTimeFormat,
+        );
         const punchOutDate = formatDate(
           parseDate(punchOut?.userDate),
           jsDateFormat,
           {locale},
+        );
+        const punchOutTime = formatTime(
+          parseTime(punchOut?.userTime, timeFormat),
+          jsTimeFormat,
         );
 
         return {
           id: item.id,
           punchIn: {
             ...punchIn,
+            userTime: punchInTime,
             userDate: punchInDate,
           },
           punchOut: {
             ...punchOut,
+            userTime: punchOutTime,
             userDate: punchOutDate,
           },
           punchInNote: punchIn.note,

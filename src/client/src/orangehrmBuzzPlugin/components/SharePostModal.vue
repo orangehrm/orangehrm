@@ -91,7 +91,7 @@ export default {
   setup(props, context) {
     const {locale} = useLocale();
     const {saveSuccess} = useToast();
-    const {jsDateFormat} = useDateFormat();
+    const {jsDateFormat, jsTimeFormat} = useDateFormat();
     const {$tEmpName} = useEmployeeNameTranslate();
     const rules = {
       text: [shouldNotExceedCharLength(65530)],
@@ -134,7 +134,7 @@ export default {
           includeMiddle: true,
           excludePastEmpTag: false,
         }),
-        dateTime: formatDate(utcDate, `${jsDateFormat} HH:mm`, {
+        dateTime: formatDate(utcDate, `${jsDateFormat} ${jsTimeFormat}`, {
           locale,
         }),
       };
