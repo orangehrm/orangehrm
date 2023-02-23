@@ -45,8 +45,7 @@ class Migration extends AbstractMigration
 
         $this->updateLangStringVersion($this->getVersion());
 
-        if (!$this->getSchemaHelper()->tableExists(['
-        '])) {
+        if (!$this->getSchemaHelper()->tableExists(['ohrm_claim_event'])) {
             $this->getSchemaHelper()->createTable('ohrm_claim_event')
                 ->addColumn('id', Types::INTEGER, ['Autoincrement' => true])
                 ->addColumn('name', Types::TEXT, ['Notnull' => true, 'Length' => 100])

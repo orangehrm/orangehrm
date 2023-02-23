@@ -20,6 +20,7 @@
 namespace OrangeHRM\Claim\Dao;
 
 use OrangeHRM\Claim\Dto\ClaimEventSearchFilterParams;
+use OrangeHRM\Claim\Dto\ClaimExpenseSearchFilterParams;
 use OrangeHRM\Claim\Dto\ClaimExpenseTypeSearchFilterParams;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Entity\ClaimEvent;
@@ -232,9 +233,9 @@ class ClaimDao extends BaseDao
      * @param int $requestId
      * @return array
      */
-    public function getClaimExpenseList(int $requestId): array
+    public function getClaimExpenseList(ClaimExpenseSearchFilterParams $claimExpenseSearchFilterParams): array
     {
-        $qb = $this->getClaimExpensePaginator($requestId);
+        $qb = $this->getClaimExpensePaginator($claimExpenseSearchFilterParams);
         return $qb->getQuery()->execute();
     }
 
@@ -242,11 +243,12 @@ class ClaimDao extends BaseDao
      * @param int $requestId
      * @return Paginator
      */
-    protected function getClaimExpensePaginator(int $requestId): Paginator
+    protected function getClaimExpensePaginator(ClaimExpenseSearchFilterParams $claimExpenseSearchFilterParams): Paginator
     {
         $q = $this->createQueryBuilder(ClaimExpense::class, 'claimExpense');
+        $this->setSortingAndPaginationParams($q, $claimExpenseSearchFilterParams);
         $claimRequest = new ClaimRequest();
-        $claimRequest->setId($requestId);
+        $claimRequest->setId($claimExpenseSearchFilterParams->getRequestId());
         $q->andWhere('claimExpense.claimRequest = :claimRequest');
         $q->setParameter('claimRequest', $claimRequest);
         $q->andWhere('claimExpense.isDeleted = :isDeleted');
@@ -258,19 +260,18 @@ class ClaimDao extends BaseDao
      * @param $requestId
      * @return int
      */
-    public function getClaimExpenseCount($requestId): int
+    public function getClaimExpenseCount(ClaimExpenseSearchFilterParams $claimExpenseSearchFilterParams): int
     {
-        $this->getClaimExpenseTotal($requestId);
-        return $this->getClaimExpensePaginator($requestId)->count();
+        return $this->getClaimExpensePaginator($claimExpenseSearchFilterParams)->count();
     }
 
     /**
      * @param int $requestId
      * @return float
      */
-    public function getClaimExpenseTotal(int $requestId): float
+    public function getClaimExpenseTotal(ClaimExpenseSearchFilterParams $claimExpenseSearchFilterParams): float
     {
-        $items = $this->getClaimExpensePaginator($requestId)->getIterator();
+        $items = $this->getClaimExpensePaginator($claimExpenseSearchFilterParams)->getIterator();
         $total = 0;
         foreach ($items as $item) {
             $total += $item->getAmount();
