@@ -19,13 +19,14 @@
 
 namespace OrangeHRM\Entity;
 
+use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Table(name="ohrm_oauth2_clients")
+ * @ORM\Table(name="ohrm_oauth2_refresh_tokens")
  * @ORM\Entity
  */
-class OAuthClient
+class OAuthRefreshToken
 {
     /**
      * @var int
@@ -39,37 +40,30 @@ class OAuthClient
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255, nullable=false)
+     * @ORM\Column(name="refresh_token", type="string", length=255, nullable=false)
      */
-    private string $name;
+    private string $refreshToken;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="client_secret", type="string", length=255, nullable=false)
+     * @ORM\Column(name="access_token", type="string", length=255, nullable=false)
      */
-    private string $clientSecret;
+    private string $accessToken;
 
     /**
-     * @var string
+     * @var DateTimeImmutable
      *
-     * @ORM\Column(name="redirect_uri", type="string", length=2000, nullable=false)
+     * @ORM\Column(name="expiry_date_time", type="datetime_immutable", nullable=false)
      */
-    private string $redirectUri;
-
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="is_confidential", type="boolean", nullable=false)
-     */
-    private bool $confidential;
+    private DateTimeImmutable $expiryDateTime;
 
     /**
      * @var bool
      *
-     * @ORM\Column(name="enabled", type="boolean", nullable=false)
+     * @ORM\Column(name="revoked", type="boolean", nullable=false)
      */
-    private bool $enabled = true;
+    private bool $revoked = false;
 
     /**
      * @return int
@@ -90,80 +84,64 @@ class OAuthClient
     /**
      * @return string
      */
-    public function getName(): string
+    public function getRefreshToken(): string
     {
-        return $this->name;
+        return $this->refreshToken;
     }
 
     /**
-     * @param string $name
+     * @param string $refreshToken
      */
-    public function setName(string $name): void
+    public function setRefreshToken(string $refreshToken): void
     {
-        $this->name = $name;
-    }
-
-    /**
-     * @return string
-     */
-    public function getClientSecret(): string
-    {
-        return $this->clientSecret;
-    }
-
-    /**
-     * @param string $clientSecret
-     */
-    public function setClientSecret(string $clientSecret): void
-    {
-        $this->clientSecret = $clientSecret;
+        $this->refreshToken = $refreshToken;
     }
 
     /**
      * @return string
      */
-    public function getRedirectUri(): string
+    public function getAccessToken(): string
     {
-        return $this->redirectUri;
+        return $this->accessToken;
     }
 
     /**
-     * @param string $redirectUri
+     * @param string $accessToken
      */
-    public function setRedirectUri(string $redirectUri): void
+    public function setAccessToken(string $accessToken): void
     {
-        $this->redirectUri = $redirectUri;
+        $this->accessToken = $accessToken;
+    }
+
+    /**
+     * @return DateTimeImmutable
+     */
+    public function getExpiryDateTime(): DateTimeImmutable
+    {
+        return $this->expiryDateTime;
+    }
+
+    /**
+     * @param DateTimeImmutable $expiryDateTime
+     */
+    public function setExpiryDateTime(DateTimeImmutable $expiryDateTime): void
+    {
+        $this->expiryDateTime = $expiryDateTime;
     }
 
     /**
      * @return bool
      */
-    public function isConfidential(): bool
+    public function isRevoked(): bool
     {
-        return $this->confidential;
+        return $this->revoked;
     }
 
     /**
-     * @param bool $confidential
+     * @param bool $revoked
      */
-    public function setConfidential(bool $confidential): void
+    public function setRevoked(bool $revoked): void
     {
-        $this->confidential = $confidential;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isEnabled(): bool
-    {
-        return $this->enabled;
-    }
-
-    /**
-     * @param bool $enabled
-     */
-    public function setEnabled(bool $enabled): void
-    {
-        $this->enabled = $enabled;
+        $this->revoked = $revoked;
     }
 }
