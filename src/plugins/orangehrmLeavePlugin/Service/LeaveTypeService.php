@@ -21,6 +21,7 @@ namespace OrangeHRM\Leave\Service;
 
 use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
 use OrangeHRM\Entity\LeaveType;
+use OrangeHRM\I18N\Traits\Service\I18NHelperTrait;
 use OrangeHRM\Leave\Dao\LeaveTypeDao;
 use OrangeHRM\Leave\Service\Model\LeaveTypeModel;
 use OrangeHRM\Leave\Traits\Service\LeaveEntitlementServiceTrait;
@@ -29,6 +30,7 @@ class LeaveTypeService
 {
     use LeaveEntitlementServiceTrait;
     use NormalizerServiceTrait;
+    use I18NHelperTrait;
 
     /**
      * @var LeaveTypeDao|null
@@ -80,6 +82,10 @@ class LeaveTypeService
         if (!$leaveType instanceof LeaveType) {
             return null;
         }
-        return $this->getNormalizerService()->normalize(LeaveTypeModel::class, $leaveType);
+        $leaveType = $this->getNormalizerService()->normalize(LeaveTypeModel::class, $leaveType);
+        if ($leaveType['deleted']) {
+            $leaveType['label'] = sprintf("%s %s", $leaveType['label'], $this->getI18NHelper()->trans('general.deleted'));
+        }
+        return $leaveType;
     }
 }

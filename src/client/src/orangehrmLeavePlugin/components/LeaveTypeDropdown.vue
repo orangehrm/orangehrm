@@ -25,9 +25,6 @@
     :options="options"
     :show-empty-selector="showEmptySelector"
   >
-    <template #afterSelected="{data}">
-      <template v-if="data.isDeleted">{{ $t('general.deleted') }}</template>
-    </template>
     <template #option="{data}">
       <span>{{ data.label }}</span>
       <div v-if="data.isDeleted" class="deleted-tag">
