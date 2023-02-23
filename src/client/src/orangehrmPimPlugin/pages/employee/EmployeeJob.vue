@@ -153,29 +153,30 @@
       </oxd-form>
     </div>
 
-    <oxd-divider v-if="hasUpdatePermissions" />
+    <oxd-divider v-if="hasUpdatePermissions && !isLoading" />
 
     <div
-      v-if="hasUpdatePermissions"
+      v-if="hasUpdatePermissions && !isLoading"
       class="orangehrm-horizontal-padding orangehrm-vertical-padding"
     >
       <profile-action-header
         icon-name=""
         :display-type="terminationActionType"
         :label="terminationActionLabel"
+        :title="terminationActionLabel"
         class="--termination-button"
         @click="onClickTerminate"
       >
         {{ $t('pim.employee_termination_activation') }}
+        <oxd-text
+          v-if="termination && termination.id"
+          tag="p"
+          class="orangehrm-terminate-date"
+          @click="openTerminateModal"
+        >
+          {{ $t('pim.terminated_on') }}: {{ terminationDate }}
+        </oxd-text>
       </profile-action-header>
-      <oxd-text
-        v-if="termination && termination.id"
-        tag="p"
-        class="orangehrm-terminate-date"
-        @click="openTerminateModal"
-      >
-        {{ $t('pim.terminated_on') }}: {{ terminationDate }}
-      </oxd-text>
     </div>
     <terminate-modal
       v-if="showTerminateModal"
@@ -419,7 +420,7 @@ export default {
 
     onClickTerminate() {
       if (this.termination?.id) {
-        this.$loader.startLoading();
+        this.isLoading = true;
         this.http
           .request({
             method: 'DELETE',
@@ -429,7 +430,6 @@ export default {
             return this.$toast.updateSuccess();
           })
           .then(() => {
-            this.$loader.endLoading();
             location.reload();
           });
       } else {

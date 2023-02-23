@@ -88,7 +88,9 @@
 }
 
 ::v-deep(.--termination-button) {
-  white-space: unset !important;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .orangehrm-terminate-date {
