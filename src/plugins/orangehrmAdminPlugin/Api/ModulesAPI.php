@@ -258,7 +258,8 @@ class ModulesAPI extends Endpoint implements CrudEndpoint
      */
     protected function updateMobileStatus(?bool $enableMobile): void
     {
-        $enableMobile ? $this->createMobileClient() : $this->deleteMobileClient();
+        // TODO
+        //$enableMobile ? $this->createMobileClient() : $this->deleteMobileClient();
     }
 
     /**
