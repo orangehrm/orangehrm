@@ -75,17 +75,17 @@ class OAuthClientAPITest extends EndpointTestCase
             ->getMock();
 
         $oauthClient1 = new OAuthClient();
-        $oauthClient1->setClientId('TestOAuth1');
+        $oauthClient1->setName('TestOAuth1');
         $oauthClient1->setClientSecret('TestOAuthSecret');
         $oauthClient1->setRedirectUri('https://facebook.com');
-        $oauthClient1->setGrantTypes('password');
+        $oauthClient1->setConfidential('password');
         $oauthClient1->setScope('user');
 
         $oauthClient2 = new OAuthClient();
-        $oauthClient2->setClientId('TestOAuth2');
+        $oauthClient2->setName('TestOAuth2');
         $oauthClient2->setClientSecret('TestOAuthSecret');
         $oauthClient2->setRedirectUri('https://facebook.com');
-        $oauthClient2->setGrantTypes('password');
+        $oauthClient2->setConfidential('password');
         $oauthClient2->setScope('user');
 
         $oAuthClientDao->expects($this->exactly(1))
@@ -162,7 +162,7 @@ class OAuthClientAPITest extends EndpointTestCase
             ->will(
                 $this->returnCallback(
                     function (OAuthClient $authClient) {
-                        $authClient->setClientId('Test');
+                        $authClient->setName('Test');
                         $authClient->setClientSecret('TEST');
                         $authClient->setRedirectUri('');
                         return $authClient;
@@ -260,10 +260,10 @@ class OAuthClientAPITest extends EndpointTestCase
     public function testGetOne(): void
     {
         $oAuthClient = new OAuthClient();
-        $oAuthClient->setClientId('client1');
+        $oAuthClient->setName('client1');
         $oAuthClient->setClientSecret('clientsecret');
         $oAuthClient->setRedirectUri('');
-        $oAuthClient->setGrantTypes('password');
+        $oAuthClient->setConfidential('password');
         $oAuthClient->setScope('user');
 
         $oAuthService = $this->getMockBuilder(OAuthService::class)
@@ -353,7 +353,7 @@ class OAuthClientAPITest extends EndpointTestCase
             ->will(
                 $this->returnCallback(
                     function (OAuthClient $authClient) {
-                        $authClient->setClientId('TestNew');
+                        $authClient->setName('TestNew');
                         $authClient->setClientSecret('TESTNEW');
                         $authClient->setRedirectUri('');
                         return $authClient;
@@ -362,10 +362,10 @@ class OAuthClientAPITest extends EndpointTestCase
             );
 
         $existingOAuthClient = new OAuthClient();
-        $existingOAuthClient->setClientId('Test');
+        $existingOAuthClient->setName('Test');
         $existingOAuthClient->setClientSecret('TEST');
         $existingOAuthClient->setRedirectUri('');
-        $existingOAuthClient->setGrantTypes('password');
+        $existingOAuthClient->setConfidential('password');
         $existingOAuthClient->setScope('user');
 
         $oAuthService->expects($this->exactly(1))

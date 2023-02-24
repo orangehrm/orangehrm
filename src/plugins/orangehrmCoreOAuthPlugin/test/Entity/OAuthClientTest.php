@@ -45,10 +45,10 @@ class OAuthClientTest extends EntityTestCase
     public function testOAuthClientEntity(): void
     {
         $oauthClient = new OAuthClient();
-        $oauthClient->setClientId('TestOAuth');
+        $oauthClient->setName('TestOAuth');
         $oauthClient->setClientSecret('TestOAuthSecret');
         $oauthClient->setRedirectUri('https://facebook.com');
-        $oauthClient->setGrantTypes('password');
+        $oauthClient->setConfidential('password');
         $oauthClient->setScope('user');
         $this->persist($oauthClient);
 

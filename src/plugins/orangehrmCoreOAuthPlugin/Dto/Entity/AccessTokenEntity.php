@@ -48,7 +48,6 @@ class AccessTokenEntity implements AccessTokenEntityInterface
      */
     public function __toString(): string
     {
-        // TODO
         return $this->getIdentifier();
     }
 

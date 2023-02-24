@@ -88,10 +88,10 @@ class OAuthServiceTest extends TestCase
     public function testSaveOAuthClient(): void
     {
         $oauthClient = new OAuthClient();
-        $oauthClient->setClientId('Test1');
+        $oauthClient->setName('Test1');
         $oauthClient->setClientSecret('Test1Secret');
         $oauthClient->setRedirectUri('');
-        $oauthClient->setGrantTypes('password');
+        $oauthClient->setConfidential('password');
         $oauthClient->setScope('user');
 
 
@@ -109,10 +109,10 @@ class OAuthServiceTest extends TestCase
     public function testCreateMobileClient(): void
     {
         $client = new OAuthClient();
-        $client->setClientId(OAuthService::PUBLIC_MOBILE_CLIENT_ID);
+        $client->setName(OAuthService::PUBLIC_MOBILE_CLIENT_ID);
         $client->setClientSecret('');
         $client->setRedirectUri('');
-        $client->setGrantTypes(sprintf("%s %s", GrantType::USER_CREDENTIALS, GrantType::REFRESH_TOKEN));
+        $client->setConfidential(sprintf("%s %s", GrantType::USER_CREDENTIALS, GrantType::REFRESH_TOKEN));
         $client->setScope(Scope::SCOPE_USER);
 
         $oAuthClientDao = $this->getMockBuilder(OAuthClientDao::class)->getMock();
