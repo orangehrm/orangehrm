@@ -217,6 +217,14 @@ const parseTime = (value: string, timeFormat: string): Date | null => {
   return parseDate(value, timeFormat);
 };
 
+const formatTime = (
+  value: Date,
+  timeFormat: string,
+  options = {},
+): string | null => {
+  return formatDate(value, timeFormat, options);
+};
+
 const compareTime = (
   reference: string,
   comparable: string,
@@ -373,4 +381,5 @@ export {
   guessTimezone,
   getStandardTimezone,
   isToday,
+  formatTime,
 };

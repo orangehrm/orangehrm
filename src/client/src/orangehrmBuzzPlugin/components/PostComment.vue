@@ -149,7 +149,7 @@ export default {
   setup(props, context) {
     let loading = false;
     const {locale} = useLocale();
-    const {jsDateFormat} = useDateFormat();
+    const {jsDateFormat, jsTimeFormat} = useDateFormat();
     const {$tEmpName} = useEmployeeNameTranslate();
     const rules = [required, shouldNotExceedCharLength(65530)];
     const state = reactive({
@@ -208,7 +208,7 @@ export default {
         'yyyy-MM-dd HH:mm xxx',
       );
 
-      return formatDate(utcDate, `${jsDateFormat} HH:mm`, {
+      return formatDate(utcDate, `${jsDateFormat} ${jsTimeFormat}`, {
         locale,
       });
     });

@@ -100,7 +100,7 @@ export default {
 
   setup(props, context) {
     const {locale} = useLocale();
-    const {jsDateFormat} = useDateFormat();
+    const {jsDateFormat, jsTimeFormat} = useDateFormat();
     const {$tEmpName} = useEmployeeNameTranslate();
     const state = reactive({
       readMore: new String(props.post?.text).length < 500,
@@ -134,7 +134,7 @@ export default {
           includeMiddle: true,
           excludePastEmpTag: false,
         }),
-        dateTime: formatDate(utcDate, `${jsDateFormat} HH:mm`, {
+        dateTime: formatDate(utcDate, `${jsDateFormat} ${jsTimeFormat}`, {
           locale,
         }),
       };

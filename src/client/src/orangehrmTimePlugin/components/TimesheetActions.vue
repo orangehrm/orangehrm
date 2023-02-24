@@ -162,6 +162,7 @@ export default {
         },
         {
           name: 'comment',
+          cellType: 'oxd-table-cell-truncate',
           title: this.$t('general.comment'),
           style: {flex: 1},
         },

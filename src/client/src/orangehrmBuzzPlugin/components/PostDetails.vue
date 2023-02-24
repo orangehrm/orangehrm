@@ -102,7 +102,7 @@ export default {
   setup(props, context) {
     let loading = false;
     const {locale} = useLocale();
-    const {jsDateFormat} = useDateFormat();
+    const {jsDateFormat, jsTimeFormat} = useDateFormat();
     const {$tEmpName} = useEmployeeNameTranslate();
     const readMore = ref(new String(props.post?.text).length < 500);
     const {updatePostLike} = useBuzzAPIs(
@@ -117,7 +117,7 @@ export default {
         'yyyy-MM-dd HH:mm xxx',
       );
 
-      return formatDate(utcDate, `${jsDateFormat} HH:mm`, {
+      return formatDate(utcDate, `${jsDateFormat} ${jsTimeFormat}`, {
         locale,
       });
     });

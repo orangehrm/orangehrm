@@ -21,9 +21,9 @@
 <template>
   <oxd-dialog class="orangehrm-dialog-modal" @update:show="onCancel">
     <div class="orangehrm-modal-header">
-      <oxd-text type="card-title">{{
-        $t('admin.edit_organization_unit')
-      }}</oxd-text>
+      <oxd-text type="card-title">
+        {{ $t('admin.edit_organization_unit') }}
+      </oxd-text>
     </div>
     <oxd-divider />
     <oxd-form :loading="isLoading" @submit-valid="onSave">

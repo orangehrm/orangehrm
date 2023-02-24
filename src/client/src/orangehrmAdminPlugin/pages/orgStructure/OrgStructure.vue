@@ -74,28 +74,62 @@
               }"
             >
               <div class="org-name">
-                {{ nodeData.unitId ? nodeData.unitId + ':' : '' }}
-                &nbsp;{{ nodeData.name }}
+                {{
+                  nodeData.unitId
+                    ? `${nodeData.unitId}: ${nodeData.name}`
+                    : `${nodeData.name}`
+                }}
               </div>
-              <div v-show="editable" class="org-action">
-                <oxd-icon-button
-                  class="org-action-icon"
-                  name="trash-fill"
-                  role="none"
-                  @click="onDelete(nodeData)"
-                />
-                <oxd-icon-button
-                  class="org-action-icon"
-                  name="pencil-fill"
-                  role="none"
-                  @click="onEditOrglevel(nodeData)"
-                />
-                <oxd-icon-button
-                  class="org-action-icon"
-                  name="plus"
-                  role="none"
-                  @click="onAddOrglevel(nodeData)"
-                />
+              <div v-if="editable" class="org-action">
+                <oxd-dropdown v-if="isMobile">
+                  <oxd-icon-button name="three-dots" :with-container="true" />
+                  <template #content>
+                    <li
+                      class="org-action-description"
+                      @click="onDelete(nodeData)"
+                    >
+                      <oxd-text tag="p">
+                        {{ $t('performance.delete') }}
+                      </oxd-text>
+                    </li>
+                    <li
+                      class="org-action-description"
+                      @click="onEditOrglevel(nodeData)"
+                    >
+                      <oxd-text tag="p">
+                        {{ $t('general.edit') }}
+                      </oxd-text>
+                    </li>
+                    <li
+                      class="org-action-description"
+                      @click="onAddOrglevel(nodeData)"
+                    >
+                      <oxd-text tag="p">
+                        {{ $t('general.add') }}
+                      </oxd-text>
+                    </li>
+                  </template>
+                </oxd-dropdown>
+                <template v-else>
+                  <oxd-icon-button
+                    class="org-action-icon"
+                    name="trash-fill"
+                    role="none"
+                    @click="onDelete(nodeData)"
+                  />
+                  <oxd-icon-button
+                    class="org-action-icon"
+                    name="pencil-fill"
+                    role="none"
+                    @click="onEditOrglevel(nodeData)"
+                  />
+                  <oxd-icon-button
+                    class="org-action-icon"
+                    name="plus"
+                    role="none"
+                    @click="onAddOrglevel(nodeData)"
+                  />
+                </template>
               </div>
             </oxd-sheet>
           </template>
@@ -117,29 +151,47 @@
 </template>
 
 <script>
-import {APIService} from '@/core/util/services/api.service';
-import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmationDialog';
+import {
+  OxdSheet,
+  OxdSpinner,
+  OxdTreeView,
+  DEVICE_TYPES,
+  useResponsive,
+  OxdSwitchInput,
+  OxdDropdownMenu,
+} from '@ohrm/oxd';
+import {computed} from 'vue';
 import SaveOrgUnit from './SaveOrgUnit';
 import EditOrgUnit from './EditOrgUnit';
-import {OxdSheet, OxdSpinner, OxdSwitchInput, OxdTreeView} from '@ohrm/oxd';
+import {APIService} from '@/core/util/services/api.service';
+import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmationDialog';
 
 export default {
   components: {
-    'oxd-tree-view': OxdTreeView,
     'oxd-sheet': OxdSheet,
-    'oxd-switch-input': OxdSwitchInput,
-    'oxd-loading-spinner': OxdSpinner,
-    'delete-confirmation': DeleteConfirmationDialog,
     'save-org-unit': SaveOrgUnit,
     'edit-org-unit': EditOrgUnit,
+    'oxd-tree-view': OxdTreeView,
+    'oxd-dropdown': OxdDropdownMenu,
+    'oxd-loading-spinner': OxdSpinner,
+    'oxd-switch-input': OxdSwitchInput,
+    'delete-confirmation': DeleteConfirmationDialog,
   },
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
       'api/v2/admin/subunits',
     );
+    const responsiveState = useResponsive();
+    const isMobile = computed(() => {
+      return !(
+        responsiveState.screenType === DEVICE_TYPES.DEVICE_LG ||
+        responsiveState.screenType === DEVICE_TYPES.DEVICE_XL
+      );
+    });
     return {
       http,
+      isMobile,
     };
   },
   data() {

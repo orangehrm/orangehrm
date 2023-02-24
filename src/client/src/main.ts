@@ -21,7 +21,6 @@ import components from './components';
 import pages from './pages';
 import acl, {AclAPI} from './core/plugins/acl/acl';
 import toaster, {ToasterAPI} from './core/plugins/toaster/toaster';
-import loader, {LoaderAPI} from './core/plugins/loader/loader';
 import createI18n, {TranslateAPI} from './core/plugins/i18n/translate';
 import '@ohrm/oxd/fonts.css';
 import '@ohrm/oxd/icons.css';
@@ -53,7 +52,6 @@ const {i18n, init} = createI18n({
   resourceUrl: 'core/i18n/messages',
 });
 
-app.use(loader);
 app.use(acl);
 app.use(i18n);
 
@@ -61,7 +59,6 @@ app.use(i18n);
 declare module '@vue/runtime-core' {
   interface ComponentCustomProperties {
     $toast: ToasterAPI;
-    $loader: LoaderAPI;
     $can: AclAPI;
     $t: TranslateAPI;
   }

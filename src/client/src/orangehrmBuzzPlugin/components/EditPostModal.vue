@@ -113,7 +113,7 @@ export default {
   setup(props, context) {
     const {$t} = usei18n();
     const {locale} = useLocale();
-    const {jsDateFormat} = useDateFormat();
+    const {jsDateFormat, jsTimeFormat} = useDateFormat();
     const {$tEmpName} = useEmployeeNameTranslate();
     const http = new APIService(window.appGlobal.baseUrl, '');
     const {updateSuccess} = useToast();
@@ -213,7 +213,7 @@ export default {
           includeMiddle: true,
           excludePastEmpTag: false,
         }),
-        dateTime: formatDate(utcDate, `${jsDateFormat} HH:mm`, {
+        dateTime: formatDate(utcDate, `${jsDateFormat} ${jsTimeFormat}`, {
           locale,
         }),
       };

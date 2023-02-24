@@ -15,7 +15,7 @@
 // Boston, MA  02110-1301, USA
 
 .org-root-container {
-  padding: 0.5em 2.35rem;
+  padding: 0.5em 1.35rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -45,7 +45,7 @@
 
 .org-container {
   background-color: $oxd-interface-gray-lighten-2-color;
-  padding: 0.5rem 2rem;
+  padding: 0.5rem 1rem;
   & .loader {
     display: flex;
     justify-content: center;
@@ -59,19 +59,18 @@
 
 .org-structure-card {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
-  background-color: $oxd-white-color;
-  border-radius: 0.75rem;
   min-height: 35px;
+  padding: 0.35rem;
+  border-radius: 0.75rem;
+  align-items: center;
+  justify-content: space-between;
+  background-color: $oxd-white-color;
+  @include oxd-respond-to('md') {
+    padding: 0.5rem 1rem;
+  }
 }
 .org-name {
-  overflow-wrap: break-word;
-  word-break: break-all;
+  @include truncate(3, 1.5, #fff);
 }
 .org-structure-add {
   min-width: unset;
@@ -79,10 +78,26 @@
 }
 .org-action {
   display: flex;
+  list-style: none;
+  position: relative;
   &-icon {
     margin-right: 0.5rem;
     &:last-child {
       margin-right: unset;
     }
+  }
+  &-description {
+    display: flex;
+    cursor: pointer;
+    font-size: 12px;
+    padding: 0.2rem 1rem;
+    &:hover {
+      background-color: $oxd-dropdown-item-hover-color;
+    }
+  }
+  ::v-deep(.oxd-dropdown-menu) {
+    right: 0;
+    top: 40px;
+    left: unset;
   }
 }

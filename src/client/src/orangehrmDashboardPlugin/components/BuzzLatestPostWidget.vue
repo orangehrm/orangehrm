@@ -85,7 +85,7 @@ export default {
     const posts = ref([]);
     const isLoading = ref(false);
     const {locale} = useLocale();
-    const {jsDateFormat} = useDateFormat();
+    const {jsDateFormat, jsTimeFormat} = useDateFormat();
     const {$tEmpName} = useEmployeeNameTranslate();
     const {fetchPosts} = useBuzzAPIs(
       new APIService(window.appGlobal.baseUrl, ''),
@@ -108,9 +108,13 @@ export default {
               `${createdDate} ${createdTime} +00:00`,
               'yyyy-MM-dd HH:mm xxx',
             );
-            const dateTime = formatDate(utcDate, `${jsDateFormat} HH:mm`, {
-              locale,
-            });
+            const dateTime = formatDate(
+              utcDate,
+              `${jsDateFormat} ${jsTimeFormat}`,
+              {
+                locale,
+              },
+            );
             const employeeFullName = $tEmpName(employee, {
               includeMiddle: true,
               excludePastEmpTag: false,

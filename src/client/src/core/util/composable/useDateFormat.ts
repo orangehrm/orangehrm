@@ -32,8 +32,12 @@ export default function useDateFormat() {
   if (!dateFormat) throw new Error('Date format is invalid');
   const jsDateFormat = convertPHPDateFormat(dateFormat.id);
   const userDateFormat = dateFormat.label;
+  const timeFormat = 'HH:mm';
+  const jsTimeFormat = 'hh:mm a';
 
   return {
+    timeFormat,
+    jsTimeFormat,
     jsDateFormat,
     userDateFormat,
   };

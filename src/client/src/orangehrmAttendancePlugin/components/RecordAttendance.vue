@@ -31,7 +31,7 @@
             <oxd-input-group :label="$t('attendance.punched_in_time')">
               <oxd-text type="subtitle-2">
                 {{ previousAttendanceRecordDate }} -
-                {{ attendanceRecord.previousRecord.userTime }}
+                {{ previousAttendanceRecordTime }}
                 <oxd-text
                   tag="span"
                   class="orangehrm-attendance-punchedIn-timezone"
@@ -119,18 +119,20 @@ import {
   shouldNotExceedCharLength,
 } from '@/core/util/validation/rules';
 import {
+  parseTime,
   parseDate,
+  formatTime,
   formatDate,
   guessTimezone,
   setClockInterval,
   getStandardTimezone,
 } from '@/core/util/helper/datefns';
-import {reloadPage, navigate} from '@/core/util/helper/navigation';
 import {promiseDebounce} from '@ohrm/oxd';
-import {APIService} from '@ohrm/core/util/services/api.service';
-import TimezoneDropdown from '@/orangehrmAttendancePlugin/components/TimezoneDropdown.vue';
-import useDateFormat from '@/core/util/composable/useDateFormat';
 import useLocale from '@/core/util/composable/useLocale';
+import {APIService} from '@ohrm/core/util/services/api.service';
+import useDateFormat from '@/core/util/composable/useDateFormat';
+import {reloadPage, navigate} from '@/core/util/helper/navigation';
+import TimezoneDropdown from '@/orangehrmAttendancePlugin/components/TimezoneDropdown.vue';
 
 const attendanceRecordModal = {
   date: null,
@@ -172,11 +174,14 @@ export default {
       ? `/api/v2/attendance/employees/${props.employeeId}/records`
       : '/api/v2/attendance/records';
     const http = new APIService(window.appGlobal.baseUrl, apiPath);
-    const {jsDateFormat, userDateFormat} = useDateFormat();
+    const {jsDateFormat, userDateFormat, timeFormat, jsTimeFormat} =
+      useDateFormat();
     const {locale} = useLocale();
     return {
       http,
       locale,
+      timeFormat,
+      jsTimeFormat,
       jsDateFormat,
       userDateFormat,
     };
@@ -204,6 +209,16 @@ export default {
         parseDate(this.attendanceRecord.previousRecord.userDate),
         this.jsDateFormat,
         {locale: this.locale},
+      );
+    },
+    previousAttendanceRecordTime() {
+      if (!this.attendanceRecord?.previousRecord) return null;
+      return formatTime(
+        parseTime(
+          this.attendanceRecord.previousRecord.userTime,
+          this.timeFormat,
+        ),
+        this.jsTimeFormat,
       );
     },
   },

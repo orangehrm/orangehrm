@@ -22,9 +22,9 @@
   <div class="orangehrm-background-container">
     <div class="orangehrm-paper-container">
       <div class="orangehrm-header-container">
-        <oxd-text tag="h6" class="orangehrm-main-title">{{
-          $t('admin.work_shifts')
-        }}</oxd-text>
+        <oxd-text tag="h6" class="orangehrm-main-title">
+          {{ $t('admin.work_shifts') }}
+        </oxd-text>
         <div>
           <oxd-button
             :label="$t('general.add')"
@@ -65,22 +65,12 @@
 </template>
 
 <script>
-import usePaginate from '@ohrm/core/util/composable/usePaginate';
-import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmationDialog';
 import {navigate} from '@ohrm/core/util/helper/navigation';
 import {APIService} from '@ohrm/core/util/services/api.service';
-
-const workShiftNormalizer = (data) => {
-  return data.map((item) => {
-    return {
-      id: item.id,
-      name: item.name,
-      startTime: item.startTime,
-      endTime: item.endTime,
-      hoursPerDay: parseFloat(item.hoursPerDay).toFixed(2),
-    };
-  });
-};
+import useDateFormat from '@/core/util/composable/useDateFormat';
+import usePaginate from '@ohrm/core/util/composable/usePaginate';
+import {formatTime, parseTime} from '@/core/util/helper/datefns';
+import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmationDialog';
 
 export default {
   components: {
@@ -92,6 +82,26 @@ export default {
       window.appGlobal.baseUrl,
       '/api/v2/admin/work-shifts',
     );
+    const {timeFormat, jsTimeFormat} = useDateFormat();
+
+    const workShiftNormalizer = (data) => {
+      return data.map((item) => {
+        return {
+          id: item.id,
+          name: item.name,
+          startTime: formatTime(
+            parseTime(item.startTime, timeFormat),
+            jsTimeFormat,
+          ),
+          endTime: formatTime(
+            parseTime(item.endTime, timeFormat),
+            jsTimeFormat,
+          ),
+          hoursPerDay: parseFloat(item.hoursPerDay).toFixed(2),
+        };
+      });
+    };
+
     const {
       showPaginator,
       currentPage,
