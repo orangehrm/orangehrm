@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Installer\Migration\V5_4_0;
 
+use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Schema\ForeignKeyConstraint;
 use Doctrine\DBAL\Schema\Index;
 use Doctrine\DBAL\Types\Type;
@@ -266,6 +267,8 @@ class Migration extends AbstractMigration
             $expenseTypeScreenId = $this->getScreenId('Expense Types');
             $this->insertMenuItems('Expense Types', $expenseTypeScreenId, $claimConfigMenuItemId, 3, 200, 1, null);
         }
+
+        $this->createOAuth2Tables();
     }
 
     private function modifyClaimTables(): void
@@ -430,7 +433,7 @@ class Migration extends AbstractMigration
             ->executeStatement();
     }
 
-    public function getLangStringHelper(): LangStringHelper
+    private function getLangStringHelper(): LangStringHelper
     {
         if (is_null($this->langStringHelper)) {
             $this->langStringHelper = new LangStringHelper(
@@ -440,7 +443,7 @@ class Migration extends AbstractMigration
         return $this->langStringHelper;
     }
 
-    public function insertI18nGroups(): void
+    private function insertI18nGroups(): void
     {
         $this->getConnection()->createQueryBuilder()
             ->insert('ohrm_i18n_group')
@@ -455,7 +458,7 @@ class Migration extends AbstractMigration
             ->executeQuery();
     }
 
-    public function modifyDefaultRequiredPasswordStrength(): void
+    private function modifyDefaultRequiredPasswordStrength(): void
     {
         $value = $this->getConfigHelper()->getConfigValue('authentication.default_required_password_strength');
 
@@ -482,7 +485,7 @@ class Migration extends AbstractMigration
         $this->getConfigHelper()->deleteConfigValue('authentication.default_required_password_strength');
     }
 
-    public function insertMenuItems(
+    private function insertMenuItems(
         string  $menu_title,
         ?int    $screen_id,
         ?int    $parent_id,
@@ -554,17 +557,25 @@ class Migration extends AbstractMigration
 
     private function cleanClaimScreens(): void
     {
-        $screenNames = ['Events', 'Expense Types', 'Employee Claim List', 'Assign Claim', 'Submit Claim', 'My Claims List', 'View Claim Module', 'View Create Event', 'View Create Expense'];
-        foreach ($screenNames as $screenName) {
-            $this->createQueryBuilder()
-                ->delete('ohrm_screen')
-                ->andWhere('ohrm_screen.name = :screenName')
-                ->setParameter('screenName', $screenName)
-                ->executeQuery();
-        }
+        $screenNames = [
+            'Events',
+            'Expense Types',
+            'Employee Claim List',
+            'Assign Claim',
+            'Submit Claim',
+            'My Claims List',
+            'View Claim Module',
+            'View Create Event',
+            'View Create Expense'
+        ];
+        $qb = $this->createQueryBuilder()
+            ->delete('ohrm_screen');
+        $qb->andWhere($qb->expr()->in('ohrm_screen.name', ':screenName'))
+            ->setParameter('screenName', $screenNames, Connection::PARAM_STR_ARRAY)
+            ->executeQuery();
     }
 
-    public function modifyDefaultPasswordEnforcement(): void
+    private function modifyDefaultPasswordEnforcement(): void
     {
         $value = $this->getConfigHelper()->getConfigValue('authentication.enforce_password_strength');
 
@@ -583,5 +594,48 @@ class Migration extends AbstractMigration
             ])
             ->executeQuery();
         $this->getConfigHelper()->deleteConfigValue('authentication.enforce_password_strength');
+    }
+
+    private function createOAuth2Tables(): void
+    {
+        $this->getSchemaHelper()->createTable('ohrm_oauth2_authorization_codes')
+            ->addColumn('id', Types::INTEGER, ['Autoincrement' => true])
+            ->addColumn('authorization_code', Types::STRING, ['Length' => 255])
+            ->addColumn('client_id', Types::INTEGER)
+            ->addColumn('user_id', Types::INTEGER)
+            ->addColumn('redirect_uri', Types::STRING, ['Length' => 2000])
+            ->addColumn('expiry_date_time', Types::DATETIME_IMMUTABLE)
+            ->addColumn('revoked', Types::BOOLEAN)
+            ->setPrimaryKey(['id'])
+            ->create();
+
+        $this->getSchemaHelper()->createTable('ohrm_oauth2_access_tokens')
+            ->addColumn('id', Types::INTEGER, ['Autoincrement' => true])
+            ->addColumn('access_token', Types::STRING, ['Length' => 255])
+            ->addColumn('client_id', Types::INTEGER)
+            ->addColumn('user_id', Types::INTEGER)
+            ->addColumn('expiry_date_time', Types::DATETIME_IMMUTABLE)
+            ->addColumn('revoked', Types::BOOLEAN)
+            ->setPrimaryKey(['id'])
+            ->create();
+
+        $this->getSchemaHelper()->createTable('ohrm_oauth2_clients')
+            ->addColumn('id', Types::INTEGER, ['Autoincrement' => true])
+            ->addColumn('name', Types::STRING, ['Length' => 255])
+            ->addColumn('client_secret', Types::STRING, ['Length' => 255])
+            ->addColumn('redirect_uri', Types::STRING, ['Length' => 2000])
+            ->addColumn('is_confidential', Types::BOOLEAN)
+            ->addColumn('enabled', Types::BOOLEAN)
+            ->setPrimaryKey(['id'])
+            ->create();
+
+        $this->getSchemaHelper()->createTable('ohrm_oauth2_refresh_tokens')
+            ->addColumn('id', Types::INTEGER, ['Autoincrement' => true])
+            ->addColumn('refresh_token', Types::STRING, ['Length' => 255])
+            ->addColumn('access_token', Types::STRING, ['Length' => 255])
+            ->addColumn('expiry_date_time', Types::DATETIME_IMMUTABLE)
+            ->addColumn('revoked', Types::BOOLEAN)
+            ->setPrimaryKey(['id'])
+            ->create();
     }
 }

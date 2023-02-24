@@ -17,43 +17,35 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Tests\OAuth\Api\Model;
+namespace OrangeHRM\OAuth\Repository;
 
+use Exception;
+use League\OAuth2\Server\Entities\ClientEntityInterface;
+use League\OAuth2\Server\Repositories\ClientRepositoryInterface;
+use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Entity\OAuthClient;
-use OrangeHRM\OAuth\Api\Model\OAuthClientModel;
-use OrangeHRM\Tests\Util\TestCase;
+use OrangeHRM\OAuth\Dto\Entity\ClientEntity;
 
-/**
- * @group OAuth
- * @group Model
- */
-class OAuthClientModelTest extends TestCase
+class ClientRepository extends BaseDao implements ClientRepositoryInterface
 {
     /**
-     * @todo remove
+     * @inheritdoc
      */
-    public static function setUpBeforeClass(): void
+    public function getClientEntity($clientIdentifier): ?ClientEntityInterface
     {
-        parent::markTestSkipped();
+        $oauthClient = $this->getRepository(OAuthClient::class)->findOneBy(['name' => $clientIdentifier]);
+        if (!$oauthClient instanceof OAuthClient) {
+            return null;
+        }
+
+        return ClientEntity::createFromEntity($oauthClient);
     }
 
-    public function testToArray()
+    /**
+     * @inheritdoc
+     */
+    public function validateClient($clientIdentifier, $clientSecret, $grantType): bool
     {
-        $resultArray = [
-            "clientId" => 'TestOAuth',
-            "clientSecret" => 'TestOAuthSecret',
-            "redirectUri" => 'https://facebook.com',
-        ];
-
-
-        $oauthClient = new OAuthClient();
-        $oauthClient->setClientId('TestOAuth');
-        $oauthClient->setClientSecret('TestOAuthSecret');
-        $oauthClient->setRedirectUri('https://facebook.com');
-        $oauthClient->setGrantTypes('password');
-        $oauthClient->setScope('user');
-
-        $oauthClientModel = new OAuthClientModel($oauthClient);
-        $this->assertEquals($resultArray, $oauthClientModel->toArray());
+        throw new Exception(__METHOD__);
     }
 }
