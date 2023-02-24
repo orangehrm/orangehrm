@@ -45,8 +45,7 @@ class Migration extends AbstractMigration
 
         $this->updateLangStringVersion($this->getVersion());
 
-        if (!$this->getSchemaHelper()->tableExists(['
-        '])) {
+        if (!$this->getSchemaHelper()->tableExists(['ohrm_claim_event'])) {
             $this->getSchemaHelper()->createTable('ohrm_claim_event')
                 ->addColumn('id', Types::INTEGER, ['Autoincrement' => true])
                 ->addColumn('name', Types::TEXT, ['Notnull' => true, 'Length' => 100])
@@ -192,6 +191,35 @@ class Migration extends AbstractMigration
         );
         $this->getSchemaHelper()->addForeignKey('ohrm_enforce_password', $foreignKeyConstraint);
 
+        if (!$this->getSchemaHelper()->tableExists(['ohrm_expense'])) {
+            $this->getSchemaHelper()->createTable('ohrm_expense')
+                ->addColumn('id', Types::INTEGER, ['Autoincrement' => true])
+                ->addColumn('expense_type_id', Types::INTEGER, ['Notnull' => false])
+                ->addColumn('date', Types::DATE_MUTABLE, ['Notnull' => false])
+                ->addColumn('amount', Types::DECIMAL, ['Notnull' => false, 'Scale' => 2, 'Precision' => 12])
+                ->addColumn('note', Types::TEXT, ['Notnull' => false])
+                ->addColumn('request_id', Types::INTEGER, ['Notnull' => false])
+                ->addColumn('is_deleted', Types::SMALLINT, ['Notnull' => true, 'Default' => 0])
+                ->setPrimaryKey(['id'])
+                ->create();
+            $foreignKeyConstraint1 = new ForeignKeyConstraint(
+                ['expense_type_id'],
+                'ohrm_expense_type',
+                ['id'],
+                'expenseTypeId',
+                ['onDelete' => 'CASCADE']
+            );
+            $this->getSchemaHelper()->addForeignKey('ohrm_expense', $foreignKeyConstraint1);
+            $foreignKeyConstraint2 = new ForeignKeyConstraint(
+                ['request_id'],
+                'ohrm_claim_request',
+                ['id'],
+                'claimRequsetId',
+                ['onDelete' => 'CASCADE']
+            );
+            $this->getSchemaHelper()->addForeignKey('ohrm_expense', $foreignKeyConstraint2);
+        }
+
         $this->changeClaimExpenseTypeTableStatusToBoolean();
         $this->modifyClaimTables();
         $this->modifyClaimRequestCurrencyToForeignKey();
@@ -297,6 +325,19 @@ class Migration extends AbstractMigration
                 'Type' => Type::getType(Types::STRING),
             ],
             'description' => [
+                'Length' => 1000
+            ],
+            'is_deleted' => [
+                'Type' => Type::getType(Types::BOOLEAN),
+            ],
+        ]);
+
+        $this->getSchemaHelper()->addOrChangeColumns('ohrm_expense', [
+            'date' => [
+                'Type' => Type::getType(Types::DATETIME_MUTABLE)
+            ],
+            'note' => [
+                'Type' => Type::getType(Types::STRING),
                 'Length' => 1000
             ],
             'is_deleted' => [
@@ -418,7 +459,10 @@ class Migration extends AbstractMigration
     {
         $value = $this->getConfigHelper()->getConfigValue('authentication.default_required_password_strength');
 
-        if ($value === "veryWeak" || $value === "weak" || $value === "better"
+        if (
+            $value === "veryWeak"
+            || $value === "weak"
+            || $value === "better"
             || $value === "medium"
             || $value === "strong"
             || $value === "strongest"

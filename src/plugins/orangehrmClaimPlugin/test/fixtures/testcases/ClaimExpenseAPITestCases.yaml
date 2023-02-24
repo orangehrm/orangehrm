@@ -1,0 +1,278 @@
+Create:
+  'Create - Claim Expense':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    attributes:
+      requestId: 1
+    body:
+      expenseTypeId: 1
+      date: "2023-02-20"
+      amount: 7000.0
+      note: "sample note"
+    data:
+      id: 4
+      expenseType:
+        id: 1
+        name: transport
+      amount: 7000.0
+      note: sample note
+      date: "2023-02-20"
+    meta: [ ]
+
+  'Create - Without amount':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    attributes:
+      requestId: 1
+    body:
+      expenseTypeId: 1
+      date: "2023-02-20"
+      note: "sample note"
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: 'Invalid Parameter'
+
+  'Create - Without date':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    attributes:
+      requestId: 1
+    body:
+      expenseTypeId: 1
+      amount: 7000.0
+      note: "sample note"
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: 'Invalid Parameter'
+
+  'Create - without note':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    attributes:
+      requestId: 1
+    body:
+      expenseTypeId: 1
+      date: "2023-02-20"
+      amount: 7000.0
+    data:
+      id: 4
+      expenseType:
+        id: 1
+        name: transport
+      amount: 7000
+      note: null
+      date: "2023-02-20"
+    meta: [ ]
+
+  'Create - With wrong requestId':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    attributes:
+      requestId: 200
+    body:
+      expenseTypeId: 1
+      date: "2023-02-20"
+      amount: 7000.0
+      note: "sample note"
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: 'Invalid Parameter'
+
+  'Create - With deleted requestId':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    attributes:
+      requestId: 6
+    body:
+      expenseTypeId: 1
+      date: "2023-02-20"
+      amount: 7000.0
+      note: "sample note"
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: 'Invalid Parameter'
+
+GetAll:
+  'Get All - Claim Expense':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    attributes:
+      requestId: 1
+    data: [
+      {
+        "id": 1,
+        "expenseType": {
+          "id": 1,
+          "name": "transport"
+        },
+        "amount": 100,
+        "note": "Travel expenses for business trip to New York",
+        "date": "2022-12-01"
+      },
+      {
+        "id": 2,
+        "expenseType": {
+          "id": 2,
+          "name": "medical"
+        },
+        "amount": 200,
+        "note": "Marketing expenses for trade show",
+        "date": "2022-11-20"
+      }
+    ]
+    meta: { "total": 2, "totalAmount": 300 }
+
+  'Get All - Claim Expense - with invalid request id':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    attributes:
+      requestId: 10
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: 'Invalid Parameter'
+
+GetOne:
+  'Get One - Claim Expense':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    attributes:
+      requestId: 1
+      id: 1
+    data:
+      id: 1
+      expenseType:
+        id: 1
+        name: transport
+      amount: 100.0
+      note: Travel expenses for business trip to New York
+      date: "2022-12-01"
+    meta: [ ]
+
+  'Get One - Claim Expense - with invalid id':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    attributes:
+      requestId: 1
+      id: 100
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException'
+      message: 'Record Not Found'
+
+Update:
+  'Update - Claim Expense':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    attributes:
+      requestId: 1
+      id: 1
+    body:
+      expenseTypeId: 2
+      date: "2023-02-20"
+      amount: 7000.0
+      note: "sample note"
+    data:
+      id: 1
+      expenseType:
+        id: 2
+        name: medical
+      amount: 7000.0
+      note: sample note
+      date: "2023-02-20"
+    meta: [ ]
+
+  'Update - Claim Expense - with invalid id':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    attributes:
+      requestId: 1
+      id: 100
+    body:
+      expenseTypeId: 2
+      date: "2023-02-20"
+      amount: 7000.0
+      note: "sample note"
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException'
+      message: 'Record Not Found'
+
+  'Update - Claim Expense - without amount':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    attributes:
+      requestId: 1
+      id: 1
+    body:
+      expenseTypeId: 2
+      date: "2023-02-20"
+      note: "sample note"
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: 'Invalid Parameter'
+
+  'Update - Claim Expense - without note':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    attributes:
+      requestId: 1
+      id: 1
+    body:
+      expenseTypeId: 2
+      date: "2023-02-20"
+      amount: 7000.0
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: 'Invalid Parameter'
+
+Delete:
+  'Delete - Claim Expense':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    attributes:
+      requestId: 1
+    body:
+      ids: [ 1 ]
+    data: [ 1 ]
+    meta: [ ]
+
+  'Delete - Claim Expense - with invalid id':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    attributes:
+      requestId: 100
+    body:
+      ids: [ 100 ]
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: 'Invalid Parameter'

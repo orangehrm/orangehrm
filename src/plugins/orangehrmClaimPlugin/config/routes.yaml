@@ -26,10 +26,35 @@ apiv2_claim_expense_type:
   defaults:
     _api: OrangeHRM\Claim\Api\ClaimExpenseTypeAPI
 
+apiv2_claim_expenses:
+  path: /api/v2/claim/requests/{requestId}/expenses
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ POST, GET, DELETE ]
+  defaults:
+    _api: OrangeHRM\Claim\Api\ClaimExpenseAPI
+  requirements:
+    requestId: '\d+'
+
+apiv2_claim_expense:
+  path: /api/v2/claim/requests/{requestId}/expenses/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Claim\Api\ClaimExpenseAPI
+  requirements:
+    requestId: '\d+'
+
 apiv2_claim_requests:
   path: /api/v2/claim/requests
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
-  methods: [ POST ]
+  methods: [ POST, GET ]
+  defaults:
+    _api: OrangeHRM\Claim\Api\ClaimRequestAPI
+
+apiv2_claim_request:
+  path: /api/v2/claim/requests/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
   defaults:
     _api: OrangeHRM\Claim\Api\ClaimRequestAPI
 
@@ -56,18 +81,18 @@ edit_claim_events:
   path: /claim/saveEvents/{id}
   controller: OrangeHRM\Claim\Controller\SaveClaimController::handle
   methods: [ GET ]
-  
+
 claim_expense_types:
   path: /claim/viewExpense
   controller: OrangeHRM\Claim\Controller\ClaimExpenseTypeController::handle
   methods: [ GET ]
 
 save_claim_expense_types:
-    path: /claim/saveExpense
-    controller: OrangeHRM\Claim\Controller\SaveClaimExpenseTypeController::handle
-    methods: [ GET ]
+  path: /claim/saveExpense
+  controller: OrangeHRM\Claim\Controller\SaveClaimExpenseTypeController::handle
+  methods: [ GET ]
 
 edit_claim_expense_types:
-    path: /claim/saveExpense/{id}
-    controller: OrangeHRM\Claim\Controller\SaveClaimExpenseTypeController::handle
-    methods: [ GET ]
+  path: /claim/saveExpense/{id}
+  controller: OrangeHRM\Claim\Controller\SaveClaimExpenseTypeController::handle
+  methods: [ GET ]

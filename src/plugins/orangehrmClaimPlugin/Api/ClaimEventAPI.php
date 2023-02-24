@@ -223,7 +223,6 @@ class ClaimEventAPI extends Endpoint implements CrudEndpoint
             );
         }
         $entityProperties->setIgnoreValues($ignoreValues);
-
         return new ParamRule(
             self::PARAMETER_NAME,
             new Rule(Rules::STRING_TYPE),

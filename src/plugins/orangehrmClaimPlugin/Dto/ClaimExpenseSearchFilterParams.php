@@ -17,37 +17,27 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Claim\Service;
+namespace OrangeHRM\Claim\Dto;
 
-use OrangeHRM\Claim\Dao\ClaimDao;
-use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
-use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
+use OrangeHRM\Core\Dto\FilterParams;
 
-class ClaimService
+class ClaimExpenseSearchFilterParams extends FilterParams
 {
-    use DateTimeHelperTrait;
-    use AuthUserTrait;
+    protected int $requestId;
 
     /**
-     * @var ClaimDao
+     * @return int
      */
-    protected ClaimDao $claimDao;
-
-    /**
-     * @return ClaimDao
-     */
-    public function getClaimDao(): ClaimDao
+    public function getRequestId(): int
     {
-        return $this->claimDao ??= new ClaimDao();
+        return $this->requestId;
     }
 
     /**
-     * @return string
+     * @param int $requestId
      */
-    public function getReferenceId(): string
+    public function setRequestId(int $requestId): void
     {
-        $nextId = $this->getClaimDao()->getNextId();
-        $date = $this->getDateTimeHelper()->getNow()->format('Ymd');
-        return $date . str_pad("$nextId", 7, 0, STR_PAD_LEFT);
+        $this->requestId = $requestId;
     }
 }
