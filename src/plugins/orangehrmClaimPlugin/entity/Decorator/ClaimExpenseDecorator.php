@@ -21,6 +21,7 @@ namespace OrangeHRM\Entity\Decorator;
 
 use OrangeHRM\Claim\Service\ClaimService;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
+use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\ClaimExpense;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Entity\ClaimRequest;
@@ -31,7 +32,11 @@ class ClaimExpenseDecorator
 {
     use EntityManagerHelperTrait;
     use AuthUserTrait;
+    use DateTimeHelperTrait;
 
+    /**
+     * @return ClaimService
+     */
     public function getClaimService(): ClaimService
     {
         return $this->getContainer()->get(Services::CLAIM_SERVICE);
@@ -77,6 +82,10 @@ class ClaimExpenseDecorator
         return $claimRequest;
     }
 
+    /**
+     * @param int $expenseTypeId
+     * @return ExpenseType|null
+     */
     public function getExpenseTypeById(int $expenseTypeId): ?ExpenseType
     {
         $expenseType = $this->getClaimService()->getClaimDao()->getExpenseTypeById($expenseTypeId);
@@ -90,5 +99,13 @@ class ClaimExpenseDecorator
     {
         $expenseType = $this->getClaimService()->getClaimDao()->getExpenseTypeById($expenseTypeId);
         $this->getClaimExpense()->setExpenseType($expenseType);
+    }
+
+    /**
+     * @return string|null in Y-m-d format
+     */
+    public function getDate(): string
+    {
+        return $this->getDateTimeHelper()->formatDate($this->getClaimExpense()->getDate());
     }
 }

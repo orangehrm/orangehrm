@@ -27,22 +27,22 @@ apiv2_claim_expense_type:
     _api: OrangeHRM\Claim\Api\ClaimExpenseTypeAPI
 
 apiv2_claim_expenses:
-  path: /api/v2/claim/requests/{claimRequestId}/expenses
+  path: /api/v2/claim/requests/{requestId}/expenses
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
   methods: [ POST, GET, DELETE ]
   defaults:
     _api: OrangeHRM\Claim\Api\ClaimExpenseAPI
   requirements:
-    claimRequestId: '\d+'
+    requestId: '\d+'
 
 apiv2_claim_expense:
-  path: /api/v2/claim/requests/{claimRequestId}/expenses/{id}
+  path: /api/v2/claim/requests/{requestId}/expenses/{id}
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
   methods: [ GET, PUT ]
   defaults:
     _api: OrangeHRM\Claim\Api\ClaimExpenseAPI
   requirements:
-    claimRequestId: '\d+'
+    requestId: '\d+'
 
 apiv2_claim_requests:
   path: /api/v2/claim/requests

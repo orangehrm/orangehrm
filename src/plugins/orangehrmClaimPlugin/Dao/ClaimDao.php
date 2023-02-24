@@ -71,7 +71,7 @@ class ClaimDao extends BaseDao
             $q->andWhere('claimEvent.id = :id');
             $q->setParameter('id', $claimEventSearchFilterParams->getId());
         }
-        $q->andWhere('claimEvent.isDeleted = :isDeleted');
+        $q->andWhere('claimEvent.isDeleted = :isDeleted'); //TODO:
         $q->setParameter('isDeleted', false);
         return $this->getPaginator($q);
     }
@@ -288,6 +288,11 @@ class ClaimDao extends BaseDao
         return $this->getRepository(ClaimExpense::class)->findOneBy(['id' => $id, 'isDeleted' => false]);
     }
 
+    /**
+     * @param int $requestId
+     * @param int $expenseId
+     * @return ClaimExpense|null
+     */
     public function getClaimRequestExpense(int $requestId, int $expenseId): ?ClaimExpense
     {
         $claimRequest = $this->getClaimRequestById($requestId);
@@ -295,15 +300,17 @@ class ClaimDao extends BaseDao
     }
 
     /**
-     * @param array $ids int[] $ids
+     * @param int[] $ids
      * @return int
      */
-    public function deleteClaimExpense(array $ids): int
+    public function deleteClaimExpense(ClaimRequest  $claimRequest, array $ids): int
     {
         $q = $this->createQueryBuilder(ClaimExpense::class, 'claimExpense');
         $q->update()
             ->set('claimExpense.isDeleted', ':isDeleted')
-            ->where($q->expr()->in('claimExpense.id', ':ids'))
+            ->andWhere($q->expr()->in('claimExpense.id', ':ids'))
+            ->andWhere('claimExpense.claimRequest = :claimRequest')
+            ->setParameter('claimRequest', $claimRequest)
             ->setParameter('ids', $ids)
             ->setParameter('isDeleted', true);
         return $q->getQuery()->execute();

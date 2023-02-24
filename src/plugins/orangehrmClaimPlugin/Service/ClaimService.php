@@ -50,9 +50,4 @@ class ClaimService
         $date = $this->getDateTimeHelper()->getNow()->format('Ymd');
         return $date . str_pad("$nextId", 7, 0, STR_PAD_LEFT);
     }
-
-    public function getUserRoleId(): int
-    {
-        return $this->getAuthUser()->getUserRoleId();
-    }
 }

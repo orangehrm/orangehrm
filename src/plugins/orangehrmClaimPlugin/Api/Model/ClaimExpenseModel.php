@@ -68,15 +68,17 @@ class ClaimExpenseModel implements Normalizable
                 ['getExpenseType', 'getName'],
                 'amount',
                 'note',
+                ['getDecorator', 'getDate']
             ]
         );
         $this->setAttributeNames(
             [
                 'id',
-                ['ExpenseType', 'id'],
-                ['ExpenseType', 'name'],
+                ['expenseType', 'id'],
+                ['expenseType', 'name'],
                 'amount',
                 'note',
+                'date'
             ]
         );
     }

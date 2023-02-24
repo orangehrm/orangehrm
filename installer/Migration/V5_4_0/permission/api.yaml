@@ -39,17 +39,17 @@ apiv2_claim_request:
     delete: false
   permissions:
     - { role: Admin, permission: { read: true, create: true, update: true, delete: false } }
-    - { role: ESS, permission: { read: false, create: false, update: true, delete: false } }
+    - { role: ESS, permission: { read: true, create: true, update: true, delete: false } }
 
 apiv2_claim_expense:
-    description: 'Claim - Claim Expenses'
-    api: OrangeHRM\Claim\Api\ClaimExpenseAPI
-    module: claim
-    allowed:
-        read: true
-        create: true
-        update: true
-        delete: true
-    permissions:
-        - { role: Admin, permission: { read: true, create: true, update: true, delete: true } }
-        - { role: ESS, permission: { read: true, create: true, update: true, delete: true } }
+  description: 'Claim - Claim Expenses'
+  api: OrangeHRM\Claim\Api\ClaimExpenseAPI
+  module: claim
+  allowed:
+    read: true
+    create: true
+    update: true
+    delete: true
+  permissions:
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: true } }
+    - { role: ESS, permission: { read: true, create: true, update: true, delete: true } }

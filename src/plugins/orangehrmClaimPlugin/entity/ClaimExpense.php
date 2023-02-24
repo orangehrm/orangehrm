@@ -32,6 +32,7 @@ use OrangeHRM\Entity\Decorator\DecoratorTrait;
 class ClaimExpense
 {
     use DecoratorTrait;
+
     /**
      * @var int
      * @ORM\Column(name="id", type="integer")
