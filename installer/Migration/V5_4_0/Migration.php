@@ -168,6 +168,38 @@ class Migration extends AbstractMigration
             $this->getSchemaHelper()->addForeignKey('ohrm_claim_request', $foreignKeyConstraint3);
         }
 
+        if (!$this->getSchemaHelper()->tableExists(['ohrm_claim_attachment'])) {
+            $this->getSchemaHelper()->createTable('ohrm_claim_attachment')
+                ->addColumn('request_id', Types::INTEGER)
+                ->addColumn('eattach_id', Types::BIGINT)
+                ->addColumn('eattach_size', Types::INTEGER, ['Default' => 0])
+                ->addColumn('eattach_desc', Types::STRING, ['Length' => 1000])
+                ->addColumn('eattach_filename', Types::STRING, ['Length' => 1000])
+                ->addColumn('eattach_attachment', Types::BLOB)
+                ->addColumn('eattach_type', Types::STRING, ['Length' => 200])
+                ->addColumn('attached_by', Types::INTEGER, ['Default' => null])
+                ->addColumn('attached_by_name', Types::STRING, ['Length' => 200])
+                ->addColumn('attached_time', Types::DATETIME_MUTABLE)
+                ->setPrimaryKey(['request_id', 'eattach_id'])
+                ->create();
+            $foreignKeyConstraint1 = new ForeignKeyConstraint(
+                ['attached_by'],
+                'hs_hr_employee',
+                ['emp_number'],
+                'attachedById',
+                ['onDelete' => 'CASCADE']
+            );
+            $this->getSchemaHelper()->addForeignKey('ohrm_claim_attachment', $foreignKeyConstraint1);
+            $foreignKeyConstraint2 = new ForeignKeyConstraint(
+                ['request_id'],
+                'ohrm_claim_request',
+                ['id'],
+                'claimRequestId',
+                ['onDelete' => 'CASCADE']
+            );
+            $this->getSchemaHelper()->addForeignKey('ohrm_claim_attachment', $foreignKeyConstraint2);
+        }
+
         $this->getSchemaHelper()->createTable('ohrm_enforce_password')
             ->addColumn('id', Types::INTEGER, ['Autoincrement' => true])
             ->addColumn('user_id', Types::INTEGER, ['Notnull' => true])
