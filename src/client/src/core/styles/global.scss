@@ -38,6 +38,13 @@
   background-color: $oxd-white-color;
   border-radius: 1.2rem;
   padding: 25px;
+
+  @media screen and (max-width: 400px) {
+    .oxd-form-actions {
+      gap: 5px 0;
+      flex-wrap: wrap;
+    }
+  }
 }
 
 .orangehrm-container {
@@ -135,13 +142,8 @@
 }
 
 .orangehrm-form-action {
-  gap: 10px;
+  gap: 5px;
   flex-wrap: wrap !important;
-  @media screen and (max-width: 600px) {
-    .orangehrm-form-hint {
-      width: 100%;
-    }
-  }
 }
 
 .orangehrm-dialog-modal {
