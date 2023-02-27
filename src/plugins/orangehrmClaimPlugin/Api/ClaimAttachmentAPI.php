@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Claim\Api;
 
+use Exception;
 use OrangeHRM\Claim\Api\Model\ClaimAttachmentModel;
 use OrangeHRM\Claim\Dto\ClaimAttachmentSearchFilterParams;
 use OrangeHRM\Claim\Dto\PartialClaimAttachment;
@@ -29,20 +30,25 @@ use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
+use OrangeHRM\Core\Api\V2\Exception\BadRequestException;
 use OrangeHRM\Core\Api\V2\Exception\InvalidParamException;
+use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
+use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\ClaimAttachment;
 use OrangeHRM\Installer\Exception\NotImplementedException;
+use OrangeHRM\ORM\Exception\TransactionException;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
 class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
 {
+    use EntityManagerHelperTrait;
     use ClaimServiceTrait;
     use AuthUserTrait;
     use DateTimeHelperTrait;
@@ -74,9 +80,9 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
     public function getAll(): EndpointResult
     {
         $claimAttachmentSearchFilterParams = new ClaimAttachmentSearchFilterParams();
-        $claimAttachmentSearchFilterParams->setClaimRequestId($this->getRequestParams()->getIntOrNull(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_REQUEST_ID));
+        $claimAttachmentSearchFilterParams->setClaimRequestId($this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_CLAIM_REQUEST_ID));
         $claimAttachments = $this->getClaimService()->getClaimDao()->getClaimAttachmentList($claimAttachmentSearchFilterParams);
-        return new EndpointCollectionResult(ClaimAttachmentModel::class, $claimAttachments);
+        return new EndpointCollectionResult(ClaimAttachmentModel::class, $claimAttachments, new ParameterBag([CommonParams::PARAMETER_TOTAL => count($claimAttachments)]));
     }
 
     /**
@@ -85,7 +91,6 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
-        dump('getValidationRuleForGetAll');
         return new ParamRuleCollection(
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
@@ -105,16 +110,26 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
      */
     public function create(): EndpointResult
     {
-        $claimAttachment = new ClaimAttachment();
-        $requestId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_CLAIM_REQUEST_ID);
-        if($this->getClaimService()->getClaimDao()->getClaimRequestById($requestId) == null)
-            throw new InvalidParamException();
-        $claimAttachment->setRequestId($requestId);
-        $userId = $this->getAuthUser()->getUserId();
-        $claimAttachment->getDecorator()->setUserByUserId($userId);
-        $claimAttachment->setEattachId($this->getClaimService()->getClaimDao()->getNextAttachmentId($requestId));
-        $claimAttachment->setAttachedTime($this->getDateTimeHelper()->getNow());
-        $this->setAttachment($claimAttachment);
+        $this->beginTransaction();
+        try {
+            $claimAttachment = new ClaimAttachment();
+            $requestId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_CLAIM_REQUEST_ID);
+            if ($this->getClaimService()->getClaimDao()->getClaimRequestById($requestId) == null)
+                throw $this->getInvalidParamException(self::PARAMETER_CLAIM_REQUEST_ID, 'Claim Request Id is not valid');
+            $claimAttachment->setRequestId($requestId);
+            $userId = $this->getAuthUser()->getUserId();
+            $claimAttachment->getDecorator()->setUserByUserId($userId);
+            $claimAttachment->setEattachId($this->getClaimService()->getClaimDao()->getNextAttachmentId($requestId));
+            $claimAttachment->setAttachedTime($this->getDateTimeHelper()->getNow());
+            $this->setAttachment($claimAttachment);
+            $this->commitTransaction();
+        } catch (InvalidParamException|BadRequestException $e) {
+            $this->rollBackTransaction();
+            throw $e;
+        } catch (Exception $e) {
+            $this->rollBackTransaction();
+            throw new TransactionException($e);
+        }
         return new EndpointResourceResult(ClaimAttachmentModel::class, $this->getPartialClaimAttachment($claimAttachment));
     }
 
@@ -142,19 +157,19 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            $this->getValidationDecorator()->RequiredParamRule(
-                new ParamRule(
-                    self::PARAMETER_CLAIM_REQUEST_ID,
-                    new Rule(Rules::POSITIVE)
-                )
+            new ParamRule(
+                self::PARAMETER_CLAIM_REQUEST_ID,
+                new Rule(Rules::POSITIVE)
             ),
             new ParamRule(
                 self::PARAMETER_ATTACHMENT_CONTENT,
                 new Rule(Rules::BASE_64_ATTACHMENT, [self::ALLOWED_ATTACHMENT_FILE_TYPES])
             ),
-            new ParamRule(
-                self::PARAMETER_ATTACHMENT_DESCRIPTION,
-                new Rule(Rules::STRING_TYPE)
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_ATTACHMENT_DESCRIPTION,
+                    new Rule(Rules::STRING_TYPE)
+                )
             )
         );
     }
@@ -183,8 +198,8 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
     {
         $requestId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_CLAIM_REQUEST_ID);
         $eattachId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
-        $claimAttachment = $this->getClaimService()->getClaimDao()->getClaimAttachmentById($requestId, $eattachId);
-        if($claimAttachment == null){
+        $claimAttachment = $this->getClaimService()->getClaimDao()->getPartialClaimAttachment($requestId, $eattachId);
+        if ($claimAttachment == null) {
             throw $this->getRecordNotFoundException();
         }
         return new EndpointResourceResult(ClaimAttachmentModel::class, $claimAttachment);
@@ -196,7 +211,6 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForGetOne(): ParamRuleCollection
     {
-        dump('getValidationRuleForGetOne');
         return new ParamRuleCollection(
             new ParamRule(
                 self::PARAMETER_CLAIM_REQUEST_ID,
@@ -214,15 +228,32 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
      */
     public function update(): EndpointResult
     {
-        throw new NotImplementedException();
+
     }
 
     /**
-     * @throws NotImplementedException
+     * @return ParamRuleCollection
      */
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
-        throw new NotImplementedException();
+        return new ParamRuleCollection(
+            new ParamRule(
+                self::PARAMETER_CLAIM_REQUEST_ID,
+                new Rule(Rules::POSITIVE)
+            ),
+            new ParamRule(
+                CommonParams::PARAMETER_ID,
+                new Rule(Rules::POSITIVE)
+            ),
+            new ParamRule(
+                self::PARAMETER_ATTACHMENT_CONTENT,
+                new Rule(Rules::BASE_64_ATTACHMENT, [self::ALLOWED_ATTACHMENT_FILE_TYPES])
+            ),
+            new ParamRule(
+                self::PARAMETER_ATTACHMENT_DESCRIPTION,
+                new Rule(Rules::STRING_TYPE)
+            )
+        );
     }
 
     /**

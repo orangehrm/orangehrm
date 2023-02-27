@@ -358,6 +358,7 @@ class ClaimDao extends BaseDao
                 $q->andWhere('claimAttachment.requestId = :requestId');
                 $q->setParameter('requestId', $requestId);
             }
+            $this->setSortingAndPaginationParams($q, $claimAttachmentSearchFilterParams);
             return $this->getPaginator($q);
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
@@ -375,19 +376,11 @@ class ClaimDao extends BaseDao
     }
 
     /**
-     * @param ClaimAttachmentSearchFilterParams $claimAttachmentSearchFilterParams
-     * @return int
+     * @param int $requestId
+     * @param int $attachId
+     * @return PartialClaimAttachment|null
      */
-    public function getClaimAttachmentCount(ClaimAttachmentSearchFilterParams $claimAttachmentSearchFilterParams): int
-    {
-        return $this->getClaimAttachmentPaginator($claimAttachmentSearchFilterParams)->count();
-    }
-
-    /**
-     * @param int $id
-     * @return ClaimAttachment|null
-     */
-    public function getClaimAttachmentById(int $requestId, int $attachId): ?PartialClaimAttachment
+    public function getPartialClaimAttachment(int $requestId, int $attachId): ?PartialClaimAttachment
     {
         try {
             $select = 'NEW ' . PartialClaimAttachment::class
@@ -403,5 +396,9 @@ class ClaimDao extends BaseDao
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
+    }
+
+    public function getClaimAttachment(int $requestId, int $attachId){
+        $this->getRepository(ClaimAttachment::class)->findOneBy(['requestId' => $requestId, 'eattachId' => $attachId]);
     }
 }
