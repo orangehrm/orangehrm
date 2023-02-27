@@ -70,6 +70,7 @@ import {
   required,
   shouldNotExceedCharLength,
 } from '@ohrm/core/util/validation/rules';
+import useServerValidation from '@/core/util/composable/useServerValidation';
 
 const skillModel = {
   id: '',
@@ -83,8 +84,12 @@ export default {
       window.appGlobal.baseUrl,
       '/api/v2/admin/skills',
     );
+    const {createUniqueValidator} = useServerValidation(http);
+    const skillUniqueValidation = createUniqueValidator('skill', 'name');
+
     return {
       http,
+      skillUniqueValidation,
     };
   },
   data() {
@@ -92,29 +97,15 @@ export default {
       isLoading: false,
       skill: {...skillModel},
       rules: {
-        name: [required, shouldNotExceedCharLength(120)],
+        name: [
+          required,
+          shouldNotExceedCharLength(120),
+          this.skillUniqueValidation,
+        ],
         description: [shouldNotExceedCharLength(400)],
       },
       errors: [],
     };
-  },
-  created() {
-    this.isLoading = true;
-    this.http
-      .getAll({limit: 0})
-      .then((response) => {
-        const {data} = response.data;
-        this.rules.name.push((v) => {
-          const index = data.findIndex(
-            (item) =>
-              String(item.name).toLowerCase() == String(v).toLowerCase(),
-          );
-          return index === -1 || this.$t('general.already_exists');
-        });
-      })
-      .finally(() => {
-        this.isLoading = false;
-      });
   },
 
   methods: {

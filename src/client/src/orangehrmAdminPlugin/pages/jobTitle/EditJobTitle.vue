@@ -97,6 +97,7 @@ import {
   maxFileSize,
 } from '@ohrm/core/util/validation/rules';
 import FileUploadInput from '@/core/components/inputs/FileUploadInput';
+import useServerValidation from '@/core/util/composable/useServerValidation';
 
 const initialJobTitle = {
   title: '',
@@ -126,13 +127,21 @@ export default {
     },
   },
 
-  setup() {
+  setup(props) {
     const http = new APIService(
       window.appGlobal.baseUrl,
       '/api/v2/admin/job-titles',
     );
+    const {createUniqueValidator} = useServerValidation(http);
+    const jobTitleUniqueValidation = createUniqueValidator(
+      'jobTitle',
+      'title',
+      props.jobTitleId,
+    );
+
     return {
       http,
+      jobTitleUniqueValidation,
     };
   },
 
@@ -141,7 +150,11 @@ export default {
       isLoading: false,
       jobTitle: {...initialJobTitle},
       rules: {
-        title: [required, shouldNotExceedCharLength(100)],
+        title: [
+          required,
+          shouldNotExceedCharLength(100),
+          this.jobTitleUniqueValidation,
+        ],
         description: [shouldNotExceedCharLength(400)],
         specification: [
           (v) => {
@@ -173,26 +186,6 @@ export default {
           : null;
         this.jobTitle.newSpecification = null;
         this.jobTitle.method = 'keepCurrent';
-
-        // Fetch list data for unique test
-        return this.http.getAll({limit: 0});
-      })
-      .then((response) => {
-        const {data} = response.data;
-        this.rules.title.push((v) => {
-          const index = data.findIndex(
-            (item) =>
-              String(item.title).toLowerCase() == String(v).toLowerCase(),
-          );
-          if (index > -1) {
-            const {id} = data[index];
-            return id != this.jobTitleId
-              ? this.$t('general.already_exists')
-              : true;
-          } else {
-            return true;
-          }
-        });
       })
       .finally(() => {
         this.isLoading = false;
