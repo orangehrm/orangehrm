@@ -44,15 +44,16 @@ class OAuthServer
 
     private function init(): void
     {
+        $this->encryptionKey = 'lxZFUEsBCJ2Yb14IF2ygAHI5N4+ZAUXXaSeeJm6+twsUmIen'; // TODO:: generate using base64_encode(random_bytes(32))
         $this->clientRepository = new ClientRepository();
         $this->scopeRepository = new ScopeRepository();
         $this->accessTokenRepository = new AccessTokenRepository();
+        $this->accessTokenRepository->setEncryptionKey($this->encryptionKey);
         $this->authCodeRepository = new AuthorizationCodeRepository();
         $this->refreshTokenRepository = new RefreshTokenRepository();
-        $this->encryptionKey = 'lxZFUEsBCJ2Yb14IF2ygAHI5N4+ZAUXXaSeeJm6+twsUmIen'; // TODO:: generate using base64_encode(random_bytes(32))
         $this->authCodeTTL = new DateInterval('PT10M');
         $this->refreshTokenTTL = new DateInterval('P1M');
-        $this->accessTokenTTL = new DateInterval('PT1H');
+        $this->accessTokenTTL = new DateInterval('PT30M');
     }
 
     /**

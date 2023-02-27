@@ -20,6 +20,7 @@
 namespace OrangeHRM\OAuth\Repository;
 
 use Exception;
+use League\OAuth2\Server\CryptTrait;
 use League\OAuth2\Server\Entities\AccessTokenEntityInterface;
 use League\OAuth2\Server\Entities\ClientEntityInterface;
 use League\OAuth2\Server\Repositories\AccessTokenRepositoryInterface;
@@ -29,6 +30,8 @@ use OrangeHRM\OAuth\Dto\Entity\AccessTokenEntity;
 
 class AccessTokenRepository extends BaseDao implements AccessTokenRepositoryInterface
 {
+    use CryptTrait;
+
     /**
      * @inheritdoc
      */
@@ -40,6 +43,8 @@ class AccessTokenRepository extends BaseDao implements AccessTokenRepositoryInte
         $accessCode->setUserId($accessTokenEntity->getUserIdentifier());
         $accessCode->setExpiryDateTime($accessTokenEntity->getExpiryDateTime());
         //$accessTokenEntity->getScopes(); // TODO
+
+        // TODO:: handle UniqueTokenIdentifierConstraintViolationException
 
         $this->persist($accessCode);
     }
@@ -73,6 +78,7 @@ class AccessTokenRepository extends BaseDao implements AccessTokenRepositoryInte
         $accessToken = new AccessTokenEntity();
         $accessToken->setClient($clientEntity);
         $accessToken->setUserIdentifier($userIdentifier);
+        $accessToken->setEncryptionKey($this->encryptionKey);
         foreach ($scopes as $scope) {
             $accessToken->addScope($scope);
         }

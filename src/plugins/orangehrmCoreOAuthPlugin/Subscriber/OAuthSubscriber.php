@@ -74,11 +74,12 @@ class OAuthSubscriber extends AbstractEventSubscriber
         if (!$this->getAuthUser()->isAuthenticated() && $event->getRequest()->headers->has('authorization')) {
             // Attempt to check OAuth token
 
+            $encryptionKey = 'lxZFUEsBCJ2Yb14IF2ygAHI5N4+ZAUXXaSeeJm6+twsUmIen'; // TODO:: generate using base64_encode(random_bytes(32))
             $accessTokenRepository = new AccessTokenRepository();
             $server = new ResourceServer(
                 $accessTokenRepository,
                 new CryptKey(),
-                new BearerTokenValidator($accessTokenRepository),
+                new BearerTokenValidator($accessTokenRepository, $encryptionKey),
             );
 
             try {
@@ -87,10 +88,9 @@ class OAuthSubscriber extends AbstractEventSubscriber
 
                 // TODO:: refactor
                 /** @var OAuthAccessToken $accessToken */
-                $accessToken = $this->getEntityManager()->getRepository(OAuthAccessToken::class)
-                    ->findOneBy(
-                        ['accessToken' => $request->getAttribute(BearerTokenValidator::ATTRIBUTE_ACCESS_TOKEN)]
-                    );
+                $accessToken = $this->getEntityManager()
+                    ->getRepository(OAuthAccessToken::class)
+                    ->findOneBy(['accessToken' => $request->getAttribute(BearerTokenValidator::ATTRIBUTE_ACCESS_TOKEN)]);
 
                 $user = $this->getUserService()->geUserDao()->getSystemUser($accessToken->getUserId());
 

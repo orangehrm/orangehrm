@@ -20,12 +20,15 @@
 namespace OrangeHRM\OAuth\Server;
 
 use League\OAuth2\Server\AuthorizationValidators\AuthorizationValidatorInterface;
+use League\OAuth2\Server\CryptTrait;
 use League\OAuth2\Server\Exception\OAuthServerException;
 use League\OAuth2\Server\Repositories\AccessTokenRepositoryInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 class BearerTokenValidator implements AuthorizationValidatorInterface
 {
+    use CryptTrait;
+
     public const ATTRIBUTE_ACCESS_TOKEN = '_oauth2_access_token';
 
     private AccessTokenRepositoryInterface $accessTokenRepository;
@@ -33,9 +36,10 @@ class BearerTokenValidator implements AuthorizationValidatorInterface
     /**
      * @param AccessTokenRepositoryInterface $accessTokenRepository
      */
-    public function __construct(AccessTokenRepositoryInterface $accessTokenRepository)
+    public function __construct(AccessTokenRepositoryInterface $accessTokenRepository, string $encryptionKey)
     {
         $this->accessTokenRepository = $accessTokenRepository;
+        $this->encryptionKey = $encryptionKey;
     }
 
     /**
@@ -49,6 +53,8 @@ class BearerTokenValidator implements AuthorizationValidatorInterface
 
         $header = $request->getHeader('authorization');
         $accessToken = trim((string)preg_replace('/^\s*Bearer\s/', '', $header[0]));
+
+        $accessToken = $this->decrypt($accessToken);
 
         // Check if token has been revoked
         if ($this->accessTokenRepository->isAccessTokenRevoked($accessToken)) {

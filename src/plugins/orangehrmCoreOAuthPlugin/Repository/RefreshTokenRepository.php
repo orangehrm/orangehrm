@@ -37,6 +37,9 @@ class RefreshTokenRepository extends BaseDao implements RefreshTokenRepositoryIn
         $refreshToken->setRefreshToken($refreshTokenEntity->getIdentifier());
         $refreshToken->setAccessToken($refreshTokenEntity->getAccessToken()->getIdentifier());
         $refreshToken->setExpiryDateTime($refreshTokenEntity->getExpiryDateTime());
+
+        // TODO:: handle UniqueTokenIdentifierConstraintViolationException
+
         $this->persist($refreshToken);
     }
 
