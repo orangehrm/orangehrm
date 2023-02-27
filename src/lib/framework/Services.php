@@ -422,4 +422,13 @@ final class Services
      * @see \OrangeHRM\Claim\Service\ClaimService
      */
     public const CLAIM_SERVICE = 'claim.claim_service';
+
+    ///////////////////////////////////////////////////////////////
+    /// OAuth plugin services
+    ///////////////////////////////////////////////////////////////
+
+    /**
+     * @see \OrangeHRM\OAuth\Service\PsrHttpFactoryHelper
+     */
+    public const PSR_HTTP_FACTORY_HELPER = 'oauth.psr_http_factory_helper';
 }
