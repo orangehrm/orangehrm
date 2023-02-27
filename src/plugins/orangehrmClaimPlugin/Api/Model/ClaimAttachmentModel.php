@@ -41,6 +41,7 @@ class ClaimAttachmentModel implements Normalizable
                 'eattachSize',
                 'eattachDESC',
                 'attachedByName',
+                'attachedTime'
             ]
         );
         $this->setAttributeNames(
@@ -52,6 +53,7 @@ class ClaimAttachmentModel implements Normalizable
                 'fileSize',
                 'fileDescription',
                 'attachedByName',
+                'date'
             ]
         );
     }

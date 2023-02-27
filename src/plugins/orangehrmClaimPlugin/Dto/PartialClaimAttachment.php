@@ -2,8 +2,13 @@
 
 namespace OrangeHRM\Claim\Dto;
 
+use DateTime;
+use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
+
 class PartialClaimAttachment
 {
+    use DateTimeHelperTrait;
+
     /**
      * @var int|null
      */
@@ -40,6 +45,11 @@ class PartialClaimAttachment
     private ?string $attachedByName;
 
     /**
+     * @var string|null
+     */
+    private ?string $attachedTime;
+
+    /**
      * @param int|null $requestId
      * @param int|null $eattachId
      * @param int|null $eattachSize
@@ -47,6 +57,7 @@ class PartialClaimAttachment
      * @param string|null $eattachFileName
      * @param string|null $eattachFileType
      * @param string|null $attachedByName
+     * @param DateTime|null $attachedTime
      */
     public function __construct(
         ?int $requestId,
@@ -55,7 +66,8 @@ class PartialClaimAttachment
         ?string $eattachDesc,
         ?string $eattachFileName,
         ?string $eattachFileType,
-        ?string $attachedByName
+        ?string $attachedByName,
+        ?DateTime $attachedTime
     ) {
         $this->requestId = $requestId;
         $this->eattachId = $eattachId;
@@ -64,6 +76,7 @@ class PartialClaimAttachment
         $this->eattachFileName = $eattachFileName;
         $this->eattachFileType = $eattachFileType;
         $this->attachedByName = $attachedByName;
+        $this->setAttachedTime($attachedTime);
     }
 
     /**
@@ -192,5 +205,22 @@ class PartialClaimAttachment
     public function getAttachedByName(): ?string
     {
         return $this->attachedByName;
+    }
+
+    /**
+     * @return DateTime|null
+     */
+    public function getAttachedTime(): ?string
+    {
+        return $this->attachedTime;
+    }
+
+    /**
+     * @param DateTime|null $date
+     * @return void
+     */
+    public function setAttachedTime(?DateTime $date): void
+    {
+        $this->attachedTime = $this->getDateTimeHelper()->formatDate($date);
     }
 }

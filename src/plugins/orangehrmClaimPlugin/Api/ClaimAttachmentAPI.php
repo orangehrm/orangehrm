@@ -55,10 +55,6 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
 
     public const PARAMETER_REQUEST_ID = 'requestId';
     public const PARAMETER_CLAIM_REQUEST_ID = 'claimRequestId';
-    public const PARAMETER_ATTACHMENT_ID = 'eattachId';
-    public const PARAMETER_ATTACHMENT_SIZE = 'eattachSize';
-    public const PARAMETER_ATTACHMENT_TYPE = 'eattachType';
-    public const PARAMETER_ATTACHMENT_NAME = 'eattachFileName';
     public const PARAMETER_ATTACHMENT_CONTENT = 'eattachAttachment';
     public const PARAMETER_ATTACHMENT_DESCRIPTION = 'eattachDESC';
 
@@ -228,7 +224,7 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
      */
     public function update(): EndpointResult
     {
-
+        throw new NotImplementedException();
     }
 
     /**
@@ -269,7 +265,8 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
             $claimAttachment->getEattachDesc(),
             $claimAttachment->getEattachFileName(),
             $claimAttachment->getEattachType(),
-            $claimAttachment->getAttachedByName()
+            $claimAttachment->getAttachedByName(),
+            $claimAttachment->getAttachedTime()
         );
     }
 }

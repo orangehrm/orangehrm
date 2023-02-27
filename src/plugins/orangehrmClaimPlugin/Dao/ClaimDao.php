@@ -350,7 +350,14 @@ class ClaimDao extends BaseDao
     {
         try {
             $select = 'NEW ' . PartialClaimAttachment::class
-                . '(claimAttachment.requestId, claimAttachment.eattachId, claimAttachment.eattachSize, claimAttachment.eattachDesc, claimAttachment.eattachFileName, claimAttachment.eattachType, claimAttachment.attachedByName)';
+                . '(claimAttachment.requestId,
+                 claimAttachment.eattachId,
+                 claimAttachment.eattachSize,
+                 claimAttachment.eattachDesc,
+                 claimAttachment.eattachFileName,
+                 claimAttachment.eattachType,
+                 claimAttachment.attachedByName,
+                 claimAttachment.attachedTime)';
             $q = $this->createQueryBuilder(ClaimAttachment::class, 'claimAttachment')
                 ->select($select);
             if (!is_null($claimAttachmentSearchFilterParams->getClaimRequestId())) {
@@ -384,7 +391,14 @@ class ClaimDao extends BaseDao
     {
         try {
             $select = 'NEW ' . PartialClaimAttachment::class
-                . '(claimAttachment.requestId, claimAttachment.eattachId, claimAttachment.eattachSize, claimAttachment.eattachDesc, claimAttachment.eattachFileName, claimAttachment.eattachType, claimAttachment.attachedByName)';
+                . '(claimAttachment.requestId,
+                 claimAttachment.eattachId,
+                 claimAttachment.eattachSize,
+                 claimAttachment.eattachDesc,
+                 claimAttachment.eattachFileName,
+                 claimAttachment.eattachType,
+                 claimAttachment.attachedByName,
+                 claimAttachment.attachedTime)';
             $q = $this->createQueryBuilder(ClaimAttachment::class, 'claimAttachment')
                 ->select($select);
             $q->andWhere('claimAttachment.requestId = :requestId');

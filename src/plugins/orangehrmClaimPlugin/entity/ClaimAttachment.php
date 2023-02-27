@@ -21,10 +21,11 @@ namespace OrangeHRM\Entity;
 
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use OrangeHRM\Entity\Decorator\ClaimAttachmentDecorator;
 use OrangeHRM\Entity\Decorator\DecoratorTrait;
 
 /**
- *
+ * @method ClaimAttachmentDecorator getDecorator()
  * @ORM\Table(name="ohrm_claim_attachment")
  * @ORM\Entity
  */
