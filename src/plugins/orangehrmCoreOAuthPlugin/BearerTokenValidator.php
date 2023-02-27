@@ -1,0 +1,62 @@
+<?php
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ */
+
+namespace OrangeHRM\OAuth;
+
+use League\OAuth2\Server\AuthorizationValidators\AuthorizationValidatorInterface;
+use League\OAuth2\Server\Exception\OAuthServerException;
+use League\OAuth2\Server\Repositories\AccessTokenRepositoryInterface;
+use Psr\Http\Message\ServerRequestInterface;
+
+class BearerTokenValidator implements AuthorizationValidatorInterface
+{
+    public const ATTRIBUTE_ACCESS_TOKEN = '_oauth2_access_token';
+
+    private AccessTokenRepositoryInterface $accessTokenRepository;
+
+    /**
+     * @param AccessTokenRepositoryInterface $accessTokenRepository
+     */
+    public function __construct(AccessTokenRepositoryInterface $accessTokenRepository)
+    {
+        $this->accessTokenRepository = $accessTokenRepository;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function validateAuthorization(ServerRequestInterface $request): ServerRequestInterface
+    {
+        if ($request->hasHeader('authorization') === false) {
+            throw OAuthServerException::accessDenied('Missing "Authorization" header');
+        }
+
+        $header = $request->getHeader('authorization');
+        $accessToken = trim((string)preg_replace('/^\s*Bearer\s/', '', $header[0]));
+
+        // Check if token has been revoked
+        if ($this->accessTokenRepository->isAccessTokenRevoked($accessToken)) {
+            throw OAuthServerException::accessDenied('Access token has been revoked');
+        }
+
+        // TODO check expired
+
+        return $request->withAttribute(self::ATTRIBUTE_ACCESS_TOKEN, $accessToken);
+    }
+}
