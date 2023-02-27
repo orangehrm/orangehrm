@@ -65,6 +65,7 @@ import {
   shouldNotExceedCharLength,
 } from '@ohrm/core/util/validation/rules';
 import {OxdDialog} from '@ohrm/oxd';
+import useServerValidation from '@/core/util/composable/useServerValidation';
 
 const subscriberModel = {
   name: '',
@@ -88,8 +89,16 @@ export default {
       window.appGlobal.baseUrl,
       `/api/v2/admin/email-subscriptions/${props.data.subscriptionId}/subscribers`,
     );
+    const {createUniqueValidator} = useServerValidation(http);
+    const subscriberUniqueValidation = createUniqueValidator(
+      'subscriber',
+      'email',
+      props.data.id,
+    );
+
     return {
       http,
+      subscriberUniqueValidation,
     };
   },
   data() {
@@ -98,7 +107,12 @@ export default {
       subscriber: {...subscriberModel},
       rules: {
         name: [required, shouldNotExceedCharLength(100)],
-        email: [required, validEmailFormat, shouldNotExceedCharLength(100)],
+        email: [
+          required,
+          validEmailFormat,
+          shouldNotExceedCharLength(100),
+          this.subscriberUniqueValidation,
+        ],
       },
     };
   },
@@ -110,24 +124,6 @@ export default {
         const {data} = response.data;
         this.subscriber.name = data.name;
         this.subscriber.email = data.email;
-        // Fetch list data for unique test
-        return this.http.getAll();
-      })
-      .then((response) => {
-        const {data} = response.data;
-        if (data) {
-          this.rules.email.push((v) => {
-            const index = data.findIndex((item) => item.email == v);
-            if (index > -1) {
-              const {id} = data[index];
-              return id != this.data.id
-                ? this.$t('general.already_exists')
-                : true;
-            } else {
-              return true;
-            }
-          });
-        }
       })
       .finally(() => {
         this.isLoading = false;

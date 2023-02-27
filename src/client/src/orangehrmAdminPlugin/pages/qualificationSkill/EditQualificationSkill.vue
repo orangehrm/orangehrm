@@ -71,6 +71,7 @@ import {
   required,
   shouldNotExceedCharLength,
 } from '@ohrm/core/util/validation/rules';
+import useServerValidation from '@/core/util/composable/useServerValidation';
 
 const skillModel = {
   id: '',
@@ -86,13 +87,21 @@ export default {
     },
   },
 
-  setup() {
+  setup(props) {
     const http = new APIService(
       window.appGlobal.baseUrl,
       '/api/v2/admin/skills',
     );
+    const {createUniqueValidator} = useServerValidation(http);
+    const skillUniqueValidation = createUniqueValidator(
+      'skill',
+      'name',
+      props.qualificationSkillId,
+    );
+
     return {
       http,
+      skillUniqueValidation,
     };
   },
 
@@ -101,7 +110,11 @@ export default {
       isLoading: false,
       skill: {...skillModel},
       rules: {
-        name: [required, shouldNotExceedCharLength(120)],
+        name: [
+          required,
+          shouldNotExceedCharLength(120),
+          this.skillUniqueValidation,
+        ],
         description: [shouldNotExceedCharLength(400)],
       },
     };
@@ -115,26 +128,6 @@ export default {
         this.skill.id = data.id;
         this.skill.name = data.name;
         this.skill.description = data.description;
-
-        // Fetch list data for unique test
-        return this.http.getAll({limit: 0});
-      })
-      .then((response) => {
-        const {data} = response.data;
-        this.rules.name.push((v) => {
-          const index = data.findIndex(
-            (item) =>
-              String(item.name).toLowerCase() == String(v).toLowerCase(),
-          );
-          if (index > -1) {
-            const {id} = data[index];
-            return id != this.qualificationSkillId
-              ? this.$t('general.already_exists')
-              : true;
-          } else {
-            return true;
-          }
-        });
       })
       .finally(() => {
         this.isLoading = false;

@@ -96,6 +96,7 @@ import {
   validFileTypes,
   maxFileSize,
 } from '@ohrm/core/util/validation/rules';
+import useServerValidation from '@/core/util/composable/useServerValidation';
 
 const initialJobTitle = {
   title: '',
@@ -121,8 +122,12 @@ export default {
       window.appGlobal.baseUrl,
       '/api/v2/admin/job-titles',
     );
+    const {createUniqueValidator} = useServerValidation(http);
+    const jobTitleUniqueValidation = createUniqueValidator('jobTitle', 'title');
+
     return {
       http,
+      jobTitleUniqueValidation,
     };
   },
 
@@ -131,7 +136,11 @@ export default {
       isLoading: false,
       jobTitle: {...initialJobTitle},
       rules: {
-        title: [required, shouldNotExceedCharLength(100)],
+        title: [
+          required,
+          shouldNotExceedCharLength(100),
+          this.jobTitleUniqueValidation,
+        ],
         description: [shouldNotExceedCharLength(400)],
         specification: [
           validFileTypes(this.allowedFileTypes),
@@ -140,25 +149,6 @@ export default {
         note: [shouldNotExceedCharLength(400)],
       },
     };
-  },
-
-  created() {
-    this.isLoading = true;
-    this.http
-      .getAll({limit: 0})
-      .then((response) => {
-        const {data} = response.data;
-        this.rules.title.push((v) => {
-          const index = data.findIndex(
-            (item) =>
-              String(item.title).toLowerCase() == String(v).toLowerCase(),
-          );
-          return index === -1 || this.$t('general.already_exists');
-        });
-      })
-      .finally(() => {
-        this.isLoading = false;
-      });
   },
 
   methods: {

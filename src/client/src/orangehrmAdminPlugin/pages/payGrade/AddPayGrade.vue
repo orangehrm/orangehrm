@@ -65,6 +65,7 @@ import {
   required,
   shouldNotExceedCharLength,
 } from '@ohrm/core/util/validation/rules';
+import useServerValidation from '@/core/util/composable/useServerValidation';
 
 export default {
   setup() {
@@ -72,8 +73,12 @@ export default {
       window.appGlobal.baseUrl,
       '/api/v2/admin/pay-grades',
     );
+    const {createUniqueValidator} = useServerValidation(http);
+    const paygradeUniqueValidation = createUniqueValidator('paygrade', 'name');
+
     return {
       http,
+      paygradeUniqueValidation,
     };
   },
   data() {
@@ -84,30 +89,14 @@ export default {
         name: '',
       },
       rules: {
-        name: [required, shouldNotExceedCharLength(50)],
+        name: [
+          required,
+          shouldNotExceedCharLength(50),
+          this.paygradeUniqueValidation,
+        ],
       },
       errors: [],
     };
-  },
-
-  created() {
-    this.isLoading = true;
-    this.http
-      .getAll()
-      .then((response) => {
-        const {data} = response.data;
-        this.rules.name.push((v) => {
-          const index = data.findIndex(
-            (item) =>
-              String(item.name).toLowerCase() == String(v).toLowerCase(),
-          );
-          return index === -1 || this.$t('general.already_exists');
-        });
-        this.isLoading = false;
-      })
-      .finally(() => {
-        this.isLoading = false;
-      });
   },
 
   methods: {
