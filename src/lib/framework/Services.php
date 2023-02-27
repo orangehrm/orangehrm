@@ -431,4 +431,9 @@ final class Services
      * @see \OrangeHRM\OAuth\Service\PsrHttpFactoryHelper
      */
     public const PSR_HTTP_FACTORY_HELPER = 'oauth.psr_http_factory_helper';
+
+    /**
+     * @see \OrangeHRM\OAuth\Server\OAuthServer
+     */
+    public const OAUTH_SERVER = 'oauth.authorization_server';
 }

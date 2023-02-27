@@ -57,6 +57,8 @@ class AccessTokenRepository extends BaseDao implements AccessTokenRepositoryInte
      */
     public function isAccessTokenRevoked($tokenId): bool
     {
+        // TODO
+        return false;
         throw new Exception(__METHOD__);
     }
 

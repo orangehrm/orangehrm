@@ -17,28 +17,21 @@
  * Boston, MA  02110-1301, USA
  */
 
-use OrangeHRM\Core\Traits\EventDispatcherTrait;
+namespace OrangeHRM\OAuth\Traits;
+
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
-use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Framework\PluginConfigurationInterface;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\OAuth\Server\OAuthServer;
-use OrangeHRM\OAuth\Service\PsrHttpFactoryHelper;
-use OrangeHRM\OAuth\Subscriber\OAuthSubscriber;
 
-class CoreOAuthPluginConfiguration implements PluginConfigurationInterface
+trait OAuthServerTrait
 {
     use ServiceContainerTrait;
-    use EventDispatcherTrait;
 
     /**
-     * @inheritDoc
+     * @return OAuthServer
      */
-    public function initialize(Request $request): void
+    protected function getOAuthServer(): OAuthServer
     {
-        $this->getContainer()->register(Services::PSR_HTTP_FACTORY_HELPER, PsrHttpFactoryHelper::class);
-        $this->getContainer()->register(Services::OAUTH_SERVER, OAuthServer::class);
-
-        $this->getEventDispatcher()->addSubscriber(new OAuthSubscriber());
+        return $this->getContainer()->get(Services::OAUTH_SERVER);
     }
 }
