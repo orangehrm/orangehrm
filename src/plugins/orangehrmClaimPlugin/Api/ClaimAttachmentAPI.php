@@ -20,6 +20,7 @@
 namespace OrangeHRM\Claim\Api;
 
 use Exception;
+use OpenApi\Annotations as OA;
 use OrangeHRM\Claim\Api\Model\ClaimAttachmentModel;
 use OrangeHRM\Claim\Dto\ClaimAttachmentSearchFilterParams;
 use OrangeHRM\Claim\Dto\PartialClaimAttachment;
@@ -30,8 +31,6 @@ use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
-use OrangeHRM\Core\Api\V2\Exception\BadRequestException;
-use OrangeHRM\Core\Api\V2\Exception\InvalidParamException;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
@@ -70,7 +69,31 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
     ];
 
     /**
-     * @return EndpointResult
+     * @OA\Get(
+     *     path="/api/v2/claim/requests/{requestId}/attachments",
+     *     tags={"Claim/Attachments"},
+     *     @OA\Parameter(
+     *         name="requestId",
+     *         in="attribute",
+     *         required=false,
+     *     )
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="array",
+     *                 @OA\Items(ref="#/components/schemas/Claim-AttachmentModel")
+     *             ),
+     *             @OA\Property(
+     *                 property="meta",
+     *                 type="object",
+     *                 @OA\Property(property="total", type="integer")
+     *             )
+     *         )
+     *     )
+     * )
      * @inheritDoc
      */
     public function getAll(): EndpointResult
@@ -102,6 +125,31 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Post(
+     *     path="/api/v2/claim/requests/{requestId}/attachments",
+     *     tags={"Claim/Attachments"},
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="eattachAttachment", type="object"
+     *                @OA\Property(property="name", type="string"),
+     *                @OA\Property(property="type", type="string"),
+     *                @OA\Property(property="size", type="string"),
+     *                @OA\Property(property="base64", type="base64"),
+     *             @OA\Property(property="eattachDESC", type="string"),
+     *         )
+     *     ),
+     *     @OA\Response(response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Claim-AttachmentModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     )
+     * )
      * @inheritDoc
      */
     public function create(): EndpointResult
@@ -110,8 +158,8 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
         try {
             $claimAttachment = new ClaimAttachment();
             $requestId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_CLAIM_REQUEST_ID);
-            if ($this->getClaimService()->getClaimDao()->getClaimRequestById($requestId) == null)
-                throw $this->getInvalidParamException(self::PARAMETER_CLAIM_REQUEST_ID, 'Claim Request Id is not valid');
+            $claimRequest = $this->getClaimService()->getClaimDao()->getClaimRequestById($requestId);
+            $this->throwRecordNotFoundExceptionIfNotExist($claimRequest, ClaimRequest::class);
             $claimAttachment->setRequestId($requestId);
             $userId = $this->getAuthUser()->getUserId();
             $claimAttachment->getDecorator()->setUserByUserId($userId);
@@ -119,7 +167,7 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
             $claimAttachment->setAttachedTime($this->getDateTimeHelper()->getNow());
             $this->setAttachment($claimAttachment);
             $this->commitTransaction();
-        } catch (InvalidParamException|BadRequestException $e) {
+        } catch (ResourceNotFoundException $e) {
             $this->rollBackTransaction();
             throw $e;
         } catch (Exception $e) {
@@ -187,7 +235,27 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     * @throws ResourceNotFoundException
+     * @OA\Get(
+     *     path="/api/v2/claim/requests/{requestId}/attachments/{id}",
+     *     tags={"Claim/Attachments"},
+     *     @OA\PathParameter(
+     *         name="id",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Claim-AttachmentModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
+     * )
+     *
      * @inheritDoc
      */
     public function getOne(): EndpointResult
@@ -195,9 +263,7 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
         $requestId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_CLAIM_REQUEST_ID);
         $eattachId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $claimAttachment = $this->getClaimService()->getClaimDao()->getPartialClaimAttachment($requestId, $eattachId);
-        if ($claimAttachment == null) {
-            throw $this->getRecordNotFoundException();
-        }
+        $this->throwRecordNotFoundExceptionIfNotExist($claimAttachment, ClaimAttachment::class);
         return new EndpointResourceResult(ClaimAttachmentModel::class, $claimAttachment);
     }
 

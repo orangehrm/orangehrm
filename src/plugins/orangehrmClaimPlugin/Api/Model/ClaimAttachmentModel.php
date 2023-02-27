@@ -20,15 +20,53 @@
 
 namespace OrangeHRM\Claim\Api\Model;
 
+use OpenApi\Annotations as OA;
 use OrangeHRM\Claim\Dto\PartialClaimAttachment;
 use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
-use OrangeHRM\Entity\ClaimAttachment;
 
 class ClaimAttachmentModel implements Normalizable
 {
     use ModelTrait;
 
+    /**
+     * @OA\Schema(
+     *     schema="Claim-AttachmentModel",
+     *     type="object",
+     *     @OA\Property(
+     *         property="requestId",
+     *         type="integer"
+     *     ),
+     *     @OA\Property(
+     *         property="attachmentId",
+     *         type="integer"
+     *     ),
+     *     @OA\Property(
+     *         property="fileName",
+     *         type="string"
+     *     ),
+     *     @OA\Property(
+     *         property="fileType",
+     *         type="string"
+     *     ),
+     *     @OA\Property(
+     *         property="fileSize",
+     *         type="integer"
+     *     ),
+     *     @OA\Property(
+     *         property="fileDescription",
+     *         type="string"
+     *     ),
+     *     @OA\Property(
+     *         property="attachedByName",
+     *         type="string"
+     *     ),
+     *     @OA\Property(
+     *         property="date",
+     *         type="string"
+     *     )
+     * )
+     */
     public function __construct(PartialClaimAttachment $claimAttachment)
     {
         $this->setEntity($claimAttachment);

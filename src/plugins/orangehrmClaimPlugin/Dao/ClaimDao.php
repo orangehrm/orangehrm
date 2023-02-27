@@ -412,7 +412,8 @@ class ClaimDao extends BaseDao
         }
     }
 
-    public function getClaimAttachment(int $requestId, int $attachId){
+    public function getClaimAttachment(int $requestId, int $attachId)
+    {
         $this->getRepository(ClaimAttachment::class)->findOneBy(['requestId' => $requestId, 'eattachId' => $attachId]);
     }
 }
