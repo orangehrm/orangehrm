@@ -336,11 +336,12 @@ class ClaimDao extends BaseDao
     public function getNextAttachmentId(int $requestId): int
     {
         $q = $this->createQueryBuilder(ClaimAttachment::class, 'attachment')
-            ->select('MAX(attachment.eattachId)')
+            ->select('MAX(attachment.attachId)')
             ->andWhere('attachment.requestId = :requestId')
             ->setParameter('requestId', $requestId);
         $id = $q->getQuery()->execute();
         $id[0][1]++;
+        dump($id[0][1]);
         return $id[0][1];
     }
 
@@ -352,11 +353,11 @@ class ClaimDao extends BaseDao
     {
         $select = 'NEW ' . PartialClaimAttachment::class
                 . '(claimAttachment.requestId,
-                 claimAttachment.eattachId,
-                 claimAttachment.eattachSize,
-                 claimAttachment.eattachDesc,
-                 claimAttachment.eattachFileName,
-                 claimAttachment.eattachType,
+                 claimAttachment.attachId,
+                 claimAttachment.fileSize,
+                 claimAttachment.description,
+                 claimAttachment.fileName,
+                 claimAttachment.fileType,
                  claimAttachment.attachedTime)';
         $q = $this->createQueryBuilder(ClaimAttachment::class, 'claimAttachment')
                 ->select($select);
@@ -389,18 +390,18 @@ class ClaimDao extends BaseDao
     {
         $select = 'NEW ' . PartialClaimAttachment::class
                 . '(claimAttachment.requestId,
-                 claimAttachment.eattachId,
-                 claimAttachment.eattachSize,
-                 claimAttachment.eattachDesc,
-                 claimAttachment.eattachFileName,
-                 claimAttachment.eattachType,
+                 claimAttachment.attachId,
+                 claimAttachment.fileSize,
+                 claimAttachment.description,
+                 claimAttachment.fileName,
+                 claimAttachment.fileType,
                  claimAttachment.attachedTime)';
         $q = $this->createQueryBuilder(ClaimAttachment::class, 'claimAttachment')
                 ->select($select);
         $q->andWhere('claimAttachment.requestId = :requestId');
         $q->setParameter('requestId', $requestId);
-        $q->andWhere('claimAttachment.eattachId = :eattachId');
-        $q->setParameter('eattachId', $attachId);
+        $q->andWhere('claimAttachment.attachId = :attachId');
+        $q->setParameter('attachId', $attachId);
         return $q->getQuery()->getOneOrNullResult();
     }
 }

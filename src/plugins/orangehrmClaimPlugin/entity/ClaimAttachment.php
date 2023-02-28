@@ -45,37 +45,37 @@ class ClaimAttachment
      * @ORM\Id
      * @ORM\Column(name="eattach_id", type="bigint")
      */
-    private int $eattachId;
+    private int $attachId;
 
     /**
      * @var int
      * @ORM\Column(name="eattach_size", type="integer")
      */
-    private int $eattachSize;
+    private int $fileSize;
 
     /**
      * @var string
      * @ORM\Column(name="eattach_desc", type="string")
      */
-    private string $eattachDesc;
+    private string $description;
 
     /**
      * @var string
      * @ORM\Column(name="eattach_filename", type="string")
      */
-    private string $eattachFileName;
+    private string $fileName;
 
     /**
      * @var string
      * @ORM\Column(name="eattach_attachment", type="blob")
      */
-    private $eattachAttachment;
+    private $attachment;
 
     /**
      * @var string
      * @ORM\Column(name="eattach_type", type="string")
      */
-    private string $eattachType;
+    private string $fileType;
 
     /**
      * @var User
@@ -109,97 +109,97 @@ class ClaimAttachment
     /**
      * @return int
      */
-    public function getEattachId(): int
+    public function getAttachId(): int
     {
-        return $this->eattachId;
+        return $this->attachId;
     }
 
     /**
-     * @param int $eattachId
+     * @param int $attachId
      */
-    public function setEattachId(int $eattachId): void
+    public function setAttachId(int $attachId): void
     {
-        $this->eattachId = $eattachId;
+        $this->attachId = $attachId;
     }
 
     /**
      * @return int
      */
-    public function getEattachSize(): int
+    public function getFileSize(): int
     {
-        return $this->eattachSize;
+        return $this->fileSize;
     }
 
     /**
-     * @param int $eattachSize
+     * @param int $fileSize
      */
-    public function setEattachSize(int $eattachSize): void
+    public function setFileSize(int $fileSize): void
     {
-        $this->eattachSize = $eattachSize;
-    }
-
-    /**
-     * @return string
-     */
-    public function getEattachDesc(): string
-    {
-        return $this->eattachDesc;
-    }
-
-    /**
-     * @param string $eattachDesc
-     */
-    public function setEattachDesc(string $eattachDesc): void
-    {
-        $this->eattachDesc = $eattachDesc;
+        $this->fileSize = $fileSize;
     }
 
     /**
      * @return string
      */
-    public function getEattachFileName(): string
+    public function getDescription(): string
     {
-        return $this->eattachFileName;
+        return $this->description;
     }
 
     /**
-     * @param string $eattachFileName
+     * @param string $description
      */
-    public function setEattachFileName(string $eattachFileName): void
+    public function setDescription(string $description): void
     {
-        $this->eattachFileName = $eattachFileName;
-    }
-
-    /**
-     * @return string
-     */
-    public function getEattachAttachment(): string
-    {
-        return $this->eattachAttachment;
-    }
-
-    /**
-     * @param string $eattachAttachment
-     */
-    public function setEattachAttachment(string $eattachAttachment): void
-    {
-        $this->eattachAttachment = $eattachAttachment;
+        $this->description = $description;
     }
 
     /**
      * @return string
      */
-    public function getEattachType(): string
+    public function getFileName(): string
     {
-        return $this->eattachType;
+        return $this->fileName;
     }
 
     /**
-     * @param string $eattachType
+     * @param string $fileName
      */
-    public function setEattachType(string $eattachType): void
+    public function setFileName(string $fileName): void
     {
-        $this->eattachType = $eattachType;
+        $this->fileName = $fileName;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAttachment(): string
+    {
+        return $this->attachment;
+    }
+
+    /**
+     * @param string $attachment
+     */
+    public function setAttachment(string $attachment): void
+    {
+        $this->attachment = $attachment;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFileType(): string
+    {
+        return $this->fileType;
+    }
+
+    /**
+     * @param string $fileType
+     */
+    public function setFileType(string $fileType): void
+    {
+        $this->fileType = $fileType;
     }
 
     /**

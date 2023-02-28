@@ -45,6 +45,7 @@ use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\ClaimExpense;
 use OrangeHRM\Entity\ClaimRequest;
+use OrangeHRM\Entity\ExpenseType;
 use OrangeHRM\ORM\Exception\TransactionException;
 
 class ClaimExpenseAPI extends Endpoint implements CrudEndpoint
@@ -178,7 +179,9 @@ class ClaimExpenseAPI extends Endpoint implements CrudEndpoint
                 throw $this->getForbiddenException();
             }
             $claimExpense->getDecorator()->setClaimRequestByRequestId($claimRequestId);
-            $this->throwRecordNotFoundExceptionIfNotExist($claimExpense, ClaimExpense::class);
+            $expenseTypeId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_EXPENSE_TYPE_ID);
+            $expenseType = $this->getClaimService()->getClaimDao()->getExpenseTypeById($expenseTypeId);
+            $this->throwRecordNotFoundExceptionIfNotExist($expenseType, ExpenseType::class);
             $claimExpense->getDecorator()->setExpenseTypeByExpenseTypeId($this->getRequestParams()
                 ->getInt(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_EXPENSE_TYPE_ID));
             $claimExpense->setDate($this->getRequestParams()->getDateTime(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_DATE));

@@ -34,27 +34,27 @@ class PartialClaimAttachment
     /**
      * @var int|null
      */
-    private ?int $eattachId;
+    private ?int $attachId;
 
     /**
      * @var int|null
      */
-    private ?int $eattachSize;
+    private ?int $fileSize;
 
     /**
      * @var string|null
      */
-    private ?string $eattachDesc;
+    private ?string $description;
 
     /**
      * @var string|null
      */
-    private ?string $eattachFileName;
+    private ?string $fileName;
 
     /**
      * @var string|null
      */
-    private ?string $eattachFileType;
+    private ?string $fileType;
 
     /**
      * @var string|null
@@ -80,11 +80,11 @@ class PartialClaimAttachment
         ?DateTime $attachedTime
     ) {
         $this->requestId = $requestId;
-        $this->eattachId = $eattachId;
-        $this->eattachSize = $eattachSize;
-        $this->eattachDesc = $eattachDesc;
-        $this->eattachFileName = $eattachFileName;
-        $this->eattachFileType = $eattachFileType;
+        $this->attachId = $eattachId;
+        $this->fileSize = $eattachSize;
+        $this->description = $eattachDesc;
+        $this->fileName = $eattachFileName;
+        $this->fileType = $eattachFileType;
         $this->setAttachedTime($attachedTime);
     }
 
@@ -107,81 +107,81 @@ class PartialClaimAttachment
     /**
      * @return int|null
      */
-    public function getEattachId(): ?int
+    public function getAttachId(): ?int
     {
-        return $this->eattachId;
+        return $this->attachId;
     }
 
     /**
-     * @param int|null $eattachId
+     * @param int|null $attachId
      */
-    public function setEattachId(?int $eattachId): void
+    public function setAttachId(?int $attachId): void
     {
-        $this->eattachId = $eattachId;
+        $this->attachId = $attachId;
     }
 
     /**
      * @return int|null
      */
-    public function getEattachSize(): ?int
+    public function getFileSize(): ?int
     {
-        return $this->eattachSize;
+        return $this->fileSize;
     }
 
     /**
-     * @param int|null $eattachSize
+     * @param int|null $fileSize
      */
-    public function setEattachSize(?int $eattachSize): void
+    public function setFileSize(?int $fileSize): void
     {
-        $this->eattachSize = $eattachSize;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getEattachDesc(): ?string
-    {
-        return $this->eattachDesc;
-    }
-
-    /**
-     * @param string|null $eattachDesc
-     */
-    public function setEattachDesc(?string $eattachDesc): void
-    {
-        $this->eattachDesc = $eattachDesc;
+        $this->fileSize = $fileSize;
     }
 
     /**
      * @return string|null
      */
-    public function getEattachFileName(): ?string
+    public function getDescription(): ?string
     {
-        return $this->eattachFileName;
+        return $this->description;
     }
 
     /**
-     * @param string|null $eattachFileName
+     * @param string|null $description
      */
-    public function setEattachFileName(?string $eattachFileName): void
+    public function setDescription(?string $description): void
     {
-        $this->eattachFileName = $eattachFileName;
+        $this->description = $description;
     }
 
     /**
      * @return string|null
      */
-    public function getEattachFileType(): ?string
+    public function getFileName(): ?string
     {
-        return $this->eattachFileType;
+        return $this->fileName;
     }
 
     /**
-     * @param string|null $eattachFileType
+     * @param string|null $fileName
      */
-    public function setEattachFileType(?string $eattachFileType): void
+    public function setFileName(?string $fileName): void
     {
-        $this->eattachFileType = $eattachFileType;
+        $this->fileName = $fileName;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getFileType(): ?string
+    {
+        return $this->fileType;
+    }
+
+    /**
+     * @param string|null $fileType
+     */
+    public function setFileType(?string $fileType): void
+    {
+        $this->fileType = $fileType;
     }
 
     /**
