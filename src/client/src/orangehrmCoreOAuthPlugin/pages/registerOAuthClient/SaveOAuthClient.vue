@@ -32,17 +32,9 @@
           <oxd-grid :cols="2" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <oxd-input-field
-                v-model="oAuthClient.clientId"
-                label="ID"
-                :rules="rules.clientId"
-                required
-              />
-            </oxd-grid-item>
-            <oxd-grid-item>
-              <oxd-input-field
-                v-model="oAuthClient.clientSecret"
-                label="Secret"
-                :rules="rules.clientSecret"
+                v-model="oAuthClient.name"
+                :label="$t('general.name')"
+                :rules="rules.name"
                 required
               />
             </oxd-grid-item>
@@ -52,6 +44,14 @@
                 label="Redirect URI"
                 :rules="rules.redirectUri"
               />
+            </oxd-grid-item>
+            <oxd-grid-item>
+              <div class="orangehrm-module-field-row">
+                <oxd-text tag="p" class="orangehrm-module-field-label">
+                  Enable Client
+                </oxd-text>
+                <oxd-switch-input v-model="oAuthClient.enabled" />
+              </div>
             </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
@@ -102,14 +102,18 @@ import {
   required,
   shouldNotExceedCharLength,
 } from '@ohrm/core/util/validation/rules';
+import {OxdSwitchInput} from '@ohrm/oxd';
 
 const initialOAuthClient = {
-  clientId: '',
-  clientSecret: '',
+  name: '',
   redirectUri: '',
+  enabled: false,
 };
 
 export default {
+  components: {
+    'oxd-switch-input': OxdSwitchInput,
+  },
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
@@ -125,8 +129,7 @@ export default {
       isLoading: false,
       oAuthClient: {...initialOAuthClient},
       rules: {
-        clientId: [required, shouldNotExceedCharLength(80)],
-        clientSecret: [required, shouldNotExceedCharLength(80)],
+        name: [required, shouldNotExceedCharLength(80)],
         redirectUri: [shouldNotExceedCharLength(2000)],
       },
     };
@@ -138,8 +141,8 @@ export default {
       .getAll({limit: 0})
       .then((response) => {
         const {data} = response.data;
-        this.rules.clientId.push((v) => {
-          const index = data.findIndex((item) => item.clientId == v);
+        this.rules.name.push((v) => {
+          const index = data.findIndex((item) => item.name === v);
           return index === -1 || 'Already exists';
         });
       })

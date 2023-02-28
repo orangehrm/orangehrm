@@ -47,8 +47,7 @@ class OAuthClientAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_REDIRECT_URI = 'redirectUri';
     public const PARAMETER_ENABLED = 'enabled';
 
-    public const PARAM_RULE_CLIENT_ID_MAX_LENGTH = 80;
-    public const PARAM_RULE_CLIENT_SECRET_MAX_LENGTH = 80;
+    public const PARAM_RULE_NAME_MAX_LENGTH = 80;
     public const PARAM_RULE_REDIRECT_URI_MAX_LENGTH = 2000;
 
     /**
@@ -117,7 +116,6 @@ class OAuthClientAPI extends Endpoint implements CrudEndpoint
      *         @OA\JsonContent(
      *             type="object",
      *             @OA\Property(property="name", type="string"),
-     *             @OA\Property(property="clientSecret", type="string"),
      *             @OA\Property(property="redirectUri", type="string"),
      *             @OA\Property(property="enabled", type="boolean")
      *         )
@@ -166,13 +164,7 @@ class OAuthClientAPI extends Endpoint implements CrudEndpoint
                 self::PARAMETER_NAME,
                 new Rule(Rules::STRING_TYPE),
                 new Rule(Rules::REQUIRED),
-                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_CLIENT_ID_MAX_LENGTH])
-            ),
-            new ParamRule(
-                self::PARAMETER_CLIENT_SECRET,
-                new Rule(Rules::STRING_TYPE),
-                new Rule(Rules::REQUIRED),
-                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_CLIENT_SECRET_MAX_LENGTH])
+                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NAME_MAX_LENGTH])
             ),
             new ParamRule(
                 self::PARAMETER_REDIRECT_URI,
@@ -275,7 +267,6 @@ class OAuthClientAPI extends Endpoint implements CrudEndpoint
      *         @OA\JsonContent(
      *             type="object",
      *             @OA\Property(property="name", type="string"),
-     *             @OA\Property(property="clientSecret", type="string"),
      *             @OA\Property(property="redirectUri", type="string"),
      *             @OA\Property(property="enabled", type="boolean")
      *         )
@@ -330,13 +321,6 @@ class OAuthClientAPI extends Endpoint implements CrudEndpoint
             )
         );
 
-        $oAuthClient->setClientSecret(
-            $this->getRequestParams()->getString(
-                RequestParams::PARAM_TYPE_BODY,
-                self::PARAMETER_CLIENT_SECRET,
-            )
-        );
-
         $oAuthClient->setRedirectUri(
             $this->getRequestParams()->getString(
                 RequestParams::PARAM_TYPE_BODY,
@@ -350,6 +334,10 @@ class OAuthClientAPI extends Endpoint implements CrudEndpoint
                 self::PARAMETER_ENABLED
             )
         );
+
+        // TODO client secret, client id generation
+        $oAuthClient->setClientId(bin2hex(random_bytes(32)));
+        $oAuthClient->setClientSecret(bin2hex(random_bytes(32)));
 
         $oAuthClient->setConfidential(false);
     }

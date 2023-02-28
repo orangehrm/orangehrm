@@ -21,3 +21,10 @@
     color: $oxd-primary-one-color;
   }
 }
+
+.orangehrm-module-field-row {
+  grid-column-start: 1;
+  display: flex;
+  justify-content: space-between;
+  padding: 2rem 0;
+}

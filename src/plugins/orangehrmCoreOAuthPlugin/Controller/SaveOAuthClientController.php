@@ -31,10 +31,9 @@ class SaveOAuthClientController extends AbstractVueController
      */
     public function preRender(Request $request): void
     {
-        $clientId = $request->query->get('clientId');
-        if ($clientId) {
+        if ($request->query->has('id')) {
             $component = new Component('oauth-client-edit');
-            $component->addProp(new Prop('oauth-client-id', Prop::TYPE_STRING, $clientId));
+            $component->addProp(new Prop('id', Prop::TYPE_STRING, $request->query->getInt('id')));
         } else {
             $component = new Component('oauth-client-save');
         }

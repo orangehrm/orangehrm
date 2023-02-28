@@ -88,6 +88,8 @@ export default {
           (id) => id === item.clientId,
         );
         return {
+          id: item.id,
+          name: item.name,
           clientId: item.clientId,
           clientSecret: item.clientSecret,
           redirectUri: item.redirectUri,
@@ -127,8 +129,8 @@ export default {
   data() {
     return {
       headers: [
-        {name: 'clientId', slot: 'title', title: 'ID', style: {flex: 2}},
-        {name: 'clientSecret', title: 'Secret', style: {flex: 3}},
+        {name: 'name', slot: 'title', title: 'Name', style: {flex: 2}},
+        {name: 'clientId', title: 'Client ID', style: {flex: 3}},
         {name: 'redirectUri', title: 'Redirect URI', style: {flex: 3}},
         {
           name: 'actions',
@@ -162,7 +164,7 @@ export default {
       navigate('/admin/saveOAuthClient');
     },
     onClickEdit(item) {
-      navigate('/admin/editOAuthClient', {}, {clientId: item.clientId});
+      navigate('/admin/editOAuthClient', {}, {id: item.id});
     },
     onClickDeleteSelected() {
       const ids = [];

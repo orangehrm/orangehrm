@@ -30,6 +30,7 @@ use OrangeHRM\Entity\OAuthClient;
  *     type="object",
  *     @OA\Property(property="id", type="integer"),
  *     @OA\Property(property="name", type="string"),
+ *     @OA\Property(property="clientId", type="string")
  *     @OA\Property(property="clientSecret", type="string"),
  *     @OA\Property(property="redirectUri", type="string"),
  *     @OA\Property(property="enabled", type="boolean")
@@ -46,6 +47,7 @@ class OAuthClientModel implements Normalizable
             [
                 'id',
                 'name',
+                'clientId',
                 'clientSecret',
                 'redirectUri',
                 ['isEnabled']
@@ -55,6 +57,7 @@ class OAuthClientModel implements Normalizable
             [
                 'id',
                 'name',
+                'clientId',
                 'clientSecret',
                 'redirectUri',
                 'enabled'

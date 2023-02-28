@@ -101,7 +101,7 @@ class OAuthClientDao extends BaseDao
     public function createMobileClient()
     {
         $client = new OAuthClient();
-        $client->setName(OAuthService::PUBLIC_MOBILE_CLIENT_ID);
+        $client->setClientId(OAuthService::PUBLIC_MOBILE_CLIENT_ID);
         $client->setClientSecret('');
         $client->setRedirectUri('');
         $client->setConfidential(sprintf("%s %s", GrantType::USER_CREDENTIALS, GrantType::REFRESH_TOKEN));

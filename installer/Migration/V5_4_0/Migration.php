@@ -622,6 +622,7 @@ class Migration extends AbstractMigration
         $this->getSchemaHelper()->createTable('ohrm_oauth2_clients')
             ->addColumn('id', Types::INTEGER, ['Autoincrement' => true])
             ->addColumn('name', Types::STRING, ['Length' => 255])
+            ->addColumn('client_id', Types::STRING, ['Length' => 255])
             ->addColumn('client_secret', Types::STRING, ['Length' => 255])
             ->addColumn('redirect_uri', Types::STRING, ['Length' => 2000])
             ->addColumn('is_confidential', Types::BOOLEAN)
