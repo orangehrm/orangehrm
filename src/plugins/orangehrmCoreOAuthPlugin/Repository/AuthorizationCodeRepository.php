@@ -39,6 +39,8 @@ class AuthorizationCodeRepository extends BaseDao implements AuthCodeRepositoryI
         $authCode->setRedirectUri($authCodeEntity->getRedirectUri());
         $authCode->setExpiryDateTime($authCodeEntity->getExpiryDateTime());
 
+        // TODO:: handle UniqueTokenIdentifierConstraintViolationException
+
         $this->persist($authCode);
     }
 

@@ -50,15 +50,9 @@ class AuthenticationSubscriber extends AbstractEventSubscriber
     public static function getSubscribedEvents(): array
     {
         return [
-            KernelEvents::REQUEST => [
-                ['onRequestEvent', 98000],
-            ],
-            KernelEvents::CONTROLLER => [
-                ['onControllerEvent', 100000],
-            ],
-            KernelEvents::EXCEPTION => [
-                ['onExceptionEvent', 0],
-            ],
+            KernelEvents::REQUEST => [['onRequestEvent', 97000]],
+            KernelEvents::CONTROLLER => [['onControllerEvent', 100000]],
+            KernelEvents::EXCEPTION => [['onExceptionEvent', 0]],
         ];
     }
 
@@ -68,6 +62,7 @@ class AuthenticationSubscriber extends AbstractEventSubscriber
     public function onRequestEvent(RequestEvent $event): void
     {
         if (!$this->getAuthUser()->isAuthenticated()) {
+            // Stop KernelEvents::REQUEST event propagation and let it throw an exception from AuthenticationSubscriber::onControllerEvent
             $event->stopPropagation();
         }
     }

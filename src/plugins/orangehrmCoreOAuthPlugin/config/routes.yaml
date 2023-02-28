@@ -31,3 +31,13 @@ save_oauth_client:
   path: /admin/saveOAuthClient
   controller: OrangeHRM\OAuth\Controller\SaveOAuthClientController::handle
   methods: [ GET ]
+
+auth_oauth2_authorize:
+  path: /oauth2/authorize
+  controller: OrangeHRM\OAuth\Controller\OAuth2\AuthorizationController::handle
+  methods: [ GET ]
+
+auth_oauth2_token:
+  path: /oauth2/token
+  controller: OrangeHRM\OAuth\Controller\OAuth2\TokenController::handle
+  methods: [ POST ]

@@ -21,12 +21,15 @@ namespace OrangeHRM\OAuth\Dto\Entity;
 
 use DateTimeImmutable;
 use League\OAuth2\Server\CryptKey;
+use League\OAuth2\Server\CryptTrait;
 use League\OAuth2\Server\Entities\AccessTokenEntityInterface;
 use League\OAuth2\Server\Entities\ClientEntityInterface;
 use League\OAuth2\Server\Entities\ScopeEntityInterface;
 
 class AccessTokenEntity implements AccessTokenEntityInterface
 {
+    use CryptTrait;
+
     private string $identifier;
     private DateTimeImmutable $expiryDateTime;
     private ?int $userIdentifier = null;
@@ -41,6 +44,7 @@ class AccessTokenEntity implements AccessTokenEntityInterface
      */
     public function setPrivateKey(CryptKey $privateKey): void
     {
+        // Ignored as not using JWT
     }
 
     /**
@@ -48,8 +52,7 @@ class AccessTokenEntity implements AccessTokenEntityInterface
      */
     public function __toString(): string
     {
-        // TODO
-        return $this->getIdentifier();
+        return $this->encrypt($this->getIdentifier());
     }
 
     /**

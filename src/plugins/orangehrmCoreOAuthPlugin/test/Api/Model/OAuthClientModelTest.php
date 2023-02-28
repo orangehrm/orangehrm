@@ -47,10 +47,10 @@ class OAuthClientModelTest extends TestCase
 
 
         $oauthClient = new OAuthClient();
-        $oauthClient->setClientId('TestOAuth');
+        $oauthClient->setName('TestOAuth');
         $oauthClient->setClientSecret('TestOAuthSecret');
         $oauthClient->setRedirectUri('https://facebook.com');
-        $oauthClient->setGrantTypes('password');
+        $oauthClient->setConfidential('password');
         $oauthClient->setScope('user');
 
         $oauthClientModel = new OAuthClientModel($oauthClient);

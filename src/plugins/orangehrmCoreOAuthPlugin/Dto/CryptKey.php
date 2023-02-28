@@ -17,12 +17,11 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\OAuth\Constant;
+namespace OrangeHRM\OAuth\Dto;
 
-final class GrantType
+class CryptKey extends \League\OAuth2\Server\CryptKey
 {
-    public const AUTHORIZATION_CODE = 'authorization_code';
-    public const CLIENT_CREDENTIALS = 'client_credentials';
-    public const REFRESH_TOKEN = 'refresh_token';
-    public const USER_CREDENTIALS = 'password';
+    public function __construct()
+    {
+    }
 }

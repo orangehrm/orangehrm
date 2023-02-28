@@ -60,8 +60,8 @@ class OAuthClientDaoTest extends TestCase
     {
         $oAuthClientSearchFilterParams = new OAuthClientSearchFilterParams();
         $result = $this->authClientDao->getOAuthClients($oAuthClientSearchFilterParams);
-        $this->assertEquals('MobileClientId', $result[0]->getClientId());
-        $this->assertEquals('TestClientId', $result[1]->getClientId());
+        $this->assertEquals('MobileClientId', $result[0]->getName());
+        $this->assertEquals('TestClientId', $result[1]->getName());
     }
 
     public function testGetOAuthClientsCount(): void
@@ -74,7 +74,7 @@ class OAuthClientDaoTest extends TestCase
     public function testGetOAuthClientByClientId_WhenClientAvailable(): void
     {
         $result = $this->authClientDao->getOAuthClientByClientId('MobileClientId');
-        $this->assertEquals('MobileClientId', $result->getClientId());
+        $this->assertEquals('MobileClientId', $result->getName());
     }
 
     public function testGetOAuthClientByClientId_WhenClientNotAvailable(): void
@@ -86,26 +86,26 @@ class OAuthClientDaoTest extends TestCase
     public function testSaveOAuthClient(): void
     {
         $oAuthClient = new OAuthClient();
-        $oAuthClient->setClientId('Test1');
+        $oAuthClient->setName('Test1');
         $oAuthClient->setClientSecret('Test1Secret');
         $oAuthClient->setRedirectUri('https://facebook.com');
-        $oAuthClient->setGrantTypes('password');
+        $oAuthClient->setConfidential('password');
         $oAuthClient->setScope('user');
         $result = $this->authClientDao->saveOAuthClient($oAuthClient);
-        $this->assertEquals('Test1', $result->getClientId());
+        $this->assertEquals('Test1', $result->getName());
         $this->assertEquals('Test1Secret', $result->getClientSecret());
         $this->assertEquals('https://facebook.com', $result->getRedirectUri());
-        $this->assertEquals('password', $result->getGrantTypes());
+        $this->assertEquals('password', $result->getConfidential());
         $this->assertEquals('user', $result->getScope());
     }
 
     public function testDeleteOAuthClients(): void
     {
         $oAuthClient = new OAuthClient();
-        $oAuthClient->setClientId('Test1ToDelete');
+        $oAuthClient->setName('Test1ToDelete');
         $oAuthClient->setClientSecret('Test1SecretToDelete');
         $oAuthClient->setRedirectUri('https://facebook.com');
-        $oAuthClient->setGrantTypes('password');
+        $oAuthClient->setConfidential('password');
         $oAuthClient->setScope('user');
         $this->authClientDao->saveOAuthClient($oAuthClient);
         $toDeleteIds = ['Test1ToDelete'];
@@ -117,9 +117,9 @@ class OAuthClientDaoTest extends TestCase
     {
         $result = $this->authClientDao->createMobileClient();
         $this->assertTrue($result instanceof OAuthClient);
-        $this->assertEquals(OAuthService::PUBLIC_MOBILE_CLIENT_ID, $result->getClientId());
+        $this->assertEquals(OAuthService::PUBLIC_MOBILE_CLIENT_ID, $result->getName());
         $this->assertEquals('', $result->getClientSecret());
-        $this->assertEquals(sprintf("%s %s", GrantType::USER_CREDENTIALS, GrantType::REFRESH_TOKEN), $result->getGrantTypes());
+        $this->assertEquals(sprintf("%s %s", GrantType::USER_CREDENTIALS, GrantType::REFRESH_TOKEN), $result->getConfidential());
         $this->assertEquals(Scope::SCOPE_USER, $result->getScope());
     }
 }

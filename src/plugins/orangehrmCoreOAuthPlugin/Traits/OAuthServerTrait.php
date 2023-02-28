@@ -17,10 +17,21 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\OAuth\Constant;
+namespace OrangeHRM\OAuth\Traits;
 
-final class Scope
+use OrangeHRM\Core\Traits\ServiceContainerTrait;
+use OrangeHRM\Framework\Services;
+use OrangeHRM\OAuth\Server\OAuthServer;
+
+trait OAuthServerTrait
 {
-    public const SCOPE_ADMIN = 'admin';
-    public const SCOPE_USER = 'user';
+    use ServiceContainerTrait;
+
+    /**
+     * @return OAuthServer
+     */
+    protected function getOAuthServer(): OAuthServer
+    {
+        return $this->getContainer()->get(Services::OAUTH_SERVER);
+    }
 }
