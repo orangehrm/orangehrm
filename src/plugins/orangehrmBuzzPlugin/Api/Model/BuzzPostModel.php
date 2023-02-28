@@ -27,7 +27,7 @@ use OrangeHRM\Entity\BuzzPost;
  * @OA\Schema(
  *     schema="Buzz-PostModel",
  *     type="object",
- *     @OA\Property(property="id", type="int"),
+ *     @OA\Property(property="id", type="integer"),
  *     @OA\Property(
  *         property="employee",
  *         type="object",
