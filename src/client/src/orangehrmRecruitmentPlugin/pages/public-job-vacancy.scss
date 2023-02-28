@@ -185,10 +185,10 @@
   @include oxd-respond-to('md') {
     height: 75vh;
   }
-  @media screen and (min-width: 1920px) {
+  @media screen and (min-width: 1800px) {
     height: 85vh;
   }
-  @media screen and (min-width: 3840px) {
+  @media screen and (min-width: 3500px) {
     height: 90vh;
   }
 }
