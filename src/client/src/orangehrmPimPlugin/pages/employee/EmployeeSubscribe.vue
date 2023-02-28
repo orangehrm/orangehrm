@@ -63,7 +63,11 @@
 
 <script>
 import {ref} from 'vue';
-import {required, validEmailFormat} from '@ohrm/core/util/validation/rules';
+import {
+  required,
+  validEmailFormat,
+  shouldNotExceedCharLength,
+} from '@ohrm/core/util/validation/rules';
 
 export default {
   props: {
@@ -79,8 +83,8 @@ export default {
 
   setup(props) {
     const rules = {
-      name: [required],
-      email: [required, validEmailFormat],
+      name: [required, shouldNotExceedCharLength(50)],
+      email: [required, validEmailFormat, shouldNotExceedCharLength(50)],
     };
 
     const isLoading = ref(false);
