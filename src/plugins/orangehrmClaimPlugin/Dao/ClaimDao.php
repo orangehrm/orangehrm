@@ -356,10 +356,10 @@ class ClaimDao extends BaseDao
                  claimAttachment.eattachDesc,
                  claimAttachment.eattachFileName,
                  claimAttachment.eattachType,
-                 claimAttachment.attachedByName,
                  claimAttachment.attachedTime)';
             $q = $this->createQueryBuilder(ClaimAttachment::class, 'claimAttachment')
                 ->select($select);
+            $this->setSortingAndPaginationParams($q, $claimAttachmentSearchFilterParams);
             if (!is_null($claimAttachmentSearchFilterParams->getClaimRequestId())) {
                 $requestId = $claimAttachmentSearchFilterParams->getClaimRequestId();
                 $q->andWhere('claimAttachment.requestId = :requestId');
@@ -397,7 +397,6 @@ class ClaimDao extends BaseDao
                  claimAttachment.eattachDesc,
                  claimAttachment.eattachFileName,
                  claimAttachment.eattachType,
-                 claimAttachment.attachedByName,
                  claimAttachment.attachedTime)';
             $q = $this->createQueryBuilder(ClaimAttachment::class, 'claimAttachment')
                 ->select($select);
@@ -410,10 +409,5 @@ class ClaimDao extends BaseDao
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
-    }
-
-    public function getClaimAttachment(int $requestId, int $attachId)
-    {
-        $this->getRepository(ClaimAttachment::class)->findOneBy(['requestId' => $requestId, 'eattachId' => $attachId]);
     }
 }

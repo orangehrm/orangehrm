@@ -41,6 +41,7 @@ use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\ClaimAttachment;
+use OrangeHRM\Entity\ClaimRequest;
 use OrangeHRM\Installer\Exception\NotImplementedException;
 use OrangeHRM\ORM\Exception\TransactionException;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
@@ -53,10 +54,8 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
     use DateTimeHelperTrait;
 
     public const PARAMETER_REQUEST_ID = 'requestId';
-    public const PARAMETER_CLAIM_REQUEST_ID = 'claimRequestId';
     public const PARAMETER_ATTACHMENT_CONTENT = 'eattachAttachment';
     public const PARAMETER_ATTACHMENT_DESCRIPTION = 'eattachDESC';
-
     public const ALLOWED_ATTACHMENT_FILE_TYPES = [
         "image/jpeg",
         "text/plain",
@@ -99,7 +98,8 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
     public function getAll(): EndpointResult
     {
         $claimAttachmentSearchFilterParams = new ClaimAttachmentSearchFilterParams();
-        $claimAttachmentSearchFilterParams->setClaimRequestId($this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_CLAIM_REQUEST_ID));
+        $this->setSortingAndPaginationParams($claimAttachmentSearchFilterParams);
+        $claimAttachmentSearchFilterParams->setClaimRequestId($this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_REQUEST_ID));
         $claimAttachments = $this->getClaimService()->getClaimDao()->getClaimAttachmentList($claimAttachmentSearchFilterParams);
         return new EndpointCollectionResult(ClaimAttachmentModel::class, $claimAttachments, new ParameterBag([CommonParams::PARAMETER_TOTAL => count($claimAttachments)]));
     }
@@ -117,10 +117,7 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
                     new Rule(Rules::POSITIVE)
                 )
             ),
-            new ParamRule(
-                self::PARAMETER_CLAIM_REQUEST_ID,
-                new Rule(Rules::POSITIVE)
-            ),
+            ...$this->getSortingAndPaginationParamsRules()
         );
     }
 
@@ -157,7 +154,7 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
         $this->beginTransaction();
         try {
             $claimAttachment = new ClaimAttachment();
-            $requestId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_CLAIM_REQUEST_ID);
+            $requestId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_REQUEST_ID);
             $claimRequest = $this->getClaimService()->getClaimDao()->getClaimRequestById($requestId);
             $this->throwRecordNotFoundExceptionIfNotExist($claimRequest, ClaimRequest::class);
             $claimAttachment->setRequestId($requestId);
@@ -202,7 +199,7 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
     {
         return new ParamRuleCollection(
             new ParamRule(
-                self::PARAMETER_CLAIM_REQUEST_ID,
+                self::PARAMETER_REQUEST_ID,
                 new Rule(Rules::POSITIVE)
             ),
             new ParamRule(
@@ -260,10 +257,10 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
      */
     public function getOne(): EndpointResult
     {
-        $requestId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_CLAIM_REQUEST_ID);
+        $requestId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_REQUEST_ID);
         $eattachId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $claimAttachment = $this->getClaimService()->getClaimDao()->getPartialClaimAttachment($requestId, $eattachId);
-        $this->throwRecordNotFoundExceptionIfNotExist($claimAttachment, ClaimAttachment::class);
+        $this->throwRecordNotFoundExceptionIfNotExist($claimAttachment, PartialClaimAttachment::class);
         return new EndpointResourceResult(ClaimAttachmentModel::class, $claimAttachment);
     }
 
@@ -275,7 +272,7 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
     {
         return new ParamRuleCollection(
             new ParamRule(
-                self::PARAMETER_CLAIM_REQUEST_ID,
+                self::PARAMETER_REQUEST_ID,
                 new Rule(Rules::POSITIVE)
             ),
             new ParamRule(
@@ -300,7 +297,7 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
     {
         return new ParamRuleCollection(
             new ParamRule(
-                self::PARAMETER_CLAIM_REQUEST_ID,
+                self::PARAMETER_REQUEST_ID,
                 new Rule(Rules::POSITIVE)
             ),
             new ParamRule(
@@ -331,7 +328,6 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
             $claimAttachment->getEattachDesc(),
             $claimAttachment->getEattachFileName(),
             $claimAttachment->getEattachType(),
-            $claimAttachment->getAttachedByName(),
             $claimAttachment->getAttachedTime()
         );
     }

@@ -85,12 +85,6 @@ class ClaimAttachment
     private User $user;
 
     /**
-     * @var string
-     * @ORM\Column(name="attached_by_name", type="string")
-     */
-    private string $attachedByName;
-
-    /**
      * @var DateTime
      * @ORM\Column(name="attached_time", type="datetime")
      */
@@ -222,22 +216,6 @@ class ClaimAttachment
     public function setUser(User $user): void
     {
         $this->user = $user;
-    }
-
-    /**
-     * @return string
-     */
-    public function getAttachedByName(): string
-    {
-        return $this->attachedByName;
-    }
-
-    /**
-     * @param string $attachedByName
-     */
-    public function setAttachedByName(string $attachedByName): void
-    {
-        $this->attachedByName = $attachedByName;
     }
 
     /**

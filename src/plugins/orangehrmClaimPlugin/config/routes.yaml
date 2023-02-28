@@ -45,22 +45,22 @@ apiv2_claim_expense:
     requestId: '\d+'
 
 apiv2_claim_attachments:
-  path: /api/v2/claim/requests/{claimRequestId}/attachments
+  path: /api/v2/claim/requests/{requestId}/attachments
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
   methods: [ POST, GET, DELETE ]
   defaults:
     _api: OrangeHRM\Claim\Api\ClaimAttachmentAPI
   requirements:
-    claimRequestId: '\d+'
+    requestId: '\d+'
 
 apiv2_claim_attachment:
-  path: /api/v2/claim/requests/{claimRequestId}/attachments/{id}
+  path: /api/v2/claim/requests/{requestId}/attachments/{id}
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
   methods: [ GET, PUT ]
   defaults:
     _api: OrangeHRM\Claim\Api\ClaimAttachmentAPI
   requirements:
-    claimRequestId: '\d+'
+    requestId: '\d+'
 
 apiv2_claim_requests:
   path: /api/v2/claim/requests

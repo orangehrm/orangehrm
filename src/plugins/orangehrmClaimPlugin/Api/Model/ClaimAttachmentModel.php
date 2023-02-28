@@ -58,10 +58,6 @@ class ClaimAttachmentModel implements Normalizable
      *         type="string"
      *     ),
      *     @OA\Property(
-     *         property="attachedByName",
-     *         type="string"
-     *     ),
-     *     @OA\Property(
      *         property="date",
      *         type="string"
      *     )
@@ -78,7 +74,6 @@ class ClaimAttachmentModel implements Normalizable
                 'eattachFileType',
                 'eattachSize',
                 'eattachDESC',
-                'attachedByName',
                 'attachedTime'
             ]
         );
@@ -90,7 +85,6 @@ class ClaimAttachmentModel implements Normalizable
                 'fileType',
                 'fileSize',
                 'fileDescription',
-                'attachedByName',
                 'date'
             ]
         );

@@ -58,6 +58,5 @@ class ClaimAttachmentDecorator
     {
         $user = $this->getReference(User::class, $userId);
         $this->getClaimAttachment()->setUser($user);
-        $this->claimAttachment->setAttachedByName($user->getEmployee()->getFirstName() . ' ' . $user->getEmployee()->getLastName());
     }
 }

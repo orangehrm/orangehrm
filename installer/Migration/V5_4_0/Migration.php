@@ -380,6 +380,8 @@ class Migration extends AbstractMigration
             ],
         ]);
 
+        $this->getSchemaHelper()->dropColumn('ohrm_claim_attachment', 'attached_by_name');
+
         $this->getSchemaHelper()->renameColumn('ohrm_claim_request', 'currency', 'currency_id');
     }
 

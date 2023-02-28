@@ -42,11 +42,6 @@ class PartialClaimAttachment
     /**
      * @var string|null
      */
-    private ?string $attachedByName;
-
-    /**
-     * @var string|null
-     */
     private ?string $attachedTime;
 
     /**
@@ -56,7 +51,6 @@ class PartialClaimAttachment
      * @param string|null $eattachDesc
      * @param string|null $eattachFileName
      * @param string|null $eattachFileType
-     * @param string|null $attachedByName
      * @param DateTime|null $attachedTime
      */
     public function __construct(
@@ -66,7 +60,6 @@ class PartialClaimAttachment
         ?string $eattachDesc,
         ?string $eattachFileName,
         ?string $eattachFileType,
-        ?string $attachedByName,
         ?DateTime $attachedTime
     ) {
         $this->requestId = $requestId;
@@ -75,7 +68,6 @@ class PartialClaimAttachment
         $this->eattachDesc = $eattachDesc;
         $this->eattachFileName = $eattachFileName;
         $this->eattachFileType = $eattachFileType;
-        $this->attachedByName = $attachedByName;
         $this->setAttachedTime($attachedTime);
     }
 
@@ -189,22 +181,6 @@ class PartialClaimAttachment
     public function setEattachAttachedBy(?int $eattachAttachedBy): void
     {
         $this->eattachAttachedBy = $eattachAttachedBy;
-    }
-
-    /**
-     * @param string|null $eattachAttachedByName
-     */
-    public function setAttachedByName(?string $attachedByName): void
-    {
-        $this->attachedByName = $attachedByName;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getAttachedByName(): ?string
-    {
-        return $this->attachedByName;
     }
 
     /**
