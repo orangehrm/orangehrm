@@ -388,17 +388,20 @@ class ClaimExpenseAPI extends Endpoint implements CrudEndpoint
                 new Rule(Rules::POSITIVE)
             ),
             new ParamRule(
-                self::PARAMETER_NOTE,
-                new Rule(Rules::STRING_TYPE),
-                new Rule(Rules::LENGTH, [null, self::NOTE_MAX_LENGTH]),
-            ),
-            new ParamRule(
                 self::PARAMETER_AMOUNT,
                 new Rule(Rules::FLOAT_TYPE)
             ),
             new ParamRule(
                 self::PARAMETER_DATE,
                 new Rule(Rules::API_DATE)
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_NOTE,
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::LENGTH, [null, self::NOTE_MAX_LENGTH])
+                ),
+                true
             ),
         );
     }

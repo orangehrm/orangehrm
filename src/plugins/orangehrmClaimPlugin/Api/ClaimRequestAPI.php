@@ -151,6 +151,7 @@ class ClaimRequestAPI extends Endpoint implements CrudEndpoint
             $claimRequest->setCreatedDate($this->getDateTimeHelper()->getNow());
             $userId = $this->getAuthUser()->getUserId();
             $claimRequest->getDecorator()->setUserByUserId($userId);
+            $claimRequest->getDecorator()->setEmployeeByUserId($userId);
 
             $this->commitTransaction();
             return $this->getClaimService()->getClaimDao()->saveClaimRequest($claimRequest);

@@ -19,14 +19,12 @@
 
 namespace OrangeHRM\Claim\Dao;
 
-use Exception;
 use OrangeHRM\Claim\Dto\ClaimAttachmentSearchFilterParams;
 use OrangeHRM\Claim\Dto\ClaimEventSearchFilterParams;
 use OrangeHRM\Claim\Dto\ClaimExpenseSearchFilterParams;
 use OrangeHRM\Claim\Dto\ClaimExpenseTypeSearchFilterParams;
 use OrangeHRM\Claim\Dto\PartialClaimAttachment;
 use OrangeHRM\Core\Dao\BaseDao;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\ClaimAttachment;
 use OrangeHRM\Entity\ClaimEvent;
 use OrangeHRM\Entity\ClaimExpense;
@@ -271,7 +269,7 @@ class ClaimDao extends BaseDao
     }
 
     /**
-     * @param int $requestId
+     * @param ClaimExpenseSearchFilterParams $claimExpenseSearchFilterParams
      * @return float
      */
     public function getClaimExpenseTotal(ClaimExpenseSearchFilterParams $claimExpenseSearchFilterParams): float
@@ -321,6 +319,10 @@ class ClaimDao extends BaseDao
         return $q->getQuery()->execute();
     }
 
+    /**
+     * @param ClaimAttachment $claimAttachment
+     * @return ClaimAttachment
+     */
     public function saveClaimAttachment(ClaimAttachment $claimAttachment): ClaimAttachment
     {
         $this->persist($claimAttachment);
@@ -348,8 +350,7 @@ class ClaimDao extends BaseDao
      */
     protected function getClaimAttachmentPaginator(ClaimAttachmentSearchFilterParams $claimAttachmentSearchFilterParams): Paginator
     {
-        try {
-            $select = 'NEW ' . PartialClaimAttachment::class
+        $select = 'NEW ' . PartialClaimAttachment::class
                 . '(claimAttachment.requestId,
                  claimAttachment.eattachId,
                  claimAttachment.eattachSize,
@@ -357,19 +358,16 @@ class ClaimDao extends BaseDao
                  claimAttachment.eattachFileName,
                  claimAttachment.eattachType,
                  claimAttachment.attachedTime)';
-            $q = $this->createQueryBuilder(ClaimAttachment::class, 'claimAttachment')
+        $q = $this->createQueryBuilder(ClaimAttachment::class, 'claimAttachment')
                 ->select($select);
-            $this->setSortingAndPaginationParams($q, $claimAttachmentSearchFilterParams);
-            if (!is_null($claimAttachmentSearchFilterParams->getClaimRequestId())) {
-                $requestId = $claimAttachmentSearchFilterParams->getClaimRequestId();
-                $q->andWhere('claimAttachment.requestId = :requestId');
-                $q->setParameter('requestId', $requestId);
-            }
-            $this->setSortingAndPaginationParams($q, $claimAttachmentSearchFilterParams);
-            return $this->getPaginator($q);
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        $this->setSortingAndPaginationParams($q, $claimAttachmentSearchFilterParams);
+        if (!is_null($claimAttachmentSearchFilterParams->getClaimRequestId())) {
+            $requestId = $claimAttachmentSearchFilterParams->getClaimRequestId();
+            $q->andWhere('claimAttachment.requestId = :requestId');
+            $q->setParameter('requestId', $requestId);
         }
+        $this->setSortingAndPaginationParams($q, $claimAttachmentSearchFilterParams);
+        return $this->getPaginator($q);
     }
 
     /**
@@ -389,8 +387,7 @@ class ClaimDao extends BaseDao
      */
     public function getPartialClaimAttachment(int $requestId, int $attachId): ?PartialClaimAttachment
     {
-        try {
-            $select = 'NEW ' . PartialClaimAttachment::class
+        $select = 'NEW ' . PartialClaimAttachment::class
                 . '(claimAttachment.requestId,
                  claimAttachment.eattachId,
                  claimAttachment.eattachSize,
@@ -398,16 +395,12 @@ class ClaimDao extends BaseDao
                  claimAttachment.eattachFileName,
                  claimAttachment.eattachType,
                  claimAttachment.attachedTime)';
-            $q = $this->createQueryBuilder(ClaimAttachment::class, 'claimAttachment')
+        $q = $this->createQueryBuilder(ClaimAttachment::class, 'claimAttachment')
                 ->select($select);
-            $q->andWhere('claimAttachment.requestId = :requestId');
-            $q->setParameter('requestId', $requestId);
-            $q->andWhere('claimAttachment.eattachId = :eattachId');
-            $q->setParameter('eattachId', $attachId);
-            $claimAttachment = $q->getQuery()->execute();
-            return $claimAttachment ? $claimAttachment[0] : null;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        $q->andWhere('claimAttachment.requestId = :requestId');
+        $q->setParameter('requestId', $requestId);
+        $q->andWhere('claimAttachment.eattachId = :eattachId');
+        $q->setParameter('eattachId', $attachId);
+        return $q->getQuery()->getOneOrNullResult();
     }
 }

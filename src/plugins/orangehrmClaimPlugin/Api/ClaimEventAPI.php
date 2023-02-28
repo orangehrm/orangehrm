@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Claim\Api;
 
+use OpenApi\Annotations as OA;
 use OrangeHRM\Claim\Api\Model\ClaimEventModel;
 use OrangeHRM\Claim\Dto\ClaimEventSearchFilterParams;
 use OrangeHRM\Claim\Traits\Service\ClaimServiceTrait;
