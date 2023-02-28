@@ -30,7 +30,6 @@ use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Service\ModuleService;
 use OrangeHRM\Core\Traits\Service\MenuServiceTrait;
-use OrangeHRM\Entity\OAuthClient;
 use OrangeHRM\OAuth\Service\OAuthService;
 
 class ModulesAPI extends Endpoint implements CrudEndpoint
@@ -128,7 +127,7 @@ class ModulesAPI extends Endpoint implements CrudEndpoint
      *
      * This function fetch the configurable modules from a predefined array and return them with
      * enabled or disabled status by comparing with the statuses fetched from database
-     *
+     *A
      * @return array
      */
     protected function getConfigurableModulesArray(): array
@@ -141,9 +140,6 @@ class ModulesAPI extends Endpoint implements CrudEndpoint
                 $configurableModules[$module->getName()] = $module->getStatus();
             }
         }
-        $configurableModules[self::PARAMETER_MOBILE] = $this->getOAuthService()->getOAuthClientByClientId(
-            OAuthService::PUBLIC_MOBILE_CLIENT_ID
-        ) instanceof OAuthClient;
         return $configurableModules;
     }
 
@@ -260,30 +256,6 @@ class ModulesAPI extends Endpoint implements CrudEndpoint
     {
         // TODO
         //$enableMobile ? $this->createMobileClient() : $this->deleteMobileClient();
-    }
-
-    /**
-     * @return void
-     */
-    private function deleteMobileClient(): void
-    {
-        if ($this->getOAuthService()->getOAuthClientByClientId(
-            OAuthService::PUBLIC_MOBILE_CLIENT_ID
-        ) instanceof OAuthClient) {
-            $this->getOAuthService()->deleteOAuthClients([OAuthService::PUBLIC_MOBILE_CLIENT_ID]);
-        }
-    }
-
-    /**
-     * @return void
-     */
-    private function createMobileClient(): void
-    {
-        if (!$this->getOAuthService()->getOAuthClientByClientId(
-            OAuthService::PUBLIC_MOBILE_CLIENT_ID
-        ) instanceof OAuthClient) {
-            $this->getOAuthService()->createMobileClient();
-        }
     }
 
     /**
