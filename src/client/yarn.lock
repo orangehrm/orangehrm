@@ -2067,9 +2067,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ohrm/oxd@npm:2.0.0-alpha.10":
-  version: 2.0.0-alpha.10
-  resolution: "@ohrm/oxd@npm:2.0.0-alpha.10"
+"@ohrm/oxd@npm:2.0.0-alpha.12":
+  version: 2.0.0-alpha.12
+  resolution: "@ohrm/oxd@npm:2.0.0-alpha.12"
   dependencies:
     "@revolist/vue3-datagrid": ^3.2.17
     chart.js: ^4.1.2
@@ -2078,7 +2078,7 @@ __metadata:
     nanoid: ^4.0.0
   peerDependencies:
     vue: 3.x
-  checksum: 9eb21d0807a521e2210192a7df3746b3120eda3952f7804d42781e99d10062c968c6e50bad693a64890b9cebc76dff748265b8486017955d6d8509d758aa4391
+  checksum: 419dcbfd0e500a30cd5260bb99f0490fe7ce6b0f12cbfd1c4e08b3a92252c9d6f006738860aea7eb3eaf34faf4290c3eef46d85c4bfed293110444ad6436e648
   languageName: node
   linkType: hard
 
@@ -8951,7 +8951,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "orangehrm@workspace:."
   dependencies:
-    "@ohrm/oxd": 2.0.0-alpha.10
+    "@ohrm/oxd": 2.0.0-alpha.12
     "@types/hammerjs": ^2.0.41
     "@types/jest": ^27.0.1
     "@typescript-eslint/eslint-plugin": ^5.4.0
