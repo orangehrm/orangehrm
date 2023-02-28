@@ -436,4 +436,9 @@ final class Services
      * @see \OrangeHRM\OAuth\Server\OAuthServer
      */
     public const OAUTH_SERVER = 'oauth.authorization_server';
+
+    /**
+     * @see \OrangeHRM\OAuth\Service\OAuthService
+     */
+    public const OAUTH_SERVICE = 'oauth.oauth_service';
 }

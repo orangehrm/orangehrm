@@ -23,10 +23,10 @@ use OrangeHRM\Core\Dto\FilterParams;
 
 class OAuthClientSearchFilterParams extends FilterParams
 {
-    public const ALLOWED_SORT_FIELDS = ['oc.clientId'];
+    public const ALLOWED_SORT_FIELDS = ['oAuthClient.id'];
 
     public function __construct()
     {
-        $this->setSortField('oc.clientId');
+        $this->setSortField('oAuthClient.id');
     }
 }

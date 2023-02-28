@@ -19,22 +19,45 @@
 
 namespace OrangeHRM\OAuth\Api\Model;
 
+use OpenApi\Annotations as OA;
 use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\OAuthClient;
 
+/**
+ * @OA\Schema(
+ *     schema="OAuth-OAuthClientModel",
+ *     type="object",
+ *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(property="name", type="string"),
+ *     @OA\Property(property="clientSecret", type="string"),
+ *     @OA\Property(property="redirectUri", type="string"),
+ *     @OA\Property(property="enabled", type="boolean")
+ * )
+ */
 class OAuthClientModel implements Normalizable
 {
     use ModelTrait;
 
-    public function __construct(OAuthClient $authClient)
+    public function __construct(OAuthClient $oAuthClient)
     {
-        $this->setEntity($authClient);
+        $this->setEntity($oAuthClient);
         $this->setFilters(
             [
-                'clientId',
+                'id',
+                'name',
                 'clientSecret',
                 'redirectUri',
+                ['isEnabled']
+            ]
+        );
+        $this->setAttributeNames(
+            [
+                'id',
+                'name',
+                'clientSecret',
+                'redirectUri',
+                'enabled'
             ]
         );
     }

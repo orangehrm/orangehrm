@@ -14,32 +14,24 @@
  *
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
- * Boston, MA  02110-1301, USA
+ * Boston, MA 02110-1301, USA
  */
 
+namespace OrangeHRM\OAuth\Traits;
+
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
-use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Framework\PluginConfigurationInterface;
 use OrangeHRM\Framework\Services;
-use OrangeHRM\OAuth\Server\OAuthServer;
-use OrangeHRM\OAuth\Service\PsrHttpFactoryHelper;
-use OrangeHRM\OAuth\Subscriber\OAuthSubscriber;
 use OrangeHRM\OAuth\Service\OAuthService;
 
-class CoreOAuthPluginConfiguration implements PluginConfigurationInterface
+trait OAuthServiceTrait
 {
     use ServiceContainerTrait;
-    use EventDispatcherTrait;
 
     /**
-     * @inheritDoc
+     * @return OAuthService
      */
-    public function initialize(Request $request): void
+    protected function getOAuthService(): OAuthService
     {
-        $this->getContainer()->register(Services::PSR_HTTP_FACTORY_HELPER, PsrHttpFactoryHelper::class);
-        $this->getContainer()->register(Services::OAUTH_SERVER, OAuthServer::class);
-        $this->getContainer()->register(Services::OAUTH_SERVICE, OAuthService::class);
-
-        $this->getEventDispatcher()->addSubscriber(new OAuthSubscriber());
+        return $this->getContainer()->get(Services::OAUTH_SERVICE);
     }
 }
