@@ -60,7 +60,7 @@ export default {
     const fetchWorkWeek = async () => {
       http
         .request({
-          type: 'GET',
+          method: 'GET',
           url: 'api/v2/leave/workweek',
           params: {
             model: 'indexed',
@@ -87,7 +87,7 @@ export default {
     const fetchEvents = async (fromDate, toDate) => {
       http
         .request({
-          type: 'GET',
+          method: 'GET',
           url: 'api/v2/leave/holidays',
           params: {
             fromDate,

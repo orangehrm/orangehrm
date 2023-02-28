@@ -148,7 +148,7 @@ export default {
       isLoading.value = true;
       http
         .request({
-          type: 'GET',
+          method: 'GET',
           url: `api/v2/${props.module}/reports`,
           params: {
             name: serializedFilters.value.name,
