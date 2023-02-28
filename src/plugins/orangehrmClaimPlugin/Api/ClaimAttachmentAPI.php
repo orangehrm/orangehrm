@@ -40,6 +40,7 @@ use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
+use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\ClaimAttachment;
 use OrangeHRM\Entity\ClaimRequest;
 use OrangeHRM\Installer\Exception\NotImplementedException;
@@ -52,6 +53,7 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
     use ClaimServiceTrait;
     use AuthUserTrait;
     use DateTimeHelperTrait;
+    use UserRoleManagerTrait;
 
     public const PARAMETER_REQUEST_ID = 'requestId';
     public const PARAMETER_ATTACHMENT_CONTENT = 'eattachAttachment';
@@ -99,6 +101,12 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
     {
         $claimAttachmentSearchFilterParams = new ClaimAttachmentSearchFilterParams();
         $this->setSortingAndPaginationParams($claimAttachmentSearchFilterParams);
+        $requestId =  $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_REQUEST_ID);
+        $claimRequest = $this->getClaimService()->getClaimDao()->getClaimRequestById($requestId);
+        $this->throwRecordNotFoundExceptionIfNotExist($claimRequest, ClaimRequest::class);
+        if (!$this->getUserRoleManagerHelper()->isEmployeeAccessible($claimRequest->getEmployee()->getEmpNumber())) {
+            throw $this->getForbiddenException();
+        }
         $claimAttachmentSearchFilterParams->setClaimRequestId($this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_REQUEST_ID));
         $claimAttachments = $this->getClaimService()->getClaimDao()->getClaimAttachmentList($claimAttachmentSearchFilterParams);
         return new EndpointCollectionResult(ClaimAttachmentModel::class, $claimAttachments, new ParameterBag([CommonParams::PARAMETER_TOTAL => count($claimAttachments)]));
@@ -157,6 +165,9 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
             $requestId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_REQUEST_ID);
             $claimRequest = $this->getClaimService()->getClaimDao()->getClaimRequestById($requestId);
             $this->throwRecordNotFoundExceptionIfNotExist($claimRequest, ClaimRequest::class);
+            if (!$this->getUserRoleManagerHelper()->isEmployeeAccessible($claimRequest->getEmployee()->getEmpNumber())) {
+                throw $this->getForbiddenException();
+            }
             $claimAttachment->setRequestId($requestId);
             $userId = $this->getAuthUser()->getUserId();
             $claimAttachment->getDecorator()->setUserByUserId($userId);
@@ -259,6 +270,11 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
     {
         $requestId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_REQUEST_ID);
         $eattachId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
+        $claimRequest = $this->getClaimService()->getClaimDao()->getClaimRequestById($requestId);
+        $this->throwRecordNotFoundExceptionIfNotExist($claimRequest, ClaimRequest::class);
+        if (!$this->getUserRoleManagerHelper()->isEmployeeAccessible($claimRequest->getEmployee()->getEmpNumber())) {
+            throw $this->getForbiddenException();
+        }
         $claimAttachment = $this->getClaimService()->getClaimDao()->getPartialClaimAttachment($requestId, $eattachId);
         $this->throwRecordNotFoundExceptionIfNotExist($claimAttachment, PartialClaimAttachment::class);
         return new EndpointResourceResult(ClaimAttachmentModel::class, $claimAttachment);
