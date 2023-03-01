@@ -24,7 +24,6 @@ use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Entity\ClaimRequest;
 use OrangeHRM\Entity\CurrencyType;
-use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\User;
 use OrangeHRM\Framework\Services;
 
@@ -95,11 +94,5 @@ class ClaimRequestDecorator
     {
         $user = $this->getReference(User::class, $userId);
         $this->getClaimRequest()->setEmployee($user->getEmployee());
-    }
-
-    protected function getEmployeeByUserId(int $userId): ?Employee
-    {
-        $user = $this->getReference(User::class, $userId);
-        return $user->getEmployee();
     }
 }

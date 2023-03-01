@@ -361,8 +361,8 @@ class ClaimDao extends BaseDao
         $q = $this->createQueryBuilder(ClaimAttachment::class, 'claimAttachment')
                 ->select($select);
         $this->setSortingAndPaginationParams($q, $claimAttachmentSearchFilterParams);
-        if (!is_null($claimAttachmentSearchFilterParams->getClaimRequestId())) {
-            $requestId = $claimAttachmentSearchFilterParams->getClaimRequestId();
+        if (!is_null($claimAttachmentSearchFilterParams->getRequestId())) {
+            $requestId = $claimAttachmentSearchFilterParams->getRequestId();
             $q->andWhere('claimAttachment.requestId = :requestId');
             $q->setParameter('requestId', $requestId);
         }
@@ -413,8 +413,8 @@ class ClaimDao extends BaseDao
         $q = $this->createQueryBuilder(ClaimAttachment::class, 'claimAttachment')
             ->select('count(claimAttachment.attachId)');
         $this->setSortingAndPaginationParams($q, $claimAttachmentSearchFilterParams);
-        if (!is_null($claimAttachmentSearchFilterParams->getClaimRequestId())) {
-            $requestId = $claimAttachmentSearchFilterParams->getClaimRequestId();
+        if (!is_null($claimAttachmentSearchFilterParams->getRequestId())) {
+            $requestId = $claimAttachmentSearchFilterParams->getRequestId();
             $q->andWhere('claimAttachment.requestId = :requestId');
             $q->setParameter('requestId', $requestId);
         }

@@ -102,20 +102,29 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
     {
         $claimAttachmentSearchFilterParams = new ClaimAttachmentSearchFilterParams();
         $this->setSortingAndPaginationParams($claimAttachmentSearchFilterParams);
-        $requestId =  $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_REQUEST_ID);
+        $requestId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_REQUEST_ID);
         $claimRequest = $this->getClaimService()->getClaimDao()->getClaimRequestById($requestId);
         $this->throwRecordNotFoundExceptionIfNotExist($claimRequest, ClaimRequest::class);
         if (!$this->getUserRoleManagerHelper()->isEmployeeAccessible($claimRequest->getEmployee()->getEmpNumber())) {
             throw $this->getForbiddenException();
         }
-        $claimAttachmentSearchFilterParams->setClaimRequestId($this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_REQUEST_ID));
-        $claimAttachments = $this->getClaimService()->getClaimDao()->getClaimAttachmentList($claimAttachmentSearchFilterParams);
+        $claimAttachmentSearchFilterParams->setRequestId(
+            $this->getRequestParams()
+                ->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_REQUEST_ID)
+        );
+        $claimAttachments = $this->getClaimService()->getClaimDao()->getClaimAttachmentList(
+            $claimAttachmentSearchFilterParams
+        );
         $count = $this->getClaimService()->getClaimDao()->getClaimAttachmentCount($claimAttachmentSearchFilterParams);
-        return new EndpointCollectionResult(ClaimAttachmentModel::class, $claimAttachments, new ParameterBag([CommonParams::PARAMETER_TOTAL => $count]));
+        return new EndpointCollectionResult(
+            ClaimAttachmentModel::class,
+            $claimAttachments,
+            new ParameterBag([CommonParams::PARAMETER_TOTAL => $count])
+        );
     }
 
     /**
-     * @return EndpointResult
+     * @return ParamRuleCollection
      * @inheritDoc
      */
     public function getValidationRuleForGetAll(): ParamRuleCollection
@@ -164,10 +173,15 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
         $this->beginTransaction();
         try {
             $claimAttachment = new ClaimAttachment();
-            $requestId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_REQUEST_ID);
+            $requestId = $this->getRequestParams()->getInt(
+                RequestParams::PARAM_TYPE_ATTRIBUTE,
+                self::PARAMETER_REQUEST_ID
+            );
             $claimRequest = $this->getClaimService()->getClaimDao()->getClaimRequestById($requestId);
             $this->throwRecordNotFoundExceptionIfNotExist($claimRequest, ClaimRequest::class);
-            if (!$this->getUserRoleManagerHelper()->isEmployeeAccessible($claimRequest->getEmployee()->getEmpNumber())) {
+            if (!$this->getUserRoleManagerHelper()->isEmployeeAccessible(
+                $claimRequest->getEmployee()->getEmpNumber()
+            )) {
                 throw $this->getForbiddenException();
             }
             $claimAttachment->setRequestId($requestId);
@@ -184,7 +198,10 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
             $this->rollBackTransaction();
             throw new TransactionException($e);
         }
-        return new EndpointResourceResult(ClaimAttachmentModel::class, $this->getPartialClaimAttachment($claimAttachment));
+        return new EndpointResourceResult(
+            ClaimAttachmentModel::class,
+            $this->getPartialClaimAttachment($claimAttachment)
+        );
     }
 
     /**
@@ -196,15 +213,32 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
             RequestParams::PARAM_TYPE_BODY,
             self::PARAMETER_CLAIM_ATTACHMENT_CONTENT
         );
-        if (is_null($base64Attachment)) {
-            return;
-        }
         $claimAttachment->setSize($base64Attachment->getSize());
         $claimAttachment->setFileType($base64Attachment->getFileType());
         $claimAttachment->setFilename($base64Attachment->getFileName());
         $claimAttachment->setAttachment($base64Attachment->getContent());
-        $claimAttachment->setDescription($this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_ATTACHMENT_DESCRIPTION));
+        $claimAttachment->setDescription(
+            $this->getRequestParams()
+                ->getStringOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_ATTACHMENT_DESCRIPTION)
+        );
         $this->getClaimService()->getClaimDao()->saveClaimAttachment($claimAttachment);
+    }
+
+    /**
+     * @param ClaimAttachment $claimAttachment
+     * @return PartialClaimAttachment
+     */
+    public function getPartialClaimAttachment(ClaimAttachment $claimAttachment): PartialClaimAttachment
+    {
+        return new PartialClaimAttachment(
+            $claimAttachment->getRequestId(),
+            $claimAttachment->getAttachId(),
+            $claimAttachment->getSize(),
+            $claimAttachment->getDescription(),
+            $claimAttachment->getFilename(),
+            $claimAttachment->getFileType(),
+            $claimAttachment->getAttachedTime()
+        );
     }
 
     /**
@@ -334,23 +368,6 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
                 self::PARAMETER_ATTACHMENT_DESCRIPTION,
                 new Rule(Rules::STRING_TYPE)
             )
-        );
-    }
-
-    /**
-     * @param ClaimAttachment $claimAttachment
-     * @return PartialClaimAttachment
-     */
-    public function getPartialClaimAttachment(ClaimAttachment $claimAttachment): PartialClaimAttachment
-    {
-        return new PartialClaimAttachment(
-            $claimAttachment->getRequestId(),
-            $claimAttachment->getAttachId(),
-            $claimAttachment->getSize(),
-            $claimAttachment->getDescription(),
-            $claimAttachment->getFilename(),
-            $claimAttachment->getFileType(),
-            $claimAttachment->getAttachedTime()
         );
     }
 }

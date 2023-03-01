@@ -32,10 +32,7 @@ Create:
       expenseTypeId: 1
       date: "2023-02-20"
       note: "sample note"
-    exception:
-      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
-      message: 'Invalid Parameter'
-      invalidOnly: [ 'amount' ]
+    invalidOnly: [ amount ]
 
   'Create - Without date':
     userId: 1
@@ -48,10 +45,7 @@ Create:
       expenseTypeId: 1
       amount: 7000.0
       note: "sample note"
-    exception:
-      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
-      message: 'Invalid Parameter'
-      invalidOnly: [ 'date' ]
+    invalidOnly: [ date ]
 
   'Create - without note':
     userId: 1
@@ -267,10 +261,7 @@ Update:
       expenseTypeId: 2
       date: "2023-02-20"
       note: "sample note"
-    exception:
-      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
-      message: 'Invalid Parameter'
-      invalidOnly: [ 'amount' ]
+    invalidOnly: [ amount ]
 
   'Update - Claim Expense - without note':
     userId: 1
@@ -305,10 +296,7 @@ Update:
       expenseTypeId: 2
       amount: 7000.0
       note: "sample note"
-    exception:
-      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
-      message: 'Invalid Parameter'
-      invalidOnly: [ 'date' ]
+    invalidOnly: [ date ]
 
   'Update - with invalid date format':
     userId: 1
@@ -323,10 +311,7 @@ Update:
       date: "2023-02-31"
       amount: 7000.0
       note: "sample note"
-    exception:
-      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
-      message: 'Invalid Parameter'
-      invalidOnly: [ 'date' ]
+    invalidOnly: [ 'date' ]
 
   'Update - with invalid expenseTypeId':
     userId: 1

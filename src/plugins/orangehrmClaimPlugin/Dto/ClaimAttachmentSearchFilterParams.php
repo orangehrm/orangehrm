@@ -23,21 +23,21 @@ use OrangeHRM\Core\Dto\FilterParams;
 
 class ClaimAttachmentSearchFilterParams extends FilterParams
 {
-    protected ?int $claimRequestId;
+    protected ?int $requestId;
 
     /**
      * @return int|null
      */
-    public function getClaimRequestId(): ?int
+    public function getRequestId(): ?int
     {
-        return $this->claimRequestId;
+        return $this->requestId;
     }
 
     /**
-     * @param int|null $claimRequestId
+     * @param int|null $requestId
      */
-    public function setClaimRequestId(?int $claimRequestId): void
+    public function setRequestId(?int $requestId): void
     {
-        $this->claimRequestId = $claimRequestId;
+        $this->requestId = $requestId;
     }
 }

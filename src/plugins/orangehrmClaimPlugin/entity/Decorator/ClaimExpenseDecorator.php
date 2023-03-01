@@ -21,11 +21,10 @@ namespace OrangeHRM\Entity\Decorator;
 
 use OrangeHRM\Claim\Service\ClaimService;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
+use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\ClaimExpense;
-use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Entity\ClaimRequest;
-use OrangeHRM\Entity\ExpenseType;
 use OrangeHRM\Framework\Services;
 
 class ClaimExpenseDecorator
@@ -33,14 +32,6 @@ class ClaimExpenseDecorator
     use EntityManagerHelperTrait;
     use AuthUserTrait;
     use DateTimeHelperTrait;
-
-    /**
-     * @return ClaimService
-     */
-    public function getClaimService(): ClaimService
-    {
-        return $this->getContainer()->get(Services::CLAIM_SERVICE);
-    }
 
     /**
      * @var ClaimExpense
@@ -53,14 +44,6 @@ class ClaimExpenseDecorator
     public function __construct(ClaimExpense $claimExpense)
     {
         $this->claimExpense = $claimExpense;
-    }
-
-    /**
-     * @return ClaimExpense
-     */
-    public function getClaimExpense(): ClaimExpense
-    {
-        return $this->claimExpense;
     }
 
     /**
@@ -78,18 +61,23 @@ class ClaimExpenseDecorator
      */
     public function getClaimRequestById(int $requestId): ?ClaimRequest
     {
-        $claimRequest = $this->getClaimService()->getClaimDao()->getClaimRequestById($requestId);
-        return $claimRequest;
+        return $this->getClaimService()->getClaimDao()->getClaimRequestById($requestId);
     }
 
     /**
-     * @param int $expenseTypeId
-     * @return ExpenseType|null
+     * @return ClaimService
      */
-    public function getExpenseTypeById(int $expenseTypeId): ?ExpenseType
+    public function getClaimService(): ClaimService
     {
-        $expenseType = $this->getClaimService()->getClaimDao()->getExpenseTypeById($expenseTypeId);
-        return $expenseType;
+        return $this->getContainer()->get(Services::CLAIM_SERVICE);
+    }
+
+    /**
+     * @return ClaimExpense
+     */
+    public function getClaimExpense(): ClaimExpense
+    {
+        return $this->claimExpense;
     }
 
     /**

@@ -78,7 +78,7 @@ class ClaimAttachmentModel implements Normalizable
         );
         $this->setAttributeNames(
             [
-                'attachmentId',
+                'id',
                 'fileName',
                 'fileType',
                 'size',

@@ -85,7 +85,9 @@ class ClaimEventAPI extends Endpoint implements CrudEndpoint
     public function create(): EndpointResult
     {
         $claimEvent = new ClaimEvent();
-        $claimEvent->setName($this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_NAME));
+        $claimEvent->setName(
+            $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_NAME)
+        );
         $this->setClaimEvent($claimEvent);
         return new EndpointResourceResult(ClaimEventModel::class, $claimEvent);
     }
@@ -95,8 +97,12 @@ class ClaimEventAPI extends Endpoint implements CrudEndpoint
      */
     public function setClaimEvent(ClaimEvent $claimEvent)
     {
-        $claimEvent->setDescription($this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_DESCRIPTION));
-        $claimEvent->setStatus($this->getRequestParams()->getBoolean(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_STATUS, true));
+        $claimEvent->setDescription(
+            $this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_DESCRIPTION)
+        );
+        $claimEvent->setStatus(
+            $this->getRequestParams()->getBoolean(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_STATUS, true)
+        );
         $userId = $this->getAuthUser()->getUserId();
         $claimEvent->getDecorator()->setUserByUserId($userId);
         $this->getClaimService()->getClaimDao()->saveEvent($claimEvent);
@@ -155,12 +161,22 @@ class ClaimEventAPI extends Endpoint implements CrudEndpoint
     {
         $claimEventSearchFilterParams = new ClaimEventSearchFilterParams();
         $this->setSortingAndPaginationParams($claimEventSearchFilterParams);
-        $claimEventSearchFilterParams->setName($this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_NAME));
-        $claimEventSearchFilterParams->setStatus($this->getRequestParams()->getBooleanOrNull(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_STATUS));
-        $claimEventSearchFilterParams->setId($this->getRequestParams()->getIntOrNull(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_EVENTID));
+        $claimEventSearchFilterParams->setName(
+            $this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_NAME)
+        );
+        $claimEventSearchFilterParams->setStatus(
+            $this->getRequestParams()->getBooleanOrNull(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_STATUS)
+        );
+        $claimEventSearchFilterParams->setId(
+            $this->getRequestParams()->getIntOrNull(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_EVENTID)
+        );
         $claimEvents = $this->getClaimService()->getClaimDao()->getClaimEventList($claimEventSearchFilterParams);
         $count = $this->getClaimService()->getClaimDao()->getClaimEventCount($claimEventSearchFilterParams);
-        return new EndpointCollectionResult(ClaimEventModel::class, $claimEvents, new ParameterBag([CommonParams::PARAMETER_TOTAL => $count]));
+        return new EndpointCollectionResult(
+            ClaimEventModel::class,
+            $claimEvents,
+            new ParameterBag([CommonParams::PARAMETER_TOTAL => $count])
+        );
     }
 
     /**

@@ -172,21 +172,37 @@ class ClaimExpenseAPI extends Endpoint implements CrudEndpoint
     {
         $this->beginTransaction();
         try {
-            $claimRequestId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_REQUEST_ID);
+            $claimRequestId = $this->getRequestParams()->getInt(
+                RequestParams::PARAM_TYPE_ATTRIBUTE,
+                self::PARAMETER_REQUEST_ID
+            );
             $claimRequest = $claimExpense->getDecorator()->getClaimRequestById($claimRequestId);
             $this->throwRecordNotFoundExceptionIfNotExist($claimRequest, ClaimRequest::class);
-            if (!$this->getUserRoleManagerHelper()->isEmployeeAccessible($claimRequest->getEmployee()->getEmpNumber())) {
+            if (!$this->getUserRoleManagerHelper()->isEmployeeAccessible(
+                $claimRequest->getEmployee()->getEmpNumber()
+            )) {
                 throw $this->getForbiddenException();
             }
             $claimExpense->getDecorator()->setClaimRequestByRequestId($claimRequestId);
-            $expenseTypeId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_EXPENSE_TYPE_ID);
+            $expenseTypeId = $this->getRequestParams()->getInt(
+                RequestParams::PARAM_TYPE_BODY,
+                self::PARAMETER_EXPENSE_TYPE_ID
+            );
             $expenseType = $this->getClaimService()->getClaimDao()->getExpenseTypeById($expenseTypeId);
             $this->throwRecordNotFoundExceptionIfNotExist($expenseType, ExpenseType::class);
-            $claimExpense->getDecorator()->setExpenseTypeByExpenseTypeId($this->getRequestParams()
-                ->getInt(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_EXPENSE_TYPE_ID));
-            $claimExpense->setDate($this->getRequestParams()->getDateTime(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_DATE));
-            $claimExpense->setAmount($this->getRequestParams()->getFloat(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_AMOUNT));
-            $claimExpense->setNote($this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_NOTE));
+            $claimExpense->getDecorator()->setExpenseTypeByExpenseTypeId(
+                $this->getRequestParams()
+                    ->getInt(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_EXPENSE_TYPE_ID)
+            );
+            $claimExpense->setDate(
+                $this->getRequestParams()->getDateTime(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_DATE)
+            );
+            $claimExpense->setAmount(
+                $this->getRequestParams()->getFloat(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_AMOUNT)
+            );
+            $claimExpense->setNote(
+                $this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_NOTE)
+            );
             $this->getClaimService()->getClaimDao()->saveClaimExpense($claimExpense);
             $this->commitTransaction();
         } catch (RecordNotFoundException $e) {
@@ -298,10 +314,15 @@ class ClaimExpenseAPI extends Endpoint implements CrudEndpoint
     public function getOne(): EndpointResult //TODO:Check the claim request state
     {
         $requestId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_REQUEST_ID);
-        $claimExpenseId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
+        $claimExpenseId = $this->getRequestParams()->getInt(
+            RequestParams::PARAM_TYPE_ATTRIBUTE,
+            CommonParams::PARAMETER_ID
+        );
         $claimExpense = $this->getClaimService()->getClaimDao()->getClaimRequestExpense($requestId, $claimExpenseId);
         $this->throwRecordNotFoundExceptionIfNotExist($claimExpense, ClaimExpense::class);
-        if (!$this->getUserRoleManagerHelper()->isEmployeeAccessible($claimExpense->getClaimRequest()->getEmployee()->getEmpNumber())) {
+        if (!$this->getUserRoleManagerHelper()->isEmployeeAccessible(
+            $claimExpense->getClaimRequest()->getEmployee()->getEmpNumber()
+        )) {
             throw $this->getForbiddenException();
         }
         return new EndpointResourceResult(ClaimExpenseModel::class, $claimExpense);
