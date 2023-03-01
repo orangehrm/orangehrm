@@ -185,8 +185,7 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
                 throw $this->getForbiddenException();
             }
             $claimAttachment->setRequestId($requestId);
-            $userId = $this->getAuthUser()->getUserId();
-            $claimAttachment->getDecorator()->setUserByUserId($userId);
+            $claimAttachment->getDecorator()->setUserByUserId($this->getAuthUser()->getUserId());
             $claimAttachment->setAttachId($this->getClaimService()->getClaimDao()->getNextAttachmentId($requestId));
             $claimAttachment->setAttachedTime($this->getDateTimeHelper()->getNow());
             $this->setAttachment($claimAttachment);
