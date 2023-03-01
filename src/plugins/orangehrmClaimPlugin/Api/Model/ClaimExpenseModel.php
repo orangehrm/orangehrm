@@ -30,19 +30,19 @@ use OrangeHRM\Entity\ClaimExpense;
  *     type="object",
  *     @OA\Property(
  *         property="id",
- *         type="integer"
+ *         type="integer",
  *     ),
  *     @OA\Property(
- *         property="claimRequest
- *         type="ClaimRequest",
- *         @OA\Property( property="id", type="integer"),
- *         @OA\Property( property="referenceId", type="integer"),
+ *         property="claimRequest",
+ *         type="object",
+ *         @OA\Property(property="id", type="integer"),
+ *         @OA\Property(property="referenceId", type="integer"),
  *     ),
  *     @OA\Property(
  *         property="expenseType",
- *         type="ExpenseType",
- *         @OA\Property( property="id", type="integer"),
- *         @OA\Property( property="name", type="string"),
+ *         type="object",
+ *         @OA\Property(property="id", type="integer"),
+ *         @OA\Property(property="name", type="string"),
  *     ),
  *     @OA\Property(
  *         property="amount",
@@ -50,7 +50,7 @@ use OrangeHRM\Entity\ClaimExpense;
  *     ),
  *     @OA\Property(
  *         property="note",
- *         type="string"",
+ *         type="string",
  *     ),
  * )
  */

@@ -71,7 +71,8 @@ class ClaimExpenseAPI extends Endpoint implements CrudEndpoint
      *         name="claimRequestId",
      *         in="query",
      *         required=false,
-     *     )
+     *         @OA\Schema(type="integer")
+     *     ),
      *     @OA\Response(
      *         response="200",
      *         description="Success",

@@ -27,6 +27,7 @@ use OrangeHRM\Entity\Subunit;
  *     schema="Admin-SubunitTreeModel",
  *     type="object",
  *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(property="unitId", type="string"),
  *     @OA\Property(property="name", type="string"),
  *     @OA\Property(property="level", type="integer"),
  *     @OA\Property(
@@ -34,6 +35,7 @@ use OrangeHRM\Entity\Subunit;
  *         type="array",
  *         @OA\Items(
  *             @OA\Property(property="id", type="integer"),
+ *             @OA\Property(property="unitId", type="string"),
  *             @OA\Property(property="name", type="string"),
  *             @OA\Property(property="level", type="integer"),
  *         )
@@ -72,6 +74,7 @@ class SubunitTreeModel implements CollectionNormalizable
             foreach ($collection as $node) {
                 $item = [
                     'id' => $node->getId(),
+                    'unitId' => $node->getUnitId(),
                     'name' => $node->getName(),
                     'level' => $node->getLevel(),
                 ];
