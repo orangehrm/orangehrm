@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\OAuth\Repository;
 
-use Exception;
 use League\OAuth2\Server\Entities\RefreshTokenEntityInterface;
 use League\OAuth2\Server\Repositories\RefreshTokenRepositoryInterface;
 use OrangeHRM\Core\Dao\BaseDao;
@@ -48,7 +47,14 @@ class RefreshTokenRepository extends BaseDao implements RefreshTokenRepositoryIn
      */
     public function revokeRefreshToken($tokenId): void
     {
-        throw new Exception(__METHOD__);
+        $this->createQueryBuilder(OAuthRefreshToken::class, 'refreshToken')
+            ->update()
+            ->set('refreshToken.revoked', ':revoked')
+            ->setParameter('revoked', true)
+            ->andWhere('refreshToken.refreshToken = :refreshToken')
+            ->setParameter('refreshToken', $tokenId)
+            ->getQuery()
+            ->execute();
     }
 
     /**
@@ -56,7 +62,12 @@ class RefreshTokenRepository extends BaseDao implements RefreshTokenRepositoryIn
      */
     public function isRefreshTokenRevoked($tokenId): bool
     {
-        throw new Exception(__METHOD__);
+        $q = $this->createQueryBuilder(OAuthRefreshToken::class, 'refreshToken')
+            ->andWhere('refreshToken.revoked = :revoked')
+            ->setParameter('revoked', true)
+            ->andWhere('refreshToken.refreshToken = :refreshToken')
+            ->setParameter('refreshToken', $tokenId);
+        return $this->getPaginator($q)->count() > 0;
     }
 
     /**

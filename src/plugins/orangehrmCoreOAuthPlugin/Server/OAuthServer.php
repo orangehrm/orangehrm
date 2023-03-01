@@ -22,6 +22,7 @@ namespace OrangeHRM\OAuth\Server;
 use DateInterval;
 use League\OAuth2\Server\AuthorizationServer;
 use League\OAuth2\Server\Grant\AuthCodeGrant;
+use League\OAuth2\Server\Grant\RefreshTokenGrant;
 use OrangeHRM\OAuth\Dto\CryptKey;
 use OrangeHRM\OAuth\Repository\AccessTokenRepository;
 use OrangeHRM\OAuth\Repository\AuthorizationCodeRepository;
@@ -74,7 +75,11 @@ class OAuthServer
             $grant = new AuthCodeGrant($this->authCodeRepository, $this->refreshTokenRepository, $this->authCodeTTL);
             $grant->setRefreshTokenTTL($this->refreshTokenTTL);
 
+            $refreshTokenGrant = new RefreshTokenGrant($this->refreshTokenRepository);
+            $refreshTokenGrant->setRefreshTokenTTL($this->refreshTokenTTL);
+
             $this->oauthServer->enableGrantType($grant, $this->accessTokenTTL);
+            $this->oauthServer->enableGrantType($refreshTokenGrant, $this->accessTokenTTL);
         }
         return $this->oauthServer;
     }

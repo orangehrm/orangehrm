@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\OAuth\Repository;
 
-use Exception;
 use League\OAuth2\Server\Entities\ClientEntityInterface;
 use League\OAuth2\Server\Entities\ScopeEntityInterface;
 use League\OAuth2\Server\Repositories\ScopeRepositoryInterface;
@@ -31,7 +30,7 @@ class ScopeRepository implements ScopeRepositoryInterface
      */
     public function getScopeEntityByIdentifier($identifier): ?ScopeEntityInterface
     {
-        throw new Exception(__METHOD__);
+        return null; // For the moment OAuth scopes not supported in the application
     }
 
     /**
@@ -43,7 +42,6 @@ class ScopeRepository implements ScopeRepositoryInterface
         ClientEntityInterface $clientEntity,
         $userIdentifier = null
     ): array {
-        // TODO:: validate the set of scopes requested are valid and optionally append additional scopes or remove requested scopes
-        return $scopes;
+        return []; // For the moment no scopes defined in the application
     }
 }

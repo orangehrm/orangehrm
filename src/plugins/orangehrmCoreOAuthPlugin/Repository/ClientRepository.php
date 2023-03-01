@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\OAuth\Repository;
 
-use Exception;
 use League\OAuth2\Server\Entities\ClientEntityInterface;
 use League\OAuth2\Server\Repositories\ClientRepositoryInterface;
 use OrangeHRM\Core\Dao\BaseDao;
@@ -46,6 +45,7 @@ class ClientRepository extends BaseDao implements ClientRepositoryInterface
      */
     public function validateClient($clientIdentifier, $clientSecret, $grantType): bool
     {
-        throw new Exception(__METHOD__);
+        // TODO
+        return true;
     }
 }
