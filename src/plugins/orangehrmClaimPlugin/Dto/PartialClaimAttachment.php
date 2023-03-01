@@ -39,7 +39,7 @@ class PartialClaimAttachment
     /**
      * @var int|null
      */
-    private ?int $fileSize;
+    private ?int $size;
 
     /**
      * @var string|null
@@ -49,7 +49,7 @@ class PartialClaimAttachment
     /**
      * @var string|null
      */
-    private ?string $fileName;
+    private ?string $filename;
 
     /**
      * @var string|null
@@ -63,28 +63,28 @@ class PartialClaimAttachment
 
     /**
      * @param int|null $requestId
-     * @param int|null $eattachId
-     * @param int|null $eattachSize
-     * @param string|null $eattachDesc
-     * @param string|null $eattachFileName
-     * @param string|null $eattachFileType
+     * @param int|null $attachId
+     * @param int|null $size
+     * @param string|null $description
+     * @param string|null $filename
+     * @param string|null $fileType
      * @param DateTime|null $attachedTime
      */
     public function __construct(
-        ?int $requestId,
-        ?int $eattachId,
-        ?int $eattachSize,
-        ?string $eattachDesc,
-        ?string $eattachFileName,
-        ?string $eattachFileType,
+        ?int      $requestId,
+        ?int      $attachId,
+        ?int      $size,
+        ?string   $description,
+        ?string   $filename,
+        ?string   $fileType,
         ?DateTime $attachedTime
     ) {
         $this->requestId = $requestId;
-        $this->attachId = $eattachId;
-        $this->fileSize = $eattachSize;
-        $this->description = $eattachDesc;
-        $this->fileName = $eattachFileName;
-        $this->fileType = $eattachFileType;
+        $this->attachId = $attachId;
+        $this->size = $size;
+        $this->description = $description;
+        $this->filename = $filename;
+        $this->fileType = $fileType;
         $this->setAttachedTime($attachedTime);
     }
 
@@ -123,17 +123,17 @@ class PartialClaimAttachment
     /**
      * @return int|null
      */
-    public function getFileSize(): ?int
+    public function getSize(): ?int
     {
-        return $this->fileSize;
+        return $this->size;
     }
 
     /**
-     * @param int|null $fileSize
+     * @param int|null $size
      */
-    public function setFileSize(?int $fileSize): void
+    public function setSize(?int $size): void
     {
-        $this->fileSize = $fileSize;
+        $this->size = $size;
     }
 
     /**
@@ -155,17 +155,17 @@ class PartialClaimAttachment
     /**
      * @return string|null
      */
-    public function getFileName(): ?string
+    public function getFilename(): ?string
     {
-        return $this->fileName;
+        return $this->filename;
     }
 
     /**
-     * @param string|null $fileName
+     * @param string|null $filename
      */
-    public function setFileName(?string $fileName): void
+    public function setFilename(?string $filename): void
     {
-        $this->fileName = $fileName;
+        $this->filename = $filename;
     }
 
     /**
@@ -182,22 +182,6 @@ class PartialClaimAttachment
     public function setFileType(?string $fileType): void
     {
         $this->fileType = $fileType;
-    }
-
-    /**
-     * @return int|null
-     */
-    public function getEattachAttachedBy(): ?int
-    {
-        return $this->eattachAttachedBy;
-    }
-
-    /**
-     * @param int|null $eattachAttachedBy
-     */
-    public function setEattachAttachedBy(?int $eattachAttachedBy): void
-    {
-        $this->eattachAttachedBy = $eattachAttachedBy;
     }
 
     /**

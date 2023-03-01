@@ -341,7 +341,6 @@ class ClaimDao extends BaseDao
             ->setParameter('requestId', $requestId);
         $id = $q->getQuery()->execute();
         $id[0][1]++;
-        dump($id[0][1]);
         return $id[0][1];
     }
 
@@ -354,9 +353,9 @@ class ClaimDao extends BaseDao
         $select = 'NEW ' . PartialClaimAttachment::class
                 . '(claimAttachment.requestId,
                  claimAttachment.attachId,
-                 claimAttachment.fileSize,
+                 claimAttachment.size,
                  claimAttachment.description,
-                 claimAttachment.fileName,
+                 claimAttachment.filename,
                  claimAttachment.fileType,
                  claimAttachment.attachedTime)';
         $q = $this->createQueryBuilder(ClaimAttachment::class, 'claimAttachment')
@@ -391,9 +390,9 @@ class ClaimDao extends BaseDao
         $select = 'NEW ' . PartialClaimAttachment::class
                 . '(claimAttachment.requestId,
                  claimAttachment.attachId,
-                 claimAttachment.fileSize,
+                 claimAttachment.size,
                  claimAttachment.description,
-                 claimAttachment.fileName,
+                 claimAttachment.filename,
                  claimAttachment.fileType,
                  claimAttachment.attachedTime)';
         $q = $this->createQueryBuilder(ClaimAttachment::class, 'claimAttachment')
@@ -403,5 +402,23 @@ class ClaimDao extends BaseDao
         $q->andWhere('claimAttachment.attachId = :attachId');
         $q->setParameter('attachId', $attachId);
         return $q->getQuery()->getOneOrNullResult();
+    }
+
+    /**
+     * @param ClaimAttachmentSearchFilterParams $claimAttachmentSearchFilterParams
+     * @return int
+     */
+    public function getClaimAttachmentCount(ClaimAttachmentSearchFilterParams $claimAttachmentSearchFilterParams): int
+    {
+        $q = $this->createQueryBuilder(ClaimAttachment::class, 'claimAttachment')
+            ->select('count(claimAttachment.attachId)');
+        $this->setSortingAndPaginationParams($q, $claimAttachmentSearchFilterParams);
+        if (!is_null($claimAttachmentSearchFilterParams->getClaimRequestId())) {
+            $requestId = $claimAttachmentSearchFilterParams->getClaimRequestId();
+            $q->andWhere('claimAttachment.requestId = :requestId');
+            $q->setParameter('requestId', $requestId);
+        }
+        $this->setSortingAndPaginationParams($q, $claimAttachmentSearchFilterParams);
+        return $this->getPaginator($q)->getQuery()->execute()[0][1];
     }
 }

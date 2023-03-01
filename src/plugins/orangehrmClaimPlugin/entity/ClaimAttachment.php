@@ -51,7 +51,7 @@ class ClaimAttachment
      * @var int
      * @ORM\Column(name="eattach_size", type="integer")
      */
-    private int $fileSize;
+    private int $size;
 
     /**
      * @var string
@@ -63,7 +63,7 @@ class ClaimAttachment
      * @var string
      * @ORM\Column(name="eattach_filename", type="string")
      */
-    private string $fileName;
+    private string $filename;
 
     /**
      * @var string
@@ -125,17 +125,17 @@ class ClaimAttachment
     /**
      * @return int
      */
-    public function getFileSize(): int
+    public function getSize(): int
     {
-        return $this->fileSize;
+        return $this->size;
     }
 
     /**
-     * @param int $fileSize
+     * @param int $size
      */
-    public function setFileSize(int $fileSize): void
+    public function setSize(int $size): void
     {
-        $this->fileSize = $fileSize;
+        $this->size = $size;
     }
 
     /**
@@ -157,17 +157,17 @@ class ClaimAttachment
     /**
      * @return string
      */
-    public function getFileName(): string
+    public function getFilename(): string
     {
-        return $this->fileName;
+        return $this->filename;
     }
 
     /**
-     * @param string $fileName
+     * @param string $filename
      */
-    public function setFileName(string $fileName): void
+    public function setFilename(string $filename): void
     {
-        $this->fileName = $fileName;
+        $this->filename = $filename;
     }
 
     /**

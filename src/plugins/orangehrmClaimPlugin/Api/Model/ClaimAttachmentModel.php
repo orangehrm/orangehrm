@@ -68,22 +68,20 @@ class ClaimAttachmentModel implements Normalizable
         $this->setEntity($claimAttachment);
         $this->setFilters(
             [
-                'requestId',
-                'eattachId',
-                'eattachFileName',
-                'eattachFileType',
-                'eattachSize',
-                'eattachDESC',
+                'attachId',
+                'filename',
+                'fileType',
+                'size',
+                'description',
                 'attachedTime'
             ]
         );
         $this->setAttributeNames(
             [
-                'requestId',
                 'attachmentId',
                 'fileName',
                 'fileType',
-                'fileSize',
+                'size',
                 'fileDescription',
                 'date'
             ]

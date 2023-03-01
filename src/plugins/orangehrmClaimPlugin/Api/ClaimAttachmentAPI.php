@@ -56,9 +56,10 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
     use UserRoleManagerTrait;
 
     public const PARAMETER_REQUEST_ID = 'requestId';
-    public const PARAMETER_ATTACHMENT_CONTENT = 'attachment';
+    public const PARAMETER_CLAIM_ATTACHMENT_CONTENT = 'attachment';
     public const PARAMETER_ATTACHMENT_DESCRIPTION = 'description';
-    public const ALLOWED_ATTACHMENT_FILE_TYPES = [
+    public const PARAMETER_ATTACHMENT_DESCRIPTION_MAX_LENGTH = 200;
+    public const ALLOWED_CLAIM_ATTACHMENT_FILE_TYPES = [
         "image/jpeg",
         "text/plain",
         "text/rtf",
@@ -76,7 +77,7 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
      *     @OA\Parameter(
      *         name="requestId",
      *         in="attribute",
-     *         required=false,
+     *         required=true,
      *     )
      *     @OA\Response(
      *         response="200",
@@ -109,7 +110,8 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
         }
         $claimAttachmentSearchFilterParams->setClaimRequestId($this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_REQUEST_ID));
         $claimAttachments = $this->getClaimService()->getClaimDao()->getClaimAttachmentList($claimAttachmentSearchFilterParams);
-        return new EndpointCollectionResult(ClaimAttachmentModel::class, $claimAttachments, new ParameterBag([CommonParams::PARAMETER_TOTAL => count($claimAttachments)]));
+        $count = $this->getClaimService()->getClaimDao()->getClaimAttachmentCount($claimAttachmentSearchFilterParams);
+        return new EndpointCollectionResult(ClaimAttachmentModel::class, $claimAttachments, new ParameterBag([CommonParams::PARAMETER_TOTAL => $count]));
     }
 
     /**
@@ -136,12 +138,12 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="eattachAttachment", type="object"
+     *             @OA\Property(property="attachment", type="object"
      *                @OA\Property(property="name", type="string"),
      *                @OA\Property(property="type", type="string"),
      *                @OA\Property(property="size", type="string"),
      *                @OA\Property(property="base64", type="base64"),
-     *             @OA\Property(property="eattachDESC", type="string"),
+     *             @OA\Property(property="description", type="string"),
      *         )
      *     ),
      *     @OA\Response(response="200",
@@ -172,7 +174,6 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
             $userId = $this->getAuthUser()->getUserId();
             $claimAttachment->getDecorator()->setUserByUserId($userId);
             $claimAttachment->setAttachId($this->getClaimService()->getClaimDao()->getNextAttachmentId($requestId));
-            dump($claimAttachment);
             $claimAttachment->setAttachedTime($this->getDateTimeHelper()->getNow());
             $this->setAttachment($claimAttachment);
             $this->commitTransaction();
@@ -186,18 +187,21 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
         return new EndpointResourceResult(ClaimAttachmentModel::class, $this->getPartialClaimAttachment($claimAttachment));
     }
 
-    private function setAttachment(ClaimAttachment $claimAttachment)
+    /**
+     * @param ClaimAttachment $claimAttachment
+     */
+    private function setAttachment(ClaimAttachment $claimAttachment): void
     {
         $base64Attachment = $this->getRequestParams()->getAttachment(
             RequestParams::PARAM_TYPE_BODY,
-            self::PARAMETER_ATTACHMENT_CONTENT
+            self::PARAMETER_CLAIM_ATTACHMENT_CONTENT
         );
         if (is_null($base64Attachment)) {
             return;
         }
-        $claimAttachment->setFileSize($base64Attachment->getSize());
+        $claimAttachment->setSize($base64Attachment->getSize());
         $claimAttachment->setFileType($base64Attachment->getFileType());
-        $claimAttachment->setFileName($base64Attachment->getFileName());
+        $claimAttachment->setFilename($base64Attachment->getFileName());
         $claimAttachment->setAttachment($base64Attachment->getContent());
         $claimAttachment->setDescription($this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_ATTACHMENT_DESCRIPTION));
         $this->getClaimService()->getClaimDao()->saveClaimAttachment($claimAttachment);
@@ -215,13 +219,14 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
                 new Rule(Rules::POSITIVE)
             ),
             new ParamRule(
-                self::PARAMETER_ATTACHMENT_CONTENT,
-                new Rule(Rules::BASE_64_ATTACHMENT, [self::ALLOWED_ATTACHMENT_FILE_TYPES])
+                self::PARAMETER_CLAIM_ATTACHMENT_CONTENT,
+                new Rule(Rules::BASE_64_ATTACHMENT, [self::ALLOWED_CLAIM_ATTACHMENT_FILE_TYPES])
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_ATTACHMENT_DESCRIPTION,
-                    new Rule(Rules::STRING_TYPE)
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::LENGTH, [null, self::PARAMETER_ATTACHMENT_DESCRIPTION_MAX_LENGTH])
                 )
             )
         );
@@ -322,8 +327,8 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
                 new Rule(Rules::POSITIVE)
             ),
             new ParamRule(
-                self::PARAMETER_ATTACHMENT_CONTENT,
-                new Rule(Rules::BASE_64_ATTACHMENT, [self::ALLOWED_ATTACHMENT_FILE_TYPES])
+                self::PARAMETER_CLAIM_ATTACHMENT_CONTENT,
+                new Rule(Rules::BASE_64_ATTACHMENT, [self::ALLOWED_CLAIM_ATTACHMENT_FILE_TYPES])
             ),
             new ParamRule(
                 self::PARAMETER_ATTACHMENT_DESCRIPTION,
@@ -341,9 +346,9 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
         return new PartialClaimAttachment(
             $claimAttachment->getRequestId(),
             $claimAttachment->getAttachId(),
-            $claimAttachment->getFileSize(),
+            $claimAttachment->getSize(),
             $claimAttachment->getDescription(),
-            $claimAttachment->getFileName(),
+            $claimAttachment->getFilename(),
             $claimAttachment->getFileType(),
             $claimAttachment->getAttachedTime()
         );

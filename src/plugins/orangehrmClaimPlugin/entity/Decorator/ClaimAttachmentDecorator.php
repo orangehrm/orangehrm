@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -21,14 +20,12 @@
 namespace OrangeHRM\Entity\Decorator;
 
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
-use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\ClaimAttachment;
 use OrangeHRM\Entity\User;
 
 class ClaimAttachmentDecorator
 {
     use EntityManagerHelperTrait;
-    use DateTimeHelperTrait;
 
     /**
      * @var ClaimAttachment
