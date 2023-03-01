@@ -22,7 +22,7 @@
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
       <oxd-text tag="h6" class="orangehrm-main-title">
-        Add OAuth Client
+        {{ $t('admin.add_oauth_client') }}
       </oxd-text>
 
       <oxd-divider />
@@ -41,14 +41,14 @@
             <oxd-grid-item>
               <oxd-input-field
                 v-model="oAuthClient.redirectUri"
-                label="Redirect URI"
+                :label="$t('admin.redirect_uri')"
                 :rules="rules.redirectUri"
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <div class="orangehrm-module-field-row">
                 <oxd-text tag="p" class="orangehrm-module-field-label">
-                  Enable Client
+                  {{ $t('admin.enable_client') }}
                 </oxd-text>
                 <oxd-switch-input v-model="oAuthClient.enabled" />
               </div>
@@ -59,7 +59,7 @@
         <oxd-form-row>
           <oxd-grid :cols="1" class="orangehrm-full-width-grid">
             <oxd-text tag="span" class="orangehrm-link">
-              API Documentation:
+              {{ $t('admin.api_documentation') }}:
               <a
                 class="orangehrm-link-url"
                 href="https://orangehrm.github.io/orangehrm-api-doc"
@@ -72,7 +72,7 @@
         <oxd-form-row>
           <oxd-grid :cols="1" class="orangehrm-full-width-grid">
             <oxd-text tag="span" class="orangehrm-link">
-              PHP Sample App:
+              {{ $t('admin.php_sample_app') }}:
               <a
                 class="orangehrm-link-url"
                 href="https://github.com/orangehrm/api-sample-app-php"
@@ -87,7 +87,11 @@
 
         <oxd-form-actions>
           <required-text />
-          <oxd-button display-type="ghost" label="Cancel" @click="onCancel" />
+          <oxd-button
+            display-type="ghost"
+            :label="$t('general.cancel')"
+            @click="onCancel"
+          />
           <submit-button />
         </oxd-form-actions>
       </oxd-form>
@@ -107,7 +111,7 @@ import {OxdSwitchInput} from '@ohrm/oxd';
 const initialOAuthClient = {
   name: '',
   redirectUri: '',
-  enabled: false,
+  enabled: true,
 };
 
 export default {
@@ -143,7 +147,7 @@ export default {
         const {data} = response.data;
         this.rules.name.push((v) => {
           const index = data.findIndex((item) => item.name === v);
-          return index === -1 || 'Already exists';
+          return index === -1 || this.$t('general.already_exists');
         });
       })
       .finally(() => {

@@ -85,11 +85,11 @@ class OAuthClientAPI extends Endpoint implements CrudEndpoint
      */
     public function getAll(): EndpointResult
     {
-        $oAuthClientSearchFilterParams = new OAuthClientSearchFilterParams();
-        $this->setSortingAndPaginationParams($oAuthClientSearchFilterParams);
+        $oauthClientSearchFilterParams = new OAuthClientSearchFilterParams();
+        $this->setSortingAndPaginationParams($oauthClientSearchFilterParams);
 
-        $oauthClients = $this->getOAuthService()->getOAuthClientDao()->getOAuthClientList($oAuthClientSearchFilterParams);
-        $count = $this->getOAuthService()->getOAuthClientDao()->getOAuthClientCount($oAuthClientSearchFilterParams);
+        $oauthClients = $this->getOAuthService()->getOAuthClientDao()->getOAuthClientList($oauthClientSearchFilterParams);
+        $count = $this->getOAuthService()->getOAuthClientDao()->getOAuthClientCount($oauthClientSearchFilterParams);
 
         return new EndpointCollectionResult(
             OAuthClientModel::class,
@@ -137,11 +137,11 @@ class OAuthClientAPI extends Endpoint implements CrudEndpoint
      */
     public function create(): EndpointResult
     {
-        $oAuthClient = new OAuthClient();
-        $this->setOAuthClient($oAuthClient);
+        $oauthClient = new OAuthClient();
+        $this->setOAuthClient($oauthClient);
 
-        $oAuthClient = $this->getOAuthService()->getOAuthClientDao()->saveOAuthClient($oAuthClient);
-        return new EndpointResourceResult(OAuthClientModel::class, $oAuthClient);
+        $oauthClient = $this->getOAuthService()->getOAuthClientDao()->saveOAuthClient($oauthClient);
+        return new EndpointResourceResult(OAuthClientModel::class, $oauthClient);
     }
 
     /**
@@ -236,10 +236,10 @@ class OAuthClientAPI extends Endpoint implements CrudEndpoint
     public function getOne(): EndpointResult
     {
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
-        $oAuthClient = $this->getOAuthService()->getOAuthClientDao()->getOAuthClientById($id);
-        $this->throwRecordNotFoundExceptionIfNotExist($oAuthClient, OAuthClient::class);
+        $oauthClient = $this->getOAuthService()->getOAuthClientDao()->getOAuthClientById($id);
+        $this->throwRecordNotFoundExceptionIfNotExist($oauthClient, OAuthClient::class);
 
-        return new EndpointResourceResult(OAuthClientModel::class, $oAuthClient);
+        return new EndpointResourceResult(OAuthClientModel::class, $oauthClient);
     }
 
     /**
@@ -289,13 +289,13 @@ class OAuthClientAPI extends Endpoint implements CrudEndpoint
     public function update(): EndpointResult
     {
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
-        $oAuthClient = $this->getOAuthService()->getOAuthClientDao()->getOAuthClientById($id);
+        $oauthClient = $this->getOAuthService()->getOAuthClientDao()->getOAuthClientById($id);
 
-        $this->throwRecordNotFoundExceptionIfNotExist($oAuthClient, OAuthClient::class);
-        $this->setOAuthClient($oAuthClient);
+        $this->throwRecordNotFoundExceptionIfNotExist($oauthClient, OAuthClient::class);
+        $this->setOAuthClient($oauthClient);
 
-        $oAuthClient = $this->getOAuthService()->getOAuthClientDao()->saveOAuthClient($oAuthClient);
-        return new EndpointResourceResult(OAuthClientModel::class, $oAuthClient);
+        $oauthClient = $this->getOAuthService()->getOAuthClientDao()->saveOAuthClient($oauthClient);
+        return new EndpointResourceResult(OAuthClientModel::class, $oauthClient);
     }
 
     /**
@@ -310,25 +310,25 @@ class OAuthClientAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     * @param OAuthClient $oAuthClient
+     * @param OAuthClient $oauthClient
      */
-    public function setOAuthClient(OAuthClient $oAuthClient): void
+    public function setOAuthClient(OAuthClient $oauthClient): void
     {
-        $oAuthClient->setName(
+        $oauthClient->setName(
             $this->getRequestParams()->getString(
                 RequestParams::PARAM_TYPE_BODY,
                 self::PARAMETER_NAME
             )
         );
 
-        $oAuthClient->setRedirectUri(
+        $oauthClient->setRedirectUri(
             $this->getRequestParams()->getString(
                 RequestParams::PARAM_TYPE_BODY,
                 self::PARAMETER_REDIRECT_URI
             )
         );
 
-        $oAuthClient->setEnabled(
+        $oauthClient->setEnabled(
             $this->getRequestParams()->getBooleanOrNull(
                 RequestParams::PARAM_TYPE_BODY,
                 self::PARAMETER_ENABLED
@@ -336,9 +336,9 @@ class OAuthClientAPI extends Endpoint implements CrudEndpoint
         );
 
         // TODO client secret, client id generation
-        $oAuthClient->setClientId(bin2hex(random_bytes(32)));
-        $oAuthClient->setClientSecret(bin2hex(random_bytes(32)));
+        $oauthClient->setClientId(bin2hex(random_bytes(32)));
+        $oauthClient->setClientSecret(bin2hex(random_bytes(32)));
 
-        $oAuthClient->setConfidential(false);
+        $oauthClient->setConfidential(false);
     }
 }

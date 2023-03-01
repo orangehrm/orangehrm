@@ -22,12 +22,12 @@
   <div class="orangehrm-background-container">
     <div class="orangehrm-paper-container">
       <div class="orangehrm-header-container">
-        <oxd-text tag="h6" class="orangehrm-main-title"
-          >OAuth Client List</oxd-text
-        >
+        <oxd-text tag="h6" class="orangehrm-main-title">
+          {{ $t('admin.oauth_client_list') }}
+        </oxd-text>
         <div>
           <oxd-button
-            label="Add"
+            :label="$t('general.add')"
             icon-name="plus"
             display-type="secondary"
             @click="onClickAdd"
@@ -129,12 +129,21 @@ export default {
   data() {
     return {
       headers: [
-        {name: 'name', slot: 'title', title: 'Name', style: {flex: 2}},
-        {name: 'clientId', title: 'Client ID', style: {flex: 3}},
-        {name: 'redirectUri', title: 'Redirect URI', style: {flex: 3}},
+        {
+          name: 'name',
+          slot: 'title',
+          title: this.$t('general.name'),
+          style: {flex: 2},
+        },
+        {name: 'clientId', title: this.$t('admin.client_id'), style: {flex: 3}},
+        {
+          name: 'redirectUri',
+          title: this.$t('admin.redirect_uri'),
+          style: {flex: 3},
+        },
         {
           name: 'actions',
-          title: 'Actions',
+          title: this.$t('general.actions'),
           slot: 'action',
           style: {flex: 1},
           cellType: 'oxd-table-cell-actions',

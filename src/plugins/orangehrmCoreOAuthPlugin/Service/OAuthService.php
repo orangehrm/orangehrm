@@ -28,13 +28,13 @@ class OAuthService
     /**
      * @var OAuthClientDao|null
      */
-    private ?OAuthClientDao $oAuthClientDao = null;
+    private ?OAuthClientDao $oauthClientDao = null;
 
     /**
      * @return OAuthClientDao
      */
     public function getOAuthClientDao(): OAuthClientDao
     {
-        return $this->oAuthClientDao ??= new OAuthClientDao();
+        return $this->oauthClientDao ??= new OAuthClientDao();
     }
 }

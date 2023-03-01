@@ -39,7 +39,7 @@ class Migration extends AbstractMigration
         $this->getLangStringHelper()->deleteNonCustomizedLangStrings('claim');
         $this->getLangStringHelper()->insertOrUpdateLangStrings('claim');
 
-        $groups = ['auth', 'general'];
+        $groups = ['admin', 'auth', 'general'];
         foreach ($groups as $group) {
             $this->getLangStringHelper()->insertOrUpdateLangStrings($group);
         }

@@ -22,7 +22,7 @@
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
       <oxd-text tag="h6" class="orangehrm-main-title">
-        Edit OAuth Client
+        {{ $t('admin.edit_oauth_client') }}
       </oxd-text>
 
       <oxd-divider />
@@ -41,7 +41,7 @@
             <oxd-grid-item>
               <oxd-input-field
                 v-model="oAuthClient.redirectUri"
-                label="Redirect URI"
+                :label="$t('admin.redirect_uri')"
                 :rules="rules.redirectUri"
                 required
               />
@@ -49,7 +49,7 @@
             <oxd-grid-item>
               <div class="orangehrm-module-field-row">
                 <oxd-text tag="p" class="orangehrm-module-field-label">
-                  Enable Client
+                  {{ $t('admin.enable_client') }}
                 </oxd-text>
                 <oxd-switch-input v-model="oAuthClient.enabled" />
               </div>
@@ -57,14 +57,14 @@
             <oxd-grid-item class="--offset-row-3">
               <oxd-input-field
                 v-model="oAuthClient.clientId"
-                label="Client ID"
+                :label="$t('admin.client_id')"
                 disabled
               />
             </oxd-grid-item>
             <oxd-grid-item class="--offset-row-3">
               <oxd-input-field
                 v-model="oAuthClient.clientSecret"
-                label="Client Secret"
+                :label="$t('admin.client_secret')"
                 disabled
               />
             </oxd-grid-item>
@@ -74,7 +74,7 @@
         <oxd-form-row>
           <oxd-grid :cols="1" class="orangehrm-full-width-grid">
             <oxd-text tag="span" class="orangehrm-link">
-              API Documentation:
+              {{ $t('admin.api_documentation') }}:
               <a
                 class="orangehrm-link-url"
                 href="https://orangehrm.github.io/orangehrm-api-doc"
@@ -87,7 +87,7 @@
         <oxd-form-row>
           <oxd-grid :cols="1" class="orangehrm-full-width-grid">
             <oxd-text tag="span" class="orangehrm-link">
-              PHP Sample App:
+              {{ $t('admin.php_sample_app') }}:
               <a
                 class="orangehrm-link-url"
                 href="https://github.com/orangehrm/api-sample-app-php"
@@ -102,7 +102,11 @@
 
         <oxd-form-actions>
           <required-text />
-          <oxd-button display-type="ghost" label="Cancel" @click="onCancel" />
+          <oxd-button
+            display-type="ghost"
+            :label="$t('general.cancel')"
+            @click="onCancel"
+          />
           <submit-button />
         </oxd-form-actions>
       </oxd-form>
@@ -182,7 +186,7 @@ export default {
           const index = data.findIndex((item) => item.name === v);
           if (index > -1) {
             const {id} = data[index];
-            return id !== this.id ? 'Already exists' : true;
+            return id !== this.id ? this.$t('general.already_exists') : true;
           } else {
             return true;
           }

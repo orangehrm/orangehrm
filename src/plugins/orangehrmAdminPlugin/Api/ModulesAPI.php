@@ -127,7 +127,7 @@ class ModulesAPI extends Endpoint implements CrudEndpoint
      *
      * This function fetch the configurable modules from a predefined array and return them with
      * enabled or disabled status by comparing with the statuses fetched from database
-     *A
+     *
      * @return array
      */
     protected function getConfigurableModulesArray(): array
@@ -236,26 +236,9 @@ class ModulesAPI extends Endpoint implements CrudEndpoint
             $modules[$key] = $this->getRequestParams()->getBoolean(RequestParams::PARAM_TYPE_BODY, $key, true);
         }
         $this->getModuleService()->updateModuleStatus($modules);
-        $this->updateMobileStatus($modules[self::PARAMETER_MOBILE]);
         $this->getMenuService()->invalidateCachedMenuItems();
 
         return new EndpointResourceResult(ArrayModel::class, $this->getConfigurableModulesArray());
-    }
-
-    /**
-     * Update Mobile Enable Status
-     *
-     * If the request is to enable mobile and if the mobile related OAuth client is not there, this will add the
-     * Mobile related OAuth client. If the request is to disable mobile and if the mobile related OAuth client is there,
-     * this will delete the Mobile related OAuth client
-     *
-     * @param bool|null $enableMobile
-     * @return void
-     */
-    protected function updateMobileStatus(?bool $enableMobile): void
-    {
-        // TODO
-        //$enableMobile ? $this->createMobileClient() : $this->deleteMobileClient();
     }
 
     /**

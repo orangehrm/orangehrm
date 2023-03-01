@@ -27,43 +27,43 @@ use OrangeHRM\ORM\QueryBuilderWrapper;
 class OAuthClientDao extends BaseDao
 {
     /**
-     * @param OAuthClient $oAuthClient
+     * @param OAuthClient $oauthClient
      * @return OAuthClient
      */
-    public function saveOAuthClient(OAuthClient $oAuthClient): OAuthClient
+    public function saveOAuthClient(OAuthClient $oauthClient): OAuthClient
     {
-        $this->persist($oAuthClient);
-        return $oAuthClient;
+        $this->persist($oauthClient);
+        return $oauthClient;
     }
 
     /**
-     * @param OAuthClientSearchFilterParams $oAuthClientSearchFilterParams
+     * @param OAuthClientSearchFilterParams $oauthClientSearchFilterParams
      * @return array
      */
-    public function getOAuthClientList(OAuthClientSearchFilterParams $oAuthClientSearchFilterParams): array
+    public function getOAuthClientList(OAuthClientSearchFilterParams $oauthClientSearchFilterParams): array
     {
-        $qb = $this->getOAuthClientQueryBuilderWrapper($oAuthClientSearchFilterParams)->getQueryBuilder();
+        $qb = $this->getOAuthClientQueryBuilderWrapper($oauthClientSearchFilterParams)->getQueryBuilder();
         return $qb->getQuery()->execute();
     }
 
     /**
-     * @param OAuthClientSearchFilterParams $oAuthClientSearchFilterParams
+     * @param OAuthClientSearchFilterParams $oauthClientSearchFilterParams
      * @return int
      */
-    public function getOAuthClientCount(OAuthClientSearchFilterParams $oAuthClientSearchFilterParams): int
+    public function getOAuthClientCount(OAuthClientSearchFilterParams $oauthClientSearchFilterParams): int
     {
-        $qb = $this->getOAuthClientQueryBuilderWrapper($oAuthClientSearchFilterParams)->getQueryBuilder();
+        $qb = $this->getOAuthClientQueryBuilderWrapper($oauthClientSearchFilterParams)->getQueryBuilder();
         return $this->getPaginator($qb)->count();
     }
 
     /**
-     * @param OAuthClientSearchFilterParams $oAuthClientSearchFilterParams
+     * @param OAuthClientSearchFilterParams $oauthClientSearchFilterParams
      * @return QueryBuilderWrapper
      */
-    private function getOAuthClientQueryBuilderWrapper(OAuthClientSearchFilterParams $oAuthClientSearchFilterParams): QueryBuilderWrapper
+    private function getOAuthClientQueryBuilderWrapper(OAuthClientSearchFilterParams $oauthClientSearchFilterParams): QueryBuilderWrapper
     {
-        $q = $this->createQueryBuilder(OAuthClient::class, 'oAuthClient');
-        $this->setSortingAndPaginationParams($q, $oAuthClientSearchFilterParams);
+        $q = $this->createQueryBuilder(OAuthClient::class, 'oauthClient');
+        $this->setSortingAndPaginationParams($q, $oauthClientSearchFilterParams);
         return $this->getQueryBuilderWrapper($q);
     }
 
@@ -73,9 +73,9 @@ class OAuthClientDao extends BaseDao
      */
     public function getOAuthClientById(int $id): ?OAuthClient
     {
-        $oAuthClient = $this->getRepository(OAuthClient::class)->find($id);
-        if ($oAuthClient instanceof OAuthClient) {
-            return $oAuthClient;
+        $oauthClient = $this->getRepository(OAuthClient::class)->find($id);
+        if ($oauthClient instanceof OAuthClient) {
+            return $oauthClient;
         }
         return null;
     }
@@ -86,9 +86,9 @@ class OAuthClientDao extends BaseDao
      */
     public function deleteOAuthClients(array $ids): int
     {
-        $q = $this->createQueryBuilder(OAuthClient::class, 'oAuthClient');
+        $q = $this->createQueryBuilder(OAuthClient::class, 'oauthClient');
         $q->delete()
-            ->where($q->expr()->in('oAuthClient.id', ':ids'))
+            ->where($q->expr()->in('oauthClient.id', ':ids'))
             ->setParameter('ids', $ids);
         return $q->getQuery()->execute();
     }
