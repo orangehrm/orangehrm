@@ -254,7 +254,7 @@ export default {
           }
         });
         return this.http.request({
-          type: 'GET',
+          method: 'GET',
           url: 'api/v2/admin/users',
         });
       })
@@ -294,7 +294,7 @@ export default {
           }
           if (this.createLogin && data?.data) {
             return this.http.request({
-              type: 'POST',
+              method: 'POST',
               url: 'api/v2/admin/users',
               data: {
                 username: this.user.username,

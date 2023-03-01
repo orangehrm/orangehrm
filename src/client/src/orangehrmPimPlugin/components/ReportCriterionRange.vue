@@ -95,6 +95,7 @@ export default {
         digitsOnly,
         max(100),
         (v) => {
+          if (!parseInt(props.valueY)) return true;
           return (
             parseInt(v) < parseInt(props.valueY) ||
             $t('general.should_be_less_than_upper_bound')
@@ -106,6 +107,7 @@ export default {
         digitsOnly,
         max(100),
         (v) => {
+          if (!parseInt(props.valueX)) return true;
           return (
             parseInt(v) > parseInt(props.valueX) ||
             $t('general.should_be_greater_than_lower_bound')

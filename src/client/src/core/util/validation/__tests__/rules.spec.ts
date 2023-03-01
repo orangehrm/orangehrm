@@ -247,7 +247,7 @@ describe('core/util/validation/rules::validEmailFormat', () => {
   });
 
   test('validEmailFormat:invalid character at first', () => {
-    const result = validEmailFormat('.test@deviohrm.com');
+    const result = validEmailFormat('>test@deviohrm.com');
     expect(result).toBe('Expected format: admin@example.com');
   });
 

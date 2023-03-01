@@ -32,11 +32,12 @@ export default {
 
 <style lang="scss" scoped>
 .orangehrm-form-hint {
-  margin-right: auto;
+  width: 100%;
   font-weight: 600;
   font-size: 0.75rem;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
+  margin-right: auto;
+  @media screen and (min-width: 400px) {
+    width: unset;
+  }
 }
 </style>
