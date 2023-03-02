@@ -150,6 +150,8 @@ describe('Leave - Holidays', function () {
         cy.getOXD('button').contains('Cancel').click();
       });
       cy.wait('@getHolidays');
+      // eslint-disable-next-line cypress/no-unnecessary-waiting
+      cy.wait(4000);
       cy.get('.oxd-table-filter-header-title > .oxd-text').contains('Holidays');
     });
 
