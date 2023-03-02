@@ -38,7 +38,7 @@ class OAuthClientDao extends BaseDao
 
     /**
      * @param OAuthClientSearchFilterParams $oauthClientSearchFilterParams
-     * @return array
+     * @return OAuthClient[]
      */
     public function getOAuthClientList(OAuthClientSearchFilterParams $oauthClientSearchFilterParams): array
     {

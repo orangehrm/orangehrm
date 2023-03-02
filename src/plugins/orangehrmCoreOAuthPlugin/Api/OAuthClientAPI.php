@@ -43,7 +43,6 @@ class OAuthClientAPI extends Endpoint implements CrudEndpoint
     use OAuthServiceTrait;
 
     public const PARAMETER_NAME = 'name';
-    public const PARAMETER_CLIENT_SECRET = 'clientSecret';
     public const PARAMETER_REDIRECT_URI = 'redirectUri';
     public const PARAMETER_ENABLED = 'enabled';
 
@@ -138,6 +137,8 @@ class OAuthClientAPI extends Endpoint implements CrudEndpoint
     public function create(): EndpointResult
     {
         $oauthClient = new OAuthClient();
+        $oauthClient->setClientId(bin2hex(random_bytes(32)));
+        $oauthClient->setClientSecret(bin2hex(random_bytes(32)));
         $this->setOAuthClient($oauthClient);
 
         $oauthClient = $this->getOAuthService()->getOAuthClientDao()->saveOAuthClient($oauthClient);
@@ -201,7 +202,10 @@ class OAuthClientAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForDelete(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(CommonParams::PARAMETER_IDS),
+            new ParamRule(
+                CommonParams::PARAMETER_IDS,
+                new Rule(Rules::INT_ARRAY)
+            ),
         );
     }
 
@@ -335,10 +339,7 @@ class OAuthClientAPI extends Endpoint implements CrudEndpoint
             )
         );
 
-        // TODO client secret, client id generation
-        $oauthClient->setClientId(bin2hex(random_bytes(32)));
-        $oauthClient->setClientSecret(bin2hex(random_bytes(32)));
-
+        //TODO
         $oauthClient->setConfidential(false);
     }
 }

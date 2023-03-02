@@ -1,3 +1,15 @@
+Config:
+  - { name: 'authorize_user_role_manager_class', value: 'BasicUserRoleManager' }
+
 OAuthClient:
   - {"id": 1,"name": "ohrm-mobile-updated","client_id": "85c5ce5fe84ee8dc2035378d9b35f04dfabf9e8e0aa7eb636cb0d90ed5c7f906","client_secret": "01793f6d4a0751806d14f8e5c3efa3dd6d3893d3f19c9f9509070493275941d9","redirect_uri": "https://www.test.com","is_confidential": 0,"enabled": 1}
   - {"id": 2,"name": "ohrm-mobile-2","client_id": "256697adeead32faf700cf8dd9f53d49a3583491d2cff9605168220b4a276967","client_secret": "cd6f1f80eb19bf463a5e21056b9bba4b9e5d4fe6dac4838922cee701e3c17ab8","redirect_uri": "https://www.mobile.com","is_confidential": 1,"enabled": 0}
+
+Employee:
+  - { empNumber: 1, firstName: 'Devi', lastName: 'Admin', employeeId: '0001' }
+
+UserRole:
+  - { id: 1, name: Admin, display_name: Admin, is_assignable: 1, is_predefined: 1 }
+
+User:
+  - { id: 1, user_role_id: 1, emp_number: 1, user_name: 'admin', user_password: 'admin' }
