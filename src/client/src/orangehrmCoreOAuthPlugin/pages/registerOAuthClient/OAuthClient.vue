@@ -69,6 +69,7 @@ import usePaginate from '@ohrm/core/util/composable/usePaginate';
 import {navigate} from '@ohrm/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
 import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmationDialog.vue';
+import usei18n from '@/core/util/composable/usei18n';
 
 export default {
   components: {
@@ -82,6 +83,8 @@ export default {
   },
 
   setup(props) {
+    const {$t} = usei18n();
+
     const oAuthClientNormalizer = (data) => {
       return data.map((item) => {
         const selectable = props.unselectableClientIds.findIndex(
@@ -90,9 +93,10 @@ export default {
         return {
           id: item.id,
           name: item.name,
-          clientId: item.clientId,
-          clientSecret: item.clientSecret,
           redirectUri: item.redirectUri,
+          enabled: item.enabled
+            ? $t('general.enabled')
+            : $t('general.disabled'),
           isSelectable: selectable === -1,
           isDisabled: selectable !== -1,
         };
@@ -135,11 +139,15 @@ export default {
           title: this.$t('general.name'),
           style: {flex: 2},
         },
-        {name: 'clientId', title: this.$t('admin.client_id'), style: {flex: 3}},
         {
           name: 'redirectUri',
           title: this.$t('admin.redirect_uri'),
           style: {flex: 3},
+        },
+        {
+          name: 'enabled',
+          title: this.$t('general.status'),
+          style: {flex: 2},
         },
         {
           name: 'actions',

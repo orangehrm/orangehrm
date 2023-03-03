@@ -38,24 +38,28 @@
                 required
               />
             </oxd-grid-item>
-            <oxd-grid-item>
+            <oxd-grid-item class="--offset-row-2">
               <oxd-input-field
                 v-model="oAuthClient.redirectUri"
                 :label="$t('admin.redirect_uri')"
                 :rules="rules.redirectUri"
               />
             </oxd-grid-item>
-            <oxd-grid-item>
-              <div class="orangehrm-module-field-row">
-                <oxd-text tag="p" class="orangehrm-module-field-label">
-                  {{ $t('admin.enable_client') }}
-                </oxd-text>
-                <oxd-switch-input v-model="oAuthClient.enabled" />
-              </div>
+            <oxd-grid-item class="--offset-row-3">
+              <oxd-grid :cols="2" class="orangehrm-full-width-grid">
+                <oxd-grid-item>
+                  <oxd-text tag="p" class="orangehrm-module-field-label">
+                    {{ $t('admin.enable_client') }}
+                  </oxd-text>
+                </oxd-grid-item>
+                <oxd-grid-item>
+                  <oxd-switch-input v-model="oAuthClient.enabled" />
+                </oxd-grid-item>
+              </oxd-grid>
             </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
-
+        <br />
         <oxd-form-row>
           <oxd-grid :cols="1" class="orangehrm-full-width-grid">
             <oxd-text tag="span" class="orangehrm-link">
