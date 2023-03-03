@@ -31,6 +31,9 @@ use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
+use OrangeHRM\Core\Api\V2\Exception\ForbiddenException;
+use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
+use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
@@ -43,9 +46,7 @@ use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\ClaimAttachment;
 use OrangeHRM\Entity\ClaimRequest;
-use OrangeHRM\Installer\Exception\NotImplementedException;
 use OrangeHRM\ORM\Exception\TransactionException;
-use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
 class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
 {
@@ -59,16 +60,6 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_CLAIM_ATTACHMENT_CONTENT = 'attachment';
     public const PARAMETER_ATTACHMENT_DESCRIPTION = 'description';
     public const PARAMETER_ATTACHMENT_DESCRIPTION_MAX_LENGTH = 200;
-    public const ALLOWED_CLAIM_ATTACHMENT_FILE_TYPES = [
-        "image/jpeg",
-        "text/plain",
-        "text/rtf",
-        "application/rtf",
-        "application/pdf",
-        "application/msword",
-        "application/vnd.oasis.opendocument.text",
-        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-    ];
 
     /**
      * @OA\Get(
@@ -149,7 +140,7 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
      *             type="object",
      *             @OA\Property(property="attachment", type="object"
      *                @OA\Property(property="name", type="string"),
-     *                @OA\Property(property="type", type="string"),
+     *                @OA\Property(property="type", type="string"),l
      *                @OA\Property(property="size", type="string"),
      *                @OA\Property(property="base64", type="base64"),
      *             @OA\Property(property="description", type="string"),
@@ -190,7 +181,7 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
             $claimAttachment->setAttachedTime($this->getDateTimeHelper()->getNow());
             $this->setAttachment($claimAttachment);
             $this->commitTransaction();
-        } catch (ResourceNotFoundException $e) {
+        } catch (RecordNotFoundException|ForbiddenException $e) {
             $this->rollBackTransaction();
             throw $e;
         } catch (Exception $e) {
@@ -253,32 +244,92 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
             ),
             new ParamRule(
                 self::PARAMETER_CLAIM_ATTACHMENT_CONTENT,
-                new Rule(Rules::BASE_64_ATTACHMENT, [self::ALLOWED_CLAIM_ATTACHMENT_FILE_TYPES])
+                new Rule(Rules::BASE_64_ATTACHMENT)
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_ATTACHMENT_DESCRIPTION,
                     new Rule(Rules::STRING_TYPE),
                     new Rule(Rules::LENGTH, [null, self::PARAMETER_ATTACHMENT_DESCRIPTION_MAX_LENGTH])
-                )
+                ),
+                true
             )
         );
     }
 
     /**
-     * @throws NotImplementedException
+     * @OA\Delete(
+     *     path="/api/v2/claim/requests/{requestId}/attachments",
+     *     tags={"Claim/Attachments"},
+     *     @OA\Parameter(
+     *         name="requestId",
+     *         in="path",
+     *         description="Claim Request ID",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="ids", type="array",
+     *                 @OA\Items(type="integer")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="array",
+     *                 @OA\Items(type="integer")
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     )
+     * )
+     * @inheritDoc
      */
     public function delete(): EndpointResult
     {
-        throw new NotImplementedException();
+        $requestId = $this->getRequestParams()->getInt(
+            RequestParams::PARAM_TYPE_ATTRIBUTE,
+            self::PARAMETER_REQUEST_ID
+        );
+        $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
+        $this->getClaimRequest($requestId);
+        $this->getClaimService()->getClaimDao()->deleteClaimAttachments($requestId, $ids);
+        return new EndpointResourceResult(ArrayModel::class, $ids);
     }
 
     /**
-     * @throws NotImplementedException
+     * @param int $requestId
+     * @return ClaimRequest|null
+     */
+    private function getClaimRequest(int $requestId): ?ClaimRequest
+    {
+        $claimRequest = $this->getClaimService()->getClaimDao()->getClaimRequestById($requestId);
+        $this->throwRecordNotFoundExceptionIfNotExist($claimRequest, ClaimRequest::class);
+        if (!$this->getUserRoleManagerHelper()->isEmployeeAccessible($claimRequest->getEmployee()->getEmpNumber())) {
+            throw $this->getForbiddenException();
+        }
+        return $claimRequest;
+    }
+
+    /**
+     * @return ParamRuleCollection
      */
     public function getValidationRuleForDelete(): ParamRuleCollection
     {
-        throw new NotImplementedException();
+        return new ParamRuleCollection(
+            new ParamRule(
+                self::PARAMETER_REQUEST_ID,
+                new Rule(Rules::POSITIVE)
+            ),
+            new ParamRule(
+                CommonParams::PARAMETER_IDS,
+                new Rule(Rules::INT_ARRAY)
+            ),
+        );
     }
 
     /**
@@ -338,11 +389,84 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     * @throws NotImplementedException
+     * @OA\Put(
+     *     path="/api/v2/claim/requests/{requestId}/attachments/{id}",
+     *     tags={"Claim/Attachments"},
+     *     @OA\PathParameter(
+     *         name="id",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="attachment", type="object"
+     *                @OA\Property(property="name", type="string"),
+     *                @OA\Property(property="type", type="string"),
+     *                @OA\Property(property="size", type="string"),
+     *                @OA\Property(property="base64", type="base64"),
+     *             @OA\Property(property="description", type="string"),
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Claim-AttachmentModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
+     * )
+     * @inheritDoc
      */
     public function update(): EndpointResult
     {
-        throw new NotImplementedException();
+        $this->beginTransaction();
+        try {
+            $requestId = $this->getRequestParams()->getInt(
+                RequestParams::PARAM_TYPE_ATTRIBUTE,
+                self::PARAMETER_REQUEST_ID
+            );
+            $attachId = $this->getRequestParams()->getInt(
+                RequestParams::PARAM_TYPE_ATTRIBUTE,
+                CommonParams::PARAMETER_ID
+            );
+            $this->getClaimRequest($requestId);
+            $claimAttachment = $this->getClaimService()->getClaimDao()->getClaimAttachment($requestId, $attachId);
+            $this->throwRecordNotFoundExceptionIfNotExist($claimAttachment, ClaimAttachment::class);
+            $attachment = $this->getRequestParams()->getAttachmentOrNull(
+                RequestParams::PARAM_TYPE_BODY,
+                self::PARAMETER_CLAIM_ATTACHMENT_CONTENT
+            );
+            if ($attachment) {
+                $claimAttachment->setSize($attachment->getSize());
+                $claimAttachment->setFileType($attachment->getFileType());
+                $claimAttachment->setFilename($attachment->getFileName());
+                $claimAttachment->setAttachment($attachment->getContent());
+            }
+            $description = $this->getRequestParams()->getStringOrNull(
+                RequestParams::PARAM_TYPE_BODY,
+                self::PARAMETER_ATTACHMENT_DESCRIPTION
+            );
+            if ($description) {
+                $claimAttachment->setDescription($description);
+            }
+            $this->getClaimService()->getClaimDao()->saveClaimAttachment($claimAttachment);
+            $this->commitTransaction();
+        } catch (RecordNotFoundException|ForbiddenException $e) {
+            $this->rollBackTransaction();
+            throw $e;
+        } catch (Exception $e) {
+            $this->rollBackTransaction();
+            throw new TransactionException($e);
+        }
+        return new EndpointResourceResult(
+            ClaimAttachmentModel::class,
+            $this->getPartialClaimAttachment($claimAttachment)
+        );
     }
 
     /**
@@ -359,13 +483,18 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
                 CommonParams::PARAMETER_ID,
                 new Rule(Rules::POSITIVE)
             ),
-            new ParamRule(
-                self::PARAMETER_CLAIM_ATTACHMENT_CONTENT,
-                new Rule(Rules::BASE_64_ATTACHMENT, [self::ALLOWED_CLAIM_ATTACHMENT_FILE_TYPES])
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_ATTACHMENT_DESCRIPTION,
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::LENGTH, [null, self::PARAMETER_ATTACHMENT_DESCRIPTION_MAX_LENGTH])
+                )
             ),
-            new ParamRule(
-                self::PARAMETER_ATTACHMENT_DESCRIPTION,
-                new Rule(Rules::STRING_TYPE)
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_CLAIM_ATTACHMENT_CONTENT,
+                    new Rule(Rules::BASE_64_ATTACHMENT)
+                )
             )
         );
     }

@@ -48,22 +48,22 @@ class ClaimAttachment
     private int $attachId;
 
     /**
-     * @var int
+     * @var int|null
      * @ORM\Column(name="eattach_size", type="integer")
      */
-    private int $size;
+    private ?int $size;
 
     /**
-     * @var string
+     * @var string|null
      * @ORM\Column(name="eattach_desc", type="string")
      */
-    private string $description;
+    private ?string $description;
 
     /**
-     * @var string
+     * @var string|null
      * @ORM\Column(name="eattach_filename", type="string")
      */
-    private string $filename;
+    private ?string $filename;
 
     /**
      * @var string
@@ -72,20 +72,20 @@ class ClaimAttachment
     private $attachment;
 
     /**
-     * @var string
+     * @var string|null
      * @ORM\Column(name="eattach_type", type="string")
      */
-    private string $fileType;
+    private ?string $fileType;
 
     /**
      * @var User
      * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\User")
      * @ORM\JoinColumn(name="attached_by", referencedColumnName="id")
      */
-    private User $user;
+    private ?User $user;
 
     /**
-     * @var DateTime
+     * @var DateTime|null
      * @ORM\Column(name="attached_time", type="datetime")
      */
     private DateTime $attachedTime;
@@ -123,49 +123,49 @@ class ClaimAttachment
     }
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getSize(): int
+    public function getSize(): ?int
     {
         return $this->size;
     }
 
     /**
-     * @param int $size
+     * @param int|null $size
      */
-    public function setSize(int $size): void
+    public function setSize(?int $size): void
     {
         $this->size = $size;
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getDescription(): string
+    public function getDescription(): ?string
     {
         return $this->description;
     }
 
     /**
-     * @param string $description
+     * @param string|null $description
      */
-    public function setDescription(string $description): void
+    public function setDescription(?string $description): void
     {
         $this->description = $description;
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getFilename(): string
+    public function getFilename(): ?string
     {
         return $this->filename;
     }
 
     /**
-     * @param string $filename
+     * @param string|null $filename
      */
-    public function setFilename(string $filename): void
+    public function setFilename(?string $filename): void
     {
         $this->filename = $filename;
     }
@@ -187,33 +187,33 @@ class ClaimAttachment
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getFileType(): string
+    public function getFileType(): ?string
     {
         return $this->fileType;
     }
 
     /**
-     * @param string $fileType
+     * @param string|null $fileType
      */
-    public function setFileType(string $fileType): void
+    public function setFileType(?string $fileType): void
     {
         $this->fileType = $fileType;
     }
 
     /**
-     * @return User
+     * @return User|null
      */
-    public function getUser(): User
+    public function getUser(): ?User
     {
         return $this->user;
     }
 
     /**
-     * @param User $user
+     * @param User|null $user
      */
-    public function setUser(User $user): void
+    public function setUser(?User $user): void
     {
         $this->user = $user;
     }
