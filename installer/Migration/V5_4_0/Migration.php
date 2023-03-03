@@ -607,7 +607,7 @@ class Migration extends AbstractMigration
             ->addColumn('id', Types::INTEGER, ['Autoincrement' => true])
             ->addColumn('name', Types::STRING, ['Length' => 255])
             ->addColumn('client_id', Types::STRING, ['Length' => 255])
-            ->addColumn('client_secret', Types::STRING, ['Length' => 255])
+            ->addColumn('client_secret', Types::STRING, ['Length' => 255, 'Notnull' => false])
             ->addColumn('redirect_uri', Types::STRING, ['Length' => 2000])
             ->addColumn('is_confidential', Types::BOOLEAN)
             ->addColumn('enabled', Types::BOOLEAN)
@@ -622,5 +622,28 @@ class Migration extends AbstractMigration
             ->addColumn('revoked', Types::BOOLEAN)
             ->setPrimaryKey(['id'])
             ->create();
+
+        $this->getConnection()->createQueryBuilder()
+            ->insert('ohrm_oauth2_clients')
+            ->values(
+                [
+                    'name' => ':name',
+                    'client_id' => ':client_id',
+                    'client_secret' => ':status',
+                    'redirect_uri' => ':display_name',
+                    'is_confidential' => ':is_confidential',
+                    'enabled' => ':enabled',
+                ]
+            )
+            ->setParameter('name', "OrangeHRM Mobile App")
+            ->setParameter('client_id', 'orangehrm_mobile_app')
+            ->setParameter('client_secret', null)
+            ->setParameter('redirect_uri', '')
+            ->setParameter('is_confidential', false, Types::BOOLEAN)
+            ->setParameter('enabled', true, Types::BOOLEAN)
+            ->executeQuery();
+
+        $encryptionKey = base64_encode(random_bytes(32));
+        $this->getConfigHelper()->setConfigValue('oauth.encryption_key', $encryptionKey);
     }
 }
