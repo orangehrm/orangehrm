@@ -629,8 +629,8 @@ class Migration extends AbstractMigration
                 [
                     'name' => ':name',
                     'client_id' => ':client_id',
-                    'client_secret' => ':status',
-                    'redirect_uri' => ':display_name',
+                    'client_secret' => ':client_secret',
+                    'redirect_uri' => ':redirect_uri',
                     'is_confidential' => ':is_confidential',
                     'enabled' => ':enabled',
                 ]

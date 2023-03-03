@@ -23,6 +23,7 @@ use DateInterval;
 use League\OAuth2\Server\AuthorizationServer;
 use League\OAuth2\Server\Grant\AuthCodeGrant;
 use League\OAuth2\Server\Grant\RefreshTokenGrant;
+use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\OAuth\Dto\CryptKey;
 use OrangeHRM\OAuth\Repository\AccessTokenRepository;
 use OrangeHRM\OAuth\Repository\AuthorizationCodeRepository;
@@ -32,6 +33,8 @@ use OrangeHRM\OAuth\Repository\ScopeRepository;
 
 class OAuthServer
 {
+    use ConfigServiceTrait;
+
     private ?AuthorizationServer $oauthServer = null;
     private ClientRepository $clientRepository;
     private ScopeRepository $scopeRepository;
@@ -45,7 +48,7 @@ class OAuthServer
 
     private function init(): void
     {
-        $this->encryptionKey = 'lxZFUEsBCJ2Yb14IF2ygAHI5N4+ZAUXXaSeeJm6+twsUmIen'; // TODO:: generate using base64_encode(random_bytes(32))
+        $this->encryptionKey = $this->getConfigService()->getOAuthEncryptionKey();
         $this->clientRepository = new ClientRepository();
         $this->scopeRepository = new ScopeRepository();
         $this->accessTokenRepository = new AccessTokenRepository();
