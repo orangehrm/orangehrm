@@ -46,6 +46,13 @@ class OAuthClient
     /**
      * @var string
      *
+     * @ORM\Column(name="client_id", type="string", length=255, nullable=false)
+     */
+    private string $clientId;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="client_secret", type="string", length=255, nullable=false)
      */
     private string $clientSecret;
@@ -101,6 +108,22 @@ class OAuthClient
     public function setName(string $name): void
     {
         $this->name = $name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getClientId(): string
+    {
+        return $this->clientId;
+    }
+
+    /**
+     * @param string $clientId
+     */
+    public function setClientId(string $clientId): void
+    {
+        $this->clientId = $clientId;
     }
 
     /**

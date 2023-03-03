@@ -25,6 +25,7 @@ use OrangeHRM\Framework\Services;
 use OrangeHRM\OAuth\Server\OAuthServer;
 use OrangeHRM\OAuth\Service\PsrHttpFactoryHelper;
 use OrangeHRM\OAuth\Subscriber\OAuthSubscriber;
+use OrangeHRM\OAuth\Service\OAuthService;
 
 class CoreOAuthPluginConfiguration implements PluginConfigurationInterface
 {
@@ -38,6 +39,7 @@ class CoreOAuthPluginConfiguration implements PluginConfigurationInterface
     {
         $this->getContainer()->register(Services::PSR_HTTP_FACTORY_HELPER, PsrHttpFactoryHelper::class);
         $this->getContainer()->register(Services::OAUTH_SERVER, OAuthServer::class);
+        $this->getContainer()->register(Services::OAUTH_SERVICE, OAuthService::class);
 
         $this->getEventDispatcher()->addSubscriber(new OAuthSubscriber());
     }

@@ -19,122 +19,77 @@
 
 namespace OrangeHRM\OAuth\Dao;
 
-use Exception;
 use OrangeHRM\Core\Dao\BaseDao;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\OAuthClient;
-use OrangeHRM\OAuth\Constant\GrantType;
-use OrangeHRM\OAuth\Constant\Scope;
 use OrangeHRM\OAuth\Dto\OAuthClientSearchFilterParams;
-use OrangeHRM\OAuth\Service\OAuthService;
-use OrangeHRM\ORM\Paginator;
+use OrangeHRM\ORM\QueryBuilderWrapper;
 
 class OAuthClientDao extends BaseDao
 {
     /**
-     * @param OAuthClient $oAuthClient
+     * @param OAuthClient $oauthClient
      * @return OAuthClient
-     * @throws DaoException
      */
-    public function saveOAuthClient(OAuthClient $oAuthClient): OAuthClient
+    public function saveOAuthClient(OAuthClient $oauthClient): OAuthClient
     {
-        try {
-            $this->persist($oAuthClient);
-            return $oAuthClient;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        $this->persist($oauthClient);
+        return $oauthClient;
     }
 
     /**
-     * @param OAuthClientSearchFilterParams $authClientSearchFilterParams
+     * @param OAuthClientSearchFilterParams $oauthClientSearchFilterParams
      * @return OAuthClient[]
-     * @throws DaoException
      */
-    public function getOAuthClients(OAuthClientSearchFilterParams $authClientSearchFilterParams): array
+    public function getOAuthClientList(OAuthClientSearchFilterParams $oauthClientSearchFilterParams): array
     {
-        try {
-            return $this->getOAuthClientsPaginator($authClientSearchFilterParams)->getQuery()->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
+        $qb = $this->getOAuthClientQueryBuilderWrapper($oauthClientSearchFilterParams)->getQueryBuilder();
+        return $qb->getQuery()->execute();
     }
 
     /**
-     * @param OAuthClientSearchFilterParams $authClientSearchFilterParams
+     * @param OAuthClientSearchFilterParams $oauthClientSearchFilterParams
      * @return int
-     * @throws DaoException
      */
-    public function getOAuthClientsCount(OAuthClientSearchFilterParams $authClientSearchFilterParams): int
+    public function getOAuthClientCount(OAuthClientSearchFilterParams $oauthClientSearchFilterParams): int
     {
-        try {
-            return $this->getOAuthClientsPaginator($authClientSearchFilterParams)->count();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
+        $qb = $this->getOAuthClientQueryBuilderWrapper($oauthClientSearchFilterParams)->getQueryBuilder();
+        return $this->getPaginator($qb)->count();
     }
 
     /**
-     * @param OAuthClientSearchFilterParams $authClientSearchFilterParams
-     * @return Paginator
+     * @param OAuthClientSearchFilterParams $oauthClientSearchFilterParams
+     * @return QueryBuilderWrapper
      */
-    private function getOAuthClientsPaginator(
-        OAuthClientSearchFilterParams $authClientSearchFilterParams
-    ): Paginator {
-        $q = $this->createQueryBuilder(OAuthClient::class, 'oc');
-        $this->setSortingAndPaginationParams($q, $authClientSearchFilterParams);
-        return $this->getPaginator($q);
+    private function getOAuthClientQueryBuilderWrapper(OAuthClientSearchFilterParams $oauthClientSearchFilterParams): QueryBuilderWrapper
+    {
+        $q = $this->createQueryBuilder(OAuthClient::class, 'oauthClient');
+        $this->setSortingAndPaginationParams($q, $oauthClientSearchFilterParams);
+        return $this->getQueryBuilderWrapper($q);
     }
 
     /**
-     * @param string $oAuthClientId
+     * @param int $id
      * @return OAuthClient|null
-     * @throws DaoException
      */
-    public function getOAuthClientByClientId(string $oAuthClientId): ?OAuthClient
+    public function getOAuthClientById(int $id): ?OAuthClient
     {
-        try {
-            $oAuthClient = $this->getRepository(OAuthClient::class)->find($oAuthClientId);
-            if ($oAuthClient instanceof OAuthClient) {
-                return $oAuthClient;
-            }
-            return null;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
+        $oauthClient = $this->getRepository(OAuthClient::class)->find($id);
+        if ($oauthClient instanceof OAuthClient) {
+            return $oauthClient;
         }
+        return null;
     }
 
     /**
-     * @param array $toDeleteIds
+     * @param array $ids
      * @return int
-     * @throws DaoException
      */
-    public function deleteOAuthClients(array $toDeleteIds): int
+    public function deleteOAuthClients(array $ids): int
     {
-        try {
-            $q = $this->createQueryBuilder(OAuthClient::class, 'oc');
-            $q->delete()
-                ->where($q->expr()->in('oc.clientId', ':ids'))
-                ->setParameter('ids', $toDeleteIds);
-            return $q->getQuery()->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
-    }
-
-    /**
-     * Create Mobile OAuth Client
-     *
-     * @return OAuthClient
-     */
-    public function createMobileClient()
-    {
-        $client = new OAuthClient();
-        $client->setName(OAuthService::PUBLIC_MOBILE_CLIENT_ID);
-        $client->setClientSecret('');
-        $client->setRedirectUri('');
-        $client->setConfidential(sprintf("%s %s", GrantType::USER_CREDENTIALS, GrantType::REFRESH_TOKEN));
-        //$client->setScope(Scope::SCOPE_USER); // TODO
-        return $this->saveOAuthClient($client);
+        $q = $this->createQueryBuilder(OAuthClient::class, 'oauthClient');
+        $q->delete()
+            ->where($q->expr()->in('oauthClient.id', ':ids'))
+            ->setParameter('ids', $ids);
+        return $q->getQuery()->execute();
     }
 }

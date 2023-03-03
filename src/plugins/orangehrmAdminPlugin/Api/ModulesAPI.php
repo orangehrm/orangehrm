@@ -30,7 +30,6 @@ use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Service\ModuleService;
 use OrangeHRM\Core\Traits\Service\MenuServiceTrait;
-use OrangeHRM\Entity\OAuthClient;
 use OrangeHRM\OAuth\Service\OAuthService;
 
 class ModulesAPI extends Endpoint implements CrudEndpoint
@@ -141,9 +140,6 @@ class ModulesAPI extends Endpoint implements CrudEndpoint
                 $configurableModules[$module->getName()] = $module->getStatus();
             }
         }
-        $configurableModules[self::PARAMETER_MOBILE] = $this->getOAuthService()->getOAuthClientByClientId(
-            OAuthService::PUBLIC_MOBILE_CLIENT_ID
-        ) instanceof OAuthClient;
         return $configurableModules;
     }
 
@@ -240,50 +236,9 @@ class ModulesAPI extends Endpoint implements CrudEndpoint
             $modules[$key] = $this->getRequestParams()->getBoolean(RequestParams::PARAM_TYPE_BODY, $key, true);
         }
         $this->getModuleService()->updateModuleStatus($modules);
-        $this->updateMobileStatus($modules[self::PARAMETER_MOBILE]);
         $this->getMenuService()->invalidateCachedMenuItems();
 
         return new EndpointResourceResult(ArrayModel::class, $this->getConfigurableModulesArray());
-    }
-
-    /**
-     * Update Mobile Enable Status
-     *
-     * If the request is to enable mobile and if the mobile related OAuth client is not there, this will add the
-     * Mobile related OAuth client. If the request is to disable mobile and if the mobile related OAuth client is there,
-     * this will delete the Mobile related OAuth client
-     *
-     * @param bool|null $enableMobile
-     * @return void
-     */
-    protected function updateMobileStatus(?bool $enableMobile): void
-    {
-        // TODO
-        //$enableMobile ? $this->createMobileClient() : $this->deleteMobileClient();
-    }
-
-    /**
-     * @return void
-     */
-    private function deleteMobileClient(): void
-    {
-        if ($this->getOAuthService()->getOAuthClientByClientId(
-            OAuthService::PUBLIC_MOBILE_CLIENT_ID
-        ) instanceof OAuthClient) {
-            $this->getOAuthService()->deleteOAuthClients([OAuthService::PUBLIC_MOBILE_CLIENT_ID]);
-        }
-    }
-
-    /**
-     * @return void
-     */
-    private function createMobileClient(): void
-    {
-        if (!$this->getOAuthService()->getOAuthClientByClientId(
-            OAuthService::PUBLIC_MOBILE_CLIENT_ID
-        ) instanceof OAuthClient) {
-            $this->getOAuthService()->createMobileClient();
-        }
     }
 
     /**

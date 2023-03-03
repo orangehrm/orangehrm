@@ -29,29 +29,25 @@ use OrangeHRM\Tests\Util\TestCase;
  */
 class OAuthClientModelTest extends TestCase
 {
-    /**
-     * @todo remove
-     */
-    public static function setUpBeforeClass(): void
-    {
-        parent::markTestSkipped();
-    }
-
     public function testToArray()
     {
         $resultArray = [
-            "clientId" => 'TestOAuth',
-            "clientSecret" => 'TestOAuthSecret',
-            "redirectUri" => 'https://facebook.com',
+            "id" => 1,
+            "name" => "ohrm-client",
+            "clientId" => "85c5ce5fe84ee8dc2035378d9b35f04dfabf9e8e0aa7eb636cb0d90ed5c7f906",
+            "clientSecret" => "01793f6d4a0751806d14f8e5c3efa3dd6d3893d3f19c9f9509070493275941d9",
+            "redirectUri" => "https://www.test.com",
+            "enabled" => true
         ];
 
 
         $oauthClient = new OAuthClient();
-        $oauthClient->setName('TestOAuth');
-        $oauthClient->setClientSecret('TestOAuthSecret');
-        $oauthClient->setRedirectUri('https://facebook.com');
-        $oauthClient->setConfidential('password');
-        $oauthClient->setScope('user');
+        $oauthClient->setId(1);
+        $oauthClient->setName("ohrm-client");
+        $oauthClient->setClientId('85c5ce5fe84ee8dc2035378d9b35f04dfabf9e8e0aa7eb636cb0d90ed5c7f906');
+        $oauthClient->setClientSecret('01793f6d4a0751806d14f8e5c3efa3dd6d3893d3f19c9f9509070493275941d9');
+        $oauthClient->setRedirectUri("https://www.test.com");
+        $oauthClient->setEnabled(true);
 
         $oauthClientModel = new OAuthClientModel($oauthClient);
         $this->assertEquals($resultArray, $oauthClientModel->toArray());

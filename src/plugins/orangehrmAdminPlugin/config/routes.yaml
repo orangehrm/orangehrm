@@ -589,11 +589,6 @@ admin_open_id_provider: # remove this
   controller: OrangeHRM\Core\Controller\Common\ModuleUnderDevelopmentController::handle
   methods: [ GET ]
 
-admin_register_oauth_client: # remove this
-  path: /admin/registerOAuthClient
-  controller: OrangeHRM\Core\Controller\Common\ModuleUnderDevelopmentController::handle
-  methods: [ GET ]
-
 admin_language_package:
   path: /admin/languagePackage
   controller: OrangeHRM\Admin\Controller\LanguagePackageController::handle

@@ -1,10 +1,9 @@
 apiv2_admin_oauth_client:
-  path: /api/v2/admin/oauth-client
+  path: /api/v2/admin/oauth-clients/{id}
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
   methods: [ GET, PUT ]
   defaults:
     _api: OrangeHRM\OAuth\Api\OAuthClientAPI
-    _key: clientId
 
 apiv2_admin_oauth_clients:
   path: /api/v2/admin/oauth-clients

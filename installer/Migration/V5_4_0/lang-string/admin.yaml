@@ -1,0 +1,28 @@
+langStrings:
+  -
+    value: 'Client ID'
+    unitId: client_id
+  -
+    value: 'Client Secret'
+    unitId: client_secret
+  -
+    value: 'Redirect URI'
+    unitId: redirect_uri
+  -
+    value: 'OAuth Client List'
+    unitId: oauth_client_list
+  -
+    value: 'Add OAuth Client'
+    unitId: add_oauth_client
+  -
+    value: 'Edit OAuth Client'
+    unitId: edit_oauth_client
+  -
+    value: 'Enable Client'
+    unitId: enable_client
+  -
+    value: 'API Documentation'
+    unitId: api_documentation
+  -
+    value: 'PHP Sample App'
+    unitId: php_sample_app

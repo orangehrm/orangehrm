@@ -22,12 +22,12 @@
   <div class="orangehrm-background-container">
     <div class="orangehrm-paper-container">
       <div class="orangehrm-header-container">
-        <oxd-text tag="h6" class="orangehrm-main-title"
-          >OAuth Client List</oxd-text
-        >
+        <oxd-text tag="h6" class="orangehrm-main-title">
+          {{ $t('admin.oauth_client_list') }}
+        </oxd-text>
         <div>
           <oxd-button
-            label="Add"
+            :label="$t('general.add')"
             icon-name="plus"
             display-type="secondary"
             @click="onClickAdd"
@@ -69,6 +69,7 @@ import usePaginate from '@ohrm/core/util/composable/usePaginate';
 import {navigate} from '@ohrm/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
 import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmationDialog.vue';
+import usei18n from '@/core/util/composable/usei18n';
 
 export default {
   components: {
@@ -82,15 +83,20 @@ export default {
   },
 
   setup(props) {
+    const {$t} = usei18n();
+
     const oAuthClientNormalizer = (data) => {
       return data.map((item) => {
         const selectable = props.unselectableClientIds.findIndex(
           (id) => id === item.clientId,
         );
         return {
-          clientId: item.clientId,
-          clientSecret: item.clientSecret,
+          id: item.id,
+          name: item.name,
           redirectUri: item.redirectUri,
+          enabled: item.enabled
+            ? $t('general.enabled')
+            : $t('general.disabled'),
           isSelectable: selectable === -1,
           isDisabled: selectable !== -1,
         };
@@ -127,12 +133,25 @@ export default {
   data() {
     return {
       headers: [
-        {name: 'clientId', slot: 'title', title: 'ID', style: {flex: 2}},
-        {name: 'clientSecret', title: 'Secret', style: {flex: 3}},
-        {name: 'redirectUri', title: 'Redirect URI', style: {flex: 3}},
+        {
+          name: 'name',
+          slot: 'title',
+          title: this.$t('general.name'),
+          style: {flex: 2},
+        },
+        {
+          name: 'redirectUri',
+          title: this.$t('admin.redirect_uri'),
+          style: {flex: 3},
+        },
+        {
+          name: 'enabled',
+          title: this.$t('general.status'),
+          style: {flex: 2},
+        },
         {
           name: 'actions',
-          title: 'Actions',
+          title: this.$t('general.actions'),
           slot: 'action',
           style: {flex: 1},
           cellType: 'oxd-table-cell-actions',
@@ -162,7 +181,7 @@ export default {
       navigate('/admin/saveOAuthClient');
     },
     onClickEdit(item) {
-      navigate('/admin/editOAuthClient', {}, {clientId: item.clientId});
+      navigate('/admin/editOAuthClient', {}, {id: item.id});
     },
     onClickDeleteSelected() {
       const ids = [];

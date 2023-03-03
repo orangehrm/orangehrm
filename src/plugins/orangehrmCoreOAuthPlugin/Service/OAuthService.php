@@ -19,76 +19,22 @@
 
 namespace OrangeHRM\OAuth\Service;
 
-use OrangeHRM\Core\Exception\DaoException;
-use OrangeHRM\Entity\OAuthClient;
 use OrangeHRM\OAuth\Dao\OAuthClientDao;
 
 class OAuthService
 {
     public const PUBLIC_MOBILE_CLIENT_ID = 'orangehrm_mobile_app';
+
     /**
      * @var OAuthClientDao|null
      */
-    private ?OAuthClientDao $oAuthClientDao = null;
+    private ?OAuthClientDao $oauthClientDao = null;
 
     /**
      * @return OAuthClientDao
      */
     public function getOAuthClientDao(): OAuthClientDao
     {
-        if (!($this->oAuthClientDao instanceof OAuthClientDao)) {
-            $this->oAuthClientDao = new OAuthClientDao();
-        }
-        return $this->oAuthClientDao;
-    }
-
-    /**
-     * @param OAuthClientDao $oAuthClientDao
-     */
-    public function setOAuthClientDao(OAuthClientDao $oAuthClientDao): void
-    {
-        $this->oAuthClientDao = $oAuthClientDao;
-    }
-
-    /**
-     * Will return the OAuthClient doctrine object for a particular id
-     *
-     * @param string $oAuthClientId
-     * @return OAuthClient|null
-     * @throws DaoException
-     */
-    public function getOAuthClientByClientId(string $oAuthClientId): ?OAuthClient
-    {
-        return $this->getOAuthClientDao()->getOAuthClientByClientId($oAuthClientId);
-    }
-
-    /**
-     * @param array $toDeleteIds
-     * @return int
-     * @throws DaoException
-     */
-    public function deleteOAuthClients(array $toDeleteIds): int
-    {
-        return $this->getOAuthClientDao()->deleteOAuthClients($toDeleteIds);
-    }
-
-    /**
-     * @param OAuthClient $authClient
-     * @return OAuthClient
-     * @throws DaoException
-     */
-    public function saveOAuthClient(OAuthClient $authClient): OAuthClient
-    {
-        return $this->getOAuthClientDao()->saveOAuthClient($authClient);
-    }
-
-    /**
-     * Create OAuth mobile client
-     *
-     * @return OAuthClient
-     */
-    public function createMobileClient()
-    {
-        return $this->getOAuthClientDao()->createMobileClient();
+        return $this->oauthClientDao ??= new OAuthClientDao();
     }
 }

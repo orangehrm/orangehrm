@@ -84,7 +84,7 @@ class ClientEntity implements ClientEntityInterface
     {
         return new self(
             $authClient->getId(),
-            $authClient->getName(),
+            $authClient->getClientId(),
             $authClient->getRedirectUri(),
             $authClient->isConfidential(),
         );

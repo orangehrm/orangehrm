@@ -19,388 +19,86 @@
 
 namespace OrangeHRM\Tests\OAuth\Api;
 
-use OrangeHRM\Core\Api\CommonParams;
-use OrangeHRM\Core\Api\V2\RequestParams;
-use OrangeHRM\Entity\OAuthClient;
+use OrangeHRM\Framework\Services;
 use OrangeHRM\OAuth\Api\OAuthClientAPI;
-use OrangeHRM\OAuth\Dao\OAuthClientDao;
-use OrangeHRM\OAuth\Service\OAuthService;
-use OrangeHRM\Tests\Util\EndpointTestCase;
-use OrangeHRM\Tests\Util\MockObject;
+use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
+use OrangeHRM\Tests\Util\Integration\TestCaseParams;
 
 /**
  * @group OAuth
  * @group APIv2
  */
-class OAuthClientAPITest extends EndpointTestCase
+class OAuthClientAPITest extends EndpointIntegrationTestCase
 {
     /**
-     * @todo remove
+     * @dataProvider dataProviderForTestGetAll
      */
-    public static function setUpBeforeClass(): void
+    public function testGetAll(TestCaseParams $testCaseParams): void
     {
-        parent::markTestSkipped();
+        $this->populateFixtures('OAuthClientAPITest.yaml');
+        $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
+
+        $this->registerServices($testCaseParams);
+        $api = $this->getApiEndpointMock(OAuthClientAPI::class, $testCaseParams);
+        $this->assertValidTestCase($api, 'getAll', $testCaseParams);
     }
 
-    public function testGetOAuthService(): void
+    public function dataProviderForTestGetAll(): array
     {
-        $api = new OAuthClientAPI($this->getRequest());
-        $this->assertTrue($api->getOAuthService() instanceof OAuthService);
+        return $this->getTestCases('OAuthClientAPITestCases.yaml', 'GetAll');
     }
 
-    public function testGetValidationRuleForGetAll(): void
+    /**
+     * @dataProvider dataProviderForTestUpdate
+     */
+    public function testUpdate(TestCaseParams $testCaseParams): void
     {
-        $api = new OAuthClientAPI($this->getRequest());
-        $rules = $api->getValidationRuleForGetAll();
-        $this->assertTrue(
-            $this->validate(
-                [],
-                $rules
-            )
-        );
+        $this->populateFixtures('OAuthClientAPITest.yaml');
+        $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
 
-        $this->expectInvalidParamException();
-        $this->assertTrue(
-            $this->validate(
-                [CommonParams::PARAMETER_EMP_NUMBER => 100],
-                $rules
-            )
-        );
+        $this->registerServices($testCaseParams);
+        $api = $this->getApiEndpointMock(OAuthClientAPI::class, $testCaseParams);
+        $this->assertValidTestCase($api, 'update', $testCaseParams);
     }
 
-    public function testGetAll(): void
+    public function dataProviderForTestUpdate(): array
     {
-        $oAuthClientDao = $this->getMockBuilder(OAuthClientDao::class)
-            ->onlyMethods(['getOAuthClients', 'getOAuthClientsCount'])
-            ->getMock();
-
-        $oauthClient1 = new OAuthClient();
-        $oauthClient1->setName('TestOAuth1');
-        $oauthClient1->setClientSecret('TestOAuthSecret');
-        $oauthClient1->setRedirectUri('https://facebook.com');
-        $oauthClient1->setConfidential('password');
-        $oauthClient1->setScope('user');
-
-        $oauthClient2 = new OAuthClient();
-        $oauthClient2->setName('TestOAuth2');
-        $oauthClient2->setClientSecret('TestOAuthSecret');
-        $oauthClient2->setRedirectUri('https://facebook.com');
-        $oauthClient2->setConfidential('password');
-        $oauthClient2->setScope('user');
-
-        $oAuthClientDao->expects($this->exactly(1))
-            ->method('getOAuthClients')
-            ->willReturn([$oauthClient1, $oauthClient2]);
-        $oAuthClientDao->expects($this->exactly(1))
-            ->method('getOAuthClientsCount')
-            ->willReturn(2);
-        $oAuthService = $this->getMockBuilder(OAuthService::class)
-            ->onlyMethods(['getOAuthClientDao'])
-            ->getMock();
-        $oAuthService->expects($this->exactly(2))
-            ->method('getOAuthClientDao')
-            ->willReturn($oAuthClientDao);
-
-        /** @var MockObject&OAuthClientAPI $api */
-        $api = $this->getApiEndpointMockBuilder(
-            OAuthClientAPI::class,
-            []
-        )->onlyMethods(['getOAuthService'])
-            ->getMock();
-        $api->expects($this->exactly(2))
-            ->method('getOAuthService')
-            ->will($this->returnValue($oAuthService));
-
-        $result = $api->getAll();
-
-        $this->assertEquals(
-            [
-                [
-                    "clientId" => 'TestOAuth1',
-                    "clientSecret" => 'TestOAuthSecret',
-                    "redirectUri" => 'https://facebook.com',
-                ],
-                [
-                    "clientId" => 'TestOAuth2',
-                    "clientSecret" => 'TestOAuthSecret',
-                    "redirectUri" => 'https://facebook.com',
-                ],
-            ],
-            $result->normalize()
-        );
-        $this->assertEquals(
-            [
-                "total" => 2
-            ],
-            $result->getMeta()->all()
-        );
+        return $this->getTestCases('OAuthClientAPITestCases.yaml', 'Update');
     }
 
-    public function testGetValidationRuleForCreate(): void
+    /**
+     * @dataProvider dataProviderForTestGetOne
+     */
+    public function testGetOne(TestCaseParams $testCaseParams): void
     {
-        $api = new OAuthClientAPI($this->getRequest());
-        $rules = $api->getValidationRuleForCreate();
-        $this->assertTrue(
-            $this->validate(
-                [
-                    OAuthClientAPI::PARAMETER_CLIENT_ID => 'Test',
-                    OAuthClientAPI::PARAMETER_CLIENT_SECRET => 'TestSecret',
-                    OAuthClientAPI::PARAMETER_REDIRECT_URI => 'https://facebook.com',
-                ],
-                $rules
-            )
-        );
+        $this->populateFixtures('OAuthClientAPITest.yaml');
+        $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
+
+        $this->registerServices($testCaseParams);
+        $api = $this->getApiEndpointMock(OAuthClientAPI::class, $testCaseParams);
+        $this->assertValidTestCase($api, 'getOne', $testCaseParams);
     }
 
-    public function testCreate()
+    public function dataProviderForTestGetOne(): array
     {
-        $oAuthService = $this->getMockBuilder(OAuthService::class)
-            ->onlyMethods(['saveOAuthClient'])
-            ->getMock();
-        $oAuthService->expects($this->once())
-            ->method('saveOAuthClient')
-            ->will(
-                $this->returnCallback(
-                    function (OAuthClient $authClient) {
-                        $authClient->setName('Test');
-                        $authClient->setClientSecret('TEST');
-                        $authClient->setRedirectUri('');
-                        return $authClient;
-                    }
-                )
-            );
-
-        /** @var MockObject&OAuthClientAPI $api */
-        $api = $this->getApiEndpointMockBuilder(
-            OAuthClientAPI::class,
-            [
-                RequestParams::PARAM_TYPE_BODY => [
-                    OAuthClientAPI::PARAMETER_CLIENT_ID => 'Test',
-                    OAuthClientAPI::PARAMETER_CLIENT_SECRET => 'TEST',
-                    OAuthClientAPI::PARAMETER_REDIRECT_URI => '',
-                ]
-            ]
-        )->onlyMethods(['getOAuthService'])
-            ->getMock();
-        $api->expects($this->once())
-            ->method('getOAuthService')
-            ->will($this->returnValue($oAuthService));
-
-        $result = $api->create();
-        $this->assertEquals(
-            [
-                "clientId" => 'Test',
-                "clientSecret" => 'TEST',
-                "redirectUri" => ''
-            ],
-            $result->normalize()
-        );
+        return $this->getTestCases('OAuthClientAPITestCases.yaml', 'GetOne');
     }
 
-    public function testGetValidationRuleForDelete(): void
+    /**
+     * @dataProvider dataProviderForTestDelete
+     */
+    public function testDelete(TestCaseParams $testCaseParams): void
     {
-        $api = new OAuthClientAPI($this->getRequest());
-        $rules = $api->getValidationRuleForDelete();
-        $this->assertTrue(
-            $this->validate(
-                [
-                    CommonParams::PARAMETER_IDS => ['client1'],
-                ],
-                $rules
-            )
-        );
+        $this->populateFixtures('OAuthClientAPITest.yaml');
+        $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
+
+        $this->registerServices($testCaseParams);
+        $api = $this->getApiEndpointMock(OAuthClientAPI::class, $testCaseParams);
+        $this->assertValidTestCase($api, 'delete', $testCaseParams);
     }
 
-    public function testDelete()
+    public function dataProviderForTestDelete(): array
     {
-        $oAuthService = $this->getMockBuilder(OAuthService::class)
-            ->onlyMethods(['deleteOAuthClients'])
-            ->getMock();
-        $oAuthService->expects($this->exactly(1))
-            ->method('deleteOAuthClients')
-            ->with(['client1'])
-            ->willReturn(1);
-
-        /** @var MockObject&OAuthClientAPI $api */
-        $api = $this->getApiEndpointMockBuilder(
-            OAuthClientAPI::class,
-            [
-
-                RequestParams::PARAM_TYPE_BODY => [
-                    CommonParams::PARAMETER_IDS => ['client1'],
-                ]
-            ]
-        )->onlyMethods(['getOAuthService'])
-            ->getMock();
-        $api->expects($this->exactly(1))
-            ->method('getOAuthService')
-            ->will($this->returnValue($oAuthService));
-
-        $result = $api->delete();
-        $this->assertEquals(
-            [
-                'client1'
-            ],
-            $result->normalize()
-        );
-    }
-
-    public function testGetValidationRuleForGetOne(): void
-    {
-        $api = new OAuthClientAPI($this->getRequest());
-        $rules = $api->getValidationRuleForGetOne();
-        $this->assertTrue(
-            $this->validate(
-                [OAuthClientAPI::PARAMETER_CLIENT_ID => 'client1'],
-                $rules
-            )
-        );
-    }
-
-    public function testGetOne(): void
-    {
-        $oAuthClient = new OAuthClient();
-        $oAuthClient->setName('client1');
-        $oAuthClient->setClientSecret('clientsecret');
-        $oAuthClient->setRedirectUri('');
-        $oAuthClient->setConfidential('password');
-        $oAuthClient->setScope('user');
-
-        $oAuthService = $this->getMockBuilder(OAuthService::class)
-            ->onlyMethods(['getOAuthClientByClientId'])
-            ->getMock();
-        $oAuthService->expects($this->exactly(1))
-            ->method('getOAuthClientByClientId')
-            ->with('client1')
-            ->willReturn($oAuthClient);
-
-        /** @var MockObject&OAuthClientAPI $api */
-        $api = $this->getApiEndpointMockBuilder(
-            OAuthClientAPI::class,
-            [
-                RequestParams::PARAM_TYPE_QUERY => [
-                    OAuthClientAPI::PARAMETER_CLIENT_ID => 'client1'
-                ]
-            ]
-        )->onlyMethods(['getOAuthService'])
-            ->getMock();
-        $api->expects($this->once())
-            ->method('getOAuthService')
-            ->will($this->returnValue($oAuthService));
-
-        $result = $api->getOne();
-        $this->assertEquals(
-            [
-                "clientId" => 'client1',
-                "clientSecret" => 'clientsecret',
-                "redirectUri" => '',
-            ],
-            $result->normalize()
-        );
-    }
-
-    public function testGetOneWhenRecordNotFound(): void
-    {
-        $oAuthService = $this->getMockBuilder(OAuthService::class)
-            ->onlyMethods(['getOAuthClientByClientId'])
-            ->getMock();
-        $oAuthService->expects($this->exactly(1))
-            ->method('getOAuthClientByClientId')
-            ->with('client2')
-            ->willReturn(null);
-
-        /** @var MockObject&OAuthClientAPI $api */
-        $api = $this->getApiEndpointMockBuilder(
-            OAuthClientAPI::class,
-            [
-                RequestParams::PARAM_TYPE_QUERY => [
-                    OAuthClientAPI::PARAMETER_CLIENT_ID => 'client2'
-                ]
-            ]
-        )->onlyMethods(['getOAuthService'])
-            ->getMock();
-        $api->expects($this->once())
-            ->method('getOAuthService')
-            ->will($this->returnValue($oAuthService));
-
-        $this->expectRecordNotFoundException();
-        $api->getOne();
-    }
-
-    public function testGetValidationRuleForUpdate(): void
-    {
-        $api = new OAuthClientAPI($this->getRequest());
-        $rules = $api->getValidationRuleForUpdate();
-        $this->assertTrue(
-            $this->validate(
-                [
-                    OAuthClientAPI::PARAMETER_CLIENT_ID => 'client2',
-                    OAuthClientAPI::PARAMETER_CLIENT_SECRET => 'newsecret',
-                    OAuthClientAPI::PARAMETER_REDIRECT_URI => 'https://facebook.com',
-                ],
-                $rules
-            )
-        );
-    }
-
-    public function testUpdate()
-    {
-        $oAuthService = $this->getMockBuilder(OAuthService::class)
-            ->onlyMethods(['saveOAuthClient', 'getOAuthClientByClientId'])
-            ->getMock();
-        $oAuthService->expects($this->once())
-            ->method('saveOAuthClient')
-            ->will(
-                $this->returnCallback(
-                    function (OAuthClient $authClient) {
-                        $authClient->setName('TestNew');
-                        $authClient->setClientSecret('TESTNEW');
-                        $authClient->setRedirectUri('');
-                        return $authClient;
-                    }
-                )
-            );
-
-        $existingOAuthClient = new OAuthClient();
-        $existingOAuthClient->setName('Test');
-        $existingOAuthClient->setClientSecret('TEST');
-        $existingOAuthClient->setRedirectUri('');
-        $existingOAuthClient->setConfidential('password');
-        $existingOAuthClient->setScope('user');
-
-        $oAuthService->expects($this->exactly(1))
-            ->method('getOAuthClientByClientId')
-            ->with('Test')
-            ->willReturn($existingOAuthClient);
-
-
-        /** @var MockObject&OAuthClientAPI $api */
-        $api = $this->getApiEndpointMockBuilder(
-            OAuthClientAPI::class,
-            [
-                RequestParams::PARAM_TYPE_BODY => [
-                    OAuthClientAPI::PARAMETER_CLIENT_ID => 'TestNew',
-                    OAuthClientAPI::PARAMETER_CLIENT_SECRET => 'TESTNEW',
-                    OAuthClientAPI::PARAMETER_REDIRECT_URI => '',
-                ],
-                RequestParams::PARAM_TYPE_QUERY => [
-                    OAuthClientAPI::PARAMETER_CLIENT_ID => 'Test',
-                ]
-            ]
-        )->onlyMethods(['getOAuthService'])
-            ->getMock();
-        $api->expects($this->exactly(2))
-            ->method('getOAuthService')
-            ->will($this->returnValue($oAuthService));
-
-        $result = $api->update();
-        $this->assertEquals(
-            [
-                "clientId" => 'TestNew',
-                "clientSecret" => 'TESTNEW',
-                "redirectUri" => ''
-            ],
-            $result->normalize()
-        );
+        return $this->getTestCases('OAuthClientAPITestCases.yaml', 'Delete');
     }
 }

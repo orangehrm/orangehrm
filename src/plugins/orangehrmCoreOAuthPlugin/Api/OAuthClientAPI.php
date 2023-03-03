@@ -19,13 +19,13 @@
 
 namespace OrangeHRM\OAuth\Api;
 
+use OpenApi\Annotations as OA;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
-use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
@@ -33,52 +33,64 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
-use OrangeHRM\Core\Exception\DaoException;
+use OrangeHRM\Core\Api\V2\Validator\Rules\EntityUniquePropertyOption;
 use OrangeHRM\Entity\OAuthClient;
 use OrangeHRM\OAuth\Api\Model\OAuthClientModel;
-use OrangeHRM\OAuth\Constant\GrantType;
-use OrangeHRM\OAuth\Constant\Scope;
 use OrangeHRM\OAuth\Dto\OAuthClientSearchFilterParams;
-use OrangeHRM\OAuth\Service\OAuthService;
+use OrangeHRM\OAuth\Traits\OAuthServiceTrait;
 
 class OAuthClientAPI extends Endpoint implements CrudEndpoint
 {
-    public const PARAMETER_CLIENT_ID = 'clientId';
-    public const PARAMETER_CLIENT_SECRET = 'clientSecret';
-    public const PARAMETER_REDIRECT_URI = 'redirectUri';
+    use OAuthServiceTrait;
 
-    public const PARAM_RULE_CLIENT_ID_MAX_LENGTH = 80;
-    public const PARAM_RULE_CLIENT_SECRET_MAX_LENGTH = 80;
+    public const PARAMETER_NAME = 'name';
+    public const PARAMETER_REDIRECT_URI = 'redirectUri';
+    public const PARAMETER_ENABLED = 'enabled';
+
+    public const PARAM_RULE_NAME_MAX_LENGTH = 80;
     public const PARAM_RULE_REDIRECT_URI_MAX_LENGTH = 2000;
 
     /**
-     * @var null|OAuthService
-     */
-    protected ?OAuthService $oAuthService = null;
-
-
-    /**
-     * @return OAuthService
-     */
-    public function getOAuthService(): OAuthService
-    {
-        if (is_null($this->oAuthService)) {
-            $this->oAuthService = new OAuthService();
-        }
-        return $this->oAuthService;
-    }
-
-    /**
+     * @OA\Get(
+     *     path="/api/v2/admin/oauth-clients",
+     *     tags={"OAuth/OAuth Clients"},
+     *     @OA\Parameter(
+     *         name="sortField",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string", enum=OAuthClientSearchFilterParams::ALLOWED_SORT_FIELDS)
+     *     ),
+     *     @OA\Parameter(ref="#/components/parameters/sortOrder"),
+     *     @OA\Parameter(ref="#/components/parameters/limit"),
+     *     @OA\Parameter(ref="#/components/parameters/offset"),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="array",
+     *                 @OA\Items(ref="#/components/schemas/OAuth-OAuthClientModel")
+     *             ),
+     *             @OA\Property(
+     *                 property="meta",
+     *                 type="object",
+     *                 @OA\Property(property="total", type="integer")
+     *             )
+     *         )
+     *     )
+     * )
+     *
      * @inheritDoc
      */
     public function getAll(): EndpointResult
     {
-        $oAuthClientSearchFilterParams = new OAuthClientSearchFilterParams();
-        $this->setSortingAndPaginationParams($oAuthClientSearchFilterParams);
+        $oauthClientSearchFilterParams = new OAuthClientSearchFilterParams();
+        $this->setSortingAndPaginationParams($oauthClientSearchFilterParams);
 
-        $count = $this->getOAuthService()->getOAuthClientDao()->getOAuthClientsCount($oAuthClientSearchFilterParams);
+        $oauthClients = $this->getOAuthService()->getOAuthClientDao()->getOAuthClientList($oauthClientSearchFilterParams);
+        $count = $this->getOAuthService()->getOAuthClientDao()->getOAuthClientCount($oauthClientSearchFilterParams);
 
-        $oauthClients = $this->getOAuthService()->getOAuthClientDao()->getOAuthClients($oAuthClientSearchFilterParams);
         return new EndpointCollectionResult(
             OAuthClientModel::class,
             $oauthClients,
@@ -97,13 +109,41 @@ class OAuthClientAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Post(
+     *     path="/api/v2/admin/oauth-clients",
+     *     tags={"OAuth/OAuth Clients"},
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="name", type="string"),
+     *             @OA\Property(property="redirectUri", type="string"),
+     *             @OA\Property(property="enabled", type="boolean")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/OAuth-OAuthClientModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     )
+     * )
+     *
      * @inheritDoc
      */
     public function create(): EndpointResult
     {
-        $oAuthClient = $this->saveOAuthClient();
+        $oauthClient = new OAuthClient();
+        $oauthClient->setClientId(bin2hex(random_bytes(16)));
+        $oauthClient->setClientSecret(bin2hex(random_bytes(32)));
+        $this->setOAuthClient($oauthClient);
 
-        return new EndpointResourceResult(OAuthClientModel::class, $oAuthClient);
+        $oauthClient = $this->getOAuthService()->getOAuthClientDao()->saveOAuthClient($oauthClient);
+        return new EndpointResourceResult(OAuthClientModel::class, $oauthClient);
     }
 
     /**
@@ -112,6 +152,13 @@ class OAuthClientAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
+            new ParamRule(
+                self::PARAMETER_NAME,
+                new Rule(Rules::STRING_TYPE),
+                new Rule(Rules::REQUIRED),
+                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NAME_MAX_LENGTH]),
+                new Rule(Rules::ENTITY_UNIQUE_PROPERTY, [OAuthClient::class, 'name'])
+            ),
             ...$this->getCommonBodyValidationRules(),
         );
     }
@@ -123,32 +170,31 @@ class OAuthClientAPI extends Endpoint implements CrudEndpoint
     {
         return [
             new ParamRule(
-                self::PARAMETER_CLIENT_ID,
-                new Rule(Rules::STRING_TYPE),
-                new Rule(Rules::REQUIRED),
-                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_CLIENT_ID_MAX_LENGTH])
-            ),
-            new ParamRule(
-                self::PARAMETER_CLIENT_SECRET,
-                new Rule(Rules::STRING_TYPE),
-                new Rule(Rules::REQUIRED),
-                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_CLIENT_SECRET_MAX_LENGTH])
-            ),
-            new ParamRule(
                 self::PARAMETER_REDIRECT_URI,
                 new Rule(Rules::STRING_TYPE),
                 new Rule(Rules::LENGTH, [null, self::PARAM_RULE_REDIRECT_URI_MAX_LENGTH])
+            ),
+            new ParamRule(
+                self::PARAMETER_ENABLED,
+                new Rule(Rules::BOOL_TYPE)
             ),
         ];
     }
 
     /**
+     * @OA\Delete(
+     *     path="/api/v2/admin/oauth-clients",
+     *     tags={"OAuth/OAuth Clients"},
+     *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),
+     *     @OA\Response(ref="#/components/responses/DeleteResponse")
+     * )
+     *
      * @inheritDoc
      */
     public function delete(): EndpointResult
     {
         $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
-        $this->getOAuthService()->deleteOAuthClients($ids);
+        $this->getOAuthService()->getOAuthClientDao()->deleteOAuthClients($ids);
         return new EndpointResourceResult(ArrayModel::class, $ids);
     }
 
@@ -158,20 +204,48 @@ class OAuthClientAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForDelete(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(CommonParams::PARAMETER_IDS),
+            new ParamRule(
+                CommonParams::PARAMETER_IDS,
+                new Rule(Rules::INT_ARRAY)
+            ),
         );
     }
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/admin/oauth-client",
+     *     tags={"OAuth/OAuth Clients"},
+     *     @OA\PathParameter(
+     *         name="id",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="array",
+     *                 @OA\Items(ref="#/components/schemas/OAuth-OAuthClientModel")
+     *             ),
+     *             @OA\Property(
+     *                 property="meta",
+     *                 type="object",
+     *                 @OA\Property(property="total", type="integer")
+     *             )
+     *         )
+     *     )
+     * )
+     *
      * @inheritDoc
      */
     public function getOne(): EndpointResult
     {
-        $id = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_CLIENT_ID);
-        $oAuthClient = $this->getOAuthService()->getOAuthClientByClientId($id);
-        $this->throwRecordNotFoundExceptionIfNotExist($oAuthClient, OAuthClient::class);
+        $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
+        $oauthClient = $this->getOAuthService()->getOAuthClientDao()->getOAuthClientById($id);
+        $this->throwRecordNotFoundExceptionIfNotExist($oauthClient, OAuthClient::class);
 
-        return new EndpointResourceResult(OAuthClientModel::class, $oAuthClient);
+        return new EndpointResourceResult(OAuthClientModel::class, $oauthClient);
     }
 
     /**
@@ -180,19 +254,54 @@ class OAuthClientAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForGetOne(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(self::PARAMETER_CLIENT_ID),
+            new ParamRule(
+                CommonParams::PARAMETER_ID,
+                new Rule(Rules::POSITIVE)
+            ),
         );
     }
 
     /**
+     * @OA\Put(
+     *     path="/api/v2/admin/oauth-client",
+     *     tags={"OAuth/OAuth Clients"},
+     *     @OA\PathParameter(
+     *         name="id",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="name", type="string"),
+     *             @OA\Property(property="redirectUri", type="string"),
+     *             @OA\Property(property="enabled", type="boolean")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/OAuth-OAuthClientModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     )
+     * )
+     *
      * @inheritDoc
-     * @throws DaoException
      */
     public function update(): EndpointResult
     {
-        $oAuthClient = $this->saveOAuthClient();
+        $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
+        $oauthClient = $this->getOAuthService()->getOAuthClientDao()->getOAuthClientById($id);
 
-        return new EndpointResourceResult(OAuthClientModel::class, $oAuthClient);
+        $this->throwRecordNotFoundExceptionIfNotExist($oauthClient, OAuthClient::class);
+        $this->setOAuthClient($oauthClient);
+
+        $oauthClient = $this->getOAuthService()->getOAuthClientDao()->saveOAuthClient($oauthClient);
+        return new EndpointResourceResult(OAuthClientModel::class, $oauthClient);
     }
 
     /**
@@ -200,43 +309,54 @@ class OAuthClientAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
+        $entityUniquePropertyOptions = new EntityUniquePropertyOption();
+        $entityUniquePropertyOptions->setIgnoreValues(
+            ['getId' => $this->getRequestParams()->getInt(
+                RequestParams::PARAM_TYPE_ATTRIBUTE,
+                CommonParams::PARAMETER_ID
+            )]
+        );
+
         return new ParamRuleCollection(
+            new ParamRule(CommonParams::PARAMETER_ID, new Rule(Rules::POSITIVE)),
+            new ParamRule(
+                self::PARAMETER_NAME,
+                new Rule(Rules::STRING_TYPE),
+                new Rule(Rules::REQUIRED),
+                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NAME_MAX_LENGTH]),
+                new Rule(Rules::ENTITY_UNIQUE_PROPERTY, [OAuthClient::class, 'name', $entityUniquePropertyOptions])
+            ),
             ...$this->getCommonBodyValidationRules(),
         );
     }
 
     /**
-     * @return OAuthClient
-     * @throws RecordNotFoundException|DaoException
+     * @param OAuthClient $oauthClient
      */
-    public function saveOAuthClient(): OAuthClient
+    public function setOAuthClient(OAuthClient $oauthClient): void
     {
-        $clientId = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_CLIENT_ID);
-        $existingClientId = $this->getRequestParams()->getString(
-            RequestParams::PARAM_TYPE_QUERY,
-            self::PARAMETER_CLIENT_ID
+        $oauthClient->setName(
+            $this->getRequestParams()->getString(
+                RequestParams::PARAM_TYPE_BODY,
+                self::PARAMETER_NAME
+            )
         );
-        $clientSecret = $this->getRequestParams()->getString(
-            RequestParams::PARAM_TYPE_BODY,
-            self::PARAMETER_CLIENT_SECRET
-        );
-        $redirectUri = $this->getRequestParams()->getString(
-            RequestParams::PARAM_TYPE_BODY,
-            self::PARAMETER_REDIRECT_URI
-        );
-        if (!empty($existingClientId)) {
-            $oAuthClient = $this->getOAuthService()->getOAuthClientByClientId($existingClientId);
-            $this->throwRecordNotFoundExceptionIfNotExist($oAuthClient, OAuthClient::class);
-        } else {
-            $oAuthClient = new OAuthClient();
-            // TODO
-            $oAuthClient->setConfidential(GrantType::CLIENT_CREDENTIALS);
-            $oAuthClient->setScope(Scope::SCOPE_ADMIN);
-        }
 
-        $oAuthClient->setName($clientId);
-        $oAuthClient->setClientSecret($clientSecret);
-        $oAuthClient->setRedirectUri($redirectUri);
-        return $this->getOAuthService()->saveOAuthClient($oAuthClient);
+        $oauthClient->setRedirectUri(
+            $this->getRequestParams()->getString(
+                RequestParams::PARAM_TYPE_BODY,
+                self::PARAMETER_REDIRECT_URI
+            )
+        );
+
+        $oauthClient->setEnabled(
+            $this->getRequestParams()->getBooleanOrNull(
+                RequestParams::PARAM_TYPE_BODY,
+                self::PARAMETER_ENABLED
+            )
+        );
+
+        //TODO
+        $oauthClient->setConfidential(false);
     }
 }

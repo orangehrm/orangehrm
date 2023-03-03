@@ -14,29 +14,24 @@
  *
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
- * Boston, MA  02110-1301, USA
+ * Boston, MA 02110-1301, USA
  */
 
-namespace OrangeHRM\OAuth\Controller;
+namespace OrangeHRM\OAuth\Traits;
 
-use OrangeHRM\Core\Controller\AbstractVueController;
-use OrangeHRM\Core\Vue\Component;
-use OrangeHRM\Core\Vue\Prop;
-use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Core\Traits\ServiceContainerTrait;
+use OrangeHRM\Framework\Services;
+use OrangeHRM\OAuth\Service\OAuthService;
 
-class SaveOAuthClientController extends AbstractVueController
+trait OAuthServiceTrait
 {
+    use ServiceContainerTrait;
+
     /**
-     * @inheritDoc
+     * @return OAuthService
      */
-    public function preRender(Request $request): void
+    protected function getOAuthService(): OAuthService
     {
-        if ($request->query->has('id')) {
-            $component = new Component('oauth-client-edit');
-            $component->addProp(new Prop('id', Prop::TYPE_STRING, $request->query->getInt('id')));
-        } else {
-            $component = new Component('oauth-client-save');
-        }
-        $this->setComponent($component);
+        return $this->getContainer()->get(Services::OAUTH_SERVICE);
     }
 }

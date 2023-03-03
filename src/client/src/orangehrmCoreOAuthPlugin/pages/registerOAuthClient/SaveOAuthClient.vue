@@ -22,7 +22,7 @@
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
       <oxd-text tag="h6" class="orangehrm-main-title">
-        Add OAuth Client
+        {{ $t('admin.add_oauth_client') }}
       </oxd-text>
 
       <oxd-divider />
@@ -32,34 +32,38 @@
           <oxd-grid :cols="2" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <oxd-input-field
-                v-model="oAuthClient.clientId"
-                label="ID"
-                :rules="rules.clientId"
+                v-model="oAuthClient.name"
+                :label="$t('general.name')"
+                :rules="rules.name"
                 required
               />
             </oxd-grid-item>
-            <oxd-grid-item>
-              <oxd-input-field
-                v-model="oAuthClient.clientSecret"
-                label="Secret"
-                :rules="rules.clientSecret"
-                required
-              />
-            </oxd-grid-item>
-            <oxd-grid-item>
+            <oxd-grid-item class="--offset-row-2">
               <oxd-input-field
                 v-model="oAuthClient.redirectUri"
-                label="Redirect URI"
+                :label="$t('admin.redirect_uri')"
                 :rules="rules.redirectUri"
               />
             </oxd-grid-item>
+            <oxd-grid-item class="--offset-row-3">
+              <oxd-grid :cols="2" class="orangehrm-full-width-grid">
+                <oxd-grid-item>
+                  <oxd-text tag="p" class="orangehrm-module-field-label">
+                    {{ $t('admin.enable_client') }}
+                  </oxd-text>
+                </oxd-grid-item>
+                <oxd-grid-item>
+                  <oxd-switch-input v-model="oAuthClient.enabled" />
+                </oxd-grid-item>
+              </oxd-grid>
+            </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
-
+        <br />
         <oxd-form-row>
           <oxd-grid :cols="1" class="orangehrm-full-width-grid">
             <oxd-text tag="span" class="orangehrm-link">
-              API Documentation:
+              {{ $t('admin.api_documentation') }}:
               <a
                 class="orangehrm-link-url"
                 href="https://orangehrm.github.io/orangehrm-api-doc"
@@ -72,7 +76,7 @@
         <oxd-form-row>
           <oxd-grid :cols="1" class="orangehrm-full-width-grid">
             <oxd-text tag="span" class="orangehrm-link">
-              PHP Sample App:
+              {{ $t('admin.php_sample_app') }}:
               <a
                 class="orangehrm-link-url"
                 href="https://github.com/orangehrm/api-sample-app-php"
@@ -87,7 +91,11 @@
 
         <oxd-form-actions>
           <required-text />
-          <oxd-button display-type="ghost" label="Cancel" @click="onCancel" />
+          <oxd-button
+            display-type="ghost"
+            :label="$t('general.cancel')"
+            @click="onCancel"
+          />
           <submit-button />
         </oxd-form-actions>
       </oxd-form>
@@ -102,14 +110,18 @@ import {
   required,
   shouldNotExceedCharLength,
 } from '@ohrm/core/util/validation/rules';
+import {OxdSwitchInput} from '@ohrm/oxd';
 
 const initialOAuthClient = {
-  clientId: '',
-  clientSecret: '',
+  name: '',
   redirectUri: '',
+  enabled: true,
 };
 
 export default {
+  components: {
+    'oxd-switch-input': OxdSwitchInput,
+  },
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
@@ -125,8 +137,7 @@ export default {
       isLoading: false,
       oAuthClient: {...initialOAuthClient},
       rules: {
-        clientId: [required, shouldNotExceedCharLength(80)],
-        clientSecret: [required, shouldNotExceedCharLength(80)],
+        name: [required, shouldNotExceedCharLength(80)],
         redirectUri: [shouldNotExceedCharLength(2000)],
       },
     };
@@ -138,9 +149,9 @@ export default {
       .getAll({limit: 0})
       .then((response) => {
         const {data} = response.data;
-        this.rules.clientId.push((v) => {
-          const index = data.findIndex((item) => item.clientId == v);
-          return index === -1 || 'Already exists';
+        this.rules.name.push((v) => {
+          const index = data.findIndex((item) => item.name === v);
+          return index === -1 || this.$t('general.already_exists');
         });
       })
       .finally(() => {

@@ -22,7 +22,7 @@
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
       <oxd-text tag="h6" class="orangehrm-main-title">
-        Edit OAuth Client
+        {{ $t('admin.edit_oauth_client') }}
       </oxd-text>
 
       <oxd-divider />
@@ -32,34 +32,53 @@
           <oxd-grid :cols="2" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <oxd-input-field
-                v-model="oAuthClient.clientId"
-                label="ID"
-                :rules="rules.clientId"
+                v-model="oAuthClient.name"
+                :label="$t('general.name')"
+                :rules="rules.name"
                 required
               />
             </oxd-grid-item>
-            <oxd-grid-item>
-              <oxd-input-field
-                v-model="oAuthClient.clientSecret"
-                label="Secret"
-                :rules="rules.clientSecret"
-                required
-              />
-            </oxd-grid-item>
-            <oxd-grid-item>
+            <oxd-grid-item class="--offset-row-2">
               <oxd-input-field
                 v-model="oAuthClient.redirectUri"
-                label="Redirect URI"
+                :label="$t('admin.redirect_uri')"
                 :rules="rules.redirectUri"
+                required
               />
+            </oxd-grid-item>
+            <oxd-grid-item class="--offset-row-3">
+              <oxd-input-field
+                v-model="oAuthClient.clientId"
+                :label="$t('admin.client_id')"
+                disabled
+              />
+            </oxd-grid-item>
+            <oxd-grid-item class="--offset-row-4">
+              <oxd-input-field
+                v-model="oAuthClient.clientSecret"
+                :label="$t('admin.client_secret')"
+                disabled
+              />
+            </oxd-grid-item>
+            <oxd-grid-item class="--offset-row-5">
+              <oxd-grid :cols="2" class="orangehrm-full-width-grid">
+                <oxd-grid-item>
+                  <oxd-text tag="p" class="orangehrm-module-field-label">
+                    {{ $t('admin.enable_client') }}
+                  </oxd-text>
+                </oxd-grid-item>
+                <oxd-grid-item>
+                  <oxd-switch-input v-model="oAuthClient.enabled" />
+                </oxd-grid-item>
+              </oxd-grid>
             </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
-
+        <br />
         <oxd-form-row>
           <oxd-grid :cols="1" class="orangehrm-full-width-grid">
             <oxd-text tag="span" class="orangehrm-link">
-              API Documentation:
+              {{ $t('admin.api_documentation') }}:
               <a
                 class="orangehrm-link-url"
                 href="https://orangehrm.github.io/orangehrm-api-doc"
@@ -72,7 +91,7 @@
         <oxd-form-row>
           <oxd-grid :cols="1" class="orangehrm-full-width-grid">
             <oxd-text tag="span" class="orangehrm-link">
-              PHP Sample App:
+              {{ $t('admin.php_sample_app') }}:
               <a
                 class="orangehrm-link-url"
                 href="https://github.com/orangehrm/api-sample-app-php"
@@ -87,7 +106,11 @@
 
         <oxd-form-actions>
           <required-text />
-          <oxd-button display-type="ghost" label="Cancel" @click="onCancel" />
+          <oxd-button
+            display-type="ghost"
+            :label="$t('general.cancel')"
+            @click="onCancel"
+          />
           <submit-button />
         </oxd-form-actions>
       </oxd-form>
@@ -102,17 +125,23 @@ import {
   required,
   shouldNotExceedCharLength,
 } from '@ohrm/core/util/validation/rules';
+import {OxdSwitchInput} from '@ohrm/oxd';
 
 const initialOAuthClient = {
-  clientId: '',
-  clientSecret: '',
+  name: '',
   redirectUri: '',
+  enabled: false,
+  clientId: null,
+  clientSecret: null,
 };
 
 export default {
+  components: {
+    'oxd-switch-input': OxdSwitchInput,
+  },
   props: {
-    oauthClientId: {
-      type: String,
+    id: {
+      type: Number,
       required: true,
     },
   },
@@ -132,8 +161,7 @@ export default {
       isLoading: false,
       oAuthClient: {...initialOAuthClient},
       rules: {
-        clientId: [required, shouldNotExceedCharLength(80)],
-        clientSecret: [required, shouldNotExceedCharLength(80)],
+        name: [required, shouldNotExceedCharLength(80)],
         redirectUri: [shouldNotExceedCharLength(2000)],
       },
     };
@@ -142,29 +170,27 @@ export default {
   created() {
     this.isLoading = true;
     this.http
-      .request({
-        method: 'GET',
-        url: `/api/v2/admin/oauth-client`,
-        params: {
-          clientId: this.oauthClientId,
-        },
-      })
+      .getAll({limit: 0})
       .then((response) => {
         const {data} = response.data;
-        this.oAuthClient.clientId = data.clientId;
-        this.oAuthClient.clientSecret = data.clientSecret;
-        this.oAuthClient.redirectUri = data.redirectUri;
+        const item = data.find((item) => item.id === this.id);
+
+        this.oAuthClient.name = item.name;
+        this.oAuthClient.redirectUri = item.redirectUri;
+        this.oAuthClient.enabled = item.enabled;
+        this.oAuthClient.clientId = item.clientId;
+        this.oAuthClient.clientSecret = item.clientSecret;
 
         // Fetch list data for unique test
         return this.http.getAll({limit: 0});
       })
       .then((response) => {
         const {data} = response.data;
-        this.rules.clientId.push((v) => {
-          const index = data.findIndex((item) => item.clientId === v);
+        this.rules.name.push((v) => {
+          const index = data.findIndex((item) => item.name === v);
           if (index > -1) {
-            const {clientId} = data[index];
-            return clientId !== this.oauthClientId ? 'Already exists' : true;
+            const {id} = data[index];
+            return id !== this.id ? this.$t('general.already_exists') : true;
           } else {
             return true;
           }
@@ -182,17 +208,10 @@ export default {
     onSave() {
       this.isLoading = true;
       this.http
-        .request({
-          method: 'PUT',
-          url: `/api/v2/admin/oauth-client`,
-          params: {
-            clientId: this.oauthClientId,
-          },
-          data: {
-            clientId: this.oAuthClient.clientId,
-            clientSecret: this.oAuthClient.clientSecret,
-            redirectUri: this.oAuthClient.redirectUri,
-          },
+        .update(this.id, {
+          name: this.oAuthClient.name,
+          redirectUri: this.oAuthClient.redirectUri,
+          enabled: this.oAuthClient.enabled,
         })
         .then(() => {
           return this.$toast.updateSuccess();
