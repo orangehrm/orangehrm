@@ -24,7 +24,6 @@ use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Traits\LoggerTrait;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Framework\Http\Response;
 use OrangeHRM\OAuth\Dto\Entity\UserEntity;
 use OrangeHRM\OAuth\Traits\OAuthServerTrait;
 use OrangeHRM\OAuth\Traits\PsrHttpFactoryHelperTrait;
@@ -58,7 +57,13 @@ class AuthorizationController extends AbstractVueController
 
             // Once the user has approved or denied the client update the status
             // (true = approved, false = denied)
-            $authRequest->setAuthorizationApproved(true); // TODO:: consent screen
+
+            $authorized = filter_var(
+                $psrRequest->getQueryParams()['authorized'],
+                FILTER_VALIDATE_BOOLEAN,
+                FILTER_NULL_ON_FAILURE
+            );
+            $authRequest->setAuthorizationApproved($authorized === true); // TODO:: consent screen
 
             $psrResponse = $this->getPsrHttpFactoryHelper()->createPsr7Response($this->getResponse());
             $psrResponse = $server->completeAuthorizationRequest($authRequest, $psrResponse);
@@ -69,9 +74,12 @@ class AuthorizationController extends AbstractVueController
             return $this->getPsrHttpFactoryHelper()
                 ->createResponseFromPsr7Response($e->generateHttpResponse($psrResponse));
         } catch (Throwable $e) {
-            // TODO
-            return $this->getResponse()
-                ->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
+            $psrResponse = $this->getPsrHttpFactoryHelper()->createPsr7Response($this->getResponse());
+            return $this->getPsrHttpFactoryHelper()
+                ->createResponseFromPsr7Response(
+                    (OAuthServerException::serverError('An unexpected error has occurred'))
+                        ->generateHttpResponse($psrResponse)
+                );
         }
     }
 }

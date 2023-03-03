@@ -21,6 +21,8 @@ namespace OrangeHRM\OAuth\Repository;
 
 use League\OAuth2\Server\Entities\ClientEntityInterface;
 use League\OAuth2\Server\Repositories\ClientRepositoryInterface;
+use OrangeHRM\Authentication\Dto\UserCredential;
+use OrangeHRM\Authentication\Dto\UserCredentialInterface;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Entity\OAuthClient;
 use OrangeHRM\OAuth\Dto\Entity\ClientEntity;
@@ -45,7 +47,30 @@ class ClientRepository extends BaseDao implements ClientRepositoryInterface
      */
     public function validateClient($clientIdentifier, $clientSecret, $grantType): bool
     {
-        // TODO
-        return true;
+        $oauthClient = $this->getRepository(OAuthClient::class)->findOneBy(['name' => $clientIdentifier]);
+        if (!$oauthClient instanceof OAuthClient) {
+            return false;
+        }
+        if ($oauthClient->isConfidential() === true && $oauthClient->getClientSecret() === null) {
+            // Confidential client must have a secret
+            return false;
+        }
+
+        if ($grantType === 'refresh_token' && $oauthClient->isConfidential() === false) {
+            return true;
+        }
+
+        return $this->validateClientSecret($oauthClient, new UserCredential(null, $clientSecret));
+    }
+
+    /**
+     * @param OAuthClient $client
+     * @param UserCredentialInterface $givenCred
+     * @return bool
+     */
+    private function validateClientSecret(OAuthClient $client, UserCredentialInterface $givenCred): bool
+    {
+        // TODO:: handle encryption or hashing
+        return $client->getClientSecret() === $givenCred->getPassword();
     }
 }

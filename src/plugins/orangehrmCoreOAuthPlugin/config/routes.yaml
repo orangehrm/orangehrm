@@ -16,24 +16,29 @@ apiv2_admin_oauth_clients:
 #        Screens
 ##########################
 
-view_oauth_client:
+admin_view_oauth_client:
   path: /admin/registerOAuthClient
   controller: OrangeHRM\OAuth\Controller\OAuthClientController::handle
   methods: [ GET ]
 
-edit_oauth_client:
+admin_edit_oauth_client:
   path: /admin/editOAuthClient
   controller: OrangeHRM\OAuth\Controller\SaveOAuthClientController::handle
   methods: [ GET ]
 
-save_oauth_client:
+admin_save_oauth_client:
   path: /admin/saveOAuthClient
   controller: OrangeHRM\OAuth\Controller\SaveOAuthClientController::handle
   methods: [ GET ]
 
+auth_oauth2_consent:
+  path: /oauth2/authorize/consent
+  controller: OrangeHRM\OAuth\Controller\OAuth2\AuthorizationController::handle
+  methods: [ GET ]
+
 auth_oauth2_authorize:
   path: /oauth2/authorize
-  controller: OrangeHRM\OAuth\Controller\OAuth2\AuthorizationController::handle
+  controller: OrangeHRM\OAuth\Controller\AuthorizationController::handle
   methods: [ GET ]
 
 auth_oauth2_token:

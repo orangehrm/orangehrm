@@ -51,11 +51,11 @@ class OAuthClient
     private string $clientId;
 
     /**
-     * @var string
+     * @var string|null
      *
-     * @ORM\Column(name="client_secret", type="string", length=255, nullable=false)
+     * @ORM\Column(name="client_secret", type="string", length=255, nullable=true)
      */
-    private string $clientSecret;
+    private ?string $clientSecret;
 
     /**
      * @var string
@@ -127,17 +127,17 @@ class OAuthClient
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getClientSecret(): string
+    public function getClientSecret(): ?string
     {
         return $this->clientSecret;
     }
 
     /**
-     * @param string $clientSecret
+     * @param string|null $clientSecret
      */
-    public function setClientSecret(string $clientSecret): void
+    public function setClientSecret(?string $clientSecret): void
     {
         $this->clientSecret = $clientSecret;
     }
