@@ -91,6 +91,18 @@ Update:
         "enabled": false
     }
 
+  'update existing client with another clients name':
+    userId: 1
+    services:
+      oauth.oauth_service: \OrangeHRM\OAuth\Service\OAuthService
+    attributes:
+      id: 1
+    body:
+      name: "ohrm-mobile-2"
+      redirectUri: "https://www.orangehrm.com"
+      enabled: false
+    invalidOnly: ['name']
+
   'update with missing params':
     userId: 1
     services:

@@ -33,6 +33,7 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Core\Api\V2\Validator\Rules\EntityUniquePropertyOption;
 use OrangeHRM\Entity\OAuthClient;
 use OrangeHRM\OAuth\Api\Model\OAuthClientModel;
 use OrangeHRM\OAuth\Dto\OAuthClientSearchFilterParams;
@@ -137,7 +138,7 @@ class OAuthClientAPI extends Endpoint implements CrudEndpoint
     public function create(): EndpointResult
     {
         $oauthClient = new OAuthClient();
-        $oauthClient->setClientId(bin2hex(random_bytes(32)));
+        $oauthClient->setClientId(bin2hex(random_bytes(16)));
         $oauthClient->setClientSecret(bin2hex(random_bytes(32)));
         $this->setOAuthClient($oauthClient);
 
@@ -151,6 +152,13 @@ class OAuthClientAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
+            new ParamRule(
+                self::PARAMETER_NAME,
+                new Rule(Rules::STRING_TYPE),
+                new Rule(Rules::REQUIRED),
+                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NAME_MAX_LENGTH]),
+                new Rule(Rules::ENTITY_UNIQUE_PROPERTY, [OAuthClient::class, 'name'])
+            ),
             ...$this->getCommonBodyValidationRules(),
         );
     }
@@ -161,12 +169,6 @@ class OAuthClientAPI extends Endpoint implements CrudEndpoint
     private function getCommonBodyValidationRules(): array
     {
         return [
-            new ParamRule(
-                self::PARAMETER_NAME,
-                new Rule(Rules::STRING_TYPE),
-                new Rule(Rules::REQUIRED),
-                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NAME_MAX_LENGTH])
-            ),
             new ParamRule(
                 self::PARAMETER_REDIRECT_URI,
                 new Rule(Rules::STRING_TYPE),
@@ -307,8 +309,23 @@ class OAuthClientAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
+        $entityUniquePropertyOptions = new EntityUniquePropertyOption();
+        $entityUniquePropertyOptions->setIgnoreValues(
+            ['getId' => $this->getRequestParams()->getInt(
+                RequestParams::PARAM_TYPE_ATTRIBUTE,
+                CommonParams::PARAMETER_ID
+            )]
+        );
+
         return new ParamRuleCollection(
             new ParamRule(CommonParams::PARAMETER_ID, new Rule(Rules::POSITIVE)),
+            new ParamRule(
+                self::PARAMETER_NAME,
+                new Rule(Rules::STRING_TYPE),
+                new Rule(Rules::REQUIRED),
+                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NAME_MAX_LENGTH]),
+                new Rule(Rules::ENTITY_UNIQUE_PROPERTY, [OAuthClient::class, 'name', $entityUniquePropertyOptions])
+            ),
             ...$this->getCommonBodyValidationRules(),
         );
     }
