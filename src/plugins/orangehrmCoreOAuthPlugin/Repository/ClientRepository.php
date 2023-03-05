@@ -30,11 +30,21 @@ use OrangeHRM\OAuth\Dto\Entity\ClientEntity;
 class ClientRepository extends BaseDao implements ClientRepositoryInterface
 {
     /**
+     * @param string $clientIdentifier
+     * @return OAuthClient|null
+     */
+    private function getOAuthClientById(string $clientIdentifier): ?OAuthClient
+    {
+        return $this->getRepository(OAuthClient::class)
+            ->findOneBy(['clientId' => $clientIdentifier, 'enabled' => true]);
+    }
+
+    /**
      * @inheritdoc
      */
     public function getClientEntity($clientIdentifier): ?ClientEntityInterface
     {
-        $oauthClient = $this->getRepository(OAuthClient::class)->findOneBy(['name' => $clientIdentifier]);
+        $oauthClient = $this->getOAuthClientById($clientIdentifier);
         if (!$oauthClient instanceof OAuthClient) {
             return null;
         }
@@ -47,7 +57,7 @@ class ClientRepository extends BaseDao implements ClientRepositoryInterface
      */
     public function validateClient($clientIdentifier, $clientSecret, $grantType): bool
     {
-        $oauthClient = $this->getRepository(OAuthClient::class)->findOneBy(['name' => $clientIdentifier]);
+        $oauthClient = $this->getOAuthClientById($clientIdentifier);
         if (!$oauthClient instanceof OAuthClient) {
             return false;
         }

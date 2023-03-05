@@ -23,6 +23,7 @@ use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\OAuth\Service\OAuthService;
 
 class OAuthClientController extends AbstractVueController
 {
@@ -32,8 +33,7 @@ class OAuthClientController extends AbstractVueController
     public function preRender(Request $request): void
     {
         $component = new Component('oauth-client-list');
-        // TODO move the hard coded mobile client id to some central place
-        $component->addProp(new Prop('unselectable-client-ids', Prop::TYPE_ARRAY, ['orangehrm_mobile_app']));
+        $component->addProp(new Prop('unselectable-client-ids', Prop::TYPE_ARRAY, [OAuthService::PUBLIC_MOBILE_CLIENT_ID]));
         $this->setComponent($component);
     }
 }

@@ -55,7 +55,7 @@ class AuthorizationController extends AbstractVueController
 
         $component = new Component('oauth-authorize');
         $component->addProp(new Prop('params', Prop::TYPE_OBJECT, $psrRequest->getQueryParams()));
-        $component->addProp(new Prop('client-name', Prop::TYPE_STRING, $authRequest->getClient()->getName())); // TODO
+        $component->addProp(new Prop('client-name', Prop::TYPE_STRING, $authRequest->getClient()->getDisplayName())); // TODO
         $this->setComponent($component);
         $this->setTemplate('no_header.html.twig');
     }
