@@ -19,11 +19,10 @@
  -->
 
 <template>
-  <oxd-text tag="h6"> Authorize {{ clientName }}</oxd-text>
+  <oxd-text tag="h6"> Authorize <b>{{ clientName }}</b></oxd-text>
   <oxd-form
     ref="authorizeForm"
     method="GET"
-    :loading="isLoading"
     :action="submitUrl"
     @submit-valid="onSubmit"
   >
