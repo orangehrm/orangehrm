@@ -638,7 +638,7 @@ class Migration extends AbstractMigration
             ->setParameter('name', "OrangeHRM Mobile App")
             ->setParameter('client_id', 'orangehrm_mobile_app')
             ->setParameter('client_secret', null)
-            ->setParameter('redirect_uri', '')
+            ->setParameter('redirect_uri', 'com.orangehrm.opensource://oauthredirect')
             ->setParameter('is_confidential', false, Types::BOOLEAN)
             ->setParameter('enabled', true, Types::BOOLEAN)
             ->executeQuery();
