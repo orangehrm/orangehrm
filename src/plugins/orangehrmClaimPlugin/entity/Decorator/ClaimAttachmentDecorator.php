@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Entity\Decorator;
 
+use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Entity\ClaimAttachment;
 use OrangeHRM\Entity\User;
@@ -26,6 +27,7 @@ use OrangeHRM\Entity\User;
 class ClaimAttachmentDecorator
 {
     use EntityManagerHelperTrait;
+    use AuthUserTrait;
 
     /**
      * @var ClaimAttachment

@@ -82,13 +82,13 @@ class ClaimAttachment
      * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\User")
      * @ORM\JoinColumn(name="attached_by", referencedColumnName="id")
      */
-    private ?User $user;
+    private User $user;
 
     /**
      * @var DateTime|null
      * @ORM\Column(name="attached_time", type="datetime")
      */
-    private DateTime $attachedTime;
+    private DateTime $attachedDate;
 
     /**
      * @return int
@@ -221,16 +221,16 @@ class ClaimAttachment
     /**
      * @return DateTime
      */
-    public function getAttachedTime(): DateTime
+    public function getAttachedDate(): DateTime
     {
-        return $this->attachedTime;
+        return $this->attachedDate;
     }
 
     /**
-     * @param DateTime $attachedTime
+     * @param DateTime $attachedDate
      */
-    public function setAttachedTime(DateTime $attachedTime): void
+    public function setAttachedDate(DateTime $attachedDate): void
     {
-        $this->attachedTime = $attachedTime;
+        $this->attachedDate = $attachedDate;
     }
 }

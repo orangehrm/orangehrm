@@ -24,45 +24,56 @@ use OpenApi\Annotations as OA;
 use OrangeHRM\Claim\Dto\PartialClaimAttachment;
 use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
+use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 
+/**
+ * @OA\Schema(
+ *     schema="Claim-AttachmentModel",
+ *     type="object",
+ *     @OA\Property(
+ *         property="requestId",
+ *         type="integer"
+ *     ),
+ *     @OA\Property(
+ *         property="attachmentId",
+ *         type="integer"
+ *     ),
+ *     @OA\Property(
+ *         property="fileName",
+ *         type="string"
+ *     ),
+ *     @OA\Property(
+ *         property="fileType",
+ *         type="string"
+ *     ),
+ *     @OA\Property(
+ *         property="fileSize",
+ *         type="integer"
+ *     ),
+ *     @OA\Property(
+ *         property="fileDescription",
+ *         type="string"
+ *     ),
+ *     @OA\Property(
+ *         property="Employee",
+ *         type="object",
+ *         @OA\Property(property="empNumber", type="integer"),
+ *         @OA\Property(property="lastName", type="string"),
+ *         @OA\Property(property="firstName", type="string"),
+ *         @OA\Property(property="middleName", type="string"),
+ *         @OA\Property(property="employeeId", type="string"),
+ *     ),
+ *     @OA\Property(
+ *         property="date",
+ *         type="string"
+ *     )
+ * )
+ */
 class ClaimAttachmentModel implements Normalizable
 {
     use ModelTrait;
+    use AuthUserTrait;
 
-    /**
-     * @OA\Schema(
-     *     schema="Claim-AttachmentModel",
-     *     type="object",
-     *     @OA\Property(
-     *         property="requestId",
-     *         type="integer"
-     *     ),
-     *     @OA\Property(
-     *         property="attachmentId",
-     *         type="integer"
-     *     ),
-     *     @OA\Property(
-     *         property="fileName",
-     *         type="string"
-     *     ),
-     *     @OA\Property(
-     *         property="fileType",
-     *         type="string"
-     *     ),
-     *     @OA\Property(
-     *         property="fileSize",
-     *         type="integer"
-     *     ),
-     *     @OA\Property(
-     *         property="fileDescription",
-     *         type="string"
-     *     ),
-     *     @OA\Property(
-     *         property="date",
-     *         type="string"
-     *     )
-     * )
-     */
     public function __construct(PartialClaimAttachment $claimAttachment)
     {
         $this->setEntity($claimAttachment);
@@ -73,7 +84,12 @@ class ClaimAttachmentModel implements Normalizable
                 'fileType',
                 'size',
                 'description',
-                'attachedTime'
+                ['getClaimRequest','getEmployee','getEmpNumber'],
+                ['getClaimRequest','getEmployee','getFirstName'],
+                ['getClaimRequest','getEmployee','getLastName'],
+                ['getClaimRequest','getEmployee','getMiddleName'],
+                ['getClaimRequest','getEmployee','getEmployeeId'],
+                'attachedDate'
             ]
         );
         $this->setAttributeNames(
@@ -82,7 +98,12 @@ class ClaimAttachmentModel implements Normalizable
                 'fileName',
                 'fileType',
                 'size',
-                'fileDescription',
+                'description',
+                ['addedBy','empNumber'],
+                ['addedBy','lastName'],
+                ['addedBy','firstName'],
+                ['addedBy','middleName'],
+                ['addedBy','employeeId'],
                 'date'
             ]
         );

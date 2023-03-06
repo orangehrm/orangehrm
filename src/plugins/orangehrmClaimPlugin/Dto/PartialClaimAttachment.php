@@ -20,11 +20,16 @@
 namespace OrangeHRM\Claim\Dto;
 
 use DateTime;
+use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
+use OrangeHRM\Entity\ClaimRequest;
+use OrangeHRM\Entity\Decorator\DecoratorTrait;
 
 class PartialClaimAttachment
 {
     use DateTimeHelperTrait;
+    use DecoratorTrait;
+    use EntityManagerHelperTrait;
 
     /**
      * @var int|null
@@ -59,7 +64,7 @@ class PartialClaimAttachment
     /**
      * @var string|null
      */
-    private ?string $attachedTime;
+    private ?string $attachedDate;
 
     /**
      * @param int|null $requestId
@@ -68,7 +73,7 @@ class PartialClaimAttachment
      * @param string|null $description
      * @param string|null $filename
      * @param string|null $fileType
-     * @param DateTime|null $attachedTime
+     * @param DateTime|null $attachedDate
      */
     public function __construct(
         ?int      $requestId,
@@ -77,7 +82,7 @@ class PartialClaimAttachment
         ?string   $description,
         ?string   $filename,
         ?string   $fileType,
-        ?DateTime $attachedTime
+        ?DateTime $attachedDate
     ) {
         $this->requestId = $requestId;
         $this->attachId = $attachId;
@@ -85,7 +90,7 @@ class PartialClaimAttachment
         $this->description = $description;
         $this->filename = $filename;
         $this->fileType = $fileType;
-        $this->setAttachedTime($attachedTime);
+        $this->setAttachedDate($attachedDate);
     }
 
     /**
@@ -187,17 +192,22 @@ class PartialClaimAttachment
     /**
      * @return DateTime|null
      */
-    public function getAttachedTime(): ?string
+    public function getAttachedDate(): ?string
     {
-        return $this->attachedTime;
+        return $this->attachedDate;
     }
 
     /**
      * @param DateTime|null $date
      * @return void
      */
-    public function setAttachedTime(?DateTime $date): void
+    public function setAttachedDate(?DateTime $date): void
     {
-        $this->attachedTime = $this->getDateTimeHelper()->formatDate($date);
+        $this->attachedDate = $this->getDateTimeHelper()->formatDate($date);
+    }
+
+    public function getClaimRequest(): ?ClaimRequest
+    {
+        return $this->getReference(ClaimRequest::class, $this->getRequestId());
     }
 }

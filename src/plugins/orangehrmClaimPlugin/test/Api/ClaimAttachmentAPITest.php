@@ -21,7 +21,6 @@ namespace OrangeHRM\Tests\Claim\Api;
 
 use OrangeHRM\Claim\Api\ClaimAttachmentAPI;
 use OrangeHRM\Core\Authorization\Manager\BasicUserRoleManager;
-use OrangeHRM\Core\Service\DateTimeHelperService;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
@@ -47,8 +46,8 @@ class ClaimAttachmentAPITest extends EndpointIntegrationTestCase
         $this->createKernelWithMockServices([
             Services::AUTH_USER => $this->getMockAuthUser($testCaseParams),
             Services::USER_ROLE_MANAGER => $userRoleManager,
-            Services::DATETIME_HELPER_SERVICE => new DateTimeHelperService(),
         ]);
+        $this->registerMockDateTimeHelper($testCaseParams);
         $this->registerServices($testCaseParams);
         $api = $this->getApiEndpointMock(ClaimAttachmentAPI::class, $testCaseParams);
         $this->assertValidTestCase($api, 'create', $testCaseParams);
@@ -75,7 +74,6 @@ class ClaimAttachmentAPITest extends EndpointIntegrationTestCase
         $this->createKernelWithMockServices([
             Services::AUTH_USER => $this->getMockAuthUser($testCaseParams),
             Services::USER_ROLE_MANAGER => $userRoleManager,
-            Services::DATETIME_HELPER_SERVICE => new DateTimeHelperService(),
         ]);
         $this->registerServices($testCaseParams);
         $api = $this->getApiEndpointMock(ClaimAttachmentAPI::class, $testCaseParams);

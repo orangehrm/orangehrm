@@ -9,7 +9,7 @@ Create:
     attributes:
       requestId: 1
     body:
-      description: 'sample description'
+      description: "sample description"
       attachment:
         name: 'profile.jpeg'
         type: 'image/jpeg'
@@ -20,8 +20,14 @@ Create:
       fileName: "profile.jpeg"
       fileType: "image/jpeg"
       size: 20692
-      fileDescription: "sample description"
-      date: "2023-03-02"
+      description: "sample description"
+      addedBy:
+        empNumber: 4
+        lastName: "Landon"
+        firstName: "Abrahams"
+        middleName: ""
+        employeeId: "0004"
+      date: "2023-03-09"
     now:
       datetime: "2023-03-09"
 
@@ -45,8 +51,14 @@ Create:
       fileName: "profile.jpeg"
       fileType: "image/jpeg"
       size: 20692
-      fileDescription: null
-      date: "2023-03-02"
+      description: null
+      addedBy:
+        empNumber: 4
+        lastName: "Landon"
+        firstName: "Abrahams"
+        middleName: ""
+        employeeId: "0004"
+      date: "2023-03-09"
     now:
       datetime: "2023-03-09"
 
@@ -138,7 +150,14 @@ GetAll:
         "fileName": "travel.jpeg",
         "fileType": "image/jpeg",
         "size": 1000,
-        "fileDescription": "fuel bill",
+        "description": "fuel bill",
+        "addedBy":{
+            "empNumber": 4,
+            "lastName": "Landon",
+            "firstName": "Abrahams",
+            "middleName": "",
+            "employeeId": "0004",
+            },
         "date": "2023-09-13"
       },
       {
@@ -146,7 +165,14 @@ GetAll:
         "fileName": "medical.jpeg",
         "fileType": "image/jpeg",
         "size": 1500,
-        "fileDescription": "doctor bill",
+        "description": "doctor bill",
+        "addedBy":{
+            "empNumber": 4,
+            "lastName": "Landon",
+            "firstName": "Abrahams",
+            "middleName": "",
+            "employeeId": "0004",
+            },
         "date": "2023-09-13"
       },
       {
@@ -154,7 +180,14 @@ GetAll:
         "fileName": "post.jpeg",
         "fileType": "image/jpeg",
         "size": 2000,
-        "fileDescription": "post office bill",
+        "description": "post office bill",
+        "addedBy":{
+            "empNumber": 4,
+            "lastName": "Landon",
+            "firstName": "Abrahams",
+            "middleName": "",
+            "employeeId": "0004",
+            },
         "date": "2023-09-13"
       },
     ]
@@ -185,7 +218,13 @@ GetOne:
       "fileName": "travel.jpeg"
       "fileType": "image/jpeg"
       "size": 1000
-      "fileDescription": "fuel bill"
+      "description": "fuel bill"
+      addedBy:
+        empNumber: 4
+        lastName: "Landon"
+        firstName: "Abrahams"
+        middleName: ""
+        employeeId: "0004"
       "date": "2023-09-13"
 
   'GetOne -  claim attachment with invalid claim id':
@@ -235,7 +274,13 @@ Update:
       fileName: "profile_npdated.jpeg"
       fileType: "image/jpeg"
       size: 20692
-      fileDescription: "sample description updated"
+      description: "sample description updated"
+      addedBy:
+        empNumber: 4
+        lastName: "Landon"
+        firstName: "Abrahams"
+        middleName: ""
+        employeeId: "0004"
       date: "2023-09-13"
 
   'Update -  claim attachment - invalid requestId':
@@ -276,7 +321,13 @@ Update:
       fileName: "travel.jpeg"
       fileType: "image/jpeg"
       size: 1000
-      fileDescription: "sample description updated"
+      description: "sample description updated"
+      addedBy:
+        empNumber: 4
+        lastName: "Landon"
+        firstName: "Abrahams"
+        middleName: ""
+        employeeId: "0004"
       date: "2023-09-13"
 
   'Update -  claim attachment - without description':
@@ -300,7 +351,13 @@ Update:
       fileName: "profile_npdated.jpeg"
       fileType: "image/jpeg"
       size: 20692
-      fileDescription: "fuel bill"
+      description: "fuel bill"
+      addedBy:
+        empNumber: 4
+        lastName: "Landon"
+        firstName: "Abrahams"
+        middleName: ""
+        employeeId: "0004"
       date: "2023-09-13"
 
 Delete:
