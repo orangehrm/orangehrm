@@ -19,7 +19,9 @@
  -->
 
 <template>
-  <oxd-text tag="h6"> Authorize <b>{{ clientName }}</b></oxd-text>
+  <oxd-text tag="h6">
+    Authorize <b>{{ clientName }}</b></oxd-text
+  >
   <oxd-form
     ref="authorizeForm"
     method="GET"
