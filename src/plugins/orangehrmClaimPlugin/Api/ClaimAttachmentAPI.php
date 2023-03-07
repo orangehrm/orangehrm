@@ -182,11 +182,10 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
             $claimAttachment->setAttachedDate($this->getDateTimeHelper()->getNow());
             $this->setAttachment($claimAttachment);
             $this->commitTransaction();
-        } catch (RecordNotFoundException|ForbiddenException $e) {
+        } catch (InvalidParamException|ForbiddenException $e) {
             $this->rollBackTransaction();
             throw $e;
         } catch (Exception $e) {
-            dump($e->getMessage());
             $this->rollBackTransaction();
             throw new TransactionException($e);
         }
@@ -311,9 +310,11 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
     private function getClaimRequest(int $requestId): ClaimRequest
     {
         $claimRequest = $this->getClaimService()
-            ->getClaimDao()
-            ->getClaimRequestById($requestId);
-        $this->throwRecordNotFoundExceptionIfNotExist($claimRequest, ClaimRequest::class);
+                ->getClaimDao()
+                ->getClaimRequestById($requestId);
+        if (!$claimRequest instanceof ClaimRequest) {
+            throw $this->getInvalidParamException(self::PARAMETER_REQUEST_ID);
+        }
         if (!$this->getUserRoleManagerHelper()->isEmployeeAccessible($claimRequest->getEmployee()->getEmpNumber())) {
             throw $this->getForbiddenException();
         }
@@ -371,13 +372,7 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
             ->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_REQUEST_ID);
         $eattachId = $this->getRequestParams()
             ->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
-        $claimRequest = $this->getClaimService()
-            ->getClaimDao()
-            ->getClaimRequestById($requestId);
-        $this->throwRecordNotFoundExceptionIfNotExist($claimRequest, ClaimRequest::class);
-        if (!$this->getUserRoleManagerHelper()->isEmployeeAccessible($claimRequest->getEmployee()->getEmpNumber())) {
-            throw $this->getForbiddenException();
-        }
+        $this->getClaimRequest($requestId);
         $claimAttachment = $this->getClaimService()
             ->getClaimDao()
             ->getPartialClaimAttachment($requestId, $eattachId);
@@ -469,7 +464,7 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
             }
             $this->getClaimService()->getClaimDao()->saveClaimAttachment($claimAttachment);
             $this->commitTransaction();
-        } catch (RecordNotFoundException|ForbiddenException | InvalidParamException $e) {
+        } catch (ForbiddenException | InvalidParamException | RecordNotFoundException $e) {
             $this->rollBackTransaction();
             throw $e;
         } catch (Exception $e) {
