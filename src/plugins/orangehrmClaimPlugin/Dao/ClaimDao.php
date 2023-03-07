@@ -342,8 +342,8 @@ class ClaimDao extends BaseDao
      */
     public function getNextAttachmentId(int $requestId): int
     {
-        $q = $this->createQueryBuilder(ClaimAttachment::class, 'attachment')
-            ->select('MAX(attachment.attachId)')
+        $q = $this->createQueryBuilder(ClaimAttachment::class, 'attachment');
+        $q->select($q->expr()->max('attachment.attachId'))
             ->andWhere('attachment.requestId = :requestId')
             ->setParameter('requestId', $requestId);
         $id = $q->getQuery()->getSingleScalarResult();

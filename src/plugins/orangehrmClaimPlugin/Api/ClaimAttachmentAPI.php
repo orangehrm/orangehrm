@@ -402,6 +402,10 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
      *     path="/api/v2/claim/requests/{requestId}/attachments/{id}",
      *     tags={"Claim/Attachments"},
      *     @OA\PathParameter(
+     *         name="requestId",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\PathParameter(
      *         name="id",
      *         @OA\Schema(type="integer")
      *     ),

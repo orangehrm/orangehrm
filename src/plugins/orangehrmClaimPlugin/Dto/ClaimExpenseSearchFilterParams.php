@@ -23,6 +23,7 @@ use OrangeHRM\Core\Dto\FilterParams;
 
 class ClaimExpenseSearchFilterParams extends FilterParams
 {
+    public const ALLOWED_SORT_FIELDS = [];
     protected int $requestId;
 
     /**

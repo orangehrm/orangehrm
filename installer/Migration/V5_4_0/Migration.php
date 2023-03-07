@@ -414,11 +414,7 @@ class Migration extends AbstractMigration
         $q = $this->createQueryBuilder();
         $q->update('ohrm_expense_type', 'expenseType')
             ->set('expenseType.status', ':status')
-            ->where($q->expr()->or(
-                $q->expr()->isNull('expenseType.status'),
-                $q->expr()->eq('expenseType.status', ':currentStatus')
-            ))
-            ->setParameter('currentStatus', 'off')
+            ->where($q->expr()->isNull('expenseType.status'))
             ->setParameter(
                 'status',
                 false,
@@ -444,11 +440,7 @@ class Migration extends AbstractMigration
         $q = $this->createQueryBuilder();
         $q->update('ohrm_claim_event', 'claimEvent')
             ->set('claimEvent.status', ':status')
-            ->where($q->expr()->or(
-                $q->expr()->isNull('claimEvent.status'),
-                $q->expr()->eq('claimEvent.status', ':currentStatus')
-            ))
-            ->setParameter('currentStatus', 'off')
+            ->where($q->expr()->isNull('claimEvent.status'))
             ->setParameter(
                 'status',
                 false,
