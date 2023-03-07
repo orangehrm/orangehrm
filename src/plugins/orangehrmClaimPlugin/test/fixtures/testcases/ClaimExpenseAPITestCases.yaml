@@ -103,8 +103,8 @@ Create:
       amount: 7000.0
       note: "sample note"
     exception:
-      class: '\OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException'
-      message: 'Record Not Found'
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: 'Invalid Parameter'
 
   'Create - With deleted requestId':
     userId: 1
@@ -119,8 +119,8 @@ Create:
       amount: 7000.0
       note: "sample note"
     exception:
-      class: '\OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException'
-      message: 'Record Not Found'
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: 'Invalid Parameter'
 
 GetAll:
   'Get All - Claim Expense':
@@ -162,8 +162,8 @@ GetAll:
     attributes:
       requestId: 10
     exception:
-      class: '\OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException'
-      message: 'Record Not Found'
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: 'Invalid Parameter'
 
 GetOne:
   'Get One - Claim Expense':
@@ -205,8 +205,8 @@ GetOne:
       requestId: 100
       id: 1
     exception:
-      class: '\OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException'
-      message: 'Record Not Found'
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: 'Invalid Parameter'
 
 Update:
   'Update - Claim Expense':
@@ -399,5 +399,5 @@ Delete:
     body:
       ids: [ 100 ]
     exception:
-      class: '\OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException'
-      message: 'Record Not Found'
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: 'Invalid Parameter'

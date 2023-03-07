@@ -31,7 +31,8 @@ use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
-use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
+use OrangeHRM\Core\Api\V2\Exception\ForbiddenException;
+use OrangeHRM\Core\Api\V2\Exception\InvalidParamException;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
@@ -106,12 +107,19 @@ class ClaimExpenseAPI extends Endpoint implements CrudEndpoint
     {
         $claimExpenseSearchFilterParams = new ClaimExpenseSearchFilterParams();
         $this->setSortingAndPaginationParams($claimExpenseSearchFilterParams);
-        $requestId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_REQUEST_ID);
+        $requestId = $this->getRequestParams()
+            ->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_REQUEST_ID);
         $this->getClaimRequest($requestId);
         $claimExpenseSearchFilterParams->setRequestId($requestId);
-        $claimExpenses = $this->getClaimService()->getClaimDao()->getClaimExpenseList($claimExpenseSearchFilterParams);
-        $count = $this->getClaimService()->getClaimDao()->getClaimExpenseCount($claimExpenseSearchFilterParams);
-        $total = $this->getClaimService()->getClaimDao()->getClaimExpenseTotal($claimExpenseSearchFilterParams);
+        $claimExpenses = $this->getClaimService()
+            ->getClaimDao()
+            ->getClaimExpenseList($claimExpenseSearchFilterParams);
+        $count = $this->getClaimService()
+            ->getClaimDao()
+            ->getClaimExpenseCount($claimExpenseSearchFilterParams);
+        $total = $this->getClaimService()
+            ->getClaimDao()
+            ->getClaimExpenseTotal($claimExpenseSearchFilterParams);
         return new EndpointCollectionResult(
             ClaimExpenseModel::class,
             $claimExpenses,
@@ -189,21 +197,30 @@ class ClaimExpenseAPI extends Endpoint implements CrudEndpoint
                 RequestParams::PARAM_TYPE_BODY,
                 self::PARAMETER_EXPENSE_TYPE_ID
             );
-            $expenseType = $this->getClaimService()->getClaimDao()->getExpenseTypeById($expenseTypeId);
-            $this->throwRecordNotFoundExceptionIfNotExist($expenseType, ExpenseType::class);
+            $expenseType = $this->getClaimService()
+                ->getClaimDao()
+                ->getExpenseTypeById($expenseTypeId);
+            if (!$expenseType instanceof ExpenseType) {
+                throw $this->getInvalidParamException(self::PARAMETER_EXPENSE_TYPE_ID);
+            }
             $claimExpense->getDecorator()->setExpenseTypeByExpenseTypeId($expenseTypeId);
             $claimExpense->setDate(
-                $this->getRequestParams()->getDateTime(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_DATE)
+                $this->getRequestParams()
+                    ->getDateTime(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_DATE)
             );
             $claimExpense->setAmount(
-                $this->getRequestParams()->getFloat(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_AMOUNT)
+                $this->getRequestParams()
+                    ->getFloat(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_AMOUNT)
             );
             $claimExpense->setNote(
-                $this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_NOTE)
+                $this->getRequestParams()
+                    ->getStringOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_NOTE)
             );
-            $this->getClaimService()->getClaimDao()->saveClaimExpense($claimExpense);
+            $this->getClaimService()
+                ->getClaimDao()
+                ->saveClaimExpense($claimExpense);
             $this->commitTransaction();
-        } catch (RecordNotFoundException $e) {
+        } catch (ForbiddenException | InvalidParamException $e) {
             $this->rollBackTransaction();
             throw $e;
         } catch (Exception $e) {
@@ -262,10 +279,12 @@ class ClaimExpenseAPI extends Endpoint implements CrudEndpoint
     {
         $requestId = $this->getRequestParams()
             ->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_REQUEST_ID);
-        $claimRequest = $this->getClaimRequest($requestId);
-        $this->throwRecordNotFoundExceptionIfNotExist($claimRequest, ClaimRequest::class);
-        $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
-        $this->getClaimService()->getClaimDao()->deleteClaimExpense($claimRequest, $ids);
+        $this->getClaimRequest($requestId);
+        $ids = $this->getRequestParams()
+            ->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
+        $this->getClaimService()
+            ->getClaimDao()
+            ->deleteClaimExpense($requestId, $ids);
         return new EndpointResourceResult(ArrayModel::class, $ids);
     }
 
@@ -316,13 +335,16 @@ class ClaimExpenseAPI extends Endpoint implements CrudEndpoint
      */
     public function getOne(): EndpointResult //TODO:Check the claim request state
     {
-        $requestId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_REQUEST_ID);
+        $requestId = $this->getRequestParams()
+            ->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_REQUEST_ID);
         $this->getClaimRequest($requestId);
         $claimExpenseId = $this->getRequestParams()->getInt(
             RequestParams::PARAM_TYPE_ATTRIBUTE,
             CommonParams::PARAMETER_ID
         );
-        $claimExpense = $this->getClaimService()->getClaimDao()->getClaimRequestExpense($requestId, $claimExpenseId);
+        $claimExpense = $this->getClaimService()
+            ->getClaimDao()
+            ->getClaimRequestExpense($requestId, $claimExpenseId);
         $this->throwRecordNotFoundExceptionIfNotExist($claimExpense, ClaimExpense::class);
         return new EndpointResourceResult(ClaimExpenseModel::class, $claimExpense);
     }
@@ -384,9 +406,12 @@ class ClaimExpenseAPI extends Endpoint implements CrudEndpoint
     {
         $requestId = $this->getRequestParams()
             ->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_REQUEST_ID);
+        $this->getClaimRequest($requestId);
         $claimExpenseId = $this->getRequestParams()
             ->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
-        $claimExpense = $this->getClaimService()->getClaimDao()->getClaimRequestExpense($requestId, $claimExpenseId);
+        $claimExpense = $this->getClaimService()
+            ->getClaimDao()
+            ->getClaimRequestExpense($requestId, $claimExpenseId);
         $this->throwRecordNotFoundExceptionIfNotExist($claimExpense, ClaimExpense::class);
         $this->setClaimExpense($claimExpense);
         return new EndpointResourceResult(ClaimExpenseModel::class, $claimExpense);
@@ -438,7 +463,9 @@ class ClaimExpenseAPI extends Endpoint implements CrudEndpoint
         $claimRequest = $this->getClaimService()
             ->getClaimDao()
             ->getClaimRequestById($requestId);
-        $this->throwRecordNotFoundExceptionIfNotExist($claimRequest, ClaimRequest::class);
+        if (!$claimRequest instanceof ClaimRequest) {
+            throw $this->getInvalidParamException(self::PARAMETER_REQUEST_ID);
+        }
         if (!$this->getUserRoleManagerHelper()->isEmployeeAccessible($claimRequest->getEmployee()->getEmpNumber())) {
             throw $this->getForbiddenException();
         }

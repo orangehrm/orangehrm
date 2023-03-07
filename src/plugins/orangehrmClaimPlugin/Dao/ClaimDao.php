@@ -308,11 +308,13 @@ class ClaimDao extends BaseDao
     }
 
     /**
+     * @param int $requestId
      * @param int[] $ids
      * @return int
      */
-    public function deleteClaimExpense(ClaimRequest $claimRequest, array $ids): int
+    public function deleteClaimExpense(int $requestId, array $ids): int
     {
+        $claimRequest = $this->getReference(ClaimRequest::class, $requestId);
         $q = $this->createQueryBuilder(ClaimExpense::class, 'claimExpense');
         $q->update()
             ->set('claimExpense.isDeleted', ':isDeleted')

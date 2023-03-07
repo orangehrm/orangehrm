@@ -74,8 +74,7 @@ class ClaimDaoExpenseTest extends KernelTestCase
     public function testDeleteClaimExpense(): void
     {
         $claimRequestId = 1;
-        $claimRequest = $this->claimDao->getClaimRequestById($claimRequestId);
-        $result = $this->claimDao->deleteClaimExpense($claimRequest, [1, 3]);
+        $result = $this->claimDao->deleteClaimExpense($claimRequestId, [1, 3]);
         $this->assertEquals(1, $result);
     }
 }
