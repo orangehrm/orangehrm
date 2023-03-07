@@ -421,6 +421,18 @@ class Migration extends AbstractMigration
                 Types::BOOLEAN
             )
             ->executeStatement();
+
+        $this->createQueryBuilder()
+            ->update('ohrm_expense_type', 'expenseType')
+            ->set('expenseType.status', ':status')
+            ->where('expenseType.status = :currentStatus')
+            ->setParameter('currentStatus', 'off')
+            ->setParameter(
+                'status',
+                false,
+                Types::BOOLEAN
+            )
+            ->executeStatement();
     }
 
     private function changeClaimEventTableStatusToBoolean(): void
@@ -441,6 +453,18 @@ class Migration extends AbstractMigration
         $q->update('ohrm_claim_event', 'claimEvent')
             ->set('claimEvent.status', ':status')
             ->where($q->expr()->isNull('claimEvent.status'))
+            ->setParameter(
+                'status',
+                false,
+                Types::BOOLEAN
+            )
+            ->executeStatement();
+
+        $this->createQueryBuilder()
+            ->update('ohrm_expense_type', 'expenseType')
+            ->set('expenseType.status', ':status')
+            ->where('expenseType.status = :currentStatus')
+            ->setParameter('currentStatus', 'off')
             ->setParameter(
                 'status',
                 false,
