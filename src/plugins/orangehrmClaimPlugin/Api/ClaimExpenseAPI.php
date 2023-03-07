@@ -78,7 +78,7 @@ class ClaimExpenseAPI extends Endpoint implements CrudEndpoint
      *         name="sortField",
      *         in="query",
      *         required=false,
-     *         @OA\Schema(type="string", enum=ClaimAttachmentSearchFilterParams::ALLOWED_SORT_FIELDS)
+     *         @OA\Schema(type="string", enum=ClaimExpenseSearchFilterParams::ALLOWED_SORT_FIELDS)
      *     ),
      *     @OA\Parameter(ref="#/components/parameters/sortOrder"),
      *     @OA\Parameter(ref="#/components/parameters/limit"),

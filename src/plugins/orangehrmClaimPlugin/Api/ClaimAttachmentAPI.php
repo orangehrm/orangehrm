@@ -410,10 +410,11 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\RequestBody(
+     *         required=true,
      *         @OA\JsonContent(
-     *             type="object",
      *             @OA\Property(property="description", type="string"),
      *             @OA\Property(property="attachment", ref="#/components/schemas/Base64Attachment"),
+     *         )
      *     ),
      *     @OA\Response(
      *         response="200",
