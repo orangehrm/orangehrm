@@ -74,33 +74,6 @@
             </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
-        <br />
-        <oxd-form-row>
-          <oxd-grid :cols="1" class="orangehrm-full-width-grid">
-            <oxd-text tag="span" class="orangehrm-link">
-              {{ $t('admin.api_documentation') }}:
-              <a
-                class="orangehrm-link-url"
-                href="https://orangehrm.github.io/orangehrm-api-doc"
-              >
-                https://orangehrm.github.io/orangehrm-api-doc
-              </a>
-            </oxd-text>
-          </oxd-grid>
-        </oxd-form-row>
-        <oxd-form-row>
-          <oxd-grid :cols="1" class="orangehrm-full-width-grid">
-            <oxd-text tag="span" class="orangehrm-link">
-              {{ $t('admin.php_sample_app') }}:
-              <a
-                class="orangehrm-link-url"
-                href="https://github.com/orangehrm/api-sample-app-php"
-              >
-                https://github.com/orangehrm/api-sample-app-php
-              </a>
-            </oxd-text>
-          </oxd-grid>
-        </oxd-form-row>
 
         <oxd-divider />
 

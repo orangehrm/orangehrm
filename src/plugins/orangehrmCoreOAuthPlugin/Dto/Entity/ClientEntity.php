@@ -28,19 +28,20 @@ class ClientEntity implements ClientEntityInterface
     private string $name;
     private string $redirectUri;
     private bool $confidential;
+    private string $displayName;
 
-    /**
-     * @param int $identifier
-     * @param string $name
-     * @param string $redirectUri
-     * @param bool $confidential
-     */
-    public function __construct(int $identifier, string $name, string $redirectUri, bool $confidential)
-    {
+    public function __construct(
+        int $identifier,
+        string $name,
+        string $redirectUri,
+        bool $confidential,
+        string $displayName
+    ) {
         $this->identifier = $identifier;
         $this->name = $name;
         $this->redirectUri = $redirectUri;
         $this->confidential = $confidential;
+        $this->displayName = $displayName;
     }
 
     /**
@@ -77,6 +78,14 @@ class ClientEntity implements ClientEntityInterface
     }
 
     /**
+     * @return string
+     */
+    public function getDisplayName(): string
+    {
+        return $this->displayName;
+    }
+
+    /**
      * @param OAuthClient $authClient
      * @return self
      */
@@ -87,6 +96,7 @@ class ClientEntity implements ClientEntityInterface
             $authClient->getClientId(),
             $authClient->getRedirectUri(),
             $authClient->isConfidential(),
+            $authClient->getName(),
         );
     }
 }

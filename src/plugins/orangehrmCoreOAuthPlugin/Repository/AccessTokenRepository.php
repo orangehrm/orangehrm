@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\OAuth\Repository;
 
-use Exception;
 use League\OAuth2\Server\CryptTrait;
 use League\OAuth2\Server\Entities\AccessTokenEntityInterface;
 use League\OAuth2\Server\Entities\ClientEntityInterface;
@@ -42,7 +41,6 @@ class AccessTokenRepository extends BaseDao implements AccessTokenRepositoryInte
         $accessCode->setClientId($accessTokenEntity->getClient()->getIdentifier());
         $accessCode->setUserId($accessTokenEntity->getUserIdentifier());
         $accessCode->setExpiryDateTime($accessTokenEntity->getExpiryDateTime());
-        //$accessTokenEntity->getScopes(); // TODO
 
         // TODO:: handle UniqueTokenIdentifierConstraintViolationException
 
@@ -54,7 +52,14 @@ class AccessTokenRepository extends BaseDao implements AccessTokenRepositoryInte
      */
     public function revokeAccessToken($tokenId): void
     {
-        throw new Exception(__METHOD__);
+        $this->createQueryBuilder(OAuthAccessToken::class, 'accessToken')
+            ->update()
+            ->set('accessToken.revoked', ':revoked')
+            ->setParameter('revoked', true)
+            ->andWhere('accessToken.accessToken = :accessToken')
+            ->setParameter('accessToken', $tokenId)
+            ->getQuery()
+            ->execute();
     }
 
     /**
@@ -62,9 +67,12 @@ class AccessTokenRepository extends BaseDao implements AccessTokenRepositoryInte
      */
     public function isAccessTokenRevoked($tokenId): bool
     {
-        // TODO
-        return false;
-        throw new Exception(__METHOD__);
+        $q = $this->createQueryBuilder(OAuthAccessToken::class, 'accessToken')
+            ->andWhere('accessToken.revoked = :revoked')
+            ->setParameter('revoked', true)
+            ->andWhere('accessToken.accessToken = :accessToken')
+            ->setParameter('accessToken', $tokenId);
+        return $this->getPaginator($q)->count() > 0;
     }
 
     /**

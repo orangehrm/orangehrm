@@ -26,6 +26,7 @@ use OrangeHRM\Admin\Traits\Service\UserServiceTrait;
 use OrangeHRM\Authentication\Service\AuthenticationService;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\ORM\EntityManagerTrait;
+use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Entity\OAuthAccessToken;
 use OrangeHRM\Framework\Event\AbstractEventSubscriber;
 use OrangeHRM\Framework\Http\Response;
@@ -44,6 +45,7 @@ class OAuthSubscriber extends AbstractEventSubscriber
     use PsrHttpFactoryHelperTrait;
     use EntityManagerTrait;
     use UserServiceTrait;
+    use ConfigServiceTrait;
 
     private AuthenticationService $authenticationService;
 
@@ -74,7 +76,7 @@ class OAuthSubscriber extends AbstractEventSubscriber
         if (!$this->getAuthUser()->isAuthenticated() && $event->getRequest()->headers->has('authorization')) {
             // Attempt to check OAuth token
 
-            $encryptionKey = 'lxZFUEsBCJ2Yb14IF2ygAHI5N4+ZAUXXaSeeJm6+twsUmIen'; // TODO:: generate using base64_encode(random_bytes(32))
+            $encryptionKey = $this->getConfigService()->getOAuthEncryptionKey();
             $accessTokenRepository = new AccessTokenRepository();
             $server = new ResourceServer(
                 $accessTokenRepository,

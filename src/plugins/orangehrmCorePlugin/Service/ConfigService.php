@@ -61,6 +61,7 @@ class ConfigService
     public const KEY_IS_SPACES_ALLOWED = 'auth.password_policy.is_spaces_allowed';
     public const KEY_DEFAULT_PASSWORD_STRENGTH = 'auth.password_policy.default_required_password_strength';
     public const KEY_ENFORCE_PASSWORD_STRENGTH = 'auth.password_policy.enforce_password_strength';
+    public const KEY_OAUTH_ENCRYPTION_KEY = 'oauth.encryption_key';
 
     public const MAX_ATTACHMENT_SIZE = 1048576; // 1 MB
     public const ALLOWED_FILE_TYPES = [
@@ -536,5 +537,13 @@ class ConfigService
     public function setShowSystemCheckScreen(bool $value): void
     {
         $this->_setConfigValue(self::KEY_SHOW_SYSTEM_CHECK_SCREEN, (int)$value);
+    }
+
+    /**
+     * @return string
+     */
+    public function getOAuthEncryptionKey(): string
+    {
+        return $this->_getConfigValue(self::KEY_OAUTH_ENCRYPTION_KEY);
     }
 }

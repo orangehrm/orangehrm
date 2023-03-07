@@ -473,13 +473,7 @@ class Migration extends AbstractMigration
             if ($value === "medium") {
                 $value = "better";
             }
-            $this->createQueryBuilder()
-                ->update('hs_hr_config', 'config')
-                ->set('config.value', ':value')
-                ->where('config.name = :name')
-                ->setParameter('name', 'auth.password_policy.default_required_password_strength')
-                ->setParameter('value', $value)
-                ->executeStatement();
+            $this->getConfigHelper()->setConfigValue('auth.password_policy.default_required_password_strength', $value);
         }
 
         $this->getConfigHelper()->deleteConfigValue('authentication.default_required_password_strength');
@@ -582,17 +576,7 @@ class Migration extends AbstractMigration
         if ($value !== 'on') {
             $value = 'off';
         }
-        $this->getConnection()->createQueryBuilder()
-            ->insert('hs_hr_config')
-            ->values([
-                'name' => ':name',
-                'value' => ':value',
-            ])
-            ->setParameters([
-                'name' => 'auth.password_policy.enforce_password_strength',
-                'value' => $value,
-            ])
-            ->executeQuery();
+        $this->getConfigHelper()->setConfigValue('auth.password_policy.enforce_password_strength', $value);
         $this->getConfigHelper()->deleteConfigValue('authentication.enforce_password_strength');
     }
 
@@ -623,7 +607,7 @@ class Migration extends AbstractMigration
             ->addColumn('id', Types::INTEGER, ['Autoincrement' => true])
             ->addColumn('name', Types::STRING, ['Length' => 255])
             ->addColumn('client_id', Types::STRING, ['Length' => 255])
-            ->addColumn('client_secret', Types::STRING, ['Length' => 255])
+            ->addColumn('client_secret', Types::STRING, ['Length' => 255, 'Notnull' => false])
             ->addColumn('redirect_uri', Types::STRING, ['Length' => 2000])
             ->addColumn('is_confidential', Types::BOOLEAN)
             ->addColumn('enabled', Types::BOOLEAN)
@@ -638,5 +622,28 @@ class Migration extends AbstractMigration
             ->addColumn('revoked', Types::BOOLEAN)
             ->setPrimaryKey(['id'])
             ->create();
+
+        $this->getConnection()->createQueryBuilder()
+            ->insert('ohrm_oauth2_clients')
+            ->values(
+                [
+                    'name' => ':name',
+                    'client_id' => ':client_id',
+                    'client_secret' => ':client_secret',
+                    'redirect_uri' => ':redirect_uri',
+                    'is_confidential' => ':is_confidential',
+                    'enabled' => ':enabled',
+                ]
+            )
+            ->setParameter('name', "OrangeHRM Mobile App")
+            ->setParameter('client_id', 'orangehrm_mobile_app')
+            ->setParameter('client_secret', null)
+            ->setParameter('redirect_uri', 'com.orangehrm.opensource://oauthredirect')
+            ->setParameter('is_confidential', false, Types::BOOLEAN)
+            ->setParameter('enabled', true, Types::BOOLEAN)
+            ->executeQuery();
+
+        $encryptionKey = base64_encode(random_bytes(32));
+        $this->getConfigHelper()->setConfigValue('oauth.encryption_key', $encryptionKey);
     }
 }
