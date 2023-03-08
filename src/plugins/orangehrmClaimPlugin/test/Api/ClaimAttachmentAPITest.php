@@ -19,18 +19,14 @@
 
 namespace OrangeHRM\Tests\Claim\Api;
 
-use OrangeHRM\Claim\Api\ClaimExpenseAPI;
+use OrangeHRM\Claim\Api\ClaimAttachmentAPI;
 use OrangeHRM\Core\Authorization\Manager\BasicUserRoleManager;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
 use OrangeHRM\Tests\Util\Integration\TestCaseParams;
 
-/**
- * @group Claim
- * @group APIv2
- */
-class ClaimExpenseAPITest extends EndpointIntegrationTestCase
+class ClaimAttachmentAPITest extends EndpointIntegrationTestCase
 {
     use UserRoleManagerTrait;
 
@@ -46,20 +42,20 @@ class ClaimExpenseAPITest extends EndpointIntegrationTestCase
         $userRoleManager->expects($this->any())
             ->method('getAccessibleEntityIds')
             ->willReturn([4]);
-        $this->populateFixtures('ClaimExpense.yaml');
+        $this->populateFixtures('ClaimAttachment.yaml');
         $this->createKernelWithMockServices([
             Services::AUTH_USER => $this->getMockAuthUser($testCaseParams),
             Services::USER_ROLE_MANAGER => $userRoleManager,
         ]);
         $this->registerMockDateTimeHelper($testCaseParams);
         $this->registerServices($testCaseParams);
-        $api = $this->getApiEndpointMock(ClaimExpenseAPI::class, $testCaseParams);
+        $api = $this->getApiEndpointMock(ClaimAttachmentAPI::class, $testCaseParams);
         $this->assertValidTestCase($api, 'create', $testCaseParams);
     }
 
     public function dataProviderForTestCreate(): array
     {
-        return $this->getTestCases('ClaimExpenseAPITestCases.yaml', 'Create');
+        return $this->getTestCases('ClaimAttachmentAPITestCases.yaml', 'Create');
     }
 
     /**
@@ -73,20 +69,20 @@ class ClaimExpenseAPITest extends EndpointIntegrationTestCase
             ->getMock();
         $userRoleManager->expects($this->any())
             ->method('getAccessibleEntityIds')
-            ->willReturn([1, 2, 3, 4]);
-        $this->populateFixtures('ClaimExpense.yaml');
+            ->willReturn([1,2,3,4]);
+        $this->populateFixtures('ClaimAttachment.yaml');
         $this->createKernelWithMockServices([
             Services::AUTH_USER => $this->getMockAuthUser($testCaseParams),
-            Services::USER_ROLE_MANAGER => $userRoleManager
+            Services::USER_ROLE_MANAGER => $userRoleManager,
         ]);
         $this->registerServices($testCaseParams);
-        $api = $this->getApiEndpointMock(ClaimExpenseAPI::class, $testCaseParams);
+        $api = $this->getApiEndpointMock(ClaimAttachmentAPI::class, $testCaseParams);
         $this->assertValidTestCase($api, 'getAll', $testCaseParams);
     }
 
     public function dataProviderForTestGetAll(): array
     {
-        return $this->getTestCases('ClaimExpenseAPITestCases.yaml', 'GetAll');
+        return $this->getTestCases('ClaimAttachmentAPITestCases.yaml', 'GetAll');
     }
 
     /**
@@ -101,19 +97,19 @@ class ClaimExpenseAPITest extends EndpointIntegrationTestCase
         $userRoleManager->expects($this->any())
             ->method('getAccessibleEntityIds')
             ->willReturn([1, 2, 3, 4]);
-        $this->populateFixtures('ClaimExpense.yaml');
+        $this->populateFixtures('ClaimAttachment.yaml');
         $this->createKernelWithMockServices([
             Services::AUTH_USER => $this->getMockAuthUser($testCaseParams),
             Services::USER_ROLE_MANAGER => $userRoleManager
         ]);
         $this->registerServices($testCaseParams);
-        $api = $this->getApiEndpointMock(ClaimExpenseAPI::class, $testCaseParams);
+        $api = $this->getApiEndpointMock(ClaimAttachmentAPI::class, $testCaseParams);
         $this->assertValidTestCase($api, 'getOne', $testCaseParams);
     }
 
     public function dataProviderForTestGetOne(): array
     {
-        return $this->getTestCases('ClaimExpenseAPITestCases.yaml', 'GetOne');
+        return $this->getTestCases('ClaimAttachmentAPITestCases.yaml', 'GetOne');
     }
 
     /**
@@ -128,20 +124,20 @@ class ClaimExpenseAPITest extends EndpointIntegrationTestCase
         $userRoleManager->expects($this->any())
             ->method('getAccessibleEntityIds')
             ->willReturn([1, 2, 3, 4]);
-        $this->populateFixtures('ClaimExpense.yaml');
+        $this->populateFixtures('ClaimAttachment.yaml');
         $this->createKernelWithMockServices([
             Services::AUTH_USER => $this->getMockAuthUser($testCaseParams),
             Services::USER_ROLE_MANAGER => $userRoleManager
         ]);
         $this->registerMockDateTimeHelper($testCaseParams);
         $this->registerServices($testCaseParams);
-        $api = $this->getApiEndpointMock(ClaimExpenseAPI::class, $testCaseParams);
+        $api = $this->getApiEndpointMock(ClaimAttachmentAPI::class, $testCaseParams);
         $this->assertValidTestCase($api, 'update', $testCaseParams);
     }
 
     public function dataProviderForTestUpdate(): array
     {
-        return $this->getTestCases('ClaimExpenseAPITestCases.yaml', 'Update');
+        return $this->getTestCases('ClaimAttachmentAPITestCases.yaml', 'Update');
     }
 
     /**
@@ -156,18 +152,18 @@ class ClaimExpenseAPITest extends EndpointIntegrationTestCase
         $userRoleManager->expects($this->any())
             ->method('getAccessibleEntityIds')
             ->willReturn([1, 2, 3, 4]);
-        $this->populateFixtures('ClaimExpense.yaml');
+        $this->populateFixtures('ClaimAttachment.yaml');
         $this->createKernelWithMockServices([
             Services::AUTH_USER => $this->getMockAuthUser($testCaseParams),
             Services::USER_ROLE_MANAGER => $userRoleManager
         ]);
         $this->registerServices($testCaseParams);
-        $api = $this->getApiEndpointMock(ClaimExpenseAPI::class, $testCaseParams);
+        $api = $this->getApiEndpointMock(ClaimAttachmentAPI::class, $testCaseParams);
         $this->assertValidTestCase($api, 'delete', $testCaseParams);
     }
 
     public function dataProviderForTestDelete(): array
     {
-        return $this->getTestCases('ClaimExpenseAPITestCases.yaml', 'Delete');
+        return $this->getTestCases('ClaimAttachmentAPITestCases.yaml', 'Delete');
     }
 }

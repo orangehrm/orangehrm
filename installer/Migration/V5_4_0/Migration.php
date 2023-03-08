@@ -168,6 +168,38 @@ class Migration extends AbstractMigration
             $this->getSchemaHelper()->addForeignKey('ohrm_claim_request', $foreignKeyConstraint3);
         }
 
+        if (!$this->getSchemaHelper()->tableExists(['ohrm_claim_attachment'])) {
+            $this->getSchemaHelper()->createTable('ohrm_claim_attachment')
+                ->addColumn('request_id', Types::INTEGER)
+                ->addColumn('eattach_id', Types::BIGINT)
+                ->addColumn('eattach_size', Types::INTEGER, ['Default' => 0, 'Notnull' => false])
+                ->addColumn('eattach_desc', Types::STRING, ['Length' => 1000, 'Notnull' => false])
+                ->addColumn('eattach_filename', Types::STRING, ['Length' => 1000, 'Notnull' => false])
+                ->addColumn('eattach_attachment', Types::BLOB, ['Notnull' => false])
+                ->addColumn('eattach_type', Types::STRING, ['Length' => 200, 'Notnull' => false])
+                ->addColumn('attached_by', Types::INTEGER, ['Default' => null, 'Notnull' => false])
+                ->addColumn('attached_by_name', Types::STRING, ['Length' => 200, 'Notnull' => false])
+                ->addColumn('attached_time', Types::DATETIME_MUTABLE, ['Notnull' => false])
+                ->setPrimaryKey(['request_id', 'eattach_id'])
+                ->create();
+            $foreignKeyConstraint1 = new ForeignKeyConstraint(
+                ['attached_by'],
+                'hs_hr_employee',
+                ['emp_number'],
+                'attachedById',
+                ['onDelete' => 'CASCADE']
+            );
+            $this->getSchemaHelper()->addForeignKey('ohrm_claim_attachment', $foreignKeyConstraint1);
+            $foreignKeyConstraint2 = new ForeignKeyConstraint(
+                ['request_id'],
+                'ohrm_claim_request',
+                ['id'],
+                'claimRequestId',
+                ['onDelete' => 'CASCADE']
+            );
+            $this->getSchemaHelper()->addForeignKey('ohrm_claim_attachment', $foreignKeyConstraint2);
+        }
+
         $this->getSchemaHelper()->createTable('ohrm_enforce_password')
             ->addColumn('id', Types::INTEGER, ['Autoincrement' => true])
             ->addColumn('user_id', Types::INTEGER, ['Notnull' => true])
@@ -348,6 +380,8 @@ class Migration extends AbstractMigration
             ],
         ]);
 
+        $this->getSchemaHelper()->dropColumn('ohrm_claim_attachment', 'attached_by_name');
+
         $this->getSchemaHelper()->renameColumn('ohrm_claim_request', 'currency', 'currency_id');
     }
 
@@ -479,7 +513,7 @@ class Migration extends AbstractMigration
         $this->getConfigHelper()->deleteConfigValue('authentication.default_required_password_strength');
     }
 
-    private function insertMenuItems(
+    private function insertMenuItems(//TODO
         string  $menu_title,
         ?int    $screen_id,
         ?int    $parent_id,
@@ -513,7 +547,7 @@ class Migration extends AbstractMigration
 
     public function getParentId(string $menu_title, ?int $parent_id): int
     {
-        $parent_id = $this->getConnection()->createQueryBuilder()
+        return $this->getConnection()->createQueryBuilder()
             ->select('id')
             ->from('ohrm_menu_item')
             ->where('menu_title = :menu_title')
@@ -522,31 +556,28 @@ class Migration extends AbstractMigration
             ->setParameter('parent_id', $parent_id)
             ->executeQuery()
             ->fetchOne();
-        return $parent_id;
     }
 
     public function getScreenId(string $name): int
     {
-        $id = $this->getConnection()->createQueryBuilder()
+        return $this->getConnection()->createQueryBuilder()
             ->select('id')
             ->from('ohrm_screen')
             ->where('name = :name')
             ->setParameter('name', $name)
             ->executeQuery()
             ->fetchOne();
-        return $id;
     }
 
     public function checkClaimExists(): bool
     {
-        $claimExists = $this->getConnection()->createQueryBuilder()
+        return $this->getConnection()->createQueryBuilder()
             ->select('id')
             ->from('ohrm_menu_item')
             ->where('menu_title = :menu_title')
             ->setParameter('menu_title', 'Claim')
             ->executeQuery()
             ->fetchOne();
-        return $claimExists;
     }
 
     private function cleanClaimScreens(): void

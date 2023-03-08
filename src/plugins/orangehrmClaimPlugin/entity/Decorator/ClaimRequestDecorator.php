@@ -89,4 +89,10 @@ class ClaimRequestDecorator
     {
         return $this->getPayGradeService()->getPayGradeDao()->getCurrencyById($currencyId);
     }
+
+    public function setEmployeeByUserId(int $userId)
+    {
+        $user = $this->getReference(User::class, $userId);
+        $this->getClaimRequest()->setEmployee($user->getEmployee());
+    }
 }

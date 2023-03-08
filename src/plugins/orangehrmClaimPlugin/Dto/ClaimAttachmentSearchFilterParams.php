@@ -21,23 +21,23 @@ namespace OrangeHRM\Claim\Dto;
 
 use OrangeHRM\Core\Dto\FilterParams;
 
-class ClaimExpenseSearchFilterParams extends FilterParams
+class ClaimAttachmentSearchFilterParams extends FilterParams
 {
     public const ALLOWED_SORT_FIELDS = [];
-    protected int $requestId;
+    protected ?int $requestId;
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getRequestId(): int
+    public function getRequestId(): ?int
     {
         return $this->requestId;
     }
 
     /**
-     * @param int $requestId
+     * @param int|null $requestId
      */
-    public function setRequestId(int $requestId): void
+    public function setRequestId(?int $requestId): void
     {
         $this->requestId = $requestId;
     }

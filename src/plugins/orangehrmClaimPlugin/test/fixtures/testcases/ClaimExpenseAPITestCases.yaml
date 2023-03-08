@@ -32,9 +32,7 @@ Create:
       expenseTypeId: 1
       date: "2023-02-20"
       note: "sample note"
-    exception:
-      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
-      message: 'Invalid Parameter'
+    invalidOnly: [ amount ]
 
   'Create - Without date':
     userId: 1
@@ -47,9 +45,7 @@ Create:
       expenseTypeId: 1
       amount: 7000.0
       note: "sample note"
-    exception:
-      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
-      message: 'Invalid Parameter'
+    invalidOnly: [ date ]
 
   'Create - without note':
     userId: 1
@@ -71,6 +67,28 @@ Create:
       note: null
       date: "2023-02-20"
     meta: [ ]
+
+    'Create - note with null':
+      userId: 1
+      services:
+        claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+        core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+      attributes:
+        requestId: 1
+      body:
+        expenseTypeId: 1
+        date: "2023-02-20"
+        amount: 7000.0
+        note: null
+      data:
+        id: 4
+        expenseType:
+          id: 1
+          name: transport
+        amount: 7000
+        note: null
+        date: "2023-02-20"
+      meta: [ ]
 
   'Create - With wrong requestId':
     userId: 1
@@ -178,6 +196,18 @@ GetOne:
       class: '\OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException'
       message: 'Record Not Found'
 
+  'Get One - Claim Expense - with invalid requestId':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    attributes:
+      requestId: 100
+      id: 1
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: 'Invalid Parameter'
+
 Update:
   'Update - Claim Expense':
     userId: 1
@@ -231,9 +261,7 @@ Update:
       expenseTypeId: 2
       date: "2023-02-20"
       note: "sample note"
-    exception:
-      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
-      message: 'Invalid Parameter'
+    invalidOnly: [ amount ]
 
   'Update - Claim Expense - without note':
     userId: 1
@@ -247,9 +275,106 @@ Update:
       expenseTypeId: 2
       date: "2023-02-20"
       amount: 7000.0
+    data:
+      id: 1
+      expenseType:
+        id: 2
+        name: medical
+      amount: 7000.0
+      note: null
+      date: "2023-02-20"
+
+  'Update - Claim Expense - without date':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    attributes:
+      requestId: 1
+      id: 1
+    body:
+      expenseTypeId: 2
+      amount: 7000.0
+      note: "sample note"
+    invalidOnly: [ date ]
+
+  'Update - with invalid date format':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    attributes:
+      requestId: 1
+      id: 1
+    body:
+      expenseTypeId: 2
+      date: "2023-02-31"
+      amount: 7000.0
+      note: "sample note"
+    invalidOnly: [ 'date' ]
+
+  'Update - with invalid expenseTypeId':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    attributes:
+      requestId: 1
+      id: 100
+    body:
+      expenseTypeId: 2
+      date: "2020-09-13"
+      amount: 7000.0
+      note: "sample note"
     exception:
-      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
-      message: 'Invalid Parameter'
+      class: '\OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException'
+      message: 'Record Not Found'
+
+  'Update - with empty string for note':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    attributes:
+      requestId: 1
+      id: 1
+    body:
+      expenseTypeId: 2
+      date: "2023-02-20"
+      amount: 7000.0
+      note: ""
+    data:
+      id: 1
+      expenseType:
+        id: 2
+        name: medical
+      amount: 7000.0
+      note: null
+      date: "2023-02-20"
+    meta: [ ]
+
+  'Update - with null for note':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    attributes:
+      requestId: 1
+      id: 1
+    body:
+      expenseTypeId: 2
+      date: "2023-02-20"
+      amount: 7000.0
+      note: ""
+    data:
+      id: 1
+      expenseType:
+        id: 2
+        name: medical
+      amount: 7000.0
+      note: null
+      date: "2023-02-20"
+    meta: [ ]
 
 Delete:
   'Delete - Claim Expense':
