@@ -84,11 +84,12 @@ class ClaimAttachmentModel implements Normalizable
                 'fileType',
                 'size',
                 'description',
-                ['getClaimRequest','getEmployee','getEmpNumber'],
-                ['getClaimRequest','getEmployee','getFirstName'],
-                ['getClaimRequest','getEmployee','getLastName'],
-                ['getClaimRequest','getEmployee','getMiddleName'],
-                ['getClaimRequest','getEmployee','getEmployeeId'],
+                ['getAddedByEmployee','getEmpNumber'],
+                ['getAddedByEmployee','getFirstName'],
+                ['getAddedByEmployee','getLastName'],
+                ['getAddedByEmployee','getMiddleName'],
+                ['getAddedByEmployee','getEmployeeId'],
+                ['getAddedByEmployee','getEmployeeTerminationRecord', 'getId'],
                 'attachedDate'
             ]
         );
@@ -104,6 +105,7 @@ class ClaimAttachmentModel implements Normalizable
                 ['addedBy','firstName'],
                 ['addedBy','middleName'],
                 ['addedBy','employeeId'],
+                ['addedBy','terminationId'],
                 'date'
             ]
         );

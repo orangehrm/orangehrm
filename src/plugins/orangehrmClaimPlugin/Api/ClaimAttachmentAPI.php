@@ -230,6 +230,7 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
             $claimAttachment->getDescription(),
             $claimAttachment->getFilename(),
             $claimAttachment->getFileType(),
+            $claimAttachment->getUser()->getId(),
             $claimAttachment->getAttachedDate()
         );
     }

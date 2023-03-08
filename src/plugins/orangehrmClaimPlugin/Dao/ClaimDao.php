@@ -375,6 +375,7 @@ class ClaimDao extends BaseDao
                  claimAttachment.description,
                  claimAttachment.filename,
                  claimAttachment.fileType,
+                 Identity(claimAttachment.user),
                  claimAttachment.attachedDate)';
         $q = $this->createQueryBuilder(ClaimAttachment::class, 'claimAttachment')
             ->select($select);
@@ -402,6 +403,7 @@ class ClaimDao extends BaseDao
                  claimAttachment.description,
                  claimAttachment.filename,
                  claimAttachment.fileType,
+                 Identity(claimAttachment.user),
                  claimAttachment.attachedDate)';
         $q = $this->createQueryBuilder(ClaimAttachment::class, 'claimAttachment')
             ->select($select);

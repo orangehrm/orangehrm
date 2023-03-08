@@ -27,6 +27,7 @@ Create:
         firstName: "Abrahams"
         middleName: ""
         employeeId: "0004"
+        terminationId: null
       date: "2023-03-09"
     now:
       datetime: "2023-03-09"
@@ -58,6 +59,7 @@ Create:
         firstName: "Abrahams"
         middleName: ""
         employeeId: "0004"
+        terminationId: null
       date: "2023-03-09"
     now:
       datetime: "2023-03-09"
@@ -157,6 +159,7 @@ GetAll:
             "firstName": "Abrahams",
             "middleName": "",
             "employeeId": "0004",
+            "terminationId": null
             },
         "date": "2023-09-13"
       },
@@ -172,6 +175,7 @@ GetAll:
             "firstName": "Abrahams",
             "middleName": "",
             "employeeId": "0004",
+            "terminationId": null
             },
         "date": "2023-09-13"
       },
@@ -187,6 +191,7 @@ GetAll:
             "firstName": "Abrahams",
             "middleName": "",
             "employeeId": "0004",
+            "terminationId": null
             },
         "date": "2023-09-13"
       },
@@ -225,6 +230,7 @@ GetOne:
         firstName: "Abrahams"
         middleName: ""
         employeeId: "0004"
+        terminationId: null
       "date": "2023-09-13"
 
   'GetOne -  claim attachment with invalid claim id':
@@ -281,6 +287,7 @@ Update:
         firstName: "Abrahams"
         middleName: ""
         employeeId: "0004"
+        terminationId: null
       date: "2023-09-13"
 
   'Update -  claim attachment - invalid requestId':
@@ -328,6 +335,7 @@ Update:
         firstName: "Abrahams"
         middleName: ""
         employeeId: "0004"
+        terminationId: null
       date: "2023-09-13"
 
   'Update -  claim attachment - without description':
@@ -358,6 +366,7 @@ Update:
         firstName: "Abrahams"
         middleName: ""
         employeeId: "0004"
+        terminationId: null
       date: "2023-09-13"
 
 Delete:

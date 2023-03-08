@@ -24,12 +24,16 @@ use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\ClaimRequest;
 use OrangeHRM\Entity\Decorator\DecoratorTrait;
+use OrangeHRM\Entity\Employee;
+use OrangeHRM\Entity\User;
+use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
 
 class PartialClaimAttachment
 {
     use DateTimeHelperTrait;
     use DecoratorTrait;
     use EntityManagerHelperTrait;
+    use EmployeeServiceTrait;
 
     /**
      * @var int|null
@@ -62,6 +66,16 @@ class PartialClaimAttachment
     private ?string $fileType;
 
     /**
+     * @var int|null
+     */
+    private ?int $addedBy;
+
+    /**
+     * @var Employee|null
+     */
+    private ?Employee $addedByEmployee = null;
+
+    /**
      * @var string|null
      */
     private ?string $attachedDate;
@@ -73,6 +87,7 @@ class PartialClaimAttachment
      * @param string|null $description
      * @param string|null $filename
      * @param string|null $fileType
+     * @param int|null $addedBy
      * @param DateTime|null $attachedDate
      */
     public function __construct(
@@ -82,6 +97,7 @@ class PartialClaimAttachment
         ?string   $description,
         ?string   $filename,
         ?string   $fileType,
+        ?int     $addedBy,
         ?DateTime $attachedDate
     ) {
         $this->requestId = $requestId;
@@ -90,7 +106,12 @@ class PartialClaimAttachment
         $this->description = $description;
         $this->filename = $filename;
         $this->fileType = $fileType;
+        $this->addedBy = $addedBy;
         $this->setAttachedDate($attachedDate);
+        $this->addedByEmployee = $this->getReference(
+            Employee::class,
+            $this->getReference(User::class, $this->addedBy)->getEmpNumber()
+        );
     }
 
     /**
@@ -206,8 +227,43 @@ class PartialClaimAttachment
         $this->attachedDate = $this->getDateTimeHelper()->formatDate($date);
     }
 
+    /**
+     * @return ClaimRequest|null
+     */
     public function getClaimRequest(): ?ClaimRequest
     {
         return $this->getReference(ClaimRequest::class, $this->getRequestId());
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getAddedBy(): ?int
+    {
+        return $this->addedBy;
+    }
+
+    /**
+     * @param int|null $addedBy
+     */
+    public function setAddedBy(?int $addedBy): void
+    {
+        $this->addedBy = $addedBy;
+    }
+
+    /**
+     * @return Employee|null
+     */
+    public function getAddedByEmployee(): ?Employee
+    {
+        return $this->addedByEmployee;
+    }
+
+    /**
+     * @return void
+     */
+    public function setAddedByEmployee(): void
+    {
+        $this->getReference(Employee::class, $this->getAddedBy()->getEmpNumber());
     }
 }
