@@ -133,6 +133,7 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
             ...$this->getSortingAndPaginationParamsRules()
         );
     }
+
     /**
      * @OA\Post(
      *     path="/api/v2/claim/requests/{requestId}/attachments",
@@ -146,7 +147,7 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
      *             type="object",
      *             @OA\Property(property="description", type="string"),
      *             @OA\Property(property="attachment", ref="#/components/schemas/Base64Attachment"),
-     *             required={"base64"}
+     *             required={"attachment"}
      *         )
      *     ),
      *     @OA\Response(response="200",
@@ -411,7 +412,6 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\RequestBody(
-     *         required=true,
      *         @OA\JsonContent(
      *             @OA\Property(property="description", type="string"),
      *             @OA\Property(property="attachment", ref="#/components/schemas/Base64Attachment"),

@@ -379,7 +379,6 @@ class ClaimExpenseAPI extends Endpoint implements CrudEndpoint
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\RequestBody(
-     *         required=true,
      *         @OA\JsonContent(
      *             @OA\Property(property="expenseTypeId", type="integer"),
      *             @OA\Property(property="date", type="string"),

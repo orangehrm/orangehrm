@@ -85,7 +85,7 @@ class ClaimAttachment
     private User $user;
 
     /**
-     * @var DateTime|null
+     * @var DateTime
      * @ORM\Column(name="attached_time", type="datetime")
      */
     private DateTime $attachedDate;

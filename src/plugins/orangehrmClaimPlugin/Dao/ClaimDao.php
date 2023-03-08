@@ -89,7 +89,7 @@ class ClaimDao extends BaseDao
     }
 
     /**
-     * @param array int[] $ids
+     * @param int[] $ids
      * @return int
      */
     public function deleteClaimEvents(array $ids): int
@@ -226,7 +226,7 @@ class ClaimDao extends BaseDao
     }
 
     /**
-     * @param int $requestId
+     * @param ClaimExpenseSearchFilterParams $claimExpenseSearchFilterParams
      * @return array
      */
     public function getClaimExpenseList(ClaimExpenseSearchFilterParams $claimExpenseSearchFilterParams): array
@@ -236,7 +236,7 @@ class ClaimDao extends BaseDao
     }
 
     /**
-     * @param int $requestId
+     * @param ClaimExpenseSearchFilterParams $claimExpenseSearchFilterParams
      * @return Paginator
      */
     protected function getClaimExpensePaginator(
@@ -254,7 +254,7 @@ class ClaimDao extends BaseDao
     }
 
     /**
-     * @param $requestId
+     * @param ClaimExpenseSearchFilterParams $claimExpenseSearchFilterParams
      * @return int
      */
     public function getClaimExpenseCount(ClaimExpenseSearchFilterParams $claimExpenseSearchFilterParams): int

@@ -513,7 +513,7 @@ class Migration extends AbstractMigration
         $this->getConfigHelper()->deleteConfigValue('authentication.default_required_password_strength');
     }
 
-    private function insertMenuItems(
+    private function insertMenuItems(//TODO
         string  $menu_title,
         ?int    $screen_id,
         ?int    $parent_id,
@@ -547,7 +547,7 @@ class Migration extends AbstractMigration
 
     public function getParentId(string $menu_title, ?int $parent_id): int
     {
-        $parent_id = $this->getConnection()->createQueryBuilder()
+        return $this->getConnection()->createQueryBuilder()
             ->select('id')
             ->from('ohrm_menu_item')
             ->where('menu_title = :menu_title')
@@ -556,31 +556,28 @@ class Migration extends AbstractMigration
             ->setParameter('parent_id', $parent_id)
             ->executeQuery()
             ->fetchOne();
-        return $parent_id;
     }
 
     public function getScreenId(string $name): int
     {
-        $id = $this->getConnection()->createQueryBuilder()
+        return $this->getConnection()->createQueryBuilder()
             ->select('id')
             ->from('ohrm_screen')
             ->where('name = :name')
             ->setParameter('name', $name)
             ->executeQuery()
             ->fetchOne();
-        return $id;
     }
 
     public function checkClaimExists(): bool
     {
-        $claimExists = $this->getConnection()->createQueryBuilder()
+        return $this->getConnection()->createQueryBuilder()
             ->select('id')
             ->from('ohrm_menu_item')
             ->where('menu_title = :menu_title')
             ->setParameter('menu_title', 'Claim')
             ->executeQuery()
             ->fetchOne();
-        return $claimExists;
     }
 
     private function cleanClaimScreens(): void

@@ -30,42 +30,29 @@ use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
  * @OA\Schema(
  *     schema="Claim-AttachmentModel",
  *     type="object",
+ *     @OA\Property(property="id", type="integer"),
  *     @OA\Property(
- *         property="requestId",
- *         type="integer"
+ *         property="attachment",
+ *         type="object",
+ *         @OA\Property(property="fileName", type="string"),
+ *         @OA\Property(property="fileType", type="string"),
+ *         @OA\Property(property="fileSize", type="integer"),
+ *         @OA\Property(property="fileDescription", type="string"),
  *     ),
  *     @OA\Property(
- *         property="attachmentId",
- *         type="integer"
- *     ),
- *     @OA\Property(
- *         property="fileName",
- *         type="string"
- *     ),
- *     @OA\Property(
- *         property="fileType",
- *         type="string"
- *     ),
- *     @OA\Property(
- *         property="fileSize",
- *         type="integer"
- *     ),
- *     @OA\Property(
- *         property="fileDescription",
- *         type="string"
- *     ),
- *     @OA\Property(
- *         property="Employee",
+ *         property="employee",
  *         type="object",
  *         @OA\Property(property="empNumber", type="integer"),
  *         @OA\Property(property="lastName", type="string"),
  *         @OA\Property(property="firstName", type="string"),
  *         @OA\Property(property="middleName", type="string"),
  *         @OA\Property(property="employeeId", type="string"),
+ *         @OA\Property(property="terminationId", type="integer"),
  *     ),
  *     @OA\Property(
  *         property="date",
- *         type="string"
+ *         type="string",
+ *         format="date"
  *     )
  * )
  */
@@ -96,16 +83,16 @@ class ClaimAttachmentModel implements Normalizable
         $this->setAttributeNames(
             [
                 'id',
-                'fileName',
-                'fileType',
-                'size',
-                'description',
-                ['addedBy','empNumber'],
-                ['addedBy','lastName'],
-                ['addedBy','firstName'],
-                ['addedBy','middleName'],
-                ['addedBy','employeeId'],
-                ['addedBy','terminationId'],
+                ['attachment','fileName'],
+                ['attachment','fileType'],
+                ['attachment','size'],
+                ['attachment','description'],
+                ['employee','empNumber'],
+                ['employee','lastName'],
+                ['employee','firstName'],
+                ['employee','middleName'],
+                ['employee','employeeId'],
+                ['employee','terminationId'],
                 'date'
             ]
         );

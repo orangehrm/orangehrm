@@ -229,6 +229,10 @@ class ClaimEventAPI extends Endpoint implements CrudEndpoint
         );
     }
 
+    /**
+     * @param bool $update
+     * @return ParamRule
+     */
     protected function getNameRule(bool $update): ParamRule
     {
         $entityProperties = new EntityUniquePropertyOption();
@@ -331,7 +335,6 @@ class ClaimEventAPI extends Endpoint implements CrudEndpoint
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\RequestBody(
-     *         required=true,
      *         @OA\JsonContent(
      *             @OA\Property(
      *                 property="description",
