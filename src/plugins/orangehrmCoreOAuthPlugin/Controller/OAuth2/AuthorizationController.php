@@ -20,16 +20,17 @@
 namespace OrangeHRM\OAuth\Controller\OAuth2;
 
 use League\OAuth2\Server\Exception\OAuthServerException;
-use OrangeHRM\Core\Controller\AbstractVueController;
+use OrangeHRM\Core\Controller\AbstractViewController;
 use OrangeHRM\Core\Traits\LoggerTrait;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\OAuth\Dto\Entity\UserEntity;
 use OrangeHRM\OAuth\Traits\OAuthServerTrait;
 use OrangeHRM\OAuth\Traits\PsrHttpFactoryHelperTrait;
+use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 
-class AuthorizationController extends AbstractVueController
+class AuthorizationController extends AbstractViewController
 {
     use LoggerTrait;
     use UserRoleManagerTrait;
@@ -37,33 +38,25 @@ class AuthorizationController extends AbstractVueController
     use PsrHttpFactoryHelperTrait;
 
     /**
-     * @inheritDoc
+     * @param Request $request
+     * @return Response
      */
-    public function handle(Request $request)
+    public function handle(Request $request): Response
     {
         try {
             $server = $this->getOAuthServer()->getServer();
             $psrRequest = $this->getPsrHttpFactoryHelper()->createPsr7Request($request);
             $authRequest = $server->validateAuthorizationRequest($psrRequest);
 
-            // The auth request object can be serialized and saved into a user's session.
-            // You will probably want to redirect the user at this point to a login endpoint.
-
             $user = UserEntity::createFromEntity($this->getUserRoleManager()->getUser());
             $authRequest->setUser($user);
-
-            // At this point you should redirect the user to an authorization page.
-            // This form will ask the user to approve the client and the scopes requested.
-
-            // Once the user has approved or denied the client update the status
-            // (true = approved, false = denied)
 
             $authorized = filter_var(
                 $psrRequest->getQueryParams()['authorized'],
                 FILTER_VALIDATE_BOOLEAN,
                 FILTER_NULL_ON_FAILURE
             );
-            $authRequest->setAuthorizationApproved($authorized === true); // TODO:: consent screen
+            $authRequest->setAuthorizationApproved($authorized === true);
 
             $psrResponse = $this->getPsrHttpFactoryHelper()->createPsr7Response($this->getResponse());
             $psrResponse = $server->completeAuthorizationRequest($authRequest, $psrResponse);

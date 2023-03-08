@@ -22,9 +22,14 @@ namespace OrangeHRM\OAuth\Dto\Entity;
 use DateTimeImmutable;
 use League\OAuth2\Server\Entities\AccessTokenEntityInterface;
 use League\OAuth2\Server\Entities\RefreshTokenEntityInterface;
+use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
+use OrangeHRM\OAuth\Traits\OAuthServerTrait;
 
 class RefreshTokenEntity implements RefreshTokenEntityInterface
 {
+    use DateTimeHelperTrait;
+    use OAuthServerTrait;
+
     private string $identifier;
     private DateTimeImmutable $expiryDateTime;
     private AccessTokenEntityInterface $accessToken;
@@ -58,7 +63,9 @@ class RefreshTokenEntity implements RefreshTokenEntityInterface
      */
     public function setExpiryDateTime(DateTimeImmutable $dateTime): void
     {
-        $this->expiryDateTime = $dateTime;
+        // Override expiry time to UTC
+        $this->expiryDateTime = DateTimeImmutable::createFromMutable($this->getDateTimeHelper()->getNowInUTC())
+            ->add($this->getOAuthServer()->getRefreshTokenTTL());
     }
 
     /**

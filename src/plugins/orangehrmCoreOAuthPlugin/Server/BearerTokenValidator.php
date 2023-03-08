@@ -23,11 +23,14 @@ use League\OAuth2\Server\AuthorizationValidators\AuthorizationValidatorInterface
 use League\OAuth2\Server\CryptTrait;
 use League\OAuth2\Server\Exception\OAuthServerException;
 use League\OAuth2\Server\Repositories\AccessTokenRepositoryInterface;
+use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
+use OrangeHRM\Entity\OAuthAccessToken;
 use Psr\Http\Message\ServerRequestInterface;
 
 class BearerTokenValidator implements AuthorizationValidatorInterface
 {
     use CryptTrait;
+    use DateTimeHelperTrait;
 
     public const ATTRIBUTE_ACCESS_TOKEN = '_oauth2_access_token';
 
@@ -52,16 +55,27 @@ class BearerTokenValidator implements AuthorizationValidatorInterface
         }
 
         $header = $request->getHeader('authorization');
-        $accessToken = trim((string)preg_replace('/^\s*Bearer\s/', '', $header[0]));
+        $tokenId = trim((string)preg_replace('/^\s*Bearer\s/', '', $header[0]));
 
-        $accessToken = $this->decrypt($accessToken);
+        $tokenId = $this->decrypt($tokenId); // TODO
+
+        if (!is_string($tokenId)) {
+            throw OAuthServerException::accessDenied();
+        }
+
+        $accessToken = $this->accessTokenRepository->getAccessToken($tokenId);
+        if (!$accessToken instanceof OAuthAccessToken) {
+            throw OAuthServerException::accessDenied('Access token could not be verified');
+        }
 
         // Check if token has been revoked
-        if ($this->accessTokenRepository->isAccessTokenRevoked($accessToken)) {
+        if ($this->accessTokenRepository->isAccessTokenRevoked($tokenId)) {
             throw OAuthServerException::accessDenied('Access token has been revoked');
         }
 
-        // TODO check expired
+        if ($this->getDateTimeHelper()->getNowInUTC() > $accessToken->getExpiryDateTime()) {
+            throw OAuthServerException::accessDenied('The token is expired');
+        }
 
         return $request->withAttribute(self::ATTRIBUTE_ACCESS_TOKEN, $accessToken);
     }

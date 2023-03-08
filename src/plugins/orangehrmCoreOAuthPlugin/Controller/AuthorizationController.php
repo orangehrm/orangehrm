@@ -43,11 +43,13 @@ class AuthorizationController extends AbstractVueController
             $server = $this->getOAuthServer()->getServer();
             $authRequest = $server->validateAuthorizationRequest($psrRequest);
         } catch (OAuthServerException $e) {
+            dd($e->getMessage());
             // TODO
             $psrResponse = $this->getPsrHttpFactoryHelper()->createPsr7Response($this->getResponse());
 //            return $this->getPsrHttpFactoryHelper()
 //                ->createResponseFromPsr7Response($e->generateHttpResponse($psrResponse));
         } catch (Throwable $e) {
+            dd($e->getMessage());
             // TODO
 //            return $this->getResponse()
 //                ->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);

@@ -143,16 +143,15 @@ export default {
   created() {
     this.isLoading = true;
     this.http
-      .getAll({limit: 0})
+      .get(this.id)
       .then((response) => {
         const {data} = response.data;
-        const item = data.find((item) => item.id === this.id);
 
-        this.oAuthClient.name = item.name;
-        this.oAuthClient.redirectUri = item.redirectUri;
-        this.oAuthClient.enabled = item.enabled;
-        this.oAuthClient.clientId = item.clientId;
-        this.oAuthClient.clientSecret = item.clientSecret;
+        this.oAuthClient.name = data.name;
+        this.oAuthClient.redirectUri = data.redirectUri;
+        this.oAuthClient.enabled = data.enabled;
+        this.oAuthClient.clientId = data.clientId;
+        this.oAuthClient.clientSecret = data.clientSecret;
 
         // Fetch list data for unique test
         return this.http.getAll({limit: 0});

@@ -55,9 +55,9 @@ class OAuthServer
         $this->accessTokenRepository->setEncryptionKey($this->encryptionKey);
         $this->authCodeRepository = new AuthorizationCodeRepository();
         $this->refreshTokenRepository = new RefreshTokenRepository();
-        $this->authCodeTTL = new DateInterval('PT10M');
-        $this->refreshTokenTTL = new DateInterval('P1M');
-        $this->accessTokenTTL = new DateInterval('PT30M');
+        $this->authCodeTTL = new DateInterval('PT10M'); // TODO
+        $this->refreshTokenTTL = new DateInterval('P1M'); // TODO
+        $this->accessTokenTTL = new DateInterval('PT30M'); // TODO
     }
 
     /**
@@ -85,5 +85,29 @@ class OAuthServer
             $this->oauthServer->enableGrantType($refreshTokenGrant, $this->accessTokenTTL);
         }
         return $this->oauthServer;
+    }
+
+    /**
+     * @return DateInterval
+     */
+    public function getAuthCodeTTL(): DateInterval
+    {
+        return $this->authCodeTTL;
+    }
+
+    /**
+     * @return DateInterval
+     */
+    public function getRefreshTokenTTL(): DateInterval
+    {
+        return $this->refreshTokenTTL;
+    }
+
+    /**
+     * @return DateInterval
+     */
+    public function getAccessTokenTTL(): DateInterval
+    {
+        return $this->accessTokenTTL;
     }
 }

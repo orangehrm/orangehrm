@@ -19,17 +19,18 @@
 
 namespace OrangeHRM\OAuth\Subscriber;
 
-use Exception;
 use League\OAuth2\Server\Exception\OAuthServerException;
 use League\OAuth2\Server\ResourceServer;
 use OrangeHRM\Admin\Traits\Service\UserServiceTrait;
+use OrangeHRM\Authentication\Exception\SessionExpiredException;
+use OrangeHRM\Authentication\Exception\UnauthorizedException;
 use OrangeHRM\Authentication\Service\AuthenticationService;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
-use OrangeHRM\Core\Traits\ORM\EntityManagerTrait;
 use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Entity\OAuthAccessToken;
 use OrangeHRM\Framework\Event\AbstractEventSubscriber;
 use OrangeHRM\Framework\Http\Response;
+use OrangeHRM\Framework\Http\Session\Session;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\OAuth\Dto\CryptKey;
 use OrangeHRM\OAuth\Repository\AccessTokenRepository;
@@ -38,12 +39,12 @@ use OrangeHRM\OAuth\Traits\PsrHttpFactoryHelperTrait;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
+use Throwable;
 
 class OAuthSubscriber extends AbstractEventSubscriber
 {
     use AuthUserTrait;
     use PsrHttpFactoryHelperTrait;
-    use EntityManagerTrait;
     use UserServiceTrait;
     use ConfigServiceTrait;
 
@@ -88,25 +89,48 @@ class OAuthSubscriber extends AbstractEventSubscriber
                 $request = $this->getPsrHttpFactoryHelper()->createPsr7Request($event->getRequest());
                 $request = $server->validateAuthenticatedRequest($request);
 
-                // TODO:: refactor
                 /** @var OAuthAccessToken $accessToken */
-                $accessToken = $this->getEntityManager()
-                    ->getRepository(OAuthAccessToken::class)
-                    ->findOneBy(['accessToken' => $request->getAttribute(BearerTokenValidator::ATTRIBUTE_ACCESS_TOKEN)]);
-
+                $accessToken = $request->getAttribute(BearerTokenValidator::ATTRIBUTE_ACCESS_TOKEN);
                 $user = $this->getUserService()->geUserDao()->getSystemUser($accessToken->getUserId());
 
                 $this->getAuthenticationService()->setCredentialsForUser($user);
                 $this->getAuthUser()->setIsAuthenticated(true);
-            } catch (OAuthServerException $e) {
-                // TODO
-                $e->generateHttpResponse($this->getPsrHttpFactoryHelper()->createPsr7Response(new Response()));
-                throw $e;
-            } catch (Exception $e) {
-                // TODO
-                throw $e;
+            } catch (Throwable $e) {
+                $this->handleException($event, $e);
             }
         }
+    }
+
+    /**
+     * @param RequestEvent $event
+     * @param Throwable $e
+     * @throws SessionExpiredException
+     * @throws UnauthorizedException
+     */
+    private function handleException(RequestEvent $event, Throwable $e): void
+    {
+        $request = $event->getRequest();
+
+        // 'application/json', 'application/x-json'
+        if ($request->getContentType() === 'json') {
+            $response = new Response();
+            $message = $e instanceof OAuthServerException
+                ? $e->getMessage() . $e->getHint()
+                : 'Unexpected error occurred while evaluating the `Bearer` token';
+            $response->setContent(
+                \OrangeHRM\Core\Api\V2\Response::formatError(
+                    ['error' => ['status' => Response::HTTP_UNAUTHORIZED, 'message' => $message]]
+                )
+            );
+            $response->setStatusCode(Response::HTTP_UNAUTHORIZED);
+            $response->headers->set(
+                \OrangeHRM\Core\Api\V2\Response::CONTENT_TYPE_KEY,
+                \OrangeHRM\Core\Api\V2\Response::CONTENT_TYPE_JSON
+            );
+            throw new UnauthorizedException($response, $message);
+        }
+
+        throw new SessionExpiredException();
     }
 
     /**
@@ -116,6 +140,7 @@ class OAuthSubscriber extends AbstractEventSubscriber
     {
         // TODO:: use memory session storage
         if ($event->getRequest()->headers->has('authorization') && $this->getAuthUser()->isAuthenticated()) {
+            /** @var Session $session */
             $session = $this->getContainer()->get(Services::SESSION);
             $session->invalidate();
         }
