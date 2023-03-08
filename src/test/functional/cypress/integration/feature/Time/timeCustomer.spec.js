@@ -171,6 +171,8 @@ describe('Time - Customer', function () {
       });
       cy.wait('@updateCustomer');
       cy.toast('success', 'Successfully Updated');
+      // eslint-disable-next-line cypress/no-unnecessary-waiting
+      cy.wait(4000);
     });
   });
 
