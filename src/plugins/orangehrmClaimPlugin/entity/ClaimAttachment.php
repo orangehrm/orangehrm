@@ -66,7 +66,7 @@ class ClaimAttachment
     private ?string $filename;
 
     /**
-     * @var string
+     * @var string|resource
      * @ORM\Column(name="eattach_attachment", type="blob")
      */
     private $attachment;

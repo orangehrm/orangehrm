@@ -102,7 +102,8 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
     {
         $claimAttachmentSearchFilterParams = new ClaimAttachmentSearchFilterParams();
         $this->setSortingAndPaginationParams($claimAttachmentSearchFilterParams);
-        $requestId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_REQUEST_ID);
+        $requestId = $this->getRequestParams()
+            ->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_REQUEST_ID);
         $this->getClaimRequest($requestId);
         $claimAttachmentSearchFilterParams->setRequestId($requestId);
         $claimAttachments = $this->getClaimService()
@@ -372,12 +373,12 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
     {
         $requestId = $this->getRequestParams()
             ->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_REQUEST_ID);
-        $eattachId = $this->getRequestParams()
+        $attachId = $this->getRequestParams()
             ->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $this->getClaimRequest($requestId);
         $claimAttachment = $this->getClaimService()
             ->getClaimDao()
-            ->getPartialClaimAttachment($requestId, $eattachId);
+            ->getPartialClaimAttachment($requestId, $attachId);
         $this->throwRecordNotFoundExceptionIfNotExist($claimAttachment, PartialClaimAttachment::class);
         return new EndpointResourceResult(ClaimAttachmentModel::class, $claimAttachment);
     }
