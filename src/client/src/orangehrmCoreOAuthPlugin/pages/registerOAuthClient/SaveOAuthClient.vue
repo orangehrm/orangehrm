@@ -58,8 +58,9 @@
                   disabled
                 />
               </oxd-grid-item>
-              <oxd-grid-item class="--offset-row-4">
+              <oxd-grid-item v-if="showClientSecret" class="--offset-row-4">
                 <oxd-alert
+                  v-if="isSecretPlain"
                   type="warn"
                   :show="true"
                   :message="$t('admin.client_secret_warning_message')"
@@ -81,7 +82,7 @@
                 </oxd-grid-item>
               </oxd-grid>
             </oxd-grid-item>
-            <oxd-grid-item class="--offset-row-6">
+            <oxd-grid-item v-if="!editMode" class="--offset-row-6">
               <oxd-grid :cols="2" class="orangehrm-full-width-grid">
                 <oxd-grid-item class="orangehrm-field-row">
                   <oxd-text tag="p" class="orangehrm-field-label">
@@ -126,7 +127,7 @@ const initialOAuthClient = {
   enabled: true,
   clientId: null,
   clientSecret: '********',
-  confidential: true,
+  confidential: false,
 };
 
 export default {
@@ -154,6 +155,7 @@ export default {
   data() {
     return {
       isLoading: false,
+      isSecretPlain: false,
       oAuthClient: {...initialOAuthClient},
       rules: {
         name: [required, shouldNotExceedCharLength(80)],
@@ -165,6 +167,9 @@ export default {
   computed: {
     editMode() {
       return this.oAuthClient.clientId !== null;
+    },
+    showClientSecret() {
+      return this.oAuthClient.confidential === true;
     },
   },
 
@@ -193,12 +198,7 @@ export default {
       if (this.id !== null) {
         return this.http.get(this.id).then((response) => {
           const {data} = response.data;
-
-          this.oAuthClient.id = data.id;
-          this.oAuthClient.name = data.name;
-          this.oAuthClient.redirectUri = data.redirectUri;
-          this.oAuthClient.enabled = data.enabled;
-          this.oAuthClient.clientId = data.clientId;
+          this.setDataFromResponse(data);
 
           // Fetch list data for unique test
           return this.http.getAll({limit: 0});
@@ -225,14 +225,9 @@ export default {
         })
         .then((response) => {
           const {data, meta} = response.data;
-
-          this.oAuthClient.id = data.id;
-          this.oAuthClient.name = data.name;
-          this.oAuthClient.redirectUri = data.redirectUri;
-          this.oAuthClient.enabled = data.enabled;
-          this.oAuthClient.clientId = data.clientId;
+          this.setDataFromResponse(data);
           this.oAuthClient.clientSecret = meta.clientSecret;
-          this.oAuthClient.confidential = data.confidential;
+          this.isSecretPlain = true;
 
           return this.$toast.saveSuccess();
         });
@@ -245,9 +240,24 @@ export default {
           enabled: this.oAuthClient.enabled,
           confidential: this.oAuthClient.confidential,
         })
-        .then(() => {
+        .then((response) => {
+          const {data, meta} = response.data;
+          this.setDataFromResponse(data);
+          if (data.confidential === true && meta.clientSecret !== null) {
+            this.oAuthClient.clientSecret = meta.clientSecret;
+            this.isSecretPlain = true;
+          }
+
           return this.$toast.updateSuccess();
         });
+    },
+    setDataFromResponse(data) {
+      this.oAuthClient.id = data.id;
+      this.oAuthClient.name = data.name;
+      this.oAuthClient.redirectUri = data.redirectUri;
+      this.oAuthClient.enabled = data.enabled;
+      this.oAuthClient.clientId = data.clientId;
+      this.oAuthClient.confidential = data.confidential;
     },
   },
 };

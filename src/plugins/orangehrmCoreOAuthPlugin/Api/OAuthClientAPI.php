@@ -314,10 +314,25 @@ class OAuthClientAPI extends Endpoint implements CrudEndpoint
         $oauthClient = $this->getOAuthService()->getOAuthClientDao()->getOAuthClientById($id);
 
         $this->throwRecordNotFoundExceptionIfNotExist($oauthClient, OAuthClient::class);
+        $currentOAuthClient = clone $oauthClient;
         $this->setOAuthClient($oauthClient);
 
+        $secret = null;
+        // state changing
+        if ($oauthClient->isConfidential() && !$currentOAuthClient->isConfidential()) {
+            $secret = base64_encode(random_bytes(32));
+            $passwordHasher = new PasswordHash();
+            $oauthClient->setClientSecret($passwordHasher->hash($secret));
+        } elseif (!$oauthClient->isConfidential() && $currentOAuthClient->isConfidential()) {
+            $oauthClient->setClientSecret(null);
+        } // else `confidential` state not changed
+
         $oauthClient = $this->getOAuthService()->getOAuthClientDao()->saveOAuthClient($oauthClient);
-        return new EndpointResourceResult(OAuthClientModel::class, $oauthClient);
+        return new EndpointResourceResult(
+            OAuthClientModel::class,
+            $oauthClient,
+            new ParameterBag([self::PARAMETER_CLIENT_SECRET => $secret])
+        );
     }
 
     /**
