@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Tests\OAuth\Api;
 
+use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\OAuth\Api\OAuthClientAPI;
 use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
@@ -57,7 +58,18 @@ class OAuthClientAPITest extends EndpointIntegrationTestCase
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
 
         $this->registerServices($testCaseParams);
-        $api = $this->getApiEndpointMock(OAuthClientAPI::class, $testCaseParams);
+        $api = $this->getApiEndpointMockBuilder(
+            OAuthClientAPI::class,
+            [
+                RequestParams::PARAM_TYPE_ATTRIBUTE => $testCaseParams->getAttributes() ?? [],
+                RequestParams::PARAM_TYPE_QUERY => $testCaseParams->getQuery() ?? [],
+                RequestParams::PARAM_TYPE_BODY => $testCaseParams->getBody() ?? [],
+            ]
+        )->onlyMethods(['generateSecret'])
+            ->getMock();
+        $api->expects($this->atMost(1))
+            ->method('generateSecret')
+            ->willReturn('L0ywomA6UHprblz4Ou+4MGdNzsi57qEASRz+PrlkkAU=');
         $this->assertValidTestCase($api, 'update', $testCaseParams);
     }
 

@@ -145,7 +145,7 @@ class OAuthClientAPI extends Endpoint implements CrudEndpoint
         $oauthClient->setClientId(bin2hex(random_bytes(16)));
         $secret = null;
         if ($oauthClient->isConfidential()) {
-            $secret = base64_encode(random_bytes(32));
+            $secret = $this->generateSecret();
             $passwordHasher = new PasswordHash();
             $oauthClient->setClientSecret($passwordHasher->hash($secret));
         }
@@ -320,7 +320,7 @@ class OAuthClientAPI extends Endpoint implements CrudEndpoint
         $secret = null;
         // state changing
         if ($oauthClient->isConfidential() && !$currentOAuthClient->isConfidential()) {
-            $secret = base64_encode(random_bytes(32));
+            $secret = $this->generateSecret();
             $passwordHasher = new PasswordHash();
             $oauthClient->setClientSecret($passwordHasher->hash($secret));
         } elseif (!$oauthClient->isConfidential() && $currentOAuthClient->isConfidential()) {
@@ -333,6 +333,14 @@ class OAuthClientAPI extends Endpoint implements CrudEndpoint
             $oauthClient,
             new ParameterBag([self::PARAMETER_CLIENT_SECRET => $secret])
         );
+    }
+
+    /**
+     * @return string
+     */
+    protected function generateSecret(): string
+    {
+        return base64_encode(random_bytes(32));
     }
 
     /**
