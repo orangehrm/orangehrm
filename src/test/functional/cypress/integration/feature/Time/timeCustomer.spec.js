@@ -157,6 +157,8 @@ describe('Time - Customer', function () {
       cy.getOXD('form').within(() => {
         cy.getOXDInput('Name').clear().setValue('').isInvalid('Required');
       });
+      // eslint-disable-next-line cypress/no-unnecessary-waiting
+      cy.wait(4000);
     });
 
     it('Verify admin editing fields with different character values', function () {
