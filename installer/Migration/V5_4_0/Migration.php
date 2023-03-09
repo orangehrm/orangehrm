@@ -24,6 +24,7 @@ use Doctrine\DBAL\Schema\ForeignKeyConstraint;
 use Doctrine\DBAL\Schema\Index;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Types\Types;
+use OrangeHRM\Entity\WorkflowStateMachine;
 use OrangeHRM\Installer\Util\V1\AbstractMigration;
 
 class Migration extends AbstractMigration
@@ -301,6 +302,23 @@ class Migration extends AbstractMigration
         }
 
         $this->createOAuth2Tables();
+
+        $this->deleteClaimWorkflowStates();
+
+        $this->insertWorkflowState(WorkflowStateMachine::FLOW_CLAIM, 'INITIATED', 'ESS USER', WorkflowStateMachine::CLAIM_ACTION_SUBMIT, 'SUBMITTED', '', 10);
+        $this->insertWorkflowState(WorkflowStateMachine::FLOW_CLAIM, 'INITIATED', 'ESS USER', WorkflowStateMachine::CLAIM_ACTION_CANCEL, 'CANCELLED', '', 10);
+        $this->insertWorkflowState(WorkflowStateMachine::FLOW_CLAIM, 'SUBMITTED', 'ESS USER', WorkflowStateMachine::CLAIM_ACTION_CANCEL, 'CANCELLED', '', 10);
+        $this->insertWorkflowState(WorkflowStateMachine::FLOW_CLAIM, 'REJECTED', 'ESS USER', WorkflowStateMachine::CLAIM_ACTION_SUBMIT, 'SUBMITTED', '', 10);
+
+        $this->insertWorkflowState(WorkflowStateMachine::FLOW_CLAIM, 'INITIATED', 'ADMIN', WorkflowStateMachine::CLAIM_ACTION_SUBMIT, 'PAID', '', 0);
+        $this->insertWorkflowState(WorkflowStateMachine::FLOW_CLAIM, 'APPROVED', 'ADMIN', WorkflowStateMachine::CLAIM_ACTION_REJECT, 'REJECTED', '', 0);
+        $this->insertWorkflowState(WorkflowStateMachine::FLOW_CLAIM, 'APPROVED', 'ADMIN', WorkflowStateMachine::CLAIM_ACTION_SUBMIT, 'PAID', '', 10);
+        $this->insertWorkflowState(WorkflowStateMachine::FLOW_CLAIM, 'SUBMITTED', 'ADMIN', WorkflowStateMachine::CLAIM_ACTION_REJECT, 'REJECTED', '', 0);
+        $this->insertWorkflowState(WorkflowStateMachine::FLOW_CLAIM, 'APPROVED', 'ADMIN', WorkflowStateMachine::CLAIM_ACTION_PAY, 'PAID', '', 0);
+
+        $this->insertWorkflowState(WorkflowStateMachine::FLOW_CLAIM, 'INITIATED', 'SUPERVISOR', WorkflowStateMachine::CLAIM_ACTION_SUBMIT, 'APPROVED', '', 0);
+        $this->insertWorkflowState(WorkflowStateMachine::FLOW_CLAIM, 'SUBMITTED', 'SUPERVISOR', WorkflowStateMachine::CLAIM_ACTION_SUBMIT, 'APPROVED', '', 0);
+        $this->insertWorkflowState(WorkflowStateMachine::FLOW_CLAIM, 'SUBMITTED', 'SUPERVISOR', WorkflowStateMachine::CLAIM_ACTION_REJECT, 'REJECTED', '', 0);
     }
 
     private function modifyClaimTables(): void
@@ -683,5 +701,46 @@ class Migration extends AbstractMigration
         $this->getConfigHelper()->setConfigValue('oauth.auth_code_ttl', 'PT5M'); // 5 minutes
         $this->getConfigHelper()->setConfigValue('oauth.refresh_token_ttl', 'P1M'); // 1 month
         $this->getConfigHelper()->setConfigValue('oauth.access_token_ttl', 'PT30M'); // 30 minutes
+    }
+
+    private function insertWorkflowState(
+        int $workflow,
+        string $state,
+        string $role,
+        int $action,
+        string $resultingState,
+        string $rolesToNotify,
+        int $priority
+    ): void {
+        $this->createQueryBuilder()
+            ->insert('ohrm_workflow_state_machine')
+            ->values(
+                [
+                    'workflow' => ':workflow',
+                    'state' => ':state',
+                    'role' => ':role',
+                    'action' => ':action',
+                    'resulting_state' => ':resultingState',
+                    'roles_to_notify' => ':rolesToNotify',
+                    'priority' => ':priority',
+                ]
+            )
+            ->setParameter('workflow', $workflow)
+            ->setParameter('state', $state)
+            ->setParameter('role', $role)
+            ->setParameter('action', $action)
+            ->setParameter('resultingState', $resultingState)
+            ->setParameter('rolesToNotify', $rolesToNotify)
+            ->setParameter('priority', $priority)
+            ->executeQuery();
+    }
+
+    private function deleteClaimWorkflowStates(): void
+    {
+        $this->createQueryBuilder()
+            ->delete('ohrm_workflow_state_machine')
+            ->where('workflow = :workflow')
+            ->setParameter('workflow', 'CLAIM')
+            ->executeQuery();
     }
 }
