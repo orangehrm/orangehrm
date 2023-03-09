@@ -458,12 +458,15 @@ class ClaimDao extends BaseDao
     }
 
     /**
+     * @param int $requestId
      * @return string
      */
-    public function getState(): string
+    public function getState(int $requestId): string
     {
         return $this->createQueryBuilder(ClaimRequest::class, 'claimRequest')
             ->select('claimRequest.status')
+            ->andWhere('claimRequest.id = :requestId')
+            ->setParameter('requestId', $requestId)
             ->getQuery()
             ->getSingleScalarResult();
     }

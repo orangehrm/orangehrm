@@ -47,6 +47,8 @@ use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\ClaimAttachment;
 use OrangeHRM\Entity\ClaimRequest;
+use OrangeHRM\Entity\Employee;
+use OrangeHRM\Entity\WorkflowStateMachine;
 use OrangeHRM\ORM\Exception\TransactionException;
 
 class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
@@ -102,6 +104,22 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
     {
         $claimAttachmentSearchFilterParams = new ClaimAttachmentSearchFilterParams();
         $this->setSortingAndPaginationParams($claimAttachmentSearchFilterParams);
+//        $empNumber = $this->getAuthUser()->getEmpNumber();
+//        $rolesToInclude = ['ESS'];
+//        $allowedActions =  $this->getUserRoleManager()->getAllowedActions(
+//            WorkflowStateMachine::FLOW_CLAIM,
+//            $this->getClaimService()->getClaimDao()->getState(),
+//            [],
+//            ['ESS'],
+//            [Employee::class => $empNumber]
+//        );
+//        dump($allowedActions);
+//        $isActionAllowd =  $this->getUserRoleManager()->isActionAllowed(
+//            WorkflowStateMachine::FLOW_CLAIM,
+//            $this->getClaimService()->getClaimDao()->getState(),
+//            WorkflowStateMachine::CLAIM_ACTION_REJECT,
+//        );
+//        dump($isActionAllowd);
         $requestId = $this->getRequestParams()
             ->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_REQUEST_ID);
         $this->getClaimRequest($requestId);
@@ -169,12 +187,24 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
         $this->beginTransaction();
         try {
             $claimAttachment = new ClaimAttachment();
+            $includeRoles[] = $this->getAuthUser()->getUserRoleName();
             $requestId = $this->getRequestParams()->getInt(
                 RequestParams::PARAM_TYPE_ATTRIBUTE,
                 self::PARAMETER_REQUEST_ID
             );
             $this->getClaimRequest($requestId);
             $claimAttachment->setRequestId($requestId);
+            $isActionAllowed = $this->getUserRoleManager()->isActionAllowed(
+                WorkflowStateMachine::FLOW_CLAIM,
+                $this->getClaimService()->getClaimDao()->getState($requestId),
+                WorkflowStateMachine::CLAIM_ACTION_SUBMIT,
+                [],
+                $includeRoles,
+                [Employee::class => $this->getAuthUser()->getEmpNumber()]
+            );
+            if (!$isActionAllowed) {
+                throw $this->getForbiddenException();
+            }
             $claimAttachment->getDecorator()->setUserByUserId(
                 $this->getAuthUser()->getUserId()
             );
@@ -188,6 +218,7 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
             $this->rollBackTransaction();
             throw $e;
         } catch (Exception $e) {
+            dump($e->getMessage());
             $this->rollBackTransaction();
             throw new TransactionException($e);
         }
@@ -299,6 +330,18 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
             self::PARAMETER_REQUEST_ID
         );
         $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
+        $includeRoles[] = $this->getAuthUser()->getUserRoleName();
+        $isActionAllowed = $this->getUserRoleManager()->isActionAllowed(
+            WorkflowStateMachine::FLOW_CLAIM,
+            $this->getClaimService()->getClaimDao()->getState($requestId),
+            WorkflowStateMachine::CLAIM_ACTION_SUBMIT,
+            [],
+            $includeRoles,
+            [Employee::class => $this->getAuthUser()->getEmpNumber()]
+        );
+        if (!$isActionAllowed) {
+            throw $this->getForbiddenException();
+        }
         $this->getClaimRequest($requestId);
         $this->getClaimService()
             ->getClaimDao()
@@ -446,6 +489,18 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
                 CommonParams::PARAMETER_ID
             );
             $this->getClaimRequest($requestId);
+            $includeRoles[] = $this->getAuthUser()->getUserRoleName();
+            $isActionAllowed = $this->getUserRoleManager()->isActionAllowed(
+                WorkflowStateMachine::FLOW_CLAIM,
+                $this->getClaimService()->getClaimDao()->getState($requestId),
+                WorkflowStateMachine::CLAIM_ACTION_SUBMIT,
+                [],
+                $includeRoles,
+                [Employee::class => $this->getAuthUser()->getEmpNumber()]
+            );
+            if (!$isActionAllowed) {
+                throw $this->getForbiddenException();
+            }
             $claimAttachment = $this->getClaimService()
                 ->getClaimDao()
                 ->getClaimAttachment($requestId, $attachId);
