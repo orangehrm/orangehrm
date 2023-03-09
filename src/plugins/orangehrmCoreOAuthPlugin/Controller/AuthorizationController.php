@@ -21,6 +21,7 @@ namespace OrangeHRM\OAuth\Controller;
 
 use League\OAuth2\Server\Exception\OAuthServerException;
 use OrangeHRM\Core\Controller\AbstractVueController;
+use OrangeHRM\Core\Traits\LoggerTrait;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Framework\Http\Request;
@@ -32,6 +33,7 @@ class AuthorizationController extends AbstractVueController
 {
     use OAuthServerTrait;
     use PsrHttpFactoryHelperTrait;
+    use LoggerTrait;
 
     /**
      * @inheritDoc
@@ -39,25 +41,27 @@ class AuthorizationController extends AbstractVueController
     public function preRender(Request $request): void
     {
         $psrRequest = $this->getPsrHttpFactoryHelper()->createPsr7Request($request);
+        $component = new Component('oauth-authorize');
+        $authRequest = null;
         try {
             $server = $this->getOAuthServer()->getServer();
             $authRequest = $server->validateAuthorizationRequest($psrRequest);
         } catch (OAuthServerException $e) {
-            dd($e->getMessage());
-            // TODO
-            $psrResponse = $this->getPsrHttpFactoryHelper()->createPsr7Response($this->getResponse());
-//            return $this->getPsrHttpFactoryHelper()
-//                ->createResponseFromPsr7Response($e->generateHttpResponse($psrResponse));
+            $component->addProp(new Prop('error-type', Prop::TYPE_STRING, $e->getErrorType()));
+            $this->getLogger()->error($e->getMessage());
+            $this->getLogger()->error($e->getTraceAsString());
         } catch (Throwable $e) {
-            dd($e->getMessage());
-            // TODO
-//            return $this->getResponse()
-//                ->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
+            $component->addProp(new Prop('error-type', Prop::TYPE_STRING, 'server_error'));
+            $this->getLogger()->error($e->getMessage());
+            $this->getLogger()->error($e->getTraceAsString());
         }
 
-        $component = new Component('oauth-authorize');
         $component->addProp(new Prop('params', Prop::TYPE_OBJECT, $psrRequest->getQueryParams()));
-        $component->addProp(new Prop('client-name', Prop::TYPE_STRING, $authRequest->getClient()->getDisplayName())); // TODO
+        if ($authRequest !== null) {
+            $component->addProp(
+                new Prop('client-name', Prop::TYPE_STRING, $authRequest->getClient()->getDisplayName())
+            );
+        }
         $this->setComponent($component);
         $this->setTemplate('no_header.html.twig');
     }
