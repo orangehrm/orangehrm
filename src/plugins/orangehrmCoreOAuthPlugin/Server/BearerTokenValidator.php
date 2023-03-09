@@ -57,7 +57,7 @@ class BearerTokenValidator implements AuthorizationValidatorInterface
         $header = $request->getHeader('authorization');
         $tokenId = trim((string)preg_replace('/^\s*Bearer\s/', '', $header[0]));
 
-        $tokenId = $this->decrypt($tokenId); // TODO
+        $tokenId = $this->decrypt($tokenId);
 
         if (!is_string($tokenId)) {
             throw OAuthServerException::accessDenied();

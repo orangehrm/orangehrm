@@ -24,6 +24,7 @@ use League\OAuth2\Server\Repositories\ClientRepositoryInterface;
 use OrangeHRM\Authentication\Dto\UserCredential;
 use OrangeHRM\Authentication\Dto\UserCredentialInterface;
 use OrangeHRM\Core\Dao\BaseDao;
+use OrangeHRM\Core\Utility\PasswordHash;
 use OrangeHRM\Entity\OAuthClient;
 use OrangeHRM\OAuth\Dto\Entity\ClientEntity;
 
@@ -80,7 +81,7 @@ class ClientRepository extends BaseDao implements ClientRepositoryInterface
      */
     private function validateClientSecret(OAuthClient $client, UserCredentialInterface $givenCred): bool
     {
-        // TODO:: handle encryption or hashing
-        return $client->getClientSecret() === $givenCred->getPassword();
+        $passwordHasher = new PasswordHash();
+        return $passwordHasher->verify($givenCred->getPassword(), $client->getClientSecret());
     }
 }

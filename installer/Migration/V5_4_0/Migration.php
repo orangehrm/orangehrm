@@ -615,7 +615,7 @@ class Migration extends AbstractMigration
     {
         $this->getSchemaHelper()->createTable('ohrm_oauth2_authorization_codes')
             ->addColumn('id', Types::INTEGER, ['Autoincrement' => true])
-            ->addColumn('authorization_code', Types::STRING, ['Length' => 255])
+            ->addColumn('authorization_code', Types::STRING, ['Length' => 255]) // TODO:: indexing
             ->addColumn('client_id', Types::INTEGER)
             ->addColumn('user_id', Types::INTEGER)
             ->addColumn('redirect_uri', Types::STRING, ['Length' => 2000])
@@ -676,5 +676,12 @@ class Migration extends AbstractMigration
 
         $encryptionKey = base64_encode(random_bytes(32));
         $this->getConfigHelper()->setConfigValue('oauth.encryption_key', $encryptionKey);
+        $encryptionKey = base64_encode(random_bytes(32));
+        $this->getConfigHelper()->setConfigValue('oauth.token_encryption_key', $encryptionKey);
+
+        // see https://php.net/manual/en/dateinterval.construct.php for TTL duration
+        $this->getConfigHelper()->setConfigValue('oauth.auth_code_ttl', 'PT5M'); // 5 minutes
+        $this->getConfigHelper()->setConfigValue('oauth.refresh_token_ttl', 'P1M'); // 1 month
+        $this->getConfigHelper()->setConfigValue('oauth.access_token_ttl', 'PT30M'); // 30 minutes
     }
 }

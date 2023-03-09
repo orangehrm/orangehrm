@@ -77,12 +77,12 @@ class OAuthSubscriber extends AbstractEventSubscriber
         if (!$this->getAuthUser()->isAuthenticated() && $event->getRequest()->headers->has('authorization')) {
             // Attempt to check OAuth token
 
-            $encryptionKey = $this->getConfigService()->getOAuthEncryptionKey();
+            $tokenEncryptionKey = $this->getConfigService()->getOAuthTokenEncryptionKey();
             $accessTokenRepository = new AccessTokenRepository();
             $server = new ResourceServer(
                 $accessTokenRepository,
                 new CryptKey(),
-                new BearerTokenValidator($accessTokenRepository, $encryptionKey),
+                new BearerTokenValidator($accessTokenRepository, $tokenEncryptionKey),
             );
 
             try {
@@ -115,7 +115,7 @@ class OAuthSubscriber extends AbstractEventSubscriber
         if ($request->getContentType() === 'json') {
             $response = new Response();
             $message = $e instanceof OAuthServerException
-                ? $e->getMessage() . $e->getHint()
+                ? $e->getMessage()
                 : 'Unexpected error occurred while evaluating the `Bearer` token';
             $response->setContent(
                 \OrangeHRM\Core\Api\V2\Response::formatError(

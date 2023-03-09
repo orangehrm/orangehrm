@@ -18,6 +18,7 @@
         "ext-simplexml": "*",
         "ext-gd": "*",
         "ext-ldap": "*",
+        "ext-openssl": "*",
         "symfony/http-foundation": "~5.4.0",
         "symfony/routing": "~5.4.0",
         "symfony/http-kernel": "~5.4.0",

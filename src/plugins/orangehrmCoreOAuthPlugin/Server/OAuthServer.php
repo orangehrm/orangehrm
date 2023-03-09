@@ -49,15 +49,16 @@ class OAuthServer
     private function init(): void
     {
         $this->encryptionKey = $this->getConfigService()->getOAuthEncryptionKey();
+        $tokenEncryptionKey = $this->getConfigService()->getOAuthTokenEncryptionKey();
         $this->clientRepository = new ClientRepository();
         $this->scopeRepository = new ScopeRepository();
         $this->accessTokenRepository = new AccessTokenRepository();
-        $this->accessTokenRepository->setEncryptionKey($this->encryptionKey);
+        $this->accessTokenRepository->setEncryptionKey($tokenEncryptionKey);
         $this->authCodeRepository = new AuthorizationCodeRepository();
         $this->refreshTokenRepository = new RefreshTokenRepository();
-        $this->authCodeTTL = new DateInterval('PT10M'); // TODO
-        $this->refreshTokenTTL = new DateInterval('P1M'); // TODO
-        $this->accessTokenTTL = new DateInterval('PT30M'); // TODO
+        $this->authCodeTTL = $this->getConfigService()->getOAuthAuthCodeTTL();
+        $this->refreshTokenTTL = $this->getConfigService()->getOAuthRefreshTokenTTL();
+        $this->accessTokenTTL = $this->getConfigService()->getOAuthAccessTokenTTL();
     }
 
     /**
