@@ -22,12 +22,16 @@
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
       <oxd-text tag="h6" class="orangehrm-main-title">
-        {{ $t('admin.add_oauth_client') }}
+        {{
+          editMode
+            ? $t('admin.edit_oauth_client')
+            : $t('admin.add_oauth_client')
+        }}
       </oxd-text>
 
       <oxd-divider />
 
-      <oxd-form :loading="isLoading" @submit-valid="onSave">
+      <oxd-form novalidate="true" :loading="isLoading" @submit-valid="onSave">
         <oxd-form-row>
           <oxd-grid :cols="2" class="orangehrm-full-width-grid">
             <oxd-grid-item>
@@ -43,17 +47,47 @@
                 v-model="oAuthClient.redirectUri"
                 :label="$t('admin.redirect_uri')"
                 :rules="rules.redirectUri"
+                required
               />
             </oxd-grid-item>
-            <oxd-grid-item class="--offset-row-3">
+            <template v-if="editMode">
+              <oxd-grid-item class="--offset-row-3">
+                <oxd-input-field
+                  v-model="oAuthClient.clientId"
+                  :label="$t('admin.client_id')"
+                  disabled
+                />
+              </oxd-grid-item>
+              <oxd-grid-item class="--offset-row-4">
+                <oxd-alert
+                  type="warn"
+                  :show="true"
+                  :message="$t('admin.client_secret_warning_message')"
+                ></oxd-alert>
+                <oxd-input-field
+                  v-model="oAuthClient.clientSecret"
+                  :label="$t('admin.client_secret')"
+                  disabled
+                />
+              </oxd-grid-item>
+            </template>
+            <oxd-grid-item class="--offset-row-5">
               <oxd-grid :cols="2" class="orangehrm-full-width-grid">
-                <oxd-grid-item>
-                  <oxd-text tag="p" class="orangehrm-module-field-label">
+                <oxd-grid-item class="orangehrm-field-row">
+                  <oxd-text tag="p" class="orangehrm-field-label">
                     {{ $t('admin.enable_client') }}
                   </oxd-text>
-                </oxd-grid-item>
-                <oxd-grid-item>
                   <oxd-switch-input v-model="oAuthClient.enabled" />
+                </oxd-grid-item>
+              </oxd-grid>
+            </oxd-grid-item>
+            <oxd-grid-item class="--offset-row-6">
+              <oxd-grid :cols="2" class="orangehrm-full-width-grid">
+                <oxd-grid-item class="orangehrm-field-row">
+                  <oxd-text tag="p" class="orangehrm-field-label">
+                    {{ $t('admin.confidential_client') }}
+                  </oxd-text>
+                  <oxd-switch-input v-model="oAuthClient.confidential" />
                 </oxd-grid-item>
               </oxd-grid>
             </oxd-grid-item>
@@ -83,18 +117,30 @@ import {
   required,
   shouldNotExceedCharLength,
 } from '@ohrm/core/util/validation/rules';
-import {OxdSwitchInput} from '@ohrm/oxd';
+import {OxdAlert, OxdSwitchInput} from '@ohrm/oxd';
 
 const initialOAuthClient = {
+  id: null,
   name: '',
   redirectUri: '',
   enabled: true,
+  clientId: null,
+  clientSecret: '********',
+  confidential: true,
 };
 
 export default {
   components: {
     'oxd-switch-input': OxdSwitchInput,
+    'oxd-alert': OxdAlert,
   },
+  props: {
+    id: {
+      type: Number,
+      default: null,
+    },
+  },
+
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
@@ -116,15 +162,25 @@ export default {
     };
   },
 
+  computed: {
+    editMode() {
+      return this.oAuthClient.clientId !== null;
+    },
+  },
+
   created() {
     this.isLoading = true;
-    this.http
-      .getAll({limit: 0})
+    this.getClient()
       .then((response) => {
         const {data} = response.data;
         this.rules.name.push((v) => {
           const index = data.findIndex((item) => item.name === v);
-          return index === -1 || this.$t('general.already_exists');
+          if (index > -1) {
+            const {id} = data[index];
+            return id !== this.id ? this.$t('general.already_exists') : true;
+          } else {
+            return true;
+          }
         });
       })
       .finally(() => {
@@ -133,20 +189,64 @@ export default {
   },
 
   methods: {
+    getClient() {
+      if (this.id !== null) {
+        return this.http.get(this.id).then((response) => {
+          const {data} = response.data;
+
+          this.oAuthClient.id = data.id;
+          this.oAuthClient.name = data.name;
+          this.oAuthClient.redirectUri = data.redirectUri;
+          this.oAuthClient.enabled = data.enabled;
+          this.oAuthClient.clientId = data.clientId;
+
+          // Fetch list data for unique test
+          return this.http.getAll({limit: 0});
+        });
+      }
+      return this.http.getAll({limit: 0});
+    },
     onCancel() {
       navigate('/admin/registerOAuthClient');
     },
     onSave() {
       this.isLoading = true;
-      this.http
+      (this.editMode ? this.update() : this.create()).finally(() => {
+        this.isLoading = false;
+      });
+    },
+    create() {
+      return this.http
         .create({
-          ...this.oAuthClient,
+          name: this.oAuthClient.name,
+          redirectUri: this.oAuthClient.redirectUri,
+          enabled: this.oAuthClient.enabled,
+          confidential: this.oAuthClient.confidential,
         })
-        .then(() => {
+        .then((response) => {
+          const {data, meta} = response.data;
+
+          this.oAuthClient.id = data.id;
+          this.oAuthClient.name = data.name;
+          this.oAuthClient.redirectUri = data.redirectUri;
+          this.oAuthClient.enabled = data.enabled;
+          this.oAuthClient.clientId = data.clientId;
+          this.oAuthClient.clientSecret = meta.clientSecret;
+          this.oAuthClient.confidential = data.confidential;
+
           return this.$toast.saveSuccess();
+        });
+    },
+    update() {
+      return this.http
+        .update(this.oAuthClient.id, {
+          name: this.oAuthClient.name,
+          redirectUri: this.oAuthClient.redirectUri,
+          enabled: this.oAuthClient.enabled,
+          confidential: this.oAuthClient.confidential,
         })
         .then(() => {
-          this.onCancel();
+          return this.$toast.updateSuccess();
         });
     },
   },

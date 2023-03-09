@@ -55,7 +55,7 @@ class OAuthClient
      *
      * @ORM\Column(name="client_secret", type="string", length=255, nullable=true)
      */
-    private ?string $clientSecret;
+    private ?string $clientSecret = null;
 
     /**
      * @var string

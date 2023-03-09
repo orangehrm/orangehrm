@@ -152,7 +152,8 @@ class OAuthClientAPI extends Endpoint implements CrudEndpoint
 
         $oauthClient = $this->getOAuthService()->getOAuthClientDao()->saveOAuthClient($oauthClient);
         return new EndpointResourceResult(
-            OAuthClientModel::class, $oauthClient,
+            OAuthClientModel::class,
+            $oauthClient,
             new ParameterBag([self::PARAMETER_CLIENT_SECRET => $secret])
         );
     }
