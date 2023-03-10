@@ -20,7 +20,9 @@
 namespace OrangeHRM\Entity;
 
 use DateTimeImmutable;
+use DateTimeZone;
 use Doctrine\ORM\Mapping as ORM;
+use OrangeHRM\Core\Service\DateTimeHelperService;
 
 /**
  * @ORM\Table(name="ohrm_oauth2_authorization_codes")
@@ -164,7 +166,10 @@ class OAuthAuthorizationCode
      */
     public function getExpiryDateTime(): DateTimeImmutable
     {
-        return $this->expiryDateTime;
+        return new DateTimeImmutable(
+            $this->expiryDateTime->format('Y-m-d H:i:s'),
+            new DateTimeZone(DateTimeHelperService::TIMEZONE_UTC)
+        );
     }
 
     /**

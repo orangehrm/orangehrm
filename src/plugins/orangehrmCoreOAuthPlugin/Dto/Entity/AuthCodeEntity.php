@@ -23,9 +23,14 @@ use DateTimeImmutable;
 use League\OAuth2\Server\Entities\AuthCodeEntityInterface;
 use League\OAuth2\Server\Entities\ClientEntityInterface;
 use League\OAuth2\Server\Entities\ScopeEntityInterface;
+use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
+use OrangeHRM\OAuth\Traits\OAuthServerTrait;
 
 class AuthCodeEntity implements AuthCodeEntityInterface
 {
+    use DateTimeHelperTrait;
+    use OAuthServerTrait;
+
     private ?string $redirectUri = null;
     private string $identifier;
     private DateTimeImmutable $expiryDateTime;
@@ -81,7 +86,9 @@ class AuthCodeEntity implements AuthCodeEntityInterface
      */
     public function setExpiryDateTime(DateTimeImmutable $dateTime): void
     {
-        $this->expiryDateTime = $dateTime;
+        // Override expiry time to UTC
+        $this->expiryDateTime = DateTimeImmutable::createFromMutable($this->getDateTimeHelper()->getNowInUTC())
+            ->add($this->getOAuthServer()->getAuthCodeTTL());
     }
 
     /**

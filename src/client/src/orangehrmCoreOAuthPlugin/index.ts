@@ -18,12 +18,10 @@
 
 import OAuthClient from './pages/registerOAuthClient/OAuthClient.vue';
 import SaveOAuthClient from './pages/registerOAuthClient/SaveOAuthClient.vue';
-import EditOAuthClient from './pages/registerOAuthClient/EditOAuthClient.vue';
 import OAuthAuthorize from './pages/oauth/OAuthAuthorize.vue';
 
 export default {
   'oauth-client-list': OAuthClient,
   'oauth-client-save': SaveOAuthClient,
-  'oauth-client-edit': EditOAuthClient,
   'oauth-authorize': OAuthAuthorize,
 };

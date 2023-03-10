@@ -25,10 +25,14 @@ use League\OAuth2\Server\CryptTrait;
 use League\OAuth2\Server\Entities\AccessTokenEntityInterface;
 use League\OAuth2\Server\Entities\ClientEntityInterface;
 use League\OAuth2\Server\Entities\ScopeEntityInterface;
+use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
+use OrangeHRM\OAuth\Traits\OAuthServerTrait;
 
 class AccessTokenEntity implements AccessTokenEntityInterface
 {
     use CryptTrait;
+    use DateTimeHelperTrait;
+    use OAuthServerTrait;
 
     private string $identifier;
     private DateTimeImmutable $expiryDateTime;
@@ -85,7 +89,9 @@ class AccessTokenEntity implements AccessTokenEntityInterface
      */
     public function setExpiryDateTime(DateTimeImmutable $dateTime): void
     {
-        $this->expiryDateTime = $dateTime;
+        // Override expiry time to UTC
+        $this->expiryDateTime = DateTimeImmutable::createFromMutable($this->getDateTimeHelper()->getNowInUTC())
+            ->add($this->getOAuthServer()->getAccessTokenTTL());
     }
 
     /**

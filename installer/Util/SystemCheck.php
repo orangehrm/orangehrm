@@ -576,6 +576,24 @@ class SystemCheck
     }
 
     /**
+     * @return array
+     */
+    public function isOpenSSLExtensionEnabled(): array
+    {
+        if (extension_loaded('openssl')) {
+            return [
+                'message' => Messages::ENABLED,
+                'status' => self::PASSED
+            ];
+        } else {
+            return [
+                'message' => Messages::DISABLED,
+                'status' => self::BLOCKER
+            ];
+        }
+    }
+
+    /**
      * @param string $path
      * @return bool
      */
@@ -889,6 +907,10 @@ class SystemCheck
                     [
                         'label' => 'LDAP extension status',
                         'value' => $this->isLDAPExtensionEnabled()
+                    ],
+                    [
+                        'label' => 'OpenSSL extension status',
+                        'value' => $this->isOpenSSLExtensionEnabled()
                     ],
                 ]
             ]

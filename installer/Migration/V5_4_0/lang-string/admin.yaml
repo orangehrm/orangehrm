@@ -21,8 +21,8 @@ langStrings:
     value: 'Enable Client'
     unitId: enable_client
   -
-    value: 'API Documentation'
-    unitId: api_documentation
+    value: 'Confidential Client'
+    unitId: confidential_client
   -
-    value: 'PHP Sample App'
-    unitId: php_sample_app
+    value: 'Make sure to copy the client secret now. You won’t be able to see it again.'
+    unitId: client_secret_warning_message

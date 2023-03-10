@@ -34,6 +34,7 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Api\V2\Validator\Rules\EntityUniquePropertyOption;
+use OrangeHRM\Core\Utility\PasswordHash;
 use OrangeHRM\Entity\OAuthClient;
 use OrangeHRM\OAuth\Api\Model\OAuthClientModel;
 use OrangeHRM\OAuth\Dto\OAuthClientSearchFilterParams;
@@ -46,6 +47,8 @@ class OAuthClientAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_NAME = 'name';
     public const PARAMETER_REDIRECT_URI = 'redirectUri';
     public const PARAMETER_ENABLED = 'enabled';
+    public const PARAMETER_CONFIDENTIAL = 'confidential';
+    public const PARAMETER_CLIENT_SECRET = 'clientSecret';
 
     public const PARAM_RULE_NAME_MAX_LENGTH = 80;
     public const PARAM_RULE_REDIRECT_URI_MAX_LENGTH = 2000;
@@ -138,12 +141,21 @@ class OAuthClientAPI extends Endpoint implements CrudEndpoint
     public function create(): EndpointResult
     {
         $oauthClient = new OAuthClient();
-        $oauthClient->setClientId(bin2hex(random_bytes(16)));
-        $oauthClient->setClientSecret(bin2hex(random_bytes(32)));
         $this->setOAuthClient($oauthClient);
+        $oauthClient->setClientId(bin2hex(random_bytes(16)));
+        $secret = null;
+        if ($oauthClient->isConfidential()) {
+            $secret = $this->generateSecret();
+            $passwordHasher = new PasswordHash();
+            $oauthClient->setClientSecret($passwordHasher->hash($secret));
+        }
 
         $oauthClient = $this->getOAuthService()->getOAuthClientDao()->saveOAuthClient($oauthClient);
-        return new EndpointResourceResult(OAuthClientModel::class, $oauthClient);
+        return new EndpointResourceResult(
+            OAuthClientModel::class,
+            $oauthClient,
+            new ParameterBag([self::PARAMETER_CLIENT_SECRET => $secret])
+        );
     }
 
     /**
@@ -176,7 +188,11 @@ class OAuthClientAPI extends Endpoint implements CrudEndpoint
             ),
             new ParamRule(
                 self::PARAMETER_ENABLED,
-                new Rule(Rules::BOOL_TYPE)
+                new Rule(Rules::BOOL_VAL)
+            ),
+            new ParamRule(
+                self::PARAMETER_CONFIDENTIAL,
+                new Rule(Rules::BOOL_VAL)
             ),
         ];
     }
@@ -298,10 +314,33 @@ class OAuthClientAPI extends Endpoint implements CrudEndpoint
         $oauthClient = $this->getOAuthService()->getOAuthClientDao()->getOAuthClientById($id);
 
         $this->throwRecordNotFoundExceptionIfNotExist($oauthClient, OAuthClient::class);
+        $currentOAuthClient = clone $oauthClient;
         $this->setOAuthClient($oauthClient);
 
+        $secret = null;
+        // state changing
+        if ($oauthClient->isConfidential() && !$currentOAuthClient->isConfidential()) {
+            $secret = $this->generateSecret();
+            $passwordHasher = new PasswordHash();
+            $oauthClient->setClientSecret($passwordHasher->hash($secret));
+        } elseif (!$oauthClient->isConfidential() && $currentOAuthClient->isConfidential()) {
+            $oauthClient->setClientSecret(null);
+        } // else `confidential` state not changed
+
         $oauthClient = $this->getOAuthService()->getOAuthClientDao()->saveOAuthClient($oauthClient);
-        return new EndpointResourceResult(OAuthClientModel::class, $oauthClient);
+        return new EndpointResourceResult(
+            OAuthClientModel::class,
+            $oauthClient,
+            new ParameterBag([self::PARAMETER_CLIENT_SECRET => $secret])
+        );
+    }
+
+    /**
+     * @return string
+     */
+    protected function generateSecret(): string
+    {
+        return base64_encode(random_bytes(32));
     }
 
     /**
@@ -350,13 +389,19 @@ class OAuthClientAPI extends Endpoint implements CrudEndpoint
         );
 
         $oauthClient->setEnabled(
-            $this->getRequestParams()->getBooleanOrNull(
+            $this->getRequestParams()->getBoolean(
                 RequestParams::PARAM_TYPE_BODY,
-                self::PARAMETER_ENABLED
+                self::PARAMETER_ENABLED,
+                true
             )
         );
 
-        //TODO
-        $oauthClient->setConfidential(false);
+        $oauthClient->setConfidential(
+            $this->getRequestParams()->getBoolean(
+                RequestParams::PARAM_TYPE_BODY,
+                self::PARAMETER_CONFIDENTIAL,
+                true
+            )
+        );
     }
 }

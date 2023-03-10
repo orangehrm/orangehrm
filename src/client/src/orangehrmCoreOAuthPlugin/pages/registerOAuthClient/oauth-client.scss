@@ -14,17 +14,15 @@
 // if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 // Boston, MA  02110-1301, USA
 
-.orangehrm-link {
-  font-weight: 400;
-  font-size: 14px;
-  &-url {
-    color: $oxd-primary-one-color;
-  }
-}
-
-.orangehrm-module-field-row {
+.orangehrm-field-row {
   grid-column-start: 1;
   display: flex;
   justify-content: space-between;
-  padding: 2rem 0;
+  padding: 0.5rem 0.75rem;
+}
+
+.orangehrm-field-label {
+  @include oxd-input-control();
+  padding: 0;
+  flex-basis: 75%;
 }

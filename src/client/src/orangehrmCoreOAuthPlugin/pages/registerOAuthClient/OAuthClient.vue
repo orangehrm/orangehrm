@@ -186,7 +186,7 @@ export default {
     onClickDeleteSelected() {
       const ids = [];
       this.checkedItems.forEach((index) => {
-        ids.push(this.items?.data[index].clientId);
+        ids.push(this.items?.data[index].id);
       });
       this.$refs.deleteDialog.showDialog().then((confirmation) => {
         if (confirmation === 'ok') {
@@ -197,7 +197,7 @@ export default {
     onClickDelete(item) {
       this.$refs.deleteDialog.showDialog().then((confirmation) => {
         if (confirmation === 'ok') {
-          this.deleteItems([item.clientId]);
+          this.deleteItems([item.id]);
         }
       });
     },

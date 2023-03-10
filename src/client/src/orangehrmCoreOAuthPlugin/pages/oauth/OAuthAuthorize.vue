@@ -19,27 +19,32 @@
  -->
 
 <template>
-  <oxd-text tag="h6">
-    Authorize <b>{{ clientName }}</b></oxd-text
-  >
-  <oxd-form
-    ref="authorizeForm"
-    method="GET"
-    :action="submitUrl"
-    @submit-valid="onSubmit"
-  >
-    <input name="authorized" :value="authorized" type="hidden" />
-    <div v-for="(value, name, index) in params" :key="name">
-      <input :name="name" :value="value" type="hidden" />
-      <p>{{ index }}. {{ name }}: {{ value }}</p>
-    </div>
-    <oxd-button
-      display-type="ghost"
-      :label="$t('general.cancel')"
-      @click="onCancel"
-    />
-    <submit-button :label="$t('general.submit')" />
-  </oxd-form>
+  <oxd-text v-if="errorType !== null" tag="h6">
+    {{ errorType }}
+  </oxd-text>
+  <template v-else>
+    <oxd-text tag="h6">
+      Authorize <b>{{ clientName }}</b>
+    </oxd-text>
+    <oxd-form
+      ref="authorizeForm"
+      method="GET"
+      :action="submitUrl"
+      @submit-valid="onSubmit"
+    >
+      <input name="authorized" :value="authorized" type="hidden" />
+      <div v-for="(value, name, index) in params" :key="name">
+        <input :name="name" :value="value" type="hidden" />
+        <p>{{ index }}. {{ name }}: {{ value }}</p>
+      </div>
+      <oxd-button
+        display-type="ghost"
+        :label="$t('general.cancel')"
+        @click="onCancel"
+      />
+      <submit-button :label="$t('general.submit')" />
+    </oxd-form>
+  </template>
   <slot name="footer"></slot>
 </template>
 
@@ -59,7 +64,11 @@ export default {
     },
     clientName: {
       type: String,
-      required: true,
+      default: null,
+    },
+    errorType: {
+      type: String,
+      default: null,
     },
   },
   data() {

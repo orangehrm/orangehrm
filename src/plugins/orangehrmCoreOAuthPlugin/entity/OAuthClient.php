@@ -55,7 +55,7 @@ class OAuthClient
      *
      * @ORM\Column(name="client_secret", type="string", length=255, nullable=true)
      */
-    private ?string $clientSecret;
+    private ?string $clientSecret = null;
 
     /**
      * @var string
@@ -69,7 +69,7 @@ class OAuthClient
      *
      * @ORM\Column(name="is_confidential", type="boolean", nullable=false)
      */
-    private bool $confidential;
+    private bool $confidential = false;
 
     /**
      * @var bool

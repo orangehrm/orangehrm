@@ -92,4 +92,15 @@ class AccessTokenRepository extends BaseDao implements AccessTokenRepositoryInte
         }
         return $accessToken;
     }
+
+    /**
+     * @param string $tokenId
+     * @return OAuthAccessToken|null
+     */
+    public function getAccessToken(string $tokenId): ?OAuthAccessToken
+    {
+        return $this->getEntityManager()
+            ->getRepository(OAuthAccessToken::class)
+            ->findOneBy(['accessToken' => $tokenId]);
+    }
 }

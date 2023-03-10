@@ -19,7 +19,9 @@
 
 namespace OrangeHRM\Core\Service;
 
+use DateInterval;
 use DateTime;
+use Exception;
 use OrangeHRM\Core\Dao\ConfigDao;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
@@ -62,6 +64,10 @@ class ConfigService
     public const KEY_DEFAULT_PASSWORD_STRENGTH = 'auth.password_policy.default_required_password_strength';
     public const KEY_ENFORCE_PASSWORD_STRENGTH = 'auth.password_policy.enforce_password_strength';
     public const KEY_OAUTH_ENCRYPTION_KEY = 'oauth.encryption_key';
+    public const KEY_OAUTH_TOKEN_ENCRYPTION_KEY = 'oauth.token_encryption_key';
+    public const KEY_OAUTH_AUTH_CODE_TTL = 'oauth.auth_code_ttl';
+    public const KEY_OAUTH_REFRESH_TOKEN_TTL = 'oauth.refresh_token_ttl';
+    public const KEY_OAUTH_ACCESS_TOKEN_TTL = 'oauth.access_token_ttl';
 
     public const MAX_ATTACHMENT_SIZE = 1048576; // 1 MB
     public const ALLOWED_FILE_TYPES = [
@@ -545,5 +551,52 @@ class ConfigService
     public function getOAuthEncryptionKey(): string
     {
         return $this->_getConfigValue(self::KEY_OAUTH_ENCRYPTION_KEY);
+    }
+
+    /**
+     * @return string
+     */
+    public function getOAuthTokenEncryptionKey(): string
+    {
+        return $this->_getConfigValue(self::KEY_OAUTH_TOKEN_ENCRYPTION_KEY);
+    }
+
+    /**
+     * @return DateInterval
+     */
+    public function getOAuthAuthCodeTTL(): DateInterval
+    {
+        $authCodeTTL = $this->_getConfigValue(self::KEY_OAUTH_AUTH_CODE_TTL);
+        try {
+            return new DateInterval($authCodeTTL);
+        } catch (Exception $e) {
+            return new DateInterval('PT5M');
+        }
+    }
+
+    /**
+     * @return DateInterval
+     */
+    public function getOAuthRefreshTokenTTL(): DateInterval
+    {
+        $refreshTokenTTL = $this->_getConfigValue(self::KEY_OAUTH_REFRESH_TOKEN_TTL);
+        try {
+            return new DateInterval($refreshTokenTTL);
+        } catch (Exception $e) {
+            return new DateInterval('P1M');
+        }
+    }
+
+    /**
+     * @return DateInterval
+     */
+    public function getOAuthAccessTokenTTL(): DateInterval
+    {
+        $accessTokenTTL = $this->_getConfigValue(self::KEY_OAUTH_ACCESS_TOKEN_TTL);
+        try {
+            return new DateInterval($accessTokenTTL);
+        } catch (Exception $e) {
+            return new DateInterval('PT30M');
+        }
     }
 }
