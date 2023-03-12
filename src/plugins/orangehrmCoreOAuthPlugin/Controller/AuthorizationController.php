@@ -20,10 +20,12 @@
 namespace OrangeHRM\OAuth\Controller;
 
 use League\OAuth2\Server\Exception\OAuthServerException;
+use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Traits\LoggerTrait;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
+use OrangeHRM\CorporateBranding\Traits\ThemeServiceTrait;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\OAuth\Traits\OAuthServerTrait;
 use OrangeHRM\OAuth\Traits\PsrHttpFactoryHelperTrait;
@@ -34,6 +36,7 @@ class AuthorizationController extends AbstractVueController
     use OAuthServerTrait;
     use PsrHttpFactoryHelperTrait;
     use LoggerTrait;
+    use ThemeServiceTrait;
 
     /**
      * @inheritDoc
@@ -62,6 +65,14 @@ class AuthorizationController extends AbstractVueController
                 new Prop('client-name', Prop::TYPE_STRING, $authRequest->getClient()->getDisplayName())
             );
         }
+
+        $assetsVersion = Config::get(Config::VUE_BUILD_TIMESTAMP);
+        $loginBannerUrl = $request->getBasePath() . "/images/ohrm_branding.png?$assetsVersion";
+        if (!is_null($this->getThemeService()->getImageETag('login_banner'))) {
+            $loginBannerUrl = $request->getBaseUrl() . "/admin/theme/image/loginBanner?$assetsVersion";
+        }
+        $component->addProp(new Prop('login-banner-src', Prop::TYPE_STRING, $loginBannerUrl));
+
         $this->setComponent($component);
         $this->setTemplate('no_header.html.twig');
     }
