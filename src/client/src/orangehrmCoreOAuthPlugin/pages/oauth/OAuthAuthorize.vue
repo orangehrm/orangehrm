@@ -87,8 +87,8 @@
         </oxd-text>
       </template>
     </div>
+    <slot name="footer"></slot>
   </div>
-  <slot name="footer"></slot>
 </template>
 
 <script>
