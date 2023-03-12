@@ -215,8 +215,6 @@ Delete:
 
   'with invalid ids':
     userId: 1
-    services:
-      performance.kpi_service: \OrangeHRM\Performance\Service\KpiService
     body:
       ids: [ 1, "a" ]
     invalidOnly: [ 'ids' ]
