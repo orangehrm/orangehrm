@@ -229,7 +229,7 @@ class OAuthClientAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @OA\Get(
-     *     path="/api/v2/admin/oauth-client",
+     *     path="/api/v2/admin/oauth-client/{id}",
      *     tags={"OAuth/OAuth Clients"},
      *     @OA\PathParameter(
      *         name="id",
@@ -241,8 +241,7 @@ class OAuthClientAPI extends Endpoint implements CrudEndpoint
      *         @OA\JsonContent(
      *             @OA\Property(
      *                 property="data",
-     *                 type="array",
-     *                 @OA\Items(ref="#/components/schemas/OAuth-OAuthClientModel")
+     *                 ref="#/components/schemas/OAuth-OAuthClientModel"
      *             ),
      *             @OA\Property(
      *                 property="meta",
@@ -279,7 +278,7 @@ class OAuthClientAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @OA\Put(
-     *     path="/api/v2/admin/oauth-client",
+     *     path="/api/v2/admin/oauth-client/{id}",
      *     tags={"OAuth/OAuth Clients"},
      *     @OA\PathParameter(
      *         name="id",

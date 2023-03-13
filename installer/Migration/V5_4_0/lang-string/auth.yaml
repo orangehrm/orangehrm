@@ -32,3 +32,24 @@ langStrings:
   -
     value: 'Invalid password reset code'
     unitId: invalid_password_reset_code
+  -
+    value: '{clientName} would like to'
+    unitId: client_name_would_like_to
+  -
+    value: 'Access and manage your data'
+    unitId: access_and_manage_your_data
+  -
+    value: 'Perform actions on your behalf'
+    unitId: perform_actions_on_your_behalf
+  -
+    value: 'Do you want to allow access?'
+    unitId: do_you_want_to_allow_access
+  -
+    value: 'Deny'
+    unitId: deny
+  -
+    value: 'Allow Access'
+    unitId: allow_access
+  -
+    value: 'This request is invalid'
+    unitId: this_request_is_invalid
