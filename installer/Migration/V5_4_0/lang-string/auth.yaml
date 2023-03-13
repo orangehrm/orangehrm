@@ -36,17 +36,11 @@ langStrings:
     value: '{clientName} would like to'
     unitId: client_name_would_like_to
   -
-    value: 'Access your basic profile information'
-    unitId: access_your_basic_profile_info
-  -
     value: 'Access and manage your data'
     unitId: access_and_manage_your_data
   -
-    value: 'Perform requests on your behalf'
-    unitId: perform_requests_on_your_behalf
-  -
-    value: 'Keep you signed in to the app'
-    unitId: keep_you_signed_in_to_the_app
+    value: 'Perform actions on your behalf'
+    unitId: perform_actions_on_your_behalf
   -
     value: 'Do you want to allow access?'
     unitId: do_you_want_to_allow_access

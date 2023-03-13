@@ -32,18 +32,12 @@
         </oxd-text>
         <ul class="orangehrm-oauth-list">
           <li>
-            <oxd-text>{{ $t('auth.access_your_basic_profile_info') }}</oxd-text>
-          </li>
-          <li>
             <oxd-text>{{ $t('auth.access_and_manage_your_data') }}</oxd-text>
           </li>
           <li>
             <oxd-text>
-              {{ $t('auth.perform_requests_on_your_behalf') }}
+              {{ $t('auth.perform_actions_on_your_behalf') }}
             </oxd-text>
-          </li>
-          <li>
-            <oxd-text>{{ $t('auth.keep_you_signed_in_to_the_app') }}</oxd-text>
           </li>
         </ul>
         <oxd-text>{{ $t('auth.do_you_want_to_allow_access') }}</oxd-text>

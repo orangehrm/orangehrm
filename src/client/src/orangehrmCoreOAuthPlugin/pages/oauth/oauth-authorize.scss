@@ -14,6 +14,13 @@
 // if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 // Boston, MA  02110-1301, USA
 
+.orangehrm-card-container {
+  box-shadow: 3px 3px 10px $oxd-interface-gray-color;
+  @include oxd-respond-to('md') {
+    width: 100%;
+  }
+}
+
 .orangehrm-oauth {
   &-container {
     display: flex;
@@ -25,7 +32,7 @@
     justify-content: center;
     @include oxd-respond-to('md') {
       margin: 0 auto;
-      max-width: 1000px;
+      max-width: 450px;
     }
   }
 
