@@ -312,7 +312,7 @@ class Migration extends AbstractMigration
 
         $this->insertWorkflowState(WorkflowStateMachine::FLOW_CLAIM, 'INITIATED', 'ADMIN', WorkflowStateMachine::CLAIM_ACTION_SUBMIT, 'PAID', '', 0);
         $this->insertWorkflowState(WorkflowStateMachine::FLOW_CLAIM, 'APPROVED', 'ADMIN', WorkflowStateMachine::CLAIM_ACTION_REJECT, 'REJECTED', '', 0);
-        $this->insertWorkflowState(WorkflowStateMachine::FLOW_CLAIM, 'APPROVED', 'ADMIN', WorkflowStateMachine::CLAIM_ACTION_SUBMIT, 'PAID', '', 10);
+        $this->insertWorkflowState(WorkflowStateMachine::FLOW_CLAIM, 'SUBMITTED', 'ADMIN', WorkflowStateMachine::CLAIM_ACTION_APPROVE, 'PAID', '', 10);
         $this->insertWorkflowState(WorkflowStateMachine::FLOW_CLAIM, 'SUBMITTED', 'ADMIN', WorkflowStateMachine::CLAIM_ACTION_REJECT, 'REJECTED', '', 0);
         $this->insertWorkflowState(WorkflowStateMachine::FLOW_CLAIM, 'APPROVED', 'ADMIN', WorkflowStateMachine::CLAIM_ACTION_PAY, 'PAID', '', 0);
 

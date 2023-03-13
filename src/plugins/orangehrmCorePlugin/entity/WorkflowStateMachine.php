@@ -90,7 +90,6 @@ class WorkflowStateMachine
     public const FLOW_LEAVE = 4;
     public const FLOW_REVIEW = 5;
     public const FLOW_SELF_REVIEW = 6;
-
     public const FLOW_CLAIM = 7;
 
     /**
