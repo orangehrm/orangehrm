@@ -464,6 +464,9 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
                 $claimAttachment->setDescription($description);
             }
             if (!is_null($attachment)) {
+                $claimAttachment->getDecorator()->setUserByUserId(
+                    $this->getAuthUser()->getUserId()
+                );
                 $claimAttachment->setSize($attachment->getSize());
                 $claimAttachment->setFileType($attachment->getFileType());
                 $claimAttachment->setFilename($attachment->getFileName());
