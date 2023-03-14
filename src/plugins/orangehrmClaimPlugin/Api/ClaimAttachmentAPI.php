@@ -44,7 +44,6 @@ use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
-use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\ClaimAttachment;
 use OrangeHRM\Entity\ClaimRequest;
@@ -59,7 +58,6 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
     use AuthUserTrait;
     use DateTimeHelperTrait;
     use UserRoleManagerTrait;
-    use NormalizerServiceTrait;
 
     public const PARAMETER_REQUEST_ID = 'requestId';
     public const PARAMETER_CLAIM_ATTACHMENT = 'attachment';
