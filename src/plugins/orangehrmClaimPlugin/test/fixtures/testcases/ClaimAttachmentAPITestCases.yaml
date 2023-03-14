@@ -25,7 +25,7 @@ Create:
         fileType: "image/jpeg"
         size: 20692
         description: "sample description"
-      employee:
+      attachedBy:
         empNumber: 4
         lastName: "Abrahams"
         firstName: "Landon"
@@ -62,7 +62,7 @@ Create:
         fileType: "image/jpeg"
         size: 20692
         description: "sample description"
-      employee:
+      attachedBy:
         empNumber: 2
         lastName: "Abel"
         firstName: "Ashley"
@@ -98,7 +98,7 @@ Create:
         fileType: "image/jpeg"
         size: 20692
         description: null
-      employee:
+      attachedBy:
         empNumber: 4
         lastName: "Abrahams"
         firstName: "Landon"
@@ -204,7 +204,7 @@ Create:
         fileType: "image/jpeg"
         size: 20692
         description: "sample description"
-      employee:
+      attachedBy:
         empNumber: 1
         lastName: "Abbey"
         firstName: "Kayla"
@@ -288,7 +288,7 @@ Create:
         fileType: "image/jpeg"
         size: 20692
         description: "sample description"
-      employee:
+      attachedBy:
         empNumber: 1
         lastName: "Abbey"
         firstName: "Kayla"
@@ -325,7 +325,7 @@ Create:
         fileType: "image/jpeg"
         size: 20692
         description: "sample description"
-      employee:
+      attachedBy:
         empNumber: 1
         lastName: "Abbey"
         firstName: "Kayla"
@@ -428,7 +428,7 @@ GetAll:
           "size": 1000,
           "description": "fuel bill",
         },
-        "employee": {
+        "attachedBy": {
           "empNumber": 4,
           "lastName": "Abrahams",
           "firstName": "Landon",
@@ -446,7 +446,7 @@ GetAll:
           "size": 1500,
           "description": "doctor bill",
         },
-        "employee": {
+        "attachedBy": {
           "empNumber": 4,
           "lastName": "Abrahams",
           "firstName": "Landon",
@@ -464,7 +464,7 @@ GetAll:
           "size": 2000,
           "description": "post office bill",
         },
-        "employee": {
+        "attachedBy": {
           "empNumber": 4,
           "lastName": "Abrahams",
           "firstName": "Landon",
@@ -500,7 +500,7 @@ GetAll:
           "size": 3500,
           "description": "doctor charge",
         },
-        "employee": {
+        "attachedBy": {
           "empNumber": 1,
           "lastName": "Abbey",
           "firstName": "Kayla",
@@ -518,7 +518,7 @@ GetAll:
           "size": 3500,
           "description": "doctor charge",
         },
-        "employee": {
+        "attachedBy": {
           "empNumber": 1,
           "lastName": "Abbey",
           "firstName": "Kayla",
@@ -571,7 +571,7 @@ GetOne:
         "fileType": "image/jpeg"
         "size": 1000
         "description": "fuel bill"
-      employee:
+      attachedBy:
         empNumber: 4
         lastName: "Abrahams"
         firstName: "Landon"
@@ -638,7 +638,7 @@ Update:
         fileType: "image/jpeg"
         size: 20692
         description: "sample description updated"
-      employee:
+      attachedBy:
         empNumber: 4
         lastName: "Abrahams"
         firstName: "Landon"
@@ -674,7 +674,7 @@ Update:
         fileType: "image/jpeg"
         size: 20692
         description: "sample description updated"
-      employee:
+      attachedBy:
         empNumber: 4
         lastName: "Abrahams"
         firstName: "Landon"
@@ -705,7 +705,7 @@ Update:
         fileType: "image/jpeg"
         size: 3500
         description: "sample description updated"
-      employee:
+      attachedBy:
         empNumber: 1
         lastName: "Abbey"
         firstName: "Kayla"
@@ -736,7 +736,7 @@ Update:
         fileType: "image/jpeg"
         size: 3500
         description: "sample description updated"
-      employee:
+      attachedBy:
         empNumber: 1
         lastName: "Abbey"
         firstName: "Kayla"
@@ -868,7 +868,7 @@ Update:
         fileType: "image/jpeg"
         size: 20692
         description: "sample description updated"
-      employee:
+      attachedBy:
         empNumber: 1
         lastName: "Abbey"
         firstName: "Kayla"
@@ -947,7 +947,7 @@ Update:
         fileType: "image/jpeg"
         size: 1000
         description: "sample description updated"
-      employee:
+      attachedBy:
         empNumber: 4
         lastName: "Abrahams"
         firstName: "Landon"
@@ -982,7 +982,7 @@ Update:
         fileType: "image/jpeg"
         size: 20692
         description: "fuel bill"
-      employee:
+      attachedBy:
         empNumber: 4
         lastName: "Abrahams"
         firstName: "Landon"

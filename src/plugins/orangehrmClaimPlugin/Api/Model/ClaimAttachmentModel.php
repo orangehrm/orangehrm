@@ -40,7 +40,7 @@ use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
  *         @OA\Property(property="fileDescription", type="string"),
  *     ),
  *     @OA\Property(
- *         property="employee",
+ *         property="attachedBy",
  *         type="object",
  *         @OA\Property(property="empNumber", type="integer"),
  *         @OA\Property(property="lastName", type="string"),
@@ -71,28 +71,28 @@ class ClaimAttachmentModel implements Normalizable
                 'fileType',
                 'size',
                 'description',
-                ['getAddedByEmployee','getEmpNumber'],
-                ['getAddedByEmployee','getFirstName'],
-                ['getAddedByEmployee','getLastName'],
-                ['getAddedByEmployee','getMiddleName'],
-                ['getAddedByEmployee','getEmployeeId'],
-                ['getAddedByEmployee','getEmployeeTerminationRecord', 'getId'],
+                ['getAddedByEmployee', 'getEmpNumber'],
+                ['getAddedByEmployee', 'getFirstName'],
+                ['getAddedByEmployee', 'getLastName'],
+                ['getAddedByEmployee', 'getMiddleName'],
+                ['getAddedByEmployee', 'getEmployeeId'],
+                ['getAddedByEmployee', 'getEmployeeTerminationRecord', 'getId'],
                 'attachedDate'
             ]
         );
         $this->setAttributeNames(
             [
                 'id',
-                ['attachment','fileName'],
-                ['attachment','fileType'],
-                ['attachment','size'],
-                ['attachment','description'],
-                ['employee','empNumber'],
-                ['employee','firstName'],
-                ['employee','lastName'],
-                ['employee','middleName'],
-                ['employee','employeeId'],
-                ['employee','terminationId'],
+                ['attachment', 'fileName'],
+                ['attachment', 'fileType'],
+                ['attachment', 'size'],
+                ['attachment', 'description'],
+                ['attachedBy', 'empNumber'],
+                ['attachedBy', 'firstName'],
+                ['attachedBy', 'lastName'],
+                ['attachedBy', 'middleName'],
+                ['attachedBy', 'employeeId'],
+                ['attachedBy', 'terminationId'],
                 'date'
             ]
         );

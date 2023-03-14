@@ -65,15 +65,6 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_CLAIM_ATTACHMENT = 'attachment';
     public const PARAMETER_ATTACHMENT_DESCRIPTION = 'description';
     public const PARAMETER_ATTACHMENT_DESCRIPTION_MAX_LENGTH = 200;
-    public const PARAMETER_ALLOWED_ACTIONS = 'allowedActions';
-
-    public const ACTIONABLE_STATES_MAP = [
-        WorkflowStateMachine::CLAIM_ACTION_SUBMIT => 'SUBMIT',
-        WorkflowStateMachine::CLAIM_ACTION_APPROVE => 'APPROVE',
-        WorkflowStateMachine::CLAIM_ACTION_PAY => 'PAY',
-        WorkflowStateMachine::CLAIM_ACTION_CANCEL => 'CANCEL',
-        WorkflowStateMachine::CLAIM_ACTION_REJECT => 'REJECT'
-    ];
 
     /**
      * @OA\Get(
@@ -213,7 +204,6 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
             $this->rollBackTransaction();
             throw $e;
         } catch (Exception $e) {
-            //dd($e->getMessage());
             $this->rollBackTransaction();
             throw new TransactionException($e);
         }
