@@ -21,7 +21,6 @@ namespace OrangeHRM\Tests\Claim\Api;
 
 use OrangeHRM\Claim\Api\ClaimAttachmentAPI;
 use OrangeHRM\Config\Config;
-use OrangeHRM\Core\Authorization\Manager\BasicUserRoleManager;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
 use OrangeHRM\Tests\Util\Integration\TestCaseParams;
@@ -39,7 +38,7 @@ class ClaimAttachmentAPITest extends EndpointIntegrationTestCase
      */
     public function testCreate(TestCaseParams $testCaseParams): void
     {
-        $this->populateFixtures('ClaimAttachment.yaml',null, true);
+        $this->populateFixtures('ClaimAttachment.yaml', null, true);
         $this->createKernelWithMockServices([
             Services::AUTH_USER => $this->getMockAuthUser($testCaseParams),
         ]);
@@ -59,7 +58,7 @@ class ClaimAttachmentAPITest extends EndpointIntegrationTestCase
      */
     public function testGetAll(TestCaseParams $testCaseParams): void
     {
-        $this->populateFixtures('ClaimAttachment.yaml',null, true);
+        $this->populateFixtures('ClaimAttachment.yaml', null, true);
         $this->createKernelWithMockServices([
             Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)
         ]);
@@ -78,7 +77,7 @@ class ClaimAttachmentAPITest extends EndpointIntegrationTestCase
      */
     public function testGetOne(TestCaseParams $testCaseParams): void
     {
-        $this->populateFixtures('ClaimAttachment.yaml',null, true);
+        $this->populateFixtures('ClaimAttachment.yaml', null, true);
         $this->createKernelWithMockServices([
             Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)
         ]);
@@ -97,7 +96,7 @@ class ClaimAttachmentAPITest extends EndpointIntegrationTestCase
      */
     public function testUpdate(TestCaseParams $testCaseParams): void
     {
-        $this->populateFixtures('ClaimAttachment.yaml',null, true);
+        $this->populateFixtures('ClaimAttachment.yaml', null, true);
         $this->createKernelWithMockServices([
             Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)
         ]);
@@ -117,7 +116,7 @@ class ClaimAttachmentAPITest extends EndpointIntegrationTestCase
      */
     public function testDelete(TestCaseParams $testCaseParams): void
     {
-        $this->populateFixtures('ClaimAttachment.yaml',null, true);
+        $this->populateFixtures('ClaimAttachment.yaml', null, true);
         $this->createKernelWithMockServices([
             Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)
         ]);

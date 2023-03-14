@@ -305,20 +305,116 @@ class Migration extends AbstractMigration
 
         $this->deleteClaimWorkflowStates();
 
-        $this->insertWorkflowState(WorkflowStateMachine::FLOW_CLAIM, 'INITIATED', 'ESS USER', WorkflowStateMachine::CLAIM_ACTION_SUBMIT, 'SUBMITTED', '', 10);
-        $this->insertWorkflowState(WorkflowStateMachine::FLOW_CLAIM, 'INITIATED', 'ESS USER', WorkflowStateMachine::CLAIM_ACTION_CANCEL, 'CANCELLED', '', 10);
-        $this->insertWorkflowState(WorkflowStateMachine::FLOW_CLAIM, 'SUBMITTED', 'ESS USER', WorkflowStateMachine::CLAIM_ACTION_CANCEL, 'CANCELLED', '', 10);
-        $this->insertWorkflowState(WorkflowStateMachine::FLOW_CLAIM, 'REJECTED', 'ESS USER', WorkflowStateMachine::CLAIM_ACTION_SUBMIT, 'SUBMITTED', '', 10);
+        $this->insertWorkflowState(
+            WorkflowStateMachine::FLOW_CLAIM,
+            'INITIATED',
+            'ESS USER',
+            WorkflowStateMachine::CLAIM_ACTION_SUBMIT,
+            'SUBMITTED',
+            '',
+            10
+        );
+        $this->insertWorkflowState(
+            WorkflowStateMachine::FLOW_CLAIM,
+            'INITIATED',
+            'ESS USER',
+            WorkflowStateMachine::CLAIM_ACTION_CANCEL,
+            'CANCELLED',
+            '',
+            10
+        );
+        $this->insertWorkflowState(
+            WorkflowStateMachine::FLOW_CLAIM,
+            'SUBMITTED',
+            'ESS USER',
+            WorkflowStateMachine::CLAIM_ACTION_CANCEL,
+            'CANCELLED',
+            '',
+            10
+        );
+        $this->insertWorkflowState(
+            WorkflowStateMachine::FLOW_CLAIM,
+            'REJECTED',
+            'ESS USER',
+            WorkflowStateMachine::CLAIM_ACTION_SUBMIT,
+            'SUBMITTED',
+            '',
+            10
+        );
 
-        $this->insertWorkflowState(WorkflowStateMachine::FLOW_CLAIM, 'INITIATED', 'ADMIN', WorkflowStateMachine::CLAIM_ACTION_SUBMIT, 'PAID', '', 0);
-        $this->insertWorkflowState(WorkflowStateMachine::FLOW_CLAIM, 'APPROVED', 'ADMIN', WorkflowStateMachine::CLAIM_ACTION_REJECT, 'REJECTED', '', 0);
-        $this->insertWorkflowState(WorkflowStateMachine::FLOW_CLAIM, 'SUBMITTED', 'ADMIN', WorkflowStateMachine::CLAIM_ACTION_APPROVE, 'PAID', '', 10);
-        $this->insertWorkflowState(WorkflowStateMachine::FLOW_CLAIM, 'SUBMITTED', 'ADMIN', WorkflowStateMachine::CLAIM_ACTION_REJECT, 'REJECTED', '', 0);
-        $this->insertWorkflowState(WorkflowStateMachine::FLOW_CLAIM, 'APPROVED', 'ADMIN', WorkflowStateMachine::CLAIM_ACTION_PAY, 'PAID', '', 0);
+        $this->insertWorkflowState(
+            WorkflowStateMachine::FLOW_CLAIM,
+            'INITIATED',
+            'ADMIN',
+            WorkflowStateMachine::CLAIM_ACTION_SUBMIT,
+            'PAID',
+            '',
+            0
+        );
+        $this->insertWorkflowState(
+            WorkflowStateMachine::FLOW_CLAIM,
+            'APPROVED',
+            'ADMIN',
+            WorkflowStateMachine::CLAIM_ACTION_REJECT,
+            'REJECTED',
+            '',
+            0
+        );
+        $this->insertWorkflowState(
+            WorkflowStateMachine::FLOW_CLAIM,
+            'SUBMITTED',
+            'ADMIN',
+            WorkflowStateMachine::CLAIM_ACTION_APPROVE,
+            'PAID',
+            '',
+            10
+        );
+        $this->insertWorkflowState(
+            WorkflowStateMachine::FLOW_CLAIM,
+            'SUBMITTED',
+            'ADMIN',
+            WorkflowStateMachine::CLAIM_ACTION_REJECT,
+            'REJECTED',
+            '',
+            0
+        );
+        $this->insertWorkflowState(
+            WorkflowStateMachine::FLOW_CLAIM,
+            'APPROVED',
+            'ADMIN',
+            WorkflowStateMachine::CLAIM_ACTION_PAY,
+            'PAID',
+            '',
+            0
+        );
 
-        $this->insertWorkflowState(WorkflowStateMachine::FLOW_CLAIM, 'INITIATED', 'SUPERVISOR', WorkflowStateMachine::CLAIM_ACTION_SUBMIT, 'APPROVED', '', 0);
-        $this->insertWorkflowState(WorkflowStateMachine::FLOW_CLAIM, 'SUBMITTED', 'SUPERVISOR', WorkflowStateMachine::CLAIM_ACTION_SUBMIT, 'APPROVED', '', 0);
-        $this->insertWorkflowState(WorkflowStateMachine::FLOW_CLAIM, 'SUBMITTED', 'SUPERVISOR', WorkflowStateMachine::CLAIM_ACTION_REJECT, 'REJECTED', '', 0);
+        $this->insertWorkflowState(
+            WorkflowStateMachine::FLOW_CLAIM,
+            'INITIATED',
+            'SUPERVISOR',
+            WorkflowStateMachine::CLAIM_ACTION_SUBMIT,
+            'APPROVED',
+            '',
+            0
+        );
+        $this->insertWorkflowState(
+            WorkflowStateMachine::FLOW_CLAIM,
+            'SUBMITTED',
+            'SUPERVISOR',
+            WorkflowStateMachine::CLAIM_ACTION_APPROVE,
+            'APPROVED',
+            '',
+            0
+        );
+        $this->insertWorkflowState(
+            WorkflowStateMachine::FLOW_CLAIM,
+            'SUBMITTED',
+            'SUPERVISOR',
+            WorkflowStateMachine::CLAIM_ACTION_REJECT,
+            'REJECTED',
+            '',
+            0
+        );
     }
 
     private function modifyClaimTables(): void
@@ -329,7 +425,12 @@ class Migration extends AbstractMigration
 
         $this->getSchemaHelper()->addOrChangeColumns('ohrm_claim_event', [
             'is_deleted' => ['Type' => Type::getType(Types::BOOLEAN), 'Notnull' => true, 'Default' => 0],
-            'status' => ['Type' => Type::getType(Types::BOOLEAN), 'Notnull' => false, 'Default' => null, 'CustomSchemaOptions' => ['collation' => null, 'charset' => null]],
+            'status' => [
+                'Type' => Type::getType(Types::BOOLEAN),
+                'Notnull' => false,
+                'Default' => null,
+                'CustomSchemaOptions' => ['collation' => null, 'charset' => null]
+            ],
         ]);
 
         $this->getSchemaHelper()->addOrChangeColumns('ohrm_claim_request', [
@@ -532,12 +633,12 @@ class Migration extends AbstractMigration
     }
 
     private function insertMenuItems(//TODO
-        string  $menu_title,
-        ?int    $screen_id,
-        ?int    $parent_id,
-        int     $level,
-        int     $order_hint,
-        int     $status,
+        string $menu_title,
+        ?int $screen_id,
+        ?int $parent_id,
+        int $level,
+        int $order_hint,
+        int $status,
         ?string $additional_params
     ): void {
         $this->getConnection()->createQueryBuilder()

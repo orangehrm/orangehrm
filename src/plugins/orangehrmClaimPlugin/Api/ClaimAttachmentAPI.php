@@ -35,7 +35,6 @@ use OrangeHRM\Core\Api\V2\Exception\ForbiddenException;
 use OrangeHRM\Core\Api\V2\Exception\InvalidParamException;
 use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
-use OrangeHRM\Core\Api\V2\Model\WorkflowStateModel;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
@@ -50,7 +49,6 @@ use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\ClaimAttachment;
 use OrangeHRM\Entity\ClaimRequest;
 use OrangeHRM\Entity\Employee;
-use OrangeHRM\Entity\UserRole;
 use OrangeHRM\Entity\WorkflowStateMachine;
 use OrangeHRM\ORM\Exception\TransactionException;
 
@@ -119,21 +117,7 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
         $this->setSortingAndPaginationParams($claimAttachmentSearchFilterParams);
         $requestId = $this->getRequestParams()
             ->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_REQUEST_ID);
-        $claimRequest = $this->getClaimRequest($requestId);
-        $allowedWorkflowItems =  $this->getUserRoleManager()->getAllowedActions(
-            WorkflowStateMachine::FLOW_CLAIM,
-            $claimRequest->getStatus(),
-            [],
-            [],
-            [Employee::class => $claimRequest->getEmployee()->getEmpNumber()],
-        );
-        foreach ($allowedWorkflowItems as $allowedWorkflowItem) {
-            $allowedWorkflowItem->setAction(self::ACTIONABLE_STATES_MAP[$allowedWorkflowItem->getAction()]);
-        }
-        $allowedActions = $this->getNormalizerService()->normalizeArray(
-            WorkflowStateModel::class,
-            $allowedWorkflowItems
-        );
+        $this->getClaimRequest($requestId);
         $claimAttachmentSearchFilterParams->setRequestId($requestId);
         $claimAttachments = $this->getClaimService()
             ->getClaimDao()
@@ -145,10 +129,7 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
         return new EndpointCollectionResult(
             ClaimAttachmentModel::class,
             $claimAttachments,
-            new ParameterBag([
-                CommonParams::PARAMETER_TOTAL => $count,
-                self::PARAMETER_ALLOWED_ACTIONS => $allowedActions
-            ])
+            new ParameterBag([CommonParams::PARAMETER_TOTAL => $count])
         );
     }
 
@@ -241,18 +222,6 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
             $this->getPartialClaimAttachment($claimAttachment)
         );
     }
-//
-//    private function setIncludeRoles(ClaimRequest $claimRequest, int $loggedInUserId): void
-//    {
-//        $requestOwnerEmpNumber = $claimRequest->getEmployee()->getEmpNumber();
-//        $loggedInUserEmpNumber = $this->getAuthUser()->getEmpNumber();
-//
-//        if($requestOwnerEmpNumber === $loggedInUserEmpNumber ) {
-//            if($this->getAuthUser()->getUserRoleName() === "ESS") {
-//                $includeRoles[] = UserRole::ADMIN;
-//            }
-//        }
-//    }
 
     /**
      * @param ClaimAttachment $claimAttachment
@@ -543,6 +512,9 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
                 $claimAttachment->setDescription($description);
             }
             if (!is_null($attachment)) {
+                $claimAttachment->getDecorator()->setUserByUserId(
+                    $this->getAuthUser()->getUserId()
+                );
                 $claimAttachment->setSize($attachment->getSize());
                 $claimAttachment->setFileType($attachment->getFileType());
                 $claimAttachment->setFilename($attachment->getFileName());
