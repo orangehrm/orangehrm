@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Claim\Api\Model;
 
+use OpenApi\Annotations as OA;
 use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\ClaimRequest;

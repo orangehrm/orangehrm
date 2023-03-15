@@ -62,19 +62,33 @@ apiv2_claim_attachment:
   requirements:
     requestId: '\d+'
 
-apiv2_claim_requests:
+apiv2_claim_my_claim_requests:
   path: /api/v2/claim/requests
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
   methods: [ POST, GET ]
   defaults:
-    _api: OrangeHRM\Claim\Api\ClaimRequestAPI
+    _api: OrangeHRM\Claim\Api\MyClaimRequestAPI
 
-apiv2_claim_request:
+apiv2_claim_my_claim_request:
   path: /api/v2/claim/requests/{id}
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
   methods: [ GET ]
   defaults:
-    _api: OrangeHRM\Claim\Api\ClaimRequestAPI
+    _api: OrangeHRM\Claim\Api\MyClaimRequestAPI
+
+apiv2_claim_employee_claim_requests:
+  path: /api/v2/claim/employee/requests
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ POST, GET ]
+  defaults:
+    _api: OrangeHRM\Claim\Api\EmployeeClaimRequestAPI
+
+apiv2_claim_employee_claim_request:
+  path: /api/v2/claim/employee/requests/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Claim\Api\EmployeeClaimRequestAPI
 
 ##########################
 #        Screens

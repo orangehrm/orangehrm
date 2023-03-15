@@ -19,7 +19,7 @@
 
 namespace OrangeHRM\Tests\Claim\Api;
 
-use OrangeHRM\Claim\Api\ClaimRequestAPI;
+use OrangeHRM\Claim\Api\MyClaimRequestAPI;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
 use OrangeHRM\Tests\Util\Integration\TestCaseParams;
@@ -28,23 +28,23 @@ use OrangeHRM\Tests\Util\Integration\TestCaseParams;
  * @group Claim
  * @group APIv2
  */
-class ClaimRequestAPITest extends EndpointIntegrationTestCase
+class MyClaimRequestAPITest extends EndpointIntegrationTestCase
 {
     /**
      * @dataProvider dataProviderForTestCreate
      */
     public function testCreate(TestCaseParams $testCaseParams): void
     {
-        $this->populateFixtures('ClaimRequestAPI.yaml');
+        $this->populateFixtures('MyClaimRequestAPI.yaml');
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
         $this->registerMockDateTimeHelper($testCaseParams);
         $this->registerServices($testCaseParams);
-        $api = $this->getApiEndpointMock(ClaimRequestAPI::class, $testCaseParams);
+        $api = $this->getApiEndpointMock(MyClaimRequestAPI::class, $testCaseParams);
         $this->assertValidTestCase($api, 'create', $testCaseParams);
     }
 
     public function dataProviderForTestCreate(): array
     {
-        return $this->getTestCases('ClaimRequestAPITestCases.yaml', 'Create');
+        return $this->getTestCases('MyClaimRequestAPITestCases.yaml', 'Create');
     }
 }
