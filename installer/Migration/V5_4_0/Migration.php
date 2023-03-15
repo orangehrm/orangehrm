@@ -299,6 +299,8 @@ class Migration extends AbstractMigration
             $this->insertMenuItems('Events', $eventListScreenId, $claimConfigMenuItemId, 3, 100, 1, null);
             $expenseTypeScreenId = $this->getScreenId('Expense Types');
             $this->insertMenuItems('Expense Types', $expenseTypeScreenId, $claimConfigMenuItemId, 3, 200, 1, null);
+            $submitClaimScreenId = $this->getScreenId('Submit Claim');
+            $this->insertMenuItems('Submit Claim', $submitClaimScreenId, $claimMenuItemId, 2, 100, 1, null);
         }
 
         $this->createOAuth2Tables();

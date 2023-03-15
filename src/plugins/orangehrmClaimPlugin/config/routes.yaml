@@ -128,3 +128,8 @@ edit_claim_expense_types:
   path: /claim/saveExpense/{id}
   controller: OrangeHRM\Claim\Controller\SaveClaimExpenseTypeController::handle
   methods: [ GET ]
+
+submit_claim:
+  path: /claim/submitClaim
+  controller: OrangeHRM\Claim\Controller\SubmitClaimController::handle
+  methods: [ GET ]

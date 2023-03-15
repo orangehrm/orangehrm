@@ -1,3 +1,4 @@
+<!--
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -15,21 +16,14 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
+ -->
 
-import ClaimEvent from '@/orangehrmClaimPlugin/pages/ClaimEvent.vue';
-import SaveClaimEvent from '@/orangehrmClaimPlugin/pages/SaveClaimEvent.vue';
-import EditClaimEvent from '@/orangehrmClaimPlugin/pages/EditClaimEvent.vue';
-import ClaimExpenseType from '@/orangehrmClaimPlugin/pages/claimExpenseTypes/ClaimExpenseType.vue';
-import SaveClaimExpenseType from '@/orangehrmClaimPlugin/pages/claimExpenseTypes/SaveClaimExpenseType.vue';
-import EditClaimExpenseType from '@/orangehrmClaimPlugin/pages/claimExpenseTypes/EditClaimExpenseType.vue';
-import SubmitClaim from '@/orangehrmClaimPlugin/pages/submitClaim/SubmitClaim.vue';
+<template>
+  <div>hello hello</div>
+</template>
 
-export default {
-  'claim-event': ClaimEvent,
-  'claim-event-create': SaveClaimEvent,
-  'claim-event-edit': EditClaimEvent,
-  'claim-expense-types': ClaimExpenseType,
-  'claim-expense-type-create': SaveClaimExpenseType,
-  'claim-expense-type-edit': EditClaimExpenseType,
-  'submit-claim': SubmitClaim,
-};
+<script>
+export default {};
+</script>
+
+<style></style>
