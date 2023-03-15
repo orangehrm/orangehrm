@@ -202,7 +202,7 @@ export default {
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      `api/v2/attendance/records`,
+      `/api/v2/attendance/records`,
     );
     const {userDateFormat} = useDateFormat();
 
@@ -389,7 +389,7 @@ export default {
         this.http
           .request({
             method: 'GET',
-            url: `api/v2/attendance/records/${apiPath}`,
+            url: `/api/v2/attendance/records/${apiPath}`,
             params: {
               recordId: this.attendanceId,
               punchInTimezoneOffset: this.attendance.punchIn.timezone

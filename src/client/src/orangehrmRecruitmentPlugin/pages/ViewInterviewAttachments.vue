@@ -120,7 +120,7 @@ export default {
   setup(props) {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      `api/v2/recruitment/interviews/${props.interviewId}/attachments`,
+      `/api/v2/recruitment/interviews/${props.interviewId}/attachments`,
     );
     const {
       showPaginator,

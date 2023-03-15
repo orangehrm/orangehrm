@@ -98,7 +98,7 @@ export default {
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/core/update-password',
+      '/api/v2/core/update-password',
     );
     const {formRef, reset} = useForm();
     return {
@@ -127,7 +127,7 @@ export default {
       this.http
         .request({
           method: 'PUT',
-          url: 'api/v2/pim/update-password',
+          url: '/api/v2/pim/update-password',
           data: {
             newPassword: this.user.password,
             currentPassword: this.user.currentPassword,

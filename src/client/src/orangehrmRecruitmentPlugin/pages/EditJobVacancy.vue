@@ -344,11 +344,11 @@ export default {
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/recruitment/vacancies',
+      '/api/v2/recruitment/vacancies',
     );
     const httpAttachments = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/recruitment/vacancy/attachments',
+      '/api/v2/recruitment/vacancy/attachments',
     );
     return {
       http,

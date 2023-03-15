@@ -115,10 +115,10 @@ export default {
   setup(props) {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      `api/v2/pim/employees/${props.employeeId}/languages`,
+      `/api/v2/pim/employees/${props.employeeId}/languages`,
     );
 
-    const languagesEndpoint = `api/v2/pim/employees/${props.employeeId}/languages/allowed`;
+    const languagesEndpoint = `/api/v2/pim/employees/${props.employeeId}/languages/allowed`;
 
     const {
       showPaginator,

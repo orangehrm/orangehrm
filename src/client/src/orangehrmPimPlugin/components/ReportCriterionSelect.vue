@@ -65,7 +65,7 @@ export default {
       onBeforeMount(() => {
         http
           .getAll({
-            ...(props.api !== 'api/v2/admin/subunits' && {limit: 0}),
+            ...(props.api !== '/api/v2/admin/subunits' && {limit: 0}),
           })
           .then(({data}) => {
             opts.value = data.data.map((item) => {
@@ -80,8 +80,8 @@ export default {
     }
 
     if (
-      props.api === 'api/v2/admin/locations' ||
-      props.api === 'api/v2/admin/subunits'
+      props.api === '/api/v2/admin/locations' ||
+      props.api === '/api/v2/admin/subunits'
     ) {
       context.emit('update:operator', {id: 'in', label: 'Equal'});
     } else {

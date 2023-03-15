@@ -80,7 +80,7 @@ export default {
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/admin/localization',
+      '/api/v2/admin/localization',
     );
     return {
       http,
@@ -118,7 +118,7 @@ export default {
       this.http
         .request({
           method: 'PUT',
-          url: 'api/v2/admin/localization',
+          url: '/api/v2/admin/localization',
           data: {
             language: this.configuration.language?.id,
             dateFormat: this.configuration.dateFormat?.id,

@@ -83,7 +83,7 @@ export default {
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/maintenance/candidates',
+      '/api/v2/maintenance/candidates',
     );
     const vacancy = ref(null);
     const {locale} = useLocale();

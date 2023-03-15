@@ -180,7 +180,7 @@ export default {
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/admin/subunits',
+      '/api/v2/admin/subunits',
     );
     const responsiveState = useResponsive();
     const isMobile = computed(() => {

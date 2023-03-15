@@ -62,7 +62,7 @@ export default {
     const options = ref([]);
     const http = new APIService(
       window.appGlobal.baseUrl,
-      `api/v2/leave/leave-types${props.eligibleOnly ? '/eligible' : ''}`,
+      `/api/v2/leave/leave-types${props.eligibleOnly ? '/eligible' : ''}`,
     );
 
     watchEffect(async () => {

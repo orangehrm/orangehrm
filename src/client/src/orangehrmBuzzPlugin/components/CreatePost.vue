@@ -99,7 +99,7 @@ export default {
     const showVideoModal = ref(false);
     const showPhotoModal = ref(false);
     const rules = [shouldNotExceedCharLength(65530)];
-    const http = new APIService(window.appGlobal.baseUrl, 'api/v2/buzz/posts');
+    const http = new APIService(window.appGlobal.baseUrl, '/api/v2/buzz/posts');
 
     const onSubmit = () => {
       if (post.value === null || String(post.value).trim() === '') return;

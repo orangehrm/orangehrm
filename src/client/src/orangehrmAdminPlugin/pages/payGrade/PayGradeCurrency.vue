@@ -104,7 +104,7 @@ export default {
   setup(props) {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      `api/v2/admin/pay-grades/${props.payGradeId}/currencies`,
+      `/api/v2/admin/pay-grades/${props.payGradeId}/currencies`,
     );
     const {
       showPaginator,

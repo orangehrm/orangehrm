@@ -78,7 +78,7 @@ export default {
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/admin/job-categories',
+      '/api/v2/admin/job-categories',
     );
     const {
       showPaginator,

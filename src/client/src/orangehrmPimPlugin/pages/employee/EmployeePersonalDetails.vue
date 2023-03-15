@@ -254,7 +254,7 @@ export default {
   setup(props) {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      `api/v2/pim/employees/${props.empNumber}/personal-details`,
+      `/api/v2/pim/employees/${props.empNumber}/personal-details`,
     );
     const {userDateFormat} = useDateFormat();
 
@@ -298,7 +298,7 @@ export default {
         this.updateModel(response);
         return this.http.request({
           method: 'GET',
-          url: 'api/v2/pim/employees',
+          url: '/api/v2/pim/employees',
         });
       })
       .then((response) => {

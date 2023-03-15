@@ -266,7 +266,7 @@ export default {
     const responsiveState = useResponsive();
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/recruitment/public/vacancies',
+      '/api/v2/recruitment/public/vacancies',
     );
 
     return {

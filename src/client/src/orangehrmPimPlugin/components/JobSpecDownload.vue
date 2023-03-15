@@ -63,7 +63,7 @@ export default {
   setup(props) {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      `api/v2/admin/job-titles/${props.resourceId}/specification`,
+      `/api/v2/admin/job-titles/${props.resourceId}/specification`,
     );
     const state = reactive({
       isLoading: false,

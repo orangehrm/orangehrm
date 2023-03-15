@@ -96,7 +96,10 @@ export default {
     const rules = {
       text: [shouldNotExceedCharLength(65530)],
     };
-    const http = new APIService(window.appGlobal.baseUrl, 'api/v2/buzz/shares');
+    const http = new APIService(
+      window.appGlobal.baseUrl,
+      '/api/v2/buzz/shares',
+    );
 
     const state = reactive({
       post: {

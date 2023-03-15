@@ -92,7 +92,7 @@ export default {
   },
   emits: ['close'],
   setup() {
-    const http = new APIService(window.appGlobal.baseUrl, 'api/v2/core/about');
+    const http = new APIService(window.appGlobal.baseUrl, '/api/v2/core/about');
     return {
       http,
     };

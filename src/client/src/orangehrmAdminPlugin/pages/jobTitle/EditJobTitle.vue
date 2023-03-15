@@ -129,7 +129,7 @@ export default {
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/admin/job-titles',
+      '/api/v2/admin/job-titles',
     );
     return {
       http,

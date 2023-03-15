@@ -101,10 +101,10 @@ export default {
   setup(props) {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      `api/v2/pim/employees/${props.employeeId}/educations`,
+      `/api/v2/pim/employees/${props.employeeId}/educations`,
     );
 
-    const educationEndpoint = 'api/v2/admin/educations';
+    const educationEndpoint = '/api/v2/admin/educations';
 
     const {
       showPaginator,

@@ -87,7 +87,7 @@ export default {
     const apiPath = props.leaveRequest ? 'leave-requests' : 'leaves';
     const http = new APIService(
       window.appGlobal.baseUrl,
-      `api/v2/leave/${apiPath}/${props.id}/leave-comments`,
+      `/api/v2/leave/${apiPath}/${props.id}/leave-comments`,
     );
     return {
       http,

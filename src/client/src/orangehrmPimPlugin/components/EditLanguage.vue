@@ -140,7 +140,7 @@ export default {
     this.http
       .request({
         method: 'GET',
-        url: `api/v2/pim/employees/${this.employeeId}/languages/${this.data.languageId}/fluencies/${this.data.fluencyId}`,
+        url: `/api/v2/pim/employees/${this.employeeId}/languages/${this.data.languageId}/fluencies/${this.data.fluencyId}`,
       })
       .then((response) => {
         const {data} = response.data;
@@ -162,7 +162,7 @@ export default {
       this.http
         .request({
           method: 'PUT',
-          url: `api/v2/pim/employees/${this.employeeId}/languages/${this.data.languageId}/fluencies/${this.data.fluencyId}`,
+          url: `/api/v2/pim/employees/${this.employeeId}/languages/${this.data.languageId}/fluencies/${this.data.fluencyId}`,
           data: {
             competencyId: this.language.competencyId.id,
             comment: this.language.comment,

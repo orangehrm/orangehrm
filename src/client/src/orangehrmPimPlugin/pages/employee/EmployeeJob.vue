@@ -276,7 +276,7 @@ export default {
   setup(props) {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      `api/v2/pim/employees/${props.empNumber}/job-details`,
+      `/api/v2/pim/employees/${props.empNumber}/job-details`,
     );
     const {jsDateFormat, userDateFormat} = useDateFormat();
     const {locale} = useLocale();
@@ -364,7 +364,7 @@ export default {
       .then(() => {
         return this.http.request({
           method: 'GET',
-          url: `api/v2/pim/employees/${this.empNumber}/employment-contract`,
+          url: `/api/v2/pim/employees/${this.empNumber}/employment-contract`,
         });
       })
       .then((response) => {
@@ -394,7 +394,7 @@ export default {
           this.updateJobModel(response);
           return this.http.request({
             method: 'PUT',
-            url: `api/v2/pim/employees/${this.empNumber}/employment-contract`,
+            url: `/api/v2/pim/employees/${this.empNumber}/employment-contract`,
             data: {
               startDate: this.contract.startDate,
               endDate: this.contract.endDate,
@@ -424,7 +424,7 @@ export default {
         this.http
           .request({
             method: 'DELETE',
-            url: `api/v2/pim/employees/${this.empNumber}/terminations`,
+            url: `/api/v2/pim/employees/${this.empNumber}/terminations`,
           })
           .then(() => {
             return this.$toast.updateSuccess();

@@ -38,7 +38,7 @@ export default {
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/time/customers',
+      '/api/v2/time/customers',
     );
     return {
       http,

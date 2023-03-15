@@ -38,7 +38,7 @@ export default function usePasswordPolicy(http: APIService) {
         http
           .request({
             method: 'POST',
-            url: `api/v2/auth/public/validation/password`,
+            url: `/api/v2/auth/public/validation/password`,
             data: {
               password,
             },

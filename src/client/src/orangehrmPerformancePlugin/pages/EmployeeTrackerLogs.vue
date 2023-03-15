@@ -168,7 +168,7 @@ export default {
   setup(props) {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      `api/v2/performance/trackers/${props.trackerId}/logs`,
+      `/api/v2/performance/trackers/${props.trackerId}/logs`,
     );
     const limit = 10;
     const state = reactive({
@@ -258,7 +258,7 @@ export default {
     this.http
       .request({
         method: 'GET',
-        url: `api/v2/performance/employees/trackers/${this.trackerId}`,
+        url: `/api/v2/performance/employees/trackers/${this.trackerId}`,
       })
       .then((response) => {
         const {data} = response.data;

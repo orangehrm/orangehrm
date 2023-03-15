@@ -46,7 +46,7 @@ export default {
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      `api/v2/performance/supervisors`,
+      `/api/v2/performance/supervisors`,
     );
     return {
       http,

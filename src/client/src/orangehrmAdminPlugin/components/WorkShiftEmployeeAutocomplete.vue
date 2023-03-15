@@ -39,7 +39,7 @@ export default {
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/admin/work-shifts/employees',
+      '/api/v2/admin/work-shifts/employees',
     );
     return {
       http,

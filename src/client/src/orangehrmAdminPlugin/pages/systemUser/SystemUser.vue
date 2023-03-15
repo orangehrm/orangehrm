@@ -187,7 +187,10 @@ export default {
         sortOrder: sortOrder.value,
       };
     });
-    const http = new APIService(window.appGlobal.baseUrl, 'api/v2/admin/users');
+    const http = new APIService(
+      window.appGlobal.baseUrl,
+      '/api/v2/admin/users',
+    );
     const {
       showPaginator,
       currentPage,

@@ -50,7 +50,7 @@ export default {
     },
     apiPath: {
       type: String,
-      default: 'api/v2/pim/employees',
+      default: '/api/v2/pim/employees',
     },
   },
   setup(props) {

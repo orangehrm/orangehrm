@@ -108,7 +108,7 @@ export default {
     const {locale} = useLocale();
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/dashboard/employees/time-at-work',
+      '/api/v2/dashboard/employees/time-at-work',
     );
 
     return {

@@ -128,7 +128,7 @@ export default {
       '/api/v2/leave/leave-entitlements',
     );
     http.setIgnorePath(
-      'api/v2/leave/leave-entitlements/[0-9]+/validation/entitlements',
+      '/api/v2/leave/leave-entitlements/[0-9]+/validation/entitlements',
     );
     const {jsDateFormat} = useDateFormat();
     const {locale} = useLocale();
@@ -166,7 +166,7 @@ export default {
   beforeMount() {
     this.isLoading = true;
     this.http
-      .request({method: 'GET', url: 'api/v2/leave/leave-periods'})
+      .request({method: 'GET', url: '/api/v2/leave/leave-periods'})
       .then(({data}) => {
         this.leavePeriods = data.data.map((item) => {
           const startDate = formatDate(
@@ -240,7 +240,7 @@ export default {
           this.http
             .request({
               method: 'GET',
-              url: `api/v2/leave/leave-entitlements/${this.entitlementId}/validation/entitlements`,
+              url: `/api/v2/leave/leave-entitlements/${this.entitlementId}/validation/entitlements`,
               params: {
                 entitlement,
               },

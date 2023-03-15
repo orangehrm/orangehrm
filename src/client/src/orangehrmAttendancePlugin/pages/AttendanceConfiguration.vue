@@ -92,7 +92,7 @@ export default {
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/attendance/configs',
+      '/api/v2/attendance/configs',
     );
     return {
       http,

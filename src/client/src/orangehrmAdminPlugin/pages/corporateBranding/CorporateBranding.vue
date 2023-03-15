@@ -241,7 +241,10 @@ export default {
     },
   },
   setup(props) {
-    const http = new APIService(window.appGlobal.baseUrl, `api/v2/admin/theme`);
+    const http = new APIService(
+      window.appGlobal.baseUrl,
+      `/api/v2/admin/theme`,
+    );
 
     const {saveSuccess} = useToast();
     const {formRef, invalid, validate} = useForm();

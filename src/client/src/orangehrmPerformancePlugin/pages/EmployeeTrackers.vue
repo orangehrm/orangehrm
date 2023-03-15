@@ -30,7 +30,7 @@
               <employee-autocomplete
                 v-model="filters.empName"
                 :rules="rules.employee"
-                api-path="api/v2/performance/trackers/reviewers"
+                api-path="/api/v2/performance/trackers/reviewers"
                 :params="{
                   includeEmployees: filters.includeEmployees.param,
                 }"
@@ -163,7 +163,7 @@ export default {
       };
     });
 
-    const api = 'api/v2/performance/employees/trackers';
+    const api = '/api/v2/performance/employees/trackers';
     const http = new APIService(window.appGlobal.baseUrl, api);
 
     const {

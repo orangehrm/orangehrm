@@ -143,7 +143,7 @@ export default {
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      `api/v2/pim/csv-import`,
+      `/api/v2/pim/csv-import`,
     );
     const {formRef, reset} = useForm();
     return {

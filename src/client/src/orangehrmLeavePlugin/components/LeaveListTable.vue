@@ -197,7 +197,7 @@ export default {
 
     const http = new APIService(
       window.appGlobal.baseUrl,
-      `api/v2/leave/${
+      `/api/v2/leave/${
         props.myLeaveList ? 'leave-requests' : 'employees/leave-requests'
       }`,
     );
@@ -410,7 +410,7 @@ export default {
         : this.leaveStatuses.filter((status) => status.id === 1);
     }
     this.http
-      .request({method: 'GET', url: 'api/v2/leave/leave-periods'})
+      .request({method: 'GET', url: '/api/v2/leave/leave-periods'})
       .then((response) => {
         const {data, meta} = response.data;
         if (meta.leavePeriodDefined) {

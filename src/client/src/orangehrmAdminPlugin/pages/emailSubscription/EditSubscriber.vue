@@ -86,7 +86,7 @@ export default {
   setup(props) {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      `api/v2/admin/email-subscriptions/${props.data.subscriptionId}/subscribers`,
+      `/api/v2/admin/email-subscriptions/${props.data.subscriptionId}/subscribers`,
     );
     return {
       http,

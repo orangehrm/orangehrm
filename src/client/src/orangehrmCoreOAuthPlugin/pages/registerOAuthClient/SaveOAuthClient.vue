@@ -145,7 +145,7 @@ export default {
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/admin/oauth-clients',
+      '/api/v2/admin/oauth-clients',
     );
     return {
       http,

@@ -125,7 +125,7 @@ export default {
     const isCurrentEmp = ref(true);
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/pim/employees',
+      '/api/v2/pim/employees',
     );
 
     http.get(props.employeeId).then(({data}) => {

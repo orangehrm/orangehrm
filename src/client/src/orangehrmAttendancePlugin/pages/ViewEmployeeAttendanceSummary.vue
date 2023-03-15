@@ -144,7 +144,7 @@ export default {
 
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/attendance/employees/summary',
+      '/api/v2/attendance/employees/summary',
     );
     const {
       total,

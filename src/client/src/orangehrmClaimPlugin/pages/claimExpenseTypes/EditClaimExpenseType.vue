@@ -100,7 +100,7 @@ export default {
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/claim/expenses/types',
+      '/api/v2/claim/expenses/types',
     );
     return {
       http,

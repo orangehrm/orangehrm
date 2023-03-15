@@ -237,7 +237,7 @@ export default {
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/admin/email-configuration',
+      '/api/v2/admin/email-configuration',
     );
     return {
       http,
@@ -291,7 +291,7 @@ export default {
     this.http
       .request({
         method: 'GET',
-        url: 'api/v2/admin/email-configuration',
+        url: '/api/v2/admin/email-configuration',
       })
       .then((response) => {
         const {data} = response.data;

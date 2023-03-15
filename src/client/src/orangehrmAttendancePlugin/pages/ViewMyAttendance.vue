@@ -137,7 +137,7 @@ export default {
 
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/attendance/records',
+      '/api/v2/attendance/records',
     );
 
     const attendanceRecordNormalizer = (data) => {

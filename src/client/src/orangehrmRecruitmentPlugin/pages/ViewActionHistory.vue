@@ -289,7 +289,7 @@ export default {
         return this.isScheduleInterview
           ? this.http.request({
               method: 'GET',
-              url: `api/v2/recruitment/candidates/${this.candidateId}/interviews/${this.history.interview.id}`,
+              url: `/api/v2/recruitment/candidates/${this.candidateId}/interviews/${this.history.interview.id}`,
             })
           : null;
       })
@@ -336,7 +336,7 @@ export default {
           return this.isScheduleInterview
             ? this.http.request({
                 method: 'PUT',
-                url: `api/v2/recruitment/candidates/${this.candidateId}/interviews/${this.history.interview.id}`,
+                url: `/api/v2/recruitment/candidates/${this.candidateId}/interviews/${this.history.interview.id}`,
                 data: {
                   ...this.interview,
                   note: this.history.note,

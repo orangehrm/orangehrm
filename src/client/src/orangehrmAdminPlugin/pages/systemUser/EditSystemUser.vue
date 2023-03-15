@@ -141,8 +141,11 @@ export default {
   },
 
   setup() {
-    const http = new APIService(window.appGlobal.baseUrl, 'api/v2/admin/users');
-    http.setIgnorePath('api/v2/admin/validation/user-name');
+    const http = new APIService(
+      window.appGlobal.baseUrl,
+      '/api/v2/admin/users',
+    );
+    http.setIgnorePath('/api/v2/admin/validation/user-name');
     return {
       http,
     };
@@ -228,7 +231,7 @@ export default {
           this.http
             .request({
               method: 'GET',
-              url: `api/v2/admin/validation/user-name`,
+              url: `/api/v2/admin/validation/user-name`,
               params: {
                 userName: this.user.username.trim(),
                 userId: this.systemUserId,

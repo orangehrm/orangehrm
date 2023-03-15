@@ -50,7 +50,7 @@ export default {
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/dashboard/employees/subunit',
+      '/api/v2/dashboard/employees/subunit',
     );
 
     return {

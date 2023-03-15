@@ -38,7 +38,7 @@ export default {
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/recruitment/vacancies',
+      '/api/v2/recruitment/vacancies',
     );
     return {
       http,
