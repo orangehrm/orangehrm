@@ -73,6 +73,12 @@ class WorkflowStateMachine
     public const REVIEW_IN_PROGRESS_SAVE = 3;
     public const REVIEW_COMPLETE = 4;
 
+    public const CLAIM_ACTION_SUBMIT = 1;
+    public const CLAIM_ACTION_APPROVE = 2;
+    public const CLAIM_ACTION_PAY = 3;
+    public const CLAIM_ACTION_CANCEL = 4;
+    public const CLAIM_ACTION_REJECT = 5;
+
     public const SELF_REVIEW_SELF_SAVE = 1;
     public const SELF_REVIEW_SELF_COMPLETE = 2;
     public const SELF_REVIEW_SUPERVISOR_ACTION = 3;
@@ -84,6 +90,7 @@ class WorkflowStateMachine
     public const FLOW_LEAVE = 4;
     public const FLOW_REVIEW = 5;
     public const FLOW_SELF_REVIEW = 6;
+    public const FLOW_CLAIM = 7;
 
     /**
      * @var int

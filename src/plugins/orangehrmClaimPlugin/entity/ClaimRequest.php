@@ -104,11 +104,11 @@ class ClaimRequest
     private bool $isDeleted = false;
 
     /**
-     * @var string|null
+     * @var string
      *
      * @ORM\Column(name="status", type="string", length=255)
      */
-    private ?string $status;
+    private string $status;
 
     /**
      * @var DateTime
@@ -253,17 +253,17 @@ class ClaimRequest
     }
 
     /**
-     * @return string|null
+     * @return string
      */
-    public function getStatus(): ?string
+    public function getStatus(): string
     {
         return $this->status;
     }
 
     /**
-     * @param string|null $status
+     * @param string $status
      */
-    public function setStatus(?string $status): void
+    public function setStatus(string $status): void
     {
         $this->status = $status;
     }

@@ -20,32 +20,27 @@
 namespace OrangeHRM\Tests\Claim\Api;
 
 use OrangeHRM\Claim\Api\ClaimAttachmentAPI;
-use OrangeHRM\Core\Authorization\Manager\BasicUserRoleManager;
-use OrangeHRM\Core\Traits\UserRoleManagerTrait;
+use OrangeHRM\Config\Config;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
 use OrangeHRM\Tests\Util\Integration\TestCaseParams;
+use OrangeHRM\Tests\Util\TestDataService;
 
 class ClaimAttachmentAPITest extends EndpointIntegrationTestCase
 {
-    use UserRoleManagerTrait;
+    public static function setUpBeforeClass(): void
+    {
+        TestDataService::populate(Config::get(Config::TEST_DIR) . '/phpunit/fixtures/WorkflowStateMachine.yaml');
+    }
 
     /**
      * @dataProvider dataProviderForTestCreate
      */
     public function testCreate(TestCaseParams $testCaseParams): void
     {
-        $userRoleManager = $this->getMockBuilder(BasicUserRoleManager::class)
-            ->disableOriginalConstructor()
-            ->onlyMethods(['getAccessibleEntityIds'])
-            ->getMock();
-        $userRoleManager->expects($this->any())
-            ->method('getAccessibleEntityIds')
-            ->willReturn([4]);
-        $this->populateFixtures('ClaimAttachment.yaml');
+        $this->populateFixtures('ClaimAttachment.yaml', null, true);
         $this->createKernelWithMockServices([
             Services::AUTH_USER => $this->getMockAuthUser($testCaseParams),
-            Services::USER_ROLE_MANAGER => $userRoleManager,
         ]);
         $this->registerMockDateTimeHelper($testCaseParams);
         $this->registerServices($testCaseParams);
@@ -63,17 +58,9 @@ class ClaimAttachmentAPITest extends EndpointIntegrationTestCase
      */
     public function testGetAll(TestCaseParams $testCaseParams): void
     {
-        $userRoleManager = $this->getMockBuilder(BasicUserRoleManager::class)
-            ->disableOriginalConstructor()
-            ->onlyMethods(['getAccessibleEntityIds'])
-            ->getMock();
-        $userRoleManager->expects($this->any())
-            ->method('getAccessibleEntityIds')
-            ->willReturn([1,2,3,4]);
-        $this->populateFixtures('ClaimAttachment.yaml');
+        $this->populateFixtures('ClaimAttachment.yaml', null, true);
         $this->createKernelWithMockServices([
-            Services::AUTH_USER => $this->getMockAuthUser($testCaseParams),
-            Services::USER_ROLE_MANAGER => $userRoleManager,
+            Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)
         ]);
         $this->registerServices($testCaseParams);
         $api = $this->getApiEndpointMock(ClaimAttachmentAPI::class, $testCaseParams);
@@ -90,17 +77,9 @@ class ClaimAttachmentAPITest extends EndpointIntegrationTestCase
      */
     public function testGetOne(TestCaseParams $testCaseParams): void
     {
-        $userRoleManager = $this->getMockBuilder(BasicUserRoleManager::class)
-            ->disableOriginalConstructor()
-            ->onlyMethods(['getAccessibleEntityIds'])
-            ->getMock();
-        $userRoleManager->expects($this->any())
-            ->method('getAccessibleEntityIds')
-            ->willReturn([1, 2, 3, 4]);
-        $this->populateFixtures('ClaimAttachment.yaml');
+        $this->populateFixtures('ClaimAttachment.yaml', null, true);
         $this->createKernelWithMockServices([
-            Services::AUTH_USER => $this->getMockAuthUser($testCaseParams),
-            Services::USER_ROLE_MANAGER => $userRoleManager
+            Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)
         ]);
         $this->registerServices($testCaseParams);
         $api = $this->getApiEndpointMock(ClaimAttachmentAPI::class, $testCaseParams);
@@ -117,17 +96,9 @@ class ClaimAttachmentAPITest extends EndpointIntegrationTestCase
      */
     public function testUpdate(TestCaseParams $testCaseParams): void
     {
-        $userRoleManager = $this->getMockBuilder(BasicUserRoleManager::class)
-            ->disableOriginalConstructor()
-            ->onlyMethods(['getAccessibleEntityIds'])
-            ->getMock();
-        $userRoleManager->expects($this->any())
-            ->method('getAccessibleEntityIds')
-            ->willReturn([1, 2, 3, 4]);
-        $this->populateFixtures('ClaimAttachment.yaml');
+        $this->populateFixtures('ClaimAttachment.yaml', null, true);
         $this->createKernelWithMockServices([
-            Services::AUTH_USER => $this->getMockAuthUser($testCaseParams),
-            Services::USER_ROLE_MANAGER => $userRoleManager
+            Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)
         ]);
         $this->registerMockDateTimeHelper($testCaseParams);
         $this->registerServices($testCaseParams);
@@ -145,17 +116,9 @@ class ClaimAttachmentAPITest extends EndpointIntegrationTestCase
      */
     public function testDelete(TestCaseParams $testCaseParams): void
     {
-        $userRoleManager = $this->getMockBuilder(BasicUserRoleManager::class)
-            ->disableOriginalConstructor()
-            ->onlyMethods(['getAccessibleEntityIds'])
-            ->getMock();
-        $userRoleManager->expects($this->any())
-            ->method('getAccessibleEntityIds')
-            ->willReturn([1, 2, 3, 4]);
-        $this->populateFixtures('ClaimAttachment.yaml');
+        $this->populateFixtures('ClaimAttachment.yaml', null, true);
         $this->createKernelWithMockServices([
-            Services::AUTH_USER => $this->getMockAuthUser($testCaseParams),
-            Services::USER_ROLE_MANAGER => $userRoleManager
+            Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)
         ]);
         $this->registerServices($testCaseParams);
         $api = $this->getApiEndpointMock(ClaimAttachmentAPI::class, $testCaseParams);

@@ -47,6 +47,8 @@ use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\ClaimAttachment;
 use OrangeHRM\Entity\ClaimRequest;
+use OrangeHRM\Entity\Employee;
+use OrangeHRM\Entity\WorkflowStateMachine;
 use OrangeHRM\ORM\Exception\TransactionException;
 
 class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
@@ -112,6 +114,7 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
         $count = $this->getClaimService()
             ->getClaimDao()
             ->getClaimAttachmentCount($claimAttachmentSearchFilterParams);
+
         return new EndpointCollectionResult(
             ClaimAttachmentModel::class,
             $claimAttachments,
@@ -173,8 +176,19 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
                 RequestParams::PARAM_TYPE_ATTRIBUTE,
                 self::PARAMETER_REQUEST_ID
             );
-            $this->getClaimRequest($requestId);
+            $claimRequest = $this->getClaimRequest($requestId);
             $claimAttachment->setRequestId($requestId);
+            $isActionAllowed = $this->getUserRoleManager()->isActionAllowed(
+                WorkflowStateMachine::FLOW_CLAIM,
+                $claimRequest->getStatus(),
+                WorkflowStateMachine::CLAIM_ACTION_SUBMIT,
+                [],
+                [],
+                [Employee::class => $claimRequest->getEmployee()->getEmpNumber()]
+            );
+            if (!$isActionAllowed) {
+                throw $this->getForbiddenException();
+            }
             $claimAttachment->getDecorator()->setUserByUserId(
                 $this->getAuthUser()->getUserId()
             );
@@ -299,7 +313,18 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
             self::PARAMETER_REQUEST_ID
         );
         $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
-        $this->getClaimRequest($requestId);
+        $claimRequest = $this->getClaimRequest($requestId);
+        $isActionAllowed = $this->getUserRoleManager()->isActionAllowed(
+            WorkflowStateMachine::FLOW_CLAIM,
+            $claimRequest->getStatus(),
+            WorkflowStateMachine::CLAIM_ACTION_SUBMIT,
+            [],
+            [],
+            [Employee::class => $claimRequest->getEmployee()->getEmpNumber()]
+        );
+        if (!$isActionAllowed) {
+            throw $this->getForbiddenException();
+        }
         $this->getClaimService()
             ->getClaimDao()
             ->deleteClaimAttachments($requestId, $ids);
@@ -445,7 +470,18 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
                 RequestParams::PARAM_TYPE_ATTRIBUTE,
                 CommonParams::PARAMETER_ID
             );
-            $this->getClaimRequest($requestId);
+            $claimRequest = $this->getClaimRequest($requestId);
+            $isActionAllowed = $this->getUserRoleManager()->isActionAllowed(
+                WorkflowStateMachine::FLOW_CLAIM,
+                $claimRequest->getStatus(),
+                WorkflowStateMachine::CLAIM_ACTION_SUBMIT,
+                [],
+                [],
+                [Employee::class => $claimRequest->getEmployee()->getEmpNumber()],
+            );
+            if (!$isActionAllowed) {
+                throw $this->getForbiddenException();
+            }
             $claimAttachment = $this->getClaimService()
                 ->getClaimDao()
                 ->getClaimAttachment($requestId, $attachId);
@@ -464,6 +500,9 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
                 $claimAttachment->setDescription($description);
             }
             if (!is_null($attachment)) {
+                $claimAttachment->getDecorator()->setUserByUserId(
+                    $this->getAuthUser()->getUserId()
+                );
                 $claimAttachment->setSize($attachment->getSize());
                 $claimAttachment->setFileType($attachment->getFileType());
                 $claimAttachment->setFilename($attachment->getFileName());
