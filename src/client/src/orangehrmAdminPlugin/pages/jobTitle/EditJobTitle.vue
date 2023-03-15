@@ -27,7 +27,7 @@
 
       <oxd-divider />
 
-      <oxd-form novalidate="true" :loading="isLoading" @submit-valid="onSave">
+      <oxd-form :loading="isLoading" @submit-valid="onSave">
         <oxd-form-row>
           <oxd-input-field
             v-model="jobTitle.title"

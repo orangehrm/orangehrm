@@ -31,7 +31,7 @@
 
       <oxd-divider />
 
-      <oxd-form novalidate="true" :loading="isLoading" @submit-valid="onSave">
+      <oxd-form :loading="isLoading" @submit-valid="onSave">
         <oxd-form-row>
           <oxd-grid :cols="2" class="orangehrm-full-width-grid">
             <oxd-grid-item>
