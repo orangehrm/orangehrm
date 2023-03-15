@@ -93,7 +93,7 @@ class AddDataGroupCommand extends Command
                 }
                 $dataGroup = $this->getRepository(DataGroup::class)->findOneBy(['name' => $value]);
                 if ($dataGroup) {
-                    throw new InvalidArgumentException("`${value}` already in use.");
+                    throw new InvalidArgumentException("`$value` already in use.");
                 }
                 return $value;
             }
@@ -265,7 +265,7 @@ class AddDataGroupCommand extends Command
         $canUpdate = (int)$dataGroup->canUpdate();
         $canDelete = (int)$dataGroup->canDelete();
         $this->printBlock(
-            "INSERT INTO ohrm_data_group (`name`, `description`, `can_read`, `can_create`, `can_update`, `can_delete`) VALUES (${name}, ${description}, ${canRead}, ${canCreate}, ${canUpdate}, ${canDelete});"
+            "INSERT INTO ohrm_data_group (`name`, `description`, `can_read`, `can_create`, `can_update`, `can_delete`) VALUES ($name, $description, $canRead, $canCreate, $canUpdate, $canDelete);"
         );
     }
 
@@ -298,13 +298,13 @@ class AddDataGroupCommand extends Command
         $dataGroup = $apiPermission->getDataGroup()->getName();
         $apiName = $this->getEntityManager()->getConnection()->quote($apiPermission->getApiName());
         $this->printBlock(
-            "SET @${module}_module_id := (SELECT `id` FROM ohrm_module WHERE name = '${module}' LIMIT 1);"
+            "SET @{$module}_module_id := (SELECT `id` FROM ohrm_module WHERE name = '$module' LIMIT 1);"
         );
         $this->printBlock(
-            "SET @${dataGroup}_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = '${dataGroup}' LIMIT 1);"
+            "SET @{$dataGroup}_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = '$dataGroup' LIMIT 1);"
         );
         $this->printBlock(
-            "INSERT INTO ohrm_api_permission (`api_name`, `module_id`, `data_group_id`) VALUES (${apiName}, @${module}_module_id, @${dataGroup}_data_group_id);"
+            "INSERT INTO ohrm_api_permission (`api_name`, `module_id`, `data_group_id`) VALUES ($apiName, @{$module}_module_id, @{$dataGroup}_data_group_id);"
         );
     }
 

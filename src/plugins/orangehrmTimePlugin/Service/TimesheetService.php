@@ -125,7 +125,7 @@ class TimesheetService
         foreach ($timesheetItems as $timesheetItem) {
             $projectId = $timesheetItem->getProject()->getId();
             $projectActivityId = $timesheetItem->getProjectActivity()->getId();
-            $timesheetRowKey = "${projectId}_${projectActivityId}";
+            $timesheetRowKey = "{$projectId}_{$projectActivityId}";
             if (!isset($timesheetRows[$timesheetRowKey])) {
                 $timesheetRows[$timesheetRowKey] = new TimesheetRow(
                     $timesheetItem->getProject(),
