@@ -138,7 +138,7 @@ class Migration extends AbstractMigration
                 ->addColumn('description', Types::TEXT, ['Notnull' => false])
                 ->addColumn('currency', Types::STRING, ['Notnull' => false, 'Length' => 3])
                 ->addColumn('is_deleted', Types::SMALLINT, ['Notnull' => true])
-                ->addColumn('status', Types::TEXT, ['Notnull' => false])
+                ->addColumn('status', Types::STRING, ['Notnull' => false])
                 ->addColumn('created_date', Types::DATE_MUTABLE, ['Notnull' => false, 'Default' => null])
                 ->addColumn('submitted_date', Types::DATE_MUTABLE, ['Notnull' => false, 'Default' => null])
                 ->setPrimaryKey(['id'])
@@ -306,113 +306,89 @@ class Migration extends AbstractMigration
         $this->deleteClaimWorkflowStates();
 
         $this->insertWorkflowState(
-            WorkflowStateMachine::FLOW_CLAIM,
             'INITIATED',
             'ESS USER',
             WorkflowStateMachine::CLAIM_ACTION_SUBMIT,
             'SUBMITTED',
-            '',
             10
         );
         $this->insertWorkflowState(
-            WorkflowStateMachine::FLOW_CLAIM,
             'INITIATED',
             'ESS USER',
             WorkflowStateMachine::CLAIM_ACTION_CANCEL,
             'CANCELLED',
-            '',
             10
         );
         $this->insertWorkflowState(
-            WorkflowStateMachine::FLOW_CLAIM,
             'SUBMITTED',
             'ESS USER',
             WorkflowStateMachine::CLAIM_ACTION_CANCEL,
             'CANCELLED',
-            '',
             10
         );
         $this->insertWorkflowState(
-            WorkflowStateMachine::FLOW_CLAIM,
             'REJECTED',
             'ESS USER',
             WorkflowStateMachine::CLAIM_ACTION_SUBMIT,
             'SUBMITTED',
-            '',
             10
         );
 
         $this->insertWorkflowState(
-            WorkflowStateMachine::FLOW_CLAIM,
             'INITIATED',
             'ADMIN',
             WorkflowStateMachine::CLAIM_ACTION_SUBMIT,
             'PAID',
-            '',
             0
         );
         $this->insertWorkflowState(
-            WorkflowStateMachine::FLOW_CLAIM,
             'APPROVED',
             'ADMIN',
             WorkflowStateMachine::CLAIM_ACTION_REJECT,
             'REJECTED',
-            '',
             0
         );
         $this->insertWorkflowState(
-            WorkflowStateMachine::FLOW_CLAIM,
             'SUBMITTED',
             'ADMIN',
             WorkflowStateMachine::CLAIM_ACTION_APPROVE,
             'PAID',
-            '',
             10
         );
         $this->insertWorkflowState(
-            WorkflowStateMachine::FLOW_CLAIM,
             'SUBMITTED',
             'ADMIN',
             WorkflowStateMachine::CLAIM_ACTION_REJECT,
             'REJECTED',
-            '',
             0
         );
         $this->insertWorkflowState(
-            WorkflowStateMachine::FLOW_CLAIM,
             'APPROVED',
             'ADMIN',
             WorkflowStateMachine::CLAIM_ACTION_PAY,
             'PAID',
-            '',
             0
         );
 
         $this->insertWorkflowState(
-            WorkflowStateMachine::FLOW_CLAIM,
             'INITIATED',
             'SUPERVISOR',
             WorkflowStateMachine::CLAIM_ACTION_SUBMIT,
             'APPROVED',
-            '',
             0
         );
         $this->insertWorkflowState(
-            WorkflowStateMachine::FLOW_CLAIM,
             'SUBMITTED',
             'SUPERVISOR',
             WorkflowStateMachine::CLAIM_ACTION_APPROVE,
             'APPROVED',
-            '',
             0
         );
         $this->insertWorkflowState(
-            WorkflowStateMachine::FLOW_CLAIM,
             'SUBMITTED',
             'SUPERVISOR',
             WorkflowStateMachine::CLAIM_ACTION_REJECT,
             'REJECTED',
-            '',
             0
         );
     }
@@ -632,14 +608,14 @@ class Migration extends AbstractMigration
         $this->getConfigHelper()->deleteConfigValue('authentication.default_required_password_strength');
     }
 
-    private function insertMenuItems(//TODO
-        string $menu_title,
-        ?int $screen_id,
-        ?int $parent_id,
+    private function insertMenuItems(
+        string $menuTitle,
+        ?int $screenId,
+        ?int $parentId,
         int $level,
-        int $order_hint,
+        int $orderHint,
         int $status,
-        ?string $additional_params
+        ?string $additionalParams
     ): void {
         $this->getConnection()->createQueryBuilder()
             ->insert('ohrm_menu_item')
@@ -653,13 +629,13 @@ class Migration extends AbstractMigration
                 'additional_params' => ':additional_params',
             ])
             ->setParameters([
-                'menu_title' => $menu_title,
-                'screen_id' => $screen_id,
-                'parent_id' => $parent_id,
+                'menu_title' => $menuTitle,
+                'screen_id' => $screenId,
+                'parent_id' => $parentId,
                 'level' => $level,
-                'order_hint' => $order_hint,
+                'order_hint' => $orderHint,
                 'status' => $status,
-                'additional_params' => $additional_params,
+                'additional_params' => $additionalParams,
             ])
             ->executeQuery();
     }
@@ -805,12 +781,10 @@ class Migration extends AbstractMigration
     }
 
     private function insertWorkflowState(
-        int $workflow,
         string $state,
         string $role,
         int $action,
         string $resultingState,
-        string $rolesToNotify,
         int $priority
     ): void {
         $this->createQueryBuilder()
@@ -826,12 +800,12 @@ class Migration extends AbstractMigration
                     'priority' => ':priority',
                 ]
             )
-            ->setParameter('workflow', $workflow)
+            ->setParameter('workflow', WorkflowStateMachine::FLOW_CLAIM)
             ->setParameter('state', $state)
             ->setParameter('role', $role)
             ->setParameter('action', $action)
             ->setParameter('resultingState', $resultingState)
-            ->setParameter('rolesToNotify', $rolesToNotify)
+            ->setParameter('rolesToNotify', '')
             ->setParameter('priority', $priority)
             ->executeQuery();
     }
