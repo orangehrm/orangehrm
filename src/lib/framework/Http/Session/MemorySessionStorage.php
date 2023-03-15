@@ -17,7 +17,7 @@
  * Boston, MA 02110-1301, USA
  */
 
-namespace OrangeHRM\Installer\Framework;
+namespace OrangeHRM\Framework\Http\Session;
 
 use InvalidArgumentException;
 use Symfony\Component\HttpFoundation\Session\SessionBagInterface;

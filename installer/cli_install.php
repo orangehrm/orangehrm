@@ -19,11 +19,11 @@
 
 use OrangeHRM\Authentication\Dto\UserCredential;
 use OrangeHRM\Config\Config;
+use OrangeHRM\Framework\Http\Session\MemorySessionStorage;
 use OrangeHRM\Framework\Http\Session\Session;
 use OrangeHRM\Framework\ServiceContainer;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Installer\Framework\HttpKernel;
-use OrangeHRM\Installer\Framework\MemorySessionStorage;
 use OrangeHRM\Installer\Util\AppSetupUtility;
 use OrangeHRM\Installer\Util\StateContainer;
 use Symfony\Component\Yaml\Yaml;
@@ -132,6 +132,8 @@ StateContainer::getInstance()->storeAdminUserData(
     new UserCredential($adminUsername, $adminPassword),
     $contact
 );
+
+StateContainer::getInstance()->storeRegConsent($cliConfig['admin']['registrationConsent']);
 
 $appSetupUtility = new AppSetupUtility();
 echo "Database creation\n";

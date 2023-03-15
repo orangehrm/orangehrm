@@ -48,11 +48,13 @@ use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Framework\Console\Console;
 use OrangeHRM\Framework\Console\ConsoleConfigurationInterface;
 use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Framework\Http\Session\MemorySessionStorage;
 use OrangeHRM\Framework\Http\Session\NativeSessionStorage;
 use OrangeHRM\Framework\Http\Session\Session;
 use OrangeHRM\Framework\PluginConfigurationInterface;
 use OrangeHRM\Framework\Services;
 use Symfony\Component\HttpFoundation\Session\Storage\Handler\NativeFileSessionHandler;
+use Symfony\Component\HttpFoundation\Session\Storage\SessionStorageInterface;
 use Symfony\Component\HttpKernel\EventListener\SessionListener;
 use Symfony\Component\HttpKernel\KernelEvents;
 
@@ -67,19 +69,7 @@ class CorePluginConfiguration implements PluginConfigurationInterface, ConsoleCo
      */
     public function initialize(Request $request): void
     {
-        $isSecure = $request->isSecure();
-        $path = $request->getBasePath();
-        $options = [
-            'name' => $isSecure ? 'orangehrm' : '_orangehrm',
-            'cookie_secure' => $isSecure,
-            'cookie_httponly' => true,
-            'cookie_path' => $path,
-            'cookie_samesite' => 'Strict',
-        ];
-        $sessionStorage = new NativeSessionStorage(
-            $options,
-            new NativeFileSessionHandler(Config::get(Config::SESSION_DIR))
-        );
+        $sessionStorage = $this->getSessionStorage($request);
         $session = new Session($sessionStorage);
         $session->start();
 
@@ -131,5 +121,30 @@ class CorePluginConfiguration implements PluginConfigurationInterface, ConsoleCo
         if (Config::PRODUCT_MODE !== Config::MODE_PROD) {
             $console->add(new EnableTestLanguagePackCommand());
         }
+    }
+
+    /**
+     * @param Request $request
+     * @return SessionStorageInterface
+     */
+    private function getSessionStorage(Request $request): SessionStorageInterface
+    {
+        if ($request->headers->has('authorization')) {
+            // To reduce session IO operations, handle in-memory session storage for token based clients
+            return new MemorySessionStorage();
+        }
+        $isSecure = $request->isSecure();
+        $path = $request->getBasePath();
+        $options = [
+            'name' => $isSecure ? 'orangehrm' : '_orangehrm',
+            'cookie_secure' => $isSecure,
+            'cookie_httponly' => true,
+            'cookie_path' => $path == '' ? '/' : $path,
+            'cookie_samesite' => 'Strict',
+        ];
+        return new NativeSessionStorage(
+            $options,
+            new NativeFileSessionHandler(Config::get(Config::SESSION_DIR))
+        );
     }
 }
