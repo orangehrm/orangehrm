@@ -159,7 +159,7 @@ export default {
       oAuthClient: {...initialOAuthClient},
       rules: {
         name: [required, shouldNotExceedCharLength(80)],
-        redirectUri: [shouldNotExceedCharLength(2000)],
+        redirectUri: [required, shouldNotExceedCharLength(2000)],
       },
     };
   },
