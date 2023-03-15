@@ -73,7 +73,7 @@ import TabsNavigation from '@/orangehrmPimPlugin/components/TabsNavigation';
 import ProfileAttachments from '@/orangehrmPimPlugin/components/ProfileAttachments';
 import ProfileCustomFields from '@/orangehrmPimPlugin/components/ProfileCustomFields';
 
-const defaultPic = `${window.appGlobal.baseUrl}/../images/default-photo.png`;
+const defaultPic = `${window.appGlobal.publicPath}/images/default-photo.png`;
 
 export default {
   name: 'EditEmployeeLayout',

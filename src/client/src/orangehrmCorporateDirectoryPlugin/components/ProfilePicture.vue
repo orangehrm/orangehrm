@@ -31,7 +31,7 @@
 <script>
 import {computed} from 'vue';
 
-const defaultPic = `${window.appGlobal.baseUrl}/../images/default-photo.png`;
+const defaultPic = `${window.appGlobal.publicPath}/images/default-photo.png`;
 
 export default {
   name: 'ProfilePicture',

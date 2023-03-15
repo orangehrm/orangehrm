@@ -21,7 +21,6 @@
 namespace OrangeHRM\Recruitment\Controller\PublicController;
 
 use OrangeHRM\Authentication\Traits\CsrfTokenManagerTrait;
-use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Controller\PublicControllerInterface;
 use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
@@ -55,19 +54,11 @@ class ApplyJobVacancyViewController extends AbstractVueController implements Pub
             return;
         }
 
-        $assetsVersion = Config::get(Config::VUE_BUILD_TIMESTAMP);
-        $bannerUrl = $request->getBasePath()
-            . "/images/ohrm_branding.png?$assetsVersion";
-        if (!is_null($this->getThemeService()->getImageETag('client_banner'))) {
-            $bannerUrl = $request->getBaseUrl()
-                . "/admin/theme/image/clientBanner?$assetsVersion";
-        }
-
         $component = new Component('apply-job-vacancy');
         $component->addProp(new Prop('vacancy-id', Prop::TYPE_NUMBER, $id));
         $component->addProp(new Prop('success', Prop::TYPE_BOOLEAN, $request->query->getBoolean('success', false)));
         $component->addProp(
-            new Prop('banner-src', Prop::TYPE_STRING, $bannerUrl)
+            new Prop('banner-src', Prop::TYPE_STRING, $this->getThemeService()->getClientBannerURL($request))
         );
         $component->addProp(
             new Prop(

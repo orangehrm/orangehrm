@@ -275,18 +275,8 @@ class VueControllerHelper
      */
     private function getThemeData(): array
     {
-        $clientLogoUrl = $this->getRequest()->getBasePath() . '/images/orange.png?' . $this->getAssetsVersion();
-        if (!is_null($this->getThemeService()->getImageETag('client_logo'))) {
-            $clientLogoUrl = $this->getRequest()->getBaseUrl()
-                . '/admin/theme/image/clientLogo?' . $this->getAssetsVersion();
-        }
-        $clientBannerUrl = $this->getRequest()->getBasePath()
-            . '/images/orangehrm-logo.png?' . $this->getAssetsVersion();
-        if (!is_null($this->getThemeService()->getImageETag('client_banner'))) {
-            $clientBannerUrl = $this->getRequest()->getBaseUrl()
-                . '/admin/theme/image/clientBanner?' . $this->getAssetsVersion();
-        }
-
+        $clientLogoUrl = $this->getThemeService()->getClientLogoURL($this->getRequest());
+        $clientBannerUrl = $this->getThemeService()->getClientBannerURL($this->getRequest());
         $themeVariables = $this->getThemeService()->getCurrentThemeVariables();
 
         return [$clientLogoUrl, $clientBannerUrl, $themeVariables];

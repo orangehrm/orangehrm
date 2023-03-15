@@ -22,7 +22,6 @@ namespace OrangeHRM\OAuth\Controller;
 use League\OAuth2\Server\Exception\OAuthServerException;
 use OrangeHRM\Authentication\Auth\User as AuthUser;
 use OrangeHRM\Authentication\Controller\LoginController;
-use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Controller\Exception\RequestForwardableException;
 use OrangeHRM\Core\Controller\PublicControllerInterface;
@@ -83,12 +82,9 @@ class AuthorizationController extends AbstractVueController implements PublicCon
             );
         }
 
-        $assetsVersion = Config::get(Config::VUE_BUILD_TIMESTAMP);
-        $loginBannerUrl = $request->getBasePath() . "/images/ohrm_branding.png?$assetsVersion";
-        if (!is_null($this->getThemeService()->getImageETag('login_banner'))) {
-            $loginBannerUrl = $request->getBaseUrl() . "/admin/theme/image/loginBanner?$assetsVersion";
-        }
-        $component->addProp(new Prop('login-banner-src', Prop::TYPE_STRING, $loginBannerUrl));
+        $component->addProp(
+            new Prop('login-banner-src', Prop::TYPE_STRING, $this->getThemeService()->getLoginBannerURL($request))
+        );
 
         $this->setComponent($component);
         $this->setTemplate('no_header.html.twig');

@@ -165,7 +165,7 @@ import {shouldNotExceedCharLength} from '@/core/util/validation/rules';
 import useEmployeeNameTranslate from '@/core/util/composable/useEmployeeNameTranslate';
 import {OxdDivider} from '@ohrm/oxd';
 
-const defaultPic = `${window.appGlobal.baseUrl}/../images/default-photo.png`;
+const defaultPic = `${window.appGlobal.publicPath}/images/default-photo.png`;
 
 export default {
   components: {

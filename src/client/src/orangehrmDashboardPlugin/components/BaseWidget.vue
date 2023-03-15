@@ -93,7 +93,7 @@ export default {
   },
   setup() {
     const widgetRef = ref();
-    const defaultPic = `${window.appGlobal.baseUrl}/../images/dashboard_empty_widget_watermark.png`;
+    const defaultPic = `${window.appGlobal.publicPath}/images/dashboard_empty_widget_watermark.png`;
 
     const widgetBodyClasses = computed(() => ({
       'orangehrm-dashboard-widget-body': true,
