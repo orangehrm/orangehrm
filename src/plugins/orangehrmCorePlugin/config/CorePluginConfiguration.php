@@ -137,10 +137,10 @@ class CorePluginConfiguration implements PluginConfigurationInterface, ConsoleCo
         $path = $request->getBasePath();
         $options = [
             'name' => $isSecure ? 'orangehrm' : '_orangehrm',
-            'cookie_secure' => $isSecure,
-            'cookie_httponly' => true,
-            'cookie_path' => $path == '' ? '/' : $path,
-            'cookie_samesite' => 'Strict',
+//            'cookie_secure' => $isSecure,
+//            'cookie_httponly' => true,
+//            'cookie_path' => $path == '' ? '/' : $path,
+//            'cookie_samesite' => 'Strict',
         ];
         return new NativeSessionStorage(
             $options,
