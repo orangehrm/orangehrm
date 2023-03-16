@@ -275,6 +275,20 @@ class Migration extends AbstractMigration
                 ->setParameter('action', 'claim/viewEvents')
                 ->executeQuery();
 
+            $this->getConnection()->createQueryBuilder()
+                ->insert('ohrm_module_default_page')
+                ->values(
+                    [
+                        'module_id' => ':module_id',
+                        'user_role_id' => ':user_role_id',
+                        'action' => ':action',
+                    ]
+                )
+                ->setParameter('module_id', $this->getDataGroupHelper()->getModuleIdByName('claim'))
+                ->setParameter('user_role_id', $this->getDataGroupHelper()->getUserRoleIdByName('Ess'))
+                ->setParameter('action', 'claim/submitClaim')
+                ->executeQuery();
+
             $viewClaimModuleScreenId = $this->getConnection()
                 ->createQueryBuilder()
                 ->select('id')

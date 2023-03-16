@@ -27,22 +27,19 @@
 
       <oxd-divider />
 
-      <oxd-form ref="formRef" :loading="isLoading" @submit-valid="onSave">
+      <oxd-form :loading="isLoading" @submit-valid="onSave">
         <oxd-form-row>
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
-              <oxd-input-field
-                v-model="request.claimEventId"
-                type="select"
+              <claim-event-dropdown
+                v-model="request.event"
                 :rules="rules.event"
-                :options="claimEvents"
-                :label="$t('claim.event')"
                 required
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
-                v-model="request.currencyId"
+                v-model="request.currency"
                 type="select"
                 :rules="rules.currency"
                 :options="currencies"
@@ -88,17 +85,21 @@ import {
   shouldNotExceedCharLength,
 } from '@/core/util/validation/rules';
 import {APIService} from '@ohrm/core/util/services/api.service';
-import useForm from '@ohrm/core/util/composable/useForm';
 import {navigate} from '@ohrm/core/util/helper/navigation';
+import ClaimEventDropdownVue from '../../components/ClaimEventDropdown.vue';
 
 const claimRequest = {
-  claimEventId: null,
-  currencyId: null,
+  event: {},
+  currency: {},
   remarks: null,
 };
 
 export default {
-  name: 'ClaimRequest',
+  name: 'SubmitClaimRequest',
+
+  components: {
+    'claim-event-dropdown': ClaimEventDropdownVue,
+  },
 
   props: {
     currencies: {
@@ -110,14 +111,11 @@ export default {
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/claim/requests',
+      '/api/v2/claim/requests',
     );
-    const {formRef, reset} = useForm();
 
     return {
       http,
-      reset,
-      formRef,
     };
   },
 
@@ -130,42 +128,7 @@ export default {
         currency: [required],
         remarks: [shouldNotExceedCharLength(1000)],
       },
-      claimEvents: [],
     };
-  },
-
-  computed: {
-    computedRequest() {
-      if (this.request.claimEventId && this.request.currencyId) {
-        return {
-          claimEventId: this.request.claimEventId.id,
-          currencyId: this.request.currencyId.id,
-          remarks: this.request.remarks,
-        };
-      }
-      return null;
-    },
-  },
-
-  beforeMount() {
-    this.isLoading = true;
-    this.http
-      .request({
-        method: 'GET',
-        url: 'api/v2/claim/events',
-      })
-      .then((response) => {
-        const {data} = response.data;
-        this.claimEvents = data.map((item) => {
-          return {
-            id: item.id,
-            label: item.name,
-          };
-        });
-      })
-      .finally(() => {
-        this.isLoading = false;
-      });
   },
 
   methods: {
@@ -176,7 +139,7 @@ export default {
       this.isLoading = true;
       this.http
         .create({
-          ...this.computedRequest,
+          ...this.getResponse(),
         })
         .then(() => {
           return this.$toast.saveSuccess();
@@ -184,6 +147,13 @@ export default {
         .then(() => {
           this.onCancel();
         });
+    },
+    getResponse() {
+      return {
+        claimEventId: this.request.event.id,
+        currencyId: this.request.currency.id,
+        remarks: this.request.remarks,
+      };
     },
   },
 };
