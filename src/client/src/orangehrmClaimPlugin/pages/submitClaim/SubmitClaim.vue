@@ -19,11 +19,166 @@
  -->
 
 <template>
-  <div>hello hello</div>
+  <div class="orangehrm-background-container">
+    <div class="orangehrm-card-container">
+      <oxd-text tag="h6" class="orangehrm-main-title">
+        {{ $t('claim.create_claim_request') }}
+      </oxd-text>
+
+      <oxd-divider />
+
+      <oxd-form ref="formRef" :loading="isLoading" @submit-valid="onSave">
+        <oxd-form-row>
+          <oxd-grid :cols="2" class="orangehrm-full-width-grid">
+            <oxd-grid-item>
+              <oxd-input-field
+                v-model="request.claimEventId"
+                type="select"
+                :rules="rules.event"
+                :options="claimEvents"
+                :label="$t('claim.event')"
+                required
+              />
+            </oxd-grid-item>
+            <oxd-grid-item>
+              <oxd-input-field
+                v-model="request.currencyId"
+                type="select"
+                :rules="rules.currency"
+                :options="currencies"
+                :label="$t('claim.currency')"
+                required
+              />
+            </oxd-grid-item>
+          </oxd-grid>
+        </oxd-form-row>
+
+        <oxd-form-row>
+          <oxd-grid :cols="2" class="orangehrm-full-width-grid">
+            <oxd-grid-item>
+              <oxd-input-field
+                v-model="request.remarks"
+                type="textarea"
+                :label="$t('claim.remarks')"
+                :rules="rules.remarks"
+              />
+            </oxd-grid-item>
+          </oxd-grid>
+        </oxd-form-row>
+
+        <oxd-divider />
+
+        <oxd-form-actions>
+          <required-text />
+          <submit-button :label="$t('general.apply')" />
+        </oxd-form-actions>
+      </oxd-form>
+    </div>
+  </div>
 </template>
 
 <script>
-export default {};
-</script>
+import {
+  required,
+  shouldNotExceedCharLength,
+} from '@/core/util/validation/rules';
+import {APIService} from '@ohrm/core/util/services/api.service';
+import useForm from '@ohrm/core/util/composable/useForm';
 
-<style></style>
+const claimRequest = {
+  claimEventId: null,
+  currencyId: null,
+  remarks: null,
+};
+
+export default {
+  name: 'ClaimRequest',
+
+  setup() {
+    const http = new APIService(
+      window.appGlobal.baseUrl,
+      'api/v2/claim/requests',
+    );
+    const {formRef, reset} = useForm();
+
+    return {
+      http,
+      reset,
+      formRef,
+    };
+  },
+
+  data() {
+    return {
+      isLoading: false,
+      request: {...claimRequest},
+      rules: {
+        event: [required],
+        currency: [required],
+        remarks: [shouldNotExceedCharLength(1000)],
+      },
+      claimEvents: [],
+      currencies: [],
+    };
+  },
+
+  computed: {
+    request2() {
+      if (this.request.claimEventId && this.request.currencyId) {
+        return {
+          claimEventId: this.request.claimEventId.id,
+          currencyId: this.request.currencyId.id,
+          remarks: this.request.remarks,
+        };
+      }
+      return null;
+    },
+  },
+
+  beforeMount() {
+    this.isLoading = true;
+    this.http
+      .request({
+        method: 'GET',
+        url: 'api/v2/claim/events',
+      })
+      .then((response) => {
+        const {data} = response.data;
+        this.claimEvents = data.map((item) => {
+          return {
+            id: item.id,
+            label: item.name,
+          };
+        });
+      })
+      .finally(() => {
+        this.isLoading = false;
+      });
+    //TODO: get currencies
+    this.currencies = [
+      {id: 'USD', label: 'US Dollar'},
+      {id: 'EUR', label: 'Euro'},
+      {id: 'GBP', label: 'British Pound'},
+    ];
+  },
+
+  methods: {
+    onCancel() {
+      return null;
+    },
+    onSave() {
+      this.isLoading = true;
+      this.http
+        .create({
+          ...this.request2,
+        })
+        .then(() => {
+          return this.$toast.saveSuccess();
+        })
+        .then(() => {
+          this.onCancel();
+        });
+    },
+  },
+};
+</script>

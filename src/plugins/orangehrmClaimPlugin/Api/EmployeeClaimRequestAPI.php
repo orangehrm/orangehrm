@@ -98,7 +98,8 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
     /**
      * @return ParamRuleCollection
      */
-    protected function getCommonParamRuleCollection():ParamRuleCollection{
+    protected function getCommonParamRuleCollection(): ParamRuleCollection
+    {
         return new ParamRuleCollection(
             new ParamRule(
                 self::PARAMETER_CLAIM_EVENT_ID,
@@ -159,7 +160,7 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
             $userId = $this->getAuthUser()->getUserId();
             $claimRequest->getDecorator()->setUserByUserId($userId);
 
-            if(is_null($empNumber)){ //TODO Implement for assign claims
+            if (is_null($empNumber)) { //TODO Implement for assign claims
                 $claimRequest->getDecorator()->setEmployeeByUserId($userId);
             }
 
