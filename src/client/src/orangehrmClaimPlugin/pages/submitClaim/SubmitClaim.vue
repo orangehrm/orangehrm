@@ -46,7 +46,7 @@
                 type="select"
                 :rules="rules.currency"
                 :options="currencies"
-                :label="$t('claim.currency')"
+                :label="$t('general.currency')"
                 required
               />
             </oxd-grid-item>
@@ -54,7 +54,7 @@
         </oxd-form-row>
 
         <oxd-form-row>
-          <oxd-grid :cols="2" class="orangehrm-full-width-grid">
+          <oxd-grid :cols="1" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <oxd-input-field
                 v-model="request.remarks"
@@ -70,7 +70,12 @@
 
         <oxd-form-actions>
           <required-text />
-          <submit-button :label="$t('general.apply')" />
+          <oxd-button
+            display-type="ghost"
+            :label="$t('general.cancel')"
+            @click="onCancel"
+          />
+          <submit-button />
         </oxd-form-actions>
       </oxd-form>
     </div>
@@ -84,6 +89,7 @@ import {
 } from '@/core/util/validation/rules';
 import {APIService} from '@ohrm/core/util/services/api.service';
 import useForm from '@ohrm/core/util/composable/useForm';
+import {navigate} from '@ohrm/core/util/helper/navigation';
 
 const claimRequest = {
   claimEventId: null,
@@ -93,6 +99,13 @@ const claimRequest = {
 
 export default {
   name: 'ClaimRequest',
+
+  props: {
+    currencies: {
+      type: Array,
+      default: () => [],
+    },
+  },
 
   setup() {
     const http = new APIService(
@@ -118,7 +131,6 @@ export default {
         remarks: [shouldNotExceedCharLength(1000)],
       },
       claimEvents: [],
-      currencies: [],
     };
   },
 
@@ -154,17 +166,11 @@ export default {
       .finally(() => {
         this.isLoading = false;
       });
-    //TODO: get currencies
-    this.currencies = [
-      {id: 'USD', label: 'US Dollar'},
-      {id: 'EUR', label: 'Euro'},
-      {id: 'GBP', label: 'British Pound'},
-    ];
   },
 
   methods: {
     onCancel() {
-      return null;
+      navigate('/claim/submitClaim');
     },
     onSave() {
       this.isLoading = true;
