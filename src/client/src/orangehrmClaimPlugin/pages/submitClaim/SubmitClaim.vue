@@ -29,7 +29,7 @@
 
       <oxd-form ref="formRef" :loading="isLoading" @submit-valid="onSave">
         <oxd-form-row>
-          <oxd-grid :cols="2" class="orangehrm-full-width-grid">
+          <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <oxd-input-field
                 v-model="request.claimEventId"
@@ -54,8 +54,8 @@
         </oxd-form-row>
 
         <oxd-form-row>
-          <oxd-grid :cols="1" class="orangehrm-full-width-grid">
-            <oxd-grid-item>
+          <oxd-grid :cols="3" class="orangehrm-full-width-grid">
+            <oxd-grid-item class="--span-column-2">
               <oxd-input-field
                 v-model="request.remarks"
                 type="textarea"
@@ -75,7 +75,7 @@
             :label="$t('general.cancel')"
             @click="onCancel"
           />
-          <submit-button />
+          <submit-button :label="$t('claim.create')" />
         </oxd-form-actions>
       </oxd-form>
     </div>
@@ -135,7 +135,7 @@ export default {
   },
 
   computed: {
-    request2() {
+    computedRequest() {
       if (this.request.claimEventId && this.request.currencyId) {
         return {
           claimEventId: this.request.claimEventId.id,
@@ -176,7 +176,7 @@ export default {
       this.isLoading = true;
       this.http
         .create({
-          ...this.request2,
+          ...this.computedRequest,
         })
         .then(() => {
           return this.$toast.saveSuccess();
