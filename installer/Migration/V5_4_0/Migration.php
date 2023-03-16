@@ -138,7 +138,7 @@ class Migration extends AbstractMigration
                 ->addColumn('description', Types::TEXT, ['Notnull' => false])
                 ->addColumn('currency', Types::STRING, ['Notnull' => false, 'Length' => 3])
                 ->addColumn('is_deleted', Types::SMALLINT, ['Notnull' => true])
-                ->addColumn('status', Types::STRING, ['Notnull' => false])
+                ->addColumn('status', Types::TEXT, ['Notnull' => false])
                 ->addColumn('created_date', Types::DATE_MUTABLE, ['Notnull' => false, 'Default' => null])
                 ->addColumn('submitted_date', Types::DATE_MUTABLE, ['Notnull' => false, 'Default' => null])
                 ->setPrimaryKey(['id'])
@@ -430,7 +430,11 @@ class Migration extends AbstractMigration
             ],
             'submitted_date' => [
                 'Type' => Type::getType(Types::DATETIME_MUTABLE),
-            ]
+            ],
+            'status' => [
+                'Type' => Type::getType(Types::STRING),
+                'Notnull' => false,
+            ],
         ]);
 
         $this->getSchemaHelper()->addOrChangeColumns('ohrm_expense_type', [
