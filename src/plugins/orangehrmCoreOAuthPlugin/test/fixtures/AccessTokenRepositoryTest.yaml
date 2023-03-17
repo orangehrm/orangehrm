@@ -14,3 +14,7 @@ OAuthClient:
 OAuthAuthorizationCode:
   - { "id": 1,"authorization_code": "4527715fe2b6a045bcf4036d6d55e6b3c9e0dd64aae3fcbc7ec50b1fe43d39fb0670fcbaf12d46c4","client_id": 1,"user_id": 1,"redirect_uri": "com.orangehrm.opensource://oauthCallback","expiry_date_time": "2023-03-16 10:18:14","revoked": 0 }
   - { "id": 2,"authorization_code": "ebecfb310f7ea082cd8a256dfac7a1bf9ddb9d6774d4e653abccbc5fed955c07be8517c839b6b095","client_id": 2,"user_id": 5,"redirect_uri": "https://example.com/oauth/callback","expiry_date_time": "2023-03-17 10:18:14","revoked": 1 }
+
+OAuthAccessToken:
+  - { "id": 1,"access_token": "05a81084f60f6440c8bd2555200836584e365210aee54ffee8e9dc04c7ec0068a6cde45ef5999e47","client_id": 2,"user_id": 1,"expiry_date_time": "2023-03-17 11:43:35","revoked": 1 }
+  - { "id": 2,"access_token": "388b9ae63e03fafa079ef891142828dc869e5b5f67c6094614492259ce95794e3f18a9057b667eae","client_id": 1,"user_id": 5,"expiry_date_time": "2023-03-17 11:44:54","revoked": 0 }

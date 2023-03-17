@@ -19,7 +19,10 @@
 
 namespace OrangeHRM\OAuth\Repository;
 
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+use InvalidArgumentException;
 use League\OAuth2\Server\Entities\AuthCodeEntityInterface;
+use League\OAuth2\Server\Exception\UniqueTokenIdentifierConstraintViolationException;
 use League\OAuth2\Server\Repositories\AuthCodeRepositoryInterface;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Entity\OAuthAuthorizationCode;
@@ -39,9 +42,11 @@ class AuthorizationCodeRepository extends BaseDao implements AuthCodeRepositoryI
         $authCode->setRedirectUri($authCodeEntity->getRedirectUri());
         $authCode->setExpiryDateTime($authCodeEntity->getExpiryDateTime());
 
-        // TODO:: handle UniqueTokenIdentifierConstraintViolationException
-
-        $this->persist($authCode);
+        try {
+            $this->persist($authCode);
+        } catch (UniqueConstraintViolationException $e) {
+            throw UniqueTokenIdentifierConstraintViolationException::create();
+        }
     }
 
     /**
@@ -49,7 +54,7 @@ class AuthorizationCodeRepository extends BaseDao implements AuthCodeRepositoryI
      */
     public function revokeAuthCode($codeId): void
     {
-        $this->createQueryBuilder(OAuthAuthorizationCode::class, 'authCode')
+        $affectedRows = $this->createQueryBuilder(OAuthAuthorizationCode::class, 'authCode')
             ->update()
             ->set('authCode.revoked', ':revoked')
             ->setParameter('revoked', true)
@@ -57,6 +62,10 @@ class AuthorizationCodeRepository extends BaseDao implements AuthCodeRepositoryI
             ->setParameter('authCode', $codeId)
             ->getQuery()
             ->execute();
+
+        if ($affectedRows === 0) {
+            throw new InvalidArgumentException('Invalid auth code');
+        }
     }
 
     /**
@@ -64,12 +73,14 @@ class AuthorizationCodeRepository extends BaseDao implements AuthCodeRepositoryI
      */
     public function isAuthCodeRevoked($codeId): bool
     {
-        $q = $this->createQueryBuilder(OAuthAuthorizationCode::class, 'authCode')
-            ->andWhere('authCode.revoked = :revoked')
-            ->setParameter('revoked', true)
-            ->andWhere('authCode.authCode = :authCode')
-            ->setParameter('authCode', $codeId);
-        return $this->getPaginator($q)->count() > 0;
+        /** @var OAuthAuthorizationCode|null $authCode */
+        $authCode = $this->getRepository(OAuthAuthorizationCode::class)
+            ->findOneBy(['authCode' => $codeId]);
+        if (!$authCode instanceof OAuthAuthorizationCode) {
+            return true;
+        }
+
+        return $authCode->isRevoked();
     }
 
     /**

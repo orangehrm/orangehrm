@@ -19,9 +19,11 @@
 
 namespace OrangeHRM\OAuth\Repository;
 
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use League\OAuth2\Server\CryptTrait;
 use League\OAuth2\Server\Entities\AccessTokenEntityInterface;
 use League\OAuth2\Server\Entities\ClientEntityInterface;
+use League\OAuth2\Server\Exception\UniqueTokenIdentifierConstraintViolationException;
 use League\OAuth2\Server\Repositories\AccessTokenRepositoryInterface;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Entity\OAuthAccessToken;
@@ -42,9 +44,11 @@ class AccessTokenRepository extends BaseDao implements AccessTokenRepositoryInte
         $accessCode->setUserId($accessTokenEntity->getUserIdentifier());
         $accessCode->setExpiryDateTime($accessTokenEntity->getExpiryDateTime());
 
-        // TODO:: handle UniqueTokenIdentifierConstraintViolationException
-
-        $this->persist($accessCode);
+        try {
+            $this->persist($accessCode);
+        } catch (UniqueConstraintViolationException $e) {
+            throw UniqueTokenIdentifierConstraintViolationException::create();
+        }
     }
 
     /**

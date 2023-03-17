@@ -21,6 +21,8 @@ namespace OrangeHRM\Tests\OAuth\Repository;
 
 use DateTime;
 use DateTimeImmutable;
+use InvalidArgumentException;
+use League\OAuth2\Server\Exception\UniqueTokenIdentifierConstraintViolationException;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Service\ConfigService;
 use OrangeHRM\Core\Service\DateTimeHelperService;
@@ -93,13 +95,101 @@ class AuthorizationCodeRepositoryTest extends KernelTestCase
         $authorizationCodeRepository = new AuthorizationCodeRepository();
         $authorizationCodeRepository->persistNewAuthCode($authCodeEntity);
 
-        $oauthAuthCode = $this->getEntityReference(OAuthAuthorizationCode::class, 2);
+        $lastId = 3;
+        $oauthAuthCode = $this->getEntityReference(OAuthAuthorizationCode::class, $lastId);
         $this->assertEquals($authCodeEntity->getIdentifier(), $oauthAuthCode->getAuthCode());
         $this->assertEquals($authCodeEntity->getUserIdentifier(), $oauthAuthCode->getUserId());
         $this->assertEquals($authCodeEntity->getRedirectUri(), $oauthAuthCode->getRedirectUri());
         $this->assertEquals('2023-03-16 10:18:14', $oauthAuthCode->getExpiryDateTime()->format('Y-m-d H:i:s'));
-        $this->assertEquals(2, $oauthAuthCode->getId());
+        $this->assertEquals($lastId, $oauthAuthCode->getId());
         $this->assertEquals($clientEntity->getIdentifier(), $oauthAuthCode->getClientId());
         $this->assertFalse($oauthAuthCode->isRevoked());
+    }
+
+    public function testPersistNewAuthCodeWithExistingAuthCode(): void
+    {
+        $dateTimeHelper = $this->getMockBuilder(DateTimeHelperService::class)
+            ->onlyMethods(['getNow'])
+            ->getMock();
+        $dateTimeHelper->expects($this->once())
+            ->method('getNow')
+            ->willReturn(new DateTime('2023-03-16 10:16:14'));
+        $this->createKernelWithMockServices([
+            Services::DATETIME_HELPER_SERVICE => $dateTimeHelper,
+            Services::OAUTH_SERVER => new OAuthServer(),
+            Services::CONFIG_SERVICE => new ConfigService(),
+        ]);
+
+        $clientEntity = new ClientEntity(
+            1,
+            'orangehrm_mobile_app',
+            'com.orangehrm.opensource://oauthCallback',
+            false,
+            'Mobile App'
+        );
+
+        $authCodeEntity = new AuthCodeEntity();
+        $authCodeEntity->setIdentifier(
+            '4527715fe2b6a045bcf4036d6d55e6b3c9e0dd64aae3fcbc7ec50b1fe43d39fb0670fcbaf12d46c4'
+        );
+        $authCodeEntity->setUserIdentifier(4);
+        $authCodeEntity->setClient($clientEntity);
+        $authCodeEntity->setExpiryDateTime(new DateTimeImmutable());
+        $authCodeEntity->setRedirectUri('com.orangehrm.opensource://oauthCallback');
+        $authorizationCodeRepository = new AuthorizationCodeRepository();
+
+        $this->expectException(UniqueTokenIdentifierConstraintViolationException::class);
+        $authorizationCodeRepository->persistNewAuthCode($authCodeEntity);
+    }
+
+    public function testRevokeAuthCode(): void
+    {
+        $authCode = $this->getEntityReference(OAuthAuthorizationCode::class, 1);
+        $this->assertEquals(
+            '4527715fe2b6a045bcf4036d6d55e6b3c9e0dd64aae3fcbc7ec50b1fe43d39fb0670fcbaf12d46c4',
+            $authCode->getAuthCode()
+        );
+        $this->assertFalse($authCode->isRevoked()); // validate state before revoke the code
+
+        $authorizationCodeRepository = new AuthorizationCodeRepository();
+        $authorizationCodeRepository->revokeAuthCode(
+            '4527715fe2b6a045bcf4036d6d55e6b3c9e0dd64aae3fcbc7ec50b1fe43d39fb0670fcbaf12d46c4'
+        );
+
+        $this->getEntityManager()->clear();
+        $authCode = $this->getEntityReference(OAuthAuthorizationCode::class, 1);
+        $this->assertEquals(
+            '4527715fe2b6a045bcf4036d6d55e6b3c9e0dd64aae3fcbc7ec50b1fe43d39fb0670fcbaf12d46c4',
+            $authCode->getAuthCode()
+        );
+        $this->assertTrue($authCode->isRevoked());
+    }
+
+    public function testRevokeNonExistingAuthCode(): void
+    {
+        $authorizationCodeRepository = new AuthorizationCodeRepository();
+        $this->expectException(InvalidArgumentException::class);
+        $authorizationCodeRepository->revokeAuthCode('this-auth-code-not-exist');
+    }
+
+    public function testIsAuthCodeRevoked(): void
+    {
+        $authorizationCodeRepository = new AuthorizationCodeRepository();
+        $revoked = $authorizationCodeRepository->isAuthCodeRevoked(
+            '4527715fe2b6a045bcf4036d6d55e6b3c9e0dd64aae3fcbc7ec50b1fe43d39fb0670fcbaf12d46c4'
+        );
+        $this->assertFalse($revoked);
+
+        $revoked = $authorizationCodeRepository->isAuthCodeRevoked(
+            'ebecfb310f7ea082cd8a256dfac7a1bf9ddb9d6774d4e653abccbc5fed955c07be8517c839b6b095'
+        );
+        $this->assertTrue($revoked);
+    }
+
+    public function testIsAuthCodeRevokedForNonExistingAuthCode(): void
+    {
+        $authorizationCodeRepository = new AuthorizationCodeRepository();
+        $revoked = $authorizationCodeRepository->isAuthCodeRevoked('this-auth-code-not-exist');
+        $this->assertTrue($revoked);
     }
 }
