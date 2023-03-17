@@ -26,6 +26,7 @@ use OrangeHRM\Authentication\Exception\SessionExpiredException;
 use OrangeHRM\Authentication\Exception\UnauthorizedException;
 use OrangeHRM\Authentication\Service\AuthenticationService;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
+use OrangeHRM\Core\Traits\LoggerTrait;
 use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Entity\OAuthAccessToken;
 use OrangeHRM\Framework\Event\AbstractEventSubscriber;
@@ -47,6 +48,7 @@ class OAuthSubscriber extends AbstractEventSubscriber
     use PsrHttpFactoryHelperTrait;
     use UserServiceTrait;
     use ConfigServiceTrait;
+    use LoggerTrait;
 
     private AuthenticationService $authenticationService;
 
@@ -81,7 +83,7 @@ class OAuthSubscriber extends AbstractEventSubscriber
             $accessTokenRepository = new AccessTokenRepository();
             $server = new ResourceServer(
                 $accessTokenRepository,
-                new CryptKey(),
+                new CryptKey(), // We are using opaque token, not JWT
                 new BearerTokenValidator($accessTokenRepository, $tokenEncryptionKey),
             );
 
@@ -96,6 +98,7 @@ class OAuthSubscriber extends AbstractEventSubscriber
                 $this->getAuthenticationService()->setCredentialsForUser($user);
                 $this->getAuthUser()->setIsAuthenticated(true);
             } catch (Throwable $e) {
+                $this->getLogger()->error($e->getMessage(), $e instanceof OAuthServerException ? [$e->getHint()] : []);
                 $this->handleException($event, $e);
             }
         }
@@ -112,7 +115,7 @@ class OAuthSubscriber extends AbstractEventSubscriber
         $request = $event->getRequest();
 
         // 'application/json', 'application/x-json'
-        if ($request->getContentType() === 'json') {
+        if ($request->getContentType() === 'json' || $request->headers->get('accept') === 'application/json') {
             $response = new Response();
             $message = $e instanceof OAuthServerException
                 ? $e->getMessage()
@@ -138,7 +141,6 @@ class OAuthSubscriber extends AbstractEventSubscriber
      */
     public function onResponseEvent(ResponseEvent $event): void
     {
-        // TODO:: use memory session storage
         if ($event->getRequest()->headers->has('authorization') && $this->getAuthUser()->isAuthenticated()) {
             /** @var Session $session */
             $session = $this->getContainer()->get(Services::SESSION);

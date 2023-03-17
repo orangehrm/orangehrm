@@ -25,7 +25,7 @@ use Doctrine\ORM\Mapping as ORM;
 use OrangeHRM\Core\Service\DateTimeHelperService;
 
 /**
- * @ORM\Table(name="ohrm_oauth2_authorization_codes")
+ * @ORM\Table(name="ohrm_oauth2_authorization_code")
  * @ORM\Entity
  */
 class OAuthAuthorizationCode
@@ -33,7 +33,7 @@ class OAuthAuthorizationCode
     /**
      * @var int
      *
-     * @ORM\Column(name="id", type="integer")
+     * @ORM\Column(name="id", type="bigint")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
@@ -49,7 +49,7 @@ class OAuthAuthorizationCode
     /**
      * @var int
      *
-     * @ORM\Column(name="client_id", type="integer", nullable=false)
+     * @ORM\Column(name="client_id", type="bigint", nullable=false)
      */
     private int $clientId;
 

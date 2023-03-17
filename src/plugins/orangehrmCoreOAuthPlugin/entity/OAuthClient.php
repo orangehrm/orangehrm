@@ -22,7 +22,7 @@ namespace OrangeHRM\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Table(name="ohrm_oauth2_clients")
+ * @ORM\Table(name="ohrm_oauth2_client")
  * @ORM\Entity
  */
 class OAuthClient
@@ -30,7 +30,7 @@ class OAuthClient
     /**
      * @var int
      *
-     * @ORM\Column(name="id", type="integer")
+     * @ORM\Column(name="id", type="bigint")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
