@@ -19,7 +19,9 @@
 
 namespace OrangeHRM\OAuth\Repository;
 
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use League\OAuth2\Server\Entities\RefreshTokenEntityInterface;
+use League\OAuth2\Server\Exception\UniqueTokenIdentifierConstraintViolationException;
 use League\OAuth2\Server\Repositories\RefreshTokenRepositoryInterface;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Entity\OAuthRefreshToken;
@@ -37,9 +39,11 @@ class RefreshTokenRepository extends BaseDao implements RefreshTokenRepositoryIn
         $refreshToken->setAccessToken($refreshTokenEntity->getAccessToken()->getIdentifier());
         $refreshToken->setExpiryDateTime($refreshTokenEntity->getExpiryDateTime());
 
-        // TODO:: handle UniqueTokenIdentifierConstraintViolationException
-
-        $this->persist($refreshToken);
+        try {
+            $this->persist($refreshToken);
+        } catch (UniqueConstraintViolationException $e) {
+            throw UniqueTokenIdentifierConstraintViolationException::create();
+        }
     }
 
     /**
@@ -62,12 +66,14 @@ class RefreshTokenRepository extends BaseDao implements RefreshTokenRepositoryIn
      */
     public function isRefreshTokenRevoked($tokenId): bool
     {
-        $q = $this->createQueryBuilder(OAuthRefreshToken::class, 'refreshToken')
-            ->andWhere('refreshToken.revoked = :revoked')
-            ->setParameter('revoked', true)
-            ->andWhere('refreshToken.refreshToken = :refreshToken')
-            ->setParameter('refreshToken', $tokenId);
-        return $this->getPaginator($q)->count() > 0;
+        /** @var OAuthRefreshToken|null $refreshToken */
+        $refreshToken = $this->getRepository(OAuthRefreshToken::class)
+            ->findOneBy(['refreshToken' => $tokenId]);
+        if (!$refreshToken instanceof OAuthRefreshToken) {
+            return true;
+        }
+
+        return $refreshToken->isRevoked();
     }
 
     /**

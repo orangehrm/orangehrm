@@ -20,7 +20,6 @@
 namespace OrangeHRM\OAuth\Repository;
 
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
-use InvalidArgumentException;
 use League\OAuth2\Server\Entities\AuthCodeEntityInterface;
 use League\OAuth2\Server\Exception\UniqueTokenIdentifierConstraintViolationException;
 use League\OAuth2\Server\Repositories\AuthCodeRepositoryInterface;

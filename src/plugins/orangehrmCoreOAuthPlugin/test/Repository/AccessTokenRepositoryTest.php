@@ -42,8 +42,9 @@ use OrangeHRM\Tests\Util\TestDataService;
  */
 class AccessTokenRepositoryTest extends KernelTestCase
 {
-    private AccessTokenRepository $accessTokenRepository;
     use CryptTrait;
+
+    private AccessTokenRepository $accessTokenRepository;
 
     protected function setUp(): void
     {
