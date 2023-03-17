@@ -50,9 +50,20 @@ jobs:
           git status
           git diff > ${{ github.sha }}.diff
 
+      - name: Generate API doc
+        run: php devTools/core/console.php generate-open-api-doc --throw
+
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3
         if: ${{ failure() }}
         with:
           name: diff-${{ github.sha }}
           path: ${{ github.sha }}.diff
+
+      - name: Upload API doc
+        uses: actions/upload-artifact@v3
+        with:
+          name: API-doc-${{ github.sha }}
+          path: |
+            build/index.html
+            build/orangehrm-v2.json

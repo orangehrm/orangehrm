@@ -19,11 +19,13 @@
 
 namespace OrangeHRM\DevTools\Command;
 
+use ErrorException;
 use OpenApi\Generator;
 use OrangeHRM\Config\Config;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
@@ -34,13 +36,20 @@ class GenerateOpenApiDocCommand extends Command
     /**
      * @inheritDoc
      */
+    protected function configure()
+    {
+        $this->addOption('throw', null, InputOption::VALUE_NONE, 'Convert warnings to errors');
+    }
+
+    /**
+     * @inheritDoc
+     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
 
         $command = $this->getApplication()->find('php-cs-fix');
-        $input = new ArrayInput([]);
-        $command->run($input, $output);
+        $command->run(new ArrayInput([]), $output);
 
         $paths = [Config::get(Config::PLUGINS_DIR) . '/orangehrmCorePlugin/Controller/Rest/V2'];
         foreach (Config::get(Config::PLUGIN_PATHS) as $pluginAbsPath) {
@@ -49,6 +58,14 @@ class GenerateOpenApiDocCommand extends Command
                 $paths[] = $pathToApiDir;
             }
         }
+
+        if ($input->getOption('throw') === true) {
+            set_error_handler(static function ($severity, $message, $file, $line) use ($io) {
+                $io->error($message);
+                throw new ErrorException($message, 0, $severity, $file, $line);
+            });
+        }
+
         $openapi = Generator::scan($paths);
         $buildDir = Config::get(Config::BASE_DIR) . '/build';
         $filePath = $buildDir . '/orangehrm-v2.json';
