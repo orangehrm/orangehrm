@@ -150,13 +150,6 @@ export default {
           this.onCancel();
         });
     },
-    // getResponse() {
-    //   return {
-    //     claimEventId: this.request.event.id,
-    //     currencyId: this.request.currency.id,
-    //     remarks: this.request.remarks,
-    //   };
-    // },
   },
 };
 </script>
