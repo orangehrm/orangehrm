@@ -89,8 +89,8 @@ import {navigate} from '@ohrm/core/util/helper/navigation';
 import ClaimEventDropdownVue from '../../components/ClaimEventDropdown.vue';
 
 const claimRequest = {
-  event: {},
-  currency: {},
+  event: null,
+  currency: null,
   remarks: null,
 };
 
@@ -139,7 +139,9 @@ export default {
       this.isLoading = true;
       this.http
         .create({
-          ...this.getResponse(),
+          claimEventId: this.request.event.id,
+          currencyId: this.request.currency.id,
+          remarks: this.request.remarks,
         })
         .then(() => {
           return this.$toast.saveSuccess();
@@ -148,13 +150,13 @@ export default {
           this.onCancel();
         });
     },
-    getResponse() {
-      return {
-        claimEventId: this.request.event.id,
-        currencyId: this.request.currency.id,
-        remarks: this.request.remarks,
-      };
-    },
+    // getResponse() {
+    //   return {
+    //     claimEventId: this.request.event.id,
+    //     currencyId: this.request.currency.id,
+    //     remarks: this.request.remarks,
+    //   };
+    // },
   },
 };
 </script>
