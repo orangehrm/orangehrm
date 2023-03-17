@@ -38,7 +38,7 @@ export default {
       'api/v2/claim/events',
     );
     onBeforeMount(() => {
-      http.getAll({limit: 0}).then(({data}) => {
+      http.getAll({limit: 0, status: true}).then(({data}) => {
         options.value = data.data.map((item) => {
           return {
             id: item.id,
