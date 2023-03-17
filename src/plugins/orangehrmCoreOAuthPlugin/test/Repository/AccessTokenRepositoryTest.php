@@ -185,4 +185,68 @@ class AccessTokenRepositoryTest extends KernelTestCase
         $this->expectException(UniqueTokenIdentifierConstraintViolationException::class);
         $this->accessTokenRepository->persistNewAccessToken($token);
     }
+
+    public function testRevokeAccessToken(): void
+    {
+        $id = 2;
+        $token = '388b9ae63e03fafa079ef891142828dc869e5b5f67c6094614492259ce95794e3f18a9057b667eae';
+        $accessToken = $this->getEntityReference(OAuthAccessToken::class, $id);
+        $this->assertEquals($token, $accessToken->getAccessToken());
+        $this->assertFalse($accessToken->isRevoked()); // validate state before revoke the code
+
+        $this->accessTokenRepository->revokeAccessToken($token);
+
+        $this->getEntityManager()->clear();
+        $accessToken = $this->getEntityReference(OAuthAccessToken::class, $id);
+        $this->assertEquals($token, $accessToken->getAccessToken());
+        $this->assertTrue($accessToken->isRevoked());
+    }
+
+    public function testRevokeAccessTokenWhichAlreadyRevoked(): void
+    {
+        $id = 1;
+        $token = '05a81084f60f6440c8bd2555200836584e365210aee54ffee8e9dc04c7ec0068a6cde45ef5999e47';
+        $accessToken = $this->getEntityReference(OAuthAccessToken::class, $id);
+        $this->assertEquals($token, $accessToken->getAccessToken());
+        $this->assertTrue($accessToken->isRevoked()); // validate state before revoke the code
+
+        $this->accessTokenRepository->revokeAccessToken($token); // should not change revoked state after execution
+
+        $this->getEntityManager()->clear();
+        $accessToken = $this->getEntityReference(OAuthAccessToken::class, $id);
+        $this->assertEquals($token, $accessToken->getAccessToken());
+        $this->assertTrue($accessToken->isRevoked());
+    }
+
+    public function testRevokeNonExistingAccessToken(): void
+    {
+        $token = 'this-access-token-not-exist';
+        $accessToken = $this->getEntityManager()
+            ->getRepository(OAuthAccessToken::class)
+            ->findOneBy(['accessToken' => $token]);
+        $this->assertNull($accessToken);
+
+        $this->accessTokenRepository->revokeAccessToken($token);
+        // silently continue even if no row affected
+    }
+
+    public function testIsAccessTokenRevoked(): void
+    {
+        $revoked = $this->accessTokenRepository->isAccessTokenRevoked(
+            '05a81084f60f6440c8bd2555200836584e365210aee54ffee8e9dc04c7ec0068a6cde45ef5999e47'
+        );
+        $this->assertTrue($revoked);
+
+        $revoked = $this->accessTokenRepository->isAccessTokenRevoked(
+            '388b9ae63e03fafa079ef891142828dc869e5b5f67c6094614492259ce95794e3f18a9057b667eae'
+        );
+        $this->assertFalse($revoked);
+    }
+
+    public function testIsAccessTokenRevokedForNonExistingAccessToken(): void
+    {
+        $revoked = $this->accessTokenRepository->isAccessTokenRevoked('this-access-token-not-exist');
+        $this->assertFalse($revoked);
+        // Invalid state, should check whether access token exist before execute this method
+    }
 }

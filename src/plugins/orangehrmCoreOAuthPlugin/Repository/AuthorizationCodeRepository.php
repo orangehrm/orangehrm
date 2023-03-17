@@ -54,7 +54,7 @@ class AuthorizationCodeRepository extends BaseDao implements AuthCodeRepositoryI
      */
     public function revokeAuthCode($codeId): void
     {
-        $affectedRows = $this->createQueryBuilder(OAuthAuthorizationCode::class, 'authCode')
+        $this->createQueryBuilder(OAuthAuthorizationCode::class, 'authCode')
             ->update()
             ->set('authCode.revoked', ':revoked')
             ->setParameter('revoked', true)
@@ -62,10 +62,6 @@ class AuthorizationCodeRepository extends BaseDao implements AuthCodeRepositoryI
             ->setParameter('authCode', $codeId)
             ->getQuery()
             ->execute();
-
-        if ($affectedRows === 0) {
-            throw new InvalidArgumentException('Invalid auth code');
-        }
     }
 
     /**

@@ -21,7 +21,6 @@ namespace OrangeHRM\Tests\OAuth\Repository;
 
 use DateTime;
 use DateTimeImmutable;
-use InvalidArgumentException;
 use League\OAuth2\Server\Exception\UniqueTokenIdentifierConstraintViolationException;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Service\ConfigService;
@@ -168,8 +167,8 @@ class AuthorizationCodeRepositoryTest extends KernelTestCase
     public function testRevokeNonExistingAuthCode(): void
     {
         $authorizationCodeRepository = new AuthorizationCodeRepository();
-        $this->expectException(InvalidArgumentException::class);
         $authorizationCodeRepository->revokeAuthCode('this-auth-code-not-exist');
+        $this->assertTrue(true); // silently continue even if no row affected
     }
 
     public function testIsAuthCodeRevoked(): void
