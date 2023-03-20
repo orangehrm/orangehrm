@@ -25,6 +25,7 @@ use OrangeHRM\Claim\Api\Model\ClaimRequestModel;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
+use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
@@ -93,7 +94,11 @@ class MyClaimRequestAPI extends EmployeeClaimRequestAPI
      *                 property="data",
      *                 ref="#/components/schemas/Claim-RequestModel"
      *             ),
-     *             @OA\Property(property="meta", type="object")
+     *             @OA\Property(
+     *                 property="meta",
+     *                 type="object",
+     *                 @OA\Property(property="allowedActions", type="array")
+     *             )
      *         )
      *     )
      * )
@@ -102,9 +107,27 @@ class MyClaimRequestAPI extends EmployeeClaimRequestAPI
     public function getOne(): EndpointResult
     {
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
-        $claimRequest = $this->getClaimService()->getClaimDao()->getClaimRequestById($id);
+        $claimRequest = $this->getClaimService()
+            ->getClaimDao()
+            ->getClaimRequestById($id);
+        $loggedInEmpNumber = $this->getAuthUser()->getEmpNumber();
+
         $this->throwRecordNotFoundExceptionIfNotExist($claimRequest, ClaimRequest::class);
-        return new EndpointResourceResult(ClaimRequestModel::class, $claimRequest);
+
+        if ($claimRequest->getEmployee()->getEmpNumber() != $loggedInEmpNumber) {
+            throw $this->getForbiddenException();
+        }
+
+        $allowedActions = $this->getAllowedActions($claimRequest);
+        return new EndpointResourceResult(
+            ClaimRequestModel::class,
+            $claimRequest,
+            new ParameterBag(
+                [
+                    self::PARAMETER_ALLOWED_ACTIONS => $allowedActions,
+                ]
+            )
+        );
     }
 
     /**

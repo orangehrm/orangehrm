@@ -12,8 +12,8 @@ Create:
       currencyId: 'CAD'
       remarks: description
     data:
-      id: 7
-      referenceId: 202301170000007
+      id: 10
+      referenceId: 202301170000010
       claimEvent:
         id: 1
         name: Office Rent
@@ -37,8 +37,8 @@ Create:
       currencyId: 'USD'
       remarks: sample claim request description
     data:
-      id: 7
-      referenceId: 202301170000007
+      id: 10
+      referenceId: 202301170000010
       claimEvent:
         id: 2
         name: Employee Salaries
@@ -62,8 +62,8 @@ Create:
       currencyId: USD
       remarks: ''
     data:
-      id: 7
-      referenceId: 202301170000007
+      id: 10
+      referenceId: 202301170000010
       claimEvent:
         id: 2
         name: Employee Salaries
@@ -87,8 +87,8 @@ Create:
       currencyId: 'USD'
       remarks: null
     data:
-      id: 7
-      referenceId: 202301170000007
+      id: 10
+      referenceId: 202301170000010
       claimEvent:
         id: 2
         name: Employee Salaries
@@ -126,3 +126,209 @@ Create:
     exception:
       class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
       message: 'Invalid Parameter'
+
+GetOne:
+  'GetOne - Claim Request - has INITIATED state as a admin user':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      id: 1
+    data:
+      {
+        "id": 1,
+        "referenceId": "202301170000001",
+        "claimEvent": {
+          "id": 3,
+          "name": "Travel Expenses"
+        },
+        "currencyType": {
+          "id": "USD",
+          "name": "United States Dollar"
+        },
+        "remarks": "Travel expenses for business trip to New York",
+        "status": "INITIATED",
+      }
+    meta:
+      "allowedActions": [
+        {
+          "action": "SUBMIT",
+          "name": "Submit"
+        },
+        {
+          "action": "CANCEL",
+          "name": "Cancel"
+        }
+      ]
+
+  'GetOne - Claim Request - has CANCELLED state as a admin user':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      id: 8
+    data:
+      {
+        "id": 8,
+        "referenceId": "202301170000008",
+        "claimEvent": {
+          "id": 3,
+          "name": "Travel Expenses"
+        },
+        "currencyType": {
+          "id": "USD",
+          "name": "United States Dollar"
+        },
+        "remarks": "Travel expenses for business trip to New York",
+        "status": "CANCELLED",
+      }
+    meta:
+      "allowedActions": [ ]
+
+  'GetOne - Claim Request - has REJECTED state as a Admin user':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      id: 5
+    data:
+      {
+        "id": 5,
+        "referenceId": "202301170000005",
+        "claimEvent": {
+          "id": 3,
+          "name": "Travel Expenses"
+        },
+        "currencyType": {
+          "id": "USD",
+          "name": "United States Dollar"
+        },
+        "remarks": "Expenses for social media advertising campaign",
+        "status": "REJECTED",
+      }
+    meta: {
+      "allowedActions": [
+        {
+          "action": "SUBMIT",
+          "name": "Submit"
+        }
+      ]
+    }
+
+  'GetOne - Claim Request - Admin try to get ESS claim request':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      id: 2
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
+      message: 'Unauthorized'
+
+  'GetOne - Claim Request - has SUBMITTED state as a ESS user':
+    userId: 2
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      id: 2
+    data:
+      {
+        "id": 2,
+        "referenceId": "202301170000002",
+        "claimEvent": {
+          "id": 3,
+          "name": "Travel Expenses"
+        },
+        "currencyType": {
+          "id": "USD",
+          "name": "United States Dollar"
+        },
+        "remarks": "Marketing expenses for trade show",
+        "status": "SUBMITTED",
+      }
+    meta: {
+      "allowedActions": [
+        {
+          "action": "CANCEL",
+          "name": "Cancel"
+        }
+      ]
+    }
+
+  'GetOne - Claim Request - has CANCELLED state as a ESS user':
+    userId: 2
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      id: 9
+    data:
+      {
+        "id": 9,
+        "referenceId": "202301170000009",
+        "claimEvent": {
+          "id": 3,
+          "name": "Travel Expenses"
+        },
+        "currencyType": {
+          "id": "USD",
+          "name": "United States Dollar"
+        },
+        "remarks": "Travel expenses for business trip to New York",
+        "status": "CANCELLED",
+      }
+    meta: {
+      "allowedActions": [
+      ]
+    }
+
+  'GetOne - Claim Request - ESS try to get Admin claim request':
+    userId: 2
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      id: 1
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
+      message: 'Unauthorized'

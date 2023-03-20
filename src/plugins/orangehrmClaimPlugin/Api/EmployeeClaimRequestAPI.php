@@ -31,6 +31,7 @@ use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
 use OrangeHRM\Core\Api\V2\Exception\BadRequestException;
 use OrangeHRM\Core\Api\V2\Exception\InvalidParamException;
+use OrangeHRM\Core\Api\V2\Model\WorkflowStateModel;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
@@ -39,7 +40,11 @@ use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
+use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
+use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\ClaimRequest;
+use OrangeHRM\Entity\Employee;
+use OrangeHRM\Entity\WorkflowStateMachine;
 use OrangeHRM\ORM\Exception\TransactionException;
 
 class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
@@ -48,11 +53,21 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
     use ClaimServiceTrait;
     use DateTimeHelperTrait;
     use AuthUserTrait;
+    use NormalizerServiceTrait;
+    use UserRoleManagerTrait;
 
     public const PARAMETER_CLAIM_EVENT_ID = 'claimEventId';
     public const PARAMETER_CURRENCY_ID = 'currencyId';
     public const PARAMETER_REMARKS = 'remarks';
     public const REMARKS_MAX_LENGTH = 1000;
+    public const PARAMETER_ALLOWED_ACTIONS = 'allowedActions';
+    public const ACTIONABLE_STATES_MAP = [
+        WorkflowStateMachine::CLAIM_ACTION_SUBMIT => 'SUBMIT',
+        WorkflowStateMachine::CLAIM_ACTION_APPROVE => 'APPROVE',
+        WorkflowStateMachine::CLAIM_ACTION_PAY => 'PAY',
+        WorkflowStateMachine::CLAIM_ACTION_CANCEL => 'CANCEL',
+        WorkflowStateMachine::CLAIM_ACTION_REJECT => 'REJECT'
+    ];
 
     /**
      * @OA\Post(
@@ -217,7 +232,11 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
      *                 property="data",
      *                 ref="#/components/schemas/Claim-RequestModel"
      *             ),
-     *             @OA\Property(property="meta", type="object")
+     *             @OA\Property(
+     *                 property="meta",
+     *                 type="object",
+     *                 @OA\Property(property="allowedActions", type="array")
+     *             )
      *         )
      *     )
      * )
@@ -242,6 +261,26 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
                 new Rule(Rules::POSITIVE)
             ),
         );
+    }
+
+    /**
+     * @param ClaimRequest $claimRequest
+     * @return array
+     */
+    protected function getAllowedActions(ClaimRequest $claimRequest): array
+    {
+        $allowedWorkflowItems = $this->getUserRoleManager()->getAllowedActions(
+            WorkflowStateMachine::FLOW_CLAIM,
+            $claimRequest->getStatus(),
+            [],
+            [],
+            [Employee::class => $claimRequest->getEmployee()->getEmpNumber()]
+        );
+        foreach ($allowedWorkflowItems as $allowedWorkflowItem) {
+            $allowedWorkflowItem->setAction(self::ACTIONABLE_STATES_MAP[$allowedWorkflowItem->getAction()]);
+        }
+        return $this->getNormalizerService()
+            ->normalizeArray(WorkflowStateModel::class, $allowedWorkflowItems);
     }
 
     /**

@@ -20,9 +20,11 @@
 namespace OrangeHRM\Tests\Claim\Api;
 
 use OrangeHRM\Claim\Api\MyClaimRequestAPI;
+use OrangeHRM\Config\Config;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
 use OrangeHRM\Tests\Util\Integration\TestCaseParams;
+use OrangeHRM\Tests\Util\TestDataService;
 
 /**
  * @group Claim
@@ -30,12 +32,20 @@ use OrangeHRM\Tests\Util\Integration\TestCaseParams;
  */
 class MyClaimRequestAPITest extends EndpointIntegrationTestCase
 {
+    public static function setUpBeforeClass(): void
+    {
+        TestDataService::populate(
+            Config::get(Config::TEST_DIR) . '/phpunit/fixtures/WorkflowStateMachine.yaml',
+            true
+        );
+    }
+
     /**
      * @dataProvider dataProviderForTestCreate
      */
     public function testCreate(TestCaseParams $testCaseParams): void
     {
-        $this->populateFixtures('MyClaimRequestAPI.yaml');
+        $this->populateFixtures('ClaimRequest.yaml');
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
         $this->registerMockDateTimeHelper($testCaseParams);
         $this->registerServices($testCaseParams);
@@ -46,5 +56,28 @@ class MyClaimRequestAPITest extends EndpointIntegrationTestCase
     public function dataProviderForTestCreate(): array
     {
         return $this->getTestCases('MyClaimRequestAPITestCases.yaml', 'Create');
+    }
+
+    /**
+     * @dataProvider dataProviderForTestGetOne
+     */
+    public function testGetOne(TestCaseParams $testCaseParams): void
+    {
+        TestDataService::populate(
+            Config::get(Config::TEST_DIR) . '/phpunit/fixtures/WorkflowStateMachine.yaml',
+            true
+        );
+        $this->populateFixtures('ClaimRequest.yaml', null, true);
+        $this->createKernelWithMockServices([
+            Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)
+        ]);
+        $this->registerServices($testCaseParams);
+        $api = $this->getApiEndpointMock(MyClaimRequestAPI::class, $testCaseParams);
+        $this->assertValidTestCase($api, 'getOne', $testCaseParams);
+    }
+
+    public function dataProviderForTestGetOne(): array
+    {
+        return $this->getTestCases('MyClaimRequestAPITestCases.yaml', 'GetOne');
     }
 }
