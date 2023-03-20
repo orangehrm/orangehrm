@@ -46,7 +46,9 @@ use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\ClaimExpense;
 use OrangeHRM\Entity\ClaimRequest;
+use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\ExpenseType;
+use OrangeHRM\Entity\WorkflowStateMachine;
 use OrangeHRM\ORM\Exception\TransactionException;
 
 class ClaimExpenseAPI extends Endpoint implements CrudEndpoint
@@ -191,7 +193,20 @@ class ClaimExpenseAPI extends Endpoint implements CrudEndpoint
                 RequestParams::PARAM_TYPE_ATTRIBUTE,
                 self::PARAMETER_REQUEST_ID
             );
-            $this->getClaimRequest($requestId);
+            $claimRequest = $this->getClaimRequest($requestId);
+
+            $isActionAllowed = $this->getUserRoleManager()->isActionAllowed(
+                WorkflowStateMachine::FLOW_CLAIM,
+                $claimRequest->getStatus(),
+                WorkflowStateMachine::CLAIM_ACTION_SUBMIT,
+                [],
+                [],
+                [Employee::class => $claimRequest->getEmployee()->getEmpNumber()]
+            );
+            if (!$isActionAllowed) {
+                throw $this->getForbiddenException();
+            }
+
             $claimExpense->getDecorator()->setClaimRequestByRequestId($requestId);
             $expenseTypeId = $this->getRequestParams()->getInt(
                 RequestParams::PARAM_TYPE_BODY,
