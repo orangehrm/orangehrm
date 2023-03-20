@@ -27,7 +27,7 @@
 
       <oxd-divider />
 
-      <oxd-form novalidate="true" :loading="isLoading" @submit-valid="onSave">
+      <oxd-form :loading="isLoading" @submit-valid="onSave">
         <oxd-grid :cols="2" class="orangehrm-full-width-grid">
           <oxd-grid-item>
             <oxd-form-row>
@@ -100,7 +100,7 @@ export default {
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/claim/events',
+      '/api/v2/claim/events',
     );
     return {
       http,

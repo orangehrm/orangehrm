@@ -66,7 +66,7 @@ class I18NService
      */
     private function addLanguage(string $langCode, string $type): void
     {
-        $key = "${langCode}_$type";
+        $key = "{$langCode}_$type";
         if (isset($this->loadedLanguages[$key])) {
             throw new InvalidArgumentException("Already added resource under: $langCode");
         }
@@ -83,7 +83,7 @@ class I18NService
      */
     private function isLanguageLoaded(string $langCode, string $type): bool
     {
-        return isset($this->loadedLanguages["${langCode}_$type"]);
+        return isset($this->loadedLanguages["{$langCode}_$type"]);
     }
 
     /**

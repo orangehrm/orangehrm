@@ -121,7 +121,7 @@ export default {
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/admin/modules',
+      '/api/v2/admin/modules',
     );
     return {
       http,

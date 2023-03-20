@@ -97,12 +97,12 @@ export default {
   setup() {
     const {locale} = useLocale();
     const {$tEmpName} = useEmployeeNameTranslate();
-    const celebrationPic = `${window.appGlobal.baseUrl}/../images/year_celebration.png`;
-    const noContentPic = `${window.appGlobal.baseUrl}/../images/buzz_no_anniversaries.png`;
+    const celebrationPic = `${window.appGlobal.publicPath}/images/year_celebration.png`;
+    const noContentPic = `${window.appGlobal.publicPath}/images/buzz_no_anniversaries.png`;
 
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/buzz/anniversaries',
+      '/api/v2/buzz/anniversaries',
     );
 
     return {

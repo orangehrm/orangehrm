@@ -54,7 +54,7 @@ import {
   required,
   validFileTypes,
 } from '@/core/util/validation/rules';
-const defaultPic = `${window.appGlobal.baseUrl}/../images/default-photo.png`;
+const defaultPic = `${window.appGlobal.publicPath}/images/default-photo.png`;
 
 export default {
   components: {
@@ -76,7 +76,7 @@ export default {
   setup(props) {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      `api/v2/pim/employees/${props.empNumber}/picture`,
+      `/api/v2/pim/employees/${props.empNumber}/picture`,
     );
 
     return {

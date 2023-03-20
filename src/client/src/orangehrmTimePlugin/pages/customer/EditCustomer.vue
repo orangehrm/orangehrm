@@ -84,7 +84,7 @@ export default {
       window.appGlobal.baseUrl,
       '/api/v2/time/customers',
     );
-    http.setIgnorePath('api/v2/time/validation/customer-name');
+    http.setIgnorePath('/api/v2/time/validation/customer-name');
     return {
       http,
     };
@@ -141,7 +141,7 @@ export default {
           this.http
             .request({
               method: 'GET',
-              url: `api/v2/time/validation/customer-name`,
+              url: `/api/v2/time/validation/customer-name`,
               params: {
                 customerName: this.customer.name.trim(),
                 customerId: this.customerId,

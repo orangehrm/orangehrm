@@ -91,7 +91,7 @@ class ViewLeaveEntitlementController extends AbstractVueController
         $endDate = $request->query->get('endDate');
         if ($startDate && $endDate) {
             $leavePeriod = [
-                'id' => "${startDate}_${endDate}",
+                'id' => "{$startDate}_$endDate",
                 'label' => "$startDate - $endDate",
                 'startDate' => "$startDate",
                 'endDate' => "$endDate"

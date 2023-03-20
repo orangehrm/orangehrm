@@ -173,7 +173,7 @@ export default {
           state.embedURL = null;
           const response = await http.request({
             method: 'GET',
-            url: 'api/v2/buzz/validation/links',
+            url: '/api/v2/buzz/validation/links',
             params: {
               url: value,
             },

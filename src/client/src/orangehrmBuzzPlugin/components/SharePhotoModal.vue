@@ -68,7 +68,7 @@ export default {
     const rules = {
       text: [shouldNotExceedCharLength(65530)],
     };
-    const http = new APIService(window.appGlobal.baseUrl, 'api/v2/buzz/posts');
+    const http = new APIService(window.appGlobal.baseUrl, '/api/v2/buzz/posts');
 
     const state = reactive({
       post: {

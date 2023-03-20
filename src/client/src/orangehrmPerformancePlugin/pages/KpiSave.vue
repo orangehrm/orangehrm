@@ -137,7 +137,7 @@ export default {
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/performance/kpis',
+      '/api/v2/performance/kpis',
     );
 
     return {

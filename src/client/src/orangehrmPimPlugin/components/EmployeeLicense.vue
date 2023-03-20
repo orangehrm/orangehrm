@@ -93,12 +93,12 @@ export default {
   setup(props) {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      `api/v2/pim/employees/${props.employeeId}/licenses`,
+      `/api/v2/pim/employees/${props.employeeId}/licenses`,
     );
     const {jsDateFormat} = useDateFormat();
     const {locale} = useLocale();
 
-    const licenceEndpoint = `api/v2/pim/employees/${props.employeeId}/licenses/allowed`;
+    const licenceEndpoint = `/api/v2/pim/employees/${props.employeeId}/licenses/allowed`;
 
     const licenseNormalizer = (data) => {
       return data.map((item) => {

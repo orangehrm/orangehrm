@@ -234,7 +234,7 @@ class AttendanceRecordDecorator
         $punchInTimezoneOffset = $this->getAttendanceRecord()->getPunchInTimeOffset();
         $timezoneValue = gmdate('H:i', abs($punchInTimezoneOffset * 3600));
         $offsetPrefix = $punchInTimezoneOffset > 0 ? '+' : '-';
-        return "(GMT${offsetPrefix}${timezoneValue}) ${punchInTimezoneName}";
+        return "(GMT{$offsetPrefix}$timezoneValue) $punchInTimezoneName";
     }
 
     /**
@@ -249,6 +249,6 @@ class AttendanceRecordDecorator
         }
         $timezoneValue = gmdate('H:i', abs($punchOutTimezoneOffset * 3600));
         $offsetPrefix = $punchOutTimezoneOffset > 0 ? '+' : '-';
-        return "(GMT${offsetPrefix}${timezoneValue}) ${punchOutTimezoneName}";
+        return "(GMT{$offsetPrefix}$timezoneValue) $punchOutTimezoneName";
     }
 }

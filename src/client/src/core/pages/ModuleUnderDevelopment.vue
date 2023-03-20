@@ -50,7 +50,7 @@
 export default {
   data() {
     return {
-      moduleUnderDevelopment: `${window.appGlobal.baseUrl}/../images/web_under_construction.png`,
+      moduleUnderDevelopment: `${window.appGlobal.publicPath}/images/web_under_construction.png`,
     };
   },
 };

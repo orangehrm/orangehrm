@@ -1,16 +1,16 @@
 {% extends 'base.html.twig' %}
 
 {% block links %}
-    <link rel="icon" href="{{ publicPath }}/dist/favicon.ico?{{ assetsVersion }}">
-    <link href="{{ publicPath }}/dist/css/chunk-vendors.css?{{ assetsVersion }}" rel="preload" as="style">
-    <link href="{{ publicPath }}/dist/css/app.css?{{ assetsVersion }}" rel="preload" as="style">
-    <link href="{{ publicPath }}/dist/js/chunk-vendors.js?{{ assetsVersion }}" rel="preload" as="script">
-    <link href="{{ publicPath }}/dist/js/app.js?{{ assetsVersion }}" rel="preload" as="script">
+    <link rel="icon" href="{{ publicPath }}/dist/favicon.ico?v={{ assetsVersion }}">
+    <link href="{{ publicPath }}/dist/css/chunk-vendors.css?v={{ assetsVersion }}" rel="preload" as="style">
+    <link href="{{ publicPath }}/dist/css/app.css?v={{ assetsVersion }}" rel="preload" as="style">
+    <link href="{{ publicPath }}/dist/js/chunk-vendors.js?v={{ assetsVersion }}" rel="preload" as="script">
+    <link href="{{ publicPath }}/dist/js/app.js?v={{ assetsVersion }}" rel="preload" as="script">
 {% endblock %}
 
 {% block stylesheets %}
-    <link href="{{ publicPath }}/dist/css/chunk-vendors.css?{{ assetsVersion }}" rel="stylesheet"/>
-    <link href="{{ publicPath }}/dist/css/app.css?{{ assetsVersion }}" rel="stylesheet"/>
+    <link href="{{ publicPath }}/dist/css/chunk-vendors.css?v={{ assetsVersion }}" rel="stylesheet"/>
+    <link href="{{ publicPath }}/dist/css/app.css?v={{ assetsVersion }}" rel="stylesheet"/>
 {% endblock %}
 
 {% block body %}
@@ -38,9 +38,10 @@
 {% block javascripts %}
     <script type="text/javascript">
         window.appGlobal = {
-            baseUrl: "{{ baseUrl }}",
-        }
+          baseUrl: "{{ baseUrl }}",
+          publicPath: "{{ publicPath }}",
+        };
     </script>
-    <script src="{{ publicPath }}/dist/js/chunk-vendors.js?{{ assetsVersion }}"></script>
-    <script src="{{ publicPath }}/dist/js/app.js?{{ assetsVersion }}"></script>
+    <script src="{{ publicPath }}/dist/js/chunk-vendors.js?v={{ assetsVersion }}"></script>
+    <script src="{{ publicPath }}/dist/js/app.js?v={{ assetsVersion }}"></script>
 {% endblock %}

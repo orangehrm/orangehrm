@@ -77,7 +77,7 @@ export default {
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      `api/v2/pim/time/add-timesheet`,
+      `/api/v2/pim/time/add-timesheet`,
     );
     const {userDateFormat} = useDateFormat();
 

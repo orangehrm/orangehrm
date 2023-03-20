@@ -132,7 +132,7 @@ export default {
         this.http
           .request({
             method: 'GET',
-            url: `api/v2/time/projects/${this.projectId}/activities/copy/${value.id}`,
+            url: `/api/v2/time/projects/${this.projectId}/activities/copy/${value.id}`,
             params: {limit: 0},
           })
           .then((response) => {
@@ -154,7 +154,7 @@ export default {
       this.http
         .request({
           method: 'POST',
-          url: `api/v2/time/projects/${this.projectId}/activities/copy/${this.project.id}`,
+          url: `/api/v2/time/projects/${this.projectId}/activities/copy/${this.project.id}`,
           data: {
             activityIds: this.selectedActivities,
           },

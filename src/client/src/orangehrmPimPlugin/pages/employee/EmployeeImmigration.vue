@@ -102,7 +102,7 @@ export default {
   setup(props) {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      `api/v2/pim/employees/${props.empNumber}/immigrations`,
+      `/api/v2/pim/employees/${props.empNumber}/immigrations`,
     );
     const {jsDateFormat} = useDateFormat();
     const {locale} = useLocale();

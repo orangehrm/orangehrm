@@ -28,5 +28,6 @@ return $config->setRules(
             'after_array_assignments_equals' => false,
             'before_array_assignments_equals' => false
         ],
+        'simple_to_complex_string_variable' => true,
     ]
 )->setFinder($finder);

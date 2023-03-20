@@ -259,14 +259,14 @@ export default {
     },
   },
   setup() {
-    const defaultPic = `${window.appGlobal.baseUrl}/../images/ohrm_branding.png`;
+    const defaultPic = `${window.appGlobal.publicPath}/images/ohrm_branding.png`;
     const applicant = ref({
       ...applicantModel,
     });
     const responsiveState = useResponsive();
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/recruitment/public/vacancies',
+      '/api/v2/recruitment/public/vacancies',
     );
 
     return {

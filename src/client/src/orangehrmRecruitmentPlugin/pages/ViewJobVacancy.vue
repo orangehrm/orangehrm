@@ -176,7 +176,7 @@ export default {
 
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/recruitment/vacancies',
+      '/api/v2/recruitment/vacancies',
     );
     const {
       showPaginator,

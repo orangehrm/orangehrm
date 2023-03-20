@@ -73,7 +73,7 @@ export default {
   setup(props) {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      `api/v2/recruitment/candidates/${props.candidateId}/reject`,
+      `/api/v2/recruitment/candidates/${props.candidateId}/reject`,
     );
 
     return {

@@ -106,7 +106,7 @@ export default {
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      `api/v2/time/timesheets`,
+      `/api/v2/time/timesheets`,
     );
     const {locale} = useLocale();
     const {jsDateFormat} = useDateFormat();
@@ -147,7 +147,7 @@ export default {
       this.http
         .request({
           method: 'GET',
-          url: `api/v2/time/timesheets/${this.timesheetId}/entries/${this.data.id}/comment`,
+          url: `/api/v2/time/timesheets/${this.timesheetId}/entries/${this.data.id}/comment`,
         })
         .then((response) => {
           const {data} = response.data;
@@ -164,7 +164,7 @@ export default {
       this.http
         .request({
           method: 'PUT',
-          url: `api/v2/time/timesheets/${this.timesheetId}/entries/comment`,
+          url: `/api/v2/time/timesheets/${this.timesheetId}/entries/comment`,
           data: {
             date: this.data.date,
             comment: this.comment,

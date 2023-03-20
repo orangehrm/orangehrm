@@ -88,7 +88,7 @@ export default function useBuzzAPIs(http: APIService) {
   ): Promise<AxiosResponse<CommentsResponse>> => {
     return http.request({
       method: 'GET',
-      url: `api/v2/buzz/shares/${postId}/comments`,
+      url: `/api/v2/buzz/shares/${postId}/comments`,
       params: {
         limit: limit,
         ...(detailed && {model: 'detailed'}),
@@ -102,7 +102,7 @@ export default function useBuzzAPIs(http: APIService) {
   ): Promise<AxiosResponse> => {
     return http.request({
       method: 'POST',
-      url: `api/v2/buzz/shares/${postId}/comments`,
+      url: `/api/v2/buzz/shares/${postId}/comments`,
       data: {text: comment},
     });
   };
@@ -114,7 +114,7 @@ export default function useBuzzAPIs(http: APIService) {
   ): Promise<AxiosResponse> => {
     return http.request({
       method: 'PUT',
-      url: `api/v2/buzz/shares/${postId}/comments/${commentId}`,
+      url: `/api/v2/buzz/shares/${postId}/comments/${commentId}`,
       data: {text: comment},
     });
   };
@@ -125,14 +125,14 @@ export default function useBuzzAPIs(http: APIService) {
   ): Promise<AxiosResponse> => {
     return http.request({
       method: 'DELETE',
-      url: `api/v2/buzz/shares/${postId}/comments/${commentId}`,
+      url: `/api/v2/buzz/shares/${postId}/comments/${commentId}`,
     });
   };
 
   const fetchPostLikes = (postId: number): Promise<AxiosResponse> => {
     return http.request({
       method: 'GET',
-      url: `api/v2/buzz/shares/${postId}/likes`,
+      url: `/api/v2/buzz/shares/${postId}/likes`,
     });
   };
 
@@ -147,7 +147,7 @@ export default function useBuzzAPIs(http: APIService) {
   ): Promise<AxiosResponse<PostsResponse>> => {
     return http.request({
       method: 'GET',
-      url: 'api/v2/buzz/feed',
+      url: '/api/v2/buzz/feed',
       params: {
         limit,
         offset,
@@ -163,7 +163,7 @@ export default function useBuzzAPIs(http: APIService) {
   ): Promise<AxiosResponse> => {
     return http.request({
       method: like ? 'DELETE' : 'POST',
-      url: `api/v2/buzz/shares/${postId}/likes`,
+      url: `/api/v2/buzz/shares/${postId}/likes`,
     });
   };
 
@@ -173,7 +173,7 @@ export default function useBuzzAPIs(http: APIService) {
   ): Promise<AxiosResponse> => {
     return http.request({
       method: like ? 'DELETE' : 'POST',
-      url: `api/v2/buzz/comments/${commentId}/likes`,
+      url: `/api/v2/buzz/comments/${commentId}/likes`,
     });
   };
 
@@ -201,7 +201,7 @@ export default function useBuzzAPIs(http: APIService) {
     }
     return http.request({
       method: 'PUT',
-      url: `api/v2/buzz/posts/${postId}`,
+      url: `/api/v2/buzz/posts/${postId}`,
       data: {...post},
       params: {model: 'detailed'},
     });
@@ -213,7 +213,7 @@ export default function useBuzzAPIs(http: APIService) {
   ): Promise<AxiosResponse> => {
     return http.request({
       method: 'PUT',
-      url: `api/v2/buzz/shares/${postId}`,
+      url: `/api/v2/buzz/shares/${postId}`,
       data: {text},
       params: {model: 'detailed'},
     });

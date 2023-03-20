@@ -134,9 +134,9 @@ export default {
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/time/projects',
+      '/api/v2/time/projects',
     );
-    http.setIgnorePath('api/v2/time/validation/project-name');
+    http.setIgnorePath('/api/v2/time/validation/project-name');
     return {
       http,
     };
@@ -219,7 +219,7 @@ export default {
           this.http
             .request({
               method: 'GET',
-              url: `api/v2/time/validation/project-name`,
+              url: `/api/v2/time/validation/project-name`,
               params: {
                 projectName: this.project.name.trim(),
                 customerId: this.project.customer?.id,

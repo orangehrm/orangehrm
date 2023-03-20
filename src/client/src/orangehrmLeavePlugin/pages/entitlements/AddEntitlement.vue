@@ -326,7 +326,7 @@ export default {
       this.http
         .request({
           method: 'GET',
-          url: 'api/v2/pim/employees/count',
+          url: '/api/v2/pim/employees/count',
           params: {
             locationId: this.leaveEntitlement.location?.id,
             subunitId: this.leaveEntitlement.subunit?.id,

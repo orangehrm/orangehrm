@@ -91,7 +91,7 @@ class ThemeDao extends BaseDao
             'login_banner' => 'loginBanner',
         ];
         $field = $map[$imageKey];
-        $select = 'NEW ' . ThemeImage::class . "(t.$field, t.${field}Filename, t.${field}FileType, t.${field}FileSize)";
+        $select = 'NEW ' . ThemeImage::class . "(t.$field, t.{$field}Filename, t.{$field}FileType, t.{$field}FileSize)";
         $q = $this->createQueryBuilder(Theme::class, 't')
             ->select($select);
         $q->andWhere('t.name = :themeName')

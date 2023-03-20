@@ -48,7 +48,7 @@ export default {
     const options = ref([]);
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/leave/leave-periods',
+      '/api/v2/leave/leave-periods',
     );
     const {jsDateFormat} = useDateFormat();
     const {locale} = useLocale();

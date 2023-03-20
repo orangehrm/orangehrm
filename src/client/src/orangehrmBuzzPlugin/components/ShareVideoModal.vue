@@ -76,7 +76,7 @@ export default {
 
   setup(props, context) {
     const {$t} = usei18n();
-    const http = new APIService(window.appGlobal.baseUrl, 'api/v2/buzz/posts');
+    const http = new APIService(window.appGlobal.baseUrl, '/api/v2/buzz/posts');
 
     const state = reactive({
       post: {
@@ -95,7 +95,7 @@ export default {
           state.embedURL = null;
           const response = await http.request({
             method: 'GET',
-            url: 'api/v2/buzz/validation/links',
+            url: '/api/v2/buzz/validation/links',
             params: {
               url: value,
             },

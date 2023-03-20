@@ -243,13 +243,13 @@ class AddRolePermissionCommand extends Command
         $isSelf = (int)$dataGroupPermission->isSelf();
 
         $this->printBlock(
-            "SET @${dataGroup}_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = '${dataGroup}' LIMIT 1);"
+            "SET @{$dataGroup}_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = '$dataGroup' LIMIT 1);"
         );
         $this->printBlock(
-            "SET @${userRole}_role_id := (SELECT `id` FROM ohrm_user_role WHERE `name` = ${userRoleName} LIMIT 1);"
+            "SET @{$userRole}_role_id := (SELECT `id` FROM ohrm_user_role WHERE `name` = '$userRoleName' LIMIT 1);"
         );
         $this->printBlock(
-            "INSERT INTO ohrm_user_role_data_group (`can_read`, `can_create`, `can_update`, `can_delete`, `self`, `data_group_id`, `user_role_id`) VALUES (${canRead}, ${canCreate}, ${canUpdate}, ${canDelete}, ${isSelf}, @${dataGroup}_data_group_id, @${userRole}_role_id);"
+            "INSERT INTO ohrm_user_role_data_group (`can_read`, `can_create`, `can_update`, `can_delete`, `self`, `data_group_id`, `user_role_id`) VALUES ($canRead, $canCreate, $canUpdate, $canDelete, $isSelf, @{$dataGroup}_data_group_id, @{$userRole}_role_id);"
         );
     }
 

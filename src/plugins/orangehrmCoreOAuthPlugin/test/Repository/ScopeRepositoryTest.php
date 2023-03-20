@@ -17,24 +17,34 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\OAuth\Repository;
+namespace OrangeHRM\Tests\OAuth\Repository;
 
-use Exception;
-use League\OAuth2\Server\Entities\ClientEntityInterface;
-use League\OAuth2\Server\Entities\UserEntityInterface;
-use League\OAuth2\Server\Repositories\UserRepositoryInterface;
+use OrangeHRM\OAuth\Dto\Entity\ClientEntity;
+use OrangeHRM\OAuth\Repository\ScopeRepository;
+use OrangeHRM\Tests\Util\KernelTestCase;
 
-class UserRepository implements UserRepositoryInterface
+/**
+ * @group OAuth
+ * @group Dao
+ */
+class ScopeRepositoryTest extends KernelTestCase
 {
-    /**
-     * @inheritdoc
-     */
-    public function getUserEntityByUserCredentials(
-        $username,
-        $password,
-        $grantType,
-        ClientEntityInterface $clientEntity
-    ): ?UserEntityInterface {
-        throw new Exception(__METHOD__);
+    public function testGetScopeEntityByIdentifier(): void
+    {
+        $scopeRepository = new ScopeRepository();
+        $this->assertNull($scopeRepository->getScopeEntityByIdentifier('profile'));
+    }
+
+    public function testFinalizeScopes(): void
+    {
+        $scopeRepository = new ScopeRepository();
+        $clientEntity = new ClientEntity(
+            1,
+            'orangehrm_mobile_app',
+            'com.orangehrm.opensource://oauthredirect',
+            false,
+            'Mobile App'
+        );
+        $this->assertEmpty($scopeRepository->finalizeScopes([], 'authorization_code', $clientEntity, null));
     }
 }

@@ -198,7 +198,7 @@ class EmployeeCustomFieldAPI extends Endpoint implements ResourceEndpoint
             $customFieldNumber = $customFieldNumbers[$index];
             $customFieldScreen = $customFieldsAssoc[$customFieldNumber]->getScreen();
             $permission = $this->getUserRoleManagerHelper()->getDataGroupPermissionsForEmployee(
-                "${customFieldScreen}_custom_fields",
+                "{$customFieldScreen}_custom_fields",
                 $empNumber
             );
             if (!$permission->canUpdate()) {

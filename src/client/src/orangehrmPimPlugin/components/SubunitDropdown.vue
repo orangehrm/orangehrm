@@ -35,7 +35,7 @@ export default {
     const options = ref([]);
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/admin/subunits',
+      '/api/v2/admin/subunits',
     );
     onBeforeMount(() => {
       http.getAll().then(({data}) => {

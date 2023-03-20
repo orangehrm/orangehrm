@@ -31,7 +31,7 @@
 
       <oxd-divider />
 
-      <oxd-form novalidate="true" :loading="isLoading" @submit-valid="onSave">
+      <oxd-form :loading="isLoading" @submit-valid="onSave">
         <oxd-form-row>
           <oxd-grid :cols="2" class="orangehrm-full-width-grid">
             <oxd-grid-item>
@@ -145,7 +145,7 @@ export default {
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/admin/oauth-clients',
+      '/api/v2/admin/oauth-clients',
     );
     return {
       http,
@@ -159,7 +159,7 @@ export default {
       oAuthClient: {...initialOAuthClient},
       rules: {
         name: [required, shouldNotExceedCharLength(80)],
-        redirectUri: [shouldNotExceedCharLength(2000)],
+        redirectUri: [required, shouldNotExceedCharLength(2000)],
       },
     };
   },

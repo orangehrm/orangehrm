@@ -39,11 +39,11 @@ class Doctrine
     /**
      * @var null|Doctrine
      */
-    private static ?Doctrine $instance = null;
+    protected static ?Doctrine $instance = null;
     /**
      * @var null|EntityManager
      */
-    private static ?EntityManager $entityManager = null;
+    protected static ?EntityManager $entityManager = null;
 
     /**
      * @throws ConfigNotFoundException

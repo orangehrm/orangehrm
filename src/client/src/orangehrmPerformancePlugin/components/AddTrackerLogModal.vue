@@ -113,7 +113,7 @@ export default {
   setup(props) {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      `api/v2/performance/trackers/${props.trackerId}/logs`,
+      `/api/v2/performance/trackers/${props.trackerId}/logs`,
     );
 
     return {

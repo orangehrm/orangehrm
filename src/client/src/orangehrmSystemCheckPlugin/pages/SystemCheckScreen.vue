@@ -76,7 +76,7 @@ export default {
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      `api/v2/core/system-check`,
+      `/api/v2/core/system-check`,
     );
     return {
       http,

@@ -81,6 +81,9 @@ class ClientRepository extends BaseDao implements ClientRepositoryInterface
      */
     private function validateClientSecret(OAuthClient $client, UserCredentialInterface $givenCred): bool
     {
+        if ($client->getClientSecret() === null) {
+            return false;
+        }
         $passwordHasher = new PasswordHash();
         return $passwordHasher->verify($givenCred->getPassword(), $client->getClientSecret());
     }

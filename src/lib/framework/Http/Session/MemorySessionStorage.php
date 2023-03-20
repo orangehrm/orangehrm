@@ -17,7 +17,7 @@
  * Boston, MA 02110-1301, USA
  */
 
-namespace OrangeHRM\Installer\Framework;
+namespace OrangeHRM\Framework\Http\Session;
 
 use InvalidArgumentException;
 use Symfony\Component\HttpFoundation\Session\SessionBagInterface;
@@ -92,6 +92,9 @@ class MemorySessionStorage implements SessionStorageInterface
      */
     public function regenerate(bool $destroy = false, int $lifetime = null): bool
     {
+        if ($destroy) {
+            $this->metadataBag->stampNew();
+        }
         return true;
     }
 
@@ -107,6 +110,9 @@ class MemorySessionStorage implements SessionStorageInterface
      */
     public function clear()
     {
+        foreach ($this->bags as $bag) {
+            $bag->clear();
+        }
     }
 
     /**

@@ -105,7 +105,7 @@ export default {
       `/api/v2/time/timesheets`,
     );
 
-    http.setIgnorePath('api/v2/time/timesheets/[0-9]+/entries');
+    http.setIgnorePath('/api/v2/time/timesheets/[0-9]+/entries');
 
     let timesheetModal = [];
 

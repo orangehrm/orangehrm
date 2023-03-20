@@ -25,7 +25,7 @@ use Doctrine\ORM\Mapping as ORM;
 use OrangeHRM\Core\Service\DateTimeHelperService;
 
 /**
- * @ORM\Table(name="ohrm_oauth2_refresh_tokens")
+ * @ORM\Table(name="ohrm_oauth2_refresh_token")
  * @ORM\Entity
  */
 class OAuthRefreshToken
@@ -33,7 +33,7 @@ class OAuthRefreshToken
     /**
      * @var int
      *
-     * @ORM\Column(name="id", type="integer")
+     * @ORM\Column(name="id", type="bigint")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */

@@ -172,7 +172,7 @@ export default {
     const {fetchPosts, deletePost} = useBuzzAPIs(
       new APIService(window.appGlobal.baseUrl, ''),
     );
-    const noPostsPic = `${window.appGlobal.baseUrl}/../images/buzz_no_posts.svg`;
+    const noPostsPic = `${window.appGlobal.publicPath}/images/buzz_no_posts.svg`;
 
     const state = reactive({
       total: 0,

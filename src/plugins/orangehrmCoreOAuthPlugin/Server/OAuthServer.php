@@ -42,9 +42,9 @@ class OAuthServer
     private AuthorizationCodeRepository $authCodeRepository;
     private RefreshTokenRepository $refreshTokenRepository;
     private string $encryptionKey;
-    private DateInterval $authCodeTTL;
-    private DateInterval $refreshTokenTTL;
-    private DateInterval $accessTokenTTL;
+    private ?DateInterval $authCodeTTL = null;
+    private ?DateInterval $refreshTokenTTL = null;
+    private ?DateInterval $accessTokenTTL = null;
 
     private function init(): void
     {
@@ -72,7 +72,7 @@ class OAuthServer
                 $this->clientRepository,
                 $this->accessTokenRepository,
                 $this->scopeRepository,
-                new CryptKey(),
+                new CryptKey(), // We are using opaque token, not JWT
                 $this->encryptionKey
             );
 
@@ -93,6 +93,7 @@ class OAuthServer
      */
     public function getAuthCodeTTL(): DateInterval
     {
+        $this->authCodeTTL ?? $this->getServer();
         return $this->authCodeTTL;
     }
 
@@ -101,6 +102,7 @@ class OAuthServer
      */
     public function getRefreshTokenTTL(): DateInterval
     {
+        $this->refreshTokenTTL ?? $this->getServer();
         return $this->refreshTokenTTL;
     }
 
@@ -109,6 +111,7 @@ class OAuthServer
      */
     public function getAccessTokenTTL(): DateInterval
     {
+        $this->accessTokenTTL ?? $this->getServer();
         return $this->accessTokenTTL;
     }
 }
