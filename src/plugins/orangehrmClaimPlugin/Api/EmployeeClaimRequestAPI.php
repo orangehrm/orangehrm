@@ -231,11 +231,6 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
      *             @OA\Property(
      *                 property="data",
      *                 ref="#/components/schemas/Claim-RequestModel"
-     *             ),
-     *             @OA\Property(
-     *                 property="meta",
-     *                 type="object",
-     *                 @OA\Property(property="allowedActions", type="array")
      *             )
      *         )
      *     )
