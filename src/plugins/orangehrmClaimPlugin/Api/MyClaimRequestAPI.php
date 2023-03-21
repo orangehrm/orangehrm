@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -65,7 +64,8 @@ class MyClaimRequestAPI extends EmployeeClaimRequestAPI
     public function create(): EndpointResourceResult
     {
         $claimRequest = new ClaimRequest();
-        $this->setClaimRequest($claimRequest);
+        $empNumber = $this->getAuthUser()->getEmpNumber();
+        $this->setClaimRequest($claimRequest, $empNumber);
         return new EndpointResourceResult(ClaimRequestModel::class, $claimRequest);
     }
 
