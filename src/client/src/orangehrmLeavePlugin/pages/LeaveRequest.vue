@@ -134,7 +134,7 @@ export default {
   setup(props) {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      `api/v2/leave/leave-requests/${props.leaveRequestId}/leaves`,
+      `/api/v2/leave/leave-requests/${props.leaveRequestId}/leaves`,
     );
 
     const {leaveActions, processLeaveAction} = useLeaveActions(http);

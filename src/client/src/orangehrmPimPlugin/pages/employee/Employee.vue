@@ -239,7 +239,7 @@ export default {
 
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/pim/employees',
+      '/api/v2/pim/employees',
     );
     const {
       showPaginator,

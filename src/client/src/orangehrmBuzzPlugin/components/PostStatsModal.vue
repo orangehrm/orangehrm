@@ -116,11 +116,11 @@ export default {
 
     switch (props.type) {
       case 'likes':
-        apiPath = `api/v2/buzz/shares/${props.postId}/likes`;
+        apiPath = `/api/v2/buzz/shares/${props.postId}/likes`;
         break;
 
       case 'shares':
-        apiPath = `api/v2/buzz/posts/${props.postId}/shares`;
+        apiPath = `/api/v2/buzz/posts/${props.postId}/shares`;
         break;
 
       default:

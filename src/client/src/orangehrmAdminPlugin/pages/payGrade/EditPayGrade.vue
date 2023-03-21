@@ -83,7 +83,7 @@ export default {
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/admin/pay-grades',
+      '/api/v2/admin/pay-grades',
     );
     return {
       http,

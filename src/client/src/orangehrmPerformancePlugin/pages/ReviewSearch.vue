@@ -265,7 +265,7 @@ export default {
 
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/performance/manage/reviews',
+      '/api/v2/performance/manage/reviews',
     );
 
     const {

@@ -77,6 +77,7 @@
             display-type="main"
             :label="$t('auth.login')"
             type="submit"
+            :disabled="submitted"
           />
         </oxd-form-actions>
         <div class="orangehrm-login-forgot">
@@ -152,6 +153,7 @@ export default {
         username: [required],
         password: [required],
       },
+      submitted: false,
     };
   },
 
@@ -169,6 +171,7 @@ export default {
 
   methods: {
     onSubmit() {
+      this.submitted = true;
       this.$refs.loginForm.$el.submit();
     },
     navigateUrl() {

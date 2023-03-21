@@ -104,7 +104,7 @@ export default {
   setup(props) {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      `api/v2/pim/employees/${props.empNumber}/supervisors`,
+      `/api/v2/pim/employees/${props.empNumber}/supervisors`,
     );
     const {$t} = usei18n();
     const supervisorNormalizer = (data) => {
@@ -118,7 +118,7 @@ export default {
         };
       });
     };
-    const supervisorEndpoint = `api/v2/pim/employees/${props.empNumber}/supervisors/`;
+    const supervisorEndpoint = `/api/v2/pim/employees/${props.empNumber}/supervisors/`;
     const {
       showPaginator,
       currentPage,

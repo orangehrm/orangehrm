@@ -126,7 +126,7 @@ export default {
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/recruitment/candidates',
+      '/api/v2/recruitment/candidates',
     );
     const {$tEmpName} = useEmployeeNameTranslate();
 
@@ -207,7 +207,7 @@ export default {
       this.http
         .request({
           method: 'GET',
-          url: `api/v2/recruitment/candidates/${this.candidate?.id}/actions/allowed`,
+          url: `/api/v2/recruitment/candidates/${this.candidate?.id}/actions/allowed`,
         })
         .then((response) => {
           const {data} = response.data;

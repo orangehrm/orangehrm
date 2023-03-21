@@ -54,7 +54,7 @@ export default {
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/time/projects',
+      '/api/v2/time/projects',
     );
     return {
       http,

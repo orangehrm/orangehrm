@@ -22,7 +22,7 @@
   <div class="orangehrm-project-admin-input">
     <employee-autocomplete
       :label="!showDelete ? $t('time.project_admin') : null"
-      api-path="api/v2/time/project-admins"
+      api-path="/api/v2/time/project-admins"
       :params="{
         includeEmployees,
       }"

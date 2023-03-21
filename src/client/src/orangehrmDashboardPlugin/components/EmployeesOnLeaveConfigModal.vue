@@ -72,7 +72,7 @@ export default {
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/dashboard/config/employee-on-leave-today',
+      '/api/v2/dashboard/config/employee-on-leave-today',
     );
     return {
       http,

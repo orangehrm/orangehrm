@@ -136,7 +136,7 @@ export default {
   setup(props) {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      `api/v2/recruitment/candidates/${props.candidateId}/shedule-interview`,
+      `/api/v2/recruitment/candidates/${props.candidateId}/shedule-interview`,
     );
     const {userDateFormat} = useDateFormat();
 

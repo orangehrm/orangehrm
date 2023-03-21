@@ -226,7 +226,7 @@ export default {
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/leave/employees/leave-requests',
+      '/api/v2/leave/employees/leave-requests',
     );
     const {serializeBody, validateLeaveBalance, validateOverlapLeaves} =
       useLeaveValidators(http);
@@ -301,7 +301,7 @@ export default {
         this.http
           .request({
             method: 'GET',
-            url: `api/v2/pim/employees/${employee.id}/work-shift`,
+            url: `/api/v2/pim/employees/${employee.id}/work-shift`,
           })
           .then((response) => {
             const {data} = response.data;

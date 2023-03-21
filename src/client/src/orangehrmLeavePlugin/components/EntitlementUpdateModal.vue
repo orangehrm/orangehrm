@@ -93,7 +93,7 @@ export default {
       return this.http
         .request({
           method: 'GET',
-          url: `api/v2/leave/employees/${this.data.employee?.id}/leave-entitlements`,
+          url: `/api/v2/leave/employees/${this.data.employee?.id}/leave-entitlements`,
           params: {
             leaveTypeId: this.data.leaveType?.id,
             fromDate: this.data.leavePeriod?.startDate,

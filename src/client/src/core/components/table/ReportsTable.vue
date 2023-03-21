@@ -89,7 +89,7 @@ export default {
   setup(props) {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      `api/v2/${props.module}/reports/data`,
+      `/api/v2/${props.module}/reports/data`,
     );
 
     const headers = ref([]);
@@ -149,7 +149,7 @@ export default {
       http
         .request({
           method: 'GET',
-          url: `api/v2/${props.module}/reports`,
+          url: `/api/v2/${props.module}/reports`,
           params: {
             name: serializedFilters.value.name,
             reportId: serializedFilters.value?.reportId,

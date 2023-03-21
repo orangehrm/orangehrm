@@ -435,7 +435,7 @@ export default {
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/admin/ldap-config',
+      '/api/v2/admin/ldap-config',
     );
     const {formRef, invalid, validate} = useForm();
 
@@ -610,7 +610,7 @@ export default {
         this.http
           .request({
             method: 'POST',
-            url: 'api/v2/admin/ldap-test-connection',
+            url: '/api/v2/admin/ldap-test-connection',
             data,
           })
           .then((response) => {

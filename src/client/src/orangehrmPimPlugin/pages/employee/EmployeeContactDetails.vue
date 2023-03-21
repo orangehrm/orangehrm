@@ -184,10 +184,10 @@ export default {
   setup(props) {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      `api/v2/pim/employee/${props.empNumber}/contact-details`,
+      `/api/v2/pim/employee/${props.empNumber}/contact-details`,
     );
     http.setIgnorePath(
-      'api/v2/pim/employees/[0-9]+/contact-details/validation/(work-emails|other-emails)',
+      '/api/v2/pim/employees/[0-9]+/contact-details/validation/(work-emails|other-emails)',
     );
     return {
       http,
@@ -261,7 +261,7 @@ export default {
           this.http
             .request({
               method: 'GET',
-              url: `api/v2/pim/employees/${this.empNumber}/contact-details/validation/work-emails`,
+              url: `/api/v2/pim/employees/${this.empNumber}/contact-details/validation/work-emails`,
               params: {
                 workEmail: this.contact.workEmail,
               },
@@ -293,7 +293,7 @@ export default {
           this.http
             .request({
               method: 'GET',
-              url: `api/v2/pim/employees/${this.empNumber}/contact-details/validation/other-emails`,
+              url: `/api/v2/pim/employees/${this.empNumber}/contact-details/validation/other-emails`,
               params: {
                 otherEmail: this.contact.otherEmail,
               },

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -45,7 +46,7 @@ class SubmitClaimController extends AbstractVueController
     public function preRender(Request $request): void
     {
         $currencies = $this->getPayGradeService()->getCurrencyArray();
-        $component = new Component('submit-claim');
+        $component = new Component('submit-claim-request');
         $component->addProp(new Prop('currencies', Prop::TYPE_ARRAY, $currencies));
         $this->setComponent($component);
     }

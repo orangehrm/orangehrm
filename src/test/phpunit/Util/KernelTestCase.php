@@ -29,10 +29,10 @@ use OrangeHRM\Framework\Framework;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\I18N\Service\I18NHelper;
-use OrangeHRM\ORM\Doctrine;
 use OrangeHRM\Performance\Service\PerformanceTrackerService;
 use OrangeHRM\Recruitment\Service\CandidateService;
 use OrangeHRM\Recruitment\Service\VacancyService;
+use OrangeHRM\Tests\Util\Database\DoctrineService;
 use OrangeHRM\Time\Service\ProjectService;
 
 abstract class KernelTestCase extends TestCase
@@ -85,8 +85,7 @@ abstract class KernelTestCase extends TestCase
             }
             $this->getContainer()->set($serviceId, null);
         }
-        $this->getContainer()->register(Services::DOCTRINE)
-            ->setFactory([Doctrine::class, 'getEntityManager']);
+        $this->getContainer()->set(Services::DOCTRINE, DoctrineService::getEntityManager());
 
         $this->setHelperServices();
         $this->setBaseServices();

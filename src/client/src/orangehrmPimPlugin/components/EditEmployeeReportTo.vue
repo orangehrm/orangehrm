@@ -109,7 +109,7 @@ export default {
 
   emits: ['close'],
   setup(props) {
-    const allowedEmployeesApi = `api/v2/pim/employees/${props.empNumber}/report-to/allowed`;
+    const allowedEmployeesApi = `/api/v2/pim/employees/${props.empNumber}/report-to/allowed`;
     return {
       allowedEmployeesApi,
     };

@@ -28,7 +28,7 @@
               <employee-autocomplete
                 v-model="filters.employeeNumber"
                 :rules="rules.employee"
-                api-path="api/v2/directory/employees"
+                api-path="/api/v2/directory/employees"
               />
             </oxd-grid-item>
             <oxd-grid-item>
@@ -201,7 +201,7 @@ export default {
 
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/directory/employees',
+      '/api/v2/directory/employees',
     );
 
     const limit = 14;

@@ -117,7 +117,7 @@ export default {
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/directory/employees',
+      '/api/v2/directory/employees',
     );
     return {
       http,

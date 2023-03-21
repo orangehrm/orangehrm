@@ -111,7 +111,7 @@ export default {
   setup(props) {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      `api/v2/pim/employees/${props.employeeId}/screen/${props.screen}/attachments`,
+      `/api/v2/pim/employees/${props.employeeId}/screen/${props.screen}/attachments`,
     );
     const {jsDateFormat} = useDateFormat();
     const {locale} = useLocale();

@@ -160,7 +160,7 @@ export default function useTimesheet(
       .request({
         method: 'POST',
         url: empNumber
-          ? `api/v2/time/employees/${empNumber}/timesheets`
+          ? `/api/v2/time/employees/${empNumber}/timesheets`
           : '/api/v2/time/timesheets',
         data: {date: state.date},
       })

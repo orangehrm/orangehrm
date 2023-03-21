@@ -153,7 +153,7 @@ export default {
 
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/claim/events',
+      '/api/v2/claim/events',
     );
     const {
       showPaginator,

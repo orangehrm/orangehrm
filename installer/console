@@ -33,6 +33,7 @@ if (!$pathToAutoload) {
 }
 
 use OrangeHRM\Framework\Console\Console;
+use OrangeHRM\Framework\Http\Session\MemorySessionStorage;
 use OrangeHRM\Framework\Http\Session\Session;
 use OrangeHRM\Framework\ServiceContainer;
 use OrangeHRM\Framework\Services;
@@ -41,7 +42,6 @@ use OrangeHRM\Installer\Command\InstallOnExistingDatabaseCommand;
 use OrangeHRM\Installer\Command\InstallOnNewDatabaseCommand;
 use OrangeHRM\Installer\Command\UpgradeCommand;
 use OrangeHRM\Installer\Framework\HttpKernel;
-use OrangeHRM\Installer\Framework\MemorySessionStorage;
 
 set_time_limit(0);
 

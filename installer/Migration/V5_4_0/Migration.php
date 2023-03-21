@@ -728,49 +728,77 @@ class Migration extends AbstractMigration
 
     private function createOAuth2Tables(): void
     {
-        $this->getSchemaHelper()->createTable('ohrm_oauth2_authorization_codes')
-            ->addColumn('id', Types::INTEGER, ['Autoincrement' => true])
-            ->addColumn('authorization_code', Types::STRING, ['Length' => 255]) // TODO:: indexing
-            ->addColumn('client_id', Types::INTEGER)
-            ->addColumn('user_id', Types::INTEGER)
-            ->addColumn('redirect_uri', Types::STRING, ['Length' => 2000])
-            ->addColumn('expiry_date_time', Types::DATETIME_IMMUTABLE)
-            ->addColumn('revoked', Types::BOOLEAN)
-            ->setPrimaryKey(['id'])
-            ->create();
-
-        $this->getSchemaHelper()->createTable('ohrm_oauth2_access_tokens')
-            ->addColumn('id', Types::INTEGER, ['Autoincrement' => true])
-            ->addColumn('access_token', Types::STRING, ['Length' => 255])
-            ->addColumn('client_id', Types::INTEGER)
-            ->addColumn('user_id', Types::INTEGER)
-            ->addColumn('expiry_date_time', Types::DATETIME_IMMUTABLE)
-            ->addColumn('revoked', Types::BOOLEAN)
-            ->setPrimaryKey(['id'])
-            ->create();
-
-        $this->getSchemaHelper()->createTable('ohrm_oauth2_clients')
-            ->addColumn('id', Types::INTEGER, ['Autoincrement' => true])
+        $this->getSchemaHelper()->createTable('ohrm_oauth2_client')
+            ->addColumn('id', Types::BIGINT, ['Autoincrement' => true])
             ->addColumn('name', Types::STRING, ['Length' => 255])
             ->addColumn('client_id', Types::STRING, ['Length' => 255])
             ->addColumn('client_secret', Types::STRING, ['Length' => 255, 'Notnull' => false])
             ->addColumn('redirect_uri', Types::STRING, ['Length' => 2000])
             ->addColumn('is_confidential', Types::BOOLEAN)
             ->addColumn('enabled', Types::BOOLEAN)
+            ->addUniqueIndex(['client_id'], 'idx_client_id')
             ->setPrimaryKey(['id'])
             ->create();
 
-        $this->getSchemaHelper()->createTable('ohrm_oauth2_refresh_tokens')
-            ->addColumn('id', Types::INTEGER, ['Autoincrement' => true])
+        $this->getSchemaHelper()->createTable('ohrm_oauth2_authorization_code')
+            ->addColumn('id', Types::BIGINT, ['Autoincrement' => true])
+            ->addColumn('authorization_code', Types::STRING, ['Length' => 255])
+            ->addColumn('client_id', Types::BIGINT)
+            ->addColumn('user_id', Types::INTEGER)
+            ->addColumn('redirect_uri', Types::STRING, ['Length' => 2000])
+            ->addColumn('expiry_date_time', Types::DATETIME_IMMUTABLE)
+            ->addColumn('revoked', Types::BOOLEAN)
+            ->addUniqueIndex(['authorization_code'], 'idx_authorization_code')
+            ->setPrimaryKey(['id'])
+            ->create();
+        $foreignKeyConstraintClientId = new ForeignKeyConstraint(
+            ['client_id'],
+            'ohrm_oauth2_client',
+            ['id'],
+            'auth_code_client_id',
+            ['onDelete' => 'CASCADE']
+        );
+        $this->getSchemaHelper()->addForeignKey('ohrm_oauth2_authorization_code', $foreignKeyConstraintClientId);
+
+        $this->getSchemaHelper()->createTable('ohrm_oauth2_access_token')
+            ->addColumn('id', Types::BIGINT, ['Autoincrement' => true])
+            ->addColumn('access_token', Types::STRING, ['Length' => 255])
+            ->addColumn('client_id', Types::BIGINT)
+            ->addColumn('user_id', Types::INTEGER)
+            ->addColumn('expiry_date_time', Types::DATETIME_IMMUTABLE)
+            ->addColumn('revoked', Types::BOOLEAN)
+            ->addUniqueIndex(['access_token'], 'idx_access_token')
+            ->setPrimaryKey(['id'])
+            ->create();
+        $foreignKeyAccessTokenClientId = new ForeignKeyConstraint(
+            ['client_id'],
+            'ohrm_oauth2_client',
+            ['id'],
+            'access_token_client_id',
+            ['onDelete' => 'CASCADE']
+        );
+        $this->getSchemaHelper()->addForeignKey('ohrm_oauth2_access_token', $foreignKeyAccessTokenClientId);
+
+        $this->getSchemaHelper()->createTable('ohrm_oauth2_refresh_token')
+            ->addColumn('id', Types::BIGINT, ['Autoincrement' => true])
             ->addColumn('refresh_token', Types::STRING, ['Length' => 255])
             ->addColumn('access_token', Types::STRING, ['Length' => 255])
             ->addColumn('expiry_date_time', Types::DATETIME_IMMUTABLE)
             ->addColumn('revoked', Types::BOOLEAN)
+            ->addUniqueIndex(['refresh_token'], 'idx_refresh_token')
             ->setPrimaryKey(['id'])
             ->create();
+        $foreignKeyAccessToken = new ForeignKeyConstraint(
+            ['access_token'],
+            'ohrm_oauth2_access_token',
+            ['access_token'],
+            'oauth2_access_token',
+            ['onDelete' => 'CASCADE']
+        );
+        $this->getSchemaHelper()->addForeignKey('ohrm_oauth2_refresh_token', $foreignKeyAccessToken);
 
         $this->getConnection()->createQueryBuilder()
-            ->insert('ohrm_oauth2_clients')
+            ->insert('ohrm_oauth2_client')
             ->values(
                 [
                     'name' => ':name',

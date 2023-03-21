@@ -21,6 +21,7 @@ admin:
   adminEmployeeLastName: Admin
   workEmail: admin@example.com
   contactNumber: ~
+  registrationConsent: true
 
 license:
   agree: y # y/n

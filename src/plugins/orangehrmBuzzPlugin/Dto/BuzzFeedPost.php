@@ -240,7 +240,7 @@ class BuzzFeedPost
      */
     public function hasVideo(): bool
     {
-        return !empty(trim($this->videoLink));
+        return $this->videoLink !== null && !empty(trim($this->videoLink));
     }
 
     /**

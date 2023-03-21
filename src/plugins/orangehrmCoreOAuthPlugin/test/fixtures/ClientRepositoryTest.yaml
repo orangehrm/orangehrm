@@ -1,0 +1,5 @@
+OAuthClient:
+  - { "id": 1,"name": "OrangeHRM Mobile App","client_id": "orangehrm_mobile_app","redirect_uri": "com.orangehrm.opensource://oauthredirect","is_confidential": 0,"enabled": 1 }
+  - { "id": 2,"name": "OAuth Client 1","client_id": "fe0740c8920a98414fc85233b42bb293","client_secret": "$2y$12$gMZ2ZQ/NIzAOc5fQ17k4he3XYWrNIhtFYu512gwWMbypbU74Z0zXO","redirect_uri": "https://example.com/oauth/callback","is_confidential": 1,"enabled": 1 }
+  - { "id": 3,"name": "OAuth Client 2","client_id": "ad99b8d5b9de9e474a31452e20f68897","client_secret": "$2y$12$o2J5FGPeXgJOI6r.kjF0N.yyP8EaCVO52J7Y9GU9okkW6lqXsUCAa","redirect_uri": "https://example.com/oauth/callback","is_confidential": 1,"enabled": 0 }
+  - { "id": 4,"name": "OAuth Client 3","client_id": "45349b9c3676b30a3d4bce76d68c50b0","redirect_uri": "https://example.com/oauth/callback","is_confidential": 1,"enabled": 1 }

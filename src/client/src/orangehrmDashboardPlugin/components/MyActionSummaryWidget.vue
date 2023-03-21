@@ -125,7 +125,7 @@ export default {
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/dashboard/employees/action-summary',
+      '/api/v2/dashboard/employees/action-summary',
     );
 
     return {

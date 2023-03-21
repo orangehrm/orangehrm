@@ -79,7 +79,7 @@ export default {
         field.value = {
           name: props.criterion.label,
           component: 'report-criterion-select',
-          api: 'api/v2/admin/pay-grades',
+          api: '/api/v2/admin/pay-grades',
           options: [],
         };
         break;
@@ -88,7 +88,7 @@ export default {
         field.value = {
           name: props.criterion.label,
           component: 'report-criterion-select',
-          api: 'api/v2/admin/educations',
+          api: '/api/v2/admin/educations',
           options: [],
         };
         break;
@@ -97,7 +97,7 @@ export default {
         field.value = {
           name: props.criterion.label,
           component: 'report-criterion-select',
-          api: 'api/v2/admin/employment-statuses',
+          api: '/api/v2/admin/employment-statuses',
           options: [],
         };
         break;
@@ -124,7 +124,7 @@ export default {
         field.value = {
           name: props.criterion.label,
           component: 'report-criterion-select',
-          api: 'api/v2/admin/job-titles',
+          api: '/api/v2/admin/job-titles',
           options: [],
         };
         break;
@@ -133,7 +133,7 @@ export default {
         field.value = {
           name: props.criterion.label,
           component: 'report-criterion-select',
-          api: 'api/v2/admin/languages',
+          api: '/api/v2/admin/languages',
           options: [],
         };
         break;
@@ -142,7 +142,7 @@ export default {
         field.value = {
           name: props.criterion.label,
           component: 'report-criterion-select',
-          api: 'api/v2/admin/skills',
+          api: '/api/v2/admin/skills',
           options: [],
         };
         break;
@@ -160,7 +160,7 @@ export default {
         field.value = {
           name: props.criterion.label,
           component: 'report-criterion-select',
-          api: 'api/v2/admin/subunits',
+          api: '/api/v2/admin/subunits',
           options: [],
         };
         break;
@@ -169,7 +169,7 @@ export default {
         field.value = {
           name: props.criterion.label,
           component: 'report-criterion-select',
-          api: 'api/v2/admin/locations',
+          api: '/api/v2/admin/locations',
           options: [],
         };
         break;

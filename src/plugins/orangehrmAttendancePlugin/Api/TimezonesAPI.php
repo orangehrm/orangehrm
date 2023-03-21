@@ -77,7 +77,7 @@ class TimezonesAPI extends Endpoint implements CollectionEndpoint
             $offsetPrefix = $offsetInSeconds > 0 ? '+' : '-';
             $timezones[$timezoneIdentifier] = [
                 'name' => $timezoneIdentifier,
-                'label' => "${offsetPrefix}${timezoneValue}",
+                'label' => $offsetPrefix . $timezoneValue,
                 'offset' => $offset
             ];
         }

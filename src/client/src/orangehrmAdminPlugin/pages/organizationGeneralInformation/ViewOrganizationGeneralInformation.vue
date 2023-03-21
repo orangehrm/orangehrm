@@ -218,7 +218,7 @@ export default {
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/admin/organization',
+      '/api/v2/admin/organization',
     );
     return {
       http,
@@ -266,7 +266,7 @@ export default {
   created() {
     this.isLoading = true;
     this.http.http
-      .get('api/v2/admin/organization')
+      .get('/api/v2/admin/organization')
       .then((response) => {
         const {data} = response.data;
         this.organization.name = data.name;
@@ -296,7 +296,7 @@ export default {
     onSave() {
       this.isLoading = true;
       this.http.http
-        .put('api/v2/admin/organization', {
+        .put('/api/v2/admin/organization', {
           name: this.organization.name,
           registrationNumber: this.organization.registrationNumber,
           taxId: this.organization.taxId,

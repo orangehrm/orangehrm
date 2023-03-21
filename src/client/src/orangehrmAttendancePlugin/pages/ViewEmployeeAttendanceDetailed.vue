@@ -170,7 +170,7 @@ export default {
 
     const http = new APIService(
       window.appGlobal.baseUrl,
-      `api/v2/attendance/employees/${props.employee.empNumber}/records`,
+      `/api/v2/attendance/employees/${props.employee.empNumber}/records`,
     );
     const {locale} = useLocale();
     const {jsDateFormat, userDateFormat, timeFormat, jsTimeFormat} =

@@ -217,7 +217,7 @@ export default {
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/leave/leave-requests',
+      '/api/v2/leave/leave-requests',
     );
     const {serializeBody, validateOverlapLeaves} = useLeaveValidators(http);
     const {formRef, reset} = useForm();
@@ -302,7 +302,7 @@ export default {
     this.http
       .request({
         method: 'GET',
-        url: 'api/v2/leave/leave-types/eligible',
+        url: '/api/v2/leave/leave-types/eligible',
       })
       .then((response) => {
         const {data} = response.data;

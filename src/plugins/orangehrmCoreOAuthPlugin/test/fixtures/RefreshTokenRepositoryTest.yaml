@@ -1,0 +1,25 @@
+Config:
+  - { name: 'oauth.encryption_key', value: '1234' }
+  - { name: 'oauth.token_encryption_key', value: '1234' }
+  - { name: 'oauth.auth_code_ttl', value: 'PT2M' }
+  - { name: 'oauth.refresh_token_ttl', value: 'P2M' }
+  - { name: 'oauth.access_token_ttl', value: 'PT15M' }
+
+OAuthClient:
+  - { "id": 1,"name": "OrangeHRM Mobile App","client_id": "orangehrm_mobile_app","redirect_uri": "com.orangehrm.opensource://oauthredirect","is_confidential": 0,"enabled": 1 }
+  - { "id": 2,"name": "OAuth Client 1","client_id": "fe0740c8920a98414fc85233b42bb293","client_secret": "$2y$12$gMZ2ZQ/NIzAOc5fQ17k4he3XYWrNIhtFYu512gwWMbypbU74Z0zXO","redirect_uri": "https://example.com/oauth/callback","is_confidential": 1,"enabled": 1 }
+  - { "id": 3,"name": "OAuth Client 2","client_id": "ad99b8d5b9de9e474a31452e20f68897","client_secret": "$2y$12$o2J5FGPeXgJOI6r.kjF0N.yyP8EaCVO52J7Y9GU9okkW6lqXsUCAa","redirect_uri": "https://example.com/oauth/callback","is_confidential": 1,"enabled": 0 }
+  - { "id": 4,"name": "OAuth Client 3","client_id": "45349b9c3676b30a3d4bce76d68c50b0","redirect_uri": "https://example.com/oauth/callback","is_confidential": 1,"enabled": 1 }
+
+OAuthAuthorizationCode:
+  - { "id": 1,"authorization_code": "4527715fe2b6a045bcf4036d6d55e6b3c9e0dd64aae3fcbc7ec50b1fe43d39fb0670fcbaf12d46c4","client_id": 1,"user_id": 1,"redirect_uri": "com.orangehrm.opensource://oauthCallback","expiry_date_time": "2023-03-16 10:18:14","revoked": 0 }
+  - { "id": 2,"authorization_code": "ebecfb310f7ea082cd8a256dfac7a1bf9ddb9d6774d4e653abccbc5fed955c07be8517c839b6b095","client_id": 2,"user_id": 5,"redirect_uri": "https://example.com/oauth/callback","expiry_date_time": "2023-03-17 10:18:14","revoked": 1 }
+
+OAuthAccessToken:
+  - { "id": 1,"access_token": "05a81084f60f6440c8bd2555200836584e365210aee54ffee8e9dc04c7ec0068a6cde45ef5999e47","client_id": 2,"user_id": 1,"expiry_date_time": "2023-03-17 11:43:35","revoked": 1 }
+  - { "id": 2,"access_token": "388b9ae63e03fafa079ef891142828dc869e5b5f67c6094614492259ce95794e3f18a9057b667eae","client_id": 1,"user_id": 5,"expiry_date_time": "2023-03-17 11:44:54","revoked": 0 }
+  - { "id": 3,"access_token": "random_id","client_id": 1,"user_id": 5,"expiry_date_time": "2023-03-17 11:44:54","revoked": 0 }
+
+OAuthRefreshToken:
+  - { "id": 1,"refresh_token": "571420fd098500e2e14023c1a088f7cecc4ad285a35c1efbae96bfb1e76630c4e56c244b61b52825","access_token": "05a81084f60f6440c8bd2555200836584e365210aee54ffee8e9dc04c7ec0068a6cde45ef5999e47","expiry_date_time": "2023-04-17 11:13:35","revoked": 1 }
+  - { "id": 2,"refresh_token": "9fac7adebd19b01f53a69ba5c9898d283dacda7296b8063899312ff599b4ccf240fd92dd033dc768","access_token": "388b9ae63e03fafa079ef891142828dc869e5b5f67c6094614492259ce95794e3f18a9057b667eae","expiry_date_time": "2023-04-17 11:14:54","revoked": 0 }

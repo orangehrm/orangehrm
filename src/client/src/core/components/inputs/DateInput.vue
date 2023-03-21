@@ -61,7 +61,7 @@ export default {
       http
         .request({
           method: 'GET',
-          url: 'api/v2/leave/workweek',
+          url: '/api/v2/leave/workweek',
           params: {
             model: 'indexed',
           },
@@ -88,7 +88,7 @@ export default {
       http
         .request({
           method: 'GET',
-          url: 'api/v2/leave/holidays',
+          url: '/api/v2/leave/holidays',
           params: {
             fromDate,
             toDate,

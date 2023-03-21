@@ -140,7 +140,7 @@ import {
 } from '@ohrm/core/util/validation/rules';
 import {OxdSwitchInput} from '@ohrm/oxd';
 
-const defaultPic = `${window.appGlobal.baseUrl}/../images/default-photo.png`;
+const defaultPic = `${window.appGlobal.publicPath}/images/default-photo.png`;
 
 const employeeModel = {
   firstName: '',
@@ -186,7 +186,7 @@ export default {
 
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/pim/employees',
+      '/api/v2/pim/employees',
     );
 
     return {
@@ -255,7 +255,7 @@ export default {
         });
         return this.http.request({
           method: 'GET',
-          url: 'api/v2/admin/users',
+          url: '/api/v2/admin/users',
         });
       })
       .then((response) => {
@@ -295,7 +295,7 @@ export default {
           if (this.createLogin && data?.data) {
             return this.http.request({
               method: 'POST',
-              url: 'api/v2/admin/users',
+              url: '/api/v2/admin/users',
               data: {
                 username: this.user.username,
                 password: this.user.password,

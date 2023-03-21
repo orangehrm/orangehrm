@@ -62,7 +62,7 @@
 export default {
   data() {
     return {
-      helpImgSrc: `${window.appGlobal.baseUrl}/../images/help.png`,
+      helpImgSrc: `${window.appGlobal.publicPath}/images/help.png`,
     };
   },
 };

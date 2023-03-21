@@ -100,7 +100,7 @@ export default {
   setup(props) {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      `api/v2/admin/pay-grades/${props.payGradeId}/currencies`,
+      `/api/v2/admin/pay-grades/${props.payGradeId}/currencies`,
     );
     return {http};
   },
@@ -129,7 +129,7 @@ export default {
     this.http
       .request({
         method: 'GET',
-        url: `api/v2/admin/pay-grades/${this.payGradeId}/currencies/allowed`,
+        url: `/api/v2/admin/pay-grades/${this.payGradeId}/currencies/allowed`,
         params: {
           limit: 0,
         },

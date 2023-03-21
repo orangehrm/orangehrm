@@ -130,7 +130,7 @@ export default {
 
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/leave/leave-entitlements',
+      '/api/v2/leave/leave-entitlements',
     );
     const {$t} = usei18n();
     const {jsDateFormat} = useDateFormat();

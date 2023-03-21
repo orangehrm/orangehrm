@@ -220,7 +220,7 @@ export default function useLeaveValidators(http: APIService) {
       http
         .request({
           method: 'GET',
-          url: 'api/v2/leave/overlap-leaves',
+          url: '/api/v2/leave/overlap-leaves',
           params: serializeParams(leaveData),
         })
         .then((response) => {
@@ -251,7 +251,7 @@ export default function useLeaveValidators(http: APIService) {
       http
         .request({
           method: 'GET',
-          url: `api/v2/leave/leave-balance/leave-type/${leaveData.type?.id}`,
+          url: `/api/v2/leave/leave-balance/leave-type/${leaveData.type?.id}`,
           params: serializeParams(leaveData),
         })
         .then((response) => {

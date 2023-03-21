@@ -202,7 +202,7 @@ class OAuthClientAPI extends Endpoint implements CrudEndpoint
      *     path="/api/v2/admin/oauth-clients",
      *     tags={"OAuth/OAuth Clients"},
      *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),
-     *     @OA\Response(ref="#/components/responses/DeleteResponse")
+     *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse")
      * )
      *
      * @inheritDoc
