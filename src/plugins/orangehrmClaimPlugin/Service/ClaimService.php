@@ -20,13 +20,20 @@
 namespace OrangeHRM\Claim\Service;
 
 use OrangeHRM\Claim\Dao\ClaimDao;
+use OrangeHRM\Core\Api\V2\Exception\EndpointExceptionTrait;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
+use OrangeHRM\Core\Traits\UserRoleManagerTrait;
+use OrangeHRM\Entity\ClaimRequest;
+use OrangeHRM\Entity\Employee;
+use OrangeHRM\Entity\WorkflowStateMachine;
 
 class ClaimService
 {
     use DateTimeHelperTrait;
     use AuthUserTrait;
+    use UserRoleManagerTrait;
+    use EndpointExceptionTrait;
 
     /**
      * @var ClaimDao
@@ -49,5 +56,26 @@ class ClaimService
         $nextId = $this->getClaimDao()->getNextId();
         $date = $this->getDateTimeHelper()->getNow()->format('Ymd');
         return $date . str_pad("$nextId", 7, 0, STR_PAD_LEFT);
+    }
+
+    /**
+     * @param int $action
+     * @param ClaimRequest $claimRequest
+     * @return bool
+     */
+    public function isActionAllowed(int $action, ClaimRequest $claimRequest): bool
+    {
+        $isActionAllowed = $this->getUserRoleManager()->isActionAllowed(
+            WorkflowStateMachine::FLOW_CLAIM,
+            $claimRequest->getStatus(),
+            $action,
+            [],
+            [],
+            [Employee::class => $claimRequest->getEmployee()->getEmpNumber()]
+        );
+        if (!$isActionAllowed) {
+            throw $this->getForbiddenException();
+        }
+        return true;
     }
 }

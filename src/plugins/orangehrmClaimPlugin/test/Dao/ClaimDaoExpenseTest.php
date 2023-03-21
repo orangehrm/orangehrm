@@ -53,7 +53,7 @@ class ClaimDaoExpenseTest extends KernelTestCase
         $claimRequest = $this->claimDao->getClaimRequestById(1);
         $claimExpense->setClaimRequest($claimRequest);
         $result = $this->claimDao->saveClaimExpense($claimExpense);
-        $this->assertEquals(4, $result->getId());
+        $this->assertEquals(5, $result->getId());
     }
 
     public function testGetClaimExpenseById(): void

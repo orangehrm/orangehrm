@@ -57,112 +57,80 @@ class ClaimExpenseAPITest extends EndpointIntegrationTestCase
         return $this->getTestCases('ClaimExpenseAPITestCases.yaml', 'Create');
     }
 
-//    /**
-//     * @dataProvider dataProviderForTestGetAll
-//     */
-//    public function testGetAll(TestCaseParams $testCaseParams): void
-//    {
-//        $userRoleManager = $this->getMockBuilder(BasicUserRoleManager::class)
-//            ->disableOriginalConstructor()
-//            ->onlyMethods(['getAccessibleEntityIds'])
-//            ->getMock();
-//        $userRoleManager->expects($this->any())
-//            ->method('getAccessibleEntityIds')
-//            ->willReturn([1, 2, 3, 4]);
-//        $this->populateFixtures('ClaimExpense.yaml');
-//        $this->createKernelWithMockServices([
-//            Services::AUTH_USER => $this->getMockAuthUser($testCaseParams),
-//            Services::USER_ROLE_MANAGER => $userRoleManager
-//        ]);
-//        $this->registerServices($testCaseParams);
-//        $api = $this->getApiEndpointMock(ClaimExpenseAPI::class, $testCaseParams);
-//        $this->assertValidTestCase($api, 'getAll', $testCaseParams);
-//    }
-//
-//    public function dataProviderForTestGetAll(): array
-//    {
-//        return $this->getTestCases('ClaimExpenseAPITestCases.yaml', 'GetAll');
-//    }
-//
-//    /**
-//     * @dataProvider dataProviderForTestGetOne
-//     */
-//    public function testGetOne(TestCaseParams $testCaseParams): void
-//    {
-//        $userRoleManager = $this->getMockBuilder(BasicUserRoleManager::class)
-//            ->disableOriginalConstructor()
-//            ->onlyMethods(['getAccessibleEntityIds'])
-//            ->getMock();
-//        $userRoleManager->expects($this->any())
-//            ->method('getAccessibleEntityIds')
-//            ->willReturn([1, 2, 3, 4]);
-//        $this->populateFixtures('ClaimExpense.yaml');
-//        $this->createKernelWithMockServices([
-//            Services::AUTH_USER => $this->getMockAuthUser($testCaseParams),
-//            Services::USER_ROLE_MANAGER => $userRoleManager
-//        ]);
-//        $this->registerServices($testCaseParams);
-//        $api = $this->getApiEndpointMock(ClaimExpenseAPI::class, $testCaseParams);
-//        $this->assertValidTestCase($api, 'getOne', $testCaseParams);
-//    }
-//
-//    public function dataProviderForTestGetOne(): array
-//    {
-//        return $this->getTestCases('ClaimExpenseAPITestCases.yaml', 'GetOne');
-//    }
-//
-//    /**
-//     * @dataProvider dataProviderForTestUpdate
-//     */
-//    public function testUpdate(TestCaseParams $testCaseParams): void
-//    {
-//        $userRoleManager = $this->getMockBuilder(BasicUserRoleManager::class)
-//            ->disableOriginalConstructor()
-//            ->onlyMethods(['getAccessibleEntityIds'])
-//            ->getMock();
-//        $userRoleManager->expects($this->any())
-//            ->method('getAccessibleEntityIds')
-//            ->willReturn([1, 2, 3, 4]);
-//        $this->populateFixtures('ClaimExpense.yaml');
-//        $this->createKernelWithMockServices([
-//            Services::AUTH_USER => $this->getMockAuthUser($testCaseParams),
-//            Services::USER_ROLE_MANAGER => $userRoleManager
-//        ]);
-//        $this->registerMockDateTimeHelper($testCaseParams);
-//        $this->registerServices($testCaseParams);
-//        $api = $this->getApiEndpointMock(ClaimExpenseAPI::class, $testCaseParams);
-//        $this->assertValidTestCase($api, 'update', $testCaseParams);
-//    }
-//
-//    public function dataProviderForTestUpdate(): array
-//    {
-//        return $this->getTestCases('ClaimExpenseAPITestCases.yaml', 'Update');
-//    }
-//
-//    /**
-//     * @dataProvider dataProviderForTestDelete
-//     */
-//    public function testDelete(TestCaseParams $testCaseParams): void
-//    {
-//        $userRoleManager = $this->getMockBuilder(BasicUserRoleManager::class)
-//            ->disableOriginalConstructor()
-//            ->onlyMethods(['getAccessibleEntityIds'])
-//            ->getMock();
-//        $userRoleManager->expects($this->any())
-//            ->method('getAccessibleEntityIds')
-//            ->willReturn([1, 2, 3, 4]);
-//        $this->populateFixtures('ClaimExpense.yaml');
-//        $this->createKernelWithMockServices([
-//            Services::AUTH_USER => $this->getMockAuthUser($testCaseParams),
-//            Services::USER_ROLE_MANAGER => $userRoleManager
-//        ]);
-//        $this->registerServices($testCaseParams);
-//        $api = $this->getApiEndpointMock(ClaimExpenseAPI::class, $testCaseParams);
-//        $this->assertValidTestCase($api, 'delete', $testCaseParams);
-//    }
-//
-//    public function dataProviderForTestDelete(): array
-//    {
-//        return $this->getTestCases('ClaimExpenseAPITestCases.yaml', 'Delete');
-//    }
+    /**
+     * @dataProvider dataProviderForTestGetAll
+     */
+    public function testGetAll(TestCaseParams $testCaseParams): void
+    {
+        $this->populateFixtures('ClaimExpense.yaml', null, true);
+        $this->createKernelWithMockServices([
+            Services::AUTH_USER => $this->getMockAuthUser($testCaseParams),
+        ]);
+        $this->registerServices($testCaseParams);
+        $api = $this->getApiEndpointMock(ClaimExpenseAPI::class, $testCaseParams);
+        $this->assertValidTestCase($api, 'getAll', $testCaseParams);
+    }
+
+    public function dataProviderForTestGetAll(): array
+    {
+        return $this->getTestCases('ClaimExpenseAPITestCases.yaml', 'GetAll');
+    }
+
+    /**
+     * @dataProvider dataProviderForTestGetOne
+     */
+    public function testGetOne(TestCaseParams $testCaseParams): void
+    {
+        $this->populateFixtures('ClaimExpense.yaml', null, true);
+        $this->createKernelWithMockServices([
+            Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)
+        ]);
+        $this->registerServices($testCaseParams);
+        $api = $this->getApiEndpointMock(ClaimExpenseAPI::class, $testCaseParams);
+        $this->assertValidTestCase($api, 'getOne', $testCaseParams);
+    }
+
+    public function dataProviderForTestGetOne(): array
+    {
+        return $this->getTestCases('ClaimExpenseAPITestCases.yaml', 'GetOne');
+    }
+
+    /**
+     * @dataProvider dataProviderForTestUpdate
+     */
+    public function testUpdate(TestCaseParams $testCaseParams): void
+    {
+        $this->populateFixtures('ClaimExpense.yaml', null, true);
+        $this->createKernelWithMockServices([
+            Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)
+        ]);
+        $this->registerMockDateTimeHelper($testCaseParams);
+        $this->registerServices($testCaseParams);
+        $api = $this->getApiEndpointMock(ClaimExpenseAPI::class, $testCaseParams);
+        $this->assertValidTestCase($api, 'update', $testCaseParams);
+    }
+
+    public function dataProviderForTestUpdate(): array
+    {
+        return $this->getTestCases('ClaimExpenseAPITestCases.yaml', 'Update');
+    }
+
+    /**
+     * @dataProvider dataProviderForTestDelete
+     */
+    public function testDelete(TestCaseParams $testCaseParams): void
+    {
+        $this->populateFixtures('ClaimExpense.yaml', null, true);
+        $this->createKernelWithMockServices([
+            Services::AUTH_USER => $this->getMockAuthUser($testCaseParams),
+        ]);
+        $this->registerServices($testCaseParams);
+        $api = $this->getApiEndpointMock(ClaimExpenseAPI::class, $testCaseParams);
+        $this->assertValidTestCase($api, 'delete', $testCaseParams);
+    }
+
+    public function dataProviderForTestDelete(): array
+    {
+        return $this->getTestCases('ClaimExpenseAPITestCases.yaml', 'Delete');
+    }
 }
