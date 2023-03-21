@@ -97,7 +97,7 @@ class MyClaimRequestAPI extends EmployeeClaimRequestAPI
      *             @OA\Property(
      *                 property="meta",
      *                 type="object",
-     *                 @OA\Property(property="allowedActions", type="array")
+     *                 @OA\Property(property="allowedActions", type="array", @OA\Items(type="object"))
      *             )
      *         )
      *     )
