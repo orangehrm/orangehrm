@@ -47,7 +47,6 @@ use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\ClaimAttachment;
 use OrangeHRM\Entity\ClaimRequest;
-use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\WorkflowStateMachine;
 use OrangeHRM\ORM\Exception\TransactionException;
 
@@ -178,17 +177,9 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
             );
             $claimRequest = $this->getClaimRequest($requestId);
             $claimAttachment->setRequestId($requestId);
-            $isActionAllowed = $this->getUserRoleManager()->isActionAllowed(
-                WorkflowStateMachine::FLOW_CLAIM,
-                $claimRequest->getStatus(),
-                WorkflowStateMachine::CLAIM_ACTION_SUBMIT,
-                [],
-                [],
-                [Employee::class => $claimRequest->getEmployee()->getEmpNumber()]
-            );
-            if (!$isActionAllowed) {
-                throw $this->getForbiddenException();
-            }
+
+            $this->getClaimService()->isActionAllowed(WorkflowStateMachine::CLAIM_ACTION_SUBMIT, $claimRequest);
+
             $claimAttachment->getDecorator()->setUserByUserId(
                 $this->getAuthUser()->getUserId()
             );
@@ -205,6 +196,7 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
             $this->rollBackTransaction();
             throw new TransactionException($e);
         }
+
         return new EndpointResourceResult(
             ClaimAttachmentModel::class,
             $this->getPartialClaimAttachment($claimAttachment)
@@ -314,20 +306,13 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
         );
         $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
         $claimRequest = $this->getClaimRequest($requestId);
-        $isActionAllowed = $this->getUserRoleManager()->isActionAllowed(
-            WorkflowStateMachine::FLOW_CLAIM,
-            $claimRequest->getStatus(),
-            WorkflowStateMachine::CLAIM_ACTION_SUBMIT,
-            [],
-            [],
-            [Employee::class => $claimRequest->getEmployee()->getEmpNumber()]
-        );
-        if (!$isActionAllowed) {
-            throw $this->getForbiddenException();
-        }
+
+        $this->getClaimService()->isActionAllowed(WorkflowStateMachine::CLAIM_ACTION_SUBMIT, $claimRequest);
+
         $this->getClaimService()
             ->getClaimDao()
             ->deleteClaimAttachments($requestId, $ids);
+
         return new EndpointResourceResult(ArrayModel::class, $ids);
     }
 
@@ -346,6 +331,7 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
         if (!$this->getUserRoleManagerHelper()->isEmployeeAccessible($claimRequest->getEmployee()->getEmpNumber())) {
             throw $this->getForbiddenException();
         }
+
         return $claimRequest;
     }
 
@@ -405,6 +391,7 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
             ->getClaimDao()
             ->getPartialClaimAttachment($requestId, $attachId);
         $this->throwRecordNotFoundExceptionIfNotExist($claimAttachment, PartialClaimAttachment::class);
+
         return new EndpointResourceResult(ClaimAttachmentModel::class, $claimAttachment);
     }
 
@@ -471,17 +458,9 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
                 CommonParams::PARAMETER_ID
             );
             $claimRequest = $this->getClaimRequest($requestId);
-            $isActionAllowed = $this->getUserRoleManager()->isActionAllowed(
-                WorkflowStateMachine::FLOW_CLAIM,
-                $claimRequest->getStatus(),
-                WorkflowStateMachine::CLAIM_ACTION_SUBMIT,
-                [],
-                [],
-                [Employee::class => $claimRequest->getEmployee()->getEmpNumber()],
-            );
-            if (!$isActionAllowed) {
-                throw $this->getForbiddenException();
-            }
+
+            $this->getClaimService()->isActionAllowed(WorkflowStateMachine::CLAIM_ACTION_SUBMIT, $claimRequest);
+
             $claimAttachment = $this->getClaimService()
                 ->getClaimDao()
                 ->getClaimAttachment($requestId, $attachId);
@@ -496,9 +475,11 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
                 null,
                 false
             );
+
             if (!is_null($description)) {
                 $claimAttachment->setDescription($description);
             }
+
             if (!is_null($attachment)) {
                 $claimAttachment->getDecorator()->setUserByUserId(
                     $this->getAuthUser()->getUserId()
@@ -508,6 +489,7 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
                 $claimAttachment->setFilename($attachment->getFileName());
                 $claimAttachment->setAttachment($attachment->getContent());
             }
+
             $this->getClaimService()->getClaimDao()->saveClaimAttachment($claimAttachment);
             $this->commitTransaction();
         } catch (ForbiddenException | InvalidParamException | RecordNotFoundException $e) {
@@ -517,6 +499,7 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
             $this->rollBackTransaction();
             throw new TransactionException($e);
         }
+
         return new EndpointResourceResult(
             ClaimAttachmentModel::class,
             $this->getPartialClaimAttachment($claimAttachment)

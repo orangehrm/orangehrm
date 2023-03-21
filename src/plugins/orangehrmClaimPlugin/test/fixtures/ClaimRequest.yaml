@@ -52,17 +52,3 @@ ClaimRequest:
   6: { id: 7, emp_number: 1, added_by: 2, reference_id: 202301170000007, event_type_id: 4, description: "Training expenses for team building seminar", currency_id: USD, is_deleted: false, status: 'REJECTED', created_date: "2022-07-01 09:00:00", submitted_date: "2022-07-15 17:00:00" }
   7: { id: 8, emp_number: 4, added_by: 1, reference_id: 202301170000008, event_type_id: 3, description: "Travel expenses for business trip to New York", currency_id: USD, is_deleted: false, status: 'CANCELLED', created_date: "2022-12-01 12:00:00", submitted_date: "2022-12-15 17:00:00" },
   8: { id: 9, emp_number: 1, added_by: 1, reference_id: 202301170000009, event_type_id: 3, description: "Travel expenses for business trip to New York", currency_id: USD, is_deleted: false, status: 'CANCELLED', created_date: "2022-12-01 12:00:00", submitted_date: "2022-12-15 17:00:00" },
-
-#WorkflowStateMachine:
-#  - {"id": "127", "workflow": "7", "state": "INITIATED", "role": "ESS USER", "action": "1", "resulting_state": "SUBMITTED", "priority": 10 },
-#  - {"id": "128", "workflow": "7", "state": "INITIATED", "role": "ESS USER", "action": "4", "resulting_state": "CANCELLED", "priority": 10 },
-#  - {"id": "129", "workflow": "7", "state": "SUBMITTED", "role": "ESS USER", "action": "4", "resulting_state": "CANCELLED", "priority": 10 },
-#  - {"id": "130", "workflow": "7", "state": "REJECTED", "role": "ESS USER", "action": "1", "resulting_state": "SUBMITTED", "priority": 10 },
-#  - {"id": "131", "workflow": "7", "state": "INITIATED", "role": "ADMIN", "action": "1", "resulting_state": "PAID", "priority": 0 },
-#  - {"id": "132", "workflow": "7", "state": "APPROVED", "role": "ADMIN", "action": "5", "resulting_state": "REJECTED", "priority": 0 },
-#  - {"id": "133", "workflow": "7", "state": "SUBMITTED", "role": "ADMIN", "action": "2", "resulting_state": "PAID", "priority": 10 },
-#  - {"id": "134", "workflow": "7", "state": "SUBMITTED", "role": "ADMIN", "action": "5", "resulting_state": "REJECTED", "priority": 0 },
-#  - {"id": "135", "workflow": "7", "state": "APPROVED", "role": "ADMIN", "action": "3", "resulting_state": "PAID", "priority": 0 },
-#  - {"id": "136", "workflow": "7", "state": "INITIATED", "role": "SUPERVISOR", "action": "1", "resulting_state": "APPROVED", "priority": 0 },
-#  - {"id": "137", "workflow": "7", "state": "SUBMITTED", "role": "SUPERVISOR", "action": "2", "resulting_state": "APPROVED", "priority": 0 },
-#  - {"id": "138", "workflow": "7", "state": "SUBMITTED", "role": "SUPERVISOR", "action": "5", "resulting_state": "REJECTED", "priority": 0 }

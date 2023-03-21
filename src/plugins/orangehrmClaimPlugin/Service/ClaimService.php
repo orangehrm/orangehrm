@@ -21,7 +21,6 @@ namespace OrangeHRM\Claim\Service;
 
 use OrangeHRM\Claim\Dao\ClaimDao;
 use OrangeHRM\Core\Api\V2\Exception\EndpointExceptionTrait;
-use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\ClaimRequest;
@@ -31,7 +30,6 @@ use OrangeHRM\Entity\WorkflowStateMachine;
 class ClaimService
 {
     use DateTimeHelperTrait;
-    use AuthUserTrait;
     use UserRoleManagerTrait;
     use EndpointExceptionTrait;
 

@@ -110,6 +110,7 @@ class ClaimExpenseAPI extends Endpoint implements CrudEndpoint
         $this->setSortingAndPaginationParams($claimExpenseSearchFilterParams);
         $requestId = $this->getRequestParams()
             ->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_REQUEST_ID);
+
         $this->getClaimRequest($requestId);
         $claimExpenseSearchFilterParams->setRequestId($requestId);
         $claimExpenses = $this->getClaimService()
@@ -121,6 +122,7 @@ class ClaimExpenseAPI extends Endpoint implements CrudEndpoint
         $total = $this->getClaimService()
             ->getClaimDao()
             ->getClaimExpenseTotal($claimExpenseSearchFilterParams);
+
         return new EndpointCollectionResult(
             ClaimExpenseModel::class,
             $claimExpenses,
@@ -249,7 +251,8 @@ class ClaimExpenseAPI extends Endpoint implements CrudEndpoint
             ),
             new ParamRule(
                 self::PARAMETER_AMOUNT,
-                new Rule(Rules::FLOAT_TYPE)
+                new Rule(Rules::FLOAT_TYPE),
+                new Rule(Rules::MIN, [0])
             ),
             new ParamRule(
                 self::PARAMETER_DATE,
@@ -346,6 +349,7 @@ class ClaimExpenseAPI extends Endpoint implements CrudEndpoint
         $requestId = $this->getRequestParams()
             ->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_REQUEST_ID);
         $this->getClaimRequest($requestId);
+
         $claimExpenseId = $this->getRequestParams()->getInt(
             RequestParams::PARAM_TYPE_ATTRIBUTE,
             CommonParams::PARAMETER_ID
@@ -354,6 +358,7 @@ class ClaimExpenseAPI extends Endpoint implements CrudEndpoint
             ->getClaimDao()
             ->getClaimRequestExpense($requestId, $claimExpenseId);
         $this->throwRecordNotFoundExceptionIfNotExist($claimExpense, ClaimExpense::class);
+
         return new EndpointResourceResult(ClaimExpenseModel::class, $claimExpense);
     }
 
@@ -447,7 +452,8 @@ class ClaimExpenseAPI extends Endpoint implements CrudEndpoint
             ),
             new ParamRule(
                 self::PARAMETER_AMOUNT,
-                new Rule(Rules::FLOAT_TYPE)
+                new Rule(Rules::FLOAT_TYPE),
+                new Rule(Rules::MIN, [0])
             ),
             new ParamRule(
                 self::PARAMETER_DATE,
