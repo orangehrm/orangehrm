@@ -275,6 +275,20 @@ class Migration extends AbstractMigration
                 ->setParameter('action', 'claim/viewEvents')
                 ->executeQuery();
 
+            $this->getConnection()->createQueryBuilder()
+                ->insert('ohrm_module_default_page')
+                ->values(
+                    [
+                        'module_id' => ':module_id',
+                        'user_role_id' => ':user_role_id',
+                        'action' => ':action',
+                    ]
+                )
+                ->setParameter('module_id', $this->getDataGroupHelper()->getModuleIdByName('claim'))
+                ->setParameter('user_role_id', $this->getDataGroupHelper()->getUserRoleIdByName('Ess'))
+                ->setParameter('action', 'claim/submitClaim')
+                ->executeQuery();
+
             $viewClaimModuleScreenId = $this->getConnection()
                 ->createQueryBuilder()
                 ->select('id')
@@ -299,6 +313,8 @@ class Migration extends AbstractMigration
             $this->insertMenuItems('Events', $eventListScreenId, $claimConfigMenuItemId, 3, 100, 1, null);
             $expenseTypeScreenId = $this->getScreenId('Expense Types');
             $this->insertMenuItems('Expense Types', $expenseTypeScreenId, $claimConfigMenuItemId, 3, 200, 1, null);
+            $submitClaimScreenId = $this->getScreenId('Submit Claim');
+            $this->insertMenuItems('Submit Claim', $submitClaimScreenId, $claimMenuItemId, 2, 100, 1, null);
         }
 
         $this->createOAuth2Tables();
@@ -306,113 +322,89 @@ class Migration extends AbstractMigration
         $this->deleteClaimWorkflowStates();
 
         $this->insertWorkflowState(
-            WorkflowStateMachine::FLOW_CLAIM,
             'INITIATED',
             'ESS USER',
             WorkflowStateMachine::CLAIM_ACTION_SUBMIT,
             'SUBMITTED',
-            '',
             10
         );
         $this->insertWorkflowState(
-            WorkflowStateMachine::FLOW_CLAIM,
             'INITIATED',
             'ESS USER',
             WorkflowStateMachine::CLAIM_ACTION_CANCEL,
             'CANCELLED',
-            '',
             10
         );
         $this->insertWorkflowState(
-            WorkflowStateMachine::FLOW_CLAIM,
             'SUBMITTED',
             'ESS USER',
             WorkflowStateMachine::CLAIM_ACTION_CANCEL,
             'CANCELLED',
-            '',
             10
         );
         $this->insertWorkflowState(
-            WorkflowStateMachine::FLOW_CLAIM,
             'REJECTED',
             'ESS USER',
             WorkflowStateMachine::CLAIM_ACTION_SUBMIT,
             'SUBMITTED',
-            '',
             10
         );
 
         $this->insertWorkflowState(
-            WorkflowStateMachine::FLOW_CLAIM,
             'INITIATED',
             'ADMIN',
             WorkflowStateMachine::CLAIM_ACTION_SUBMIT,
             'PAID',
-            '',
             0
         );
         $this->insertWorkflowState(
-            WorkflowStateMachine::FLOW_CLAIM,
             'APPROVED',
             'ADMIN',
             WorkflowStateMachine::CLAIM_ACTION_REJECT,
             'REJECTED',
-            '',
             0
         );
         $this->insertWorkflowState(
-            WorkflowStateMachine::FLOW_CLAIM,
             'SUBMITTED',
             'ADMIN',
             WorkflowStateMachine::CLAIM_ACTION_APPROVE,
             'PAID',
-            '',
             10
         );
         $this->insertWorkflowState(
-            WorkflowStateMachine::FLOW_CLAIM,
             'SUBMITTED',
             'ADMIN',
             WorkflowStateMachine::CLAIM_ACTION_REJECT,
             'REJECTED',
-            '',
             0
         );
         $this->insertWorkflowState(
-            WorkflowStateMachine::FLOW_CLAIM,
             'APPROVED',
             'ADMIN',
             WorkflowStateMachine::CLAIM_ACTION_PAY,
             'PAID',
-            '',
             0
         );
 
         $this->insertWorkflowState(
-            WorkflowStateMachine::FLOW_CLAIM,
             'INITIATED',
             'SUPERVISOR',
             WorkflowStateMachine::CLAIM_ACTION_SUBMIT,
             'APPROVED',
-            '',
             0
         );
         $this->insertWorkflowState(
-            WorkflowStateMachine::FLOW_CLAIM,
             'SUBMITTED',
             'SUPERVISOR',
             WorkflowStateMachine::CLAIM_ACTION_APPROVE,
             'APPROVED',
-            '',
             0
         );
         $this->insertWorkflowState(
-            WorkflowStateMachine::FLOW_CLAIM,
             'SUBMITTED',
             'SUPERVISOR',
             WorkflowStateMachine::CLAIM_ACTION_REJECT,
             'REJECTED',
-            '',
             0
         );
     }
@@ -452,7 +444,11 @@ class Migration extends AbstractMigration
             ],
             'submitted_date' => [
                 'Type' => Type::getType(Types::DATETIME_MUTABLE),
-            ]
+            ],
+            'status' => [
+                'Type' => Type::getType(Types::STRING),
+                'Notnull' => false,
+            ],
         ]);
 
         $this->getSchemaHelper()->addOrChangeColumns('ohrm_expense_type', [
@@ -632,14 +628,14 @@ class Migration extends AbstractMigration
         $this->getConfigHelper()->deleteConfigValue('authentication.default_required_password_strength');
     }
 
-    private function insertMenuItems(//TODO
-        string $menu_title,
-        ?int $screen_id,
-        ?int $parent_id,
+    private function insertMenuItems(
+        string $menuTitle,
+        ?int $screenId,
+        ?int $parentId,
         int $level,
-        int $order_hint,
+        int $orderHint,
         int $status,
-        ?string $additional_params
+        ?string $additionalParams
     ): void {
         $this->getConnection()->createQueryBuilder()
             ->insert('ohrm_menu_item')
@@ -653,13 +649,13 @@ class Migration extends AbstractMigration
                 'additional_params' => ':additional_params',
             ])
             ->setParameters([
-                'menu_title' => $menu_title,
-                'screen_id' => $screen_id,
-                'parent_id' => $parent_id,
+                'menu_title' => $menuTitle,
+                'screen_id' => $screenId,
+                'parent_id' => $parentId,
                 'level' => $level,
-                'order_hint' => $order_hint,
+                'order_hint' => $orderHint,
                 'status' => $status,
-                'additional_params' => $additional_params,
+                'additional_params' => $additionalParams,
             ])
             ->executeQuery();
     }
@@ -833,12 +829,10 @@ class Migration extends AbstractMigration
     }
 
     private function insertWorkflowState(
-        int $workflow,
         string $state,
         string $role,
         int $action,
         string $resultingState,
-        string $rolesToNotify,
         int $priority
     ): void {
         $this->createQueryBuilder()
@@ -854,12 +848,12 @@ class Migration extends AbstractMigration
                     'priority' => ':priority',
                 ]
             )
-            ->setParameter('workflow', $workflow)
+            ->setParameter('workflow', WorkflowStateMachine::FLOW_CLAIM)
             ->setParameter('state', $state)
             ->setParameter('role', $role)
             ->setParameter('action', $action)
             ->setParameter('resultingState', $resultingState)
-            ->setParameter('rolesToNotify', $rolesToNotify)
+            ->setParameter('rolesToNotify', '')
             ->setParameter('priority', $priority)
             ->executeQuery();
     }

@@ -21,6 +21,7 @@
 namespace OrangeHRM\Claim\Api;
 
 use Exception;
+use OpenApi\Annotations as OA;
 use OrangeHRM\Claim\Api\Model\ClaimRequestModel;
 use OrangeHRM\Claim\Traits\Service\ClaimServiceTrait;
 use OrangeHRM\Core\Api\CommonParams;
@@ -41,7 +42,7 @@ use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\ClaimRequest;
 use OrangeHRM\ORM\Exception\TransactionException;
 
-class ClaimRequestAPI extends Endpoint implements CrudEndpoint
+class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
 {
     use EntityManagerHelperTrait;
     use ClaimServiceTrait;
@@ -55,8 +56,12 @@ class ClaimRequestAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @OA\Post(
-     *     path="/api/v2/claim/requests",
+     *     path="/api/v2/claim/employee/{empNumber}/requests",
      *     tags={"Claim/Requests"},
+     *     @OA\PathParameter(
+     *         name="empNumber",
+     *         @OA\Schema(type="integer")
+     *     ),
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
@@ -89,7 +94,15 @@ class ClaimRequestAPI extends Endpoint implements CrudEndpoint
     /**
      * @inheritDoc
      */
-    public function getValidationRuleForCreate(): ParamRuleCollection
+    public function getValidationRuleForCreate(): ParamRuleCollection //TODO: Add employee number
+    {
+        return $this->getCommonParamRuleCollection();
+    }
+
+    /**
+     * @return ParamRuleCollection
+     */
+    protected function getCommonParamRuleCollection(): ParamRuleCollection
     {
         return new ParamRuleCollection(
             new ParamRule(
@@ -113,11 +126,10 @@ class ClaimRequestAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @param ClaimRequest $claimRequest
-     *
+     * @param int|null $empNumber
      * @return ClaimRequest
-     * @throws InvalidParamException
      */
-    private function setClaimRequest(ClaimRequest $claimRequest): ClaimRequest
+    protected function setClaimRequest(ClaimRequest $claimRequest, ?int $empNumber = null): ClaimRequest
     {
         $this->beginTransaction();
         try {
@@ -151,7 +163,10 @@ class ClaimRequestAPI extends Endpoint implements CrudEndpoint
             $claimRequest->setCreatedDate($this->getDateTimeHelper()->getNow());
             $userId = $this->getAuthUser()->getUserId();
             $claimRequest->getDecorator()->setUserByUserId($userId);
-            $claimRequest->getDecorator()->setEmployeeByUserId($userId);
+
+            if (is_null($empNumber)) { //TODO Implement for assign claims
+                $claimRequest->getDecorator()->setEmployeeByUserId($userId);
+            }
 
             $this->commitTransaction();
             return $this->getClaimService()->getClaimDao()->saveClaimRequest($claimRequest);
@@ -182,8 +197,12 @@ class ClaimRequestAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @OA\Get(
-     *     path="/api/v2/claim/requests/{id}",
+     *     path="/api/v2/claim/employee/{empNumber}/requests/{id}",
      *     tags={"Claim/Requests"},
+     *     @OA\PathParameter(
+     *         name="empNumber",
+     *         @OA\Schema(type="integer")
+     *     ),
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
@@ -241,11 +260,17 @@ class ClaimRequestAPI extends Endpoint implements CrudEndpoint
         throw $this->getNotImplementedException();
     }
 
+    /**
+     * @inheritDoc
+     */
     public function update(): EndpointResult
     {
         throw $this->getNotImplementedException();
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
         throw $this->getNotImplementedException();

@@ -137,12 +137,10 @@ class ClaimDao extends BaseDao
      */
     public function getNextId(): int
     {
-        $q = $this->createQueryBuilder(ClaimRequest::class, 'request')
-            ->select('MAX(request.id)');
-        $id = $q->getQuery()->execute();
-        $id[0][1]++;
-
-        return $id[0][1];
+        $q = $this->createQueryBuilder(ClaimRequest::class, 'request');
+        $q->select($q->expr()->max('request.id'));
+        $id = $q->getQuery()->getSingleScalarResult();
+        return ++$id;
     }
 
     /**

@@ -62,19 +62,33 @@ apiv2_claim_attachment:
   requirements:
     requestId: '\d+'
 
-apiv2_claim_requests:
+apiv2_claim_my_claim_requests:
   path: /api/v2/claim/requests
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
   methods: [ POST, GET ]
   defaults:
-    _api: OrangeHRM\Claim\Api\ClaimRequestAPI
+    _api: OrangeHRM\Claim\Api\MyClaimRequestAPI
 
-apiv2_claim_request:
+apiv2_claim_my_claim_request:
   path: /api/v2/claim/requests/{id}
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
   methods: [ GET ]
   defaults:
-    _api: OrangeHRM\Claim\Api\ClaimRequestAPI
+    _api: OrangeHRM\Claim\Api\MyClaimRequestAPI
+
+apiv2_claim_employee_claim_requests:
+  path: /api/v2/claim/employee/{empNumber}/requests
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ POST, GET ]
+  defaults:
+    _api: OrangeHRM\Claim\Api\EmployeeClaimRequestAPI
+
+apiv2_claim_employee_claim_request:
+  path: /api/v2/claim/employee/{empNumber}/requests/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Claim\Api\EmployeeClaimRequestAPI
 
 ##########################
 #        Screens
@@ -90,27 +104,32 @@ claim_events:
   controller: OrangeHRM\Claim\Controller\ClaimController::handle
   methods: [ GET ]
 
-save_claim_events:
+claim_save_claim_events:
   path: /claim/saveEvents
   controller: OrangeHRM\Claim\Controller\SaveClaimController::handle
   methods: [ GET ]
 
-edit_claim_events:
+claim_edit_claim_events:
   path: /claim/saveEvents/{id}
   controller: OrangeHRM\Claim\Controller\SaveClaimController::handle
   methods: [ GET ]
 
-claim_expense_types:
+claim_claim_expense_types:
   path: /claim/viewExpense
   controller: OrangeHRM\Claim\Controller\ClaimExpenseTypeController::handle
   methods: [ GET ]
 
-save_claim_expense_types:
+claim_save_claim_expense_types:
   path: /claim/saveExpense
   controller: OrangeHRM\Claim\Controller\SaveClaimExpenseTypeController::handle
   methods: [ GET ]
 
-edit_claim_expense_types:
+claim_edit_claim_expense_types:
   path: /claim/saveExpense/{id}
   controller: OrangeHRM\Claim\Controller\SaveClaimExpenseTypeController::handle
+  methods: [ GET ]
+
+claim_submit_claim:
+  path: /claim/submitClaim
+  controller: OrangeHRM\Claim\Controller\SubmitClaimController::handle
   methods: [ GET ]

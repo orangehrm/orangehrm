@@ -23,3 +23,15 @@ langStrings:
   -
     value: "Edit Expense Type"
     unitId: edit_expense_type
+  -
+    value: "Event"
+    unitId: event
+  -
+    value: "Create Claim Request"
+    unitId: create_claim_request
+  -
+    value: "Remarks"
+    unitId: remarks
+  -
+    value: "Create"
+    unitId: create

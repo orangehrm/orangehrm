@@ -1,3 +1,4 @@
+<!--
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -15,21 +16,40 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
+ -->
 
-import ClaimEvent from '@/orangehrmClaimPlugin/pages/ClaimEvent.vue';
-import SaveClaimEvent from '@/orangehrmClaimPlugin/pages/SaveClaimEvent.vue';
-import EditClaimEvent from '@/orangehrmClaimPlugin/pages/EditClaimEvent.vue';
-import ClaimExpenseType from '@/orangehrmClaimPlugin/pages/claimExpenseTypes/ClaimExpenseType.vue';
-import SaveClaimExpenseType from '@/orangehrmClaimPlugin/pages/claimExpenseTypes/SaveClaimExpenseType.vue';
-import EditClaimExpenseType from '@/orangehrmClaimPlugin/pages/claimExpenseTypes/EditClaimExpenseType.vue';
-import SubmitClaimRequest from '@/orangehrmClaimPlugin/pages/submitClaim/SubmitClaimRequest.vue';
+<template>
+  <oxd-input-field
+    type="select"
+    :label="$t('claim.event')"
+    :options="options"
+  />
+</template>
 
+<script>
+import {ref, onBeforeMount} from 'vue';
+import {APIService} from '@ohrm/core/util/services/api.service';
 export default {
-  'claim-event': ClaimEvent,
-  'claim-event-create': SaveClaimEvent,
-  'claim-event-edit': EditClaimEvent,
-  'claim-expense-types': ClaimExpenseType,
-  'claim-expense-type-create': SaveClaimExpenseType,
-  'claim-expense-type-edit': EditClaimExpenseType,
-  'submit-claim-request': SubmitClaimRequest,
+  name: 'ClaimEventDropdown',
+  setup() {
+    const options = ref([]);
+    const http = new APIService(
+      window.appGlobal.baseUrl,
+      'api/v2/claim/events',
+    );
+    onBeforeMount(() => {
+      http.getAll({limit: 0, status: true}).then(({data}) => {
+        options.value = data.data.map((item) => {
+          return {
+            id: item.id,
+            label: item.name,
+          };
+        });
+      });
+    });
+    return {
+      options,
+    };
+  },
 };
+</script>

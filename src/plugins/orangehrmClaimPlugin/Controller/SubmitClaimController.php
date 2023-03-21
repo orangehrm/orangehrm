@@ -17,34 +17,36 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Tests\Claim\Api;
+namespace OrangeHRM\Claim\Controller;
 
-use OrangeHRM\Claim\Api\ClaimRequestAPI;
+use OrangeHRM\Admin\Service\PayGradeService;
+use OrangeHRM\Core\Controller\AbstractVueController;
+use OrangeHRM\Core\Traits\ServiceContainerTrait;
+use OrangeHRM\Core\Vue\Component;
+use OrangeHRM\Core\Vue\Prop;
+use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\Services;
-use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
-use OrangeHRM\Tests\Util\Integration\TestCaseParams;
 
-/**
- * @group Claim
- * @group APIv2
- */
-class ClaimRequestAPITest extends EndpointIntegrationTestCase
+class SubmitClaimController extends AbstractVueController
 {
+    use ServiceContainerTrait;
+
     /**
-     * @dataProvider dataProviderForTestCreate
+     * @return PayGradeService
      */
-    public function testCreate(TestCaseParams $testCaseParams): void
+    public function getPayGradeService(): PayGradeService
     {
-        $this->populateFixtures('ClaimRequestAPI.yaml');
-        $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
-        $this->registerMockDateTimeHelper($testCaseParams);
-        $this->registerServices($testCaseParams);
-        $api = $this->getApiEndpointMock(ClaimRequestAPI::class, $testCaseParams);
-        $this->assertValidTestCase($api, 'create', $testCaseParams);
+        return $this->getContainer()->get(Services::PAY_GRADE_SERVICE);
     }
 
-    public function dataProviderForTestCreate(): array
+    /**
+     * @inheritDoc
+     */
+    public function preRender(Request $request): void
     {
-        return $this->getTestCases('ClaimRequestAPITestCases.yaml', 'Create');
+        $currencies = $this->getPayGradeService()->getCurrencyArray();
+        $component = new Component('submit-claim-request');
+        $component->addProp(new Prop('currencies', Prop::TYPE_ARRAY, $currencies));
+        $this->setComponent($component);
     }
 }
