@@ -71,7 +71,7 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @OA\Post(
-     *     path="/api/v2/claim/employee/{empNumber}/requests",
+     *     path="/api/v2/claim/employees/{empNumber}/requests",
      *     tags={"Claim/Requests"},
      *     @OA\PathParameter(
      *         name="empNumber",
@@ -212,7 +212,7 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @OA\Get(
-     *     path="/api/v2/claim/employee/{empNumber}/requests/{id}",
+     *     path="/api/v2/claim/employees/{empNumber}/requests/{id}",
      *     tags={"Claim/Requests"},
      *     @OA\PathParameter(
      *         name="empNumber",

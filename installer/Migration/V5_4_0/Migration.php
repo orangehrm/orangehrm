@@ -285,8 +285,8 @@ class Migration extends AbstractMigration
                     ]
                 )
                 ->setParameter('module_id', $this->getDataGroupHelper()->getModuleIdByName('claim'))
-                ->setParameter('user_role_id', $this->getDataGroupHelper()->getUserRoleIdByName('Ess'))
-                ->setParameter('action', 'claim/submitClaim')
+                ->setParameter('user_role_id', $this->getDataGroupHelper()->getUserRoleIdByName('ESS'))
+                ->setParameter('action', 'claim/submitClaim') //TODO: change to myClaim
                 ->executeQuery();
 
             $viewClaimModuleScreenId = $this->getConnection()

@@ -37,6 +37,7 @@ class ClaimService
      * @var ClaimDao
      */
     protected ClaimDao $claimDao;
+    private const PARAMETER_REQUEST_ID = 'requestId';
 
     /**
      * @return ClaimDao
@@ -75,5 +76,22 @@ class ClaimService
             throw $this->getForbiddenException();
         }
         return true;
+    }
+
+    /**
+     * @param int $requestId
+     * @return ClaimRequest
+     */
+    public function getClaimRequest(int $requestId): ClaimRequest
+    {
+        $claimRequest = $this->getClaimDao()
+            ->getClaimRequestById($requestId);
+        if (!$claimRequest instanceof ClaimRequest) {
+            throw $this->getInvalidParamException(self::PARAMETER_REQUEST_ID);
+        }
+        if (!$this->getUserRoleManagerHelper()->isEmployeeAccessible($claimRequest->getEmployee()->getEmpNumber())) {
+            throw $this->getForbiddenException();
+        }
+        return $claimRequest;
     }
 }

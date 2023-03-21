@@ -45,7 +45,6 @@ use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\ClaimExpense;
-use OrangeHRM\Entity\ClaimRequest;
 use OrangeHRM\Entity\ExpenseType;
 use OrangeHRM\Entity\WorkflowStateMachine;
 use OrangeHRM\ORM\Exception\TransactionException;
@@ -111,7 +110,7 @@ class ClaimExpenseAPI extends Endpoint implements CrudEndpoint
         $requestId = $this->getRequestParams()
             ->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_REQUEST_ID);
 
-        $this->getClaimRequest($requestId);
+        $this->getClaimService()->getClaimRequest($requestId);
         $claimExpenseSearchFilterParams->setRequestId($requestId);
         $claimExpenses = $this->getClaimService()
             ->getClaimDao()
@@ -194,7 +193,7 @@ class ClaimExpenseAPI extends Endpoint implements CrudEndpoint
                 RequestParams::PARAM_TYPE_ATTRIBUTE,
                 self::PARAMETER_REQUEST_ID
             );
-            $claimRequest = $this->getClaimRequest($requestId);
+            $claimRequest = $this->getClaimService()->getClaimRequest($requestId);
 
             $this->getClaimService()->isActionAllowed(WorkflowStateMachine::CLAIM_ACTION_SUBMIT, $claimRequest);
 
@@ -286,7 +285,7 @@ class ClaimExpenseAPI extends Endpoint implements CrudEndpoint
     {
         $requestId = $this->getRequestParams()
             ->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_REQUEST_ID);
-        $claimRequest = $this->getClaimRequest($requestId);
+        $claimRequest = $this->getClaimService()->getClaimRequest($requestId);
 
         $this->getClaimService()->isActionAllowed(WorkflowStateMachine::CLAIM_ACTION_SUBMIT, $claimRequest);
 
@@ -348,7 +347,7 @@ class ClaimExpenseAPI extends Endpoint implements CrudEndpoint
     {
         $requestId = $this->getRequestParams()
             ->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_REQUEST_ID);
-        $this->getClaimRequest($requestId);
+        $this->getClaimService()->getClaimRequest($requestId);
 
         $claimExpenseId = $this->getRequestParams()->getInt(
             RequestParams::PARAM_TYPE_ATTRIBUTE,
@@ -418,7 +417,7 @@ class ClaimExpenseAPI extends Endpoint implements CrudEndpoint
     {
         $requestId = $this->getRequestParams()
             ->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_REQUEST_ID);
-        $claimRequest = $this->getClaimRequest($requestId);
+        $claimRequest = $this->getClaimService()->getClaimRequest($requestId);
 
         $this->getClaimService()->isActionAllowed(WorkflowStateMachine::CLAIM_ACTION_SUBMIT, $claimRequest);
 
@@ -468,23 +467,5 @@ class ClaimExpenseAPI extends Endpoint implements CrudEndpoint
                 true
             ),
         );
-    }
-
-    /**
-     * @param int $requestId
-     * @return ClaimRequest
-     */
-    private function getClaimRequest(int $requestId): ClaimRequest
-    {
-        $claimRequest = $this->getClaimService()
-            ->getClaimDao()
-            ->getClaimRequestById($requestId);
-        if (!$claimRequest instanceof ClaimRequest) {
-            throw $this->getInvalidParamException(self::PARAMETER_REQUEST_ID);
-        }
-        if (!$this->getUserRoleManagerHelper()->isEmployeeAccessible($claimRequest->getEmployee()->getEmpNumber())) {
-            throw $this->getForbiddenException();
-        }
-        return $claimRequest;
     }
 }

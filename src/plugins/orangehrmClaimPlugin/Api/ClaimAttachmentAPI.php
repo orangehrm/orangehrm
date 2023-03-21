@@ -46,7 +46,6 @@ use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\ClaimAttachment;
-use OrangeHRM\Entity\ClaimRequest;
 use OrangeHRM\Entity\WorkflowStateMachine;
 use OrangeHRM\ORM\Exception\TransactionException;
 
@@ -105,7 +104,7 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
         $this->setSortingAndPaginationParams($claimAttachmentSearchFilterParams);
         $requestId = $this->getRequestParams()
             ->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_REQUEST_ID);
-        $this->getClaimRequest($requestId);
+        $this->getClaimService()->getClaimRequest($requestId);
         $claimAttachmentSearchFilterParams->setRequestId($requestId);
         $claimAttachments = $this->getClaimService()
             ->getClaimDao()
@@ -175,7 +174,7 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
                 RequestParams::PARAM_TYPE_ATTRIBUTE,
                 self::PARAMETER_REQUEST_ID
             );
-            $claimRequest = $this->getClaimRequest($requestId);
+            $claimRequest = $this->getClaimService()->getClaimRequest($requestId);
             $claimAttachment->setRequestId($requestId);
 
             $this->getClaimService()->isActionAllowed(WorkflowStateMachine::CLAIM_ACTION_SUBMIT, $claimRequest);
@@ -305,7 +304,7 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
             self::PARAMETER_REQUEST_ID
         );
         $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
-        $claimRequest = $this->getClaimRequest($requestId);
+        $claimRequest = $this->getClaimService()->getClaimRequest($requestId);
 
         $this->getClaimService()->isActionAllowed(WorkflowStateMachine::CLAIM_ACTION_SUBMIT, $claimRequest);
 
@@ -314,25 +313,6 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
             ->deleteClaimAttachments($requestId, $ids);
 
         return new EndpointResourceResult(ArrayModel::class, $ids);
-    }
-
-    /**
-     * @param int $requestId
-     * @return ClaimRequest
-     */
-    private function getClaimRequest(int $requestId): ClaimRequest
-    {
-        $claimRequest = $this->getClaimService()
-                ->getClaimDao()
-                ->getClaimRequestById($requestId);
-        if (!$claimRequest instanceof ClaimRequest) {
-            throw $this->getInvalidParamException(self::PARAMETER_REQUEST_ID);
-        }
-        if (!$this->getUserRoleManagerHelper()->isEmployeeAccessible($claimRequest->getEmployee()->getEmpNumber())) {
-            throw $this->getForbiddenException();
-        }
-
-        return $claimRequest;
     }
 
     /**
@@ -386,7 +366,7 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
             ->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_REQUEST_ID);
         $attachId = $this->getRequestParams()
             ->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
-        $this->getClaimRequest($requestId);
+        $this->getClaimService()->getClaimRequest($requestId);
         $claimAttachment = $this->getClaimService()
             ->getClaimDao()
             ->getPartialClaimAttachment($requestId, $attachId);
@@ -457,7 +437,7 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
                 RequestParams::PARAM_TYPE_ATTRIBUTE,
                 CommonParams::PARAMETER_ID
             );
-            $claimRequest = $this->getClaimRequest($requestId);
+            $claimRequest = $this->getClaimService()->getClaimRequest($requestId);
 
             $this->getClaimService()->isActionAllowed(WorkflowStateMachine::CLAIM_ACTION_SUBMIT, $claimRequest);
 
