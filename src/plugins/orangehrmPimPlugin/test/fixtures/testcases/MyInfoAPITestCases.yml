@@ -1,0 +1,46 @@
+GetOne:
+  'Get logged in User Details - Default Model':
+    userId: 1
+    services:
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    data:
+      empNumber: 1
+      lastName: "Admin"
+      firstName: "Devi"
+      middleName: ""
+      employeeId: "0001"
+      terminationId: null
+    meta:
+      userRole: Admin
+
+  'Get logged in User Details - Detail Model':
+    userId: 2
+    services:
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    query:
+      model: 'detailed'
+    data:
+      empNumber: 2
+      lastName: "Manul"
+      firstName: "Madara"
+      middleName: ""
+      employeeId: "0002"
+      terminationId: null
+      jobTitle:
+        id: 1
+        title: "Software Engineer"
+        isDeleted: false
+      subunit:
+        id: 3
+        name: "Development"
+      empStatus:
+        id: null
+        name: null
+      supervisors:
+        0:
+          empNumber: 1
+          lastName: "Admin"
+          firstName: "Devi"
+          middleName: ""
+    meta:
+      userRole: ESS
