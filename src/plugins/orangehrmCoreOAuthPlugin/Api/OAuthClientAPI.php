@@ -38,6 +38,7 @@ use OrangeHRM\Core\Utility\PasswordHash;
 use OrangeHRM\Entity\OAuthClient;
 use OrangeHRM\OAuth\Api\Model\OAuthClientModel;
 use OrangeHRM\OAuth\Dto\OAuthClientSearchFilterParams;
+use OrangeHRM\OAuth\Service\OAuthService;
 use OrangeHRM\OAuth\Traits\OAuthServiceTrait;
 
 class OAuthClientAPI extends Endpoint implements CrudEndpoint
@@ -169,7 +170,8 @@ class OAuthClientAPI extends Endpoint implements CrudEndpoint
                 new Rule(Rules::STRING_TYPE),
                 new Rule(Rules::REQUIRED),
                 new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NAME_MAX_LENGTH]),
-                new Rule(Rules::ENTITY_UNIQUE_PROPERTY, [OAuthClient::class, 'name'])
+                new Rule(Rules::NOT_IN, [[OAuthService::PUBLIC_MOBILE_CLIENT_ID]]),
+                new Rule(Rules::ENTITY_UNIQUE_PROPERTY, [OAuthClient::class, 'name']),
             ),
             ...$this->getCommonBodyValidationRules(),
         );
@@ -219,10 +221,19 @@ class OAuthClientAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForDelete(): ParamRuleCollection
     {
+        $mobileClientId = $this->getOAuthService()->getMobileClientId();
         return new ParamRuleCollection(
             new ParamRule(
                 CommonParams::PARAMETER_IDS,
-                new Rule(Rules::INT_ARRAY)
+                new Rule(Rules::INT_ARRAY),
+                new Rule(
+                    Rules::EACH,
+                    [
+                        new Rules\Composite\AllOf(
+                            new Rule(Rules::NOT_IN, [[$mobileClientId]])
+                        )
+                    ]
+                )
             ),
         );
     }
@@ -354,14 +365,20 @@ class OAuthClientAPI extends Endpoint implements CrudEndpoint
                 CommonParams::PARAMETER_ID
             )]
         );
+        $mobileClientId = $this->getOAuthService()->getMobileClientId();
 
         return new ParamRuleCollection(
-            new ParamRule(CommonParams::PARAMETER_ID, new Rule(Rules::POSITIVE)),
+            new ParamRule(
+                CommonParams::PARAMETER_ID,
+                new Rule(Rules::POSITIVE),
+                new Rule(Rules::NOT_IN, [[$mobileClientId]])
+            ),
             new ParamRule(
                 self::PARAMETER_NAME,
                 new Rule(Rules::STRING_TYPE),
                 new Rule(Rules::REQUIRED),
                 new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NAME_MAX_LENGTH]),
+                new Rule(Rules::NOT_IN, [[OAuthService::PUBLIC_MOBILE_CLIENT_ID]]),
                 new Rule(Rules::ENTITY_UNIQUE_PROPERTY, [OAuthClient::class, 'name', $entityUniquePropertyOptions])
             ),
             ...$this->getCommonBodyValidationRules(),

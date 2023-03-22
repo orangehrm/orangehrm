@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\OAuth\Service;
 
+use OrangeHRM\Entity\OAuthClient;
 use OrangeHRM\OAuth\Dao\OAuthClientDao;
 
 class OAuthService
@@ -36,5 +37,35 @@ class OAuthService
     public function getOAuthClientDao(): OAuthClientDao
     {
         return $this->oauthClientDao ??= new OAuthClientDao();
+    }
+
+    /**
+     * @param bool $enabled
+     */
+    public function updateMobileClientStatus(bool $enabled): void
+    {
+        $client = $this->getOAuthClientDao()->getOAuthClientByClientId(self::PUBLIC_MOBILE_CLIENT_ID);
+        if ($client instanceof OAuthClient) {
+            $client->setEnabled($enabled);
+            $this->getOAuthClientDao()->saveOAuthClient($client);
+        }
+    }
+
+    /**
+     * @return bool
+     */
+    public function getMobileClientStatus(): bool
+    {
+        $client = $this->getOAuthClientDao()->getOAuthClientByClientId(self::PUBLIC_MOBILE_CLIENT_ID);
+        return $client && $client->isEnabled();
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getMobileClientId(): ?int
+    {
+        $client = $this->getOAuthClientDao()->getOAuthClientByClientId(self::PUBLIC_MOBILE_CLIENT_ID);
+        return $client ? $client->getId() : null;
     }
 }

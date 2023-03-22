@@ -82,7 +82,7 @@
               <oxd-text tag="p" class="orangehrm-module-field-label">
                 {{ $t('general.mobile') }}
               </oxd-text>
-              <oxd-switch-input disabled />
+              <oxd-switch-input v-model="modules.mobile" />
             </div>
           </oxd-grid>
         </oxd-form-row>

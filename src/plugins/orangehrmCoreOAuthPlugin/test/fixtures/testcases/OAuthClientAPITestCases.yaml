@@ -6,23 +6,31 @@ GetAll:
     data: [
       {
         "id": 1,
-        "name": "ohrm-mobile-updated",
-        "clientId": "85c5ce5fe84ee8dc2035378d9b35f04dfabf9e8e0aa7eb636cb0d90ed5c7f906",
-        "redirectUri": "https://www.test.com",
-        "enabled": true,
+        "name": "OrangeHRM Mobile App",
+        "clientId": "orangehrm_mobile_app",
+        "redirectUri": "com.orangehrm.opensource://oauthredirect",
+        "enabled": false,
         "confidential": false
       },
       {
         "id": 2,
-        "name": "ohrm-mobile-2",
-        "clientId": "256697adeead32faf700cf8dd9f53d49a3583491d2cff9605168220b4a276967",
-        "redirectUri": "https://www.mobile.com",
-        "enabled": false,
+        "name": "Test Client",
+        "clientId": "9e8f1e31a5412dfb0f4d9672115368e9",
+        "redirectUri": "http://php74/53dev/web/oauth.php",
+        "enabled": true,
+        "confidential": false
+      },
+      {
+        "id": 4,
+        "name": "Test Client 2",
+        "clientId": "ce3f4cff68533db80d91f33b58870713",
+        "redirectUri": "",
+        "enabled": true,
         "confidential": true
       }
     ]
     meta:
-      total: 2
+      total: 3
 
   'with limit':
     userId: 1
@@ -33,15 +41,15 @@ GetAll:
     data: [
       {
         "id": 1,
-        "name": "ohrm-mobile-updated",
-        "clientId": "85c5ce5fe84ee8dc2035378d9b35f04dfabf9e8e0aa7eb636cb0d90ed5c7f906",
-        "redirectUri": "https://www.test.com",
-        "enabled": true,
+        "name": "OrangeHRM Mobile App",
+        "clientId": "orangehrm_mobile_app",
+        "redirectUri": "com.orangehrm.opensource://oauthredirect",
+        "enabled": false,
         "confidential": false
       }
     ]
     meta:
-      total: 2
+      total: 3
 
   'with sortOrder DESC':
     userId: 1
@@ -52,24 +60,32 @@ GetAll:
       sortOrder: 'DESC'
     data: [
       {
-        "id": 2,
-        "name": "ohrm-mobile-2",
-        "clientId": "256697adeead32faf700cf8dd9f53d49a3583491d2cff9605168220b4a276967",
-        "redirectUri": "https://www.mobile.com",
-        "enabled": false,
+        "id": 4,
+        "name": "Test Client 2",
+        "clientId": "ce3f4cff68533db80d91f33b58870713",
+        "redirectUri": "",
+        "enabled": true,
         "confidential": true
       },
       {
-        "id": 1,
-        "name": "ohrm-mobile-updated",
-        "clientId": "85c5ce5fe84ee8dc2035378d9b35f04dfabf9e8e0aa7eb636cb0d90ed5c7f906",
-        "redirectUri": "https://www.test.com",
+        "id": 2,
+        "name": "Test Client",
+        "clientId": "9e8f1e31a5412dfb0f4d9672115368e9",
+        "redirectUri": "http://php74/53dev/web/oauth.php",
         "enabled": true,
+        "confidential": false
+      },
+      {
+        "id": 1,
+        "name": "OrangeHRM Mobile App",
+        "clientId": "orangehrm_mobile_app",
+        "redirectUri": "com.orangehrm.opensource://oauthredirect",
+        "enabled": false,
         "confidential": false
       }
     ]
     meta:
-      total: 2
+      total: 3
 
 Update:
   'update existing client':
@@ -77,15 +93,15 @@ Update:
     services:
       oauth.oauth_service: \OrangeHRM\OAuth\Service\OAuthService
     attributes:
-      id: 1
+      id: 2
     body:
       name: "ohrm-client"
       redirectUri: "https://www.orangehrm.com"
       enabled: false
     data: {
-      "id": 1,
+      "id": 2,
       "name": "ohrm-client",
-      "clientId": "85c5ce5fe84ee8dc2035378d9b35f04dfabf9e8e0aa7eb636cb0d90ed5c7f906",
+      "clientId": "9e8f1e31a5412dfb0f4d9672115368e9",
       "redirectUri": "https://www.orangehrm.com",
       "enabled": false,
       "confidential": true
@@ -99,9 +115,9 @@ Update:
     services:
       oauth.oauth_service: \OrangeHRM\OAuth\Service\OAuthService
     attributes:
-      id: 1
+      id: 2
     body:
-      name: "ohrm-mobile-2"
+      name: "Test Client 2"
       redirectUri: "https://www.orangehrm.com"
       enabled: false
     invalidOnly: [ 'name' ]
@@ -111,7 +127,7 @@ Update:
     services:
       oauth.oauth_service: \OrangeHRM\OAuth\Service\OAuthService
     attributes:
-      id: 1
+      id: 2
     body:
       name: "ohrm-client"
     invalidOnly: [ 'redirectUri' ]
@@ -135,7 +151,7 @@ Update:
     services:
       oauth.oauth_service: \OrangeHRM\OAuth\Service\OAuthService
     attributes:
-      id: 1
+      id: 2
     body:
       name: "rOmg1vgXlssIvCBFCeXM8hXgCNa2Iidom8ILNftQ7LZMqUBYLIMhAKmyAnprK2VdLEnLzNvFk5lK9f7rs"
       redirectUri: "https://www.orangehrm.com"
@@ -147,7 +163,7 @@ Update:
     services:
       oauth.oauth_service: \OrangeHRM\OAuth\Service\OAuthService
     attributes:
-      id: 1
+      id: 2
     body:
       name: "ohrm-client"
       redirectUri: "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"
@@ -163,10 +179,10 @@ GetOne:
       id: 1
     data: {
       "id": 1,
-      "name": "ohrm-mobile-updated",
-      "clientId": "85c5ce5fe84ee8dc2035378d9b35f04dfabf9e8e0aa7eb636cb0d90ed5c7f906",
-      "redirectUri": "https://www.test.com",
-      "enabled": true,
+      "name": "OrangeHRM Mobile App",
+      "clientId": "orangehrm_mobile_app",
+      "redirectUri": "com.orangehrm.opensource://oauthredirect",
+      "enabled": false,
       "confidential": false
     }
 
@@ -215,6 +231,8 @@ Delete:
 
   'with invalid ids':
     userId: 1
+    services:
+      oauth.oauth_service: \OrangeHRM\OAuth\Service\OAuthService
     body:
-      ids: [ 1, "a" ]
+      ids: [ 2, "a" ]
     invalidOnly: [ 'ids' ]
