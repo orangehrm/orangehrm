@@ -46,4 +46,19 @@ class Request extends HttpRequest
         }
         return parent::get($key, $default);
     }
+
+    /**
+     * @return static
+     */
+    public static function createFromGlobals(): self
+    {
+        if (!isset($_SERVER['HTTP_AUTHORIZATION']) || !isset($_SERVER['REDIRECT_HTTP_AUTHORIZATION'])) {
+            // https://github.com/symfony/symfony/issues/19693
+            $headers = getallheaders();
+            if (isset($headers['Authorization'])) {
+                $_SERVER['HTTP_AUTHORIZATION'] = $headers['Authorization'];
+            }
+        }
+        return parent::createFromGlobals();
+    }
 }
