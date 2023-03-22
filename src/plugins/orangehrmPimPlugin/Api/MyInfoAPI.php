@@ -23,11 +23,12 @@ use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
+use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\ResourceEndpoint;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Entity\Employee;
-use OrangeHRM\Pim\Api\Model\EmployeePersonalDetailModel;
+use OrangeHRM\Pim\Api\Model\EmployeeModel;
 use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
 
 class MyInfoAPI extends Endpoint implements ResourceEndpoint
@@ -35,16 +36,26 @@ class MyInfoAPI extends Endpoint implements ResourceEndpoint
     use AuthUserTrait;
     use EmployeeServiceTrait;
 
+    public const USER_ROLE_NAME = 'userRole';
+
     /**
      * @inheritDoc
      */
     public function getOne(): EndpointResult
     {
-        $empNumber =  $this->getAuthUser()->getEmpNumber();
+        $empNumber = $this->getAuthUser()->getEmpNumber();
         $employee = $this->getEmployeeService()->getEmployeeByEmpNumber($empNumber);
         $this->throwRecordNotFoundExceptionIfNotExist($employee, Employee::class);
 
-        return new EndpointResourceResult(EmployeePersonalDetailModel::class, $employee);
+        return new EndpointResourceResult(
+            EmployeeModel::class,
+            $employee,
+            new ParameterBag(
+                [
+                    self::USER_ROLE_NAME=>$this->getAuthUser()->getUserRoleName(),
+                ]
+            )
+        );
     }
 
     /**
