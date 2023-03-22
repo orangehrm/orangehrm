@@ -1,6 +1,8 @@
 GetAll:
   'empty object as params':
     userId: 1
+    services:
+      oauth.oauth_service: OrangeHRM\OAuth\Service\OAuthService
     body: { }
     data: {
       admin: true,
@@ -24,6 +26,7 @@ Update:
     userId: 1
     services:
       core.menu_service: OrangeHRM\Core\Service\MenuService
+      oauth.oauth_service: OrangeHRM\OAuth\Service\OAuthService
     body: { admin: true, pim: true, leave: false, time: false, recruitment: false, performance: false, maintenance: false, mobile: false, directory: false }
     data: {
       admin: true,
@@ -41,6 +44,7 @@ Update:
     userId: 1
     services:
       core.menu_service: OrangeHRM\Core\Service\MenuService
+      oauth.oauth_service: OrangeHRM\OAuth\Service\OAuthService
     body: { admin: true, pim: true, leave: true, time: true, recruitment: true, performance: true, maintenance: true, mobile: true, directory: true }
     data: {
       admin: true,
@@ -50,7 +54,7 @@ Update:
       recruitment: true,
       performance: true,
       maintenance: true,
-      mobile: false, ## TODO:: change to true
+      mobile: true,
       directory: true
     }
 
@@ -79,6 +83,7 @@ Update:
     userId: 1
     services:
       core.menu_service: OrangeHRM\Core\Service\MenuService
+      oauth.oauth_service: OrangeHRM\OAuth\Service\OAuthService
     body: { pim: true, leave: false, time: false, recruitment: false, performance: false, maintenance: false, mobile: false, directory: false }
     data: {
       admin: true,
@@ -96,6 +101,7 @@ Update:
     userId: 1
     services:
       core.menu_service: OrangeHRM\Core\Service\MenuService
+      oauth.oauth_service: OrangeHRM\OAuth\Service\OAuthService
     body: { admin: true, leave: false, time: false, recruitment: false, performance: false, maintenance: false, mobile: false, directory: false }
     data: {
       admin: true,
