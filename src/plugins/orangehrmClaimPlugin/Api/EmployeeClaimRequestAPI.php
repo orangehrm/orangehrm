@@ -104,11 +104,9 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
     public function create(): EndpointResult
     {
         $claimRequest = new ClaimRequest();
-        $empNumber = $this->getRequestParams()
-            ->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_EMPLOYEE_NUMBER);
-        $loggedInEmpNumber = $this->getAuthUser()->getEmpNumber();
+        $empNumber = $this->getEmpNumber();
 
-        if ($empNumber === $loggedInEmpNumber) {
+        if (!$this->checkLoggedInUser($empNumber)) {
             throw $this->getForbiddenException();
         }
 
@@ -157,6 +155,18 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
                 true
             ),
         );
+    }
+
+    /*
+     * @param int|null $empNumber
+     * @return bool
+     */
+    protected function checkLoggedInUser(?int $empNumber):bool{
+        $loggedInEmpNumber = $this->getAuthUser()->getEmpNumber();
+        if ($empNumber === $loggedInEmpNumber) {
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -264,13 +274,7 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
     {
         $id = $this->getRequestParams()
             ->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
-        $empNumber = $this->getRequestParams()
-            ->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_EMPLOYEE_NUMBER);
-        $loggedInEmpNumber = $this->getAuthUser()->getEmpNumber();
-
-        if ($empNumber === $loggedInEmpNumber) {
-            throw $this->getForbiddenException();
-        }
+        $empNumber = $this->getEmpNumber();
 
         if (!$this->getUserRoleManagerHelper()->isEmployeeAccessible($empNumber)) {
             throw $this->getForbiddenException();
@@ -289,12 +293,17 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
         return new EndpointResourceResult(
             ClaimRequestModel::class,
             $claimRequest,
-            new ParameterBag(
-                [
-                    self::PARAMETER_ALLOWED_ACTIONS => $allowedActions,
-                ]
-            )
+            new ParameterBag([self::PARAMETER_ALLOWED_ACTIONS => $allowedActions])
         );
+    }
+
+    /**
+     * @return int
+     */
+    protected function getEmpNumber(): int
+    {
+        return $this->getRequestParams()
+            ->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_EMPLOYEE_NUMBER);
     }
 
     /**

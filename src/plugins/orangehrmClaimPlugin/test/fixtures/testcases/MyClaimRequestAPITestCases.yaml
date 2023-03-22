@@ -5,8 +5,13 @@ Create:
       datetime: '2023-01-17 05:40:00'
     services:
       claim.claim_service: OrangeHRM\Claim\Service\ClaimService
-      core.datetime_helper_service: \OrangeHRM\Core\Service\DateTimeHelperService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
       admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     body:
       claimEventId: 1
       currencyId: 'CAD'
@@ -30,8 +35,13 @@ Create:
       datetime: '2023-01-17 05:40:00'
     services:
       claim.claim_service: OrangeHRM\Claim\Service\ClaimService
-      core.datetime_helper_service: \OrangeHRM\Core\Service\DateTimeHelperService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
       admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     body:
       claimEventId: 2
       currencyId: 'USD'
@@ -55,8 +65,13 @@ Create:
       datetime: '2023-01-17 05:40:00'
     services:
       claim.claim_service: OrangeHRM\Claim\Service\ClaimService
-      core.datetime_helper_service: \OrangeHRM\Core\Service\DateTimeHelperService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
       admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     body:
       claimEventId: 2
       currencyId: USD
@@ -80,8 +95,13 @@ Create:
       datetime: '2023-01-17 05:40:00'
     services:
       claim.claim_service: OrangeHRM\Claim\Service\ClaimService
-      core.datetime_helper_service: \OrangeHRM\Core\Service\DateTimeHelperService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
       admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     body:
       claimEventId: 2
       currencyId: 'USD'
@@ -103,8 +123,13 @@ Create:
     userId: 2
     services:
       claim.claim_service: OrangeHRM\Claim\Service\ClaimService
-      core.datetime_helper_service: \OrangeHRM\Core\Service\DateTimeHelperService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
       admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     body:
       claimEventId: 20
       currencyId: USD
@@ -117,8 +142,13 @@ Create:
     userId: 2
     services:
       claim.claim_service: OrangeHRM\Claim\Service\ClaimService
-      core.datetime_helper_service: \OrangeHRM\Core\Service\DateTimeHelperService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
       admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     body:
       claimEventId: 2
       currencyId: USDS
@@ -136,6 +166,7 @@ GetOne:
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     attributes:
@@ -175,6 +206,7 @@ GetOne:
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     attributes:
@@ -205,6 +237,7 @@ GetOne:
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     attributes:
@@ -241,6 +274,7 @@ GetOne:
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     attributes:
@@ -257,6 +291,7 @@ GetOne:
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     attributes:
@@ -293,6 +328,7 @@ GetOne:
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     attributes:
@@ -325,6 +361,7 @@ GetOne:
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     attributes:

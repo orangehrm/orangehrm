@@ -21,17 +21,12 @@
 namespace OrangeHRM\Claim\Api;
 
 use OpenApi\Annotations as OA;
-use OrangeHRM\Claim\Api\Model\ClaimRequestModel;
 use OrangeHRM\Core\Api\CommonParams;
-use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
-use OrangeHRM\Core\Api\V2\ParameterBag;
-use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
-use OrangeHRM\Entity\ClaimRequest;
 
 class MyClaimRequestAPI extends EmployeeClaimRequestAPI
 {
@@ -61,12 +56,17 @@ class MyClaimRequestAPI extends EmployeeClaimRequestAPI
      * )
      * @inheritDoc
      */
-    public function create(): EndpointResourceResult
+    public function create(): EndpointResult
     {
-        $claimRequest = new ClaimRequest();
-        $empNumber = $this->getAuthUser()->getEmpNumber();
-        $this->setClaimRequest($claimRequest, $empNumber);
-        return new EndpointResourceResult(ClaimRequestModel::class, $claimRequest);
+        return parent::create();
+    }
+
+    /**
+     * @param int|null $empNumber
+     * @return bool
+     */
+    protected function checkLoggedInUser(?int $empNumber):bool{
+        return true;
     }
 
     /**
@@ -105,30 +105,17 @@ class MyClaimRequestAPI extends EmployeeClaimRequestAPI
      * )
      * @inheritDoc
      */
-    public function getOne(): EndpointResult
+   public function getOne(): EndpointResult
+   {
+        return Parent::getOne();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected function getEmpNumber(): int
     {
-        $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
-        $claimRequest = $this->getClaimService()
-            ->getClaimDao()
-            ->getClaimRequestById($id);
-        $loggedInEmpNumber = $this->getAuthUser()->getEmpNumber();
-
-        $this->throwRecordNotFoundExceptionIfNotExist($claimRequest, ClaimRequest::class);
-
-        if ($claimRequest->getEmployee()->getEmpNumber() != $loggedInEmpNumber) {
-            throw $this->getForbiddenException();
-        }
-
-        $allowedActions = $this->getAllowedActions($claimRequest);
-        return new EndpointResourceResult(
-            ClaimRequestModel::class,
-            $claimRequest,
-            new ParameterBag(
-                [
-                    self::PARAMETER_ALLOWED_ACTIONS => $allowedActions,
-                ]
-            )
-        );
+        return $this->getAuthUser()->getEmpNumber();
     }
 
     /**
