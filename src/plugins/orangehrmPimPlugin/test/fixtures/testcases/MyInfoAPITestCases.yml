@@ -10,8 +10,6 @@ GetOne:
       middleName: ""
       employeeId: "0001"
       terminationId: null
-    meta:
-      userRole: Admin
 
   'Get logged in User Details - Detail Model':
     userId: 2
@@ -42,5 +40,3 @@ GetOne:
           lastName: "Admin"
           firstName: "Devi"
           middleName: ""
-    meta:
-      userRole: ESS

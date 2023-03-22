@@ -1,3 +1,6 @@
+Config:
+  - { name: 'authorize_user_role_manager_class', value: 'BasicUserRoleManager' }
+
 Subunit:
   - { id: 1, name: 'Organization', description: 'company description', lft: 1, rgt: 14, level: 0 }
   - { id: 2, name: 'Open Source', description: 'department description', lft: 2, rgt: 5, level: 1 }

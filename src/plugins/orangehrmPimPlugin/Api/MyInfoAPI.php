@@ -43,7 +43,6 @@ class MyInfoAPI extends Endpoint implements ResourceEndpoint
     use EmployeeServiceTrait;
 
     public const FILTER_MODEL = 'model';
-    public const USER_ROLE_NAME = 'userRole';
     public const MODEL_DEFAULT = 'default';
     public const MODEL_DETAILED = 'detailed';
     public const MODEL_MAP = [
@@ -73,13 +72,8 @@ class MyInfoAPI extends Endpoint implements ResourceEndpoint
      *                 property="data",
      *                 oneOf={
      *                     @OA\Schema(ref="#/components/schemas/Pim-EmployeeModel"),
-     *			           @OA\Schema(ref="#/components/schemas/Pim-EmployeeDetailedModel"),
+     *                     @OA\Schema(ref="#/components/schemas/Pim-EmployeeDetailedModel"),
      *                 }
-     *             ),
-     *             @OA\Property(
-     *                 property="meta",
-     *                 type="object",
-     *                 @OA\Property(property="userRole", type="string")
      *             ),
      *         )
      *     )
@@ -96,11 +90,6 @@ class MyInfoAPI extends Endpoint implements ResourceEndpoint
         return new EndpointResourceResult(
             $this->getModelClass(),
             $employee,
-            new ParameterBag(
-                [
-                    self::USER_ROLE_NAME=>$this->getAuthUser()->getUserRoleName(),
-                ]
-            )
         );
     }
 
