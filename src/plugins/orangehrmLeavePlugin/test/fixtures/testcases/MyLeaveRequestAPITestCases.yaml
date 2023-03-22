@@ -1302,7 +1302,7 @@ Update:
       action: 'CANCEL'
     exception:
       class: '\OrangeHRM\Core\Api\V2\Exception\BadRequestException'
-      message: 'Leave request have multiple status'
+      message: 'Leave request has multiple statuses'
     query:
       model: detailed
 

@@ -22,7 +22,6 @@ namespace OrangeHRM\Leave\Api\Traits;
 use LogicException;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
-use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\LeaveRequest;
 
 trait LeaveRequestPermissionTrait
@@ -40,8 +39,7 @@ trait LeaveRequestPermissionTrait
             );
         }
         $empNumber = $leaveRequest->getEmployee()->getEmpNumber();
-        if (!($this->getUserRoleManager()->isEntityAccessible(Employee::class, $empNumber) ||
-            $this->getUserRoleManagerHelper()->isSelfByEmpNumber($empNumber))) {
+        if (!$this->getUserRoleManagerHelper()->isEmployeeAccessible($empNumber)) {
             throw $this->getForbiddenException();
         }
     }
