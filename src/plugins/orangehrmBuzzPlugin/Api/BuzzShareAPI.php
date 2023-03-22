@@ -248,7 +248,7 @@ class BuzzShareAPI extends Endpoint implements CrudEndpoint
      *                 property="data",
      *                 oneOf={
      *                     @OA\Schema(ref="#/components/schemas/Buzz-ShareModel"),
-     *			           @OA\Schema(ref="#/components/schemas/Buzz-FeedPostModel"),
+     *                     @OA\Schema(ref="#/components/schemas/Buzz-FeedPostModel"),
      *                 }
      *             ),
      *             @OA\Property(property="meta", type="object")

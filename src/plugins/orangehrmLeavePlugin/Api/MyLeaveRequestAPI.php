@@ -77,7 +77,7 @@ class MyLeaveRequestAPI extends EmployeeLeaveRequestAPI
      *                 property="data",
      *                 oneOf={
      *                     @OA\Schema(ref="#/components/schemas/Leave-LeaveRequestDetailedModel"),
-     *			           @OA\Schema(ref="#/components/schemas/Leave-LeaveRequestModel"),
+     *                     @OA\Schema(ref="#/components/schemas/Leave-LeaveRequestModel"),
      *                 }
      *             ),
      *             @OA\Property(property="meta", type="object")
@@ -275,7 +275,7 @@ class MyLeaveRequestAPI extends EmployeeLeaveRequestAPI
      *                 property="data",
      *                 oneOf={
      *                     @OA\Schema(ref="#/components/schemas/Leave-LeaveRequestDetailedModel"),
-     *			           @OA\Schema(ref="#/components/schemas/Leave-LeaveRequestModel"),
+     *                     @OA\Schema(ref="#/components/schemas/Leave-LeaveRequestModel"),
      *                 }
      *             ),
      *             @OA\Property(property="meta", type="object")
@@ -369,7 +369,7 @@ class MyLeaveRequestAPI extends EmployeeLeaveRequestAPI
      *                 property="data",
      *                 oneOf={
      *                     @OA\Schema(ref="#/components/schemas/Leave-LeaveRequestDetailedModel"),
-     *			           @OA\Schema(ref="#/components/schemas/Leave-LeaveRequestModel"),
+     *                     @OA\Schema(ref="#/components/schemas/Leave-LeaveRequestModel"),
      *                 }
      *             ),
      *             @OA\Property(property="meta", type="object")
@@ -386,7 +386,7 @@ class MyLeaveRequestAPI extends EmployeeLeaveRequestAPI
      *                         @OA\Property(property="status", type="string", default="400"),
      *                         @OA\Property(property="message", type="string", default="Performed action not allowed")
      *                     ),
-     *			           @OA\Schema(
+     *                     @OA\Schema(
      *                         type="object",
      *                         @OA\Property(property="status", type="string", default="400"),
      *                         @OA\Property(property="message", type="string", default="Leave request has multiple statuses")
