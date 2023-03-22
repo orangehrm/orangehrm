@@ -170,7 +170,6 @@ class OAuthClientAPI extends Endpoint implements CrudEndpoint
                 new Rule(Rules::STRING_TYPE),
                 new Rule(Rules::REQUIRED),
                 new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NAME_MAX_LENGTH]),
-                new Rule(Rules::NOT_IN, [[OAuthService::PUBLIC_MOBILE_CLIENT_ID]]),
                 new Rule(Rules::ENTITY_UNIQUE_PROPERTY, [OAuthClient::class, 'name']),
             ),
             ...$this->getCommonBodyValidationRules(),
@@ -378,7 +377,6 @@ class OAuthClientAPI extends Endpoint implements CrudEndpoint
                 new Rule(Rules::STRING_TYPE),
                 new Rule(Rules::REQUIRED),
                 new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NAME_MAX_LENGTH]),
-                new Rule(Rules::NOT_IN, [[OAuthService::PUBLIC_MOBILE_CLIENT_ID]]),
                 new Rule(Rules::ENTITY_UNIQUE_PROPERTY, [OAuthClient::class, 'name', $entityUniquePropertyOptions])
             ),
             ...$this->getCommonBodyValidationRules(),

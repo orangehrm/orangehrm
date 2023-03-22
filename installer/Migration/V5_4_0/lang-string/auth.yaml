@@ -53,3 +53,6 @@ langStrings:
   -
     value: 'This request is invalid'
     unitId: this_request_is_invalid
+  -
+    value: 'Please enable the Mobile option in the module configuration screen'
+    unitId: mobile_client_disabled_error

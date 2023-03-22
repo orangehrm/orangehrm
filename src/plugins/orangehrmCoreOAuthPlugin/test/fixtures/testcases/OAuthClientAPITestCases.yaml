@@ -170,6 +170,18 @@ Update:
       enabled: false
     invalidOnly: [ 'redirectUri' ]
 
+  'update mobile client':
+    userId: 1
+    services:
+      oauth.oauth_service: \OrangeHRM\OAuth\Service\OAuthService
+    attributes:
+      id: 1
+    body:
+      name: "ohrm-client"
+      redirectUri: 'https://www.orangehrm.com'
+      enabled: false
+    invalidOnly: [ 'id' ]
+
 GetOne:
   'get existing client':
     userId: 1
@@ -235,4 +247,20 @@ Delete:
       oauth.oauth_service: \OrangeHRM\OAuth\Service\OAuthService
     body:
       ids: [ 2, "a" ]
+    invalidOnly: [ 'ids' ]
+
+  'delete mobile client id':
+    userId: 1
+    services:
+      oauth.oauth_service: \OrangeHRM\OAuth\Service\OAuthService
+    body:
+      ids: [ 1 ]
+    invalidOnly: [ 'ids' ]
+
+  'delete mobile client id with other ids':
+    userId: 1
+    services:
+      oauth.oauth_service: \OrangeHRM\OAuth\Service\OAuthService
+    body:
+      ids: [ 1, 2 ]
     invalidOnly: [ 'ids' ]
