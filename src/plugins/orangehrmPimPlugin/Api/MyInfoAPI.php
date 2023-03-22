@@ -24,10 +24,15 @@ use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
 use OrangeHRM\Core\Api\V2\ParameterBag;
+use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\ResourceEndpoint;
+use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
+use OrangeHRM\Core\Api\V2\Validator\Rule;
+use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Entity\Employee;
+use OrangeHRM\Pim\Api\Model\EmployeeDetailedModel;
 use OrangeHRM\Pim\Api\Model\EmployeeModel;
 use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
 
@@ -36,7 +41,14 @@ class MyInfoAPI extends Endpoint implements ResourceEndpoint
     use AuthUserTrait;
     use EmployeeServiceTrait;
 
+    public const FILTER_MODEL = 'model';
     public const USER_ROLE_NAME = 'userRole';
+    public const MODEL_DEFAULT = 'default';
+    public const MODEL_DETAILED = 'detailed';
+    public const MODEL_MAP = [
+        self::MODEL_DEFAULT => EmployeeModel::class,
+        self::MODEL_DETAILED => EmployeeDetailedModel::class,
+    ];
 
     /**
      * @inheritDoc
@@ -48,7 +60,7 @@ class MyInfoAPI extends Endpoint implements ResourceEndpoint
         $this->throwRecordNotFoundExceptionIfNotExist($employee, Employee::class);
 
         return new EndpointResourceResult(
-            EmployeeModel::class,
+            $this->getModelClass(),
             $employee,
             new ParameterBag(
                 [
@@ -63,9 +75,29 @@ class MyInfoAPI extends Endpoint implements ResourceEndpoint
      */
     public function getValidationRuleForGetOne(): ParamRuleCollection
     {
-        $paramRules = new ParamRuleCollection();
+        $paramRules = new ParamRuleCollection(
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::FILTER_MODEL,
+                    new Rule(Rules::IN, [array_keys(self::MODEL_MAP)])
+                )
+            ),
+        );
         $paramRules->addExcludedParamKey(CommonParams::PARAMETER_ID);
         return $paramRules;
+    }
+
+    /**
+     * @return string
+     */
+    protected function getModelClass(): string
+    {
+        $model = $this->getRequestParams()->getString(
+            RequestParams::PARAM_TYPE_QUERY,
+            self::FILTER_MODEL,
+            self::MODEL_DEFAULT
+        );
+        return self::MODEL_MAP[$model];
     }
 
     /**
