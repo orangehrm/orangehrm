@@ -23,6 +23,48 @@ use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\Employee;
 
+/**
+ * @OA\Schema(
+ *     schema="Pim-EmployeeDetailedModel",
+ *     type="object",
+ *     @OA\Property(property="empNumber", type="string"),
+ *     @OA\Property(property="lastName", type="string"),
+ *     @OA\Property(property="firstName", type="string"),
+ *     @OA\Property(property="middleName", type="string"),
+ *     @OA\Property(property="employeeId", type="string"),
+ *     @OA\Property(property="terminationId", type="integer", nullable=true),
+ *     @OA\Property(
+ *         property="jobTitle",
+ *         type="object",
+ *         @OA\Property(property="id", type="integer"),
+ *         @OA\Property(property="title", type="string"),
+ *         @OA\Property(property="isDeleted", type="boolean")
+ *     ),
+ *     @OA\Property(
+ *         property="subunit",
+ *         type="object",
+ *         @OA\Property(property="id", type="integer"),
+ *         @OA\Property(property="name", type="string")
+ *     ),
+ *     @OA\Property(
+ *         property="empStatus",
+ *         type="object",
+ *         @OA\Property(property="id", type="integer"),
+ *         @OA\Property(property="name", type="string")
+ *     ),
+ *     @OA\Property(
+ *         property="supervisors",
+ *         type="array",
+ *         @OA\Items(
+ *             type="object",
+ *             @OA\Property(property="empNumber", type="string"),
+ *             @OA\Property(property="lastName", type="string"),
+ *             @OA\Property(property="firstName", type="string"),
+ *             @OA\Property(property="middleName", type="string")
+ *         )
+ *     )
+ * )
+ */
 class EmployeeDetailedModel implements Normalizable
 {
     use ModelTrait;

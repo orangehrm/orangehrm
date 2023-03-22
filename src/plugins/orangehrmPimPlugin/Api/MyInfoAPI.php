@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Pim\Api;
 
+use OpenApi\Annotations as OA;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
@@ -51,6 +52,39 @@ class MyInfoAPI extends Endpoint implements ResourceEndpoint
     ];
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/pim/myself",
+     *     tags={"Pim/My Self"},
+     *     @OA\Parameter(
+     *         name="model",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(
+     *             type="string",
+     *             enum={OrangeHRM\Pim\Api\MyInfoAPI::MODEL_DEFAULT, OrangeHRM\Pim\Api\MyInfoAPI::MODEL_DETAILED},
+     *             default=OrangeHRM\Pim\Api\MyInfoAPI::MODEL_DEFAULT
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 oneOf={
+     *                     @OA\Schema(ref="#/components/schemas/Pim-EmployeeModel"),
+     *			           @OA\Schema(ref="#/components/schemas/Pim-EmployeeDetailedModel"),
+     *                 }
+     *             ),
+     *             @OA\Property(
+     *                 property="meta",
+     *                 type="object",
+     *                 @OA\Property(property="userRole", type="string")
+     *             ),
+     *         )
+     *     )
+     * )
+     *
      * @inheritDoc
      */
     public function getOne(): EndpointResult
