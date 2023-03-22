@@ -126,7 +126,8 @@
     "scripts": {
         "test": "cd ../ && phpunit",
         "post-autoload-dump": [
-            "php ../bin/console orm:generate-proxies"
+            "php ../bin/console orm:generate-proxies",
+            "php ../bin/console cache:clear"
         ]
     }
 }
