@@ -65,7 +65,8 @@ class MyClaimRequestAPI extends EmployeeClaimRequestAPI
      * @param int|null $empNumber
      * @return bool
      */
-    protected function checkLoggedInUser(?int $empNumber):bool{
+    protected function checkLoggedInUser(?int $empNumber): bool
+    {
         return true;
     }
 
@@ -105,9 +106,9 @@ class MyClaimRequestAPI extends EmployeeClaimRequestAPI
      * )
      * @inheritDoc
      */
-   public function getOne(): EndpointResult
-   {
-        return Parent::getOne();
+    public function getOne(): EndpointResult
+    {
+        return parent::getOne();
     }
 
     /**

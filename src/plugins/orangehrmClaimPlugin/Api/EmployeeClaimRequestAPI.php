@@ -161,7 +161,8 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
      * @param int|null $empNumber
      * @return bool
      */
-    protected function checkLoggedInUser(?int $empNumber):bool{
+    protected function checkLoggedInUser(?int $empNumber): bool
+    {
         $loggedInEmpNumber = $this->getAuthUser()->getEmpNumber();
         if ($empNumber === $loggedInEmpNumber) {
             return false;
