@@ -23,6 +23,7 @@ use Exception;
 use OpenApi\Annotations as OA;
 use OrangeHRM\Admin\Traits\Service\UserServiceTrait;
 use OrangeHRM\Claim\Api\Model\ClaimExpenseModel;
+use OrangeHRM\Claim\Api\Traits\ClaimRequestTrait;
 use OrangeHRM\Claim\Dto\ClaimExpenseSearchFilterParams;
 use OrangeHRM\Claim\Traits\Service\ClaimServiceTrait;
 use OrangeHRM\Core\Api\CommonParams;
@@ -57,6 +58,7 @@ class ClaimExpenseAPI extends Endpoint implements CrudEndpoint
     use AuthUserTrait;
     use UserRoleManagerTrait;
     use UserServiceTrait;
+    use ClaimRequestTrait;
 
     public const PARAMETER_EXPENSE_TYPE_ID = 'expenseTypeId';
     public const PARAMETER_AMOUNT = 'amount';
@@ -110,7 +112,7 @@ class ClaimExpenseAPI extends Endpoint implements CrudEndpoint
         $requestId = $this->getRequestParams()
             ->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_REQUEST_ID);
 
-        $this->getClaimService()->getClaimRequest($requestId);
+        $this->getClaimRequest($requestId);
         $claimExpenseSearchFilterParams->setRequestId($requestId);
         $claimExpenses = $this->getClaimService()
             ->getClaimDao()
@@ -193,9 +195,9 @@ class ClaimExpenseAPI extends Endpoint implements CrudEndpoint
                 RequestParams::PARAM_TYPE_ATTRIBUTE,
                 self::PARAMETER_REQUEST_ID
             );
-            $claimRequest = $this->getClaimService()->getClaimRequest($requestId);
+            $claimRequest = $this->getClaimRequest($requestId);
 
-            $this->getClaimService()->isActionAllowed(WorkflowStateMachine::CLAIM_ACTION_SUBMIT, $claimRequest);
+            $this->isActionAllowed(WorkflowStateMachine::CLAIM_ACTION_SUBMIT, $claimRequest);
 
             $claimExpense->getDecorator()->setClaimRequestByRequestId($requestId);
             $expenseTypeId = $this->getRequestParams()->getInt(
@@ -285,9 +287,9 @@ class ClaimExpenseAPI extends Endpoint implements CrudEndpoint
     {
         $requestId = $this->getRequestParams()
             ->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_REQUEST_ID);
-        $claimRequest = $this->getClaimService()->getClaimRequest($requestId);
+        $claimRequest = $this->getClaimRequest($requestId);
 
-        $this->getClaimService()->isActionAllowed(WorkflowStateMachine::CLAIM_ACTION_SUBMIT, $claimRequest);
+        $this->isActionAllowed(WorkflowStateMachine::CLAIM_ACTION_SUBMIT, $claimRequest);
 
         $ids = $this->getRequestParams()
             ->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
@@ -343,11 +345,11 @@ class ClaimExpenseAPI extends Endpoint implements CrudEndpoint
      *
      * @inheritDoc
      */
-    public function getOne(): EndpointResult //TODO:Check the claim request state
+    public function getOne(): EndpointResult
     {
         $requestId = $this->getRequestParams()
             ->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_REQUEST_ID);
-        $this->getClaimService()->getClaimRequest($requestId);
+        $this->getClaimRequest($requestId);
 
         $claimExpenseId = $this->getRequestParams()->getInt(
             RequestParams::PARAM_TYPE_ATTRIBUTE,
@@ -417,9 +419,9 @@ class ClaimExpenseAPI extends Endpoint implements CrudEndpoint
     {
         $requestId = $this->getRequestParams()
             ->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_REQUEST_ID);
-        $claimRequest = $this->getClaimService()->getClaimRequest($requestId);
+        $claimRequest = $this->getClaimRequest($requestId);
 
-        $this->getClaimService()->isActionAllowed(WorkflowStateMachine::CLAIM_ACTION_SUBMIT, $claimRequest);
+        $this->isActionAllowed(WorkflowStateMachine::CLAIM_ACTION_SUBMIT, $claimRequest);
 
         $claimExpenseId = $this->getRequestParams()
             ->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);

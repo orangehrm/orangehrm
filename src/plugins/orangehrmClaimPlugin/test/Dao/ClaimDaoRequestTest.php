@@ -35,11 +35,11 @@ class ClaimDaoRequestTest extends KernelTestCase
     protected function setUp(): void
     {
         $this->claimDao = new ClaimDao();
-        $requestFixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmClaimPlugin/test/fixtures/ClaimRequest.yaml';
+        $requestFixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmClaimPlugin/test/fixtures/MyClaimRequestAPITest.yaml';
         TestDataService::populate($requestFixture);
     }
 
-    public function testGetClaimRequestById()
+    public function testGetClaimRequestById(): void
     {
         $result = $this->claimDao->getClaimRequestById(1);
         $this->assertEquals(1, $result->getId());

@@ -23,9 +23,6 @@ use OrangeHRM\Claim\Dao\ClaimDao;
 use OrangeHRM\Core\Api\V2\Exception\EndpointExceptionTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
-use OrangeHRM\Entity\ClaimRequest;
-use OrangeHRM\Entity\Employee;
-use OrangeHRM\Entity\WorkflowStateMachine;
 
 class ClaimService
 {
@@ -55,43 +52,5 @@ class ClaimService
         $nextId = $this->getClaimDao()->getNextId();
         $date = $this->getDateTimeHelper()->getNow()->format('Ymd');
         return $date . str_pad("$nextId", 7, 0, STR_PAD_LEFT);
-    }
-
-    /**
-     * @param int $action
-     * @param ClaimRequest $claimRequest
-     * @return bool
-     */
-    public function isActionAllowed(int $action, ClaimRequest $claimRequest): bool
-    {
-        $isActionAllowed = $this->getUserRoleManager()->isActionAllowed(
-            WorkflowStateMachine::FLOW_CLAIM,
-            $claimRequest->getStatus(),
-            $action,
-            [],
-            [],
-            [Employee::class => $claimRequest->getEmployee()->getEmpNumber()]
-        );
-        if (!$isActionAllowed) {
-            throw $this->getForbiddenException();
-        }
-        return true;
-    }
-
-    /**
-     * @param int $requestId
-     * @return ClaimRequest
-     */
-    public function getClaimRequest(int $requestId): ClaimRequest
-    {
-        $claimRequest = $this->getClaimDao()
-            ->getClaimRequestById($requestId);
-        if (!$claimRequest instanceof ClaimRequest) {
-            throw $this->getInvalidParamException(self::PARAMETER_REQUEST_ID);
-        }
-        if (!$this->getUserRoleManagerHelper()->isEmployeeAccessible($claimRequest->getEmployee()->getEmpNumber())) {
-            throw $this->getForbiddenException();
-        }
-        return $claimRequest;
     }
 }
