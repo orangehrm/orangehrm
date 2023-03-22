@@ -38,7 +38,6 @@ use OrangeHRM\Core\Utility\PasswordHash;
 use OrangeHRM\Entity\OAuthClient;
 use OrangeHRM\OAuth\Api\Model\OAuthClientModel;
 use OrangeHRM\OAuth\Dto\OAuthClientSearchFilterParams;
-use OrangeHRM\OAuth\Service\OAuthService;
 use OrangeHRM\OAuth\Traits\OAuthServiceTrait;
 
 class OAuthClientAPI extends Endpoint implements CrudEndpoint
