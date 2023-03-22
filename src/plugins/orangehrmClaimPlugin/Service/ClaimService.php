@@ -20,21 +20,16 @@
 namespace OrangeHRM\Claim\Service;
 
 use OrangeHRM\Claim\Dao\ClaimDao;
-use OrangeHRM\Core\Api\V2\Exception\EndpointExceptionTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
-use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 
 class ClaimService
 {
     use DateTimeHelperTrait;
-    use UserRoleManagerTrait;
-    use EndpointExceptionTrait;
 
     /**
      * @var ClaimDao
      */
     protected ClaimDao $claimDao;
-    private const PARAMETER_REQUEST_ID = 'requestId';
 
     /**
      * @return ClaimDao

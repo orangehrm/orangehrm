@@ -157,13 +157,19 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
         );
     }
 
-    /*
+    /**
      * @param int|null $empNumber
      * @return bool
      */
     protected function checkLoggedInUser(?int $empNumber): bool
     {
         $loggedInEmpNumber = $this->getAuthUser()->getEmpNumber();
+        $employee = $this->getReference(Employee::class, $empNumber);
+
+        if (!$employee instanceof Employee) {
+            throw $this->getRecordNotFoundException();
+        }
+
         if ($empNumber === $loggedInEmpNumber) {
             return false;
         }
@@ -201,7 +207,8 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
             $claimRequest->setClaimEvent($claimEvent);
             $claimRequest->getDecorator()->setCurrencyByCurrencyId($currencyId);
             $claimRequest->setDescription(
-                $this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_REMARKS)
+                $this->getRequestParams()
+                    ->getStringOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_REMARKS)
             );
 
             $claimRequest->setReferenceId($this->getClaimService()->getReferenceId());
@@ -276,6 +283,10 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
         $id = $this->getRequestParams()
             ->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $empNumber = $this->getEmpNumber();
+
+        if (!$this->checkLoggedInUser($empNumber)) {
+            throw $this->getForbiddenException();
+        }
 
         if (!$this->getUserRoleManagerHelper()->isEmployeeAccessible($empNumber)) {
             throw $this->getForbiddenException();
