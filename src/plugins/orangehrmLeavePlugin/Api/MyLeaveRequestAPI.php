@@ -57,19 +57,39 @@ class MyLeaveRequestAPI extends EmployeeLeaveRequestAPI
     }
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/leave/leave-requests/{leaveRequestId}",
+     *     tags={"Leave/My Leave"},
+     *     @OA\PathParameter(
+     *         name="leaveRequestId",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         name="model",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string", enum={\OrangeHRM\Leave\Api\EmployeeLeaveRequestAPI::MODEL_DEFAULT, \OrangeHRM\Leave\Api\EmployeeLeaveRequestAPI::MODEL_DETAILED})
+     *     ),
+     *     @OA\Response(response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 oneOf={
+     *                     @OA\Schema(ref="#/components/schemas/Leave-LeaveRequestDetailedModel"),
+     *                     @OA\Schema(ref="#/components/schemas/Leave-LeaveRequestModel"),
+     *                 }
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     * )
+     *
      * @inheritDoc
      */
     public function getOne(): EndpointResult
     {
-        throw $this->getNotImplementedException();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getValidationRuleForGetOne(): ParamRuleCollection
-    {
-        throw $this->getNotImplementedException();
+        return parent::getOne();
     }
 
     /**
@@ -104,21 +124,8 @@ class MyLeaveRequestAPI extends EmployeeLeaveRequestAPI
      *         name="statuses",
      *         in="query",
      *         required=false,
-     *         description="-1 => rejected,
- *                           0 => cancelled,
- *                           1 => pending ,
- *                           2 => approved,
- *                           3 => taken,
- *                           4 => weekend,
- *                           5 => holiday",
-     *         @OA\Schema(
-     *             type="array",
-     *             @OA\Items(
-     *                 @OA\Schema(
-     *                     type="integer"
-     *                 )
-     *             )
-     *         )
+     *         description="-1 => rejected, 0 => cancelled, 1 => pending, 2 => approved, 3 => taken",
+     *         @OA\Schema(type="integer", enum=LeaveRequestSearchFilterParams::LEAVE_STATUSES)
      *     ),
      *     @OA\Parameter(
      *         name="sortField",
@@ -200,6 +207,12 @@ class MyLeaveRequestAPI extends EmployeeLeaveRequestAPI
      * @OA\Post(
      *     path="/api/v2/leave/leave-requests",
      *     tags={"Leave/My Leave"},
+     *     @OA\Parameter(
+     *         name="model",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string", enum={\OrangeHRM\Leave\Api\EmployeeLeaveRequestAPI::MODEL_DEFAULT, \OrangeHRM\Leave\Api\EmployeeLeaveRequestAPI::MODEL_DETAILED})
+     *     ),
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
@@ -210,7 +223,7 @@ class MyLeaveRequestAPI extends EmployeeLeaveRequestAPI
      *                 @OA\Property(
      *                     property="type",
      *                     type="string",
-     *                     example="full_day, half_day_afternoon,half_day_morning,specify_time"
+     *                     enum={"full_day", "half_day_afternoon", "half_day_morning", "specify_time"},
      *                 ),
      *                 @OA\Property(
      *                     property="fromTime",
@@ -249,28 +262,21 @@ class MyLeaveRequestAPI extends EmployeeLeaveRequestAPI
      *                 required={"type"}
      *             ),
      *             @OA\Property(property="partialOption", type="string", example="start"),
-     *             @OA\Property(property="fromDate", type="number"),
-     *             @OA\Property(property="toDate", type="number"),
+     *             @OA\Property(property="fromDate", type="string"),
+     *             @OA\Property(property="toDate", type="string"),
      *             @OA\Property(property="leaveTypeId", type="integer"),
-     *             required={"duration", "fromDate", "toDate", "leaveTypeId"},
-     *             example="{
-     *                  'leaveTypeId':3,
- *                      'fromDate':'2022-09-07',
-     *                  'toDate':'2022-09-08',
-     *                  'comment':null,
-     *                  'duration':{'type':'specify_time','fromTime':'09:00','toTime':'17:00'},
-     *                  'partialOption':'start_end',
-     *                  'endDuration':{'type':'specify_time','fromTime':'09:00','toTime':'17:00'}
-     *             }"
+     *             required={"duration", "fromDate", "toDate", "leaveTypeId"}
      *         ),
-     *
      *     ),
      *     @OA\Response(response="200",
      *         description="Success",
      *         @OA\JsonContent(
      *             @OA\Property(
      *                 property="data",
-     *                 ref="#/components/schemas/Leave-LeaveTypeModel"
+     *                 oneOf={
+     *                     @OA\Schema(ref="#/components/schemas/Leave-LeaveRequestDetailedModel"),
+     *                     @OA\Schema(ref="#/components/schemas/Leave-LeaveRequestModel"),
+     *                 }
      *             ),
      *             @OA\Property(property="meta", type="object")
      *         )
@@ -329,6 +335,73 @@ class MyLeaveRequestAPI extends EmployeeLeaveRequestAPI
         if (!$this->getUserRoleManagerHelper()->isSelfByEmpNumber($empNumber)) {
             throw $this->getForbiddenException();
         }
+    }
+
+    /**
+     * @OA\Put(
+     *     path="/api/v2/leave/leave-requests/{leaveRequestId}",
+     *     tags={"Leave/My Leave"},
+     *     @OA\PathParameter(
+     *         name="leaveRequestId",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         name="model",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string", enum={\OrangeHRM\Leave\Api\EmployeeLeaveRequestAPI::MODEL_DEFAULT, \OrangeHRM\Leave\Api\EmployeeLeaveRequestAPI::MODEL_DETAILED})
+     *     ),
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="action",
+     *                 type="string",
+     *                 enum={"APPROVE", "REJECT", "CANCEL"},
+     *             ),
+     *             required={"action"}
+     *         ),
+     *     ),
+     *     @OA\Response(response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 oneOf={
+     *                     @OA\Schema(ref="#/components/schemas/Leave-LeaveRequestDetailedModel"),
+     *                     @OA\Schema(ref="#/components/schemas/Leave-LeaveRequestModel"),
+     *                 }
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(response="400",
+     *         description="Bad Request",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="error",
+     *                 oneOf={
+     *                     @OA\Schema(
+     *                         type="object",
+     *                         @OA\Property(property="status", type="string", default="400"),
+     *                         @OA\Property(property="message", type="string", default="Performed action not allowed")
+     *                     ),
+     *                     @OA\Schema(
+     *                         type="object",
+     *                         @OA\Property(property="status", type="string", default="400"),
+     *                         @OA\Property(property="message", type="string", default="Leave request has multiple statuses")
+     *                     ),
+     *                 }
+     *             )
+     *         )
+     *     ),
+     * )
+     *
+     * @inheritDoc
+     */
+    public function update(): EndpointResult
+    {
+        return parent::update();
     }
 
     /**

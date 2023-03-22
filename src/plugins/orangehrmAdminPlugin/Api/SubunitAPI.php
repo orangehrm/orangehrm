@@ -122,7 +122,7 @@ class SubunitAPI extends Endpoint implements CrudEndpoint
      *                 @OA\Items(
      *                     oneOf={
      *                         @OA\Schema(ref="#/components/schemas/Admin-SubunitModel"),
-     *			               @OA\Schema(ref="#/components/schemas/Admin-SubunitTreeModel"),
+     *                         @OA\Schema(ref="#/components/schemas/Admin-SubunitTreeModel"),
      *                     }
      *                 )
      *             ),

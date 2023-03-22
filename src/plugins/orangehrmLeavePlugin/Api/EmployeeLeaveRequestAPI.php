@@ -89,7 +89,25 @@ class EmployeeLeaveRequestAPI extends Endpoint implements CrudEndpoint
      */
     public function getOne(): EndpointResult
     {
-        throw $this->getNotImplementedException();
+        $leaveRequestId = $this->getRequestParams()->getInt(
+            RequestParams::PARAM_TYPE_ATTRIBUTE,
+            self::PARAMETER_LEAVE_REQUEST_ID
+        );
+        $leaveRequest = $this->getLeaveRequestService()->getLeaveRequestDao()->getLeaveRequestById($leaveRequestId);
+        $this->throwRecordNotFoundExceptionIfNotExist($leaveRequest, LeaveRequest::class);
+        $this->checkLeaveRequestAccessible($leaveRequest);
+
+        $model = $this->getRequestParams()->getString(
+            RequestParams::PARAM_TYPE_QUERY,
+            self::FILTER_MODEL,
+            self::MODEL_DEFAULT
+        );
+        if ($model === self::MODEL_DETAILED) {
+            $detailedLeaveRequest = new DetailedLeaveRequest($leaveRequest);
+            $detailedLeaveRequest->fetchLeaves();
+            $leaveRequest = $detailedLeaveRequest;
+        }
+        return new EndpointResourceResult(self::MODEL_MAP[$model], $leaveRequest);
     }
 
     /**
@@ -97,7 +115,12 @@ class EmployeeLeaveRequestAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForGetOne(): ParamRuleCollection
     {
-        throw $this->getNotImplementedException();
+        return new ParamRuleCollection(
+            new ParamRule(self::PARAMETER_LEAVE_REQUEST_ID, new Rule(Rules::POSITIVE)),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(self::FILTER_MODEL, new Rule(Rules::IN, [array_keys(self::MODEL_MAP)])),
+            ),
+        );
     }
 
     /**
@@ -356,7 +379,7 @@ class EmployeeLeaveRequestAPI extends Endpoint implements CrudEndpoint
         $detailedLeaveRequest = new DetailedLeaveRequest($leaveRequest);
         $detailedLeaveRequest->fetchLeaves();
         if ($detailedLeaveRequest->hasMultipleStatus()) {
-            throw $this->getBadRequestException('Leave request have multiple status');
+            throw $this->getBadRequestException('Leave request has multiple statuses');
         }
 
         $action = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_ACTION);

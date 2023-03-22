@@ -94,7 +94,7 @@ class BuzzCommentAPI extends Endpoint implements CrudEndpoint
      *                 property="data",
      *                 oneOf={
      *                     @OA\Schema(ref="#/components/schemas/Buzz-BuzzCommentModel"),
-     *			           @OA\Schema(ref="#/components/schemas/Buzz-BuzzDetailedCommentModel"),
+     *                     @OA\Schema(ref="#/components/schemas/Buzz-BuzzDetailedCommentModel"),
      *                 }
      *             ),
      *             @OA\Property(property="meta", type="object")
@@ -185,7 +185,7 @@ class BuzzCommentAPI extends Endpoint implements CrudEndpoint
      *                 type="array",
      *                 @OA\Items(oneOf={
      *                     @OA\Schema(ref="#/components/schemas/Buzz-BuzzCommentModel"),
-     *			           @OA\Schema(ref="#/components/schemas/Buzz-BuzzDetailedCommentModel"),
+     *                     @OA\Schema(ref="#/components/schemas/Buzz-BuzzDetailedCommentModel"),
      *                 })
      *             ),
      *             @OA\Property(property="meta",
@@ -262,7 +262,7 @@ class BuzzCommentAPI extends Endpoint implements CrudEndpoint
      *                 property="data",
      *                 oneOf={
      *                     @OA\Schema(ref="#/components/schemas/Buzz-BuzzCommentModel"),
-     *			           @OA\Schema(ref="#/components/schemas/Buzz-BuzzDetailedCommentModel"),
+     *                     @OA\Schema(ref="#/components/schemas/Buzz-BuzzDetailedCommentModel"),
      *                 }
      *             ),
      *             @OA\Property(property="meta", type="object")
@@ -364,7 +364,7 @@ class BuzzCommentAPI extends Endpoint implements CrudEndpoint
      *                 property="data",
      *                 oneOf={
      *                     @OA\Schema(ref="#/components/schemas/Buzz-BuzzCommentModel"),
-     *			           @OA\Schema(ref="#/components/schemas/Buzz-BuzzDetailedCommentModel"),
+     *                     @OA\Schema(ref="#/components/schemas/Buzz-BuzzDetailedCommentModel"),
      *                 }
      *             ),
      *             @OA\Property(property="meta", type="object")
