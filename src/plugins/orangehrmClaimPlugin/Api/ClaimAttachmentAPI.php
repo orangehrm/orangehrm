@@ -22,7 +22,7 @@ namespace OrangeHRM\Claim\Api;
 use Exception;
 use OpenApi\Annotations as OA;
 use OrangeHRM\Claim\Api\Model\ClaimAttachmentModel;
-use OrangeHRM\Claim\Api\Traits\ClaimRequestTrait;
+use OrangeHRM\Claim\Api\Traits\ClaimRequestAPIHelperTrait;
 use OrangeHRM\Claim\Dto\ClaimAttachmentSearchFilterParams;
 use OrangeHRM\Claim\Dto\PartialClaimAttachment;
 use OrangeHRM\Claim\Traits\Service\ClaimServiceTrait;
@@ -57,7 +57,7 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
     use AuthUserTrait;
     use DateTimeHelperTrait;
     use UserRoleManagerTrait;
-    use ClaimRequestTrait;
+    use ClaimRequestAPIHelperTrait;
 
     public const PARAMETER_REQUEST_ID = 'requestId';
     public const PARAMETER_CLAIM_ATTACHMENT = 'attachment';

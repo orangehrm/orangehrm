@@ -26,7 +26,7 @@ use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\WorkflowStateMachine;
 use OrangeHRM\Core\Api\V2\Exception\EndpointExceptionTrait;
 
-trait ClaimRequestTrait
+trait ClaimRequestAPIHelperTrait
 {
     use UserRoleManagerTrait;
     use EndpointExceptionTrait;

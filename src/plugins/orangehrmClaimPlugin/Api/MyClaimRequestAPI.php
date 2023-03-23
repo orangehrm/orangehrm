@@ -62,10 +62,10 @@ class MyClaimRequestAPI extends EmployeeClaimRequestAPI
     }
 
     /**
-     * @param int|null $empNumber
+     * @param int $empNumber
      * @return bool
      */
-    protected function checkLoggedInUser(?int $empNumber): bool
+    protected function isSelfByEmpNumber(int $empNumber): bool
     {
         return true;
     }

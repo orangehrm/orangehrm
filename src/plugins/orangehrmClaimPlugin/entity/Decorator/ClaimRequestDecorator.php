@@ -65,7 +65,7 @@ class ClaimRequestDecorator
     /**
      * @param int $userId
      */
-    public function setUserByUserId(int $userId)
+    public function setUserByUserId(int $userId): void
     {
         $user = $this->getReference(User::class, $userId);
         $this->getClaimRequest()->setUser($user);
@@ -74,7 +74,7 @@ class ClaimRequestDecorator
     /**
      * @param string $currencyId
      */
-    public function setCurrencyByCurrencyId(string $currencyId)
+    public function setCurrencyByCurrencyId(string $currencyId): void
     {
         $this->getClaimRequest()->setCurrencyType(
             $this->getPayGradeService()->getPayGradeDao()->getCurrencyById($currencyId)
@@ -94,7 +94,7 @@ class ClaimRequestDecorator
     /**
      * @param int $empNumber
      */
-    public function setEmployeeByEmpNumber(int $empNumber)
+    public function setEmployeeByEmpNumber(int $empNumber): void
     {
         $employee = $this->getReference(Employee::class, $empNumber);
         $this->getClaimRequest()->setEmployee($employee);

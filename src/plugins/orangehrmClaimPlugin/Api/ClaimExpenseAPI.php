@@ -23,7 +23,7 @@ use Exception;
 use OpenApi\Annotations as OA;
 use OrangeHRM\Admin\Traits\Service\UserServiceTrait;
 use OrangeHRM\Claim\Api\Model\ClaimExpenseModel;
-use OrangeHRM\Claim\Api\Traits\ClaimRequestTrait;
+use OrangeHRM\Claim\Api\Traits\ClaimRequestAPIHelperTrait;
 use OrangeHRM\Claim\Dto\ClaimExpenseSearchFilterParams;
 use OrangeHRM\Claim\Traits\Service\ClaimServiceTrait;
 use OrangeHRM\Core\Api\CommonParams;
@@ -58,7 +58,7 @@ class ClaimExpenseAPI extends Endpoint implements CrudEndpoint
     use AuthUserTrait;
     use UserRoleManagerTrait;
     use UserServiceTrait;
-    use ClaimRequestTrait;
+    use ClaimRequestAPIHelperTrait;
 
     public const PARAMETER_EXPENSE_TYPE_ID = 'expenseTypeId';
     public const PARAMETER_AMOUNT = 'amount';
@@ -252,7 +252,7 @@ class ClaimExpenseAPI extends Endpoint implements CrudEndpoint
             ),
             new ParamRule(
                 self::PARAMETER_AMOUNT,
-                new Rule(Rules::FLOAT_TYPE),
+                new Rule(Rules::FLOAT_TYPE), //TODO:: handle decimal points
                 new Rule(Rules::MIN, [0])
             ),
             new ParamRule(

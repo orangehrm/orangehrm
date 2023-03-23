@@ -106,10 +106,9 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
         $claimRequest = new ClaimRequest();
         $empNumber = $this->getEmpNumber();
 
-        if (!$this->checkLoggedInUser($empNumber)) {
+        if (!$this->isSelfByEmpNumber($empNumber)) {
             throw $this->getForbiddenException();
         }
-
         if (!$this->getUserRoleManagerHelper()->isEmployeeAccessible($empNumber)) {
             throw $this->getForbiddenException();
         }
@@ -158,22 +157,12 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     * @param int|null $empNumber
+     * @param int $empNumber
      * @return bool
      */
-    protected function checkLoggedInUser(?int $empNumber): bool
+    protected function isSelfByEmpNumber(int $empNumber): bool
     {
-        $loggedInEmpNumber = $this->getAuthUser()->getEmpNumber();
-        $employee = $this->getReference(Employee::class, $empNumber);
-
-        if (!$employee instanceof Employee) {
-            throw $this->getRecordNotFoundException();
-        }
-
-        if ($empNumber === $loggedInEmpNumber) {
-            return false;
-        }
-        return true;
+        return !$this->getUserRoleManagerHelper()->isSelfByEmpNumber($empNumber);
     }
 
     /**
@@ -284,7 +273,7 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
             ->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $empNumber = $this->getEmpNumber();
 
-        if (!$this->checkLoggedInUser($empNumber)) {
+        if (!$this->isSelfByEmpNumber($empNumber)) {
             throw $this->getForbiddenException();
         }
 
