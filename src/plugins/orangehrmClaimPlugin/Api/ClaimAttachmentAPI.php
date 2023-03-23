@@ -190,7 +190,7 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
             $claimAttachment->setAttachedDate($this->getDateTimeHelper()->getNow());
             $this->setAttachment($claimAttachment);
             $this->commitTransaction();
-        } catch (InvalidParamException|ForbiddenException $e) {
+        } catch (InvalidParamException|ForbiddenException | RecordNotFoundException $e) {
             $this->rollBackTransaction();
             throw $e;
         } catch (Exception $e) {

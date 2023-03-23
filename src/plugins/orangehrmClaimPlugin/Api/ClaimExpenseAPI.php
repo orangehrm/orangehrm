@@ -34,6 +34,7 @@ use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
 use OrangeHRM\Core\Api\V2\Exception\ForbiddenException;
 use OrangeHRM\Core\Api\V2\Exception\InvalidParamException;
+use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
@@ -227,7 +228,7 @@ class ClaimExpenseAPI extends Endpoint implements CrudEndpoint
                 ->getClaimDao()
                 ->saveClaimExpense($claimExpense);
             $this->commitTransaction();
-        } catch (ForbiddenException | InvalidParamException $e) {
+        } catch (ForbiddenException | InvalidParamException | RecordNotFoundException $e) {
             $this->rollBackTransaction();
             throw $e;
         } catch (Exception $e) {

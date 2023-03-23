@@ -61,9 +61,7 @@ trait ClaimRequestAPIHelperTrait
     {
         $claimRequest = $this->getClaimService()->getClaimDao()
             ->getClaimRequestById($requestId);
-        if (!$claimRequest instanceof ClaimRequest) {
-            throw $this->getInvalidParamException('requestId');
-        }
+        $this->throwRecordNotFoundExceptionIfNotExist($claimRequest, ClaimRequest::class);
         if (!$this->getUserRoleManagerHelper()->isEmployeeAccessible($claimRequest->getEmployee()->getEmpNumber())) {
             throw $this->getForbiddenException();
         }
