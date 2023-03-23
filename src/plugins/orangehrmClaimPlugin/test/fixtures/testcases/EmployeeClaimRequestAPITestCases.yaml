@@ -12,6 +12,8 @@ Create:
       core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      empNumber: 1
     body:
       claimEventId: 1
       currencyId: 'CAD'
@@ -29,10 +31,8 @@ Create:
       status: INITIATED
     meta: [ ]
 
-  'Create Claim Request - ESS User':
+  'Create Claim Request - ESS User for himself':
     userId: 2
-    now:
-      datetime: '2023-01-17 05:40:00'
     services:
       claim.claim_service: OrangeHRM\Claim\Service\ClaimService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
@@ -42,25 +42,39 @@ Create:
       core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      empNumber: 1
     body:
       claimEventId: 2
       currencyId: 'USD'
       remarks: sample claim request description
-    data:
-      id: 10
-      referenceId: 202301170000010
-      claimEvent:
-        id: 2
-        name: Employee Salaries
-      currencyType:
-        id: USD
-        name: United States Dollar
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
+      message: 'Unauthorized'
+
+  'Create Claim Request - Admin User for himself':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      empNumber: 4
+    body:
+      claimEventId: 2
+      currencyId: 'USD'
       remarks: sample claim request description
-      status: INITIATED
-    meta: [ ]
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
+      message: 'Unauthorized'
 
   'Create Claim Request - Without description':
-    userId: 2
+    userId: 1
     now:
       datetime: '2023-01-17 05:40:00'
     services:
@@ -72,6 +86,8 @@ Create:
       core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      empNumber: 1
     body:
       claimEventId: 2
       currencyId: USD
@@ -90,7 +106,7 @@ Create:
     meta: [ ]
 
   'Create Claim Request - With null description':
-    userId: 2
+    userId: 1
     now:
       datetime: '2023-01-17 05:40:00'
     services:
@@ -102,6 +118,8 @@ Create:
       core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      empNumber: 1
     body:
       claimEventId: 2
       currencyId: 'USD'
@@ -120,7 +138,7 @@ Create:
     meta: [ ]
 
   'Create Claim Request - Wrong Event Id':
-    userId: 2
+    userId: 1
     services:
       claim.claim_service: OrangeHRM\Claim\Service\ClaimService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
@@ -130,6 +148,8 @@ Create:
       core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      empNumber: 1
     body:
       claimEventId: 20
       currencyId: USD
@@ -139,7 +159,7 @@ Create:
       message: 'Invalid Parameter'
 
   'Create Claim Request - Wrong Currency Id':
-    userId: 2
+    userId: 1
     services:
       claim.claim_service: OrangeHRM\Claim\Service\ClaimService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
@@ -149,6 +169,8 @@ Create:
       core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      empNumber: 1
     body:
       claimEventId: 2
       currencyId: USDS
@@ -158,7 +180,7 @@ Create:
       message: 'Invalid Parameter'
 
 GetOne:
-  'GetOne - Claim Request - has INITIATED state as a admin user':
+  'GetOne - Claim Request - has APPROVED state as a admin user':
     userId: 1
     services:
       claim.claim_service: OrangeHRM\Claim\Service\ClaimService
@@ -170,6 +192,7 @@ GetOne:
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     attributes:
+      empNumber: 1
       id: 1
     data:
       {
@@ -184,17 +207,17 @@ GetOne:
           "name": "United States Dollar"
         },
         "remarks": "Travel expenses for business trip to New York",
-        "status": "INITIATED",
+        "status": "APPROVED",
       }
     meta:
       "allowedActions": [
         {
-          "action": "SUBMIT",
-          "name": "Submit"
+          "action": "REJECT",
+          "name": "Reject"
         },
         {
-          "action": "CANCEL",
-          "name": "Cancel"
+          "action": "PAY",
+          "name": "Pay"
         }
       ]
 
@@ -210,6 +233,7 @@ GetOne:
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     attributes:
+      empNumber: 1
       id: 8
     data:
       {
@@ -241,6 +265,7 @@ GetOne:
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     attributes:
+      empNumber: 1
       id: 5
     data:
       {
@@ -258,30 +283,8 @@ GetOne:
         "status": "REJECTED",
       }
     meta: {
-      "allowedActions": [
-        {
-          "action": "SUBMIT",
-          "name": "Submit"
-        }
-      ]
+      "allowedActions": [ ]
     }
-
-  'GetOne - Claim Request - Admin try to get ESS claim request':
-    userId: 1
-    services:
-      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
-      admin.user_service: \OrangeHRM\Admin\Service\UserService
-      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
-      core.config_service: \OrangeHRM\Core\Service\ConfigService
-      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
-      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
-    factories:
-      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
-    attributes:
-      id: 2
-    exception:
-      class: '\OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
-      message: 'Unauthorized'
 
   'GetOne - Claim Request - has SUBMITTED state as a ESS user':
     userId: 2
@@ -295,77 +298,8 @@ GetOne:
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     attributes:
+      empNumber: 4
       id: 2
-    data:
-      {
-        "id": 2,
-        "referenceId": "202301170000002",
-        "claimEvent": {
-          "id": 3,
-          "name": "Travel Expenses"
-        },
-        "currencyType": {
-          "id": "USD",
-          "name": "United States Dollar"
-        },
-        "remarks": "Marketing expenses for trade show",
-        "status": "SUBMITTED",
-      }
-    meta: {
-      "allowedActions": [
-        {
-          "action": "CANCEL",
-          "name": "Cancel"
-        }
-      ]
-    }
-
-  'GetOne - Claim Request - has CANCELLED state as a ESS user':
-    userId: 2
-    services:
-      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
-      admin.user_service: \OrangeHRM\Admin\Service\UserService
-      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
-      core.config_service: \OrangeHRM\Core\Service\ConfigService
-      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
-      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
-    factories:
-      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
-    attributes:
-      id: 9
-    data:
-      {
-        "id": 9,
-        "referenceId": "202301170000009",
-        "claimEvent": {
-          "id": 3,
-          "name": "Travel Expenses"
-        },
-        "currencyType": {
-          "id": "USD",
-          "name": "United States Dollar"
-        },
-        "remarks": "Travel expenses for business trip to New York",
-        "status": "CANCELLED",
-      }
-    meta: {
-      "allowedActions": [
-      ]
-    }
-
-  'GetOne - Claim Request - ESS try to get Admin claim request':
-    userId: 2
-    services:
-      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
-      admin.user_service: \OrangeHRM\Admin\Service\UserService
-      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
-      core.config_service: \OrangeHRM\Core\Service\ConfigService
-      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
-      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
-    factories:
-      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
-    attributes:
-      id: 1
     exception:
       class: '\OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
       message: 'Unauthorized'

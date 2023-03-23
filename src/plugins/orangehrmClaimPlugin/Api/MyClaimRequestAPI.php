@@ -21,16 +21,12 @@
 namespace OrangeHRM\Claim\Api;
 
 use OpenApi\Annotations as OA;
-use OrangeHRM\Claim\Api\Model\ClaimRequestModel;
 use OrangeHRM\Core\Api\CommonParams;
-use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
-use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
-use OrangeHRM\Entity\ClaimRequest;
 
 class MyClaimRequestAPI extends EmployeeClaimRequestAPI
 {
@@ -60,11 +56,18 @@ class MyClaimRequestAPI extends EmployeeClaimRequestAPI
      * )
      * @inheritDoc
      */
-    public function create(): EndpointResourceResult
+    public function create(): EndpointResult
     {
-        $claimRequest = new ClaimRequest();
-        $this->setClaimRequest($claimRequest);
-        return new EndpointResourceResult(ClaimRequestModel::class, $claimRequest);
+        return parent::create();
+    }
+
+    /**
+     * @param int $empNumber
+     * @return bool
+     */
+    protected function isSelfByEmpNumber(int $empNumber): bool
+    {
+        return true;
     }
 
     /**
@@ -93,7 +96,11 @@ class MyClaimRequestAPI extends EmployeeClaimRequestAPI
      *                 property="data",
      *                 ref="#/components/schemas/Claim-RequestModel"
      *             ),
-     *             @OA\Property(property="meta", type="object")
+     *             @OA\Property(
+     *                 property="meta",
+     *                 type="object",
+     *                 @OA\Property(property="allowedActions", type="array", @OA\Items(type="object"))
+     *             )
      *         )
      *     )
      * )
@@ -101,10 +108,15 @@ class MyClaimRequestAPI extends EmployeeClaimRequestAPI
      */
     public function getOne(): EndpointResult
     {
-        $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
-        $claimRequest = $this->getClaimService()->getClaimDao()->getClaimRequestById($id);
-        $this->throwRecordNotFoundExceptionIfNotExist($claimRequest, ClaimRequest::class);
-        return new EndpointResourceResult(ClaimRequestModel::class, $claimRequest);
+        return parent::getOne();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected function getEmpNumber(): int
+    {
+        return $this->getAuthUser()->getEmpNumber();
     }
 
     /**

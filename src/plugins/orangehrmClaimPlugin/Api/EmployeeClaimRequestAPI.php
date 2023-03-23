@@ -31,6 +31,8 @@ use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
 use OrangeHRM\Core\Api\V2\Exception\BadRequestException;
 use OrangeHRM\Core\Api\V2\Exception\InvalidParamException;
+use OrangeHRM\Core\Api\V2\Model\WorkflowStateModel;
+use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
@@ -39,7 +41,11 @@ use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
+use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
+use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\ClaimRequest;
+use OrangeHRM\Entity\Employee;
+use OrangeHRM\Entity\WorkflowStateMachine;
 use OrangeHRM\ORM\Exception\TransactionException;
 
 class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
@@ -48,15 +54,26 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
     use ClaimServiceTrait;
     use DateTimeHelperTrait;
     use AuthUserTrait;
+    use NormalizerServiceTrait;
+    use UserRoleManagerTrait;
 
     public const PARAMETER_CLAIM_EVENT_ID = 'claimEventId';
     public const PARAMETER_CURRENCY_ID = 'currencyId';
     public const PARAMETER_REMARKS = 'remarks';
     public const REMARKS_MAX_LENGTH = 1000;
+    public const PARAMETER_ALLOWED_ACTIONS = 'allowedActions';
+    public const PARAMETER_EMPLOYEE_NUMBER = 'empNumber';
+    public const ACTIONABLE_STATES_MAP = [
+        WorkflowStateMachine::CLAIM_ACTION_SUBMIT => 'SUBMIT',
+        WorkflowStateMachine::CLAIM_ACTION_APPROVE => 'APPROVE',
+        WorkflowStateMachine::CLAIM_ACTION_PAY => 'PAY',
+        WorkflowStateMachine::CLAIM_ACTION_CANCEL => 'CANCEL',
+        WorkflowStateMachine::CLAIM_ACTION_REJECT => 'REJECT'
+    ];
 
     /**
      * @OA\Post(
-     *     path="/api/v2/claim/employee/{empNumber}/requests",
+     *     path="/api/v2/claim/employees/{empNumber}/requests",
      *     tags={"Claim/Requests"},
      *     @OA\PathParameter(
      *         name="empNumber",
@@ -87,16 +104,31 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
     public function create(): EndpointResult
     {
         $claimRequest = new ClaimRequest();
-        $this->setClaimRequest($claimRequest);
+        $empNumber = $this->getEmpNumber();
+
+        if (!$this->isSelfByEmpNumber($empNumber)) {
+            throw $this->getForbiddenException();
+        }
+        if (!$this->getUserRoleManagerHelper()->isEmployeeAccessible($empNumber)) {
+            throw $this->getForbiddenException();
+        }
+        $this->setClaimRequest($claimRequest, $empNumber);
         return new EndpointResourceResult(ClaimRequestModel::class, $claimRequest);
     }
 
     /**
      * @inheritDoc
      */
-    public function getValidationRuleForCreate(): ParamRuleCollection //TODO: Add employee number
+    public function getValidationRuleForCreate(): ParamRuleCollection
     {
-        return $this->getCommonParamRuleCollection();
+        $paramRules = $this->getCommonParamRuleCollection();
+        $paramRules->addParamValidation(
+            new ParamRule(
+                self::PARAMETER_EMPLOYEE_NUMBER,
+                new Rule(Rules::POSITIVE)
+            )
+        );
+        return $paramRules;
     }
 
     /**
@@ -125,11 +157,20 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @param int $empNumber
+     * @return bool
+     */
+    protected function isSelfByEmpNumber(int $empNumber): bool
+    {
+        return !$this->getUserRoleManagerHelper()->isSelfByEmpNumber($empNumber);
+    }
+
+    /**
      * @param ClaimRequest $claimRequest
-     * @param int|null $empNumber
+     * @param int $empNumber
      * @return ClaimRequest
      */
-    protected function setClaimRequest(ClaimRequest $claimRequest, ?int $empNumber = null): ClaimRequest
+    protected function setClaimRequest(ClaimRequest $claimRequest, int $empNumber): ClaimRequest
     {
         $this->beginTransaction();
         try {
@@ -155,7 +196,8 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
             $claimRequest->setClaimEvent($claimEvent);
             $claimRequest->getDecorator()->setCurrencyByCurrencyId($currencyId);
             $claimRequest->setDescription(
-                $this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_REMARKS)
+                $this->getRequestParams()
+                    ->getStringOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_REMARKS)
             );
 
             $claimRequest->setReferenceId($this->getClaimService()->getReferenceId());
@@ -164,9 +206,7 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
             $userId = $this->getAuthUser()->getUserId();
             $claimRequest->getDecorator()->setUserByUserId($userId);
 
-            if (is_null($empNumber)) { //TODO Implement for assign claims
-                $claimRequest->getDecorator()->setEmployeeByUserId($userId);
-            }
+            $claimRequest->getDecorator()->setEmployeeByEmpNumber($empNumber);
 
             $this->commitTransaction();
             return $this->getClaimService()->getClaimDao()->saveClaimRequest($claimRequest);
@@ -197,7 +237,7 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @OA\Get(
-     *     path="/api/v2/claim/employee/{empNumber}/requests/{id}",
+     *     path="/api/v2/claim/employees/{empNumber}/requests/{id}",
      *     tags={"Claim/Requests"},
      *     @OA\PathParameter(
      *         name="empNumber",
@@ -217,7 +257,11 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
      *                 property="data",
      *                 ref="#/components/schemas/Claim-RequestModel"
      *             ),
-     *             @OA\Property(property="meta", type="object")
+     *             @OA\Property(
+     *                 property="meta",
+     *                 type="object",
+     *                 @OA\Property(property="allowedActions", type="array", @OA\Items(type="object"))
+     *             )
      *         )
      *     )
      * )
@@ -225,10 +269,42 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
      */
     public function getOne(): EndpointResult
     {
-        $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
-        $claimRequest = $this->getClaimService()->getClaimDao()->getClaimRequestById($id);
+        $id = $this->getRequestParams()
+            ->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
+        $empNumber = $this->getEmpNumber();
+
+        if (!$this->isSelfByEmpNumber($empNumber)) {
+            throw $this->getForbiddenException();
+        }
+
+        if (!$this->getUserRoleManagerHelper()->isEmployeeAccessible($empNumber)) {
+            throw $this->getForbiddenException();
+        }
+
+        $claimRequest = $this->getClaimService()->getClaimDao()
+            ->getClaimRequestById($id);
         $this->throwRecordNotFoundExceptionIfNotExist($claimRequest, ClaimRequest::class);
-        return new EndpointResourceResult(ClaimRequestModel::class, $claimRequest);
+
+        if ($claimRequest->getEmployee()->getEmpNumber() !== $empNumber) {
+            throw $this->getForbiddenException();
+        }
+
+        $allowedActions = $this->getAllowedActions($claimRequest);
+
+        return new EndpointResourceResult(
+            ClaimRequestModel::class,
+            $claimRequest,
+            new ParameterBag([self::PARAMETER_ALLOWED_ACTIONS => $allowedActions])
+        );
+    }
+
+    /**
+     * @return int
+     */
+    protected function getEmpNumber(): int
+    {
+        return $this->getRequestParams()
+            ->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_EMPLOYEE_NUMBER);
     }
 
     /**
@@ -241,7 +317,31 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
                 CommonParams::PARAMETER_ID,
                 new Rule(Rules::POSITIVE)
             ),
+            new ParamRule(
+                self::PARAMETER_EMPLOYEE_NUMBER,
+                new Rule(Rules::POSITIVE)
+            )
         );
+    }
+
+    /**
+     * @param ClaimRequest $claimRequest
+     * @return array
+     */
+    protected function getAllowedActions(ClaimRequest $claimRequest): array
+    {
+        $allowedWorkflowItems = $this->getUserRoleManager()->getAllowedActions(
+            WorkflowStateMachine::FLOW_CLAIM,
+            $claimRequest->getStatus(),
+            [],
+            [],
+            [Employee::class => $claimRequest->getEmployee()->getEmpNumber()]
+        );
+        foreach ($allowedWorkflowItems as $allowedWorkflowItem) {
+            $allowedWorkflowItem->setAction(self::ACTIONABLE_STATES_MAP[$allowedWorkflowItem->getAction()]);
+        }
+        return $this->getNormalizerService()
+            ->normalizeArray(WorkflowStateModel::class, $allowedWorkflowItems);
     }
 
     /**

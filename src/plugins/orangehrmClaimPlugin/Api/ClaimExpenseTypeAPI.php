@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Claim\Api;
 
+use OpenApi\Annotations as OA;
 use OrangeHRM\Claim\Api\Model\ClaimExpenseTypeModel;
 use OrangeHRM\Claim\Dto\ClaimExpenseTypeSearchFilterParams;
 use OrangeHRM\Claim\Traits\Service\ClaimServiceTrait;

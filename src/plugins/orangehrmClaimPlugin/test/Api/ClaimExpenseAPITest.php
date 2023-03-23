@@ -20,11 +20,11 @@
 namespace OrangeHRM\Tests\Claim\Api;
 
 use OrangeHRM\Claim\Api\ClaimExpenseAPI;
-use OrangeHRM\Core\Authorization\Manager\BasicUserRoleManager;
-use OrangeHRM\Core\Traits\UserRoleManagerTrait;
+use OrangeHRM\Config\Config;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
 use OrangeHRM\Tests\Util\Integration\TestCaseParams;
+use OrangeHRM\Tests\Util\TestDataService;
 
 /**
  * @group Claim
@@ -32,24 +32,19 @@ use OrangeHRM\Tests\Util\Integration\TestCaseParams;
  */
 class ClaimExpenseAPITest extends EndpointIntegrationTestCase
 {
-    use UserRoleManagerTrait;
+    public static function setUpBeforeClass(): void
+    {
+        TestDataService::populate(Config::get(Config::TEST_DIR) . '/phpunit/fixtures/WorkflowStateMachine.yaml');
+    }
 
     /**
      * @dataProvider dataProviderForTestCreate
      */
     public function testCreate(TestCaseParams $testCaseParams): void
     {
-        $userRoleManager = $this->getMockBuilder(BasicUserRoleManager::class)
-            ->disableOriginalConstructor()
-            ->onlyMethods(['getAccessibleEntityIds'])
-            ->getMock();
-        $userRoleManager->expects($this->any())
-            ->method('getAccessibleEntityIds')
-            ->willReturn([4]);
-        $this->populateFixtures('ClaimExpense.yaml');
+        $this->populateFixtures('ClaimExpense.yaml', null, true);
         $this->createKernelWithMockServices([
-            Services::AUTH_USER => $this->getMockAuthUser($testCaseParams),
-            Services::USER_ROLE_MANAGER => $userRoleManager,
+            Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)
         ]);
         $this->registerMockDateTimeHelper($testCaseParams);
         $this->registerServices($testCaseParams);
@@ -67,17 +62,9 @@ class ClaimExpenseAPITest extends EndpointIntegrationTestCase
      */
     public function testGetAll(TestCaseParams $testCaseParams): void
     {
-        $userRoleManager = $this->getMockBuilder(BasicUserRoleManager::class)
-            ->disableOriginalConstructor()
-            ->onlyMethods(['getAccessibleEntityIds'])
-            ->getMock();
-        $userRoleManager->expects($this->any())
-            ->method('getAccessibleEntityIds')
-            ->willReturn([1, 2, 3, 4]);
-        $this->populateFixtures('ClaimExpense.yaml');
+        $this->populateFixtures('ClaimExpense.yaml', null, true);
         $this->createKernelWithMockServices([
             Services::AUTH_USER => $this->getMockAuthUser($testCaseParams),
-            Services::USER_ROLE_MANAGER => $userRoleManager
         ]);
         $this->registerServices($testCaseParams);
         $api = $this->getApiEndpointMock(ClaimExpenseAPI::class, $testCaseParams);
@@ -94,17 +81,9 @@ class ClaimExpenseAPITest extends EndpointIntegrationTestCase
      */
     public function testGetOne(TestCaseParams $testCaseParams): void
     {
-        $userRoleManager = $this->getMockBuilder(BasicUserRoleManager::class)
-            ->disableOriginalConstructor()
-            ->onlyMethods(['getAccessibleEntityIds'])
-            ->getMock();
-        $userRoleManager->expects($this->any())
-            ->method('getAccessibleEntityIds')
-            ->willReturn([1, 2, 3, 4]);
-        $this->populateFixtures('ClaimExpense.yaml');
+        $this->populateFixtures('ClaimExpense.yaml', null, true);
         $this->createKernelWithMockServices([
-            Services::AUTH_USER => $this->getMockAuthUser($testCaseParams),
-            Services::USER_ROLE_MANAGER => $userRoleManager
+            Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)
         ]);
         $this->registerServices($testCaseParams);
         $api = $this->getApiEndpointMock(ClaimExpenseAPI::class, $testCaseParams);
@@ -121,17 +100,9 @@ class ClaimExpenseAPITest extends EndpointIntegrationTestCase
      */
     public function testUpdate(TestCaseParams $testCaseParams): void
     {
-        $userRoleManager = $this->getMockBuilder(BasicUserRoleManager::class)
-            ->disableOriginalConstructor()
-            ->onlyMethods(['getAccessibleEntityIds'])
-            ->getMock();
-        $userRoleManager->expects($this->any())
-            ->method('getAccessibleEntityIds')
-            ->willReturn([1, 2, 3, 4]);
-        $this->populateFixtures('ClaimExpense.yaml');
+        $this->populateFixtures('ClaimExpense.yaml', null, true);
         $this->createKernelWithMockServices([
-            Services::AUTH_USER => $this->getMockAuthUser($testCaseParams),
-            Services::USER_ROLE_MANAGER => $userRoleManager
+            Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)
         ]);
         $this->registerMockDateTimeHelper($testCaseParams);
         $this->registerServices($testCaseParams);
@@ -149,17 +120,9 @@ class ClaimExpenseAPITest extends EndpointIntegrationTestCase
      */
     public function testDelete(TestCaseParams $testCaseParams): void
     {
-        $userRoleManager = $this->getMockBuilder(BasicUserRoleManager::class)
-            ->disableOriginalConstructor()
-            ->onlyMethods(['getAccessibleEntityIds'])
-            ->getMock();
-        $userRoleManager->expects($this->any())
-            ->method('getAccessibleEntityIds')
-            ->willReturn([1, 2, 3, 4]);
-        $this->populateFixtures('ClaimExpense.yaml');
+        $this->populateFixtures('ClaimExpense.yaml', null, true);
         $this->createKernelWithMockServices([
             Services::AUTH_USER => $this->getMockAuthUser($testCaseParams),
-            Services::USER_ROLE_MANAGER => $userRoleManager
         ]);
         $this->registerServices($testCaseParams);
         $api = $this->getApiEndpointMock(ClaimExpenseAPI::class, $testCaseParams);

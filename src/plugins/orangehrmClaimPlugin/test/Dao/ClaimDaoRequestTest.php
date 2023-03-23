@@ -17,35 +17,31 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Claim\Service;
+namespace OrangeHRM\Tests\Claim\Dao;
 
 use OrangeHRM\Claim\Dao\ClaimDao;
-use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
+use OrangeHRM\Config\Config;
+use OrangeHRM\Tests\Util\KernelTestCase;
+use OrangeHRM\Tests\Util\TestDataService;
 
-class ClaimService
+/**
+ * @group Claim
+ * @group Dao
+ */
+class ClaimDaoRequestTest extends KernelTestCase
 {
-    use DateTimeHelperTrait;
+    private ClaimDao $claimDao;
 
-    /**
-     * @var ClaimDao
-     */
-    protected ClaimDao $claimDao;
-
-    /**
-     * @return ClaimDao
-     */
-    public function getClaimDao(): ClaimDao
+    protected function setUp(): void
     {
-        return $this->claimDao ??= new ClaimDao();
+        $this->claimDao = new ClaimDao();
+        $requestFixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmClaimPlugin/test/fixtures/MyClaimRequestAPITest.yaml';
+        TestDataService::populate($requestFixture);
     }
 
-    /**
-     * @return string
-     */
-    public function getReferenceId(): string
+    public function testGetClaimRequestById(): void
     {
-        $nextId = $this->getClaimDao()->getNextId();
-        $date = $this->getDateTimeHelper()->getNow()->format('Ymd');
-        return $date . str_pad("$nextId", 7, 0, STR_PAD_LEFT);
+        $result = $this->claimDao->getClaimRequestById(1);
+        $this->assertEquals(1, $result->getId());
     }
 }
