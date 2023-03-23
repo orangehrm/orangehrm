@@ -107,6 +107,7 @@ class Migration extends AbstractMigration
         $this->cleanClaimScreens();
         $this->getDataGroupHelper()->insertScreenPermissions(__DIR__ . '/permission/screens.yaml');
         $this->changeClaimEventTableStatusToBoolean();
+        $this->changePermissionForModulesAPI();
 
         if (!$this->getSchemaHelper()->tableExists(['ohrm_expense_type'])) {
             $this->getSchemaHelper()->createTable('ohrm_expense_type')
@@ -865,5 +866,18 @@ class Migration extends AbstractMigration
             ->where('workflow = :workflow')
             ->setParameter('workflow', 'CLAIM')
             ->executeQuery();
+    }
+
+    private function changePermissionForModulesAPI(): void
+    {
+        $this->getDataGroupHelper()->addDataGroupPermissions(
+            'apiv2_admin_modules',
+            'ESS',
+            true,
+            false,
+            false,
+            false,
+            false
+        );
     }
 }
