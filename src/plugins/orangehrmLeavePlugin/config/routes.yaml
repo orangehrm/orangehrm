@@ -88,6 +88,7 @@ apiv2_leave_employee_leave_request:
   methods: [ GET, PUT ]
   defaults:
     _api: OrangeHRM\Leave\Api\EmployeeLeaveRequestAPI
+    _key: leaveRequestId
   requirements:
     leaveRequestId: '\d+'
 
