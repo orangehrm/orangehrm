@@ -12,5 +12,30 @@ apiv2_pim_my_info:
     update: false
     delete: false
   permissions:
-    - { role: Admin, permission: { read: true, create: false, update: false, delete: false } }
-    - { role: ESS, permission: { read: true, create: false, update: false, delete: false } }
+    - {
+        role: Admin,
+        permission: { read: true, create: false, update: false, delete: false },
+      }
+    - {
+        role: ESS,
+        permission: { read: true, create: false, update: false, delete: false },
+      }
+
+apiv2_claim_claim_request_action:
+  description: "Claim - Claim Request Action"
+  api: OrangeHRM\Claim\Api\ClaimRequestActionAPI
+  module: claim
+  allowed:
+    read: false
+    create: false
+    update: true
+    delete: false
+  permissions:
+    - {
+        role: Admin,
+        permission: { read: false, create: false, update: true, delete: false },
+      }
+    - {
+        role: ESS,
+        permission: { read: false, create: false, update: true, delete: false },
+      }
