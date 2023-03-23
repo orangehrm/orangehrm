@@ -57,7 +57,7 @@ class OAuthService
     public function getMobileClientStatus(): bool
     {
         $client = $this->getOAuthClientDao()->getOAuthClientByClientId(self::PUBLIC_MOBILE_CLIENT_ID);
-        return $client && $client->isEnabled();
+        return $client instanceof OAuthClient && $client->isEnabled();
     }
 
     /**
