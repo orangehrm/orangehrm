@@ -1,0 +1,54 @@
+Config:
+  - { name: 'authorize_user_role_manager_class', value: 'BasicUserRoleManager' }
+
+Employee:
+  0: { empNumber: 1, firstName: 'Kayla', lastName: 'Abbey', joinedDate: '2021-10-25' }
+  1: { empNumber: 2, firstName: 'Ashley', lastName: 'Abel', middleName: 'Aldis',  joinedDate: '2016-10-28' }
+  2: { empNumber: 3, firstName: 'Tyler', lastName: 'Abraham',  joinedDate: '2020-01-05' }
+  3: { empNumber: 4, firstName: 'Landon', lastName: 'Abrahams', joinedDate: '2016-12-31' }
+
+ReportingMethod:
+  - { "reporting_method_id": "1","reporting_method_name": "Direct" }
+  - { "reporting_method_id": "2","reporting_method_name": "Indirect" }
+
+ReportTo:
+  - { "erep_sup_emp_number": "2","erep_sub_emp_number": "1","erep_reporting_mode": "1" }
+
+UserRole:
+  - { id: 1, name: Admin, display_name: Admin, is_assignable: 1, is_predefined: 1 }
+  - { id: 2, name: ESS, display_name: ESS, is_assignable: 1, is_predefined: 1 }
+  - { id: 3, name: Supervisor, display_name: Supervisor, is_assignable: 0, is_predefined: 1 }
+
+User:
+  - { "id": 1, "user_role_id": 1, "emp_number": 4, "user_name": "admin","user_password": "admin","deleted": "0","status": "1","date_modified": "2022-09-15 16:51:16","modified_user_id": "1" }
+  - { "id": 2, "user_role_id": 2, "emp_number": 1, "user_name": "Adalwin","user_password": "Adalwin","deleted": "0","status": "1","date_entered": "2022-09-15 16:47:14","created_by": "1" }
+  - { "id": 3, "user_role_id": 2, "emp_number": 2, "user_name": "Ashley","user_password": "Ashley","deleted": "0","status": "1","date_entered": "2022-09-15 16:47:14","created_by": "1" }
+  - { "id": 4, "user_role_id": 2, "emp_number": 3, "user_name": "Tyler","user_password": "Tyler","deleted": "0","status": "1","date_entered": "2022-09-15 16:47:14","created_by": "1" }
+
+ClaimEvent:
+  0: { id: 1, name: "Office Rent", description: "Monthly rent for office space", status: true },
+  1: { id: 2, name: "Employee Salaries", description: "Wages paid to employees", status: true },
+  2: { id: 3, name: "Travel Expenses", description: "Expenses incurred while traveling for business", status: false },
+  3: { id: 4, name: "Equipment Purchases", description: "Costs associated with purchasing new equipment", status: true },
+  4: { id: 5, name: "Marketing Campaign", description: "Expenses incurred for a marketing campaign", status: true }
+
+ExpenseType:
+  0: { id: 1, name: "transport", description: "travel and other transport expenses", status: true }
+  1: { id: 2, name: "medical", description: "healthcare expenses", status: true }
+  2: { id: 3, name: "telephone", description: "telephone and internet expenses", status: false }
+  3: { id: 4, name: "stationary", description: "stationary and print expenses", status: false }
+
+CurrencyType:
+  0: { code: 1, currency_id: "CAD", currency_name: "Canadian Dollar" }
+  1: { code: 2, currency_id: "USD", currency_name: "United States Dollar" }
+
+ClaimRequest:
+  0: { id: 1, emp_number: 4, added_by: 1, reference_id: 202301170000001, event_type_id: 1, description: "Travel expenses for business trip to New York", currency_id: CAD, is_deleted: false, status: 'INITIATED', created_date: "2022-12-01 12:00:00", submitted_date: "2022-12-15 17:00:00" },
+  1: { id: 2, emp_number: 4, added_by: 1, reference_id: 202301170000002, event_type_id: 3, description: "Marketing expenses for trade show", currency_id: USD, is_deleted: false, status: 'REJECTED', created_date: "2022-11-20 09:00:00", submitted_date: "2022-11-25 15:00:00" },
+  2: { id: 3, emp_number: 4, added_by: 1, reference_id: 202301170000003, event_type_id: 4, description: "Equipment purchase for IT department", currency_id: USD, is_deleted: false, status: 'PAID', created_date: "2022-10-15 14:00:00", submitted_date: "2022-10-15 14:00:00" },
+  3: { id: 4, emp_number: 1, added_by: 2, reference_id: 202301170000004, event_type_id: 1, description: "Salary expenses for temporary employee", currency_id: USD, is_deleted: false, status: 'INITIATED', created_date: "2022-09-01 08:00:00", submitted_date: "2022-09-30 18:00:00" },
+  4: { id: 5, emp_number: 1, added_by: 1, reference_id: 202301170000005, event_type_id: 3, description: "Expenses for social media advertising campaign", currency_id: USD, is_deleted: false, status: 'REJECTED', created_date: "2022-08-15 12:00:00", submitted_date: "2022-08-20 16:00:00" },
+  5: { id: 6, emp_number: 1, added_by: 2, reference_id: 202301170000006, event_type_id: 4, description: "Training expenses for team building seminar", currency_id: USD, is_deleted: false, status: 'SUBMITTED', created_date: "2022-07-01 09:00:00", submitted_date: "2022-07-15 17:00:00" }
+  6: { id: 7, emp_number: 1, added_by: 2, reference_id: 202301170000007, event_type_id: 4, description: "Training expenses for team building seminar", currency_id: USD, is_deleted: false, status: 'APPROVED', created_date: "2022-07-01 09:00:00", submitted_date: "2022-07-15 17:00:00" }
+  7: { id: 8, emp_number: 1, added_by: 1, reference_id: 202301170000008, event_type_id: 3, description: "Travel expenses for business trip to New York", currency_id: USD, is_deleted: false, status: 'CANCELLED', created_date: "2022-12-01 12:00:00", submitted_date: "2022-12-15 17:00:00" },
+  8: { id: 9, emp_number: 1, added_by: 1, reference_id: 202301170000009, event_type_id: 3, description: "Travel expenses for business trip to New York", currency_id: USD, is_deleted: false, status: 'CANCELLED', created_date: "2022-12-01 12:00:00", submitted_date: "2022-12-15 17:00:00" },

@@ -79,3 +79,22 @@ apiv2_claim_attachment:
   permissions:
     - { role: Admin, permission: { read: true, create: true, update: true, delete: true } }
     - { role: ESS, permission: { read: true, create: true, update: true, delete: true } }
+
+apiv2_claim_claim_request_action:
+  description: "Claim - Claim Request Action"
+  api: OrangeHRM\Claim\Api\ClaimRequestActionAPI
+  module: claim
+  allowed:
+    read: false
+    create: false
+    update: true
+    delete: false
+  permissions:
+    - {
+      role: Admin,
+      permission: { read: false, create: false, update: true, delete: false },
+    }
+    - {
+      role: ESS,
+      permission: { read: false, create: false, update: true, delete: false },
+    }

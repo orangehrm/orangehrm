@@ -90,6 +90,13 @@ apiv2_claim_employee_claim_request:
   defaults:
     _api: OrangeHRM\Claim\Api\EmployeeClaimRequestAPI
 
+apiv2_claim_claim_request_action:
+  path: /api/v2/claim/requests/{requestId}/action
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ PUT ]
+  defaults:
+    _api: OrangeHRM\Claim\Api\ClaimRequestActionAPI
+
 ##########################
 #        Screens
 ##########################
