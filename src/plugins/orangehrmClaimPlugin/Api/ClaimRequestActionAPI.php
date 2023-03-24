@@ -63,7 +63,7 @@ class ClaimRequestActionAPI extends Endpoint implements ResourceEndpoint
     /**
      * @OA\Put(
      *     path="/api/v2/claim/requests/{requestId}/action",
-     *     tags={"Claim/Action"},
+     *     tags={"Claim/Requests"},
      *     @OA\PathParameter(
      *         name="requestId",
      *         @OA\Schema(type="integer")
@@ -102,7 +102,8 @@ class ClaimRequestActionAPI extends Endpoint implements ResourceEndpoint
             );
 
             $claimRequest = $this->getClaimRequest($requestId);
-            $actionIndex = array_search($action, self::ACTIONABLE_STATES_MAP);
+
+            $actionIndex = array_flip(self::ACTIONABLE_STATES_MAP)[$action];
 
             $this->isActionAllowed($actionIndex, $claimRequest);
 

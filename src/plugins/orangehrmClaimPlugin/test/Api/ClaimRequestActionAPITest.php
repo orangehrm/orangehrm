@@ -59,4 +59,32 @@ class ClaimRequestActionAPITest extends EndpointIntegrationTestCase
     {
         return $this->getTestCases('ClaimRequestActionAPITestCases.yaml', 'Update');
     }
+
+    public function testDelete(): void
+    {
+        $api = new ClaimRequestActionAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->delete();
+    }
+
+    public function testGetValidationRuleForDelete(): void
+    {
+        $api = new ClaimRequestActionAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->getValidationRuleForDelete();
+    }
+
+    public function testGetOne(): void
+    {
+        $api = new ClaimRequestActionAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->getOne();
+    }
+
+    public function testGetValidationRuleForGetOne(): void
+    {
+        $api = new ClaimRequestActionAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->getValidationRuleForGetOne();
+    }
 }
