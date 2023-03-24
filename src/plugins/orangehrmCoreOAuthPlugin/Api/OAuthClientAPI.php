@@ -219,10 +219,19 @@ class OAuthClientAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForDelete(): ParamRuleCollection
     {
+        $mobileClientId = $this->getOAuthService()->getMobileClientId();
         return new ParamRuleCollection(
             new ParamRule(
                 CommonParams::PARAMETER_IDS,
-                new Rule(Rules::INT_ARRAY)
+                new Rule(Rules::INT_ARRAY),
+                new Rule(
+                    Rules::EACH,
+                    [
+                        new Rules\Composite\AllOf(
+                            new Rule(Rules::NOT_IN, [[$mobileClientId]])
+                        )
+                    ]
+                )
             ),
         );
     }
@@ -354,9 +363,14 @@ class OAuthClientAPI extends Endpoint implements CrudEndpoint
                 CommonParams::PARAMETER_ID
             )]
         );
+        $mobileClientId = $this->getOAuthService()->getMobileClientId();
 
         return new ParamRuleCollection(
-            new ParamRule(CommonParams::PARAMETER_ID, new Rule(Rules::POSITIVE)),
+            new ParamRule(
+                CommonParams::PARAMETER_ID,
+                new Rule(Rules::POSITIVE),
+                new Rule(Rules::NOT_IN, [[$mobileClientId]])
+            ),
             new ParamRule(
                 self::PARAMETER_NAME,
                 new Rule(Rules::STRING_TYPE),

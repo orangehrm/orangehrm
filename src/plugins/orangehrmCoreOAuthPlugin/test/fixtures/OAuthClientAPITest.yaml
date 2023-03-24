@@ -2,8 +2,9 @@ Config:
   - { name: 'authorize_user_role_manager_class', value: 'BasicUserRoleManager' }
 
 OAuthClient:
-  - {"id": 1,"name": "ohrm-mobile-updated","client_id": "85c5ce5fe84ee8dc2035378d9b35f04dfabf9e8e0aa7eb636cb0d90ed5c7f906","client_secret": "01793f6d4a0751806d14f8e5c3efa3dd6d3893d3f19c9f9509070493275941d9","redirect_uri": "https://www.test.com","is_confidential": 0,"enabled": 1}
-  - {"id": 2,"name": "ohrm-mobile-2","client_id": "256697adeead32faf700cf8dd9f53d49a3583491d2cff9605168220b4a276967","client_secret": "cd6f1f80eb19bf463a5e21056b9bba4b9e5d4fe6dac4838922cee701e3c17ab8","redirect_uri": "https://www.mobile.com","is_confidential": 1,"enabled": 0}
+  - {"id": 1,"name": "OrangeHRM Mobile App","client_id": "orangehrm_mobile_app","client_secret": null,"redirect_uri": "com.orangehrm.opensource://oauthredirect","is_confidential": 0,"enabled": 0}
+  - {"id": 2,"name": "Test Client","client_id": "9e8f1e31a5412dfb0f4d9672115368e9","client_secret": null,"redirect_uri": "http://php74/53dev/web/oauth.php","is_confidential": 0,"enabled": 1}
+  - {"id": 4,"name": "Test Client 2","client_id": "ce3f4cff68533db80d91f33b58870713","client_secret": "$2y$12$4RkfYYMOE625bM8oRABExuV1L.7uSTHeVaD41mqLib6stXgQZ5Z3m","redirect_uri": "","is_confidential": 1,"enabled": 1}
 
 Employee:
   - { empNumber: 1, firstName: 'Devi', lastName: 'Admin', employeeId: '0001' }

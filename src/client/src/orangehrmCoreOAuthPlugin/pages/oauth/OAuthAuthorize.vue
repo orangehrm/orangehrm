@@ -70,6 +70,13 @@
           </div>
         </oxd-form>
       </template>
+      <template v-else-if="params['client_id'] === 'orangehrm_mobile_app'">
+        <oxd-alert
+          :show="true"
+          type="error"
+          :message="$t('auth.mobile_client_disabled_error')"
+        />
+      </template>
       <template v-else>
         <oxd-alert
           :show="true"

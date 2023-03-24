@@ -16,3 +16,6 @@ UserRole:
 
 User:
   - { id: 1, user_role_id: 1, emp_number: 1, user_name: 'lynda', user_password: 'admin123' }
+
+OAuthClient:
+  - {"id": 1,"name": "OrangeHRM Mobile App","client_id": "orangehrm_mobile_app","client_secret": null,"redirect_uri": "com.orangehrm.opensource://oauthredirect","is_confidential": 0,"enabled": 0}
