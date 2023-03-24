@@ -54,5 +54,5 @@ langStrings:
     value: 'This request is invalid'
     unitId: this_request_is_invalid
   -
-    value: 'Mobile app is not enabled. Please contact your OrangeHRM administrator'
+    value: 'Mobile app is not enabled. Please contact your OrangeHRM administrator.'
     unitId: mobile_client_disabled_error
