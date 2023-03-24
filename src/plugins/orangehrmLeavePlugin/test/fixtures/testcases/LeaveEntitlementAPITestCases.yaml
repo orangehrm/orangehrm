@@ -1,0 +1,199 @@
+GetAll:
+  'without params':
+    userId: 1
+    now:
+      datetime: '2021-03-24'
+    services:
+      leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
+      leave.leave_entitlement_service: \OrangeHRM\Leave\Service\LeaveEntitlementService
+      leave.leave_period_service: \OrangeHRM\Leave\Service\LeavePeriodService
+    attributes: [ ]
+    query: [ ]
+    data: [
+      {
+        id: 1,
+        employee: {
+          empNumber: 4,
+          lastName: Abbey,
+          firstName: Kayla,
+          middleName: '',
+          employeeId: '0004',
+          terminationId: null,
+        },
+        entitlement: 7.0,
+        daysUsed: 2.5,
+        leaveType: {
+          id: 6,
+          name: 'Medical',
+          deleted: false
+        },
+        fromDate: '2021-01-01',
+        toDate: '2021-12-31',
+        creditedDate: '2021-01-04',
+        entitlementType: {
+          id: 1,
+          name: 'Added'
+        },
+        deleted: false,
+        deletable: false,
+      }
+    ]
+    meta:
+      total: 1
+      sum: 7.0
+      fromDate: "2021-01-01"
+      toDate: '2021-12-31'
+      empNumber: 4
+
+  'model=summary':
+    userId: 1
+    now:
+      datetime: '2021-03-24'
+    services:
+      leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
+      leave.leave_entitlement_service: \OrangeHRM\Leave\Service\LeaveEntitlementService
+      leave.leave_period_service: \OrangeHRM\Leave\Service\LeavePeriodService
+    attributes: [ ]
+    query:
+      model: summary
+    data: [
+      {
+        id: 1,
+        entitlement: 7.0,
+        daysUsed: 2.5,
+        leaveType: {
+          id: 6,
+          name: 'Medical',
+          deleted: false
+        },
+        fromDate: '2021-01-01',
+        toDate: '2021-12-31',
+        usageBreakdown: {
+          scheduled: 0.0,
+          pending: 2.5,
+          taken: 0.0,
+          balance: 4.5
+        }
+      }
+    ]
+    meta:
+      total: 1
+      sum: 7.0
+      fromDate: "2021-01-01"
+      toDate: '2021-12-31'
+      empNumber: 4
+
+  'check period which does not have entitlements':
+    userId: 1
+    now:
+      datetime: '2023-03-15'
+    services:
+      leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
+      leave.leave_entitlement_service: \OrangeHRM\Leave\Service\LeaveEntitlementService
+      leave.leave_period_service: \OrangeHRM\Leave\Service\LeavePeriodService
+    attributes: [ ]
+    query:
+      model: default
+    data: [ ]
+    meta:
+      total: 0
+      sum: ~
+      fromDate: "2023-01-01"
+      toDate: '2023-12-31'
+      empNumber: 4
+
+GetOne:
+  'get one leave entitlement':
+    userId: 1
+    services:
+      core.class_helper: \OrangeHRM\Core\Helper\ClassHelper
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      leave.leave_entitlement_service: \OrangeHRM\Leave\Service\LeaveEntitlementService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      id: 1
+    query:
+      model: default
+    data: {
+      id: 1,
+      employee: {
+        empNumber: 4,
+        lastName: Abbey,
+        firstName: Kayla,
+        middleName: '',
+        employeeId: '0004',
+        terminationId: null,
+      },
+      entitlement: 7.0,
+      daysUsed: 2.5,
+      leaveType: {
+        id: 6,
+        name: 'Medical',
+        deleted: false
+      },
+      fromDate: '2021-01-01',
+      toDate: '2021-12-31',
+      creditedDate: '2021-01-04',
+      entitlementType: {
+        id: 1,
+        name: 'Added'
+      },
+      deleted: false,
+      deletable: false,
+    }
+    meta:
+      empNumber: 4
+
+  'get one leave entitlement: model=summary':
+    userId: 1
+    now:
+      datetime: '2021-03-24'
+    services:
+      core.class_helper: \OrangeHRM\Core\Helper\ClassHelper
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
+      leave.leave_entitlement_service: \OrangeHRM\Leave\Service\LeaveEntitlementService
+      leave.leave_period_service: \OrangeHRM\Leave\Service\LeavePeriodService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      id: 1
+    query:
+      model: summary
+    data: {
+      id: 1,
+      entitlement: 7.0,
+      daysUsed: 2.5,
+      leaveType: {
+        id: 6,
+        name: 'Medical',
+        deleted: false
+      },
+      fromDate: '2021-01-01',
+      toDate: '2021-12-31',
+      usageBreakdown: {
+        scheduled: 0.0,
+        pending: 2.5,
+        taken: 0.0,
+        balance: 4.5
+      }
+    }
+    meta:
+      empNumber: 4
+
+  'not existing id':
+    userId: 1
+    services:
+      leave.leave_entitlement_service: \OrangeHRM\Leave\Service\LeaveEntitlementService
+    attributes:
+      id: 1000
+    query:
+      model: default
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException'
+      message: 'Record Not Found'

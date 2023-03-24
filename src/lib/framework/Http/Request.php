@@ -54,9 +54,9 @@ class Request extends HttpRequest
     {
         if (!isset($_SERVER['HTTP_AUTHORIZATION']) || !isset($_SERVER['REDIRECT_HTTP_AUTHORIZATION'])) {
             // https://github.com/symfony/symfony/issues/19693
-            $headers = getallheaders();
-            if (isset($headers['Authorization'])) {
-                $_SERVER['HTTP_AUTHORIZATION'] = $headers['Authorization'];
+            $headers = array_change_key_case(getallheaders(), CASE_LOWER);
+            if (isset($headers['authorization'])) {
+                $_SERVER['HTTP_AUTHORIZATION'] = $headers['authorization'];
             }
         }
         return parent::createFromGlobals();

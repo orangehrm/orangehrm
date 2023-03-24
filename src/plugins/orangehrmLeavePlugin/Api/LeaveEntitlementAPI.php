@@ -36,6 +36,7 @@ use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\LeaveEntitlement;
 use OrangeHRM\Leave\Api\Model\LeaveEntitlementModel;
+use OrangeHRM\Leave\Api\Model\LeaveEntitlementSummaryModel;
 use OrangeHRM\Leave\Api\Traits\LeaveEntitlementPermissionTrait;
 use OrangeHRM\Leave\Api\ValidationRules\LeaveTypeIdRule;
 use OrangeHRM\Leave\Dto\LeaveEntitlementSearchFilterParams;
@@ -57,9 +58,18 @@ class LeaveEntitlementAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_ENTITLEMENT = 'entitlement';
     public const PARAMETER_LOCATION_ID = 'locationId';
     public const PARAMETER_SUBUNIT_ID = 'subunitId';
+    public const FILTER_MODEL = 'model';
 
     public const META_PARAMETER_SUM = 'sum';
     public const META_PARAMETER_COUNT = 'count';
+
+    public const MODEL_DEFAULT = 'default';
+    public const MODEL_SUMMARY = 'summary';
+
+    public const MODEL_MAP = [
+        self::MODEL_DEFAULT => LeaveEntitlementModel::class,
+        self::MODEL_SUMMARY => LeaveEntitlementSummaryModel::class,
+    ];
 
     /**
      * @OA\Get(
@@ -69,13 +79,26 @@ class LeaveEntitlementAPI extends Endpoint implements CrudEndpoint
      *         name="id",
      *         @OA\Schema(type="integer")
      *     ),
+     *     @OA\Parameter(
+     *         name="model",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(
+     *             type="string",
+     *             enum={\OrangeHRM\Leave\Api\LeaveEntitlementAPI::MODEL_DEFAULT, \OrangeHRM\Leave\Api\LeaveEntitlementAPI::MODEL_SUMMARY},
+     *             default=\OrangeHRM\Leave\Api\LeaveEntitlementAPI::MODEL_DEFAULT
+     *         )
+     *     ),
      *     @OA\Response(
      *         response="200",
      *         description="Success",
      *         @OA\JsonContent(
      *             @OA\Property(
      *                 property="data",
-     *                 ref="#/components/schemas/Leave-LeaveEntitlementModel"
+     *                 oneOf={
+     *                     @OA\Schema(ref="#/components/schemas/Leave-LeaveEntitlementModel"),
+     *                     @OA\Schema(ref="#/components/schemas/Leave-LeaveEntitlementSummaryModel"),
+     *                 }
      *             ),
      *             @OA\Property(property="meta", type="object")
      *         )
@@ -92,7 +115,11 @@ class LeaveEntitlementAPI extends Endpoint implements CrudEndpoint
             ->getLeaveEntitlement($this->getIdUrlAttribute());
         $this->throwRecordNotFoundExceptionIfNotExist($leaveEntitlement, LeaveEntitlement::class);
         $this->checkLeaveEntitlementAccessible($leaveEntitlement);
-        return new EndpointResourceResult(LeaveEntitlementModel::class, $leaveEntitlement);
+        return new EndpointResourceResult(
+            $this->getModelClass(),
+            $leaveEntitlement,
+            new ParameterBag([CommonParams::PARAMETER_EMP_NUMBER => $leaveEntitlement->getEmployee()->getEmpNumber()])
+        );
     }
 
     /**
@@ -112,7 +139,8 @@ class LeaveEntitlementAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForGetOne(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            $this->getIdParamRule()
+            $this->getIdParamRule(),
+            $this->getModelClassParamRule(),
         );
     }
 
@@ -128,27 +156,29 @@ class LeaveEntitlementAPI extends Endpoint implements CrudEndpoint
      * @OA\Get(
      *     path="/api/v2/leave/leave-entitlements",
      *     tags={"Leave/Entitlements"},
-     *     @OA\PathParameter(
+     *     @OA\Parameter(
      *         name="empNumber",
+     *         in="query",
+     *         required=false,
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\Parameter(
      *         name="leaveTypeId",
      *         in="query",
-     *         required=true,
+     *         required=false,
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\Parameter(
      *         name="fromDate",
      *         in="query",
-     *         required=true,
-     *         @OA\Schema(type="number")
+     *         required=false,
+     *         @OA\Schema(type="string")
      *     ),
      *     @OA\Parameter(
      *         name="toDate",
      *         in="query",
-     *         required=true,
-     *         @OA\Schema(type="number")
+     *         required=false,
+     *         @OA\Schema(type="string")
      *     ),
      *     @OA\Parameter(
      *         name="sortField",
@@ -159,19 +189,35 @@ class LeaveEntitlementAPI extends Endpoint implements CrudEndpoint
      *     @OA\Parameter(ref="#/components/parameters/sortOrder"),
      *     @OA\Parameter(ref="#/components/parameters/limit"),
      *     @OA\Parameter(ref="#/components/parameters/offset"),
+     *     @OA\Parameter(
+     *         name="model",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(
+     *             type="string",
+     *             enum={\OrangeHRM\Leave\Api\LeaveEntitlementAPI::MODEL_DEFAULT, \OrangeHRM\Leave\Api\LeaveEntitlementAPI::MODEL_SUMMARY},
+     *             default=\OrangeHRM\Leave\Api\LeaveEntitlementAPI::MODEL_DEFAULT
+     *         )
+     *     ),
      *     @OA\Response(
      *         response="200",
      *         description="Success",
      *         @OA\JsonContent(
      *             @OA\Property(
      *                 property="data",
-     *                 ref="#/components/schemas/Leave-LeaveEntitlementModel"
+     *                 type="array",
+     *                 @OA\Items(oneOf={
+     *                     @OA\Schema(ref="#/components/schemas/Leave-LeaveEntitlementModel"),
+     *                     @OA\Schema(ref="#/components/schemas/Leave-LeaveEntitlementSummaryModel"),
+     *                 })
      *             ),
      *             @OA\Property(property="meta",
      *                 type="object",
-     *                 @OA\Property(property="total", type="integer"),
-     *                 @OA\Property(property="fromDate", type="number"),
-     *                 @OA\Property(property="toDate", type="number")
+     *                 @OA\Property(property="total", type="number"),
+     *                 @OA\Property(property="sum", type="number"),
+     *                 @OA\Property(property="fromDate", type="string"),
+     *                 @OA\Property(property="toDate", type="string"),
+     *                 @OA\Property(property="empNumber", type="integer"),
      *             )
      *         )
      *     ),
@@ -223,7 +269,7 @@ class LeaveEntitlementAPI extends Endpoint implements CrudEndpoint
             ->getLeaveEntitlementsSum($entitlementSearchFilterParams);
 
         return new EndpointCollectionResult(
-            LeaveEntitlementModel::class,
+            $this->getModelClass(),
             $entitlements,
             new ParameterBag(
                 [
@@ -233,8 +279,35 @@ class LeaveEntitlementAPI extends Endpoint implements CrudEndpoint
                         ->formatDateTimeToYmd($fromDate),
                     LeaveCommonParams::PARAMETER_TO_DATE => $this->getDateTimeHelper()
                         ->formatDateTimeToYmd($toDate),
+                    CommonParams::PARAMETER_EMP_NUMBER => $empNumber,
                 ]
             )
+        );
+    }
+
+    /**
+     * @return string
+     */
+    protected function getModelClass(): string
+    {
+        $model = $this->getRequestParams()->getString(
+            RequestParams::PARAM_TYPE_QUERY,
+            self::FILTER_MODEL,
+            self::MODEL_DEFAULT,
+        );
+        return self::MODEL_MAP[$model];
+    }
+
+    /**
+     * @return ParamRule
+     */
+    protected function getModelClassParamRule(): ParamRule
+    {
+        return $this->getValidationDecorator()->notRequiredParamRule(
+            new ParamRule(
+                self::FILTER_MODEL,
+                new Rule(Rules::IN, [array_keys(self::MODEL_MAP)])
+            ),
         );
     }
 
@@ -249,6 +322,7 @@ class LeaveEntitlementAPI extends Endpoint implements CrudEndpoint
             $this->getValidationDecorator()->notRequiredParamRule($this->getLeaveTypeIdParamRule()),
             $this->getValidationDecorator()->notRequiredParamRule($fromDateRule),
             $this->getValidationDecorator()->notRequiredParamRule($toDateRule),
+            $this->getModelClassParamRule(),
             ...$this->getSortingAndPaginationParamsRules(LeaveEntitlementSearchFilterParams::ALLOWED_SORT_FIELDS)
         );
     }

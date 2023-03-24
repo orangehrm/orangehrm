@@ -22,6 +22,7 @@ namespace OrangeHRM\OAuth\Controller;
 use League\OAuth2\Server\Exception\OAuthServerException;
 use OrangeHRM\Authentication\Auth\User as AuthUser;
 use OrangeHRM\Authentication\Controller\LoginController;
+use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Controller\Exception\RequestForwardableException;
 use OrangeHRM\Core\Controller\PublicControllerInterface;
@@ -29,7 +30,6 @@ use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\LoggerTrait;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
-use OrangeHRM\CorporateBranding\Traits\ThemeServiceTrait;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\OAuth\Traits\OAuthServerTrait;
@@ -42,7 +42,6 @@ class AuthorizationController extends AbstractVueController implements PublicCon
     use OAuthServerTrait;
     use PsrHttpFactoryHelperTrait;
     use LoggerTrait;
-    use ThemeServiceTrait;
     use AuthUserTrait;
 
     /**
@@ -82,8 +81,13 @@ class AuthorizationController extends AbstractVueController implements PublicCon
             );
         }
 
+        $assetsVersion = Config::get(Config::VUE_BUILD_TIMESTAMP);
         $component->addProp(
-            new Prop('login-banner-src', Prop::TYPE_STRING, $this->getThemeService()->getLoginBannerURL($request))
+            new Prop(
+                'login-banner-src',
+                Prop::TYPE_STRING,
+                $request->getBasePath() . "/images/ohrm_branding.png?v=$assetsVersion"
+            )
         );
 
         $this->setComponent($component);

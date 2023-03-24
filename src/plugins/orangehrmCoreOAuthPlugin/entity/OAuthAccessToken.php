@@ -63,7 +63,7 @@ class OAuthAccessToken
     /**
      * @var DateTimeImmutable
      *
-     * @ORM\Column(name="expiry_date_time", type="datetime_immutable", nullable=false)
+     * @ORM\Column(name="expiry_date_time_utc", type="datetime_immutable", nullable=false)
      */
     private DateTimeImmutable $expiryDateTime;
 
