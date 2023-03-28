@@ -63,20 +63,22 @@ class EmployeeLeaveRequestAPITest extends EndpointIntegrationTestCase
         $api->getValidationRuleForDelete();
     }
 
-    public function testGetOne(): void
+    /**
+     * @dataProvider dataProviderForTestGetOne
+     */
+    public function testGetOne(TestCaseParams $testCaseParams): void
     {
-        $this->markTestSkipped();
-        $api = new EmployeeLeaveRequestAPI($this->getRequest());
-        $this->expectNotImplementedException();
-        $api->getOne();
+        $this->populateFixtures('EmployeeLeaveRequestAPITest.yaml');
+        $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
+        $this->registerServices($testCaseParams);
+        $this->registerMockDateTimeHelper($testCaseParams);
+        $api = $this->getApiEndpointMock(EmployeeLeaveRequestAPI::class, $testCaseParams);
+        $this->assertValidTestCase($api, 'getOne', $testCaseParams);
     }
 
-    public function testGetValidationRuleForGetOne(): void
+    public function dataProviderForTestGetOne(): array
     {
-        $this->markTestSkipped();
-        $api = new EmployeeLeaveRequestAPI($this->getRequest());
-        $this->expectNotImplementedException();
-        $api->getValidationRuleForGetOne();
+        return $this->getTestCases('EmployeeLeaveRequestAPITestCases.yaml', 'GetOne');
     }
 
     /**
