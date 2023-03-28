@@ -229,17 +229,43 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @OA\Get(
-     *     path="/api/v2/claim/employees/{empNumber}/requests",
+     *     path="/api/v2/claim/employees/requests",
      *     tags={"Claim/Requests"},
-     *     @OA\PathParameter(
-     *         name="empNumber",
-     *         @OA\Schema(type="integer")
-     *     ),
      *     @OA\Parameter(
      *         name="sortField",
      *         in="query",
      *         required=false,
-     *         @OA\Schema(type="string", enum=ClaimAttachmentSearchFilterParams::ALLOWED_SORT_FIELDS)
+     *         @OA\Schema(type="string", enum=ClaimRequestSearchFilterParams::ALLOWED_SORT_FIELDS)
+     *     ),
+     *     @OA\Parameter(
+     *         name="referenceId",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         name="status",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string", enum={"INITIATED", "SUBMITTED", "APPROVED", "REJECTED", "CANCELLED", "PAID"})
+     *     ),
+     *     @OA\Parameter(
+     *         name="eventId",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         name="fromDate",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="DateTime")
+     *     ),
+     *     @OA\Parameter(
+     *         name="toDate",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="DateTime")
      *     ),
      *     @OA\Parameter(ref="#/components/parameters/sortOrder"),
      *     @OA\Parameter(ref="#/components/parameters/limit"),
@@ -251,7 +277,7 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
      *             @OA\Property(
      *                 property="data",
      *                 type="array",
-     *                 @OA\Items(ref="#/components/schemas/Claim-AttachmentModel")
+     *                 @OA\Items(ref="#/components/schemas/Claim-EmployeeClaimRequestModel")
      *             ),
      *             @OA\Property(
      *                 property="meta",
@@ -393,9 +419,11 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
     {
         $paramRuleCollection = $this->getCommonParamRuleCollectionGetAll();
         $paramRuleCollection->addParamValidation(
-            new ParamRule(
-                self::PARAMETER_EMPLOYEE_NUMBER,
-                new Rule(Rules::POSITIVE)
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_EMPLOYEE_NUMBER,
+                    new Rule(Rules::POSITIVE)
+                )
             )
         );
 

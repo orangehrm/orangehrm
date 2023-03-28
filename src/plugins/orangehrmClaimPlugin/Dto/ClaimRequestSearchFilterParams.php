@@ -24,7 +24,12 @@ use OrangeHRM\Core\Dto\FilterParams;
 
 class ClaimRequestSearchFilterParams extends FilterParams
 {
-    public const ALLOWED_SORT_FIELDS = [];
+    public const ALLOWED_SORT_FIELDS = [
+        'claimRequest.referenceId',
+        'claimRequest.status',
+        'claimRequest.claimEvent.name',
+        'claimRequest.submittedDate'
+    ];
 
     /**
      * @var string|null
@@ -59,6 +64,7 @@ class ClaimRequestSearchFilterParams extends FilterParams
     public function __construct()
     {
         $this->setSortField('claimRequest.referenceId');
+        $this->setSortOrder('DESC');
     }
 
     /**

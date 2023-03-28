@@ -1,6 +1,8 @@
 Update:
   'Admin SUBMIT own INITIATED claim request':
     userId: 1
+    now:
+      datetime: '2023-01-17 05:40:00'
     services:
       claim.claim_service: OrangeHRM\Claim\Service\ClaimService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
@@ -27,6 +29,8 @@ Update:
 
   'Admin SUBMIT own REJECTED claim request':
     userId: 1
+    now:
+      datetime: '2023-01-17 05:40:00'
     services:
       claim.claim_service: OrangeHRM\Claim\Service\ClaimService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
@@ -165,6 +169,8 @@ Update:
 
   'Admin SUBMIT ESS INITIATED claim request':
     userId: 1
+    now:
+      datetime: '2023-01-17 05:40:00'
     services:
       claim.claim_service: OrangeHRM\Claim\Service\ClaimService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
@@ -209,6 +215,8 @@ Update:
 
   'ESS SUBMIT own INITIATED claim request':
     userId: 2
+    now:
+      datetime: '2023-01-17 05:40:00'
     services:
       claim.claim_service: OrangeHRM\Claim\Service\ClaimService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
@@ -315,6 +323,8 @@ Update:
 
   'Supervisor SUBMIT ESS INITIATED claim request':
     userId: 3
+    now:
+      datetime: '2023-01-17 05:40:00'
     services:
       claim.claim_service: OrangeHRM\Claim\Service\ClaimService
       admin.user_service: \OrangeHRM\Admin\Service\UserService

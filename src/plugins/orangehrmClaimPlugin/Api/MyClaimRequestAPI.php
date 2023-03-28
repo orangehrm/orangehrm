@@ -112,7 +112,6 @@ class MyClaimRequestAPI extends EmployeeClaimRequestAPI
      */
     public function getOne(): EndpointResult
     {
-        dump('MyClaimRequestAPI::getOne()');
         return parent::getOne();
     }
 
@@ -137,15 +136,75 @@ class MyClaimRequestAPI extends EmployeeClaimRequestAPI
         );
     }
 
+    /**
+     * @OA\Get(
+     *     path="/api/v2/claim/requests",
+     *     tags={"Claim/Requests"},
+     *     @OA\Parameter(
+     *         name="sortField",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string", enum=ClaimRequestSearchFilterParams::ALLOWED_SORT_FIELDS)
+     *     ),
+     *     @OA\Parameter(
+     *         name="referenceId",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         name="status",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string", enum={"INITIATED", "SUBMITTED", "APPROVED", "REJECTED", "CANCELLED", "PAID"})
+     *     ),
+     *     @OA\Parameter(
+     *         name="eventId",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         name="fromDate",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="DateTime")
+     *     ),
+     *     @OA\Parameter(
+     *         name="toDate",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="DateTime")
+     *     ),
+     *     @OA\Parameter(ref="#/components/parameters/sortOrder"),
+     *     @OA\Parameter(ref="#/components/parameters/limit"),
+     *     @OA\Parameter(ref="#/components/parameters/offset"),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="array",
+     *                 @OA\Items(ref="#/components/schemas/Claim-MyClaimRequestModel")
+     *             ),
+     *             @OA\Property(
+     *                 property="meta",
+     *                 type="object",
+     *                 @OA\Property(property="amount", type="float")
+     *             )
+     *         )
+     *     )
+     * )
+     * @inheritDoc
+     */
     public function getAll(): EndpointResult
     {
         return parent::getAll();
     }
 
     /**
-     * @param array $claimRequests
-     * @param int $count
-     * @return EndpointCollectionResult
+     * @inheritDoc
      */
     protected function getEndPointCollectionResult(array $claimRequests, int $count): EndpointCollectionResult
     {
@@ -156,12 +215,14 @@ class MyClaimRequestAPI extends EmployeeClaimRequestAPI
         );
     }
 
+    /**
+     * @inheritDoc
+     */
     protected function setEmpNumbers(ClaimRequestSearchFilterParams $claimRequestSearchFilterParams): void
     {
         $loggedInEmpNumber = $this->getAuthUser()->getEmpNumber();
         $claimRequestSearchFilterParams->setEmpNumbers([$loggedInEmpNumber]);
     }
-
 
     /**
      * @return ParamRuleCollection

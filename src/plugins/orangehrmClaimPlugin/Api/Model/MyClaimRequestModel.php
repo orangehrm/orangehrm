@@ -19,10 +19,35 @@
 
 namespace OrangeHRM\Claim\Api\Model;
 
+use OpenApi\Annotations as OA;
 use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\ClaimRequest;
 
+/**
+ * @OA\Schema(
+ *     schema="Claim-MyClaimRequestModel",
+ *     type="object",
+ *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(property="referenceId", type="integer"),
+ *     @OA\Property(
+ *         property="claimEvent",
+ *         type="object",
+ *         @OA\Property(property="id", type="integer"),
+ *         @OA\Property(property="name", type="string")
+ *     ),
+ *     @OA\Property(
+ *         property="currencyType",
+ *         type="object",
+ *         @OA\Property(property="id", type="integer"),
+ *         @OA\Property(property="name", type="string")
+ *     ),
+ *     @OA\Property(property="description", type="string"),
+ *     @OA\Property(property="status", type="string"),
+ *     @OA\Property(property="amount", type="float"),
+ *     @OA\Property(property="submittedDate", type="string", format="date"),
+ * )
+ */
 class MyClaimRequestModel implements Normalizable
 {
     use ModelTrait;
@@ -54,7 +79,7 @@ class MyClaimRequestModel implements Normalizable
                 ['currencyType', 'name'],
                 'remarks',
                 'status',
-                'total',
+                'amount',
                 'submittedDate'
             ]
         );
