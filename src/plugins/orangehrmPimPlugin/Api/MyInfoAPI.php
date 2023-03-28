@@ -32,8 +32,8 @@ use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Entity\Employee;
-use OrangeHRM\Pim\Api\Model\EmployeeDetailedModel;
 use OrangeHRM\Pim\Api\Model\EmployeeModel;
+use OrangeHRM\Pim\Api\Model\MyInfoDetailedModel;
 use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
 
 class MyInfoAPI extends Endpoint implements ResourceEndpoint
@@ -46,7 +46,7 @@ class MyInfoAPI extends Endpoint implements ResourceEndpoint
     public const MODEL_DETAILED = 'detailed';
     public const MODEL_MAP = [
         self::MODEL_DEFAULT => EmployeeModel::class,
-        self::MODEL_DETAILED => EmployeeDetailedModel::class,
+        self::MODEL_DETAILED => MyInfoDetailedModel::class,
     ];
 
     /**
@@ -71,7 +71,7 @@ class MyInfoAPI extends Endpoint implements ResourceEndpoint
      *                 property="data",
      *                 oneOf={
      *                     @OA\Schema(ref="#/components/schemas/Pim-EmployeeModel"),
-     *                     @OA\Schema(ref="#/components/schemas/Pim-EmployeeDetailedModel"),
+     *                     @OA\Schema(ref="#/components/schemas/Pim-MyInfoDetailedModel"),
      *                 }
      *             ),
      *         )

@@ -18,7 +18,6 @@ GetOne:
     query:
       model: 'detailed'
     data:
-      empNumber: 2
       lastName: "Manul"
       firstName: "Madara"
       middleName: ""
@@ -31,12 +30,3 @@ GetOne:
       subunit:
         id: 3
         name: "Development"
-      empStatus:
-        id: null
-        name: null
-      supervisors:
-        0:
-          empNumber: 1
-          lastName: "Admin"
-          firstName: "Devi"
-          middleName: ""
