@@ -369,3 +369,458 @@ GetOne:
     exception:
       class: '\OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
       message: 'Unauthorized'
+
+GetAll:
+  'GetAll - Admin getAll claim requests':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    data:
+      [
+        {
+          "id": 8,
+          "referenceId": "202301170000008",
+          "claimEvent": {
+            "id": 3,
+            "name": "Travel Expenses"
+          },
+          "currencyType": {
+            "id": "USD",
+            "name": "United States Dollar"
+          },
+          "remarks": "Travel expenses for business trip to New York",
+          "status": "CANCELLED",
+          "amount": 300.0,
+          "submittedDate": "2022-12-15"
+        },
+        {
+          "id": 5,
+          "referenceId": "202301170000005",
+          "claimEvent": {
+            "id": 3,
+            "name": "Travel Expenses"
+          },
+          "currencyType": {
+            "id": "USD",
+            "name": "United States Dollar"
+          },
+          "remarks": "Expenses for social media advertising campaign",
+          "status": "REJECTED",
+          "amount": 0.0,
+          "submittedDate": "2022-08-20"
+        },
+        {
+          "id": 4,
+          "referenceId": "202301170000004",
+          "claimEvent": {
+            "id": 2,
+            "name": "Employee Salaries"
+          },
+          "currencyType": {
+            "id": "USD",
+            "name": "United States Dollar"
+          },
+          "remarks": "Salary expenses for temporary employee",
+          "status": "SUBMITTED",
+          "amount": 0.0,
+          "submittedDate": "2022-09-30"
+        },
+        {
+          "id": 1,
+          "referenceId": "202301170000001",
+          "claimEvent": {
+            "id": 3,
+            "name": "Travel Expenses"
+          },
+          "currencyType": {
+            "id": "USD",
+            "name": "United States Dollar"
+          },
+          "remarks": "Travel expenses for business trip to New York",
+          "status": "INITIATED",
+          "amount": 350.0,
+          "submittedDate": null
+        },
+      ]
+    meta: { total: 4 }
+
+  'GetAll - Admin getAll claim requests - with filter by status':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    query:
+      status: 'SUBMITTED'
+    data:
+      [
+        {
+          "id": 4,
+          "referenceId": "202301170000004",
+          "claimEvent": {
+            "id": 2,
+            "name": "Employee Salaries"
+          },
+          "currencyType": {
+            "id": "USD",
+            "name": "United States Dollar"
+          },
+          "remarks": "Salary expenses for temporary employee",
+          "status": "SUBMITTED",
+          "amount": 0.0,
+          "submittedDate": "2022-09-30"
+        }
+      ]
+    meta: { total: 1 }
+
+  'GetAll - Admin getAll claim requests - with filter by referenceId':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    query:
+      referenceId: '202301170000004'
+    data:
+      [
+        {
+          "id": 4,
+          "referenceId": "202301170000004",
+          "claimEvent": {
+            "id": 2,
+            "name": "Employee Salaries"
+          },
+          "currencyType": {
+            "id": "USD",
+            "name": "United States Dollar"
+          },
+          "remarks": "Salary expenses for temporary employee",
+          "status": "SUBMITTED",
+          "amount": 0.0,
+          "submittedDate": "2022-09-30"
+        }
+      ]
+    meta: { total: 1 }
+
+  'GetAll - Admin getAll claim requests - with filter by not existing referenceId':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    query:
+      referenceId: '202301170000090'
+    data:
+      [ ]
+    meta: { total: 0 }
+
+  'GetAll - Admin getAll claim requests - with sortOrder - ASC':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    query:
+      sortOrder: 'ASC'
+    data:
+      [
+        {
+          "id": 1,
+          "referenceId": "202301170000001",
+          "claimEvent": {
+            "id": 3,
+            "name": "Travel Expenses"
+          },
+          "currencyType": {
+            "id": "USD",
+            "name": "United States Dollar"
+          },
+          "remarks": "Travel expenses for business trip to New York",
+          "status": "INITIATED",
+          "amount": 350.0,
+          "submittedDate": null
+        },
+        {
+          "id": 4,
+          "referenceId": "202301170000004",
+          "claimEvent": {
+            "id": 2,
+            "name": "Employee Salaries"
+          },
+          "currencyType": {
+            "id": "USD",
+            "name": "United States Dollar"
+          },
+          "remarks": "Salary expenses for temporary employee",
+          "status": "SUBMITTED",
+          "amount": 0.0,
+          "submittedDate": "2022-09-30"
+        },
+        {
+          "id": 5,
+          "referenceId": "202301170000005",
+          "claimEvent": {
+            "id": 3,
+            "name": "Travel Expenses"
+          },
+          "currencyType": {
+            "id": "USD",
+            "name": "United States Dollar"
+          },
+          "remarks": "Expenses for social media advertising campaign",
+          "status": "REJECTED",
+          "amount": 0.0,
+          "submittedDate": "2022-08-20"
+        },
+        {
+          "id": 8,
+          "referenceId": "202301170000008",
+          "claimEvent": {
+            "id": 3,
+            "name": "Travel Expenses"
+          },
+          "currencyType": {
+            "id": "USD",
+            "name": "United States Dollar"
+          },
+          "remarks": "Travel expenses for business trip to New York",
+          "status": "CANCELLED",
+          "amount": 300.0,
+          "submittedDate": "2022-12-15"
+        }
+      ]
+    meta: { total: 4 }
+
+  'GetAll - Admin getAll claim requests - with sortField - status':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    query:
+      sortField: 'claimRequest.status'
+      sortOrder: 'ASC'
+    data:
+      [
+        {
+          "id": 8,
+          "referenceId": "202301170000008",
+          "claimEvent": {
+            "id": 3,
+            "name": "Travel Expenses"
+          },
+          "currencyType": {
+            "id": "USD",
+            "name": "United States Dollar"
+          },
+          "remarks": "Travel expenses for business trip to New York",
+          "status": "CANCELLED",
+          "amount": 300.0,
+          "submittedDate": "2022-12-15"
+        },
+        {
+          "id": 1,
+          "referenceId": "202301170000001",
+          "claimEvent": {
+            "id": 3,
+            "name": "Travel Expenses"
+          },
+          "currencyType": {
+            "id": "USD",
+            "name": "United States Dollar"
+          },
+          "remarks": "Travel expenses for business trip to New York",
+          "status": "INITIATED",
+          "amount": 350.0,
+          "submittedDate": null
+        },
+        {
+          "id": 5,
+          "referenceId": "202301170000005",
+          "claimEvent": {
+            "id": 3,
+            "name": "Travel Expenses"
+          },
+          "currencyType": {
+            "id": "USD",
+            "name": "United States Dollar"
+          },
+          "remarks": "Expenses for social media advertising campaign",
+          "status": "REJECTED",
+          "amount": 0.0,
+          "submittedDate": "2022-08-20"
+        },
+        {
+          "id": 4,
+          "referenceId": "202301170000004",
+          "claimEvent": {
+            "id": 2,
+            "name": "Employee Salaries"
+          },
+          "currencyType": {
+            "id": "USD",
+            "name": "United States Dollar"
+          },
+          "remarks": "Salary expenses for temporary employee",
+          "status": "SUBMITTED",
+          "amount": 0.0,
+          "submittedDate": "2022-09-30"
+        }
+      ]
+    meta: { total: 4 }
+
+  'GetAll - Admin getAll claim requests - with sortField - status - DESC':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    query:
+      sortField: 'claimRequest.status'
+      sortOrder: 'DESC'
+    data:
+      [
+        {
+          "id": 4,
+          "referenceId": "202301170000004",
+          "claimEvent": {
+            "id": 2,
+            "name": "Employee Salaries"
+          },
+          "currencyType": {
+            "id": "USD",
+            "name": "United States Dollar"
+          },
+          "remarks": "Salary expenses for temporary employee",
+          "status": "SUBMITTED",
+          "amount": 0.0,
+          "submittedDate": "2022-09-30"
+        },
+        {
+          "id": 5,
+          "referenceId": "202301170000005",
+          "claimEvent": {
+            "id": 3,
+            "name": "Travel Expenses"
+          },
+          "currencyType": {
+            "id": "USD",
+            "name": "United States Dollar"
+          },
+          "remarks": "Expenses for social media advertising campaign",
+          "status": "REJECTED",
+          "amount": 0.0,
+          "submittedDate": "2022-08-20"
+        },
+        {
+          "id": 1,
+          "referenceId": "202301170000001",
+          "claimEvent": {
+            "id": 3,
+            "name": "Travel Expenses"
+          },
+          "currencyType": {
+            "id": "USD",
+            "name": "United States Dollar"
+          },
+          "remarks": "Travel expenses for business trip to New York",
+          "status": "INITIATED",
+          "amount": 350.0,
+          "submittedDate": null
+        },
+        {
+          "id": 8,
+          "referenceId": "202301170000008",
+          "claimEvent": {
+            "id": 3,
+            "name": "Travel Expenses"
+          },
+          "currencyType": {
+            "id": "USD",
+            "name": "United States Dollar"
+          },
+          "remarks": "Travel expenses for business trip to New York",
+          "status": "CANCELLED",
+          "amount": 300.0,
+          "submittedDate": "2022-12-15"
+        }
+      ]
+    meta: { total: 4 }
+
+  'GetAll - Admin getAll claim requests - with query - fromDate 2022-09-01':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    query:
+      fromDate: '2022-09-01'
+    data:
+      [
+        {
+          "id": 8,
+          "referenceId": "202301170000008",
+          "claimEvent": {
+            "id": 3,
+            "name": "Travel Expenses"
+          },
+          "currencyType": {
+            "id": "USD",
+            "name": "United States Dollar"
+          },
+          "remarks": "Travel expenses for business trip to New York",
+          "status": "CANCELLED",
+          "amount": 300.0,
+          "submittedDate": "2022-12-15"
+        },
+        {
+          "id": 4,
+          "referenceId": "202301170000004",
+          "claimEvent": {
+            "id": 2,
+            "name": "Employee Salaries"
+          },
+          "currencyType": {
+            "id": "USD",
+            "name": "United States Dollar"
+          },
+          "remarks": "Salary expenses for temporary employee",
+          "status": "SUBMITTED",
+          "amount": 0.0,
+          "submittedDate": "2022-09-30"
+        }
+      ]
+    meta: { total: 2 }
+
+  'GetAll - Admin getAll claim requests - with query - fromDate 2022-09-01 - toDate 2022-10-01':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    query:
+      fromDate: '2022-09-01'
+      toDate: '2022-10-01'
+    data:
+      [
+        {
+          "id": 4,
+          "referenceId": "202301170000004",
+          "claimEvent": {
+            "id": 2,
+            "name": "Employee Salaries"
+          },
+          "currencyType": {
+            "id": "USD",
+            "name": "United States Dollar"
+          },
+          "remarks": "Salary expenses for temporary employee",
+          "status": "SUBMITTED",
+          "amount": 0.0,
+          "submittedDate": "2022-09-30"
+        }
+      ]
+    meta: { total: 1 }
+
+  'GetAll - Admin getAll claim requests - with query - fromDate > toDate':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    query:
+      fromDate: '2022-12-31'
+      toDate: '2022-08-01'
+    data:
+      [ ]
+    meta: { total: 0 }
+
+  'GetAll - Admin getAll claim requests - with invalid query':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    query:
+      empNumber: 1
+    invalidOnly: [ empNumber ]

@@ -34,7 +34,7 @@ class ClaimRequestSearchFilterParams extends FilterParams
     /**
      * @var string|null
      */
-    protected ?string $referenceId;
+    protected ?string $referenceId = null;
 
     /**
      * @var int[]|null
@@ -44,22 +44,22 @@ class ClaimRequestSearchFilterParams extends FilterParams
     /**
      * @var int|null
      */
-    protected ?int $eventId;
+    protected ?int $eventId = null;
 
     /**
      * @var string|null
      */
-    protected ?string $status;
+    protected ?string $status = null;
 
     /**
      * @var DateTime|null
      */
-    protected ?DateTime $fromDate;
+    protected ?DateTime $fromDate = null;
 
     /**
      * @var DateTime|null
      */
-    protected ?DateTime $toDate;
+    protected ?DateTime $toDate = null;
 
     public function __construct()
     {

@@ -320,6 +320,10 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
         );
     }
 
+    /**
+     * @param ClaimRequestSearchFilterParams $claimRequestSearchFilterParams
+     * @return void
+     */
     protected function setEmpNumbers(ClaimRequestSearchFilterParams $claimRequestSearchFilterParams): void
     {
         $empNumber = $this->getRequestParams()->getIntOrNull(
@@ -341,6 +345,10 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
         }
     }
 
+    /**
+     * @param ClaimRequestSearchFilterParams $myClaimRequestSearchFilterParams
+     * @return void
+     */
     private function getCommonFilterParams(ClaimRequestSearchFilterParams $myClaimRequestSearchFilterParams): void
     {
         $myClaimRequestSearchFilterParams->setReferenceId(
@@ -375,6 +383,9 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
         );
     }
 
+    /**
+     * @return ParamRuleCollection
+     */
     protected function getCommonParamRuleCollectionGetAll(): ParamRuleCollection
     {
         return new ParamRuleCollection(
