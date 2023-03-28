@@ -20,8 +20,11 @@
 namespace OrangeHRM\Entity\Decorator;
 
 use OrangeHRM\Admin\Service\PayGradeService;
+use OrangeHRM\Claim\Dto\ClaimExpenseSearchFilterParams;
+use OrangeHRM\Claim\Traits\Service\ClaimServiceTrait;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
+use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\ClaimRequest;
 use OrangeHRM\Entity\CurrencyType;
 use OrangeHRM\Entity\Employee;
@@ -32,6 +35,8 @@ class ClaimRequestDecorator
 {
     use EntityManagerHelperTrait;
     use AuthUserTrait;
+    use ClaimServiceTrait;
+    use DateTimeHelperTrait;
 
     /**
      * @return PayGradeService
@@ -98,5 +103,32 @@ class ClaimRequestDecorator
     {
         $employee = $this->getReference(Employee::class, $empNumber);
         $this->getClaimRequest()->setEmployee($employee);
+    }
+
+    /**
+     * @return float
+     */
+    public function getTotalExpense(): float
+    {
+        $requestId = $this->getClaimRequest()->getId();
+        $claimExpenseSearchFilterParams = new ClaimExpenseSearchFilterParams();
+        $claimExpenseSearchFilterParams->setRequestId($requestId);
+        $totalExpense = $this->getClaimService()->getClaimDao()->getClaimExpenseTotal($claimExpenseSearchFilterParams);
+        if (is_null($totalExpense)) {
+            $totalExpense = 0.0;
+        }
+        return $totalExpense;
+    }
+
+    /**
+     * @return string|null in Y-m-d format
+     */
+    public function getSubmittedDate(): ?string
+    {
+        $submittedDate = $this->getClaimRequest()->getSubmittedDate();
+        if (is_null($submittedDate)) {
+            return null;
+        }
+        return $this->getDateTimeHelper()->formatDate($submittedDate);
     }
 }

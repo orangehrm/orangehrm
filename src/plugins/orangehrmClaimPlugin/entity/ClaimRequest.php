@@ -118,11 +118,11 @@ class ClaimRequest
     private DateTime $createdDate;
 
     /**
-     * @var DateTime
+     * @var DateTime|null
      *
      * @ORM\Column(name="submitted_date", type="datetime")
      */
-    private DateTime $submittedDate;
+    private ?DateTime $submittedDate = null;
 
     /**
      * @return int
@@ -285,17 +285,17 @@ class ClaimRequest
     }
 
     /**
-     * @return DateTime
+     * @return DateTime|null
      */
-    public function getSubmittedDate(): DateTime
+    public function getSubmittedDate(): ?DateTime
     {
         return $this->submittedDate;
     }
 
     /**
-     * @param DateTime $submittedDate
+     * @param ?DateTime $submittedDate
      */
-    public function setSubmittedDate(DateTime $submittedDate): void
+    public function setSubmittedDate(?DateTime $submittedDate): void
     {
         $this->submittedDate = $submittedDate;
     }

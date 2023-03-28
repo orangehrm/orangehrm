@@ -21,8 +21,12 @@
 namespace OrangeHRM\Claim\Api;
 
 use OpenApi\Annotations as OA;
+use OrangeHRM\Claim\Api\Model\MyClaimRequestModel;
+use OrangeHRM\Claim\Dto\ClaimRequestSearchFilterParams;
 use OrangeHRM\Core\Api\CommonParams;
+use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
+use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
@@ -108,6 +112,7 @@ class MyClaimRequestAPI extends EmployeeClaimRequestAPI
      */
     public function getOne(): EndpointResult
     {
+        dump('MyClaimRequestAPI::getOne()');
         return parent::getOne();
     }
 
@@ -130,5 +135,39 @@ class MyClaimRequestAPI extends EmployeeClaimRequestAPI
                 new Rule(Rules::POSITIVE)
             ),
         );
+    }
+
+    public function getAll(): EndpointResult
+    {
+        return parent::getAll();
+    }
+
+    /**
+     * @param array $claimRequests
+     * @param int $count
+     * @return EndpointCollectionResult
+     */
+    protected function getEndPointCollectionResult(array $claimRequests, int $count): EndpointCollectionResult
+    {
+        return new EndpointCollectionResult(
+            MyClaimRequestModel::class,
+            $claimRequests,
+            new ParameterBag([CommonParams::PARAMETER_TOTAL => $count])
+        );
+    }
+
+    protected function setEmpNumbers(ClaimRequestSearchFilterParams $claimRequestSearchFilterParams): void
+    {
+        $loggedInEmpNumber = $this->getAuthUser()->getEmpNumber();
+        $claimRequestSearchFilterParams->setEmpNumbers([$loggedInEmpNumber]);
+    }
+
+
+    /**
+     * @return ParamRuleCollection
+     */
+    public function getValidationRuleForGetAll(): ParamRuleCollection
+    {
+        return $this->getCommonParamRuleCollectionGetAll();
     }
 }

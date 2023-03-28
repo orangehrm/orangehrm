@@ -38,6 +38,7 @@ use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
+use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\ClaimRequest;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\WorkflowStateMachine;
@@ -49,6 +50,7 @@ class ClaimRequestActionAPI extends Endpoint implements ResourceEndpoint
     use ClaimRequestAPIHelperTrait;
     use EntityManagerHelperTrait;
     use ClaimServiceTrait;
+    use DateTimeHelperTrait;
 
     public const PARAMETER_REQUEST_ID = 'requestId';
     public const PARAMETER_ACTION = 'action';
@@ -108,6 +110,10 @@ class ClaimRequestActionAPI extends Endpoint implements ResourceEndpoint
             $this->isActionAllowed($actionIndex, $claimRequest);
 
             $claimRequest->setStatus($this->getResultingState($claimRequest, $actionIndex));
+
+            if ($actionIndex == WorkflowStateMachine::CLAIM_ACTION_SUBMIT) {
+                $claimRequest->setSubmittedDate($this->getDateTimeHelper()->getNow());
+            }
 
             $this->getClaimService()->getClaimDao()->saveClaimRequest($claimRequest);
             $this->commitTransaction();
