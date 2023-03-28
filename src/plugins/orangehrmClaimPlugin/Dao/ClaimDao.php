@@ -486,8 +486,8 @@ class ClaimDao extends BaseDao
         }
 
         if (!is_null($myClaimRequestSearchFilterParams->getEventId())) {
-            $q->andWhere($q->expr()->like('claimRequest.eventName', ':eventName'));
-            $q->setParameter('eventName', '%' . $myClaimRequestSearchFilterParams->getEventId() . '%');
+            $q->andWhere('claimRequest.claimEvent = :eventId');
+            $q->setParameter('eventId', '%' . $myClaimRequestSearchFilterParams->getEventId() . '%');
         }
 
         if (!is_null($myClaimRequestSearchFilterParams->getStatus())) {

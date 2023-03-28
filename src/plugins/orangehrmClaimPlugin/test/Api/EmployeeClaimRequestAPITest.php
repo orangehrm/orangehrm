@@ -80,4 +80,27 @@ class EmployeeClaimRequestAPITest extends EndpointIntegrationTestCase
     {
         return $this->getTestCases('EmployeeClaimRequestAPITestCases.yaml', 'GetOne');
     }
+
+    /**
+     * @dataProvider dataProviderForTestGetAll
+     */
+    public function testGetAll(TestCaseParams $testCaseParams): void
+    {
+        TestDataService::populate(
+            Config::get(Config::TEST_DIR) . '/phpunit/fixtures/WorkflowStateMachine.yaml',
+            true
+        );
+        $this->populateFixtures('EmployeeClaimRequestAPITest.yaml', null, true);
+        $this->createKernelWithMockServices([
+            Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)
+        ]);
+        $this->registerServices($testCaseParams);
+        $api = $this->getApiEndpointMock(EmployeeClaimRequestAPI::class, $testCaseParams);
+        $this->assertValidTestCase($api, 'getAll', $testCaseParams);
+    }
+
+    public function dataProviderForTestGetAll(): array
+    {
+        return $this->getTestCases('EmployeeClaimRequestAPITestCases.yaml', 'GetAll');
+    }
 }
