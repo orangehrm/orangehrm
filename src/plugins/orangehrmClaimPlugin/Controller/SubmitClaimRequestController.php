@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -57,10 +58,12 @@ class SubmitClaimRequestController extends AbstractVueController implements Capa
     {
         $id = $request->attributes->getInt('id');
         $claimRequest = $this->getClaimService()->getClaimDao()->getClaimRequestById($id);
-        if (!$claimRequest instanceof ClaimRequest ||
+        if (
+            !$claimRequest instanceof ClaimRequest ||
             !$this->getUserRoleManagerHelper()->isSelfByEmpNumber(
                 $claimRequest->getEmployee()->getEmpNumber()
-            )) {
+            )
+        ) {
             throw new RequestForwardableException(NoRecordsFoundController::class . '::handle');
         }
         return true;
