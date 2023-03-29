@@ -34,6 +34,7 @@ use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Pim\Api\Model\EmployeeModel;
 use OrangeHRM\Pim\Api\Model\MyInfoDetailedModel;
+use OrangeHRM\Pim\Api\Model\EmployeeDetailedModel;
 use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
 
 class MyInfoAPI extends Endpoint implements ResourceEndpoint
@@ -44,9 +45,11 @@ class MyInfoAPI extends Endpoint implements ResourceEndpoint
     public const FILTER_MODEL = 'model';
     public const MODEL_DEFAULT = 'default';
     public const MODEL_DETAILED = 'detailed';
+    public const MODEL_SUMMERY = 'summery';
     public const MODEL_MAP = [
         self::MODEL_DEFAULT => EmployeeModel::class,
-        self::MODEL_DETAILED => MyInfoDetailedModel::class,
+        self::MODEL_SUMMERY => MyInfoDetailedModel::class,
+        self::MODEL_DETAILED => EmployeeDetailedModel::class
     ];
 
     /**
@@ -59,7 +62,7 @@ class MyInfoAPI extends Endpoint implements ResourceEndpoint
      *         required=false,
      *         @OA\Schema(
      *             type="string",
-     *             enum={OrangeHRM\Pim\Api\MyInfoAPI::MODEL_DEFAULT, OrangeHRM\Pim\Api\MyInfoAPI::MODEL_DETAILED},
+     *             enum={OrangeHRM\Pim\Api\MyInfoAPI::MODEL_DEFAULT, OrangeHRM\Pim\Api\MyInfoAPI::MODEL_DETAILED, },
      *             default=OrangeHRM\Pim\Api\MyInfoAPI::MODEL_DEFAULT
      *         )
      *     ),
@@ -72,6 +75,7 @@ class MyInfoAPI extends Endpoint implements ResourceEndpoint
      *                 oneOf={
      *                     @OA\Schema(ref="#/components/schemas/Pim-EmployeeModel"),
      *                     @OA\Schema(ref="#/components/schemas/Pim-MyInfoDetailedModel"),
+     *                     @OA\Schema(ref="#/components/schemas/Pim-EmployeeDetailedModel"),
      *                 }
      *             ),
      *         )

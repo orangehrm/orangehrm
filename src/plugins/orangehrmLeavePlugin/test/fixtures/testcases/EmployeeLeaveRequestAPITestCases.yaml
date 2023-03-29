@@ -652,6 +652,150 @@ GetOne:
       dateApplied: '2021-06-01'
     meta: []
 
+  'get employee leave request - Admin - detail model':
+    userId: 1
+    services:
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+      leave.leave_period_service: \OrangeHRM\Leave\Service\LeavePeriodService
+      leave.leave_request_service: \OrangeHRM\Leave\Service\LeaveRequestService
+      leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
+      leave.leave_entitlement_service: \OrangeHRM\Leave\Service\LeaveEntitlementService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      leaveRequestId: 2
+    now:
+      datetime: '2021-09-15'
+    query:
+      model: 'detailed'
+    data:
+      id: 2
+      dates:
+        fromDate: '2021-09-23'
+        toDate: '2021-09-26'
+        durationType:
+          id: null
+          type: null
+        startTime: null
+        endTime: null
+      noOfDays: 1.5
+      leaveBalances:
+        0:
+          period:
+            startDate: '2021-01-01'
+            endDate: '2021-12-31'
+          balance:
+            entitled: 7.0
+            used: 2.5
+            scheduled: 0.0
+            pending: 2.5
+            taken: 0.0
+            balance: 4.5
+            asAtDate: '2021-09-23'
+            endDate: '2021-12-31'
+      multiPeriod: false
+      leaveBreakdown:
+        0:
+          id: 1
+          name: Pending Approval
+          lengthDays: 1.5
+      allowedActions:
+        0:
+          action: CANCEL
+          name: Cancel
+      hasMultipleStatus: false
+      employee:
+        empNumber: 4
+        lastName: Abbey
+        firstName: Kayla
+        middleName: ''
+        employeeId: 0004
+        terminationId: null
+      leaveType:
+        id: 6
+        name: Medical
+        deleted: false
+      lastComment: null
+    meta: [ ]
+
+  'get leave request - ESS - detail model - partial dates':
+    userId: 2
+    services:
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+      leave.leave_period_service: \OrangeHRM\Leave\Service\LeavePeriodService
+      leave.leave_request_service: \OrangeHRM\Leave\Service\LeaveRequestService
+      leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
+      leave.leave_entitlement_service: \OrangeHRM\Leave\Service\LeaveEntitlementService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      leaveRequestId: 7
+    now:
+      datetime: '2021-09-15'
+    query:
+      model: 'detailed'
+    data:
+      id: 7
+      dates:
+        fromDate: '2021-10-12'
+        toDate: null
+        durationType:
+          id: 1
+          type: 'half_day_morning'
+        startTime: '09:00'
+        endTime: '13:00'
+      noOfDays: 0.5
+      leaveBalances:
+        0:
+          period:
+            startDate: '2021-01-01'
+            endDate: '2021-12-31'
+          balance:
+            entitled: 7.0
+            used: 3.875
+            scheduled: 0.5
+            pending:  2.375
+            taken: 1.0
+            balance: 3.125
+            asAtDate: '2021-10-12'
+            endDate: '2021-12-31'
+      multiPeriod: false
+      leaveBreakdown:
+        0:
+          id: 2
+          name: Scheduled
+          lengthDays: 0.5
+      allowedActions:
+        0:
+          action: CANCEL
+          name: Cancel
+      hasMultipleStatus: false
+      employee:
+        empNumber: 1
+        lastName: Adalwin
+        firstName: Odis
+        middleName: ''
+        employeeId: 0001
+        terminationId: null
+      leaveType:
+        id: 6
+        name: Medical
+        deleted: false
+      lastComment:
+        id: 1
+        comment: 'Clinic day'
+        date: '2021-09-15'
+        time: '19:29'
+    meta: [ ]
+
 GetAll:
   'without query params':
     userId: 2

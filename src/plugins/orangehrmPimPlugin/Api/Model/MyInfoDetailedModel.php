@@ -59,6 +59,7 @@ class MyInfoDetailedModel implements Normalizable
         $this->setEntity($employee);
         $this->setFilters(
             [
+                'empNumber',
                 'lastName',
                 'firstName',
                 'middleName',
@@ -73,6 +74,7 @@ class MyInfoDetailedModel implements Normalizable
         );
         $this->setAttributeNames(
             [
+                'empNumber',
                 'lastName',
                 'firstName',
                 'middleName',
