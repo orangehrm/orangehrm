@@ -39,3 +39,10 @@
   permissions:
     - { role: Admin, permission: { read: true, create: true, update: false } }
     - { role: ESS, permission: { read: true, create: true, update: false, delete: false } }
+
+'Submit Claim Request':
+  module: claim
+  url: submitClaim/id/{id}
+  permissions:
+    - { role: Admin, permission: { read: true, create: true, update: true } }
+    - { role: ESS, permission: { read: true, create: true, update: true, delete: false } }

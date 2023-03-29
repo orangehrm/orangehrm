@@ -140,3 +140,8 @@ claim_submit_claim:
   path: /claim/submitClaim
   controller: OrangeHRM\Claim\Controller\SubmitClaimController::handle
   methods: [ GET ]
+
+claim_submit_claim_request:
+  path: /claim/submitClaim/id/{id}
+  controller: OrangeHRM\Claim\Controller\SubmitClaimRequestController::handle
+  methods: [ GET ]
