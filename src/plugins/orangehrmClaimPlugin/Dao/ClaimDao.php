@@ -473,6 +473,8 @@ class ClaimDao extends BaseDao
     protected function getClaimRequestPaginator(ClaimRequestSearchFilterParams $myClaimRequestSearchFilterParams): Paginator
     {
         $q = $this->createQueryBuilder(ClaimRequest::class, 'claimRequest');
+        $q->leftJoin('claimRequest.claimEvent', 'claimEvent');
+        $q->leftJoin('claimRequest.employee', 'employee');
         $this->setSortingAndPaginationParams($q, $myClaimRequestSearchFilterParams);
 
         if (!is_null($myClaimRequestSearchFilterParams->getEmpNumbers())) {

@@ -236,7 +236,7 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
      *         name="sortField",
      *         in="query",
      *         required=false,
-     *         @OA\Schema(type="string", enum=ClaimRequestSearchFilterParams::ALLOWED_SORT_FIELDS)
+     *         @OA\Schema(type="string", enum=EmployeeClaimRequestSearchFilterParams::ALLOWED_SORT_FIELDS)
      *     ),
      *     @OA\Parameter(
      *         name="referenceId",
@@ -355,36 +355,36 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     * @param ClaimRequestSearchFilterParams $myClaimRequestSearchFilterParams
+     * @param ClaimRequestSearchFilterParams $claimRequestSearchFilterParams
      * @return void
      */
-    private function getCommonFilterParams(ClaimRequestSearchFilterParams $myClaimRequestSearchFilterParams): void
+    private function getCommonFilterParams(ClaimRequestSearchFilterParams $claimRequestSearchFilterParams): void
     {
-        $myClaimRequestSearchFilterParams->setReferenceId(
+        $claimRequestSearchFilterParams->setReferenceId(
             $this->getRequestParams()->getStringOrNull(
                 RequestParams::PARAM_TYPE_QUERY,
                 self::PARAMETER_REFERENCE_ID
             )
         );
-        $myClaimRequestSearchFilterParams->setEventId(
+        $claimRequestSearchFilterParams->setEventId(
             $this->getRequestParams()->getIntOrNull(
                 RequestParams::PARAM_TYPE_QUERY,
                 self::PARAMETER_EVENT_ID
             )
         );
-        $myClaimRequestSearchFilterParams->setStatus(
+        $claimRequestSearchFilterParams->setStatus(
             $this->getRequestParams()->getStringOrNull(
                 RequestParams::PARAM_TYPE_QUERY,
                 self::PARAMETER_STATUS
             )
         );
-        $myClaimRequestSearchFilterParams->setFromDate(
+        $claimRequestSearchFilterParams->setFromDate(
             $this->getRequestParams()->getDateTimeOrNull(
                 RequestParams::PARAM_TYPE_QUERY,
                 self::PARAMETER_FROM_DATE
             )
         );
-        $myClaimRequestSearchFilterParams->setToDate(
+        $claimRequestSearchFilterParams->setToDate(
             $this->getRequestParams()->getDateTimeOrNull(
                 RequestParams::PARAM_TYPE_QUERY,
                 self::PARAMETER_TO_DATE
@@ -427,8 +427,7 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
                     self::PARAMETER_TO_DATE,
                     new Rule(Rules::DATE_TIME)
                 )
-            ),
-            ...$this->getSortingAndPaginationParamsRules(ClaimRequestSearchFilterParams::ALLOWED_SORT_FIELDS)
+            )
         );
     }
 
@@ -446,6 +445,12 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
                 )
             )
         );
+        $sortFieldParamRules = $this->getSortingAndPaginationParamsRules(
+            EmployeeClaimRequestSearchFilterParams::ALLOWED_SORT_FIELDS
+        );
+        foreach ($sortFieldParamRules as $sortFieldParamRule) {
+            $paramRuleCollection->addParamValidation($sortFieldParamRule);
+        }
 
         return $paramRuleCollection;
     }

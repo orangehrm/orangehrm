@@ -237,6 +237,14 @@ class MyClaimRequestAPI extends EmployeeClaimRequestAPI
      */
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
-        return $this->getCommonParamRuleCollectionGetAll();
+        $paramRuleCollection = $this->getCommonParamRuleCollectionGetAll();
+        $sortFieldParamRules = $this->getSortingAndPaginationParamsRules(
+            ClaimRequestSearchFilterParams::ALLOWED_SORT_FIELDS
+        );
+        foreach ($sortFieldParamRules as $sortFieldParamRule) {
+            $paramRuleCollection->addParamValidation($sortFieldParamRule);
+        }
+
+        return $paramRuleCollection;
     }
 }
