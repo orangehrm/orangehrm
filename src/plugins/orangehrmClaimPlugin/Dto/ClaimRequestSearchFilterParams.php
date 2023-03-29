@@ -27,7 +27,7 @@ class ClaimRequestSearchFilterParams extends FilterParams
     public const ALLOWED_SORT_FIELDS = [
         'claimRequest.referenceId',
         'claimRequest.status',
-        'claimRequest.claimEvent.name',
+        'claimEvent.name',
         'claimRequest.submittedDate'
     ];
 

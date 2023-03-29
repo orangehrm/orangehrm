@@ -25,6 +25,7 @@ use OpenApi\Annotations as OA;
 use OrangeHRM\Claim\Api\Model\ClaimRequestModel;
 use OrangeHRM\Claim\Api\Model\EmployeeClaimRequestModel;
 use OrangeHRM\Claim\Dto\ClaimRequestSearchFilterParams;
+use OrangeHRM\Claim\Dto\EmployeeClaimRequestSearchFilterParams;
 use OrangeHRM\Claim\Traits\Service\ClaimServiceTrait;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
@@ -291,19 +292,27 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
      */
     public function getAll(): EndpointResult
     {
-        $myClaimRequestSearchFilterParams = new ClaimRequestSearchFilterParams();
+        $employeeClaimRequestSearchFilterParams = $this->getClaimRequestSearchFilterParams();
 
-        $this->setSortingAndPaginationParams($myClaimRequestSearchFilterParams);
-        $this->getCommonFilterParams($myClaimRequestSearchFilterParams);
-        $this->setEmpNumbers($myClaimRequestSearchFilterParams);
+        $this->setSortingAndPaginationParams($employeeClaimRequestSearchFilterParams);
+        $this->getCommonFilterParams($employeeClaimRequestSearchFilterParams);
+        $this->setEmpNumbers($employeeClaimRequestSearchFilterParams);
 
         $claimRequests = $this->getClaimService()->getClaimDao()
-            ->getClaimRequestList($myClaimRequestSearchFilterParams);
+            ->getClaimRequestList($employeeClaimRequestSearchFilterParams);
 
         $count = $this->getClaimService()->getClaimDao()
-            ->getClaimRequestCount($myClaimRequestSearchFilterParams);
+            ->getClaimRequestCount($employeeClaimRequestSearchFilterParams);
 
         return $this->getEndPointCollectionResult($claimRequests, $count);
+    }
+
+    /**
+     * @return ClaimRequestSearchFilterParams
+     */
+    protected function getClaimRequestSearchFilterParams(): ClaimRequestSearchFilterParams
+    {
+        return new EmployeeClaimRequestSearchFilterParams();
     }
 
     /**

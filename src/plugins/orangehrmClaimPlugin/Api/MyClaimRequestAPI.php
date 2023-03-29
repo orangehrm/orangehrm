@@ -204,6 +204,14 @@ class MyClaimRequestAPI extends EmployeeClaimRequestAPI
     }
 
     /**
+     * @return ClaimRequestSearchFilterParams
+     */
+    protected function getClaimRequestSearchFilterParams(): ClaimRequestSearchFilterParams
+    {
+        return new ClaimRequestSearchFilterParams();
+    }
+
+    /**
      * @inheritDoc
      */
     protected function getEndPointCollectionResult(array $claimRequests, int $count): EndpointCollectionResult
