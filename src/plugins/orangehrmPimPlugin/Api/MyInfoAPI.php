@@ -45,7 +45,7 @@ class MyInfoAPI extends Endpoint implements ResourceEndpoint
     public const FILTER_MODEL = 'model';
     public const MODEL_DEFAULT = 'default';
     public const MODEL_DETAILED = 'detailed';
-    public const MODEL_SUMMERY = 'summery';
+    public const MODEL_SUMMARY = 'summary';
     public const MODEL_MAP = [
         self::MODEL_DEFAULT => EmployeeModel::class,
         self::MODEL_SUMMERY => MyInfoDetailedModel::class,
@@ -62,7 +62,7 @@ class MyInfoAPI extends Endpoint implements ResourceEndpoint
      *         required=false,
      *         @OA\Schema(
      *             type="string",
-     *             enum={OrangeHRM\Pim\Api\MyInfoAPI::MODEL_DEFAULT, OrangeHRM\Pim\Api\MyInfoAPI::MODEL_DETAILED, },
+     *             enum={OrangeHRM\Pim\Api\MyInfoAPI::MODEL_DEFAULT, OrangeHRM\Pim\Api\MyInfoAPI::MODEL_DETAILED, OrangeHRM\Api\MyInfoAPI::MODEL_SUMMARY},
      *             default=OrangeHRM\Pim\Api\MyInfoAPI::MODEL_DEFAULT
      *         )
      *     ),
