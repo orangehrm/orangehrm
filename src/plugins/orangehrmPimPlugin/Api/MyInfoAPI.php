@@ -62,7 +62,7 @@ class MyInfoAPI extends Endpoint implements ResourceEndpoint
      *         required=false,
      *         @OA\Schema(
      *             type="string",
-     *             enum={OrangeHRM\Pim\Api\MyInfoAPI::MODEL_DEFAULT, OrangeHRM\Pim\Api\MyInfoAPI::MODEL_DETAILED, OrangeHRM\Api\MyInfoAPI::MODEL_SUMMARY},
+     *             enum={OrangeHRM\Pim\Api\MyInfoAPI::MODEL_DEFAULT, OrangeHRM\Pim\Api\MyInfoAPI::MODEL_DETAILED, OrangeHRM\Pim\Api\MyInfoAPI::MODEL_SUMMARY},
      *             default=OrangeHRM\Pim\Api\MyInfoAPI::MODEL_DEFAULT
      *         )
      *     ),

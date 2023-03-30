@@ -11,12 +11,12 @@ GetOne:
       employeeId: "0001"
       terminationId: null
 
-  'Get logged in User Details - Summery Model':
+  'Get logged in User Details - Summary Model':
     userId: 2
     services:
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
     query:
-      model: 'summery'
+      model: 'summary'
     data:
       empNumber: 2
       lastName: "Manul"
