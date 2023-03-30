@@ -48,7 +48,7 @@ class MyInfoAPI extends Endpoint implements ResourceEndpoint
     public const MODEL_SUMMARY = 'summary';
     public const MODEL_MAP = [
         self::MODEL_DEFAULT => EmployeeModel::class,
-        self::MODEL_SUMMERY => MyInfoDetailedModel::class,
+        self::MODEL_SUMMARY => MyInfoDetailedModel::class,
         self::MODEL_DETAILED => EmployeeDetailedModel::class
     ];
 
