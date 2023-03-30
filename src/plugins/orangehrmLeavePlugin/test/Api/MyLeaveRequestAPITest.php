@@ -101,19 +101,22 @@ class MyLeaveRequestAPITest extends EndpointIntegrationTestCase
         $api->getValidationRuleForDelete();
     }
 
-    public function testGetOne(): void
+    /**
+     * @dataProvider dataProviderForTestGetOne
+     */
+    public function testGetOne(TestCaseParams $testCaseParams): void
     {
-        $this->markTestSkipped();
-        $api = new MyLeaveRequestAPI($this->getRequest());
-        $this->expectNotImplementedException();
-        $api->getOne();
+        $this->populateFixtures('MyLeaveRequestAPITest.yaml');
+        $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
+
+        $this->registerServices($testCaseParams);
+        $this->registerMockDateTimeHelper($testCaseParams);
+        $api = $this->getApiEndpointMock(MyLeaveRequestAPI::class, $testCaseParams);
+        $this->assertValidTestCase($api, 'getOne', $testCaseParams);
     }
 
-    public function testGetValidationRuleForGetOne(): void
+    public function dataProviderForTestGetOne(): array
     {
-        $this->markTestSkipped();
-        $api = new MyLeaveRequestAPI($this->getRequest());
-        $this->expectNotImplementedException();
-        $api->getValidationRuleForGetOne();
+        return $this->getTestCases('MyLeaveRequestAPITestCases.yaml', 'GetOne');
     }
 }
