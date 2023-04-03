@@ -55,6 +55,20 @@ class Migration extends AbstractMigration
             ->setParameter('display_name', 'Auth')
             ->executeQuery();
 
+        $this->getConnection()->createQueryBuilder()
+            ->insert('ohrm_module')
+            ->values(
+                [
+                    'name' => ':name',
+                    'status' => ':status',
+                    'display_name' => ':display_name'
+                ]
+            )
+            ->setParameter('name', "mobile")
+            ->setParameter('status', 1)
+            ->setParameter('display_name', 'Mobile')
+            ->executeQuery();
+
         $this->getConfigHelper()->setConfigValue('auth.password_policy.min_password_length', '8');
         $this->getConfigHelper()->setConfigValue('auth.password_policy.min_uppercase_letters', '1');
         $this->getConfigHelper()->setConfigValue('auth.password_policy.min_lowercase_letters', '1');
