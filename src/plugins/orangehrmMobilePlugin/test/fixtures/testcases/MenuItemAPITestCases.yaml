@@ -1,0 +1,127 @@
+'GetOne - Leave period and Timesheet period defined':
+  'Get Menu Items List - Admin':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
+    data:
+      0:
+        name: 'Leave'
+        children: [
+            'Apply Leave', 'My Leave Usage', 'Leave List', 'Assign Leave'
+        ]
+      1:
+        name: 'Time'
+        children: [
+          'Punch In/Out', 'My Attendance', 'Employee Attendance'
+        ]
+    meta:
+      isLeavePeriodDefined: true
+      isTimesheetPeriodDefined: true
+
+  'Get Menu Items List - ESS':
+    userId: 2
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
+    data:
+      0:
+        name: 'Leave'
+        children: [
+          'Apply Leave', 'My Leave Usage', 'Leave List'
+        ]
+      1:
+        name: 'Time'
+        children: [
+          'Punch In/Out', 'My Attendance'
+        ]
+    meta:
+      isLeavePeriodDefined: true
+      isTimesheetPeriodDefined: true
+
+  'Get Menu Items List - Supervisor':
+    userId: 3
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
+    data:
+      0:
+        name: 'Leave'
+        children: [
+          'Apply Leave', 'My Leave Usage', 'Leave List', 'Assign Leave'
+        ]
+      1:
+        name: 'Time'
+        children: [
+          'Punch In/Out', 'My Attendance', 'Employee Attendance'
+        ]
+    meta:
+      isLeavePeriodDefined: true
+      isTimesheetPeriodDefined: true
+
+'GetOne - Leave period and Timesheet period not defined':
+  'Get Menu Items List - Admin':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
+    data:
+      0:
+        name: 'Leave'
+        children: [
+          'Apply Leave', 'My Leave Usage', 'Leave List', 'Assign Leave'
+        ]
+      1:
+        name: 'Time'
+        children: [
+          'Punch In/Out', 'My Attendance', 'Employee Attendance'
+        ]
+    meta:
+      isLeavePeriodDefined: false
+      isTimesheetPeriodDefined: false
+
+  'Get Menu Items List - ESS':
+    userId: 2
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
+    data:
+      0:
+        name: 'Leave'
+        children: [
+          'Apply Leave', 'My Leave Usage', 'Leave List'
+        ]
+      1:
+        name: 'Time'
+        children: [
+          'Punch In/Out', 'My Attendance'
+        ]
+    meta:
+      isLeavePeriodDefined: false
+      isTimesheetPeriodDefined: false
+
+  'Get Menu Items List - Supervisor':
+    userId: 3
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
+    data:
+      0:
+        name: 'Leave'
+        children: [
+          'Apply Leave', 'My Leave Usage', 'Leave List', 'Assign Leave'
+        ]
+      1:
+        name: 'Time'
+        children: [
+          'Punch In/Out', 'My Attendance', 'Employee Attendance'
+        ]
+    meta:
+      isLeavePeriodDefined: false
+      isTimesheetPeriodDefined: false
