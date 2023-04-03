@@ -117,7 +117,7 @@ class ClaimRequestActionAPI extends Endpoint implements ResourceEndpoint
 
             $this->getClaimService()->getClaimDao()->saveClaimRequest($claimRequest);
             $this->commitTransaction();
-        } catch (ForbiddenException | InvalidParamException | RecordNotFoundException $e) {
+        } catch (ForbiddenException|InvalidParamException|RecordNotFoundException $e) {
             $this->rollBackTransaction();
             throw $e;
         } catch (Exception $e) {

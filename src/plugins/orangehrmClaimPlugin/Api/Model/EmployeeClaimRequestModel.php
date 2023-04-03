@@ -96,7 +96,7 @@ class EmployeeClaimRequestModel implements Normalizable
                 ['claimEvent', 'name'],
                 ['currencyType', 'id'],
                 ['currencyType', 'name'],
-                'remarks',
+                'description',
                 'status',
                 ['employee', 'empNumber'],
                 ['employee', 'firstName'],

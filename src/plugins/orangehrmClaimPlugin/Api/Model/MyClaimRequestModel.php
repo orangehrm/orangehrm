@@ -43,7 +43,10 @@ use OrangeHRM\Entity\ClaimRequest;
  *         @OA\Property(property="name", type="string")
  *     ),
  *     @OA\Property(property="description", type="string"),
- *     @OA\Property(property="status", type="string"),
+ *     @OA\Property(
+ *         property="status",
+ *         type="string",
+ *     enum={"INITIATED", "SUBMITTED", "APPROVED", "REJECTED", "CANCELLED", "PAID"}),
  *     @OA\Property(property="amount", type="float"),
  *     @OA\Property(property="submittedDate", type="string", format="date"),
  * )
@@ -77,7 +80,7 @@ class MyClaimRequestModel implements Normalizable
                 ['claimEvent', 'name'],
                 ['currencyType', 'id'],
                 ['currencyType', 'name'],
-                'remarks',
+                'description',
                 'status',
                 'amount',
                 'submittedDate'

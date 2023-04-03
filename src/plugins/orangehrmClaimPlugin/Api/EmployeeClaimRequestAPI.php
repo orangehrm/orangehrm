@@ -51,6 +51,7 @@ use OrangeHRM\Entity\ClaimRequest;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\WorkflowStateMachine;
 use OrangeHRM\ORM\Exception\TransactionException;
+use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
 
 class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
 {
@@ -60,6 +61,7 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
     use AuthUserTrait;
     use NormalizerServiceTrait;
     use UserRoleManagerTrait;
+    use EmployeeServiceTrait;
 
     public const PARAMETER_CLAIM_EVENT_ID = 'claimEventId';
     public const PARAMETER_CURRENCY_ID = 'currencyId';
@@ -257,6 +259,12 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\Parameter(
+     *         name="empNumber",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
      *         name="fromDate",
      *         in="query",
      *         required=false,
@@ -331,7 +339,6 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @param ClaimRequestSearchFilterParams $claimRequestSearchFilterParams
-     * @return void
      */
     protected function setEmpNumbers(ClaimRequestSearchFilterParams $claimRequestSearchFilterParams): void
     {
@@ -341,6 +348,9 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
         );
 
         if (!is_null($empNumber)) {
+            if (!$this->getEmployeeService()->getEmployeeDao()->getEmployeeByEmpNumber($empNumber) instanceof Employee) {
+                throw $this->getRecordNotFoundException();
+            }
             if (!$this->isSelfByEmpNumber($empNumber)) {
                 throw $this->getForbiddenException();
             }
@@ -356,7 +366,6 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @param ClaimRequestSearchFilterParams $claimRequestSearchFilterParams
-     * @return void
      */
     private function getCommonFilterParams(ClaimRequestSearchFilterParams $claimRequestSearchFilterParams): void
     {

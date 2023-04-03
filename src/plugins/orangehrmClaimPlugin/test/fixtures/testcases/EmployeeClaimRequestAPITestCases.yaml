@@ -318,54 +318,54 @@ GetAll:
       status: CANCELLED
     data:
       [
-          {
-            "id": 9,
-            "referenceId": "202301170000009",
-            "claimEvent": {
-              "id": 3,
-              "name": "Travel Expenses"
-            },
-            "currencyType": {
-              "id": "USD",
-              "name": "United States Dollar"
-            },
-            "remarks": "Travel expenses for business trip to New York",
-            "status": "CANCELLED",
-            "employee": {
-              "empNumber": 1,
-              "firstName": "Kayla",
-              "lastName": "Abbey",
-              "middleName": "",
-              "employeeId": "0001",
-              "terminationId": null
-            },
-            "amount": 0.0,
-            "submittedDate": null
+        {
+          "id": 9,
+          "referenceId": "202301170000009",
+          "claimEvent": {
+            "id": 3,
+            "name": "Travel Expenses"
           },
-          {
-            "id": 8,
-            "referenceId": "202301170000008",
-            "claimEvent": {
-              "id": 3,
-              "name": "Travel Expenses"
-            },
-            "currencyType": {
-              "id": "USD",
-              "name": "United States Dollar"
-            },
-            "remarks": "Travel expenses for business trip to New York",
-            "status": "CANCELLED",
-            "employee": {
-              "empNumber": 1,
-              "firstName": "Kayla",
-              "lastName": "Abbey",
-              "middleName": "",
-              "employeeId": "0001",
-              "terminationId": null
-            },
-            "amount": 300.0,
-            "submittedDate": null
-          }
+          "currencyType": {
+            "id": "USD",
+            "name": "United States Dollar"
+          },
+          "description": "Travel expenses for business trip to New York",
+          "status": "CANCELLED",
+          "employee": {
+            "empNumber": 1,
+            "firstName": "Kayla",
+            "lastName": "Abbey",
+            "middleName": "",
+            "employeeId": "0001",
+            "terminationId": null
+          },
+          "amount": 0.0,
+          "submittedDate": null
+        },
+        {
+          "id": 8,
+          "referenceId": "202301170000008",
+          "claimEvent": {
+            "id": 3,
+            "name": "Travel Expenses"
+          },
+          "currencyType": {
+            "id": "USD",
+            "name": "United States Dollar"
+          },
+          "description": "Travel expenses for business trip to New York",
+          "status": "CANCELLED",
+          "employee": {
+            "empNumber": 1,
+            "firstName": "Kayla",
+            "lastName": "Abbey",
+            "middleName": "",
+            "employeeId": "0001",
+            "terminationId": null
+          },
+          "amount": 300.0,
+          "submittedDate": null
+        }
       ]
     meta: { total: 2 }
 
@@ -394,7 +394,7 @@ GetAll:
             "id": "USD",
             "name": "United States Dollar"
           },
-          "remarks": "Travel expenses for business trip to New York",
+          "description": "Travel expenses for business trip to New York",
           "status": "CANCELLED",
           "employee": {
             "empNumber": 1,
@@ -418,7 +418,7 @@ GetAll:
             "id": "USD",
             "name": "United States Dollar"
           },
-          "remarks": "Travel expenses for business trip to New York",
+          "description": "Travel expenses for business trip to New York",
           "status": "CANCELLED",
           "employee": {
             "empNumber": 1,
@@ -458,7 +458,7 @@ GetAll:
             "id": "USD",
             "name": "United States Dollar"
           },
-          "remarks": "Travel expenses for business trip to New York",
+          "description": "Travel expenses for business trip to New York",
           "status": "CANCELLED",
           "employee": {
             "empNumber": 1,
@@ -518,6 +518,22 @@ GetAll:
       class: '\OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
       message: 'Unauthorized'
 
+  'GetAll - Claim Request - by Admin user - query not exists empNumber':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      empNumber: 100
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException'
+      message: 'Record Not Found'
+
   'GetAll - Claim Request - by Admin user - query eventName':
     userId: 3
     services:
@@ -543,7 +559,7 @@ GetAll:
             "id": "USD",
             "name": "United States Dollar"
           },
-          "remarks": "Travel expenses for business trip to New York",
+          "description": "Travel expenses for business trip to New York",
           "status": "CANCELLED",
           "employee": {
             "empNumber": 1,
@@ -567,7 +583,7 @@ GetAll:
             "id": "USD",
             "name": "United States Dollar"
           },
-          "remarks": "Travel expenses for business trip to New York",
+          "description": "Travel expenses for business trip to New York",
           "status": "CANCELLED",
           "employee": {
             "empNumber": 1,

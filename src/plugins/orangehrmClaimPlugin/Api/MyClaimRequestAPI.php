@@ -191,7 +191,7 @@ class MyClaimRequestAPI extends EmployeeClaimRequestAPI
      *             @OA\Property(
      *                 property="meta",
      *                 type="object",
-     *                 @OA\Property(property="amount", type="float")
+     *                 @OA\Property(property="total", type="integer")
      *             )
      *         )
      *     )

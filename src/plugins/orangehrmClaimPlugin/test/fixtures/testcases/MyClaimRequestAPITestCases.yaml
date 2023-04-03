@@ -388,7 +388,7 @@ GetAll:
             "id": "USD",
             "name": "United States Dollar"
           },
-          "remarks": "Travel expenses for business trip to New York",
+          "description": "Travel expenses for business trip to New York",
           "status": "CANCELLED",
           "amount": 300.0,
           "submittedDate": "2022-12-15"
@@ -404,7 +404,7 @@ GetAll:
             "id": "USD",
             "name": "United States Dollar"
           },
-          "remarks": "Expenses for social media advertising campaign",
+          "description": "Expenses for social media advertising campaign",
           "status": "REJECTED",
           "amount": 0.0,
           "submittedDate": "2022-08-20"
@@ -420,7 +420,7 @@ GetAll:
             "id": "USD",
             "name": "United States Dollar"
           },
-          "remarks": "Salary expenses for temporary employee",
+          "description": "Salary expenses for temporary employee",
           "status": "SUBMITTED",
           "amount": 0.0,
           "submittedDate": "2022-09-30"
@@ -436,7 +436,7 @@ GetAll:
             "id": "USD",
             "name": "United States Dollar"
           },
-          "remarks": "Travel expenses for business trip to New York",
+          "description": "Travel expenses for business trip to New York",
           "status": "INITIATED",
           "amount": 350.0,
           "submittedDate": null
@@ -463,7 +463,7 @@ GetAll:
             "id": "USD",
             "name": "United States Dollar"
           },
-          "remarks": "Salary expenses for temporary employee",
+          "description": "Salary expenses for temporary employee",
           "status": "SUBMITTED",
           "amount": 0.0,
           "submittedDate": "2022-09-30"
@@ -490,7 +490,7 @@ GetAll:
             "id": "USD",
             "name": "United States Dollar"
           },
-          "remarks": "Salary expenses for temporary employee",
+          "description": "Salary expenses for temporary employee",
           "status": "SUBMITTED",
           "amount": 0.0,
           "submittedDate": "2022-09-30"
@@ -527,7 +527,7 @@ GetAll:
             "id": "USD",
             "name": "United States Dollar"
           },
-          "remarks": "Travel expenses for business trip to New York",
+          "description": "Travel expenses for business trip to New York",
           "status": "INITIATED",
           "amount": 350.0,
           "submittedDate": null
@@ -543,7 +543,7 @@ GetAll:
             "id": "USD",
             "name": "United States Dollar"
           },
-          "remarks": "Salary expenses for temporary employee",
+          "description": "Salary expenses for temporary employee",
           "status": "SUBMITTED",
           "amount": 0.0,
           "submittedDate": "2022-09-30"
@@ -559,7 +559,7 @@ GetAll:
             "id": "USD",
             "name": "United States Dollar"
           },
-          "remarks": "Expenses for social media advertising campaign",
+          "description": "Expenses for social media advertising campaign",
           "status": "REJECTED",
           "amount": 0.0,
           "submittedDate": "2022-08-20"
@@ -575,7 +575,7 @@ GetAll:
             "id": "USD",
             "name": "United States Dollar"
           },
-          "remarks": "Travel expenses for business trip to New York",
+          "description": "Travel expenses for business trip to New York",
           "status": "CANCELLED",
           "amount": 300.0,
           "submittedDate": "2022-12-15"
@@ -603,7 +603,7 @@ GetAll:
             "id": "USD",
             "name": "United States Dollar"
           },
-          "remarks": "Travel expenses for business trip to New York",
+          "description": "Travel expenses for business trip to New York",
           "status": "CANCELLED",
           "amount": 300.0,
           "submittedDate": "2022-12-15"
@@ -619,7 +619,7 @@ GetAll:
             "id": "USD",
             "name": "United States Dollar"
           },
-          "remarks": "Travel expenses for business trip to New York",
+          "description": "Travel expenses for business trip to New York",
           "status": "INITIATED",
           "amount": 350.0,
           "submittedDate": null
@@ -635,7 +635,7 @@ GetAll:
             "id": "USD",
             "name": "United States Dollar"
           },
-          "remarks": "Expenses for social media advertising campaign",
+          "description": "Expenses for social media advertising campaign",
           "status": "REJECTED",
           "amount": 0.0,
           "submittedDate": "2022-08-20"
@@ -651,7 +651,7 @@ GetAll:
             "id": "USD",
             "name": "United States Dollar"
           },
-          "remarks": "Salary expenses for temporary employee",
+          "description": "Salary expenses for temporary employee",
           "status": "SUBMITTED",
           "amount": 0.0,
           "submittedDate": "2022-09-30"
@@ -679,7 +679,7 @@ GetAll:
             "id": "USD",
             "name": "United States Dollar"
           },
-          "remarks": "Salary expenses for temporary employee",
+          "description": "Salary expenses for temporary employee",
           "status": "SUBMITTED",
           "amount": 0.0,
           "submittedDate": "2022-09-30"
@@ -695,7 +695,7 @@ GetAll:
             "id": "USD",
             "name": "United States Dollar"
           },
-          "remarks": "Expenses for social media advertising campaign",
+          "description": "Expenses for social media advertising campaign",
           "status": "REJECTED",
           "amount": 0.0,
           "submittedDate": "2022-08-20"
@@ -711,7 +711,7 @@ GetAll:
             "id": "USD",
             "name": "United States Dollar"
           },
-          "remarks": "Travel expenses for business trip to New York",
+          "description": "Travel expenses for business trip to New York",
           "status": "INITIATED",
           "amount": 350.0,
           "submittedDate": null
@@ -727,7 +727,7 @@ GetAll:
             "id": "USD",
             "name": "United States Dollar"
           },
-          "remarks": "Travel expenses for business trip to New York",
+          "description": "Travel expenses for business trip to New York",
           "status": "CANCELLED",
           "amount": 300.0,
           "submittedDate": "2022-12-15"
@@ -754,7 +754,7 @@ GetAll:
             "id": "USD",
             "name": "United States Dollar"
           },
-          "remarks": "Travel expenses for business trip to New York",
+          "description": "Travel expenses for business trip to New York",
           "status": "CANCELLED",
           "amount": 300.0,
           "submittedDate": "2022-12-15"
@@ -770,7 +770,7 @@ GetAll:
             "id": "USD",
             "name": "United States Dollar"
           },
-          "remarks": "Salary expenses for temporary employee",
+          "description": "Salary expenses for temporary employee",
           "status": "SUBMITTED",
           "amount": 0.0,
           "submittedDate": "2022-09-30"
@@ -798,7 +798,7 @@ GetAll:
             "id": "USD",
             "name": "United States Dollar"
           },
-          "remarks": "Salary expenses for temporary employee",
+          "description": "Salary expenses for temporary employee",
           "status": "SUBMITTED",
           "amount": 0.0,
           "submittedDate": "2022-09-30"
