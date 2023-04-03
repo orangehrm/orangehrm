@@ -78,6 +78,7 @@ class Migration extends AbstractMigration
         $this->getConfigHelper()->setConfigValue('auth.password_policy.is_spaces_allowed', 'false');
 
         $this->getDataGroupHelper()->insertApiPermissions(__DIR__ . '/permission/api.yaml');
+        $this->changePermissionForAttendanceConfigurationAPI();
 
         $this->getSchemaHelper()->createTable('ohrm_enforce_password')
             ->addColumn('id', Types::INTEGER, ['Autoincrement' => true])
@@ -274,5 +275,18 @@ class Migration extends AbstractMigration
         $this->getConfigHelper()->setConfigValue('oauth.auth_code_ttl', 'PT5M'); // 5 minutes
         $this->getConfigHelper()->setConfigValue('oauth.refresh_token_ttl', 'P1M'); // 1 month
         $this->getConfigHelper()->setConfigValue('oauth.access_token_ttl', 'PT30M'); // 30 minutes
+    }
+
+    private function changePermissionForAttendanceConfigurationAPI(): void
+    {
+        $this->getDataGroupHelper()->addDataGroupPermissions(
+            'apiv2_attendance_configuration',
+            'ESS',
+            true,
+            false,
+            false,
+            false,
+            false
+        );
     }
 }
