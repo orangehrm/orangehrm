@@ -19,21 +19,60 @@
 
 namespace OrangeHRM\Claim\Controller;
 
+use OrangeHRM\Claim\Api\Traits\ClaimRequestAPIHelperTrait;
+use OrangeHRM\Claim\Traits\Service\ClaimServiceTrait;
+use OrangeHRM\Core\Authorization\Controller\CapableViewController;
 use OrangeHRM\Core\Controller\AbstractVueController;
+use OrangeHRM\Core\Controller\Common\NoRecordsFoundController;
+use OrangeHRM\Core\Controller\Exception\RequestForwardableException;
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
+use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Core\Vue\Component;
+use OrangeHRM\Core\Vue\Prop;
+use OrangeHRM\Entity\ClaimRequest;
 use OrangeHRM\Framework\Http\Request;
 
-class SubmitClaimRequestController extends AbstractVueController
+class SubmitClaimRequestController extends AbstractVueController implements CapableViewController
 {
     use ServiceContainerTrait;
+    use ClaimServiceTrait;
+    use ClaimRequestAPIHelperTrait;
+    use UserRoleManagerTrait;
 
     /**
      * @inheritDoc
      */
     public function preRender(Request $request): void
     {
-        $component = new Component('submit-claim');
-        $this->setComponent($component);
+     //   if($request->attributes->has('id')){
+            $id = $request->attributes->getInt('id');
+//            $claimRequest = $this->getClaimService()->getClaimDao()->getClaimRequestById($id);
+//            if(!$claimRequest instanceof ClaimRequest ||
+//            !$this->getUserRoleManagerHelper()->isSelfByEmpNumber(
+//                $claimRequest->getEmployee()->getEmpNumber())){
+//                throw new RequestForwardableException(NoRecordsFoundController::class . '::handle');
+//            }
+            $component = new Component('submit-claim');
+            $component->addProp(new Prop('id', Prop::TYPE_NUMBER, $id));
+            $this->setComponent($component);
+//        }else{
+//            $component = new Component('submit-claim-request');
+//            $this->setComponent($component);
+//        }
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function isCapable(Request $request): bool
+    {
+        $id = $request->attributes->getInt('id');
+        $claimRequest = $this->getClaimService()->getClaimDao()->getClaimRequestById($id);
+        if(!$claimRequest instanceof ClaimRequest ||
+            !$this->getUserRoleManagerHelper()->isSelfByEmpNumber(
+                $claimRequest->getEmployee()->getEmpNumber())){
+            throw new RequestForwardableException(NoRecordsFoundController::class . '::handle');
+        }
+        return true;
     }
 }

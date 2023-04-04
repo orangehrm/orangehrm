@@ -123,6 +123,7 @@ export default {
     return {
       isLoading: false,
       request: {...claimRequest},
+      id: 0,
       rules: {
         event: [required],
         currency: [required],
@@ -143,11 +144,12 @@ export default {
           currencyId: this.request.currency.id,
           remarks: this.request.remarks,
         })
-        .then(() => {
+        .then((res) => {
+          this.id = res.data.data.id;
           return this.$toast.saveSuccess();
         })
         .then(() => {
-          this.onCancel();
+          navigate('/claim/submitClaim/id/' + this.id);
         });
     },
   },
