@@ -53,11 +53,20 @@ class MenuItemAPI extends Endpoint implements ResourceEndpoint
     private array $mobileMenuItems = [
         'leaveModule' => [
             'name' => 'Leave',
-            'children' => ['Apply Leave', 'My Leave Usage', 'Leave List', 'Assign Leave'],
+            'children' => [
+                ["name" => "Apply Leave"],
+                ["name" => "My Leave Usage"],
+                ["name" => "Leave List"],
+                ["name" => "Assign Leave"]
+            ],
         ],
         'timeModule' => [
             'name' => 'Time',
-            'children' => ['Punch In/Out', 'My Attendance', 'Employee Attendance'],
+            'children' => [
+                ["name" => "Punch In/Out"],
+                ["name" => "My Attendance"],
+                ["name" => "Employee Attendance"]
+            ],
         ]
     ];
 
@@ -66,10 +75,14 @@ class MenuItemAPI extends Endpoint implements ResourceEndpoint
      */
     private array $mobileAdminOnlyMenuItems = [
         'leaveModule' => [
-            'children' => ['Assign Leave'],
+            'children' => [
+                ["name" => "Assign Leave"]
+            ],
         ],
         'timeModule' => [
-            'children' => ['Employee Attendance'],
+            'children' => [
+                ["name" => "Employee Attendance"]
+            ],
         ]
     ];
 
@@ -80,17 +93,23 @@ class MenuItemAPI extends Endpoint implements ResourceEndpoint
     {
         $menuItems = [];
         $mobileMenuItems = $this->mobileMenuItems;
+        $mobileAdminOnlyMenuItems = $this->mobileAdminOnlyMenuItems;
 
-        foreach ($mobileMenuItems as $key => $value) {
-            $result = array_diff(
-                $value['children'],
-                $this->mobileAdminOnlyMenuItems[$key]['children']
-            );
-
-            $menuItems [] = [
-                'name' => $value['name'],
-                'children' => $result,
-            ];
+        foreach ($mobileMenuItems as $module => $menu) {
+            if (isset($mobileAdminOnlyMenuItems[$module])) {
+                $menuItems[] = [
+                    'name' => $menu['name'],
+                    'children' => array_udiff(
+                        $menu['children'],
+                        $mobileAdminOnlyMenuItems[$module]['children'],
+                        function ($a, $b) {
+                            return strcmp($a['name'], $b['name']);
+                        }
+                    ),
+                ];
+            } else {
+                $menuItems[$module] = $menu;
+            }
         }
         return $menuItems;
     }
@@ -138,7 +157,10 @@ class MenuItemAPI extends Endpoint implements ResourceEndpoint
      *                     type="object",
      *                     @OA\Property(property="name", type="string"),
      *                     @OA\Property(property="children", type="array",
-     *                         @OA\Items(type="string")
+     *                         @OA\Items(
+     *                             @OA\Property(property="name", type="string"),
+     *                         ),
+     *                         example="name: Apply Leave"
      *                     ),
      *                 )
      *             ),
