@@ -80,14 +80,17 @@
         </oxd-form>
       </div>
       <claim-expenses
-        :requestId="id"
+        :request-id="id"
         :currency="currency"
         :can-edit="canEdit"
       ></claim-expenses>
       <br />
-      <claim-attachment :requestId="id" :can-edit="canEdit"></claim-attachment>
+      <claim-attachment :request-id="id" :can-edit="canEdit"></claim-attachment>
       <br />
-      <claim-action-buttons :requestId="id" :allowedActions="allowedActions" />
+      <claim-action-buttons
+        :request-id="id"
+        :allowed-actions="allowedActions"
+      />
     </div>
   </div>
 </template>
@@ -137,6 +140,26 @@ export default {
     };
   },
 
+  computed: {
+    canEdit() {
+      if (this.allowedActions) {
+        return this.allowedActions.includes('Submit');
+      }
+      return false;
+    },
+    computedState() {
+      const statusMap = {
+        SUBMITTED: 'Submitted',
+        APPROVED: 'Approved',
+        REJECTED: 'Rejected',
+        CANCELLED: 'Cancelled',
+        PAID: 'Paid',
+        INITIATED: 'Initiated',
+      };
+      return statusMap[this.request.status];
+    },
+  },
+
   beforeMount() {
     this.isLoading = true;
     this.http
@@ -156,26 +179,6 @@ export default {
       .finally(() => {
         this.isLoading = false;
       });
-  },
-
-  computed: {
-    canEdit() {
-      if (this.allowedActions) {
-        return this.allowedActions.includes('Submit');
-      }
-      return false;
-    },
-    computedState() {
-      const statusMap = {
-        SUBMITTED: 'Submitted',
-        APPROVED: 'Approved',
-        REJECTED: 'Rejected',
-        CANCELLED: 'Cancelled',
-        PAID: 'Paid',
-        INITIATED: 'Initiated',
-      };
-      return statusMap[this.request.status];
-    },
   },
 
   methods: {

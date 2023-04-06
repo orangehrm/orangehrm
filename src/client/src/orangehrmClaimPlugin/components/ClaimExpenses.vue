@@ -61,15 +61,10 @@
 </template>
 
 <script>
-import {APIService, $refs} from '@/core/util/services/api.service';
+import {APIService} from '@/core/util/services/api.service';
 import usePaginate from '@ohrm/core/util/composable/usePaginate';
 import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmationDialog.vue';
 import {computed} from '@vue/runtime-core';
-
-const defaultSortOrder = {
-  'claimEvent.name': 'ASC',
-  'claimEvent.status': 'DESC',
-};
 
 export default {
   name: 'ClaimExpenses',
@@ -216,7 +211,7 @@ export default {
       await this.execQuery();
     },
     onClickAdd() {
-      console.log(this.currency);
+      //TODO: Add claim expense modal
     },
     onClickDeleteSelected() {
       const ids = [];

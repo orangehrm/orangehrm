@@ -54,17 +54,10 @@
 </template>
 
 <script>
-import {APIService, $refs} from '@/core/util/services/api.service';
+import {APIService} from '@/core/util/services/api.service';
 import usePaginate from '@ohrm/core/util/composable/usePaginate';
 import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmationDialog.vue';
 import {convertFilesizeToString} from '@ohrm/core/util/helper/filesize';
-import useDateFormat from '@/core/util/composable/useDateFormat';
-import useLocale from '@/core/util/composable/useLocale';
-
-const defaultSortOrder = {
-  'claimEvent.name': 'ASC',
-  'claimEvent.status': 'DESC',
-};
 
 export default {
   name: 'ClaimAttachment',
@@ -87,8 +80,6 @@ export default {
       window.appGlobal.baseUrl,
       `/api/v2/claim/requests/${props.requestId}/attachments`,
     );
-    const {jsDateFormat} = useDateFormat();
-    const {locale} = useLocale();
 
     const attachmentDataNormalizer = (data) => {
       return data.map((item) => {
@@ -171,6 +162,9 @@ export default {
   computed: {
     tableHeaders() {
       let computedHeaders = this.headers;
+      if (computedHeaders.length > 6) {
+        computedHeaders.pop();
+      }
       const headerActions = {
         name: 'actions',
         slot: 'action',
@@ -180,12 +174,6 @@ export default {
         cellConfig: {},
       };
       if (this.canEdit) {
-        headerActions.cellConfig.edit = {
-          onClick: this.onClickEdit,
-          props: {
-            name: 'pencil-fill',
-          },
-        };
         headerActions.cellConfig.delete = {
           onClick: this.onClickDelete,
           component: 'oxd-icon-button',
@@ -193,17 +181,22 @@ export default {
             name: 'trash',
           },
         };
-        headerActions.cellConfig.download = {
-          onClick: this.onClickDownload,
+        headerActions.cellConfig.edit = {
+          onClick: this.onClickEdit,
           props: {
-            name: 'download',
+            name: 'pencil-fill',
           },
         };
       }
-
-      if (Object.keys(headerActions.cellConfig).length > 0) {
-        computedHeaders.push(headerActions);
-      }
+      headerActions.cellConfig.download = {
+        onClick: this.onClickDownload,
+        props: {
+          name: 'download',
+        },
+      };
+      // if (Object.keys(headerActions.cellConfig).length > 0) {
+      computedHeaders.push(headerActions);
+      // }
 
       return computedHeaders;
     },
@@ -215,7 +208,7 @@ export default {
       await this.execQuery();
     },
     onClickAdd() {
-      console.log(this.currency);
+      //TODO: Add attachment modal
     },
     onClickDeleteSelected() {
       const ids = [];

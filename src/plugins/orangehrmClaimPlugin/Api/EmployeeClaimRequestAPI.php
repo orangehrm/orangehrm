@@ -330,10 +330,15 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
      */
     protected function getAllowedActions(ClaimRequest $claimRequest): array
     {
+        $excludeRoles = ['Admin'];
+        if($this->getAuthUser()->getUserRoleName() === 'Admin'
+            && !$this->getUserRoleManagerHelper()->isSelfByEmpNumber($claimRequest->getEmployee()->getEmpNumber())) {
+            $excludeRoles = [];
+        }
         $allowedWorkflowItems = $this->getUserRoleManager()->getAllowedActions(
             WorkflowStateMachine::FLOW_CLAIM,
             $claimRequest->getStatus(),
-            [],
+            $excludeRoles,
             [],
             [Employee::class => $claimRequest->getEmployee()->getEmpNumber()]
         );

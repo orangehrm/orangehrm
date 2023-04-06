@@ -18,45 +18,51 @@
  */
  -->
 <template>
-  <div class="orangehrm-action-buttons-container">
+  <div
+    :class="{
+      'orangehrm-action-button-container': allowedActions.length < 2,
+      'orangehrm-action-buttons-container': allowedActions.length > 1,
+    }"
+  >
     <oxd-button
       v-if="isBackAllowed"
       display-type="ghost"
+      class="orangehrm-sm-button"
       :label="$t('general.back')"
       @click="onBack"
     />
     <oxd-button
       v-if="isCancelAllowed"
       display-type="danger"
-      class="orangehrm-left-space"
+      class="orangehrm-sm-button"
       :label="$t('general.cancel')"
       @click="onCancel"
     />
     <oxd-button
       v-if="isRejectAllowed"
       display-type="danger"
-      class="orangehrm-left-space"
+      class="orangehrm-sm-button"
       :label="$t('general.reject')"
       @click="onReject"
     />
     <oxd-button
       v-if="isApproveAllowed"
       display-type="secondary"
-      class="orangehrm-left-space"
+      class="orangehrm-sm-button"
       :label="$t('general.approve')"
       @click="onApprove"
     />
     <oxd-button
       v-if="isPayAllowed"
       display-type="secondary"
-      class="orangehrm-left-space"
+      class="orangehrm-sm-button"
       :label="$t('claim.pay')"
       @click="onPay"
     />
     <oxd-button
       v-if="isSubmitAllowed"
       display-type="secondary"
-      class="orangehrm-left-space"
+      class="orangehrm-sm-button"
       :label="$t('general.submit')"
       @click="onSubmit"
     />
@@ -64,7 +70,7 @@
 </template>
 
 <script>
-import {APIService, $refs} from '@/core/util/services/api.service';
+import {APIService} from '@/core/util/services/api.service';
 import {navigate} from '@ohrm/core/util/helper/navigation';
 
 export default {
@@ -88,6 +94,26 @@ export default {
       http,
     };
   },
+  computed: {
+    isBackAllowed() {
+      return true;
+    },
+    isCancelAllowed() {
+      return this.allowedActions.includes('Cancel');
+    },
+    isSubmitAllowed() {
+      return this.allowedActions.includes('Submit');
+    },
+    isApproveAllowed() {
+      return this.allowedActions.includes('Approve');
+    },
+    isRejectAllowed() {
+      return this.allowedActions.includes('Reject');
+    },
+    isPayAllowed() {
+      return this.allowedActions.includes('Pay');
+    },
+  },
   methods: {
     onCancel() {
       this.http
@@ -101,7 +127,7 @@ export default {
           return this.$toast.saveSuccess();
         })
         .then(() => {
-          this.onBack();
+          navigate(`/claim/submitClaim/id/${this.requestId}`);
         });
     },
     onSubmit() {
@@ -116,7 +142,7 @@ export default {
           return this.$toast.saveSuccess();
         })
         .then(() => {
-          this.onBack();
+          navigate(`/claim/submitClaim/id/${this.requestId}`);
         });
     },
     onBack() {
@@ -134,7 +160,7 @@ export default {
           return this.$toast.saveSuccess();
         })
         .then(() => {
-          this.onBack();
+          navigate(`/claim/submitClaim/id/${this.requestId}`);
         });
     },
     onApprove() {
@@ -149,7 +175,7 @@ export default {
           return this.$toast.saveSuccess();
         })
         .then(() => {
-          this.onBack();
+          navigate(`/claim/submitClaim/id/${this.requestId}`);
         });
     },
     onPay() {
@@ -164,34 +190,8 @@ export default {
           return this.$toast.saveSuccess();
         })
         .then(() => {
-          this.onBack();
+          navigate(`/claim/submitClaim/id/${this.requestId}`);
         });
-    },
-  },
-  computed: {
-    isBackAllowed() {
-      console.log(this.allowedActions);
-      return true;
-    },
-    isCancelAllowed() {
-      console.log('cancel', this.allowedActions.includes('Cancel'));
-      return this.allowedActions.includes('Cancel');
-    },
-    isSubmitAllowed() {
-      console.log('submit', this.allowedActions.includes('Submit'));
-      return this.allowedActions.includes('Submit');
-    },
-    isApproveAllowed() {
-      console.log('approve', this.allowedActions.includes('Approve'));
-      return this.allowedActions.includes('Approve');
-    },
-    isRejectAllowed() {
-      console.log('reject', this.allowedActions.includes('Reject'));
-      return this.allowedActions.includes('Reject');
-    },
-    isPayAllowed() {
-      console.log('pay', this.allowedActions.includes('Pay'));
-      return this.allowedActions.includes('Pay');
     },
   },
 };
@@ -204,5 +204,23 @@ export default {
   flex-wrap: wrap;
   justify-content: flex-end;
   padding: 25px;
+  @media screen and (max-width: 600px) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
+.orangehrm-action-button-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  padding: 25px;
+}
+.orangehrm-sm-button {
+  margin-left: 1rem;
+  @media screen and (max-width: 600px) {
+    margin-bottom: 1rem;
+  }
 }
 </style>
