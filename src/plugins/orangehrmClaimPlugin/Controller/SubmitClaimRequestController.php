@@ -44,21 +44,10 @@ class SubmitClaimRequestController extends AbstractVueController implements Capa
      */
     public function preRender(Request $request): void
     {
-     //   if($request->attributes->has('id')){
-            $id = $request->attributes->getInt('id');
-//            $claimRequest = $this->getClaimService()->getClaimDao()->getClaimRequestById($id);
-//            if(!$claimRequest instanceof ClaimRequest ||
-//            !$this->getUserRoleManagerHelper()->isSelfByEmpNumber(
-//                $claimRequest->getEmployee()->getEmpNumber())){
-//                throw new RequestForwardableException(NoRecordsFoundController::class . '::handle');
-//            }
-            $component = new Component('submit-claim');
-            $component->addProp(new Prop('id', Prop::TYPE_NUMBER, $id));
-            $this->setComponent($component);
-//        }else{
-//            $component = new Component('submit-claim-request');
-//            $this->setComponent($component);
-//        }
+        $id = $request->attributes->getInt('id');
+        $component = new Component('submit-claim');
+        $component->addProp(new Prop('id', Prop::TYPE_NUMBER, $id));
+        $this->setComponent($component);
     }
 
     /**
@@ -68,9 +57,10 @@ class SubmitClaimRequestController extends AbstractVueController implements Capa
     {
         $id = $request->attributes->getInt('id');
         $claimRequest = $this->getClaimService()->getClaimDao()->getClaimRequestById($id);
-        if(!$claimRequest instanceof ClaimRequest ||
+        if (!$claimRequest instanceof ClaimRequest ||
             !$this->getUserRoleManagerHelper()->isSelfByEmpNumber(
-                $claimRequest->getEmployee()->getEmpNumber())){
+                $claimRequest->getEmployee()->getEmpNumber()
+            )) {
             throw new RequestForwardableException(NoRecordsFoundController::class . '::handle');
         }
         return true;

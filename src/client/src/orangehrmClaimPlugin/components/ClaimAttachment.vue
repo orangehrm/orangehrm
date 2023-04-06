@@ -194,9 +194,7 @@ export default {
           name: 'download',
         },
       };
-      // if (Object.keys(headerActions.cellConfig).length > 0) {
       computedHeaders.push(headerActions);
-      // }
 
       return computedHeaders;
     },

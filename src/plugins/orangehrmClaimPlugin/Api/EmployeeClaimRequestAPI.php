@@ -21,7 +21,6 @@
 namespace OrangeHRM\Claim\Api;
 
 use Exception;
-use OpenApi\Annotations as OA;
 use OrangeHRM\Claim\Api\Model\ClaimRequestModel;
 use OrangeHRM\Claim\Traits\Service\ClaimServiceTrait;
 use OrangeHRM\Core\Api\CommonParams;
@@ -331,7 +330,7 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
     protected function getAllowedActions(ClaimRequest $claimRequest): array
     {
         $excludeRoles = ['Admin'];
-        if($this->getAuthUser()->getUserRoleName() === 'Admin'
+        if ($this->getAuthUser()->getUserRoleName() === 'Admin'
             && !$this->getUserRoleManagerHelper()->isSelfByEmpNumber($claimRequest->getEmployee()->getEmpNumber())) {
             $excludeRoles = [];
         }
