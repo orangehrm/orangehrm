@@ -85,7 +85,12 @@
         :can-edit="canEdit"
       ></claim-expenses>
       <br />
-      <claim-attachment :request-id="id" :can-edit="canEdit"></claim-attachment>
+      <claim-attachment
+        :request-id="id"
+        :can-edit="canEdit"
+        :allowed-file-types="allowedFileTypes"
+        :max-file-size="maxFileSize"
+      ></claim-attachment>
       <br />
       <claim-action-buttons
         :request-id="id"
@@ -113,6 +118,14 @@ export default {
 
   props: {
     id: {
+      type: Number,
+      required: true,
+    },
+    allowedFileTypes: {
+      type: Array,
+      required: true,
+    },
+    maxFileSize: {
       type: Number,
       required: true,
     },
