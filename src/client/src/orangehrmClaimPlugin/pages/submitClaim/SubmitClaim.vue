@@ -195,5 +195,3 @@ export default {
   },
 };
 </script>
-
-<style src="./submitClaim.scss" lang="scss" scoped></style>
