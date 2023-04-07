@@ -169,11 +169,8 @@ export default {
         const {meta} = res.data;
         this.response = res.data;
         this.request = data;
-        //this.claimEvent = res.data.data.claimEvent;
         this.claimEvent = data.claimEvent;
-        //this.currency = res.data.data.currencyType;
         this.currency = data.currencyType;
-        //const aa = this.response.meta.allowedActions;
         this.allowedActions = meta.allowedActions.map((action) => action.name);
       })
       .finally(() => {
@@ -188,5 +185,3 @@ export default {
   },
 };
 </script>
-
-<style src="./submitClaim.scss" lang="scss" scoped></style>

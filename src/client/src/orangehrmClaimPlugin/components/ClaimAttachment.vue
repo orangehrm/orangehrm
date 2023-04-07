@@ -91,7 +91,9 @@ export default {
             ? convertFilesizeToString(item.attachment.size, 2)
             : '',
           fileType: item.attachment.fileType ? item.attachment.fileType : '',
-          description: item.attachment.description ? item.description : '',
+          description: item.attachment.description
+            ? item.attachment.description
+            : '',
           attachedByName: item.attachedBy
             ? item.attachedBy.firstName + ` ${item.attachedBy.lastName}`
             : '',
@@ -153,9 +155,6 @@ export default {
         },
       ],
       checkedItems: [],
-      showSaveModal: false,
-      showEditModal: false,
-      editModalState: null,
     };
   },
 
