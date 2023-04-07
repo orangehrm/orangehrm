@@ -26,6 +26,7 @@ use OrangeHRM\Core\Authorization\Controller\CapableViewController;
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Controller\Common\NoRecordsFoundController;
 use OrangeHRM\Core\Controller\Exception\RequestForwardableException;
+use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Core\Vue\Component;
@@ -39,6 +40,7 @@ class SubmitClaimRequestController extends AbstractVueController implements Capa
     use ClaimServiceTrait;
     use ClaimRequestAPIHelperTrait;
     use UserRoleManagerTrait;
+    use ConfigServiceTrait;
 
     /**
      * @inheritDoc
@@ -48,6 +50,10 @@ class SubmitClaimRequestController extends AbstractVueController implements Capa
         $id = $request->attributes->getInt('id');
         $component = new Component('submit-claim');
         $component->addProp(new Prop('id', Prop::TYPE_NUMBER, $id));
+        $component->addProp(new Prop('allowed-file-types',
+            Prop::TYPE_ARRAY, $this->getConfigService()->getAllowedFileTypes()));
+        $component->addProp(new Prop('max-file-size',
+            Prop::TYPE_NUMBER, $this->getConfigService()->getMaxAttachmentSize()));
         $this->setComponent($component);
     }
 

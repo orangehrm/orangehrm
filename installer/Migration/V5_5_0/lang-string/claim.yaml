@@ -37,3 +37,6 @@ langStrings:
     unitId: total_amount
   - value: "Pay"
     unitId: pay
+  -
+    value: "Add Attachment"
+    unitId: add_attachment

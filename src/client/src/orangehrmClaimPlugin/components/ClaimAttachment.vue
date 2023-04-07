@@ -50,6 +50,21 @@
       row-decorator="oxd-table-decorator-card"
     />
   </div>
+  <add-attachment-modal
+    v-if:="showAddAttachmentModal"
+    :request-id="requestId"
+    :allowed-file-types="allowedFileTypes"
+    :max-file-size="maxFileSize"
+    @close="onCloseAddAttachmentModal"
+  ></add-attachment-modal>
+  <edit-attachment-modal
+    v-if:="showEditAttachmentModal"
+    :request-id="requestId"
+    :allowed-file-types="allowedFileTypes"
+    :max-file-size="maxFileSize"
+    :data="editModalState"
+    @close="onCloseEditAttachmentModal"
+  ></edit-attachment-modal>
   <delete-confirmation ref="deleteDialog"></delete-confirmation>
 </template>
 
@@ -58,12 +73,16 @@ import {APIService} from '@/core/util/services/api.service';
 import usePaginate from '@ohrm/core/util/composable/usePaginate';
 import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmationDialog.vue';
 import {convertFilesizeToString} from '@ohrm/core/util/helper/filesize';
+import AddAttachmentModal from './AddAttachmentModal.vue';
+import EditAttachmentModal from './EditAttachmentModal.vue';
 
 export default {
   name: 'ClaimAttachment',
 
   components: {
     'delete-confirmation': DeleteConfirmationDialog,
+    'add-attachment-modal': AddAttachmentModal,
+    'edit-attachment-modal': EditAttachmentModal,
   },
   props: {
     requestId: {
@@ -72,6 +91,14 @@ export default {
     },
     canEdit: {
       type: Boolean,
+      required: true,
+    },
+    allowedFileTypes: {
+      type: Array,
+      required: true,
+    },
+    maxFileSize: {
+      type: Number,
       required: true,
     },
   },
@@ -155,6 +182,9 @@ export default {
         },
       ],
       checkedItems: [],
+      editModalState: null,
+      showAddAttachmentModal: false,
+      showEditAttachmentModal: false,
     };
   },
 
@@ -205,7 +235,8 @@ export default {
       await this.execQuery();
     },
     onClickAdd() {
-      //TODO: Add attachment modal
+      this.showAddAttachmentModal = true;
+      this.showEditAttachmentModal = false;
     },
     onClickDeleteSelected() {
       const ids = [];
@@ -240,6 +271,22 @@ export default {
           this.deleteItems([item.id]);
         }
       });
+    },
+    onClickEdit(item) {
+      this.showAddAttachmentModal = false;
+      this.editModalState = item;
+      this.showEditAttachmentModal = true;
+    },
+    onCloseAddAttachmentModal() {
+      this.showAddAttachmentModal = false;
+      this.reloadAttachments();
+    },
+    onCloseEditAttachmentModal() {
+      this.showEditAttachmentModal = false;
+      this.reloadAttachments();
+    },
+    async reloadAttachments() {
+      await this.execQuery();
     },
   },
 };
