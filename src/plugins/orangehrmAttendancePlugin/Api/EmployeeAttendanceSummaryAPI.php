@@ -38,7 +38,6 @@ use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\Employee;
-use Orangehrm\Rest\Api\Exception\InvalidParamException;
 
 class EmployeeAttendanceSummaryAPI extends Endpoint implements CollectionEndpoint
 {
@@ -85,7 +84,7 @@ class EmployeeAttendanceSummaryAPI extends Endpoint implements CollectionEndpoin
             $date = $this->getDateTimeHelper()->getNow()->format('Ymd');
             $employeeAttendanceSummarySearchFilterParams->setFromDate(new DateTime($date . ' ' . '00:00:00'));
             $employeeAttendanceSummarySearchFilterParams->setToDate(new DateTime($date . ' ' . '23:59:59'));
-        } elseif ($fromDate == null && $toDate == null){
+        } elseif ($fromDate == null && $toDate == null) {
             $employeeAttendanceSummarySearchFilterParams->setFromDate(new DateTime($date . ' ' . '00:00:00'));
             $employeeAttendanceSummarySearchFilterParams->setToDate(new DateTime($date . ' ' . '23:59:59'));
         } else {
