@@ -54,7 +54,7 @@ class GenerateOpenApiDocCommand extends Command
         $paths = [Config::get(Config::PLUGINS_DIR) . '/orangehrmCorePlugin/Controller/Rest/V2'];
         foreach (Config::get(Config::PLUGIN_PATHS) as $pluginAbsPath) {
             $pathToApiDir = realpath($pluginAbsPath . '/Api');
-            if ($pathToApiDir !== false && !str_ends_with($pathToApiDir, 'src/plugins/orangehrmClaimPlugin/Api')) {
+            if ($pathToApiDir !== false) {
                 $paths[] = $pathToApiDir;
             }
         }

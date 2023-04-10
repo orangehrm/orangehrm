@@ -79,6 +79,7 @@
             "OrangeHRM\\LDAP\\": "./plugins/orangehrmLDAPAuthenticationPlugin",
             "OrangeHRM\\SystemCheck\\": "./plugins/orangehrmSystemCheckPlugin",
             "OrangeHRM\\Mobile\\": "./plugins/orangehrmMobilePlugin",
+            "OrangeHRM\\Claim\\": "./plugins/orangehrmClaimPlugin",
             "OrangeHRM\\Installer\\": "../installer",
             "OrangeHRM\\Entity\\": [
                 "./plugins/orangehrmAdminPlugin/entity",
@@ -94,7 +95,8 @@
                 "./plugins/orangehrmRecruitmentPlugin/entity",
                 "./plugins/orangehrmCorporateBrandingPlugin/entity",
                 "./plugins/orangehrmLDAPAuthenticationPlugin/entity",
-                "./plugins/orangehrmBuzzPlugin/entity"
+                "./plugins/orangehrmBuzzPlugin/entity",
+                "./plugins/orangehrmClaimPlugin/entity"
             ]
         }
     },
@@ -119,7 +121,8 @@
             "OrangeHRM\\Tests\\LDAP\\": "./plugins/orangehrmLDAPAuthenticationPlugin/test",
             "OrangeHRM\\Tests\\Buzz\\": "./plugins/orangehrmBuzzPlugin/test",
             "OrangeHRM\\Tests\\Help\\": "./plugins/orangehrmHelpPlugin/test",
-            "OrangeHRM\\Tests\\Mobile\\": "./plugins/orangehrmMobilePlugin/test"
+            "OrangeHRM\\Tests\\Mobile\\": "./plugins/orangehrmMobilePlugin/test",
+            "OrangeHRM\\Tests\\Claim\\": "./plugins/orangehrmClaimPlugin/test"
         }
     },
     "scripts": {
