@@ -35,3 +35,24 @@ langStrings:
   -
     value: "Create"
     unitId: create
+  -
+    value: "Submit Claim"
+    unitId: submit_claim
+  -
+    value: "Reference Id"
+    unitId: reference_id
+  -
+    value: "Amount"
+    unitId: amount
+  -
+    value: "Expenses"
+    unitId: expenses
+  -
+    value: "Expense Type"
+    unitId: expense_type
+  -
+    value: "Total Amount"
+    unitId: total_amount
+  -
+    value: "Pay"
+    unitId: pay
