@@ -40,3 +40,9 @@ langStrings:
   -
     value: "Add Attachment"
     unitId: add_attachment
+  -
+    value: "Add Expense"
+    unitId: add_expense
+  -
+    value: "Edit Expense"
+    unitId: edit_expense

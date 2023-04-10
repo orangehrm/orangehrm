@@ -26,6 +26,7 @@
         {{ $t('claim.expenses') }}
       </oxd-text>
       <oxd-button
+        v-if="canEdit"
         :label="$t('general.add')"
         icon-name="plus"
         display-type="text"
@@ -55,6 +56,11 @@
       >{{ $t('claim.total_amount') }}({{ currency.name }}):{{ totalAmount }}
     </oxd-text>
   </div>
+  <add-expense-modal
+    v-if:="showAddExpenseModal"
+    :request-id="requestId"
+    @close="onCloseAddExpenseModal"
+  ></add-expense-modal>
   <delete-confirmation ref="deleteDialog"></delete-confirmation>
 </template>
 
@@ -63,12 +69,14 @@ import {APIService} from '@/core/util/services/api.service';
 import usePaginate from '@ohrm/core/util/composable/usePaginate';
 import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmationDialog.vue';
 import {computed} from 'vue';
+import AddExpenseModal from './AddExpenseModal.vue';
 
 export default {
   name: 'ClaimExpenses',
 
   components: {
     'delete-confirmation': DeleteConfirmationDialog,
+    'add-expense-modal': AddExpenseModal,
   },
   props: {
     requestId: {
@@ -157,6 +165,7 @@ export default {
         },
       ],
       checkedItems: [],
+      showAddExpenseModal: false,
     };
   },
 
@@ -206,7 +215,7 @@ export default {
       await this.execQuery();
     },
     onClickAdd() {
-      //TODO: Add claim expense modal
+      this.showAddExpenseModal = true;
     },
     onClickDeleteSelected() {
       const ids = [];
@@ -241,6 +250,10 @@ export default {
           this.deleteItems([item.id]);
         }
       });
+    },
+    onCloseAddExpenseModal() {
+      this.showAddExpenseModal = false;
+      this.resetDataTable();
     },
   },
 };

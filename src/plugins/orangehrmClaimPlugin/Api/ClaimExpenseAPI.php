@@ -68,6 +68,7 @@ class ClaimExpenseAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_REQUEST_ID = 'requestId';
     public const NOTE_MAX_LENGTH = 1000;
     public const PARAMETER_TOTAL_AMOUNT = 'totalAmount';
+    public const PARAM_RULE_SALARY_AMOUNT_MAX_LENGTH = 100;
 
     /**
      * @OA\Get(
@@ -251,10 +252,15 @@ class ClaimExpenseAPI extends Endpoint implements CrudEndpoint
                 self::PARAMETER_EXPENSE_TYPE_ID,
                 new Rule(Rules::POSITIVE)
             ),
+//            new ParamRule(
+//                self::PARAMETER_AMOUNT,
+//                new Rule(Rules::FLOAT_TYPE), //TODO:: handle decimal points
+//                new Rule(Rules::MIN, [0])
+//            ),
             new ParamRule(
                 self::PARAMETER_AMOUNT,
-                new Rule(Rules::FLOAT_TYPE), //TODO:: handle decimal points
-                new Rule(Rules::MIN, [0])
+                new Rule(Rules::STRING_TYPE), //TODO:: handle decimal points
+                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_SALARY_AMOUNT_MAX_LENGTH])
             ),
             new ParamRule(
                 self::PARAMETER_DATE,
