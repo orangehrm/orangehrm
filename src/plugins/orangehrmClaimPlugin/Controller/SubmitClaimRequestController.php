@@ -49,10 +49,16 @@ class SubmitClaimRequestController extends AbstractVueController implements Capa
         $id = $request->attributes->getInt('id');
         $component = new Component('submit-claim');
         $component->addProp(new Prop('id', Prop::TYPE_NUMBER, $id));
-        $component->addProp(new Prop('allowed-file-types',
-            Prop::TYPE_ARRAY, $this->getConfigService()->getAllowedFileTypes()));
-        $component->addProp(new Prop('max-file-size',
-            Prop::TYPE_NUMBER, $this->getConfigService()->getMaxAttachmentSize()));
+        $component->addProp(new Prop(
+            'allowed-file-types',
+            Prop::TYPE_ARRAY,
+            $this->getConfigService()->getAllowedFileTypes()
+        ));
+        $component->addProp(new Prop(
+            'max-file-size',
+            Prop::TYPE_NUMBER,
+            $this->getConfigService()->getMaxAttachmentSize()
+        ));
         $this->setComponent($component);
     }
 
