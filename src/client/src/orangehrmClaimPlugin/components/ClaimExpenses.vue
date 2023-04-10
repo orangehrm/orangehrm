@@ -52,9 +52,7 @@
   </div>
   <div class="orangehrm-bottom-container">
     <oxd-text
-      >{{
-        $t('claim.total_amount').concat(` (${currency.name}): ${totalAmount}`)
-      }}
+      >{{ $t('claim.total_amount') }}({{ currency.name }}):{{ totalAmount }}
     </oxd-text>
   </div>
   <delete-confirmation ref="deleteDialog"></delete-confirmation>
@@ -64,7 +62,7 @@
 import {APIService} from '@/core/util/services/api.service';
 import usePaginate from '@ohrm/core/util/composable/usePaginate';
 import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmationDialog.vue';
-import {computed} from '@vue/runtime-core';
+import {computed} from 'vue';
 
 export default {
   name: 'ClaimExpenses',
@@ -159,9 +157,6 @@ export default {
         },
       ],
       checkedItems: [],
-      showSaveModal: false,
-      showEditModal: false,
-      editModalState: null,
     };
   },
 
@@ -194,7 +189,7 @@ export default {
 
       computedHeaders[3] = {
         name: 'amount',
-        title: this.$t('claim.amount') + ' (' + this.currency.name + ')',
+        title: `${this.$t('claim.amount')} (${this.currency.name})`,
         style: {flex: 1},
       };
       if (Object.keys(headerActions.cellConfig).length > 0) {

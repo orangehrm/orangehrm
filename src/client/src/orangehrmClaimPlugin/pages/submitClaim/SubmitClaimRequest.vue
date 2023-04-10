@@ -149,7 +149,7 @@ export default {
           return this.$toast.saveSuccess();
         })
         .then(() => {
-          navigate('/claim/submitClaim/id/' + this.id);
+          navigate('/claim/submitClaim/id/{id}', {id: this.id});
         });
     },
   },

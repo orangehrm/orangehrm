@@ -25,7 +25,6 @@
     }"
   >
     <oxd-button
-      v-if="isBackAllowed"
       display-type="ghost"
       class="orangehrm-sm-button"
       :label="$t('general.back')"
@@ -36,35 +35,35 @@
       display-type="danger"
       class="orangehrm-sm-button"
       :label="$t('general.cancel')"
-      @click="onCancel"
+      @click="onClaimAction('CANCEL')"
     />
     <oxd-button
       v-if="isRejectAllowed"
       display-type="danger"
       class="orangehrm-sm-button"
       :label="$t('general.reject')"
-      @click="onReject"
+      @click="onClaimAction('REJECT')"
     />
     <oxd-button
       v-if="isApproveAllowed"
       display-type="secondary"
       class="orangehrm-sm-button"
       :label="$t('general.approve')"
-      @click="onApprove"
+      @click="onClaimAction('APPROVE')"
     />
     <oxd-button
       v-if="isPayAllowed"
       display-type="secondary"
       class="orangehrm-sm-button"
       :label="$t('claim.pay')"
-      @click="onPay"
+      @click="onClaimAction('PAY')"
     />
     <oxd-button
       v-if="isSubmitAllowed"
       display-type="secondary"
       class="orangehrm-sm-button"
       :label="$t('general.submit')"
-      @click="onSubmit"
+      @click="onClaimAction('SUBMIT')"
     />
   </div>
 </template>
@@ -95,9 +94,6 @@ export default {
     };
   },
   computed: {
-    isBackAllowed() {
-      return true;
-    },
     isCancelAllowed() {
       return this.allowedActions.includes('Cancel');
     },
@@ -115,27 +111,12 @@ export default {
     },
   },
   methods: {
-    onCancel() {
+    onClaimAction(action) {
       this.http
         .request({
           method: 'PUT',
           data: {
-            action: 'CANCEL',
-          },
-        })
-        .then(() => {
-          return this.$toast.saveSuccess();
-        })
-        .then(() => {
-          navigate(`/claim/submitClaim/id/${this.requestId}`);
-        });
-    },
-    onSubmit() {
-      this.http
-        .request({
-          method: 'PUT',
-          data: {
-            action: 'SUBMIT',
+            action: action,
           },
         })
         .then(() => {
@@ -147,51 +128,6 @@ export default {
     },
     onBack() {
       navigate('/claim/submitClaim');
-    },
-    onReject() {
-      this.http
-        .request({
-          method: 'PUT',
-          data: {
-            action: 'REJECT',
-          },
-        })
-        .then(() => {
-          return this.$toast.saveSuccess();
-        })
-        .then(() => {
-          navigate(`/claim/submitClaim/id/${this.requestId}`);
-        });
-    },
-    onApprove() {
-      this.http
-        .request({
-          method: 'PUT',
-          data: {
-            action: 'APPROVE',
-          },
-        })
-        .then(() => {
-          return this.$toast.saveSuccess();
-        })
-        .then(() => {
-          navigate(`/claim/submitClaim/id/${this.requestId}`);
-        });
-    },
-    onPay() {
-      this.http
-        .request({
-          method: 'PUT',
-          data: {
-            action: 'PAY',
-          },
-        })
-        .then(() => {
-          return this.$toast.saveSuccess();
-        })
-        .then(() => {
-          navigate(`/claim/submitClaim/id/${this.requestId}`);
-        });
     },
   },
 };

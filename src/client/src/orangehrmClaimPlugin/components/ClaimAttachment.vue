@@ -86,7 +86,7 @@ export default {
         return {
           id: item.id,
           attachedDate: item.date ? item.date : '',
-          filename: item.attachment.fileName ? item.attachment.fileName : '',
+          filename: item.attachment.fileName ?? '',
           size: item.attachment.size
             ? convertFilesizeToString(item.attachment.size, 2)
             : '',
@@ -95,7 +95,7 @@ export default {
             ? item.attachment.description
             : '',
           attachedByName: item.attachedBy
-            ? item.attachedBy.firstName + ` ${item.attachedBy.lastName}`
+            ? `${item.attachedBy.firstName} ${item.attachedBy.lastName}`
             : '',
         };
       });

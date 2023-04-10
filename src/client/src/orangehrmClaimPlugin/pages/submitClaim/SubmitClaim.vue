@@ -47,7 +47,7 @@
               </oxd-grid-item>
               <oxd-grid-item>
                 <oxd-input-field
-                  v-model="computedState"
+                  v-model="statusMap[request.status]"
                   :label="$t('general.status')"
                   disabled
                 />
@@ -98,17 +98,17 @@
 <script>
 import {APIService} from '@/core/util/services/api.service';
 import {navigate} from '@ohrm/core/util/helper/navigation';
-import ClaimAttachment from '../../components/ClaimAttachment.vue';
-import ClaimExpenses from '../../components/ClaimExpenses.vue';
+import ClaimAttachment from '@/orangehrmClaimPlugin/components/ClaimAttachment.vue';
+import ClaimExpenses from '@/orangehrmClaimPlugin/components/ClaimExpenses.vue';
 import ClaimActionButtons from '@/orangehrmClaimPlugin/components/ClaimActionButtons.vue';
 
 export default {
   name: 'SubmitClaim',
 
   components: {
-    ClaimAttachment,
-    ClaimExpenses,
-    ClaimActionButtons,
+    'claim-attachment': ClaimAttachment,
+    'claim-expenses': ClaimExpenses,
+    'claim-action-buttons': ClaimActionButtons,
   },
 
   props: {
@@ -130,6 +130,14 @@ export default {
   },
 
   data() {
+    const statusMap = {
+      SUBMITTED: 'Submitted',
+      APPROVED: 'Approved',
+      REJECTED: 'Rejected',
+      CANCELLED: 'Cancelled',
+      PAID: 'Paid',
+      INITIATED: 'Initiated',
+    };
     return {
       isLoading: false,
       request: {},
@@ -137,6 +145,7 @@ export default {
       currency: {},
       response: {},
       allowedActions: [],
+      statusMap,
     };
   },
 
@@ -147,17 +156,6 @@ export default {
       }
       return false;
     },
-    computedState() {
-      const statusMap = {
-        SUBMITTED: 'Submitted',
-        APPROVED: 'Approved',
-        REJECTED: 'Rejected',
-        CANCELLED: 'Cancelled',
-        PAID: 'Paid',
-        INITIATED: 'Initiated',
-      };
-      return statusMap[this.request.status];
-    },
   },
 
   beforeMount() {
@@ -165,8 +163,7 @@ export default {
     this.http
       .get(this.id)
       .then((res) => {
-        const {data} = res.data;
-        const {meta} = res.data;
+        const {data, meta} = res.data;
         this.response = res.data;
         this.request = data;
         this.claimEvent = data.claimEvent;

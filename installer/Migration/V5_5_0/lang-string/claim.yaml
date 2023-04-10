@@ -39,7 +39,7 @@ langStrings:
     value: "Submit Claim"
     unitId: submit_claim
   -
-    value: "ReferenceId"
+    value: "Reference Id"
     unitId: reference_id
   -
     value: "Amount"
