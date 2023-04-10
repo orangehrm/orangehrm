@@ -303,3 +303,298 @@ GetOne:
     exception:
       class: '\OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
       message: 'Unauthorized'
+
+GetAll:
+  'GetAll - Claim Request - has CANCELLED state as a Supervisor':
+    userId: 3
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      status: CANCELLED
+    data:
+      [
+        {
+          "id": 9,
+          "referenceId": "202301170000009",
+          "claimEvent": {
+            "id": 3,
+            "name": "Travel Expenses"
+          },
+          "currencyType": {
+            "id": "USD",
+            "name": "United States Dollar"
+          },
+          "description": "Travel expenses for business trip to New York",
+          "status": "CANCELLED",
+          "employee": {
+            "empNumber": 1,
+            "firstName": "Kayla",
+            "lastName": "Abbey",
+            "middleName": "",
+            "employeeId": "0001",
+            "terminationId": null
+          },
+          "amount": 0.0,
+          "submittedDate": null
+        },
+        {
+          "id": 8,
+          "referenceId": "202301170000008",
+          "claimEvent": {
+            "id": 3,
+            "name": "Travel Expenses"
+          },
+          "currencyType": {
+            "id": "USD",
+            "name": "United States Dollar"
+          },
+          "description": "Travel expenses for business trip to New York",
+          "status": "CANCELLED",
+          "employee": {
+            "empNumber": 1,
+            "firstName": "Kayla",
+            "lastName": "Abbey",
+            "middleName": "",
+            "employeeId": "0001",
+            "terminationId": null
+          },
+          "amount": 300.0,
+          "submittedDate": null
+        }
+      ]
+    meta: { total: 2 }
+
+  'GetAll - Claim Request - has CANCELLED state as a Supervisor - with ASC sort':
+    userId: 3
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      status: CANCELLED
+      sortOrder: ASC
+    data:
+      [
+        {
+          "id": 8,
+          "referenceId": "202301170000008",
+          "claimEvent": {
+            "id": 3,
+            "name": "Travel Expenses"
+          },
+          "currencyType": {
+            "id": "USD",
+            "name": "United States Dollar"
+          },
+          "description": "Travel expenses for business trip to New York",
+          "status": "CANCELLED",
+          "employee": {
+            "empNumber": 1,
+            "firstName": "Kayla",
+            "lastName": "Abbey",
+            "middleName": "",
+            "employeeId": "0001",
+            "terminationId": null
+          },
+          "amount": 300.0,
+          "submittedDate": null
+        },
+        {
+          "id": 9,
+          "referenceId": "202301170000009",
+          "claimEvent": {
+            "id": 3,
+            "name": "Travel Expenses"
+          },
+          "currencyType": {
+            "id": "USD",
+            "name": "United States Dollar"
+          },
+          "description": "Travel expenses for business trip to New York",
+          "status": "CANCELLED",
+          "employee": {
+            "empNumber": 1,
+            "firstName": "Kayla",
+            "lastName": "Abbey",
+            "middleName": "",
+            "employeeId": "0001",
+            "terminationId": null
+          },
+          "amount": 0.0,
+          "submittedDate": null
+        }
+      ]
+    meta: { total: 2 }
+
+  'GetAll - Claim Request - Supervisor filter by referenceId':
+    userId: 3
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      referenceId: '202301170000008'
+    data:
+      [
+        {
+          "id": 8,
+          "referenceId": "202301170000008",
+          "claimEvent": {
+            "id": 3,
+            "name": "Travel Expenses"
+          },
+          "currencyType": {
+            "id": "USD",
+            "name": "United States Dollar"
+          },
+          "description": "Travel expenses for business trip to New York",
+          "status": "CANCELLED",
+          "employee": {
+            "empNumber": 1,
+            "firstName": "Kayla",
+            "lastName": "Abbey",
+            "middleName": "",
+            "employeeId": "0001",
+            "terminationId": null
+          },
+          "amount": 300.0,
+          "submittedDate": null
+        }
+      ]
+    meta: { total: 1 }
+
+  'GetAll - Claim Request - Supervisor filter by Admin belongs referenceId':
+    userId: 3
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      referenceId: '202301170000002'
+    data:
+      [ ]
+    meta: { total: 0 }
+
+  'GetAll - Claim Request - by ESS user':
+    userId: 2
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    data:
+      [ ]
+    meta: { total: 0 }
+
+  'GetAll - Claim Request - by ESS user - query Admin user':
+    userId: 2
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      empNumber: 1
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
+      message: 'Unauthorized'
+
+  'GetAll - Claim Request - by Admin user - query not exists empNumber':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      empNumber: 100
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException'
+      message: 'Record Not Found'
+
+  'GetAll - Claim Request - by Admin user - query eventName':
+    userId: 3
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      status: CANCELLED
+      sortOrder: ASC
+    data:
+      [
+        {
+          "id": 8,
+          "referenceId": "202301170000008",
+          "claimEvent": {
+            "id": 3,
+            "name": "Travel Expenses"
+          },
+          "currencyType": {
+            "id": "USD",
+            "name": "United States Dollar"
+          },
+          "description": "Travel expenses for business trip to New York",
+          "status": "CANCELLED",
+          "employee": {
+            "empNumber": 1,
+            "firstName": "Kayla",
+            "lastName": "Abbey",
+            "middleName": "",
+            "employeeId": "0001",
+            "terminationId": null
+          },
+          "amount": 300.0,
+          "submittedDate": null
+        },
+        {
+          "id": 9,
+          "referenceId": "202301170000009",
+          "claimEvent": {
+            "id": 3,
+            "name": "Travel Expenses"
+          },
+          "currencyType": {
+            "id": "USD",
+            "name": "United States Dollar"
+          },
+          "description": "Travel expenses for business trip to New York",
+          "status": "CANCELLED",
+          "employee": {
+            "empNumber": 1,
+            "firstName": "Kayla",
+            "lastName": "Abbey",
+            "middleName": "",
+            "employeeId": "0001",
+            "terminationId": null
+          },
+          "amount": 0.0,
+          "submittedDate": null
+        }
+      ]
+    meta: { total: 2 }

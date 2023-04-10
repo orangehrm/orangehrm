@@ -20,6 +20,7 @@
 namespace OrangeHRM\Tests\Claim\Dao;
 
 use OrangeHRM\Claim\Dao\ClaimDao;
+use OrangeHRM\Claim\Dto\ClaimRequestSearchFilterParams;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Tests\Util\KernelTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
@@ -43,5 +44,13 @@ class ClaimDaoRequestTest extends KernelTestCase
     {
         $result = $this->claimDao->getClaimRequestById(1);
         $this->assertEquals(1, $result->getId());
+    }
+
+    public function testGetClaimRequestList(): void
+    {
+        $claimRequestSearchFilterParams = new ClaimRequestSearchFilterParams();
+        $claimRequestSearchFilterParams->setEmpNumbers([4]);
+        $claimRequests = $this->claimDao->getClaimRequestList($claimRequestSearchFilterParams);
+        $this->assertEquals(4, count($claimRequests));
     }
 }

@@ -23,10 +23,14 @@ namespace OrangeHRM\Claim\Api;
 use Exception;
 use OpenApi\Annotations as OA;
 use OrangeHRM\Claim\Api\Model\ClaimRequestModel;
+use OrangeHRM\Claim\Api\Model\EmployeeClaimRequestModel;
+use OrangeHRM\Claim\Dto\ClaimRequestSearchFilterParams;
+use OrangeHRM\Claim\Dto\EmployeeClaimRequestSearchFilterParams;
 use OrangeHRM\Claim\Traits\Service\ClaimServiceTrait;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
+use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
 use OrangeHRM\Core\Api\V2\Exception\BadRequestException;
@@ -47,6 +51,7 @@ use OrangeHRM\Entity\ClaimRequest;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\WorkflowStateMachine;
 use OrangeHRM\ORM\Exception\TransactionException;
+use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
 
 class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
 {
@@ -56,6 +61,7 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
     use AuthUserTrait;
     use NormalizerServiceTrait;
     use UserRoleManagerTrait;
+    use EmployeeServiceTrait;
 
     public const PARAMETER_CLAIM_EVENT_ID = 'claimEventId';
     public const PARAMETER_CURRENCY_ID = 'currencyId';
@@ -63,6 +69,11 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
     public const REMARKS_MAX_LENGTH = 1000;
     public const PARAMETER_ALLOWED_ACTIONS = 'allowedActions';
     public const PARAMETER_EMPLOYEE_NUMBER = 'empNumber';
+    public const PARAMETER_REFERENCE_ID = 'referenceId';
+    public const PARAMETER_EVENT_ID = 'eventId';
+    public const PARAMETER_STATUS = 'status';
+    public const PARAMETER_FROM_DATE = 'fromDate';
+    public const PARAMETER_TO_DATE = 'toDate';
     public const ACTIONABLE_STATES_MAP = [
         WorkflowStateMachine::CLAIM_ACTION_SUBMIT => 'SUBMIT',
         WorkflowStateMachine::CLAIM_ACTION_APPROVE => 'APPROVE',
@@ -220,11 +231,213 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/claim/employees/requests",
+     *     tags={"Claim/Requests"},
+     *     @OA\Parameter(
+     *         name="sortField",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string", enum=EmployeeClaimRequestSearchFilterParams::ALLOWED_SORT_FIELDS)
+     *     ),
+     *     @OA\Parameter(
+     *         name="referenceId",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         name="status",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string", enum={"INITIATED", "SUBMITTED", "APPROVED", "REJECTED", "CANCELLED", "PAID"})
+     *     ),
+     *     @OA\Parameter(
+     *         name="eventId",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         name="empNumber",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         name="fromDate",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="DateTime")
+     *     ),
+     *     @OA\Parameter(
+     *         name="toDate",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="DateTime")
+     *     ),
+     *     @OA\Parameter(ref="#/components/parameters/sortOrder"),
+     *     @OA\Parameter(ref="#/components/parameters/limit"),
+     *     @OA\Parameter(ref="#/components/parameters/offset"),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="array",
+     *                 @OA\Items(ref="#/components/schemas/Claim-EmployeeClaimRequestModel")
+     *             ),
+     *             @OA\Property(
+     *                 property="meta",
+     *                 type="object",
+     *                 @OA\Property(property="total", type="integer")
+     *             )
+     *         )
+     *     )
+     * )
      * @inheritDoc
      */
     public function getAll(): EndpointResult
     {
-        throw $this->getNotImplementedException();
+        $employeeClaimRequestSearchFilterParams = $this->getClaimRequestSearchFilterParams();
+
+        $this->setSortingAndPaginationParams($employeeClaimRequestSearchFilterParams);
+        $this->getCommonFilterParams($employeeClaimRequestSearchFilterParams);
+        $this->setEmpNumbers($employeeClaimRequestSearchFilterParams);
+
+        $claimRequests = $this->getClaimService()->getClaimDao()
+            ->getClaimRequestList($employeeClaimRequestSearchFilterParams);
+
+        $count = $this->getClaimService()->getClaimDao()
+            ->getClaimRequestCount($employeeClaimRequestSearchFilterParams);
+
+        return $this->getEndPointCollectionResult($claimRequests, $count);
+    }
+
+    /**
+     * @return ClaimRequestSearchFilterParams
+     */
+    protected function getClaimRequestSearchFilterParams(): ClaimRequestSearchFilterParams
+    {
+        return new EmployeeClaimRequestSearchFilterParams();
+    }
+
+    /**
+     * @param array $claimRequests
+     * @param int $count
+     * @return EndpointCollectionResult
+     */
+    protected function getEndPointCollectionResult(array $claimRequests, int $count): EndpointCollectionResult
+    {
+        return new EndpointCollectionResult(
+            EmployeeClaimRequestModel::class,
+            $claimRequests,
+            new ParameterBag([CommonParams::PARAMETER_TOTAL => $count])
+        );
+    }
+
+    /**
+     * @param ClaimRequestSearchFilterParams $claimRequestSearchFilterParams
+     */
+    protected function setEmpNumbers(ClaimRequestSearchFilterParams $claimRequestSearchFilterParams): void
+    {
+        $empNumber = $this->getRequestParams()->getIntOrNull(
+            RequestParams::PARAM_TYPE_QUERY,
+            self::PARAMETER_EMPLOYEE_NUMBER
+        );
+
+        if (!is_null($empNumber)) {
+            if (!$this->getEmployeeService()->getEmployeeDao()->getEmployeeByEmpNumber($empNumber) instanceof Employee) {
+                throw $this->getRecordNotFoundException();
+            }
+            if (!$this->isSelfByEmpNumber($empNumber)) {
+                throw $this->getForbiddenException();
+            }
+            if (!$this->getUserRoleManagerHelper()->isEmployeeAccessible($empNumber)) {
+                throw $this->getForbiddenException();
+            }
+            $claimRequestSearchFilterParams->setEmpNumbers([$empNumber]);
+        } else {
+            $empNumbers = $this->getUserRoleManager()->getAccessibleEntityIds(Employee::class);
+            $claimRequestSearchFilterParams->setEmpNumbers($empNumbers);
+        }
+    }
+
+    /**
+     * @param ClaimRequestSearchFilterParams $claimRequestSearchFilterParams
+     */
+    private function getCommonFilterParams(ClaimRequestSearchFilterParams $claimRequestSearchFilterParams): void
+    {
+        $claimRequestSearchFilterParams->setReferenceId(
+            $this->getRequestParams()->getStringOrNull(
+                RequestParams::PARAM_TYPE_QUERY,
+                self::PARAMETER_REFERENCE_ID
+            )
+        );
+        $claimRequestSearchFilterParams->setEventId(
+            $this->getRequestParams()->getIntOrNull(
+                RequestParams::PARAM_TYPE_QUERY,
+                self::PARAMETER_EVENT_ID
+            )
+        );
+        $claimRequestSearchFilterParams->setStatus(
+            $this->getRequestParams()->getStringOrNull(
+                RequestParams::PARAM_TYPE_QUERY,
+                self::PARAMETER_STATUS
+            )
+        );
+        $claimRequestSearchFilterParams->setFromDate(
+            $this->getRequestParams()->getDateTimeOrNull(
+                RequestParams::PARAM_TYPE_QUERY,
+                self::PARAMETER_FROM_DATE
+            )
+        );
+        $claimRequestSearchFilterParams->setToDate(
+            $this->getRequestParams()->getDateTimeOrNull(
+                RequestParams::PARAM_TYPE_QUERY,
+                self::PARAMETER_TO_DATE
+            )
+        );
+    }
+
+    /**
+     * @return ParamRuleCollection
+     */
+    protected function getCommonParamRuleCollectionGetAll(): ParamRuleCollection
+    {
+        return new ParamRuleCollection(
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_REFERENCE_ID,
+                    new Rule(Rules::STRING_TYPE)
+                )
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_EVENT_ID,
+                    new Rule(Rules::POSITIVE)
+                )
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_STATUS,
+                    new Rule(Rules::STRING_TYPE)
+                )
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_FROM_DATE,
+                    new Rule(Rules::DATE_TIME)
+                )
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_TO_DATE,
+                    new Rule(Rules::DATE_TIME)
+                )
+            )
+        );
     }
 
     /**
@@ -232,7 +445,23 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
-        throw $this->getNotImplementedException();
+        $paramRuleCollection = $this->getCommonParamRuleCollectionGetAll();
+        $paramRuleCollection->addParamValidation(
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_EMPLOYEE_NUMBER,
+                    new Rule(Rules::POSITIVE)
+                )
+            )
+        );
+        $sortFieldParamRules = $this->getSortingAndPaginationParamsRules(
+            EmployeeClaimRequestSearchFilterParams::ALLOWED_SORT_FIELDS
+        );
+        foreach ($sortFieldParamRules as $sortFieldParamRule) {
+            $paramRuleCollection->addParamValidation($sortFieldParamRule);
+        }
+
+        return $paramRuleCollection;
     }
 
     /**

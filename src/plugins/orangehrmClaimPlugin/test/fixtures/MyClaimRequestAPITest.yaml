@@ -43,7 +43,7 @@ CurrencyType:
   1: { code: 2, currency_id: "USD", currency_name: "United States Dollar" }
 
 ClaimRequest:
-  0: { id: 1, emp_number: 4, added_by: 1, reference_id: 202301170000001, event_type_id: 3, description: "Travel expenses for business trip to New York", currency_id: USD, is_deleted: false, status: 'INITIATED', created_date: "2022-12-01 12:00:00", submitted_date: "2022-12-15 17:00:00" },
+  0: { id: 1, emp_number: 4, added_by: 1, reference_id: 202301170000001, event_type_id: 3, description: "Travel expenses for business trip to New York", currency_id: USD, is_deleted: false, status: 'INITIATED', created_date: "2022-12-01 12:00:00", submitted_date: null },
   1: { id: 2, emp_number: 1, added_by: 2, reference_id: 202301170000002, event_type_id: 3, description: "Marketing expenses for trade show", currency_id: USD, is_deleted: false, status: 'SUBMITTED', created_date: "2022-11-20 09:00:00", submitted_date: "2022-11-25 15:00:00" },
   2: { id: 3, emp_number: 1, added_by: 2, reference_id: 202301170000003, event_type_id: 4, description: "Equipment purchase for IT department", currency_id: USD, is_deleted: false, status: 'SUBMITTED', created_date: "2022-10-15 14:00:00", submitted_date: "2022-10-15 14:00:00" },
   3: { id: 4, emp_number: 4, added_by: 1, reference_id: 202301170000004, event_type_id: 2, description: "Salary expenses for temporary employee", currency_id: USD, is_deleted: false, status: 'SUBMITTED', created_date: "2022-09-01 08:00:00", submitted_date: "2022-09-30 18:00:00" },
@@ -52,3 +52,10 @@ ClaimRequest:
   6: { id: 7, emp_number: 1, added_by: 2, reference_id: 202301170000007, event_type_id: 4, description: "Training expenses for team building seminar", currency_id: USD, is_deleted: false, status: 'REJECTED', created_date: "2022-07-01 09:00:00", submitted_date: "2022-07-15 17:00:00" }
   7: { id: 8, emp_number: 4, added_by: 1, reference_id: 202301170000008, event_type_id: 3, description: "Travel expenses for business trip to New York", currency_id: USD, is_deleted: false, status: 'CANCELLED', created_date: "2022-12-01 12:00:00", submitted_date: "2022-12-15 17:00:00" },
   8: { id: 9, emp_number: 1, added_by: 1, reference_id: 202301170000009, event_type_id: 3, description: "Travel expenses for business trip to New York", currency_id: USD, is_deleted: false, status: 'CANCELLED', created_date: "2022-12-01 12:00:00", submitted_date: "2022-12-15 17:00:00" },
+
+ClaimExpense:
+  0: { id: 1, request_id: 1, expense_type_id: 1, amount: 150.00, note: "Travel expenses for business trip to New York", is_deleted: false, date: "2022-12-01 12:00:00" },
+  1: { id: 2, request_id: 1, expense_type_id: 2, amount: 200.00, note: "Marketing expenses for trade show", is_deleted: false, date: "2022-11-20 09:00:00" },
+  2: { id: 3, request_id: 8, expense_type_id: 3, amount: 300.00, note: "Equipment purchase for IT department", is_deleted: false, date: "2022-10-15 14:00:00" }
+  3: { id: 4, request_id: 2, expense_type_id: 3, amount: 300.00, note: "Equipment purchase for IT department", is_deleted: false, date: "2022-10-15 14:00:00" }
+

@@ -75,11 +75,20 @@ apiv2_claim_my_claim_request:
   methods: [ GET ]
   defaults:
     _api: OrangeHRM\Claim\Api\MyClaimRequestAPI
+  requirements:
+    id: '\d+'
 
 apiv2_claim_employee_claim_requests:
   path: /api/v2/claim/employees/{empNumber}/requests
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
-  methods: [ POST, GET ]
+  methods: [ POST ]
+  defaults:
+    _api: OrangeHRM\Claim\Api\EmployeeClaimRequestAPI
+
+apiv2_claim_employees_claim_requests:
+  path: /api/v2/claim/employees/requests
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
   defaults:
     _api: OrangeHRM\Claim\Api\EmployeeClaimRequestAPI
 
@@ -89,11 +98,14 @@ apiv2_claim_employee_claim_request:
   methods: [ GET ]
   defaults:
     _api: OrangeHRM\Claim\Api\EmployeeClaimRequestAPI
+  requirements:
+    empNumber: '\d+'
+    id: '\d+'
 
 apiv2_claim_claim_request_action:
   path: /api/v2/claim/requests/{requestId}/action
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
-  methods: [ PUT ]
+  methods: [ PUT, GET ]
   defaults:
     _api: OrangeHRM\Claim\Api\ClaimRequestActionAPI
 
