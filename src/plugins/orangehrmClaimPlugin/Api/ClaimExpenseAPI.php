@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -68,6 +69,7 @@ class ClaimExpenseAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_REQUEST_ID = 'requestId';
     public const NOTE_MAX_LENGTH = 1000;
     public const PARAMETER_TOTAL_AMOUNT = 'totalAmount';
+    public const PARAM_RULE_SALARY_AMOUNT_MAX_LENGTH = 100;
 
     /**
      * @OA\Get(
@@ -223,7 +225,7 @@ class ClaimExpenseAPI extends Endpoint implements CrudEndpoint
             if (!preg_match('/^\d+(\.\d{1,2})?$/', $amount)) {
                 throw $this->getInvalidParamException(self::PARAMETER_AMOUNT);
             }
-            $claimExpense->setAmount(floor($amount*100)/100);
+            $claimExpense->setAmount(floor($amount * 100) / 100);
 
             $claimExpense->setNote(
                 $this->getRequestParams()
@@ -256,6 +258,11 @@ class ClaimExpenseAPI extends Endpoint implements CrudEndpoint
                 self::PARAMETER_EXPENSE_TYPE_ID,
                 new Rule(Rules::POSITIVE)
             ),
+            //            new ParamRule(
+            //                self::PARAMETER_AMOUNT,
+            //                new Rule(Rules::FLOAT_TYPE), //TODO:: handle decimal points
+            //                new Rule(Rules::MIN, [0])
+            //            ),
             new ParamRule(
                 self::PARAMETER_AMOUNT,
                 new Rule(Rules::BETWEEN, [0, 9999999999.99])
