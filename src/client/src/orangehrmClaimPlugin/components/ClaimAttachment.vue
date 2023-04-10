@@ -26,6 +26,7 @@
         {{ $t('general.attachments') }}
       </oxd-text>
       <oxd-button
+        v-if="canEdit"
         :label="$t('general.add')"
         icon-name="plus"
         display-type="text"

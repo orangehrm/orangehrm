@@ -21,7 +21,7 @@
   <oxd-dialog @update:show="onCancel">
     <div class="orangehrm-modal-header">
       <oxd-text type="card-title">
-        {{ $t('general.add_attachment') }}
+        {{ $t('admin.edit_expense') }}
       </oxd-text>
     </div>
     <oxd-divider />
@@ -29,18 +29,31 @@
       <oxd-form-row>
         <oxd-grid :cols="1" class="orangehrm-full-width-grid">
           <oxd-grid-item>
-            <oxd-input-field
-              v-model="attachment.attachment"
-              type="file"
-              :label="$t('general.select_file')"
-              :button-label="$t('general.browse')"
-              :rules="rules.attachment"
-              :placeholder="$t('general.no_file_selected')"
+            <claim-expense-type-dropdown
+              v-model="selectedOption"
+              :label="$t('claim.expense_type')"
+            ></claim-expense-type-dropdown>
+          </oxd-grid-item>
+        </oxd-grid>
+      </oxd-form-row>
+
+      <oxd-form-row>
+        <oxd-grid :cols="2" class="orangehrm-full-width-grid">
+          <oxd-grid-item>
+            <date-input
+              v-model="expense.date"
+              :label="$t('general.date')"
+              :rules="rules.date"
+              :years="yearsArray"
               required
             />
-            <oxd-text class="orangehrm-input-hint" tag="p">
-              {{ $t('general.accepts_up_to_1mb') }}
-            </oxd-text>
+          </oxd-grid-item>
+          <oxd-grid-item>
+            <oxd-input-field
+              v-model="expense.amount"
+              :label="$t('claim.amount')"
+              :rules="rules.amount"
+            />
           </oxd-grid-item>
         </oxd-grid>
       </oxd-form-row>
@@ -49,11 +62,10 @@
         <oxd-grid :cols="1" class="orangehrm-full-width-grid">
           <oxd-grid-item>
             <oxd-input-field
-              v-model="attachment.description"
+              v-model="expense.note"
               type="textarea"
-              :label="$t('general.comment')"
-              :placeholder="$t('general.type_comment_here')"
-              :rules="rules.description"
+              :label="$t('general.note')"
+              :rules="rules.note"
             />
           </oxd-grid-item>
         </oxd-grid>
@@ -79,33 +91,33 @@ import {APIService} from '@ohrm/core/util/services/api.service';
 import {required} from '@/core/util/validation/rules';
 import {OxdDialog} from '@ohrm/oxd';
 import {
-  maxFileSize,
   shouldNotExceedCharLength,
-  validFileTypes,
+  digitsOnlyWithDecimalPoint,
+  maxCurrency,
 } from '@ohrm/core/util/validation/rules';
+import ClaimExpenseTypeDropdown from './ClaimExpenseTypeDropdown.vue';
 
-const attachmentModel = {
-  attachment: null,
-  description: '',
+const expenseModel = {
+  expenseType: null,
+  date: null,
+  amount: null,
+  note: null,
 };
 
 export default {
-  name: 'SaveAttachment',
+  name: 'EditExpense',
 
   components: {
     'oxd-dialog': OxdDialog,
+    'claim-expense-type-dropdown': ClaimExpenseTypeDropdown,
   },
 
   props: {
+    data: {
+      type: Object,
+      required: true,
+    },
     requestId: {
-      type: Number,
-      required: true,
-    },
-    allowedFileTypes: {
-      type: Array,
-      required: true,
-    },
-    maxFileSize: {
       type: Number,
       required: true,
     },
@@ -116,7 +128,7 @@ export default {
   setup(props) {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      `api/v2/claim/requests/${props.requestId}/attachments`,
+      `api/v2/claim/requests/${props.requestId}/expenses`,
     );
     return {
       http,
@@ -126,32 +138,51 @@ export default {
   data() {
     return {
       isLoading: false,
-      attachment: {
-        ...attachmentModel,
+      selectedOption: {},
+      expense: {
+        ...expenseModel,
       },
       rules: {
-        description: [shouldNotExceedCharLength(200)],
-        attachment: [
-          required,
-          maxFileSize(this.maxFileSize),
-          validFileTypes(this.allowedFileTypes),
-        ],
+        date: [required],
+        note: [shouldNotExceedCharLength(200)],
+        amount: [required, digitsOnlyWithDecimalPoint, maxCurrency(1000000000)],
       },
     };
+  },
+
+  beforeMount() {
+    this.isLoading = true;
+    this.http
+      .get(this.data.id)
+      .then((response) => {
+        const {data} = response.data;
+        this.expense = data;
+        this.expense.amount = parseFloat(data.amount).toFixed(2);
+        this.selectedOption = {
+          id: data.expenseType.id,
+          label: data.expenseType.name,
+        };
+      })
+      .finally(() => {
+        this.isLoading = false;
+      });
   },
 
   methods: {
     onSave() {
       this.isLoading = true;
       this.http
-        .create({
-          ...this.attachment,
+        .update(this.data.id, {
+          expenseTypeId: this.selectedOption.id,
+          date: this.expense.date,
+          amount: (Math.floor(this.expense.amount * 100) / 100).toFixed(2),
+          note: this.expense.note,
         })
         .then(() => {
-          return this.$toast.saveSuccess();
+          return this.$toast.updateSuccess();
         })
         .then(() => {
-          this.attachment = {...attachmentModel};
+          this.expense = {...expenseModel};
           this.onCancel();
         });
     },

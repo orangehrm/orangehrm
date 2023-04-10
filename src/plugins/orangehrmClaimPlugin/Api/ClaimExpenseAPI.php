@@ -217,10 +217,10 @@ class ClaimExpenseAPI extends Endpoint implements CrudEndpoint
                 $this->getRequestParams()
                     ->getDateTime(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_DATE)
             );
-            $claimExpense->setAmount(
-                $this->getRequestParams()
-                    ->getFloat(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_AMOUNT)
-            );
+
+            $amount = $this->getRequestParams()->getFloat(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_AMOUNT);
+            $claimExpense->setAmount(floor($amount*100)/100);
+
             $claimExpense->setNote(
                 $this->getRequestParams()
                     ->getStringOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_NOTE)
@@ -252,15 +252,9 @@ class ClaimExpenseAPI extends Endpoint implements CrudEndpoint
                 self::PARAMETER_EXPENSE_TYPE_ID,
                 new Rule(Rules::POSITIVE)
             ),
-//            new ParamRule(
-//                self::PARAMETER_AMOUNT,
-//                new Rule(Rules::FLOAT_TYPE), //TODO:: handle decimal points
-//                new Rule(Rules::MIN, [0])
-//            ),
             new ParamRule(
                 self::PARAMETER_AMOUNT,
-                new Rule(Rules::STRING_TYPE), //TODO:: handle decimal points
-                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_SALARY_AMOUNT_MAX_LENGTH])
+                new Rule(Rules::BETWEEN, [0, 999999999.99])
             ),
             new ParamRule(
                 self::PARAMETER_DATE,
@@ -460,8 +454,7 @@ class ClaimExpenseAPI extends Endpoint implements CrudEndpoint
             ),
             new ParamRule(
                 self::PARAMETER_AMOUNT,
-                new Rule(Rules::FLOAT_TYPE),
-                new Rule(Rules::MIN, [0])
+                new Rule(Rules::BETWEEN, [0, 999999999.99])
             ),
             new ParamRule(
                 self::PARAMETER_DATE,

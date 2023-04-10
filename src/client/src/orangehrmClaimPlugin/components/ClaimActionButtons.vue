@@ -143,7 +143,7 @@ export default {
   @media screen and (max-width: 600px) {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
   }
 }
 .orangehrm-action-button-container {

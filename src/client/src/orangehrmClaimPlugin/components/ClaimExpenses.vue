@@ -53,7 +53,7 @@
   </div>
   <div class="orangehrm-bottom-container">
     <oxd-text
-      >{{ $t('claim.total_amount') }}({{ currency.name }}):{{ totalAmount }}
+      >{{ $t('claim.total_amount') }}({{ currency.name }}): {{ totalAmount }}
     </oxd-text>
   </div>
   <add-expense-modal
@@ -61,6 +61,12 @@
     :request-id="requestId"
     @close="onCloseAddExpenseModal"
   ></add-expense-modal>
+  <edit-expense-modal
+    v-if:="showEditExpenseModal"
+    :request-id="requestId"
+    :data="editModalState"
+    @close="onCloseEditExpenseModal"
+  ></edit-expense-modal>
   <delete-confirmation ref="deleteDialog"></delete-confirmation>
 </template>
 
@@ -70,6 +76,7 @@ import usePaginate from '@ohrm/core/util/composable/usePaginate';
 import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmationDialog.vue';
 import {computed} from 'vue';
 import AddExpenseModal from './AddExpenseModal.vue';
+import EditExpenseModal from './EditExpenseModal.vue';
 
 export default {
   name: 'ClaimExpenses',
@@ -77,6 +84,7 @@ export default {
   components: {
     'delete-confirmation': DeleteConfirmationDialog,
     'add-expense-modal': AddExpenseModal,
+    'edit-expense-modal': EditExpenseModal,
   },
   props: {
     requestId: {
@@ -166,6 +174,8 @@ export default {
       ],
       checkedItems: [],
       showAddExpenseModal: false,
+      showEditExpenseModal: false,
+      editModalState: null,
     };
   },
 
@@ -254,6 +264,15 @@ export default {
     onCloseAddExpenseModal() {
       this.showAddExpenseModal = false;
       this.resetDataTable();
+    },
+    onCloseEditExpenseModal() {
+      this.showEditExpenseModal = false;
+      this.resetDataTable();
+    },
+    onClickEdit(item) {
+      this.showEditExpenseModal = true;
+      this.editModalState = item;
+      this.showAddExpenseModal = false;
     },
   },
 };

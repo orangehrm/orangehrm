@@ -27,7 +27,7 @@
     <oxd-divider />
     <oxd-form :loading="isLoading" @submit-valid="onSave">
       <oxd-form-row>
-        <oxd-grid :cols="2" class="orangehrm-full-width-grid">
+        <oxd-grid :cols="1" class="orangehrm-full-width-grid">
           <oxd-grid-item>
             <claim-expense-type-dropdown
               v-model="expense.expenseType"
@@ -48,11 +48,6 @@
               required
             />
           </oxd-grid-item>
-        </oxd-grid>
-      </oxd-form-row>
-
-      <oxd-form-row>
-        <oxd-grid :cols="2" class="orangehrm-full-width-grid">
           <oxd-grid-item>
             <oxd-input-field
               v-model="expense.amount"
@@ -64,7 +59,7 @@
       </oxd-form-row>
 
       <oxd-form-row>
-        <oxd-grid :cols="2" class="orangehrm-full-width-grid">
+        <oxd-grid :cols="1" class="orangehrm-full-width-grid">
           <oxd-grid-item>
             <oxd-input-field
               v-model="expense.note"
@@ -110,7 +105,7 @@ const expenseModel = {
 };
 
 export default {
-  name: 'SaveAttachment',
+  name: 'SaveExpense',
 
   components: {
     'oxd-dialog': OxdDialog,
@@ -157,7 +152,7 @@ export default {
         .create({
           expenseTypeId: this.expense.expenseType.id,
           date: this.expense.date,
-          amount: parseFloat(this.expense.amount).toFixed(2),
+          amount: (Math.floor(this.expense.amount * 100) / 100).toFixed(2),
           note: this.expense.note,
         })
         .then(() => {

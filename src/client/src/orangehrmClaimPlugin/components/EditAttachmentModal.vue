@@ -27,7 +27,7 @@
     <oxd-divider />
     <oxd-form :loading="isLoading" @submit-valid="onSave">
       <oxd-form-row>
-        <oxd-grid :cols="3" class="orangehrm-full-width-grid">
+        <oxd-grid :cols="2" class="orangehrm-full-width-grid">
           <oxd-grid-item>
             <oxd-input-group :label="$t('general.current_file')">
               <oxd-text tag="p">
@@ -37,10 +37,10 @@
           </oxd-grid-item>
         </oxd-grid>
       </oxd-form-row>
-
+      <br />
       <oxd-form-row>
-        <oxd-grid :cols="3" class="orangehrm-full-width-grid">
-          <oxd-grid-item>
+        <oxd-grid :cols="2" class="orangehrm-full-width-grid">
+          <oxd-grid-item class="--span-column-2">
             <oxd-input-field
               v-model="attachment.attachment"
               type="file"
@@ -58,7 +58,7 @@
 
       <oxd-form-row>
         <oxd-grid :cols="2" class="orangehrm-full-width-grid">
-          <oxd-grid-item>
+          <oxd-grid-item class="--span-column-2">
             <oxd-input-field
               v-model="attachment.description"
               type="textarea"
