@@ -20,6 +20,7 @@ jobs:
 
       - name: Install dependencies
         run: |
+          rm -r src/plugins/orangehrmClaimPlugin
           cd src
           php7.4 -f /usr/bin/composer install --no-dev
           php7.4 -f /usr/bin/composer dump-autoload --optimize --no-dev --classmap-authoritative
