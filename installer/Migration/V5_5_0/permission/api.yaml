@@ -90,11 +90,5 @@ apiv2_claim_claim_request_action:
     update: true
     delete: false
   permissions:
-    - {
-      role: Admin,
-      permission: { read: false, create: false, update: true, delete: false },
-    }
-    - {
-      role: ESS,
-      permission: { read: false, create: false, update: true, delete: false },
-    }
+    - { role: Admin, permission: { read: false, create: false, update: true, delete: false } }
+    - { role: ESS, permission: { read: false, create: false, update: true, delete: false } }
