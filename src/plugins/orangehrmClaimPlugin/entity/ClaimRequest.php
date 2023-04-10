@@ -35,11 +35,6 @@ class ClaimRequest
     use DecoratorTrait;
 
     public const REQUEST_STATUS_INITIATED = 'INITIATED';
-    public const REQUEST_STATUS_SUBMITTED = 'SUBMITTED';
-    public const REQUEST_STATUS_PAID = 'PAID';
-    public const REQUEST_STATUS_APPROVED = 'APPROVED';
-    public const REQUEST_STATUS_REJECTED = 'REJECTED';
-    public const REQUEST_STATUS_CANCELLED = 'CANCELLED';
 
     /**
      * @var int
@@ -118,11 +113,11 @@ class ClaimRequest
     private DateTime $createdDate;
 
     /**
-     * @var DateTime
+     * @var DateTime|null
      *
      * @ORM\Column(name="submitted_date", type="datetime")
      */
-    private DateTime $submittedDate;
+    private ?DateTime $submittedDate = null;
 
     /**
      * @return int
@@ -285,17 +280,17 @@ class ClaimRequest
     }
 
     /**
-     * @return DateTime
+     * @return DateTime|null
      */
-    public function getSubmittedDate(): DateTime
+    public function getSubmittedDate(): ?DateTime
     {
         return $this->submittedDate;
     }
 
     /**
-     * @param DateTime $submittedDate
+     * @param ?DateTime $submittedDate
      */
-    public function setSubmittedDate(DateTime $submittedDate): void
+    public function setSubmittedDate(?DateTime $submittedDate): void
     {
         $this->submittedDate = $submittedDate;
     }

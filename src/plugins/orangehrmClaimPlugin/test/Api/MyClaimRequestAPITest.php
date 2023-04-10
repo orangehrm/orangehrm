@@ -76,4 +76,23 @@ class MyClaimRequestAPITest extends EndpointIntegrationTestCase
     {
         return $this->getTestCases('MyClaimRequestAPITestCases.yaml', 'GetOne');
     }
+
+    /**
+     * @dataProvider dataProviderForTestGetAll
+     */
+    public function testGetAll(TestCaseParams $testCaseParams): void
+    {
+        $this->populateFixtures('MyClaimRequestAPITest.yaml', null, true);
+        $this->createKernelWithMockServices([
+            Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)
+        ]);
+        $this->registerServices($testCaseParams);
+        $api = $this->getApiEndpointMock(MyClaimRequestAPI::class, $testCaseParams);
+        $this->assertValidTestCase($api, 'getAll', $testCaseParams);
+    }
+
+    public function dataProviderForTestGetAll(): array
+    {
+        return $this->getTestCases('MyClaimRequestAPITestCases.yaml', 'GetAll');
+    }
 }
