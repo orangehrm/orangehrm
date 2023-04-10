@@ -21,7 +21,7 @@
   <oxd-dialog @update:show="onCancel">
     <div class="orangehrm-modal-header">
       <oxd-text type="card-title">
-        {{ $t('admin.add_attachment') }}
+        {{ $t('general.edit_attachment') }}
       </oxd-text>
     </div>
     <oxd-divider />
