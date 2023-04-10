@@ -68,9 +68,6 @@
         <exclude name="src/test/**"/>
         <exclude name="src/plugins/**/test/**"/>
 
-        <exclude name="installer/Migration/V5_5_0/**"/>
-        <exclude name="src/plugins/orangehrmClaimPlugin/**"/>
-        <exclude name="src/client/src/orangehrmClaimPlugin/**"/>
         <exclude name="src/plugins/orangehrmAuthenticationPlugin/lib/**"/>
         <exclude name="src/plugins/orangehrmCoreOAuthPlugin/lib/**"/>
         <exclude name="src/plugins/orangehrmOpenidAuthenticationPlugin/**"/>

@@ -175,6 +175,12 @@ class MenuServiceTest extends KernelTestCase
                 'icon' => 'maintenance',
             ],
             [
+                'id' => 105,
+                'name' => 'Claim',
+                'url' => '/claim/viewClaimModule',
+                'icon' => 'claim',
+            ],
+            [
                 'id' => 101,
                 'name' => 'Buzz',
                 'url' => '/buzz/viewBuzz',
@@ -432,6 +438,12 @@ class MenuServiceTest extends KernelTestCase
                 'name' => 'Directory',
                 'url' => '/directory/viewDirectory',
                 'icon' => 'directory',
+            ],
+            [
+                'id' => 105,
+                'name' => 'Claim',
+                'url' => '/claim/viewClaimModule',
+                'icon' => 'claim'
             ],
             [
                 'id' => 101,
