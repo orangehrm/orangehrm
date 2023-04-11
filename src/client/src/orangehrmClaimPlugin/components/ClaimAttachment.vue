@@ -169,6 +169,7 @@ export default {
         {
           name: 'description',
           title: this.$t('general.description'),
+          cellType: 'oxd-table-cell-truncate',
           style: {flex: 1},
         },
         {name: 'size', title: this.$t('general.size'), style: {flex: 1}},

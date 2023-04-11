@@ -53,7 +53,7 @@
   </div>
   <div class="orangehrm-bottom-container">
     <oxd-text
-      >{{ $t('claim.total_amount') }}({{ currency.name }}): {{ totalAmount }}
+      >{{ $t('claim.total_amount') }} ({{ currency.name }}) : {{ totalAmount }}
     </oxd-text>
   </div>
   <add-expense-modal
@@ -165,11 +165,16 @@ export default {
           title: this.$t('general.date'),
           style: {flex: 1},
         },
-        {name: 'note', title: this.$t('general.note'), style: {flex: 1}},
+        {
+          name: 'note',
+          title: this.$t('general.note'),
+          cellType: 'oxd-table-cell-truncate',
+          style: {flex: 1},
+        },
         {
           name: 'amount',
-          title: this.$t('claim.amount'),
           style: {flex: 1},
+          title: this.$t('claim.amount'),
         },
       ],
       checkedItems: [],

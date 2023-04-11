@@ -144,7 +144,7 @@ export default {
       },
       rules: {
         date: [required],
-        note: [shouldNotExceedCharLength(200)],
+        note: [shouldNotExceedCharLength(1000)],
         amount: [required, digitsOnlyWithDecimalPoint, maxCurrency(1000000000)],
       },
     };
