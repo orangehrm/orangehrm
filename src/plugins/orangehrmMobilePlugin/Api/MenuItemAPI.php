@@ -28,6 +28,7 @@ use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\ResourceEndpoint;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
+use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Leave\Traits\Service\LeaveConfigServiceTrait;
 use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
@@ -39,6 +40,7 @@ class MenuItemAPI extends Endpoint implements ResourceEndpoint
     use AuthUserTrait;
     use LeaveConfigServiceTrait;
     use EmployeeServiceTrait;
+    use ConfigServiceTrait;
 
     /**
      * @var TimesheetPeriodService|null
@@ -132,19 +134,8 @@ class MenuItemAPI extends Endpoint implements ResourceEndpoint
     }
 
     /**
-     * @return bool
-     */
-    private function getIsTimesheetPeriodDefined(): bool
-    {
-        if (!$this->timesheetPeriodService instanceof TimesheetPeriodService) {
-            $this->timesheetPeriodService = new TimesheetPeriodService();
-        }
-        return $this->timesheetPeriodService->isTimesheetPeriodDefined();
-    }
-
-    /**
      * @OA\Get(
-     *     path="/api/v2/mobile/modules",
+     *     path="/api/v2/mobile/menus",
      *     tags={"Mobile/Menu Items"},
      *     @OA\Response(
      *         response="200",
@@ -180,7 +171,7 @@ class MenuItemAPI extends Endpoint implements ResourceEndpoint
         $user = $this->getAuthUser();
         $isSupervisor = $this->getEmployeeService()->getEmployeeDao()->isSupervisor($user->getEmpNumber());
         $leavePeriodDefined = $this->getLeaveConfigService()->isLeavePeriodDefined();
-        $timesheetPeriodDefined = $this->getIsTimesheetPeriodDefined();
+        $timesheetPeriodDefined = $this->getConfigService()->isTimesheetPeriodDefined();
         $this->getAvailableMenuItemsForESSUser();
         if ($user->getUserRoleName() === 'ESS' && !$isSupervisor) {
             $menuItems = $this->getAvailableMenuItemsForESSUser();

@@ -46,7 +46,7 @@ class EmployeeAttendanceSummaryAPI extends Endpoint implements CollectionEndpoin
     use DateTimeHelperTrait;
 
     public const PARAMETER_DATE = 'date';
-    public const  PARAMETER_FROM_DATE = 'fromDate';
+    public const PARAMETER_FROM_DATE = 'fromDate';
     public const PARAMETER_TO_DATE = 'toDate';
 
     /**
@@ -76,7 +76,7 @@ class EmployeeAttendanceSummaryAPI extends Endpoint implements CollectionEndpoin
             self::PARAMETER_TO_DATE
         );
 
-        if ($fromDate != null && $toDate != null && strtotime($fromDate) > strtotime($toDate)) {
+        if ($fromDate != null && $toDate != null && $fromDate > $toDate) {
             throw $this->getInvalidParamException(["fromDate","toDate"]);
         }
 
