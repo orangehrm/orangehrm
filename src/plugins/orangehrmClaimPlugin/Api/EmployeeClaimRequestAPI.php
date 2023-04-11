@@ -196,7 +196,7 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
             );
 
             $claimEvent = $this->getClaimService()->getClaimDao()->getClaimEventById($claimEventId);
-            if ($claimEvent === null) {
+            if ($claimEvent === null || !$claimEvent->getStatus()) {
                 throw $this->getInvalidParamException(self::PARAMETER_CLAIM_EVENT_ID);
             }
 

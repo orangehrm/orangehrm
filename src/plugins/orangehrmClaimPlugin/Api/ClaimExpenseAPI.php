@@ -209,9 +209,11 @@ class ClaimExpenseAPI extends Endpoint implements CrudEndpoint
             $expenseType = $this->getClaimService()
                 ->getClaimDao()
                 ->getExpenseTypeById($expenseTypeId);
-            if (!$expenseType instanceof ExpenseType) {
+
+            if (!$expenseType instanceof ExpenseType || !$expenseType->getStatus()) {
                 throw $this->getInvalidParamException(self::PARAMETER_EXPENSE_TYPE_ID);
             }
+
             $claimExpense->getDecorator()->setExpenseTypeByExpenseTypeId($expenseTypeId);
             $claimExpense->setDate(
                 $this->getRequestParams()
