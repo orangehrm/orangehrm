@@ -76,6 +76,7 @@ import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmatio
 import {convertFilesizeToString} from '@ohrm/core/util/helper/filesize';
 import AddAttachmentModal from './AddAttachmentModal.vue';
 import EditAttachmentModal from './EditAttachmentModal.vue';
+import useEmployeeNameTranslate from '@/core/util/composable/useEmployeeNameTranslate';
 
 export default {
   name: 'ClaimAttachment',
@@ -108,6 +109,7 @@ export default {
       window.appGlobal.baseUrl,
       `/api/v2/claim/requests/${props.requestId}/attachments`,
     );
+    const {$tEmpName} = useEmployeeNameTranslate();
 
     const attachmentDataNormalizer = (data) => {
       return data.map((item) => {
@@ -122,9 +124,9 @@ export default {
           description: item.attachment.description
             ? item.attachment.description
             : '',
-          attachedByName: item.attachedBy
-            ? `${item.attachedBy.firstName} ${item.attachedBy.lastName}`
-            : '',
+          attachedByName: $tEmpName(item.attachedBy, {
+            excludePastEmpTag: false,
+          }),
         };
       });
     };

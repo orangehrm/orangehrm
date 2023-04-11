@@ -44,5 +44,5 @@
   module: claim
   url: submitClaim/id/{id}
   permissions:
-    - { role: Admin, permission: { read: true, create: true, update: true } }
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: false } }
     - { role: ESS, permission: { read: true, create: true, update: true, delete: false } }
