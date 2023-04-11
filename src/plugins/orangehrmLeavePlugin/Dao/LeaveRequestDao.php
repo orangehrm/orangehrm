@@ -30,6 +30,7 @@ use OrangeHRM\Entity\LeaveRequest;
 use OrangeHRM\Entity\LeaveRequestComment;
 use OrangeHRM\Entity\LeaveStatus;
 use OrangeHRM\Leave\Dto\CurrentAndChangeEntitlement;
+use OrangeHRM\Leave\Dto\EmployeeLeaveSearchFilterParams;
 use OrangeHRM\Leave\Dto\LeaveRequestSearchFilterParams;
 use OrangeHRM\Leave\Dto\LeaveSearchFilterParams;
 use OrangeHRM\Leave\Traits\Service\LeaveRequestServiceTrait;
@@ -726,15 +727,22 @@ class LeaveRequestDao extends BaseDao
     }
 
     /**
-     * @param LeaveRequestSearchFilterParams $leaveSearchFilterParams
+     * @param EmployeeLeaveSearchFilterParams $leaveSearchFilterParams
      * @return Leave[]
      */
     public function getEmployeeLeaves(
-        LeaveRequestSearchFilterParams $leaveSearchFilterParams // TODO:: create new filter class
+        EmployeeLeaveSearchFilterParams $leaveSearchFilterParams
     ): array {
         $this->_markApprovedLeaveAsTaken();
+        return $this->getEmployeeLeavesPaginator($leaveSearchFilterParams)->getQuery()->execute();
+    }
 
-        // TODO:: move this logic to paginator
+    /**
+     * @param EmployeeLeaveSearchFilterParams $leaveSearchFilterParams
+     * @return Paginator
+     */
+    public function getEmployeeLeavesPaginator(EmployeeLeaveSearchFilterParams $leaveSearchFilterParams): Paginator
+    {
         $q = $this->createQueryBuilder(Leave::class, 'leave')
             ->leftJoin('leave.leaveType', 'leaveType')
             ->leftJoin('leave.employee', 'employee')
@@ -754,40 +762,35 @@ class LeaveRequestDao extends BaseDao
             $q->andWhere($q->expr()->lte('leave.date', ':toDate'))
                 ->setParameter('toDate', $leaveSearchFilterParams->getToDate());
         }
-        // TODO:: move this logic to paginator up-to here
 
-        return $q->getQuery()->execute();
+        if ($leaveSearchFilterParams->getIncludeEmployees() === null ||
+            $leaveSearchFilterParams->getIncludeEmployees() ===
+            LeaveRequestSearchFilterParams::INCLUDE_EMPLOYEES_ONLY_CURRENT
+        ) {
+            $q->andWhere($q->expr()->isNull('employee.employeeTerminationRecord'));
+        } elseif (
+            $leaveSearchFilterParams->getIncludeEmployees() ===
+            LeaveRequestSearchFilterParams::INCLUDE_EMPLOYEES_ONLY_PAST
+        ) {
+            $q->andWhere($q->expr()->isNotNull('employee.employeeTerminationRecord'));
+        }
+
+        if ($leaveSearchFilterParams->getStatuses() !== null) {
+            $statuses = $this->getLeaveRequestService()
+                ->getLeaveStatusesByNames($leaveSearchFilterParams->getStatuses());
+            $q->andWhere($q->expr()->in('leave.status', ':statuses'))
+                ->setParameter('statuses', $statuses);
+        }
+        return $this->getPaginator($q);
     }
 
     /**
-     * @param int $leaveRequestId
-     * @param string $fromDate
-     * @param string $toDate
-     *
-     * @return array
+     * @param EmployeeLeaveSearchFilterParams $leaveSearchFilterParams
+     * @return int
      */
-    public function getLeavesFilterByDateRange(
-        int $leaveRequestId,
-        string $fromDate,
-        string $toDate
-    ): array {
+    public function getEmployeeLeavesCount(EmployeeLeaveSearchFilterParams $leaveSearchFilterParams): int
+    {
         $this->_markApprovedLeaveAsTaken();
-        $q = $this->createQueryBuilder(Leave::class, 'leave')
-            ->leftJoin('leave.employee', 'employee');
-
-        $q->andWhere('leave.leaveRequest = :leaveRequestId')
-            ->setParameter('leaveRequestId', $leaveRequestId);
-
-        $q->andWhere(
-            $q->expr()->between(
-                'leave.date',
-                ':fromDate',
-                ':toDate',
-            )
-        );
-        $q->setParameter('fromDate', $fromDate);
-        $q->setParameter('toDate', $toDate);
-
-        return $q->getQuery()->execute();
+        return $this->getEmployeeLeavesPaginator($leaveSearchFilterParams)->count();
     }
 }
