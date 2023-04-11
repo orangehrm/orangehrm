@@ -214,6 +214,13 @@ apiv2_leave_reports_data:
   defaults:
     _api: OrangeHRM\Leave\Api\LeaveReportDataAPI
 
+apiv2_leave_employee_leave:
+  path: /api/v2/leave/employees/{empNumber}/leaves
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Leave\Api\EmployeeLeaveAPI
+
 ##########################
 #        Screens
 ##########################

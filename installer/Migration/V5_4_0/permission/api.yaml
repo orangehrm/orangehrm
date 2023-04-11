@@ -31,10 +31,28 @@ apiv2_leave_employee_leave_balances:
 ##########################
 #        Mobile
 ##########################
+
 apiv2_mobile_modules:
   description: "Mobile - Enable Modules"
   api: OrangeHRM\Mobile\Api\MenuItemAPI
   module: mobile
+  allowed:
+    read: true
+    create: false
+    update: false
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false } }
+    - { role: ESS, permission: { read: true, create: false, update: false, delete: false } }
+
+##########################
+#        Leave
+##########################
+
+apiv2_leave_employee_leave:
+  description: "Leave - employees leaves"
+  api: OrangeHRM\Leave\Api\EmployeeLeaveAPI
+  module: leave
   allowed:
     read: true
     create: false
