@@ -102,7 +102,7 @@ class LeaveEntitlementDao extends BaseDao
         $q->leftJoin('entitlement.leaveType', 'leaveType');
         $this->setSortingAndPaginationParams($q, $entitlementSearchFilterParams);
 
-        if (!empty($entitlementSearchFilterParams->getEmpNumber())) {
+        if ($entitlementSearchFilterParams->getEmpNumber() !== null) {
             $q->andWhere('entitlement.employee = :empNumber')
                 ->setParameter('empNumber', $entitlementSearchFilterParams->getEmpNumber());
         }
