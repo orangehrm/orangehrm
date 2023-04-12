@@ -32,7 +32,8 @@ use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Entity\Employee;
-use OrangeHRM\Leave\Api\Model\LeaveModel;
+use OrangeHRM\Entity\Leave;
+use OrangeHRM\Leave\Api\Model\EmployeeLeaveModel;
 use OrangeHRM\Leave\Dto\EmployeeLeaveSearchFilterParams;
 use OrangeHRM\Leave\Dto\LeaveSearchFilterParams;
 use OrangeHRM\Leave\Traits\Service\LeaveRequestServiceTrait;
@@ -48,6 +49,66 @@ class EmployeeLeaveAPI extends Endpoint implements CollectionEndpoint
     public const FILTER_INCLUDE_EMPLOYEES = 'includeEmployees';
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/leave/employees/leaves",
+     *     tags={"Leave/Employee Leave"},
+     *     @OA\Parameter(
+     *         name="empNumber",
+     *         in="query",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         name="fromDate",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         name="toDate",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         name="includeEmployees",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string", enum={"onlyCurrent", "onlyPast", "currentAndPast"})
+     *     ),
+     *     @OA\Parameter(
+     *         name="statuses",
+     *         in="query",
+     *         required=false,
+     *         description="-1 => rejected, 0 => cancelled, 1 => pending, 2 => approved, 3 => taken",
+     *         @OA\Schema(type="integer", enum=EmployeeLeaveSearchFilterParams::LEAVE_STATUSES)
+     *     ),
+     *     @OA\Parameter(
+     *         name="sortField",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string", enum=LeaveSearchFilterParams::ALLOWED_SORT_FIELDS)
+     *     ),
+     *     @OA\Parameter(ref="#/components/parameters/sortOrder"),
+     *     @OA\Parameter(ref="#/components/parameters/limit"),
+     *     @OA\Parameter(ref="#/components/parameters/offset"),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="array",
+     *                 @OA\Items(ref="#/components/schemas/Leave-EmployeeLeaveModel")
+     *             ),
+     *             @OA\Property(property="meta",
+     *                 type="object",
+     *                 @OA\Property(property="total", type="integer")
+     *             )
+     *         )
+     *     )
+     * )
+     *
      * @inheritDoc
      */
     public function getAll(): EndpointResult
@@ -87,6 +148,7 @@ class EmployeeLeaveAPI extends Endpoint implements CollectionEndpoint
             $this->getRequestParams()->getArray(
                 RequestParams::PARAM_TYPE_QUERY,
                 self::FILTER_STATUSES,
+                $this->getDefaultStatuses()
             )
         );
         $this->setSortingAndPaginationParams($leaveSearchFilterParams);
@@ -98,7 +160,7 @@ class EmployeeLeaveAPI extends Endpoint implements CollectionEndpoint
             ->getEmployeeLeavesCount($leaveSearchFilterParams);
 
         return new EndpointCollectionResult(
-            LeaveModel::class,
+            EmployeeLeaveModel::class,
             $leaves,
             new ParameterBag([CommonParams::PARAMETER_TOTAL => $count])
         );
@@ -112,7 +174,7 @@ class EmployeeLeaveAPI extends Endpoint implements CollectionEndpoint
         return new ParamRuleCollection(
             new ParamRule(
                 CommonParams::PARAMETER_EMP_NUMBER,
-                new Rule(Rules::IN_ACCESSIBLE_ENTITY_ID, [Employee::class])
+                new Rule(Rules::IN_ACCESSIBLE_EMP_NUMBERS, [true])
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
@@ -156,6 +218,14 @@ class EmployeeLeaveAPI extends Endpoint implements CollectionEndpoint
     protected function getDefaultIncludeEmployees(): string
     {
         return EmployeeLeaveSearchFilterParams::INCLUDE_EMPLOYEES_ONLY_CURRENT;
+    }
+
+    /**
+     * @return string[]
+     */
+    protected function getDefaultStatuses(): array
+    {
+        return [Leave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL];
     }
 
     /**

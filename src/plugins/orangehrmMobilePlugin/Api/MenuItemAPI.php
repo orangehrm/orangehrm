@@ -32,7 +32,6 @@ use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Leave\Traits\Service\LeaveConfigServiceTrait;
 use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
-use OrangeHRM\Time\Service\TimesheetPeriodService;
 
 class MenuItemAPI extends Endpoint implements ResourceEndpoint
 {
@@ -42,10 +41,6 @@ class MenuItemAPI extends Endpoint implements ResourceEndpoint
     use EmployeeServiceTrait;
     use ConfigServiceTrait;
 
-    /**
-     * @var TimesheetPeriodService|null
-     */
-    protected ?TimesheetPeriodService $timesheetPeriodService = null;
     public const META_PARAMETER_IS_LEAVE_PERIOD_DEFINED =  'isLeavePeriodDefined';
     public const META_PARAMETER_IS_TIMESHEET_PERIOD_DEFINED = 'isTimesheetPeriodDefined';
 

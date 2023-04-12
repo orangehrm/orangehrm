@@ -38,11 +38,10 @@ class EmployeeLeaveAPITest extends EndpointIntegrationTestCase
         $this->populateFixtures('EmployeeLeaveAPITest.yaml');
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
 
-        //TODO
-//        $this->registerServices($testCaseParams);
-//        $this->registerMockDateTimeHelper($testCaseParams);
-//        $api = $this->getApiEndpointMock(EmployeeLeaveAPI::class, $testCaseParams);
-//        $this->assertValidTestCase($api, 'getAll', $testCaseParams);
+        $this->registerServices($testCaseParams);
+        $this->registerMockDateTimeHelper($testCaseParams);
+        $api = $this->getApiEndpointMock(EmployeeLeaveAPI::class, $testCaseParams);
+        $this->assertValidTestCase($api, 'getAll', $testCaseParams);
     }
 
     public function dataProviderForTestCreate(): array

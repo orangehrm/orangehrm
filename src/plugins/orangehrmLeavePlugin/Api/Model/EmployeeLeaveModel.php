@@ -23,13 +23,13 @@ use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\Leave;
 
-class LeaveModel implements Normalizable
+class EmployeeLeaveModel implements Normalizable
 {
     use ModelTrait;
 
     /**
      * @OA\Schema(
-     *     schema="Leave-LeaveModel",
+     *     schema="Leave-EmployeeLeaveModel",
      *     type="object",
      *     @OA\Property(property="id", type="integer"),
      *     @OA\Property(property="date", type="string"),
@@ -61,14 +61,6 @@ class LeaveModel implements Normalizable
      *         @OA\Property(property="id", type="integer"),
      *         @OA\Property(property="type", type="string"),
      *     ),
-     *     @OA\Property(
-     *         property="lastComment",
-     *         type="object",
-     *         @OA\Property(property="id", type="integer"),
-     *         @OA\Property(property="comment", type="string"),
-     *         @OA\Property(property="date", type="number"),
-     *         @OA\Property(property="time", type="number"),
-     *     ),
      * )
      */
     public function __construct(Leave $leave)
@@ -90,10 +82,6 @@ class LeaveModel implements Normalizable
                 ['getDecorator', 'getEndTime'],
                 'durationType',
                 ['getDecorator', 'getLeaveDuration'],
-                ['getDecorator', 'getLastComment', 'getId'],
-                ['getDecorator', 'getLastComment', 'getComment'],
-                ['getDecorator', 'getLastComment', 'getDecorator', 'getCreatedAtDate'],
-                ['getDecorator', 'getLastComment', 'getDecorator', 'getCreatedAtTime'],
             ]
         );
         $this->setAttributeNames(
@@ -112,10 +100,6 @@ class LeaveModel implements Normalizable
                 'endTime',
                 ['durationType', 'id'],
                 ['durationType', 'type'],
-                ['lastComment', 'id'],
-                ['lastComment', 'comment'],
-                ['lastComment', 'date'],
-                ['lastComment', 'time'],
             ]
         );
     }
