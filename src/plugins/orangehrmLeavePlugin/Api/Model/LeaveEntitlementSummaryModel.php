@@ -46,8 +46,8 @@ use OrangeHRM\Leave\Traits\Service\LeaveEntitlementServiceTrait;
  *         @OA\Property(property="name", type="string"),
  *         @OA\Property(property="deleted", type="boolean")
  *     ),
- *     @OA\Property(property="fromDate", type="number"),
- *     @OA\Property(property="toDate", type="number"),
+ *     @OA\Property(property="fromDate", type="string"),
+ *     @OA\Property(property="toDate", type="string"),
  * )
  */
 class LeaveEntitlementSummaryModel implements Normalizable

@@ -127,6 +127,11 @@ class LeaveEntitlementDao extends BaseDao
                 ->setParameter('toDate', $entitlementSearchFilterParams->getToDate());
         }
 
+        if ($entitlementSearchFilterParams->getLeaveTypeDeleted() !== null) {
+            $q->andWhere('leaveType.deleted = :leaveTypeDeleted')
+                ->setParameter('leaveTypeDeleted', $entitlementSearchFilterParams->getLeaveTypeDeleted());
+        }
+
         // get predictable sorting
         $q->addOrderBy('entitlement.id');
 
