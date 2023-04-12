@@ -46,3 +46,6 @@ langStrings:
   -
     value: "Edit Expense"
     unitId: edit_expense
+  -
+    value: "Should be a valid number (xxx.xx)"
+    unitId: should_be_a_valid_number

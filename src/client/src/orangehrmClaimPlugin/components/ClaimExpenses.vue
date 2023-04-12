@@ -111,7 +111,7 @@ export default {
         return {
           id: item.id,
           date: item.date ? item.date : '',
-          amount: item.amount ? item.amount.toFixed(2) : '',
+          amount: item.amount ? item.amount.toFixed(2) : '0.00',
           note: item.note ? item.note : '',
           expenseType: item.expenseType ? item.expenseType.name : '',
         };
@@ -158,7 +158,7 @@ export default {
           name: 'expenseType',
           slot: 'title',
           title: this.$t('claim.expense_type'),
-          style: {flex: 1},
+          style: {flex: 2},
         },
         {
           name: 'date',
@@ -169,7 +169,7 @@ export default {
           name: 'note',
           title: this.$t('general.note'),
           cellType: 'oxd-table-cell-truncate',
-          style: {flex: 1},
+          style: {flex: 2},
         },
         {
           name: 'amount',

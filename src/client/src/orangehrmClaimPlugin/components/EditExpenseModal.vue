@@ -21,7 +21,7 @@
   <oxd-dialog @update:show="onCancel">
     <div class="orangehrm-modal-header">
       <oxd-text type="card-title">
-        {{ $t('admin.edit_expense') }}
+        {{ $t('claim.edit_expense') }}
       </oxd-text>
     </div>
     <oxd-divider />
@@ -88,7 +88,8 @@
 
 <script>
 import {APIService} from '@ohrm/core/util/services/api.service';
-import {required} from '@/core/util/validation/rules';
+import {required, validDateFormat} from '@/core/util/validation/rules';
+import useDateFormat from '@/core/util/composable/useDateFormat';
 import {OxdDialog} from '@ohrm/oxd';
 import {
   shouldNotExceedCharLength,
@@ -130,8 +131,11 @@ export default {
       window.appGlobal.baseUrl,
       `api/v2/claim/requests/${props.requestId}/expenses`,
     );
+    const {userDateFormat} = useDateFormat();
+
     return {
       http,
+      userDateFormat,
     };
   },
 
@@ -143,9 +147,22 @@ export default {
         ...expenseModel,
       },
       rules: {
-        date: [required],
+        date: [required, validDateFormat(this.userDateFormat)],
         note: [shouldNotExceedCharLength(1000)],
-        amount: [required, digitsOnlyWithDecimalPoint, maxCurrency(1000000000)],
+        amount: [
+          required,
+          digitsOnlyWithDecimalPoint,
+          maxCurrency(1000000000),
+          (amount) => {
+            if (
+              amount.toString().split('.')[1] !== undefined &&
+              amount.toString().split('.')[1].length > 2
+            ) {
+              return this.$t('claim.should_be_a_valid_number');
+            }
+            return true;
+          },
+        ],
       },
     };
   },
