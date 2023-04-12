@@ -38,6 +38,7 @@ use OrangeHRM\Leave\Service\LeavePeriodService;
 use OrangeHRM\Leave\Traits\Service\LeaveConfigServiceTrait;
 use OrangeHRM\Leave\Traits\Service\LeaveEntitlementServiceTrait;
 use OrangeHRM\ORM\Exception\TransactionException;
+use OrangeHRM\ORM\ListSorter;
 use OrangeHRM\ORM\Paginator;
 use OrangeHRM\ORM\QueryBuilderWrapper;
 
@@ -807,5 +808,25 @@ class LeaveEntitlementDao extends BaseDao
                 ->setParameter('empNumbers', $filterParams->getEmpNumbers());
         }
         return $this->getPaginator($q);
+    }
+
+    /**
+     * @param int $empNumber
+     * @return int[]
+     */
+    public function getLeaveTypeIdsForEntitlementsByEmployee(int $empNumber): array
+    {
+        $q = $this->createQueryBuilder(LeaveEntitlement::class, 'entitlement')
+            ->leftJoin('entitlement.leaveType', 'leaveType')
+            ->select('IDENTITY(entitlement.leaveType) AS leaveTypeId')
+            ->distinct();
+        $q->andWhere('entitlement.employee = :empNumber')
+            ->setParameter('empNumber', $empNumber);
+
+        $q->andWhere('leaveType.deleted = :leaveTypeDeleted')
+            ->setParameter('leaveTypeDeleted', false);
+        $q->addOrderBy('leaveType.id', ListSorter::ASCENDING);
+
+        return $q->getQuery()->getSingleColumnResult();
     }
 }
