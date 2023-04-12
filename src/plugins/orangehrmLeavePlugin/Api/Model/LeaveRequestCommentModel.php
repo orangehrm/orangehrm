@@ -42,6 +42,7 @@ class LeaveRequestCommentModel implements Normalizable
                 ['getCreatedByEmployee','getMiddleName'],
                 ['getCreatedByEmployee','getEmployeeId'],
                 ['getCreatedByEmployee','getEmployeeTerminationRecord', 'getId'],
+                ['getCreatedByEmployee','getEmployeeTerminationRecord', 'getId'],
                 'comment',
             ]
         );
@@ -56,7 +57,8 @@ class LeaveRequestCommentModel implements Normalizable
                 ['createdByEmployee','firstName'],
                 ['createdByEmployee','middleName'],
                 ['createdByEmployee','employeeId'],
-                ['createdByEmployee','employeeTerminationRecord','terminationId'],
+                ['createdByEmployee','employeeTerminationRecord','terminationId'], // TODO:: remove
+                ['createdByEmployee','terminationId'],
                 'comment',
             ]
         );
