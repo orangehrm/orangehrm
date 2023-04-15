@@ -3,6 +3,7 @@
     userId: 1
     services:
       core.config_service: \OrangeHRM\Core\Service\ConfigService
+      core.module_service: \OrangeHRM\Core\Service\ModuleService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
       leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
     data:
@@ -29,6 +30,7 @@
     userId: 2
     services:
       core.config_service: \OrangeHRM\Core\Service\ConfigService
+      core.module_service: \OrangeHRM\Core\Service\ModuleService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
       leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
     data:
@@ -53,6 +55,7 @@
     userId: 3
     services:
       core.config_service: \OrangeHRM\Core\Service\ConfigService
+      core.module_service: \OrangeHRM\Core\Service\ModuleService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
       leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
     data:
@@ -80,6 +83,7 @@
     userId: 1
     services:
       core.config_service: \OrangeHRM\Core\Service\ConfigService
+      core.module_service: \OrangeHRM\Core\Service\ModuleService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
       leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
     data:
@@ -106,6 +110,7 @@
     userId: 2
     services:
       core.config_service: \OrangeHRM\Core\Service\ConfigService
+      core.module_service: \OrangeHRM\Core\Service\ModuleService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
       leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
     data:
@@ -130,6 +135,7 @@
     userId: 3
     services:
       core.config_service: \OrangeHRM\Core\Service\ConfigService
+      core.module_service: \OrangeHRM\Core\Service\ModuleService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
       leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
     data:
@@ -151,3 +157,43 @@
     meta:
       isLeavePeriodDefined: false
       isTimesheetPeriodDefined: false
+
+GetOne - Time Module Disabled:
+  'Get Menu Items List - ESS':
+    userId: 2
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      core.module_service: \OrangeHRM\Core\Service\ModuleService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
+    data:
+      0:
+        name: 'Leave'
+        children: [
+          name: 'Apply Leave',
+          name: 'My Leave Usage',
+          name: 'Leave List'
+        ]
+    meta:
+      isLeavePeriodDefined: true
+      isTimesheetPeriodDefined: true
+
+  'Get Menu Items List - Admin':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      core.module_service: \OrangeHRM\Core\Service\ModuleService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
+    data:
+      0:
+        name: 'Leave'
+        children: [
+          name: 'Apply Leave',
+          name: 'My Leave Usage',
+          name: 'Leave List',
+          name: 'Assign Leave'
+        ]
+    meta:
+      isLeavePeriodDefined: true
+      isTimesheetPeriodDefined: true

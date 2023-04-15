@@ -66,6 +66,24 @@ class MenuItemAPITest extends EndpointIntegrationTestCase
         return $this->getTestCases('MenuItemAPITestCases.yaml', 'GetOne - Leave period and Timesheet period not defined');
     }
 
+    /**
+     * @dataProvider dataProviderForTestGetOne3
+     */
+    public function testGetOne3(TestCaseParams $testCaseParams): void
+    {
+        $this->populateFixtures('MenuItemAPI3.yaml');
+        $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
+        $this->registerServices($testCaseParams);
+
+        $api = $this->getApiEndpointMock(MenuItemAPI::class, $testCaseParams);
+        $this->assertValidTestCase($api, 'getOne', $testCaseParams);
+    }
+
+    public function dataProviderForTestGetOne3(): array
+    {
+        return $this->getTestCases('MenuItemAPITestCases.yaml', 'GetOne - Time Module Disabled');
+    }
+
     public function testUpdate(): void
     {
         $api = new MenuItemAPI($this->getRequest());

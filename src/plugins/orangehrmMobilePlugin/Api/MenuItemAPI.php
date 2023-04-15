@@ -30,6 +30,7 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
+use OrangeHRM\Dashboard\Traits\Service\ModuleServiceTrait;
 use OrangeHRM\Leave\Traits\Service\LeaveConfigServiceTrait;
 use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
 
@@ -40,24 +41,20 @@ class MenuItemAPI extends Endpoint implements ResourceEndpoint
     use LeaveConfigServiceTrait;
     use EmployeeServiceTrait;
     use ConfigServiceTrait;
+    use ModuleServiceTrait;
 
     public const META_PARAMETER_IS_LEAVE_PERIOD_DEFINED =  'isLeavePeriodDefined';
     public const META_PARAMETER_IS_TIMESHEET_PERIOD_DEFINED = 'isTimesheetPeriodDefined';
 
+    private bool $timeModuleEnabled;
+    private bool $leaveModuleEnabled;
+
+
     /**
      * @var array
      */
-    private array $mobileMenuItems = [
-        'leaveModule' => [
-            'name' => 'Leave',
-            'children' => [
-                ["name" => "Apply Leave"],
-                ["name" => "My Leave Usage"],
-                ["name" => "Leave List"],
-                ["name" => "Assign Leave"]
-            ],
-        ],
-        'timeModule' => [
+    private array $timeModuleModuleMenuItems = [
+        [
             'name' => 'Time',
             'children' => [
                 ["name" => "Punch In/Out"],
@@ -70,15 +67,41 @@ class MenuItemAPI extends Endpoint implements ResourceEndpoint
     /**
      * @var array
      */
-    private array $mobileAdminOnlyMenuItems = [
-        'leaveModule' => [
+    private array $leaveModuleMenuItems = [
+        [
+            'name' => 'Leave',
             'children' => [
+                ["name" => "Apply Leave"],
+                ["name" => "My Leave Usage"],
+                ["name" => "Leave List"],
                 ["name" => "Assign Leave"]
             ],
-        ],
-        'timeModule' => [
+        ]
+    ];
+
+    /**
+     * @var array
+     */
+    private array $timeModuleModuleMenuItemsForEss = [
+        [
+            'name' => 'Time',
             'children' => [
-                ["name" => "Employee Attendance"]
+                ["name" => "Punch In/Out"],
+                ["name" => "My Attendance"],
+            ],
+        ]
+    ];
+
+    /**
+     * @var array
+     */
+    private array $leaveModuleMenuItemsForEss = [
+        [
+            'name' => 'Leave',
+            'children' => [
+                ["name" => "Apply Leave"],
+                ["name" => "My Leave Usage"],
+                ["name" => "Leave List"],
             ],
         ]
     ];
@@ -89,41 +112,12 @@ class MenuItemAPI extends Endpoint implements ResourceEndpoint
     private function getAvailableMenuItemsForESSUser(): array
     {
         $menuItems = [];
-        $mobileMenuItems = $this->mobileMenuItems;
-        $mobileAdminOnlyMenuItems = $this->mobileAdminOnlyMenuItems;
-
-        foreach ($mobileMenuItems as $module => $menu) {
-            if (isset($mobileAdminOnlyMenuItems[$module])) {
-                $menuItems[] = [
-                    'name' => $menu['name'],
-                    'children' => array_udiff(
-                        $menu['children'],
-                        $mobileAdminOnlyMenuItems[$module]['children'],
-                        function ($a, $b) {
-                            return strcmp($a['name'], $b['name']);
-                        }
-                    ),
-                ];
-            } else {
-                $menuItems[$module] = $menu;
-            }
+        if ($this->leaveModuleEnabled) {
+            $menuItems = array_merge($menuItems, $this->leaveModuleMenuItemsForEss);
         }
-        return $menuItems;
-    }
 
-    /**
-     * @return array
-     */
-    private function getAvailableMenuItems(): array
-    {
-        $menuItems = [];
-        $mobileMenuItems = $this->mobileMenuItems;
-
-        foreach ($mobileMenuItems as $value) {
-            $menuItems [] = [
-                'name' => $value['name'],
-                'children' => $value['children'],
-            ];
+        if ($this->timeModuleEnabled) {
+            $menuItems = array_merge($menuItems, $this->timeModuleModuleMenuItemsForEss);
         }
         return $menuItems;
     }
@@ -163,15 +157,31 @@ class MenuItemAPI extends Endpoint implements ResourceEndpoint
      */
     public function getOne(): EndpointResult
     {
+        $menuItems = [];
         $user = $this->getAuthUser();
         $isSupervisor = $this->getEmployeeService()->getEmployeeDao()->isSupervisor($user->getEmpNumber());
         $leavePeriodDefined = $this->getLeaveConfigService()->isLeavePeriodDefined();
         $timesheetPeriodDefined = $this->getConfigService()->isTimesheetPeriodDefined();
-        $this->getAvailableMenuItemsForESSUser();
+
+        $modules = $this->getModuleService()->getModuleList();
+        array_filter($modules, function ($module) {
+            if ($module->getName() == 'leave') {
+                $this->leaveModuleEnabled = $module->getStatus();
+            } elseif ($module->getName() == 'time') {
+                $this->timeModuleEnabled = $module->getStatus();
+            }
+        });
+
         if ($user->getUserRoleName() === 'ESS' && !$isSupervisor) {
             $menuItems = $this->getAvailableMenuItemsForESSUser();
         } else {
-            $menuItems = $this->getAvailableMenuItems();
+            if ($this->leaveModuleEnabled) {
+                $menuItems = array_merge($menuItems, $this->leaveModuleMenuItems);
+            }
+
+            if ($this->timeModuleEnabled) {
+                $menuItems = array_merge($menuItems, $this->timeModuleModuleMenuItems);
+            }
         }
 
         return new EndpointResourceResult(
