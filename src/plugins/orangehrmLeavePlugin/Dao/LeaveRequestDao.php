@@ -793,4 +793,24 @@ class LeaveRequestDao extends BaseDao
         $this->_markApprovedLeaveAsTaken();
         return $this->getEmployeeLeavesPaginator($leaveSearchFilterParams)->count();
     }
+
+    /**
+     * @param int $empNumber
+     * @return int[]
+    */
+    public function getUsedLeaveTypeIdsByEmployee(int $empNumber): array
+    {
+        $q = $this->createQueryBuilder(Leave::class, 'leave')
+           ->leftJoin('leave.leaveType', 'leaveType')
+           ->select('IDENTITY(leave.leaveType) AS leaveTypeId')
+           ->distinct();
+        $q->andWhere('leave.employee = :empNumber')
+           ->setParameter('empNumber', $empNumber);
+
+        $q->andWhere('leaveType.deleted = :leaveTypeDeleted')
+           ->setParameter('leaveTypeDeleted', false);
+        $q->addOrderBy('leaveType.id', ListSorter::ASCENDING);
+
+        return $q->getQuery()->getSingleColumnResult();
+    }
 }
