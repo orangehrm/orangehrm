@@ -261,6 +261,8 @@ class Migration extends AbstractMigration
             $this->insertMenuItems('Expense Types', $expenseTypeScreenId, $claimConfigMenuItemId, 3, 200, 1, null);
             $submitClaimScreenId = $this->getScreenId('Submit Claim');
             $this->insertMenuItems('Submit Claim', $submitClaimScreenId, $claimMenuItemId, 2, 100, 1, null);
+            $myClaimsScreenId = $this->getScreenId('My Claims');
+            $this->insertMenuItems('My Claims', $myClaimsScreenId, $claimMenuItemId, 2, 100, 1, null);
         }
 
         $this->deleteClaimWorkflowStates();

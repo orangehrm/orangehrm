@@ -74,3 +74,16 @@
         role: ESS,
         permission: { read: true, create: true, update: true, delete: false },
       }
+
+"My Claims":
+  module: claim
+  url: viewClaim
+  permissions:
+    - {
+      role: Admin,
+      permission: { read: true, create: true, update: true, delete: false },
+    }
+    - {
+      role: ESS,
+      permission: { read: true, create: true, update: true, delete: false },
+    }
