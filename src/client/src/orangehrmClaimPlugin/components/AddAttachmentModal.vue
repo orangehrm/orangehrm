@@ -17,6 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
  -->
+
 <template>
   <oxd-dialog @update:show="onCancel">
     <div class="orangehrm-modal-header">

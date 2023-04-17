@@ -52,14 +52,14 @@
     />
   </div>
   <add-attachment-modal
-    v-if:="showAddAttachmentModal"
+    v-if="showAddAttachmentModal"
     :request-id="requestId"
     :allowed-file-types="allowedFileTypes"
     :max-file-size="maxFileSize"
     @close="onCloseAddAttachmentModal"
   ></add-attachment-modal>
   <edit-attachment-modal
-    v-if:="showEditAttachmentModal"
+    v-if="showEditAttachmentModal"
     :request-id="requestId"
     :allowed-file-types="allowedFileTypes"
     :max-file-size="maxFileSize"

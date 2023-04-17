@@ -17,6 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
  -->
+
 <template>
   <oxd-dialog @update:show="onCancel">
     <div class="orangehrm-modal-header">
@@ -90,6 +91,7 @@
 import {APIService} from '@ohrm/core/util/services/api.service';
 import {required, validDateFormat} from '@/core/util/validation/rules';
 import useDateFormat from '@/core/util/composable/useDateFormat';
+import {yearRange} from '@ohrm/core/util/helper/year-range';
 import {OxdDialog} from '@ohrm/oxd';
 import {
   shouldNotExceedCharLength,
@@ -139,6 +141,7 @@ export default {
   data() {
     return {
       isLoading: false,
+      yearsArray: [...yearRange()],
       expense: {
         ...expenseModel,
       },

@@ -57,12 +57,12 @@
     </oxd-text>
   </div>
   <add-expense-modal
-    v-if:="showAddExpenseModal"
+    v-if="showAddExpenseModal"
     :request-id="requestId"
     @close="onCloseAddExpenseModal"
   ></add-expense-modal>
   <edit-expense-modal
-    v-if:="showEditExpenseModal"
+    v-if="showEditExpenseModal"
     :request-id="requestId"
     :data="editModalState"
     @close="onCloseEditExpenseModal"
