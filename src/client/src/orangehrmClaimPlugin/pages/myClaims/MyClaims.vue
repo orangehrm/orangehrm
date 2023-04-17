@@ -115,7 +115,6 @@
 
 <script>
 import {ref, computed} from 'vue';
-import usei18n from '@/core/util/composable/usei18n';
 import {navigate} from '@/core/util/helper/navigation';
 import useSort from '@ohrm/core/util/composable/useSort';
 import {APIService} from '@/core/util/services/api.service';
@@ -149,11 +148,9 @@ export default {
   },
   setup() {
     const filters = ref({...defaultFilters});
-    const {$t} = usei18n();
     const {sortDefinition, sortField, sortOrder, onSort} = useSort({
       sortDefinition: defaultSortOrder,
     });
-    const {userDateFormat} = useDateFormat();
 
     const serializedFilters = computed(() => {
       return {
@@ -247,6 +244,7 @@ export default {
           name: 'description',
           title: this.$t('general.description'),
           slot: 'title',
+          cellType: 'oxd-table-cell-truncate',
           sortField: 'claimRequest.description',
           style: {flex: 4},
         },

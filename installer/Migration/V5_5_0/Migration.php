@@ -232,7 +232,7 @@ class Migration extends AbstractMigration
                 )
                 ->setParameter('module_id', $this->getDataGroupHelper()->getModuleIdByName('claim'))
                 ->setParameter('user_role_id', $this->getDataGroupHelper()->getUserRoleIdByName('ESS'))
-                ->setParameter('action', 'claim/submitClaim') //TODO: change to myClaim
+                ->setParameter('action', 'claim/viewClaim')
                 ->executeQuery();
 
             $viewClaimModuleScreenId = $this->getConnection()
