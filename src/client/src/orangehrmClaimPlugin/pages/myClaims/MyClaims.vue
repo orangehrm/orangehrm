@@ -49,6 +49,7 @@
             <date-input
               v-model="filters.fromDate"
               :label="$t('general.from_date')"
+              :rules="rules.date"
               :years="yearsArray"
               required
             />
@@ -57,6 +58,7 @@
             <date-input
               v-model="filters.toDate"
               :label="$t('general.to_date')"
+              :rules="rules.date"
               :years="yearsArray"
               required
             />
@@ -121,6 +123,8 @@ import usePaginate from '@ohrm/core/util/composable/usePaginate';
 import ReferenceIdAutocomplete from '@/orangehrmClaimPlugin/components/ReferenceIdAutocomplete.vue';
 import ClaimEventDropdown from '@/orangehrmClaimPlugin/components/ClaimEventDropdown.vue';
 import StatusDropdown from '@/orangehrmClaimPlugin/components/StatusDropdown.vue';
+import {validDateFormat} from '@/core/util/validation/rules';
+import useDateFormat from '@/core/util/composable/useDateFormat';
 
 const defaultFilters = {
   referenceId: '',
@@ -149,9 +153,9 @@ export default {
     const {sortDefinition, sortField, sortOrder, onSort} = useSort({
       sortDefinition: defaultSortOrder,
     });
+    const {userDateFormat} = useDateFormat();
 
     const serializedFilters = computed(() => {
-      console.log(typeof filters.value.referenceId);
       return {
         referenceId:
           typeof filters.value.referenceId === 'object'
@@ -206,7 +210,6 @@ export default {
       query: serializedFilters,
     });
     onSort(execQuery);
-    console.log('response', response);
     return {
       http,
       showPaginator,
@@ -220,6 +223,7 @@ export default {
       response,
       filters,
       sortDefinition,
+      useDateFormat,
     };
   },
   data() {
@@ -296,6 +300,9 @@ export default {
         {id: 1, label: this.$t('general.active')},
         {id: 0, label: this.$t('performance.inactive')},
       ],
+      rules: {
+        date: [validDateFormat(this.userDateFormat)],
+      },
     };
   },
 
