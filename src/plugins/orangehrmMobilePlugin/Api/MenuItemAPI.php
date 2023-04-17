@@ -101,7 +101,6 @@ class MenuItemAPI extends Endpoint implements ResourceEndpoint
             'children' => [
                 ["name" => "Apply Leave"],
                 ["name" => "My Leave Usage"],
-                ["name" => "Leave List"],
             ],
         ]
     ];

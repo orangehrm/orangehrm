@@ -39,7 +39,6 @@
         children: [
           name: 'Apply Leave',
           name: 'My Leave Usage',
-          name: 'Leave List'
         ]
       1:
         name: 'Time'
@@ -119,7 +118,6 @@
         children: [
           name: 'Apply Leave',
           name: 'My Leave Usage',
-          name: 'Leave List',
         ]
       1:
         name: 'Time'
@@ -172,7 +170,6 @@ GetOne - Time Module Disabled:
         children: [
           name: 'Apply Leave',
           name: 'My Leave Usage',
-          name: 'Leave List'
         ]
     meta:
       isLeavePeriodDefined: true
