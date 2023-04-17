@@ -285,18 +285,13 @@ export default {
               onClick: this.onClickView,
               component: 'oxd-button',
               props: {
-                label: this.$t('general.view'),
+                label: this.$t('claim.view_details'),
                 displayType: 'text',
                 size: 'medium',
               },
             },
           },
         },
-      ],
-      checkedItems: [],
-      ClaimEventStatuses: [
-        {id: 1, label: this.$t('general.active')},
-        {id: 0, label: this.$t('performance.inactive')},
       ],
       rules: {
         date: [validDateFormat(this.userDateFormat)],
@@ -318,43 +313,6 @@ export default {
     },
     onClickAdd() {
       navigate('/claim/submitClaim');
-    },
-    onClickDeleteSelected() {
-      const ids = [];
-      this.checkedItems.forEach((index) => {
-        ids.push(this.items?.data[index].id);
-      });
-      this.$refs.deleteDialog.showDialog().then((confirmation) => {
-        if (confirmation === 'ok') {
-          this.deleteItems(ids);
-        }
-      });
-    },
-    deleteItems(items) {
-      if (items instanceof Array) {
-        this.isLoading = true;
-        this.http
-          .deleteAll({
-            ids: items,
-          })
-          .then(() => {
-            return this.$toast.deleteSuccess();
-          })
-          .then(() => {
-            this.isLoading = false;
-            this.resetDataTable();
-          });
-      }
-    },
-    onClickDelete(item) {
-      this.$refs.deleteDialog.showDialog().then((confirmation) => {
-        if (confirmation === 'ok') {
-          this.deleteItems([item.id]);
-        }
-      });
-    },
-    onClickEdit(item) {
-      navigate('/claim/saveEvents/{id}', {id: item.id});
     },
     onClickView(item) {
       navigate('/claim/submitClaim/id/{id}', {id: item.id});
