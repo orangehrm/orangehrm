@@ -59,8 +59,6 @@ GetAll:
     data: [
       {
         id: 1,
-        entitlement: 7.0,
-        daysUsed: 2.5,
         leaveType: {
           id: 6,
           name: 'Medical',
@@ -69,6 +67,8 @@ GetAll:
         fromDate: '2021-01-01',
         toDate: '2021-12-31',
         usageBreakdown: {
+          entitlement: 7.0,
+          used: 2.5,
           scheduled: 0.0,
           pending: 2.5,
           taken: 0.0,
@@ -167,8 +167,6 @@ GetOne:
       model: summary
     data: {
       id: 1,
-      entitlement: 7.0,
-      daysUsed: 2.5,
       leaveType: {
         id: 6,
         name: 'Medical',
@@ -177,6 +175,8 @@ GetOne:
       fromDate: '2021-01-01',
       toDate: '2021-12-31',
       usageBreakdown: {
+        entitlement: 7.0,
+        used: 2.5,
         scheduled: 0.0,
         pending: 2.5,
         taken: 0.0,

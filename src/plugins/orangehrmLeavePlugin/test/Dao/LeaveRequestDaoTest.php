@@ -2040,4 +2040,29 @@ class LeaveRequestDaoTest extends KernelTestCase
             $this->assertTrue(in_array($leave, $leaves) || !in_array($leave->getId(), $leaveIds));
         }
     }
+
+    public function testGetUsedLeaveTypeIdsByEmployee(): void
+    {
+        $leaveTypeIds = $this->leaveRequestDao->getUsedLeaveTypeIdsByEmployee(1);
+        $this->assertEquals([1, 2], $leaveTypeIds); // leave type id: 3 is deleted
+
+        $leaveTypeIds = $this->leaveRequestDao->getUsedLeaveTypeIdsByEmployee(2);
+        $this->assertEquals([1, 2], $leaveTypeIds);
+
+        $leaveTypeIds = $this->leaveRequestDao->getUsedLeaveTypeIdsByEmployee(3);
+        $this->assertEquals([2], $leaveTypeIds);
+
+        $leaveTypeIds = $this->leaveRequestDao->getUsedLeaveTypeIdsByEmployee(6);
+        $this->assertEquals([4], $leaveTypeIds);
+
+        // employee who does not have leaves
+        $leaveTypeIds = $this->leaveRequestDao->getUsedLeaveTypeIdsByEmployee(4);
+        $this->assertEmpty($leaveTypeIds);
+        $this->assertIsArray($leaveTypeIds);
+
+        // non-existing empNumber
+        $leaveTypeIds = $this->leaveRequestDao->getUsedLeaveTypeIdsByEmployee(1000);
+        $this->assertEmpty($leaveTypeIds);
+        $this->assertIsArray($leaveTypeIds);
+    }
 }

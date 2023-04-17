@@ -59,6 +59,7 @@ class LeaveEntitlementAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_LOCATION_ID = 'locationId';
     public const PARAMETER_SUBUNIT_ID = 'subunitId';
     public const FILTER_MODEL = 'model';
+    public const FILTER_LEAVE_TYPE_DELETED = 'leaveTypeDeleted';
 
     public const META_PARAMETER_SUM = 'sum';
     public const META_PARAMETER_COUNT = 'count';
@@ -181,6 +182,12 @@ class LeaveEntitlementAPI extends Endpoint implements CrudEndpoint
      *         @OA\Schema(type="string")
      *     ),
      *     @OA\Parameter(
+     *         name="leaveTypeDeleted",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="boolean")
+     *     ),
+     *     @OA\Parameter(
      *         name="sortField",
      *         in="query",
      *         required=false,
@@ -256,6 +263,12 @@ class LeaveEntitlementAPI extends Endpoint implements CrudEndpoint
         $entitlementSearchFilterParams->setLeaveTypeId($leaveTypeId);
         $entitlementSearchFilterParams->setFromDate($fromDate);
         $entitlementSearchFilterParams->setToDate($toDate);
+        $entitlementSearchFilterParams->setLeaveTypeDeleted(
+            $this->getRequestParams()->getBooleanOrNull(
+                RequestParams::PARAM_TYPE_QUERY,
+                self::FILTER_LEAVE_TYPE_DELETED
+            )
+        );
         $this->setSortingAndPaginationParams($entitlementSearchFilterParams);
 
         $entitlements = $this->getLeaveEntitlementService()
@@ -323,6 +336,7 @@ class LeaveEntitlementAPI extends Endpoint implements CrudEndpoint
             $this->getValidationDecorator()->notRequiredParamRule($fromDateRule),
             $this->getValidationDecorator()->notRequiredParamRule($toDateRule),
             $this->getModelClassParamRule(),
+            new ParamRule(self::FILTER_LEAVE_TYPE_DELETED, new Rule(Rules::BOOL_VAL)),
             ...$this->getSortingAndPaginationParamsRules(LeaveEntitlementSearchFilterParams::ALLOWED_SORT_FIELDS)
         );
     }

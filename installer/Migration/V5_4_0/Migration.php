@@ -21,6 +21,7 @@ namespace OrangeHRM\Installer\Migration\V5_4_0;
 
 use Doctrine\DBAL\Schema\ForeignKeyConstraint;
 use Doctrine\DBAL\Schema\Index;
+use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Types\Types;
 use OrangeHRM\Installer\Util\V1\AbstractMigration;
 
@@ -93,6 +94,11 @@ class Migration extends AbstractMigration
         $this->modifyDefaultPasswordEnforcement();
 
         $this->createOAuth2Tables();
+
+        // https://github.com/orangehrm/orangehrm/issues/1622
+        $this->getSchemaHelper()->addOrChangeColumns('ohrm_migration_log', [
+            'php_version' => ['Type' => Type::getType(Types::STRING), 'Length' => 255],
+        ]);
     }
 
     /**

@@ -21,7 +21,9 @@ namespace OrangeHRM\Core\Api\V2;
 
 use DateTime;
 use DateTimeZone;
+use InvalidArgumentException;
 use OpenApi\Annotations as OA;
+use OrangeHRM\Core\Api\V2\Exception\InvalidParamException;
 use OrangeHRM\Core\Dto\Base64Attachment;
 
 class RequestParams
@@ -94,7 +96,13 @@ class RequestParams
      */
     public function getInt(string $type, string $key, int $default = 0): int
     {
-        return $this->$type->getInt($key, $default);
+        $param = $this->$type->get($key, $default);
+        if ($this->isEmptyString($param)) {
+            throw new InvalidParamException([
+                $key => new InvalidArgumentException("Parameter `$key` should not be an empty string")
+            ]);
+        }
+        return (int) $param;
     }
 
     /**
@@ -306,6 +314,6 @@ class RequestParams
      */
     private function isEmptyString($param): bool
     {
-        return is_string($param) && empty($param);
+        return is_string($param) && trim($param) === '';
     }
 }

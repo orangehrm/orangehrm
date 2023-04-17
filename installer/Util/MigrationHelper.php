@@ -69,7 +69,7 @@ class MigrationHelper
                 ->addColumn('id', Types::INTEGER, ['Autoincrement' => true])
                 ->addColumn('version', Types::STRING, ['Length' => 10])
                 ->addColumn('db_version', Types::STRING, ['Length' => 255])
-                ->addColumn('php_version', Types::STRING, ['Length' => 10])
+                ->addColumn('php_version', Types::STRING, ['Length' => 255])
                 ->addColumn('started_at', Types::DATETIME_MUTABLE)
                 ->addColumn('finished_at', Types::DATETIME_MUTABLE, ['Notnull' => false, 'Default' => null])
                 ->setPrimaryKey(['id'])
@@ -86,7 +86,7 @@ class MigrationHelper
             ->setValue('started_at', ':startedAt')
             ->setParameter('migrationVersion', $version)
             ->setParameter('databaseVersion', substr($systemCheck->getMysqlServerVersion(), 0, 255))
-            ->setParameter('phpVersion', $systemCheck->getPhpVersion())
+            ->setParameter('phpVersion', substr($systemCheck->getPhpVersion(), 0, 255))
             ->setParameter(
                 'startedAt',
                 (new DateTime())->setTimezone(new DateTimeZone(DateTimeHelperService::TIMEZONE_UTC)),

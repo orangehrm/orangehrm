@@ -50,7 +50,8 @@ class LeaveCommentModelTest extends KernelTestCase
                 'employeeId' => null,
                 'employeeTerminationRecord' => [
                     'terminationId' => 1
-                ]
+                ],
+                'terminationId' => 1
             ],
             'date' => '2020-12-25',
             'time' => '07:20'
