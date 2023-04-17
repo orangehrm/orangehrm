@@ -15,19 +15,6 @@ apiv2_pim_my_info:
     - { role: Admin, permission: { read: true, create: false, update: false, delete: false } }
     - { role: ESS, permission: { read: true, create: false, update: false, delete: false } }
 
-apiv2_leave_employee_leave_balances:
-  description: "Leave - Employee Leave Balances"
-  api: OrangeHRM\Leave\Api\EmployeeLeaveBalanceAPI
-  module: leave
-  allowed:
-    read: true
-    create: false
-    update: false
-    delete: false
-  permissions:
-    - { role: Admin, permission: { read: true, create: false, update: false, delete: false } }
-    - { role: ESS, permission: { read: true, create: false, update: false, delete: false } }
-
 ##########################
 #        Mobile
 ##########################
