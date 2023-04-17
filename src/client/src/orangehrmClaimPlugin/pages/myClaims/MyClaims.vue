@@ -83,7 +83,7 @@
   <div class="orangehrm-paper-container">
     <div class="orangehrm-header-container">
       <oxd-button
-        :label="$t('general.add')"
+        :label="$t('claim.submit_claim')"
         icon-name="plus"
         display-type="secondary"
         @click="onClickAdd"
@@ -123,7 +123,7 @@ import ClaimEventDropdown from '@/orangehrmClaimPlugin/components/ClaimEventDrop
 import StatusDropdown from '@/orangehrmClaimPlugin/components/StatusDropdown.vue';
 
 const defaultFilters = {
-  referenceId: null,
+  referenceId: '',
   claimEvent: null,
   status: null,
   fromDate: null,
@@ -131,8 +131,10 @@ const defaultFilters = {
 };
 
 const defaultSortOrder = {
-  'claimEvent.name': 'ASC',
-  'claimEvent.status': 'DESC',
+  'claimRequest.referenceId': 'DESC',
+  'claimRequest.claimEvent.name': 'ASC',
+  'claimRequest.status': 'ASC',
+  'claimRequest.submittedDate': 'ASC',
 };
 
 export default {
@@ -149,18 +151,22 @@ export default {
     });
 
     const serializedFilters = computed(() => {
+      console.log(typeof filters.value.referenceId);
       return {
-        // referenceId:
-        //   typeof filters.value.referenceId === 'object'
-        //     ? filters.value.referenceId.label
-        //     : typeof filters.value.referenceId === 'string'
-        //     ? filters.value.referenceId
-        //     : null,
+        referenceId:
+          typeof filters.value.referenceId === 'object'
+            ? filters.value.referenceId.id
+            : typeof filters.value.referenceId === 'string'
+            ? filters.value.referenceId
+            : null,
         eventId: filters.value.claimEvent ? filters.value.claimEvent?.id : null,
         status: filters.value.status ? filters.value.status?.id : null,
         fromDate: filters.value.fromDate,
         toDate: filters.value.toDate,
-        sortField: sortField.value,
+        sortField:
+          sortField.value === 'claimRequest.claimEvent.name'
+            ? 'claimEvent.name'
+            : sortField.value,
         sortOrder: sortOrder.value,
       };
     });
@@ -306,7 +312,7 @@ export default {
       this.filterItems();
     },
     onClickAdd() {
-      navigate('/claim/saveEvents');
+      navigate('/claim/submitClaim');
     },
     onClickDeleteSelected() {
       const ids = [];

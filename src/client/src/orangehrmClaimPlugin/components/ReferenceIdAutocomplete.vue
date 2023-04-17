@@ -55,7 +55,7 @@ export default {
             resolve(
               data.data.map((claimRequest) => {
                 return {
-                  id: claimRequest.id,
+                  id: claimRequest.referenceId,
                   label: claimRequest.referenceId,
                 };
               }),
