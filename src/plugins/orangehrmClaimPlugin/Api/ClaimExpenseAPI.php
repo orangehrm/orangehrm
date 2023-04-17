@@ -69,7 +69,6 @@ class ClaimExpenseAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_REQUEST_ID = 'requestId';
     public const NOTE_MAX_LENGTH = 1000;
     public const PARAMETER_TOTAL_AMOUNT = 'totalAmount';
-    public const PARAM_RULE_SALARY_AMOUNT_MAX_LENGTH = 100;
 
     /**
      * @OA\Get(
