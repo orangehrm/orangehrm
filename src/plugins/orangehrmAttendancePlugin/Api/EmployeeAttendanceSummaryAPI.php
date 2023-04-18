@@ -88,8 +88,16 @@ class EmployeeAttendanceSummaryAPI extends Endpoint implements CollectionEndpoin
             $employeeAttendanceSummarySearchFilterParams->setFromDate(new DateTime($date . ' ' . '00:00:00'));
             $employeeAttendanceSummarySearchFilterParams->setToDate(new DateTime($date . ' ' . '23:59:59'));
         } else {
-            $employeeAttendanceSummarySearchFilterParams->setFromDate(new DateTime($fromDate->format('Ymd') . ' ' . '00:00:00'));
-            $employeeAttendanceSummarySearchFilterParams->setToDate(new DateTime($toDate->format('Ymd') . ' ' . '23:59:59'));
+            if (!$fromDate instanceof DateTime || !$toDate instanceof DateTime) {
+                throw $this->getInvalidParamException(["fromDate", "toDate"]);
+            }
+            $employeeAttendanceSummarySearchFilterParams->setFromDate(
+                new DateTime($fromDate->format('Ymd') . ' ' . '00:00:00')
+            );
+
+            $employeeAttendanceSummarySearchFilterParams->setToDate(
+                new DateTime($toDate->format('Ymd') . ' ' . '23:59:59')
+            );
         }
 
         if (!is_null($employeeNumber)) {
