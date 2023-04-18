@@ -96,6 +96,7 @@ import {
   shouldNotExceedCharLength,
   digitsOnlyWithDecimalPoint,
   maxCurrency,
+  digitsOnlyWithTwoDecimalPoints,
 } from '@ohrm/core/util/validation/rules';
 import ClaimExpenseTypeDropdown from './ClaimExpenseTypeDropdown.vue';
 
@@ -154,14 +155,7 @@ export default {
           required,
           digitsOnlyWithDecimalPoint,
           maxCurrency(1000000000),
-          (amount) => {
-            if (!/^\d+$/.test(amount)) {
-              if (!/^\d+\.\d{2}$/.test(amount)) {
-                return this.$t('claim.should_be_a_valid_number');
-              }
-            }
-            return true;
-          },
+          digitsOnlyWithTwoDecimalPoints,
         ],
       },
     };
