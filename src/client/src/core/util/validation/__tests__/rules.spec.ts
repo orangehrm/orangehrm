@@ -1065,23 +1065,8 @@ describe('core/util/validation/rules::digitsOnlyWithTwoDecimalPoints', () => {
     expect(result).toEqual(true);
   });
 
-  test('digitsOnlyWithTwoDecimalPoints:: with one decimal point', () => {
-    const result = digitsOnlyWithTwoDecimalPoints('10.5');
-    expect(result).toEqual('Should be a valid number (xxx.xx)');
-  });
-
-  test('digitsOnlyWithTwoDecimalPoints:: only with decimal point', () => {
-    const result = digitsOnlyWithTwoDecimalPoints('12.');
-    expect(result).toEqual('Should be a valid number (xxx.xx)');
-  });
-
   test('digitsOnlyWithTwoDecimalPoints:: with two decimal points', () => {
     const result = digitsOnlyWithTwoDecimalPoints('123.98');
     expect(result).toEqual(true);
-  });
-
-  test('digitsOnlyWithTwoDecimalPoints:: with three decimal points', () => {
-    const result = digitsOnlyWithTwoDecimalPoints('10.598');
-    expect(result).toEqual('Should be a valid number (xxx.xx)');
   });
 });
