@@ -80,14 +80,19 @@ trait EndpointExceptionTrait
     }
 
     /**
-     * @param string $paramKey
+     * @param string|string[] $paramKeys
      * @param string|null $message
      * @return InvalidParamException
      */
-    protected function getInvalidParamException(string $paramKey, ?string $message = null): InvalidParamException
+    protected function getInvalidParamException($paramKeys, ?string $message = null): InvalidParamException
     {
-        return new InvalidParamException([
-            $paramKey => new InvalidArgumentException($message ?? "Invalid parameter `$paramKey`")
-        ]);
+        $errorBag = [];
+        if (is_string($paramKeys)) {
+            $paramKeys = [$paramKeys];
+        }
+        foreach ($paramKeys as $paramKey) {
+            $errorBag[$paramKey] = new InvalidArgumentException($message ?? "Invalid parameter `$paramKey`");
+        }
+        return new InvalidParamException($errorBag);
     }
 }

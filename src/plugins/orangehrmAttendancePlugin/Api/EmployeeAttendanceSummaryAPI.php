@@ -35,6 +35,7 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\Employee;
 
@@ -42,8 +43,11 @@ class EmployeeAttendanceSummaryAPI extends Endpoint implements CollectionEndpoin
 {
     use UserRoleManagerTrait;
     use AttendanceServiceTrait;
+    use DateTimeHelperTrait;
 
     public const PARAMETER_DATE = 'date';
+    public const FILTER_FROM_DATE = 'fromDate';
+    public const FILTER_TO_DATE = 'toDate';
 
     /**
      * @inheritDoc
@@ -57,10 +61,44 @@ class EmployeeAttendanceSummaryAPI extends Endpoint implements CollectionEndpoin
             CommonParams::PARAMETER_EMP_NUMBER,
         );
 
-        $date = $this->getRequestParams()->getString(
+        $date = $this->getRequestParams()->getStringOrNull(
             RequestParams::PARAM_TYPE_QUERY,
             self::PARAMETER_DATE,
         );
+
+        $fromDate = $this->getRequestParams()->getDateTimeOrNull(
+            RequestParams::PARAM_TYPE_QUERY,
+            self::FILTER_FROM_DATE
+        );
+
+        $toDate = $this->getRequestParams()->getDateTimeOrNull(
+            RequestParams::PARAM_TYPE_QUERY,
+            self::FILTER_TO_DATE
+        );
+
+        if ($fromDate != null && $toDate != null && $fromDate > $toDate) {
+            throw $this->getInvalidParamException(["fromDate","toDate"]);
+        }
+
+        if ($fromDate == null && $toDate == null && $date == null) {
+            $date = $this->getDateTimeHelper()->getNow()->format('Ymd');
+            $employeeAttendanceSummarySearchFilterParams->setFromDate(new DateTime($date . ' ' . '00:00:00'));
+            $employeeAttendanceSummarySearchFilterParams->setToDate(new DateTime($date . ' ' . '23:59:59'));
+        } elseif ($fromDate == null && $toDate == null) {
+            $employeeAttendanceSummarySearchFilterParams->setFromDate(new DateTime($date . ' ' . '00:00:00'));
+            $employeeAttendanceSummarySearchFilterParams->setToDate(new DateTime($date . ' ' . '23:59:59'));
+        } else {
+            if (!$fromDate instanceof DateTime || !$toDate instanceof DateTime) {
+                throw $this->getInvalidParamException(["fromDate", "toDate"]);
+            }
+            $employeeAttendanceSummarySearchFilterParams->setFromDate(
+                new DateTime($fromDate->format('Ymd') . ' ' . '00:00:00')
+            );
+
+            $employeeAttendanceSummarySearchFilterParams->setToDate(
+                new DateTime($toDate->format('Ymd') . ' ' . '23:59:59')
+            );
+        }
 
         if (!is_null($employeeNumber)) {
             $employeeAttendanceSummarySearchFilterParams->setEmployeeNumbers([$employeeNumber]);
@@ -69,9 +107,6 @@ class EmployeeAttendanceSummaryAPI extends Endpoint implements CollectionEndpoin
             $employeeAttendanceSummarySearchFilterParams->setEmployeeNumbers($accessibleEmpNumbers);
         }
 
-        $employeeAttendanceSummarySearchFilterParams->setFromDate(new DateTime($date . ' ' . '00:00:00'));
-        $employeeAttendanceSummarySearchFilterParams->setToDate(new DateTime($date . ' ' . '23:59:59'));
-
         $employeeAttendanceSummaryRecordList = $this->getAttendanceService()
             ->getAttendanceDao()
             ->getEmployeeAttendanceSummaryList($employeeAttendanceSummarySearchFilterParams);
@@ -79,7 +114,6 @@ class EmployeeAttendanceSummaryAPI extends Endpoint implements CollectionEndpoin
         $employeeAttendanceSummaryRecordListCount = $this->getAttendanceService()
             ->getAttendanceDao()
             ->getEmployeeAttendanceSummaryListCount($employeeAttendanceSummarySearchFilterParams);
-
 
         return new EndpointCollectionResult(
             EmployeeAttendanceSummaryListModel::class,
@@ -96,9 +130,21 @@ class EmployeeAttendanceSummaryAPI extends Endpoint implements CollectionEndpoin
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            $this->getValidationDecorator()->requiredParamRule(
+            $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_DATE,
+                    new Rule(Rules::API_DATE)
+                ),
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::FILTER_FROM_DATE,
+                    new Rule(Rules::API_DATE)
+                ),
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::FILTER_TO_DATE,
                     new Rule(Rules::API_DATE)
                 ),
             ),
