@@ -33,8 +33,8 @@ class LeaveModel implements Normalizable
      *     type="object",
      *     @OA\Property(property="id", type="integer"),
      *     @OA\Property(property="date", type="string"),
-     *     @OA\Property(property="lengthHours", type="string"),
-     *     @OA\Property(property="lengthDays", type="string"),
+     *     @OA\Property(property="lengthHours", type="number"),
+     *     @OA\Property(property="lengthDays", type="number"),
      *     @OA\Property(
      *         property="status",
      *         type="object",

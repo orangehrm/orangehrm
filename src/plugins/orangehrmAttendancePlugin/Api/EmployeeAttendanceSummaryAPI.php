@@ -46,8 +46,8 @@ class EmployeeAttendanceSummaryAPI extends Endpoint implements CollectionEndpoin
     use DateTimeHelperTrait;
 
     public const PARAMETER_DATE = 'date';
-    public const PARAMETER_FROM_DATE = 'fromDate';
-    public const PARAMETER_TO_DATE = 'toDate';
+    public const FILTER_FROM_DATE = 'fromDate';
+    public const FILTER_TO_DATE = 'toDate';
 
     /**
      * @inheritDoc
@@ -66,14 +66,14 @@ class EmployeeAttendanceSummaryAPI extends Endpoint implements CollectionEndpoin
             self::PARAMETER_DATE,
         );
 
-        $fromDate = $this->getRequestParams()->getStringOrNull(
+        $fromDate = $this->getRequestParams()->getDateTimeOrNull(
             RequestParams::PARAM_TYPE_QUERY,
-            self::PARAMETER_FROM_DATE
+            self::FILTER_FROM_DATE
         );
 
-        $toDate = $this->getRequestParams()->getStringOrNull(
+        $toDate = $this->getRequestParams()->getDateTimeOrNull(
             RequestParams::PARAM_TYPE_QUERY,
-            self::PARAMETER_TO_DATE
+            self::FILTER_TO_DATE
         );
 
         if ($fromDate != null && $toDate != null && $fromDate > $toDate) {
@@ -88,8 +88,8 @@ class EmployeeAttendanceSummaryAPI extends Endpoint implements CollectionEndpoin
             $employeeAttendanceSummarySearchFilterParams->setFromDate(new DateTime($date . ' ' . '00:00:00'));
             $employeeAttendanceSummarySearchFilterParams->setToDate(new DateTime($date . ' ' . '23:59:59'));
         } else {
-            $employeeAttendanceSummarySearchFilterParams->setFromDate(new DateTime($fromDate . ' ' . '00:00:00'));
-            $employeeAttendanceSummarySearchFilterParams->setToDate(new DateTime($toDate . ' ' . '23:59:59'));
+            $employeeAttendanceSummarySearchFilterParams->setFromDate(new DateTime($fromDate->format('Ymd') . ' ' . '00:00:00'));
+            $employeeAttendanceSummarySearchFilterParams->setToDate(new DateTime($toDate->format('Ymd') . ' ' . '23:59:59'));
         }
 
         if (!is_null($employeeNumber)) {
@@ -130,13 +130,13 @@ class EmployeeAttendanceSummaryAPI extends Endpoint implements CollectionEndpoin
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
-                    self::PARAMETER_FROM_DATE,
+                    self::FILTER_FROM_DATE,
                     new Rule(Rules::API_DATE)
                 ),
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
-                    self::PARAMETER_TO_DATE,
+                    self::FILTER_TO_DATE,
                     new Rule(Rules::API_DATE)
                 ),
             ),
