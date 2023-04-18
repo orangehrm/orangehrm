@@ -325,4 +325,7 @@ export default {
 .orangehrm-button-margin {
   margin: 0.25rem;
 }
+.orangehrm-card-table {
+  padding: 25px;
+}
 </style>
