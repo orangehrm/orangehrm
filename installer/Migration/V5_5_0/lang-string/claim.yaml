@@ -51,9 +51,6 @@ langStrings:
     value: "Expense Type"
     unitId: expense_type
   -
-    value: "Total Amount"
-    unitId: total_amount
-  -
     value: "Pay"
     unitId: pay
   -

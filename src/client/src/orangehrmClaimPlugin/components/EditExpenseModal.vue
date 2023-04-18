@@ -53,6 +53,7 @@
               v-model="expense.amount"
               :label="$t('claim.amount')"
               :rules="rules.amount"
+              required
             />
           </oxd-grid-item>
         </oxd-grid>
