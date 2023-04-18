@@ -31,8 +31,9 @@
         <oxd-grid :cols="1" class="orangehrm-full-width-grid">
           <oxd-grid-item>
             <claim-expense-type-dropdown
-              v-model="expense.expenseType"
+              v-model="expense.type"
               :label="$t('claim.expense_type')"
+              :rules="rules.type"
             ></claim-expense-type-dropdown>
           </oxd-grid-item>
         </oxd-grid>
@@ -101,7 +102,7 @@ import {
 import ClaimExpenseTypeDropdown from './ClaimExpenseTypeDropdown.vue';
 
 const expenseModel = {
-  expenseType: null,
+  type: null,
   date: null,
   amount: null,
   note: null,
@@ -145,7 +146,9 @@ export default {
       expense: {
         ...expenseModel,
       },
+
       rules: {
+        type: [required],
         date: [required, validDateFormat(this.userDateFormat)],
         note: [shouldNotExceedCharLength(1000)],
         amount: [
@@ -153,11 +156,10 @@ export default {
           digitsOnlyWithDecimalPoint,
           maxCurrency(1000000000),
           (amount) => {
-            if (
-              amount.toString().split('.')[1] !== undefined &&
-              amount.toString().split('.')[1].length > 2
-            ) {
-              return this.$t('claim.should_be_a_valid_number');
+            if (!/^\d+$/.test(amount)) {
+              if (!/^\d+\.\d{2}$/.test(amount)) {
+                return this.$t('claim.should_be_a_valid_number');
+              }
             }
             return true;
           },
@@ -171,7 +173,7 @@ export default {
       this.isLoading = true;
       this.http
         .create({
-          expenseTypeId: this.expense.expenseType.id,
+          expenseTypeId: this.expense.type.id,
           date: this.expense.date,
           amount: (Math.floor(this.expense.amount * 100) / 100).toFixed(2),
           note: this.expense.note,
@@ -190,4 +192,3 @@ export default {
   },
 };
 </script>
-<style src="./attachment-modal.scss" lang="scss" scoped></style>

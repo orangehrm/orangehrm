@@ -19,10 +19,10 @@
  -->
 
 <template>
-  <oxd-dialog @update:show="onCancel">
+  <oxd-dialog class="orangehrm-dialog-modal" @update:show="onCancel">
     <div class="orangehrm-modal-header">
       <oxd-text type="card-title">
-        {{ $t('claim.add_attachment') }}
+        {{ $t('general.add_attachment') }}
       </oxd-text>
     </div>
     <oxd-divider />
@@ -162,4 +162,3 @@ export default {
   },
 };
 </script>
-<style src="./attachment-modal.scss" lang="scss" scoped></style>

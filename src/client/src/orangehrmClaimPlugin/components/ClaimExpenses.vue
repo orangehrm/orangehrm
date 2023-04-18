@@ -52,9 +52,12 @@
     />
   </div>
   <div class="orangehrm-bottom-container">
-    <oxd-text
-      >{{ $t('claim.total_amount') }} ({{ currency.name }}) : {{ totalAmount }}
-    </oxd-text>
+    <oxd-text>{{
+      $t('claim.total_amount', {
+        currencyName: currency.name,
+        totalAmount: totalAmount,
+      })
+    }}</oxd-text>
   </div>
   <add-expense-modal
     v-if="showAddExpenseModal"

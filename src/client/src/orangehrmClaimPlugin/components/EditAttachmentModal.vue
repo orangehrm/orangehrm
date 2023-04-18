@@ -18,7 +18,7 @@
  */
  -->
 <template>
-  <oxd-dialog @update:show="onCancel">
+  <oxd-dialog class="orangehrm-dialog-modal" @update:show="onCancel">
     <div class="orangehrm-modal-header">
       <oxd-text type="card-title">
         {{ $t('general.edit_attachment') }}
@@ -30,7 +30,7 @@
         <oxd-grid :cols="2" class="orangehrm-full-width-grid">
           <oxd-grid-item>
             <oxd-input-group :label="$t('general.current_file')">
-              <oxd-text tag="p">
+              <oxd-text tag="p" class="current-file">
                 {{ currentFile }}
               </oxd-text>
             </oxd-input-group>
@@ -93,6 +93,7 @@ import {
   shouldNotExceedCharLength,
   validFileTypes,
 } from '@ohrm/core/util/validation/rules';
+import {truncate} from '@ohrm/core/util/helper/truncate';
 
 const attachmentModel = {
   attachment: null,
@@ -160,7 +161,7 @@ export default {
       .get(this.data.id)
       .then((response) => {
         const {data} = response.data;
-        this.currentFile = data.attachment.fileName;
+        this.currentFile = truncate(data.attachment.fileName);
         this.attachment.description = data.attachment.description;
       })
       .finally(() => {
@@ -187,4 +188,9 @@ export default {
   },
 };
 </script>
-<style src="./attachment-modal.scss" lang="scss" scoped></style>
+
+<style scoped lang="scss">
+.current-file {
+  @include truncate(6, 1.5, #fff);
+}
+</style>

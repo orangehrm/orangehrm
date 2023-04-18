@@ -57,9 +57,6 @@ langStrings:
     value: "Pay"
     unitId: pay
   -
-    value: "Add Attachment"
-    unitId: add_attachment
-  -
     value: "Add Expense"
     unitId: add_expense
   -
@@ -68,3 +65,7 @@ langStrings:
   -
     value: "Should be a valid number (xxx.xx)"
     unitId: should_be_a_valid_number
+  -
+    value: "Total Amount ({currencyName}) : {totalAmount}"
+    unitId: total_amount
+

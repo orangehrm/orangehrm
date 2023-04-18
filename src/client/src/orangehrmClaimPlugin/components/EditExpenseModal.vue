@@ -154,11 +154,10 @@ export default {
           digitsOnlyWithDecimalPoint,
           maxCurrency(1000000000),
           (amount) => {
-            if (
-              amount.toString().split('.')[1] !== undefined &&
-              amount.toString().split('.')[1].length > 2
-            ) {
-              return this.$t('claim.should_be_a_valid_number');
+            if (!/^\d+$/.test(amount)) {
+              if (!/^\d+\.\d{2}$/.test(amount)) {
+                return this.$t('claim.should_be_a_valid_number');
+              }
             }
             return true;
           },
@@ -209,4 +208,3 @@ export default {
   },
 };
 </script>
-<style src="./attachment-modal.scss" lang="scss" scoped></style>

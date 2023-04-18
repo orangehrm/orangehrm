@@ -43,6 +43,7 @@
   <div class="orangehrm-container">
     <oxd-card-table
       v-model:selected="checkedItems"
+      class="orangehrm-card-table"
       :items="items.data"
       :headers="tableHeaders"
       :selectable="canEdit"
@@ -163,6 +164,7 @@ export default {
         {
           name: 'filename',
           slot: 'title',
+          cellType: 'oxd-table-cell-truncate',
           title: this.$t('general.file_name'),
           style: {flex: 1},
         },
@@ -318,5 +320,8 @@ export default {
 }
 .orangehrm-button-margin {
   margin: 0.25rem;
+}
+.orangehrm-card-table {
+  padding: 25px;
 }
 </style>
