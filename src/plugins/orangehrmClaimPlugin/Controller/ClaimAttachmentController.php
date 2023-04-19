@@ -51,7 +51,6 @@ class ClaimAttachmentController extends AbstractFileController
     {
         $requestId = $request->attributes->get('requestId');
         $attachId = $request->attributes->get('attachId');
-
         $response = $this->getResponse();
 
         if ($requestId && $attachId) {

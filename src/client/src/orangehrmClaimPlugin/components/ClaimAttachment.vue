@@ -294,6 +294,10 @@ export default {
     async reloadAttachments() {
       await this.execQuery();
     },
+    onClickDownload(item) {
+      const downUrl = `${window.appGlobal.baseUrl}/claim/requests/${this.requestId}/attachId/${item.id}`;
+      window.open(downUrl, '_blank');
+    },
   },
 };
 </script>

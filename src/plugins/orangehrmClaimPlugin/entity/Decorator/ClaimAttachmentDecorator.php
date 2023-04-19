@@ -35,6 +35,11 @@ class ClaimAttachmentDecorator
     protected ClaimAttachment $claimAttachment;
 
     /**
+     * @var string|null
+     */
+    protected ?string $attachmentString = null;
+
+    /**
      * @param ClaimAttachment $claimAttachment
      */
     public function __construct(ClaimAttachment $claimAttachment)
