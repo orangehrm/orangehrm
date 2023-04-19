@@ -23,6 +23,7 @@ use Doctrine\DBAL\Connection;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Installer\Framework\HttpKernel;
+use OrangeHRM\Installer\Migration\V5_3_0\Migration;
 use OrangeHRM\Installer\Util\ConfigHelper;
 use OrangeHRM\Installer\Util\V1\AbstractMigration;
 use Symfony\Component\Console\Command\Command;
@@ -61,8 +62,11 @@ class RunMigrationClassCommand extends Command
         }
 
         $migrationClass = $input->getArgument('className');
+        //$migrationClass = Migration::class;
         if (!is_subclass_of($migrationClass, AbstractMigration::class)) {
+            $example = Migration::class;
             $io->error("Invalid migration class `$migrationClass`");
+            $io->error("Example should be 'php devTools/core/console.php migration:up `$example`'");
             return Command::FAILURE;
         }
         new HttpKernel('prod', false); // Initiate kernel

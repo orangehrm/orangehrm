@@ -24,6 +24,7 @@ use OrangeHRM\Framework\Framework;
 use OrangeHRM\Framework\Http\RedirectResponse;
 use OrangeHRM\Framework\Http\Request;
 use Symfony\Component\ErrorHandler\Debug;
+use Dotenv\Dotenv;
 
 require realpath(__DIR__ . '/../src/vendor/autoload.php');
 
@@ -34,6 +35,9 @@ if ($debug) {
     umask(0000);
     Debug::enable();
 }
+
+$dotenv = Dotenv::createImmutable(dirname(__DIR__));
+$dotenv->load();
 
 $kernel = new Framework($env, $debug);
 $request = Request::createFromGlobals();

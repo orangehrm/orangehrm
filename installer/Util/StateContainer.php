@@ -20,6 +20,7 @@
 namespace OrangeHRM\Installer\Util;
 
 use DateTime;
+use Exception;
 use OrangeHRM\Authentication\Dto\UserCredential;
 use OrangeHRM\Framework\Http\Session\Session;
 use OrangeHRM\Framework\ServiceContainer;
@@ -69,11 +70,16 @@ class StateContainer
     protected static ?self $instance = null;
 
     /**
-     * @return Session
+     * @return Session|null
+     * @throws Exception
      */
-    protected function getSession(): Session
+    protected function getSession(): ?Session
     {
-        return ServiceContainer::getContainer()->get(Services::SESSION);
+        try {
+            return ServiceContainer::getContainer()->get(Services::SESSION);
+        } catch (\Throwable $t) {
+            return null;
+        }
     }
 
     private function __construct()
@@ -171,14 +177,14 @@ class StateContainer
     public function getDbInfo(): array
     {
         $dbInfo = [
-            self::DB_NAME => $this->getSession()->get(self::DB_NAME),
-            self::DB_USER => $this->getSession()->get(self::DB_USER),
-            self::DB_PASSWORD => $this->getSession()->get(self::DB_PASSWORD),
-            self::DB_HOST => $this->getSession()->get(self::DB_HOST),
-            self::DB_PORT => $this->getSession()->get(self::DB_PORT),
-            self::ENABLE_DATA_ENCRYPTION => $this->getSession()->get(self::ENABLE_DATA_ENCRYPTION),
+            self::DB_NAME => $_ENV['DB_DATABASE'],
+            self::DB_USER => $_ENV['DB_USERNAME'],
+            self::DB_PASSWORD => $_ENV['DB_PASSWORD'],
+            self::DB_HOST => $_ENV['DB_HOST'],
+            self::DB_PORT => $_ENV['DB_PORT'],
+            self::ENABLE_DATA_ENCRYPTION => $this->getSession() ? $this->getSession()->get(self::ENABLE_DATA_ENCRYPTION) : false,
         ];
-        if ($this->getSession()->has(self::ORANGEHRM_DB_USER)) {
+        if ($this->getSession()?->has(self::ORANGEHRM_DB_USER)) {
             $dbInfo[self::ORANGEHRM_DB_USER] = $this->getSession()->get(self::ORANGEHRM_DB_USER);
             $dbInfo[self::ORANGEHRM_DB_PASSWORD] = $this->getSession()->get(self::ORANGEHRM_DB_PASSWORD);
         }
@@ -296,10 +302,10 @@ class StateContainer
     public function getInstanceData(): array
     {
         return [
-            self::INSTANCE_ORG_NAME => $this->getSession()->get(self::INSTANCE_ORG_NAME),
-            self::INSTANCE_COUNTRY_CODE => $this->getSession()->get(self::INSTANCE_COUNTRY_CODE),
-            self::INSTANCE_LANG_CODE => $this->getSession()->get(self::INSTANCE_LANG_CODE),
-            self::INSTANCE_TIMEZONE => $this->getSession()->get(self::INSTANCE_TIMEZONE),
+            self::INSTANCE_ORG_NAME => $this->getSession()?->get(self::INSTANCE_ORG_NAME),
+            self::INSTANCE_COUNTRY_CODE => $this->getSession()?->get(self::INSTANCE_COUNTRY_CODE),
+            self::INSTANCE_LANG_CODE => $this->getSession()?->get(self::INSTANCE_LANG_CODE),
+            self::INSTANCE_TIMEZONE => $this->getSession()?->get(self::INSTANCE_TIMEZONE),
         ];
     }
 
@@ -331,12 +337,12 @@ class StateContainer
     public function getAdminUserData(): array
     {
         return [
-            self::ADMIN_FIRST_NAME => $this->getSession()->get(self::ADMIN_FIRST_NAME),
-            self::ADMIN_LAST_NAME => $this->getSession()->get(self::ADMIN_LAST_NAME),
-            self::ADMIN_EMAIL => $this->getSession()->get(self::ADMIN_EMAIL),
-            self::ADMIN_USERNAME => $this->getSession()->get(self::ADMIN_USERNAME),
-            self::ADMIN_PASSWORD => $this->getSession()->get(self::ADMIN_PASSWORD),
-            self::ADMIN_CONTACT => $this->getSession()->get(self::ADMIN_CONTACT),
+            self::ADMIN_FIRST_NAME => $this->getSession()?->get(self::ADMIN_FIRST_NAME),
+            self::ADMIN_LAST_NAME => $this->getSession()?->get(self::ADMIN_LAST_NAME),
+            self::ADMIN_EMAIL => $this->getSession()?->get(self::ADMIN_EMAIL),
+            self::ADMIN_USERNAME => $this->getSession()?->get(self::ADMIN_USERNAME),
+            self::ADMIN_PASSWORD => $this->getSession()?->get(self::ADMIN_PASSWORD),
+            self::ADMIN_CONTACT => $this->getSession()?->get(self::ADMIN_CONTACT),
         ];
     }
 
@@ -353,7 +359,7 @@ class StateContainer
      */
     public function getRegConsent(): bool
     {
-        return $this->getSession()->get(self::ADMIN_REGISTRATION_CONSENT, true);
+        return $this->getSession()?->get(self::ADMIN_REGISTRATION_CONSENT, true) ?? true;
     }
 
     /**

@@ -41,7 +41,8 @@
         "phpseclib/phpseclib": "~3.0.0",
         "symfony/ldap": "~5.4.0",
         "symfony/console": "~5.4.0",
-        "crunzphp/crunz": "~3.4.0"
+        "crunzphp/crunz": "~3.4.0",
+        "vlucas/phpdotenv": "^5.5"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.5",

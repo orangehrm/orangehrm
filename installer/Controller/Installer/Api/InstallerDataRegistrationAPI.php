@@ -58,7 +58,6 @@ class InstallerDataRegistrationAPI extends AbstractInstallerRestController
             DataRegistrationUtility::REGISTRATION_TYPE_INSTALLER_STARTED,
             $instanceIdentifier
         );
-
         $published = $this->dataRegistrationService->sendRegistrationData($initialRegistrationDataBody);
         StateContainer::getInstance()->storeInitialRegistrationData($initialRegistrationDataBody, $published);
         $message = $published ? 'Registration Data Sent Successfully!' : 'Failed To Send Registration Data';

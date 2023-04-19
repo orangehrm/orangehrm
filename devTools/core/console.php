@@ -44,11 +44,18 @@ use OrangeHRM\DevTools\Command\GenerateOpenApiDocCommand;
 use OrangeHRM\DevTools\Command\PHPFixCodingStandardsCommand;
 use OrangeHRM\DevTools\Command\ReInstallCommand;
 use OrangeHRM\DevTools\Command\ResetInstallationCommand;
+use OrangeHRM\DevTools\Command\RunAllMigrations;
 use OrangeHRM\DevTools\Command\RunMigrationClassCommand;
+use OrangeHRM\DevTools\Command\SetupDefaultOrganization;
+use OrangeHRM\Framework\Logger\LoggerFactory;
 use OrangeHRM\Framework\ServiceContainer;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\ORM\Doctrine;
 use Symfony\Component\Console\Application;
+use Dotenv\Dotenv;
+
+$dotenv = Dotenv::createImmutable(dirname(__DIR__, 2));
+$dotenv->load();
 
 $application = new Application();
 
@@ -61,7 +68,14 @@ $application->add(new ReInstallCommand());
 $application->add(new CreateTestDatabaseCommand());
 $application->add(new RunMigrationClassCommand());
 $application->add(new GenerateOpenApiDocCommand());
+$application->add(new RunAllMigrations());
+$application->add(new SetupDefaultOrganization());
 
 ServiceContainer::getContainer()->register(Services::DOCTRINE)
     ->setFactory([Doctrine::class, 'getEntityManager']);
+
+ServiceContainer::getContainer()->register(Services::LOGGER)
+    ->setFactory([LoggerFactory::class, 'getLogger'])
+    ->addArgument('orangehrm');
+
 $application->run();

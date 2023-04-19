@@ -21,6 +21,7 @@ use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Installer\Exception\SessionStorageNotWritable;
 use OrangeHRM\Installer\Framework\HttpKernel;
 use Symfony\Component\ErrorHandler\Debug;
+use Dotenv\Dotenv;
 
 function trimVersion($currentVersion, $points)
 {
@@ -51,6 +52,10 @@ function isInSupportedPHPRange()
 isInSupportedPHPRange();
 
 require realpath(__DIR__ . '/../src/vendor/autoload.php');
+
+
+$dotenv = Dotenv::createImmutable(dirname(__DIR__));
+$dotenv->load();
 
 $env = 'prod';
 $debug = 'prod' !== $env;

@@ -1,0 +1,10 @@
+#!/bin/bash
+
+PROJECT_DIR=$(realpath $(dirname $(readlink -f $0))/../)
+
+if [[ "$(docker images -q orangehrm/os-dev:php82 2>/dev/null)" == "" ]]; then
+    printf "Building the image...\n\n"
+    docker-compose -f "$PROJECT_DIR/docker-compose.yml" -f "$PROJECT_DIR/docker-compose-build.yml" build php-8.2 nginx
+fi
+
+docker-compose -f "$PROJECT_DIR/docker-compose.yml" up -d php-8.2
