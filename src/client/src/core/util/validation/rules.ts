@@ -696,7 +696,7 @@ export const digitsOnlyWithTwoDecimalPoints = function (
 ): boolean | string {
   return (
     value == '' ||
-    /^\d+\.?\d{0,2}?$/.test(value) ||
+    /^\d+?(?:\.\d{2})?$/.test(value) ||
     translate('claim.should_be_a_valid_number')
   );
 };
