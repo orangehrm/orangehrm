@@ -527,17 +527,14 @@ class ClaimDao extends BaseDao
     /**
      * @param int $requestId
      * @param int $attachId
-     * @param string|null $screen
      * @return ClaimAttachment|null
      * @throws DaoException
      */
-    public function getClaimAttachmentFile(int $requestId, int $attachId, ?string $screen = null): ?ClaimAttachment
+    public function getClaimAttachmentFile(int $requestId, int $attachId): ?ClaimAttachment
     {
         try {
             $criteria = ['requestId' => $requestId, 'attachId' => $attachId];
-            if ($screen) {
-                $criteria['screen'] = $screen;
-            }
+
             $claimAttachment = $this->getRepository(ClaimAttachment::class)->findOneBy($criteria);
             if ($claimAttachment instanceof ClaimAttachment) {
                 return $claimAttachment;
