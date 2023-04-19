@@ -58,4 +58,16 @@ class ClaimAttachmentDecorator
         $user = $this->getReference(User::class, $userId);
         $this->getClaimAttachment()->setUser($user);
     }
+
+
+    /**
+     * @return string
+     */
+    public function getAttachment(): string
+    {
+        if (is_null($this->attachmentString)) {
+            $this->attachmentString = stream_get_contents($this->getClaimAttachment()->getAttachment());
+        }
+        return $this->attachmentString;
+    }
 }

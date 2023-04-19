@@ -19,12 +19,18 @@
 
 namespace OrangeHRM\Claim\Service;
 
+use OrangeHRM\Claim\Api\Traits\ClaimRequestAPIHelperTrait;
 use OrangeHRM\Claim\Dao\ClaimDao;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
+use OrangeHRM\Core\Traits\UserRoleManagerTrait;
+use OrangeHRM\Entity\ClaimAttachment;
+use OrangeHRM\Entity\Employee;
 
 class ClaimService
 {
     use DateTimeHelperTrait;
+    use UserRoleManagerTrait;
+    use ClaimRequestAPIHelperTrait;
 
     /**
      * @var ClaimDao
@@ -47,5 +53,32 @@ class ClaimService
         $nextId = $this->getClaimDao()->getNextId();
         $date = $this->getDateTimeHelper()->getNow()->format('Ymd');
         return $date . str_pad("$nextId", 7, 0, STR_PAD_LEFT);
+    }
+
+    /**
+     * @param int $empNumber
+     * @param int $attachId
+     * @param string|null $screen
+     * @return ClaimAttachment|null
+     */
+    public function getClaimAttachment(int $requestId, int $attachId, ?string $screen = null): ?ClaimAttachment
+    {
+        return $this->getClaimDao()->getClaimAttachmentFile($requestId, $attachId, $screen);
+    }
+
+    /**
+     * @param int $requestId
+     * @param int $attachId
+     * @return ClaimAttachment|null
+     */
+    public function getAccessibleClaimAttachment(int $requestId, int $attachId): ?ClaimAttachment
+    {
+        $this->getClaimRequest($requestId);
+        return $this->getClaimAttachment($requestId, $attachId);
+//        $accessibleEmpNumbers = $this->getUserRoleManager()->getAccessibleEntityIds(Employee::class);
+//        if (in_array($empNumber, $accessibleEmpNumbers) || $this->getUserRoleManagerHelper()->isSelfByEmpNumber($empNumber)) {
+//            return $this->getClaimAttachment($empNumber, $attachId);
+//        }
+//        return null;
     }
 }
