@@ -248,3 +248,35 @@ GetAll:
           type: "full_day"
     meta:
       total: 1
+
+  'Get employee on leave from date to date - without employee number':
+    userId: 2
+    services:
+      leave.leave_request_service: \OrangeHRM\Leave\Service\LeaveRequestService
+    query:
+      fromDate: "2023-09-01"
+      toDate: "2023-09-04"
+    now:
+      datetime: '2023-04-12'
+    data:
+      0:
+        id: 11
+        date: "2023-09-03"
+        lengthHours: 4.0
+        lengthDays: 0.5
+        status:
+          id: 1
+          name: "Pending Approval"
+        leaveRequest:
+          id: 4
+        leaveType:
+          id: 2
+          name: "US - Vacation"
+          deleted: false
+        startTime: null
+        endTime: null
+        durationType:
+          id: 0
+          type: "full_day"
+    meta:
+      total: 1

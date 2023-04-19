@@ -668,5 +668,102 @@ GetAll:
       attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
     attributes: [ ]
     body: [ ]
-    query: [ ]
-    invalidOnly: [ 'date' ]
+    now:
+      datetime: '2011-04-25'
+    data: [
+      {
+        id: 8,
+        punchIn: {
+          "userDate": "2011-04-25",
+          "userTime": "14:55",
+          "offset": "5.5",
+          "note": "Im punched In"
+        },
+        punchOut: {
+          "userDate": null,
+          "userTime": null,
+          "offset": null,
+          "note": null
+        },
+        duration: "0.00"
+      }
+    ]
+    meta:
+      total: 1
+      sum: {
+        "hours": 0.0,
+        "minutes": 0,
+        "label": "0.00"
+      }
+
+  'Get My attendance records by from date & to date':
+    userId: 6
+    services:
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+    attributes: [ ]
+    body: [ ]
+    query:
+      fromDate: '2011-04-01'
+      toDate: '2011-04-30'
+    data: [
+      {
+        id: 7,
+        punchIn: {
+          "userDate": "2011-04-27",
+          "userTime": "19:06",
+          "offset": "9",
+          "note": "Im punched In"
+        },
+        punchOut: {
+          "userDate": "2011-04-27",
+          "userTime": "19:30",
+          "offset": 9,
+          "note": " Punched Out"
+        },
+        duration: "0.40"
+      },
+      {
+        id: 8,
+        punchIn: {
+          "userDate": "2011-04-25",
+          "userTime": "14:55",
+          "offset": "5.5",
+          "note": "Im punched In"
+        },
+        punchOut: {
+          "userDate": null,
+          "userTime": null,
+          "offset": null,
+          "note": null
+        },
+        duration: "0.00"
+      }
+    ]
+    meta:
+      total: 2
+      sum: {
+        "hours": 0.0,
+        "minutes": 24,
+        "label": "0.40"
+      }
+
+  'Get My attendance records by only from date':
+    userId: 6
+    services:
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+    query:
+      fromDate: '2011-04-01'
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: 'Invalid Parameter'
+
+  'Get My attendance records by invalid from date & to date':
+    userId: 6
+    services:
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+    query:
+      fromDate: '2011-04-01'
+      toDate: '2010-04-30'
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: 'Invalid Parameter'
