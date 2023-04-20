@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -263,6 +264,8 @@ class Migration extends AbstractMigration
             $this->insertMenuItems('Submit Claim', $submitClaimScreenId, $claimMenuItemId, 2, 100, 1, null);
             $myClaimsScreenId = $this->getScreenId('My Claims');
             $this->insertMenuItems('My Claims', $myClaimsScreenId, $claimMenuItemId, 2, 100, 1, null);
+            $assignClaimScreenId = $this->getScreenId('Assign Claim');
+            $this->insertMenuItems('Assign Claim', $assignClaimScreenId, $claimMenuItemId, 2, 100, 1, null);
         }
 
         $this->deleteClaimWorkflowStates();

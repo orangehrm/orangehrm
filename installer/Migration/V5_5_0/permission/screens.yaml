@@ -87,3 +87,26 @@
         role: ESS,
         permission: { read: true, create: true, update: true, delete: false },
       }
+    - {
+        role: Admin,
+        permission: { read: true, create: true, update: true, delete: false },
+      }
+    - {
+        role: ESS,
+        permission: { read: true, create: true, update: true, delete: false },
+      }
+
+"Assign Claim":
+  module: claim
+  url: assignClaim
+  permissions:
+    - { role: Admin, permission: { read: true, create: true, update: false } }
+    - {
+        role: Supervisor,
+        permission: { read: true, create: true, update: false },
+      }
+    - {
+        role: ESS,
+        permission:
+          { read: false, create: flase, update: false, delete: false },
+      }
