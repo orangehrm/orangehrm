@@ -51,7 +51,6 @@
               :label="$t('general.from_date')"
               :rules="rules.date"
               :years="yearsArray"
-              required
             />
           </oxd-grid-item>
           <oxd-grid-item>
@@ -60,7 +59,6 @@
               :label="$t('general.to_date')"
               :rules="rules.date"
               :years="yearsArray"
-              required
             />
           </oxd-grid-item>
         </oxd-grid>
@@ -276,9 +274,9 @@ export default {
         },
         {
           name: 'actions',
-          slot: 'title',
+          slot: 'right',
           title: this.$t('general.actions'),
-          style: {flex: '2'},
+          style: {flex: 3},
           cellType: 'oxd-table-cell-actions',
           cellConfig: {
             view: {
