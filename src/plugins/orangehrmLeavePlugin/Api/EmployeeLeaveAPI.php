@@ -172,9 +172,11 @@ class EmployeeLeaveAPI extends Endpoint implements CollectionEndpoint
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(
-                CommonParams::PARAMETER_EMP_NUMBER,
-                new Rule(Rules::IN_ACCESSIBLE_EMP_NUMBERS, [true])
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    CommonParams::PARAMETER_EMP_NUMBER,
+                    new Rule(Rules::IN_ACCESSIBLE_EMP_NUMBERS, [true])
+                ),
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(

@@ -31,6 +31,7 @@ use OrangeHRM\Tests\Util\Integration\TestCaseParams;
 class MenuItemAPITest extends EndpointIntegrationTestCase
 {
     /**
+     * Check for Leave period and Timesheet period defined scenarios
      * @dataProvider dataProviderForTestGetOne
      */
     public function testGetOne(TestCaseParams $testCaseParams): void
@@ -49,6 +50,7 @@ class MenuItemAPITest extends EndpointIntegrationTestCase
     }
 
     /**
+     * Check for Leave period and Timesheet period not defined scenarios
      * @dataProvider dataProviderForTestGetOne2
      */
     public function testGetOne2(TestCaseParams $testCaseParams): void
@@ -67,6 +69,7 @@ class MenuItemAPITest extends EndpointIntegrationTestCase
     }
 
     /**
+     * Check for Time Module Disabled scenarios
      * @dataProvider dataProviderForTestGetOne3
      */
     public function testGetOne3(TestCaseParams $testCaseParams): void

@@ -64,10 +64,70 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_TIMEZONE_OFFSET = 'timezoneOffset';
     public const PARAMETER_TIMEZONE_NAME = 'timezoneName';
     public const PARAMETER_NOTE = 'note';
+    public const FILTER_FROM_DATE = 'fromDate';
+    public const FILTER_TO_DATE = 'toDate';
 
     public const PARAMETER_RULE_NOTE_MAX_LENGTH = 250;
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/attendance/employees/{empNumber}/records",
+     *     tags={"Attendance/ Employee Attendance"},
+     *     @OA\PathParameter(
+     *         name="id",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         name="date",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         name="fromDate",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="datetime")
+     *     ),
+     *     @OA\Parameter(
+     *         name="toDate",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="datetime")
+     *     ),
+     *     @OA\Parameter(
+     *         name="sortField",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string", enum=AttendanceRecordSearchFilterParams::ALLOWED_SORT_FIELDS)
+     *     ),
+     *     @OA\Parameter(ref="#/components/parameters/sortOrder"),
+     *     @OA\Parameter(ref="#/components/parameters/limit"),
+     *     @OA\Parameter(ref="#/components/parameters/offset"),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="array",
+     *                 @OA\Items(ref="#/components/schemas/Attendance-AttendanceRecordListModel")
+     *             ),
+     *             @OA\Property(
+     *                 property="meta",
+     *                 type="object",
+     *                 @OA\Property(property="total", type="integer"),
+     *                 @OA\Property(
+     *                     property="sum",
+     *                     type="object",
+     *                     @OA\Property(property="hours", type="integer"),
+     *                     @OA\Property(property="minutes", type="integer"),
+     *                     @OA\Property(property="label", type="string")
+     *                 )
+     *             )
+     *         )
+     *     )
+     * )
      * @inheritDoc
      */
     public function getAll(): EndpointResult
@@ -80,9 +140,41 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
             self::PARAMETER_DATE,
         );
 
+        $fromDate = $this->getRequestParams()->getDateTimeOrNull(
+            RequestParams::PARAM_TYPE_QUERY,
+            self::FILTER_FROM_DATE
+        );
+
+        $toDate = $this->getRequestParams()->getDateTimeOrNull(
+            RequestParams::PARAM_TYPE_QUERY,
+            self::FILTER_TO_DATE
+        );
+
+        if ($fromDate != null && $toDate != null && $fromDate > $toDate) {
+            throw $this->getInvalidParamException(["fromDate","toDate"]);
+        }
+
+        if ($fromDate == null && $toDate == null && $date == null) {
+            $date = $this->getDateTimeHelper()->getNow()->format('Ymd');
+            $attendanceRecordSearchFilterParams->setFromDate(new DateTime($date . ' ' . '00:00:00'));
+            $attendanceRecordSearchFilterParams->setToDate(new DateTime($date . ' ' . '23:59:59'));
+        } elseif ($fromDate == null && $toDate == null) {
+            $attendanceRecordSearchFilterParams->setFromDate(new DateTime($date . ' ' . '00:00:00'));
+            $attendanceRecordSearchFilterParams->setToDate(new DateTime($date . ' ' . '23:59:59'));
+        } else {
+            if (!$fromDate instanceof DateTime || !$toDate instanceof DateTime) {
+                throw $this->getInvalidParamException(["fromDate", "toDate"]);
+            }
+            $attendanceRecordSearchFilterParams->setFromDate(
+                new DateTime($fromDate->format('Ymd') . ' ' . '00:00:00')
+            );
+
+            $attendanceRecordSearchFilterParams->setToDate(
+                new DateTime($toDate->format('Ymd') . ' ' . '23:59:59')
+            );
+        }
+
         $attendanceRecordSearchFilterParams->setEmployeeNumbers([$employeeNumber]);
-        $attendanceRecordSearchFilterParams->setFromDate(new DateTime($date . ' ' . '00:00:00'));
-        $attendanceRecordSearchFilterParams->setToDate(new DateTime($date . ' ' . '23:59:59'));
 
         $attendanceRecords = $this->getAttendanceService()
             ->getAttendanceDao()
@@ -129,7 +221,7 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            $this->getValidationDecorator()->requiredParamRule(
+            $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_DATE,
                     new Rule(Rules::API_DATE)
@@ -146,6 +238,18 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
                     ),
                     new Rule(Rules::IN_ACCESSIBLE_ENTITY_ID, [Employee::class])
                 )
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::FILTER_FROM_DATE,
+                    new Rule(Rules::API_DATE)
+                ),
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::FILTER_TO_DATE,
+                    new Rule(Rules::API_DATE)
+                ),
             ),
             ...$this->getSortingAndPaginationParamsRules(AttendanceRecordSearchFilterParams::ALLOWED_SORT_FIELDS)
         );
