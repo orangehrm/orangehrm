@@ -50,6 +50,53 @@ class EmployeeAttendanceSummaryAPI extends Endpoint implements CollectionEndpoin
     public const FILTER_TO_DATE = 'toDate';
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/attendance/employees/summary",
+     *     tags={"Attendance/ Employee Attendance Summery"},
+     *     @OA\Parameter(
+     *         name="date",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         name="fromDate",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="datetime")
+     *     ),
+     *     @OA\Parameter(
+     *         name="toDate",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="datetime")
+     *     ),
+     *     @OA\Parameter(
+     *         name="sortField",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string", enum=EmployeeAttendanceSummarySearchFilterParams::ALLOWED_SORT_FIELDS)
+     *     ),
+     *     @OA\Parameter(ref="#/components/parameters/sortOrder"),
+     *     @OA\Parameter(ref="#/components/parameters/limit"),
+     *     @OA\Parameter(ref="#/components/parameters/offset"),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="array",
+     *                 @OA\Items(ref="#/components/schemas/Attendance-EmployeeAttendanceSummeryListModel")
+     *             ),
+     *             @OA\Property(
+     *                 property="meta",
+     *                 type="object",
+     *                 @OA\Property(property="total", type="integer"),
+     *             )
+     *         )
+     *     )
+     * )
      * @inheritDoc
      */
     public function getAll(): EndpointResult

@@ -70,6 +70,64 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_RULE_NOTE_MAX_LENGTH = 250;
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/attendance/employees/{empNumber}/records",
+     *     tags={"Attendance/ Employee Attendance"},
+     *     @OA\PathParameter(
+     *         name="id",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         name="date",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         name="fromDate",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="datetime")
+     *     ),
+     *     @OA\Parameter(
+     *         name="toDate",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="datetime")
+     *     ),
+     *     @OA\Parameter(
+     *         name="sortField",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string", enum=AttendanceRecordSearchFilterParams::ALLOWED_SORT_FIELDS)
+     *     ),
+     *     @OA\Parameter(ref="#/components/parameters/sortOrder"),
+     *     @OA\Parameter(ref="#/components/parameters/limit"),
+     *     @OA\Parameter(ref="#/components/parameters/offset"),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="array",
+     *                 @OA\Items(ref="#/components/schemas/Attendance-AttendanceRecordListModel")
+     *             ),
+     *             @OA\Property(
+     *                 property="meta",
+     *                 type="object",
+     *                 @OA\Property(property="total", type="integer"),
+     *                 @OA\Property(
+     *                     property="sum",
+     *                     type="object",
+     *                     @OA\Property(property="hours", type="integer"),
+     *                     @OA\Property(property="minutes", type="integer"),
+     *                     @OA\Property(property="label", type="string")
+     *                 )
+     *             )
+     *         )
+     *     )
+     * )
      * @inheritDoc
      */
     public function getAll(): EndpointResult
