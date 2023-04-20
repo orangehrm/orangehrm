@@ -170,3 +170,9 @@ claim_attachment:
   path: /claim/requests/{requestId}/attachId/{attachId}
   controller: OrangeHRM\Claim\Controller\ClaimAttachmentController::handle
   methods: [GET]
+  methods: [ GET ]
+
+claim_assign_claim:
+  path: /claim/assignClaim
+  controller: OrangeHRM\Claim\Controller\AssignClaimController::handle
+  methods: [ GET ]
