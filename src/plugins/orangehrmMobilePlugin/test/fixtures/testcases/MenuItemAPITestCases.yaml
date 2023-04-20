@@ -6,22 +6,25 @@
       core.module_service: \OrangeHRM\Core\Service\ModuleService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
       leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
-    data:
-      0:
-        name: 'Leave'
+    data: [
+      {
+        name: 'Leave',
         children: [
-            name: 'Apply Leave',
-            name: 'My Leave Usage',
-            name: 'Leave List',
-            name: 'Assign Leave'
+          { name: 'Apply Leave' },
+          { name: 'My Leave Usage' },
+          { name: 'Leave List' },
+          { name: 'Assign Leave' },
         ]
-      1:
-        name: 'Time'
+      },
+      {
+        name: 'Time',
         children: [
-          name: 'Punch In/Out',
-          name: 'My Attendance',
-          name: 'Employee Attendance'
+          { name: 'Punch In/Out' },
+          { name: 'My Attendance' },
+          { name: 'Employee Attendance' },
         ]
+      }
+    ]
     meta:
       isLeavePeriodDefined: true
       isTimesheetPeriodDefined: true
@@ -33,19 +36,22 @@
       core.module_service: \OrangeHRM\Core\Service\ModuleService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
       leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
-    data:
-      0:
-        name: 'Leave'
+    data: [
+      {
+        name: 'Leave',
         children: [
-          name: 'Apply Leave',
-          name: 'My Leave Usage',
+          { name: 'Apply Leave' },
+          { name: 'My Leave Usage' },
         ]
-      1:
-        name: 'Time'
+      },
+      {
+        name: 'Time',
         children: [
-          name: 'Punch In/Out',
-          name: 'My Attendance'
+          { name: 'Punch In/Out' },
+          { name: 'My Attendance' },
         ]
+      }
+    ]
     meta:
       isLeavePeriodDefined: true
       isTimesheetPeriodDefined: true
@@ -57,22 +63,25 @@
       core.module_service: \OrangeHRM\Core\Service\ModuleService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
       leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
-    data:
-      0:
-        name: 'Leave'
+    data: [
+      {
+        name: 'Leave',
         children: [
-          name: 'Apply Leave',
-          name: 'My Leave Usage',
-          name: 'Leave List',
-          name: 'Assign Leave'
+          { name: 'Apply Leave' },
+          { name: 'My Leave Usage' },
+          { name: 'Leave List' },
+          { name: 'Assign Leave' },
         ]
-      1:
-        name: 'Time'
+      },
+      {
+        name: 'Time',
         children: [
-          name: 'Punch In/Out',
-          name: 'My Attendance',
-          name: 'Employee Attendance'
+          { name: 'Punch In/Out' },
+          { name: 'My Attendance' },
+          { name: 'Employee Attendance' }
         ]
+      }
+    ]
     meta:
       isLeavePeriodDefined: true
       isTimesheetPeriodDefined: true
@@ -85,22 +94,25 @@
       core.module_service: \OrangeHRM\Core\Service\ModuleService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
       leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
-    data:
-      0:
-        name: 'Leave'
+    data: [
+      {
+        name: 'Leave',
         children: [
-          name: 'Apply Leave',
-          name: 'My Leave Usage',
-          name: 'Leave List',
-          name: 'Assign Leave'
+          { name: 'Apply Leave' },
+          { name: 'My Leave Usage' },
+          { name: 'Leave List' },
+          { name: 'Assign Leave' },
         ]
-      1:
-        name: 'Time'
+      },
+      {
+        name: 'Time',
         children: [
-          name: 'Punch In/Out',
-          name: 'My Attendance',
-          name: 'Employee Attendance'
+          { name: 'Punch In/Out' },
+          { name: 'My Attendance' },
+          { name: 'Employee Attendance' },
         ]
+      }
+    ]
     meta:
       isLeavePeriodDefined: false
       isTimesheetPeriodDefined: false
@@ -112,19 +124,22 @@
       core.module_service: \OrangeHRM\Core\Service\ModuleService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
       leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
-    data:
-      0:
-        name: 'Leave'
+    data: [
+      {
+        name: 'Leave',
         children: [
-          name: 'Apply Leave',
-          name: 'My Leave Usage',
+          { name: 'Apply Leave' },
+          { name: 'My Leave Usage' },
         ]
-      1:
-        name: 'Time'
+      },
+      {
+        name: 'Time',
         children: [
-          name: 'Punch In/Out',
-          name: 'My Attendance'
+          { name: 'Punch In/Out' },
+          { name: 'My Attendance' },
         ]
+      }
+    ]
     meta:
       isLeavePeriodDefined: false
       isTimesheetPeriodDefined: false
@@ -136,22 +151,25 @@
       core.module_service: \OrangeHRM\Core\Service\ModuleService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
       leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
-    data:
-      0:
-        name: 'Leave'
+    data: [
+      {
+        name: 'Leave',
         children: [
-          name: 'Apply Leave',
-          name: 'My Leave Usage',
-          name: 'Leave List',
-          name: 'Assign Leave'
+          { name: 'Apply Leave' },
+          { name: 'My Leave Usage' },
+          { name: 'Leave List' },
+          { name: 'Assign Leave' },
         ]
-      1:
-        name: 'Time'
+      },
+      {
+        name: 'Time',
         children: [
-          name: 'Punch In/Out',
-          name: 'My Attendance',
-          name: 'Employee Attendance'
+          { name: 'Punch In/Out' },
+          { name: 'My Attendance' },
+          { name: 'Employee Attendance' },
         ]
+      }
+    ]
     meta:
       isLeavePeriodDefined: false
       isTimesheetPeriodDefined: false
@@ -164,13 +182,15 @@ GetOne - Time Module Disabled:
       core.module_service: \OrangeHRM\Core\Service\ModuleService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
       leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
-    data:
-      0:
-        name: 'Leave'
+    data: [
+      {
+        name: 'Leave',
         children: [
-          name: 'Apply Leave',
-          name: 'My Leave Usage',
+          { name: 'Apply Leave' },
+          { name: 'My Leave Usage' },
         ]
+      }
+    ]
     meta:
       isLeavePeriodDefined: true
       isTimesheetPeriodDefined: true
@@ -182,15 +202,17 @@ GetOne - Time Module Disabled:
       core.module_service: \OrangeHRM\Core\Service\ModuleService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
       leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
-    data:
-      0:
-        name: 'Leave'
+    data: [
+      {
+        name: 'Leave',
         children: [
-          name: 'Apply Leave',
-          name: 'My Leave Usage',
-          name: 'Leave List',
-          name: 'Assign Leave'
+          { name: 'Apply Leave' },
+          { name: 'My Leave Usage' },
+          { name: 'Leave List' },
+          { name: 'Assign Leave' },
         ]
+      }
+    ]
     meta:
       isLeavePeriodDefined: true
       isTimesheetPeriodDefined: true
