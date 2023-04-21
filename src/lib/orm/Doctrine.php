@@ -29,6 +29,7 @@ use OrangeHRM\Framework\Framework;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\ORM\Exception\ConfigNotFoundException;
 use OrangeHRM\ORM\Functions\TimeDiff;
+use OrangeHRM\ORM\Tenancy\TenantFilter;
 use Symfony\Component\Cache\Adapter\ArrayAdapter;
 use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 
@@ -75,6 +76,7 @@ class Doctrine
                 : AbstractProxyFactory::AUTOGENERATE_NEVER
         );
         $config->addCustomStringFunction('TIME_DIFF', TimeDiff::class);
+        $config->addFilter('tenant', TenantFilter::class);
 
         $connectionParams = [
             'dbname' => $conf->getDbName(),
@@ -139,6 +141,13 @@ class Doctrine
     public static function getEntityManager(): EntityManager
     {
         self::getInstance();
-        return self::$entityManager;
+        $entityManager = self::$entityManager;
+        $orgId = $_SESSION['_sf2_attributes']['user.org_id'] ?? null;
+        if ($orgId) {
+            $filter = $entityManager->getFilters()->enable('tenant');
+            $filter->setParameter('org_id', $orgId);
+        }
+
+        return $entityManager;
     }
 }

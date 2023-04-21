@@ -24,6 +24,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use OrangeHRM\Entity\Decorator\DecoratorTrait;
 use OrangeHRM\Entity\Decorator\EmployeeDecorator;
+use OrangeHRM\ORM\Tenancy\TenantAwareInterface;
 
 /**
  * @method EmployeeDecorator getDecorator()
@@ -32,7 +33,7 @@ use OrangeHRM\Entity\Decorator\EmployeeDecorator;
  * @ORM\Entity
  * @ORM\EntityListeners({"OrangeHRM\Entity\Listener\EmployeeListener"})
  */
-class Employee
+class Employee implements TenantAwareInterface
 {
     use DecoratorTrait;
 
@@ -549,6 +550,13 @@ class Employee
      * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\AttendanceRecord", mappedBy="employee")
      */
     private iterable $attendanceRecords;
+
+    /**
+     * @var int|null
+     *
+     * @ORM\Column(name="org_id", type="integer",nullable=true)
+     */
+    private ?int $orgId = null;
 
     /**
      * Constructor
@@ -1565,5 +1573,21 @@ class Employee
     public function setSupervisors(iterable $supervisors): void
     {
         $this->supervisors = $supervisors;
+    }
+
+    /**
+     * @param int|null $orgId
+     */
+    public function setOrgId(?int $orgId): void
+    {
+        $this->orgId = $orgId;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getOrgId(): ?int
+    {
+        return $this->orgId;
     }
 }

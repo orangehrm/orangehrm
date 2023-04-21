@@ -20,20 +20,17 @@
 namespace OrangeHRM\Pim\Dao;
 
 use OrangeHRM\Core\Dao\BaseDao;
-use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\Service\TextHelperTrait;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\EmployeeWorkShift;
 use OrangeHRM\Entity\ReportingMethod;
 use OrangeHRM\Entity\ReportTo;
-use OrangeHRM\Framework\Services;
 use OrangeHRM\ORM\QueryBuilderWrapper;
 use OrangeHRM\Pim\Dto\EmployeeSearchFilterParams;
 
 class EmployeeDao extends BaseDao
 {
     use TextHelperTrait;
-    use AuthUserTrait;
 
     /**
      * @param EmployeeSearchFilterParams $employeeSearchParamHolder
@@ -76,8 +73,6 @@ class EmployeeDao extends BaseDao
     protected function getEmployeeListQueryBuilderWrapper(
         EmployeeSearchFilterParams $employeeSearchParamHolder
     ): QueryBuilderWrapper {
-        dd($this->getContainer()->get(Services::SESSION));
-        dd($this->getAuthUser()->getOrgId());
         $q = $this->createQueryBuilder(Employee::class, 'employee');
         $q->distinct();
         $q->leftJoin('employee.jobTitle', 'jobTitle');

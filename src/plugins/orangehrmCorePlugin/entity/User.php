@@ -24,6 +24,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use OrangeHRM\Entity\Decorator\DecoratorTrait;
 use OrangeHRM\Entity\Decorator\UserDecorator;
+use OrangeHRM\ORM\Tenancy\TenantAwareInterface;
 
 /**
  * @method UserDecorator getDecorator()
@@ -31,7 +32,7 @@ use OrangeHRM\Entity\Decorator\UserDecorator;
  * @ORM\Table(name="ohrm_user")
  * @ORM\Entity
  */
-class User
+class User implements TenantAwareInterface
 {
     use DecoratorTrait;
 
