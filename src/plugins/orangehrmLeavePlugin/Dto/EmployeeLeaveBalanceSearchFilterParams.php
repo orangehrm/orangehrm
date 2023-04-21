@@ -19,9 +19,25 @@
 
 namespace OrangeHRM\Leave\Dto;
 
-use OrangeHRM\Core\Dto\FilterParams;
-
-class DateRangeSearchFilterParams extends FilterParams
+class EmployeeLeaveBalanceSearchFilterParams extends LeaveTypeSearchFilterParams
 {
     use DateRangeSearchFilterParamsTrait;
+
+    private int $empNumber;
+
+    /**
+     * @return int
+     */
+    public function getEmpNumber(): int
+    {
+        return $this->empNumber;
+    }
+
+    /**
+     * @param int $empNumber
+     */
+    public function setEmpNumber(int $empNumber): void
+    {
+        $this->empNumber = $empNumber;
+    }
 }
