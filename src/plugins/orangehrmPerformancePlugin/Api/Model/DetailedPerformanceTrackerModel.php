@@ -47,9 +47,7 @@ use OrangeHRM\Performance\Traits\Service\PerformanceTrackerServiceTrait;
  *     @OA\Property(
  *         property="reviewers",
  *         type="array",
- *         @OA\Items(
- *             @OA\Property(ref="#/components/schemas/Performance-PerformanceTrackReviewerModel"),
- *         )
+ *         @OA\Items(ref="#/components/schemas/Performance-PerformanceTrackReviewerModel")
  *     ),
  *     @OA\Property(property="ownerEditable", type="boolean"),
  * )

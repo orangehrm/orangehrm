@@ -87,13 +87,13 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
      *         name="fromDate",
      *         in="query",
      *         required=false,
-     *         @OA\Schema(type="datetime")
+     *         @OA\Schema(type="string")
      *     ),
      *     @OA\Parameter(
      *         name="toDate",
      *         in="query",
      *         required=false,
-     *         @OA\Schema(type="datetime")
+     *         @OA\Schema(type="string")
      *     ),
      *     @OA\Parameter(
      *         name="sortField",

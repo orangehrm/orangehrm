@@ -56,7 +56,7 @@ class EmployeeLeaveAPI extends Endpoint implements CollectionEndpoint
      *         name="empNumber",
      *         in="query",
      *         required=false,
-     *         @OA\Schema(type="string")
+     *         @OA\Schema(type="integer")
      *     ),
      *     @OA\Parameter(
      *         name="fromDate",

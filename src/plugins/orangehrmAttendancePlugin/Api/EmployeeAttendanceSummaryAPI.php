@@ -63,13 +63,13 @@ class EmployeeAttendanceSummaryAPI extends Endpoint implements CollectionEndpoin
      *         name="fromDate",
      *         in="query",
      *         required=false,
-     *         @OA\Schema(type="datetime")
+     *         @OA\Schema(type="string")
      *     ),
      *     @OA\Parameter(
      *         name="toDate",
      *         in="query",
      *         required=false,
-     *         @OA\Schema(type="datetime")
+     *         @OA\Schema(type="string")
      *     ),
      *     @OA\Parameter(
      *         name="sortField",
