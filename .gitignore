@@ -1,6 +1,5 @@
 .idea
 .vscode
-lib/confs/
 src/cache/
 src/config/
 src/log/

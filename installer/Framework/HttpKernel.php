@@ -37,6 +37,7 @@ use OrangeHRM\Installer\Exception\SessionStorageNotWritable;
 use OrangeHRM\Installer\Subscriber\ExceptionSubscriber;
 use OrangeHRM\Installer\Subscriber\LoggerSubscriber;
 use OrangeHRM\Installer\Util\SystemCheck;
+use OrangeHRM\ORM\Doctrine;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\HttpFoundation\Response;
@@ -93,6 +94,8 @@ class HttpKernel extends BaseHttpKernel
         ServiceContainer::getContainer()->register(Services::ROUTER_REQUEST_CONTEXT, RequestContext::class);
         ServiceContainer::getContainer()->register(Services::EVENT_DISPATCHER, EventDispatcher::class);
         ServiceContainer::getContainer()->register(Services::CONTROLLER_RESOLVER, ControllerResolver::class);
+        ServiceContainer::getContainer()->register(Services::DOCTRINE)
+            ->setFactory([Doctrine::class, 'getEntityManager']);
         ServiceContainer::getContainer()->register(Services::ARGUMENT_RESOLVER, ArgumentResolver::class);
         ServiceContainer::getContainer()->set(Services::HTTP_KERNEL, $this);
     }

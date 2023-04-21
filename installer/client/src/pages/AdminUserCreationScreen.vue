@@ -136,10 +136,12 @@ import {
   shouldNotExceedCharLength,
   shouldNotLessThanCharLength,
 } from '@/core/util/validation/rules';
+import {debounce} from '@/core/util/helper/utils';
 import {navigate} from '@/core/util/helper/navigation';
 import {checkPassword} from '@/core/util/helper/password';
 import {APIService} from '@/core/util/services/api.service';
 import Icon from '@ohrm/oxd/core/components/Icon/Icon.vue';
+import {DEBOUNCE_TIMER} from '@/constants/app.constant';
 
 export default {
   name: 'AdminUserCreation',
@@ -157,7 +159,8 @@ export default {
   },
   data() {
     return {
-      isLoading: false,
+      isLoading: true,
+      isUsernameValid: false,
       adminUser: {
         firstName: null,
         lastName: null,
@@ -177,6 +180,8 @@ export default {
           required,
           shouldNotExceedCharLength(40),
           shouldNotLessThanCharLength(5),
+          (v) =>
+            (!!v && this.isUsernameValid) || 'This username is already taken',
         ],
         password: [required, shouldNotExceedCharLength(64), checkPassword],
         passwordConfirm: [
@@ -187,6 +192,23 @@ export default {
         ],
       },
     };
+  },
+  computed: {
+    username() {
+      return this.adminUser.username;
+    },
+  },
+  watch: {
+    username: debounce(function (value) {
+      this.http.http
+        .post('/installer/api/validate-username', {
+          type: 'username',
+          value: value,
+        })
+        .then(({data}) => {
+          this.isUsernameValid = data.status;
+        });
+    }, DEBOUNCE_TIMER),
   },
   beforeMount() {
     this.isLoading = true;

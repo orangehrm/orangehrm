@@ -90,16 +90,8 @@ class AdminUserAPI extends AbstractInstallerRestController
      */
     protected function handleGet(Request $request): array
     {
-        $adminUserData = StateContainer::getInstance()->getAdminUserData();
         return [
-            'data' => [
-                'firstName' => $adminUserData[StateContainer::ADMIN_FIRST_NAME],
-                'lastName' => $adminUserData[StateContainer::ADMIN_LAST_NAME],
-                'email' => $adminUserData[StateContainer::ADMIN_EMAIL],
-                'username' => $adminUserData[StateContainer::ADMIN_USERNAME],
-                'contact' => $adminUserData[StateContainer::ADMIN_CONTACT],
-                'registrationConsent' => StateContainer::getInstance()->getRegConsent(),
-            ],
+
         ];
     }
 }

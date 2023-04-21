@@ -152,7 +152,7 @@ export default {
         const {data} = response.data;
         this.timezoneList = data;
         this.isLoading = false;
-      })
+      });
   },
   methods: {
     onSubmit() {

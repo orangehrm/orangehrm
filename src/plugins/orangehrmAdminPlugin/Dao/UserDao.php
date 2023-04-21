@@ -58,6 +58,16 @@ class UserDao extends BaseDao
         return $query->getQuery()->getOneOrNullResult();
     }
 
+    public function isExistingSystemUserByUsername(string $username): ?User
+    {
+        $query = $this->createQueryBuilder(User::class, 'u');
+        $query->andWhere('u.userName = :username')
+            ->setParameter('username', $username);
+        $query->andWhere('u.deleted = :deleted')
+            ->setParameter('deleted', false);
+        return $query->getQuery()->getOneOrNullResult();
+    }
+
     /**
      * Get System User for given User Id
      * @param int $userId
@@ -194,9 +204,10 @@ class UserDao extends BaseDao
      */
     public function getEmployeesByUserRole(
         string $roleName,
-        bool $includeInactive = false,
-        bool $includeTerminated = false
-    ): array {
+        bool   $includeInactive = false,
+        bool   $includeTerminated = false
+    ): array
+    {
         $q = $this->createQueryBuilder(Employee::class, 'e');
         $q->innerJoin('e.users', 'u');
         $q->leftJoin('u.userRole', 'r');

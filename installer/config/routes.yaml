@@ -205,3 +205,9 @@ api_installer_clean_up_install:
   path: /installer/api/clean-up-install
   controller: OrangeHRM\Installer\Controller\Installer\Api\CleanUpInstallAPI::handle
   methods: [ POST ]
+
+api_installer_validate_username:
+  path: /installer/api/validate-username
+  controller: OrangeHRM\Installer\Controller\Installer\Api\ValidateFieldsAPI::handle
+  methods: [ POST ]
+
