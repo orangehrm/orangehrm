@@ -27,16 +27,10 @@
       <div class="orangehrm-installer-footer">
         <a
           v-show="currentStep === 0"
-          target="_blank"
           class="orangehrm-installer-guide"
-          href="https://starterhelp.orangehrm.com/hc/en-us/articles/5295915003666-OrangeHRM-Starter-Installation-Guide"
+          @click="goToLoginPage"
         >
-          <oxd-icon
-            type="svg"
-            name="guide"
-            class="orangehrm-installer-guide-icon"
-          />
-          Installation Guide
+          Login
         </a>
         <br />
         <slot name="footer"></slot>
@@ -53,13 +47,11 @@
 
 <script>
 import InstallerSteps from '@/components/InstallerSteps.vue';
-import Icon from '@ohrm/oxd/core/components/Icon/Icon.vue';
 
 export default {
   name: 'InstallerLayout',
   components: {
     'installer-steps': InstallerSteps,
-    'oxd-icon': Icon,
   },
   props: {
     steps: {
@@ -75,6 +67,12 @@ export default {
     return {
       brandingSrc: `${window.appGlobal.baseUrl}/../../web/images/ohrm_branding.png`,
     };
+  },
+
+  methods: {
+    goToLoginPage() {
+      window.location.href = window.location.origin;
+    },
   },
 };
 </script>

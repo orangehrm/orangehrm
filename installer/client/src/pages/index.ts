@@ -17,12 +17,9 @@
  */
 
 import WelcomeScreen from '@/pages/WelcomeScreen.vue';
-import DatabaseInfoScreen from '@/pages/DatabaseInfoScreen.vue';
-import SystemCheckScreen from '@/pages/SystemCheckScreen.vue';
 import CurrentVersionScreen from '@/pages/CurrentVersionScreen.vue';
 import UpgraderCompleteScreen from '@/pages/UpgraderCompleteScreen.vue';
 import UpgradeScreen from '@/pages/UpgradeScreen.vue';
-import DatabaseConfigScreen from '@/pages/DatabaseConfigScreen.vue';
 import AdminUserCreationScreen from '@/pages/AdminUserCreationScreen.vue';
 import LicenceAcceptanceScreen from '@/pages/LicenceAcceptanceScreen.vue';
 import InstanceCreationScreen from '@/pages/InstanceCreationScreen.vue';

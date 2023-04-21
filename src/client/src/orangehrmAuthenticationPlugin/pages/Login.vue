@@ -182,7 +182,7 @@ export default {
     },
     goToRegistrationPage() {
       window.location.href = `${window.location.origin}/installer/index.php`;
-    }
+    },
   },
 };
 </script>

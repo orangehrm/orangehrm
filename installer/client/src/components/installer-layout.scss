@@ -19,6 +19,7 @@
 .orangehrm-installer {
   height: inherit;
   display: grid;
+  cursor: pointer;
   grid-template-areas:
     'sidebar header'
     'sidebar content';
