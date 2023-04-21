@@ -100,12 +100,12 @@ class Migration extends AbstractMigration
 
         $this->getSchemaHelper()->createTable('ohrm_mail_queue', 'utf8mb4')
             ->addColumn('id', Types::INTEGER, ['Autoincrement' => true])
-            ->addColumn('to_list', Types::TEXT, ['Comment' => '(DC2Type:array)'])
-            ->addColumn('cc_list', Types::TEXT, ['Notnull' => false, 'Default' => null, 'Comment' => '(DC2Type:array)'])
+            ->addColumn('to_list', Types::TEXT)
+            ->addColumn('cc_list', Types::TEXT, ['Notnull' => false, 'Default' => null])
             ->addColumn(
                 'bcc_list',
                 Types::TEXT,
-                ['Notnull' => false, 'Default' => null, 'Comment' => '(DC2Type:array)']
+                ['Notnull' => false, 'Default' => null]
             )
             ->addColumn('subject', Types::STRING, ['Length' => 1000, 'Notnull' => false, 'Default' => null])
             ->addColumn('body', Types::TEXT, ['CustomSchemaOptions' => ['collation' => 'utf8mb4_unicode_ci']])
