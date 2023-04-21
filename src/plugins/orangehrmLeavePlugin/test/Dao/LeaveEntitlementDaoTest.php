@@ -792,13 +792,13 @@ class LeaveEntitlementDaoTest extends KernelTestCase
         $this->assertEquals('Kayla', $employees[0]->getFirstName());
     }
 
-    public function xtestGetLeaveTypeIdsForEntitlementsByEmployee(): void
+    public function testGetLeaveTypeIdsForEntitlementsByEmployee(): void
     {
         $leaveTypeIds = $this->dao->getLeaveTypeIdsForEntitlementsByEmployee(1);
-        $this->assertEquals([1, 4], $leaveTypeIds); // leave type id: 3 is deleted
+        $this->assertEquals([1, 2], $leaveTypeIds); // leave type id: 3 is deleted
 
         $leaveTypeIds = $this->dao->getLeaveTypeIdsForEntitlementsByEmployee(2);
-        $this->assertEquals([2], $leaveTypeIds);
+        $this->assertEquals([6], $leaveTypeIds);
 
         // employee who does not have leaves entitlements
         $leaveTypeIds = $this->dao->getLeaveTypeIdsForEntitlementsByEmployee(4);
