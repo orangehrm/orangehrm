@@ -72,6 +72,7 @@ class AuthenticationService
     protected function setUserAttributes(User $user): void
     {
         $this->getAuthUser()->setUserId($user->getId());
+        $this->getAuthUser()->setOrgId($user->getOrgId());
         $this->getAuthUser()->setUserRoleId($user->getUserRole()->getId());
         $this->getAuthUser()->setUserRoleName($user->getUserRole()->getName());
         if ($user->getEmployee() instanceof Employee) {

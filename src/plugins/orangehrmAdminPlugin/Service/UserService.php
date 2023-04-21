@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Admin\Service;
 
+use Doctrine\ORM\NonUniqueResultException;
 use OrangeHRM\Admin\Dao\UserDao;
 use OrangeHRM\Admin\Dto\UserSearchFilterParams;
 use OrangeHRM\Authentication\Dto\UserCredential;
@@ -176,6 +177,7 @@ class UserService
     /**
      * @param UserCredential $credentials
      * @return User|null
+     * @throws NonUniqueResultException
      */
     public function getCredentials(UserCredential $credentials): ?User
     {

@@ -33,6 +33,7 @@ class User
     public const ADMIN_ACCESS_FORWARD_URL = 'admin_access.forward_url';
     public const ADMIN_ACCESS_BACK_URL = 'admin_access.back_url';
     public const USER_ID = 'user.user_id';
+    public const ORG_ID = 'user.org_id';
     public const USER_ROLE_ID = 'user.user_role_id';
     public const USER_ROLE_NAME = 'user.user_role_name';
     public const USER_EMPLOYEE_NUMBER = 'user.user_employee_number';
@@ -241,5 +242,15 @@ class User
     public function setHasAdminAccess(bool $status = true): void
     {
         $this->setAttribute(self::HAS_ADMIN_ACCESS, $status);
+    }
+
+    public function getOrgId(): ?int
+    {
+        return $this->getAttribute(self::ORG_ID);
+    }
+
+    public function setOrgId(?int $orgId): void
+    {
+        $this->setAttribute(self::ORG_ID, $orgId);
     }
 }

@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Admin\Dao;
 
+use Doctrine\ORM\NonUniqueResultException;
 use OrangeHRM\Admin\Dto\UserSearchFilterParams;
 use OrangeHRM\Authentication\Dto\UserCredential;
 use OrangeHRM\Core\Dao\BaseDao;
@@ -43,6 +44,7 @@ class UserDao extends BaseDao
     /**
      * @param UserCredential $credentials
      * @return User|null
+     * @throws NonUniqueResultException
      */
     public function isExistingSystemUser(UserCredential $credentials): ?User
     {
@@ -50,9 +52,9 @@ class UserDao extends BaseDao
         $query->andWhere('u.userName = :username')
             ->setParameter('username', $credentials->getUsername());
         $query->andWhere($query->expr()->isNotNull('u.userPassword'));
+        $query->andWhere($query->expr()->isNotNull('u.orgId'));
         $query->andWhere('u.deleted = :deleted')
             ->setParameter('deleted', false);
-
         return $query->getQuery()->getOneOrNullResult();
     }
 

@@ -4,8 +4,10 @@ namespace OrangeHRM\DevTools\Command;
 
 use Doctrine\DBAL\Connection;
 use InvalidArgumentException;
+use OrangeHRM\Framework\Services;
 use OrangeHRM\Installer\Util\AppSetupUtility;
 use OrangeHRM\Installer\Util\ConfigHelper;
+use OrangeHRM\Installer\Util\Logger;
 use OrangeHRM\Installer\Util\MigrationHelper;
 use OrangeHRM\Installer\Util\V1\AbstractMigration;
 use OrangeHRM\Installer\Util\V1\SchemaHelper;
@@ -61,7 +63,9 @@ class RunAllMigrations extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        AppSetupUtility::instance()->cleanUpInstallOnFailure();
         $keys = array_keys(AppSetupUtility::MIGRATIONS_MAP);
+        $logger = Logger::getLogger();
         foreach ($keys as $version) {
             if ($this->migrationExist($version)) {
                 continue;
@@ -70,8 +74,12 @@ class RunAllMigrations extends Command
             try {
                 $this->runMigrationFor($version);
             }catch (\Throwable $t) {
+                $logger->error($t);
                 echo "\n ". $version . "\n";
                 echo $t->getMessage();
+                echo "\n";
+                echo $t->getTraceAsString();
+                echo "\n\n";
             }
         }
         return Command::SUCCESS;

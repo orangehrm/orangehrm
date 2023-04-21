@@ -47,6 +47,7 @@ use OrangeHRM\DevTools\Command\ResetInstallationCommand;
 use OrangeHRM\DevTools\Command\RunAllMigrations;
 use OrangeHRM\DevTools\Command\RunMigrationClassCommand;
 use OrangeHRM\DevTools\Command\SetupDefaultOrganization;
+use OrangeHRM\Framework\Framework;
 use OrangeHRM\Framework\Logger\LoggerFactory;
 use OrangeHRM\Framework\ServiceContainer;
 use OrangeHRM\Framework\Services;
@@ -77,5 +78,7 @@ ServiceContainer::getContainer()->register(Services::DOCTRINE)
 ServiceContainer::getContainer()->register(Services::LOGGER)
     ->setFactory([LoggerFactory::class, 'getLogger'])
     ->addArgument('orangehrm');
+
+ServiceContainer::getContainer()->set(Services::HTTP_KERNEL, new Framework('dev', false));
 
 $application->run();

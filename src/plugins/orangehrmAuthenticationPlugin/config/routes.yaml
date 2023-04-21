@@ -3,6 +3,11 @@ root:
   controller: OrangeHRM\Authentication\Controller\RootController::handle
   methods: [ GET ]
 
+auth_register:
+  path: /auth/register
+  controller: OrangeHRM\Authentication\Controller\RegisterController::handle
+  methods: [ GET ]
+
 auth_login:
   path: /auth/login
   controller: OrangeHRM\Authentication\Controller\LoginController::handle

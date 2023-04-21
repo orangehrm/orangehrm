@@ -81,6 +81,7 @@ class EmployeeSearchFilterParams extends FilterParams
      * @var int|null
      */
     protected ?int $subunitId = null;
+    protected ?int $orgId = null;
     /**
      * @var int[]|null
      */
@@ -259,5 +260,15 @@ class EmployeeSearchFilterParams extends FilterParams
     public function setLocationId(?int $locationId): void
     {
         $this->locationId = $locationId;
+    }
+
+    /**
+     * @param int|null $orgId
+     * @return EmployeeSearchFilterParams
+     */
+    public function setOrgId(?int $orgId): EmployeeSearchFilterParams
+    {
+        $this->orgId = $orgId;
+        return $this;
     }
 }

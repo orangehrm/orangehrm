@@ -83,6 +83,10 @@
           <oxd-text class="orangehrm-login-forgot-header" @click="navigateUrl">
             {{ $t('auth.forgot_password') }}?
           </oxd-text>
+
+          <oxd-text class="orangehrm-login-forgot-header" @click="goToRegistrationPage">
+            {{ $t('auth.register') }}?
+          </oxd-text>
         </div>
       </oxd-form>
       <br />
@@ -176,6 +180,9 @@ export default {
     navigateUrl() {
       navigate('/auth/requestPasswordResetCode');
     },
+    goToRegistrationPage() {
+      window.location.href = `${window.location.origin}/installer/index.php`;
+    }
   },
 };
 </script>
