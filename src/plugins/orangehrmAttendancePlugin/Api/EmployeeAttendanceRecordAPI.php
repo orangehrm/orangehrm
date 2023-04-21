@@ -186,9 +186,8 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
 
         $attendanceRecordTotalDuration = $this->getAttendanceService()
             ->getAttendanceDao()
-            ->getTotalWorkingTime($attendanceRecordSearchFilterParams) === null ? 0 : $this->getAttendanceService()
-            ->getAttendanceDao()
-            ->getTotalWorkingTime($attendanceRecordSearchFilterParams)['total'];
+            ->getTotalWorkingTime($attendanceRecordSearchFilterParams);
+        $attendanceRecordTotalDuration = $attendanceRecordTotalDuration === null ? 0 : $attendanceRecordTotalDuration['total'];
 
         return new EndpointCollectionResult(
             AttendanceRecordListModel::class,
