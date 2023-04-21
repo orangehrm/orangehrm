@@ -23,6 +23,7 @@ use Doctrine\ORM\NonUniqueResultException;
 use OrangeHRM\Admin\Dto\UserSearchFilterParams;
 use OrangeHRM\Authentication\Dto\UserCredential;
 use OrangeHRM\Core\Dao\BaseDao;
+use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\User;
 use OrangeHRM\Entity\UserRole;
@@ -31,6 +32,7 @@ use OrangeHRM\ORM\Paginator;
 
 class UserDao extends BaseDao
 {
+    use AuthUserTrait;
     /**
      * @param User $systemUser
      * @return User
@@ -164,6 +166,8 @@ class UserDao extends BaseDao
      */
     private function getSearchUserPaginator(UserSearchFilterParams $userSearchParamHolder): Paginator
     {
+        $organizationId = $this->getAuthUser()->getOrgId();
+        dd($organizationId);
         $q = $this->createQueryBuilder(User::class, 'u');
         $q->leftJoin('u.userRole', 'r');
         $q->leftJoin('u.employee', 'e');
