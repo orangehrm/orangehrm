@@ -40,6 +40,7 @@ services:
     mem_swappiness: 1
     networks:
       - sail
+      - shared
     restart: always
     container_name: mariadb_10
 
@@ -61,6 +62,8 @@ services:
 
 networks:
   sail:
+    driver: bridge
+  shared:
     driver: bridge
 volumes:
   sail-mysql:
