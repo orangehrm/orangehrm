@@ -19,19 +19,32 @@
 
 namespace OrangeHRM\Installer\Controller\Installer\Api;
 
+use Doctrine\DBAL\Exception;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Installer\Controller\AbstractInstallerRestController;
 use OrangeHRM\Installer\Util\AppSetupUtility;
+use OrangeHRM\Installer\Util\Connection;
+use Throwable;
 
 class InstallationInstanceAPI extends AbstractInstallerRestController
 {
     /**
      * @inheritDoc
+     * @throws Exception
+     * @throws Throwable
      */
     protected function handlePost(Request $request): array
     {
         $appSetupUtility = new AppSetupUtility();
-        $appSetupUtility->insertSystemConfiguration();
+        Connection::getConnection()->beginTransaction();
+        try {
+            $appSetupUtility->setupOrganization();
+            Connection::getConnection()->commit();
+        } catch (Throwable $t) {
+            Connection::getConnection()->rollBack();
+            dd($t);
+            throw $t;
+        }
         return [];
     }
 }

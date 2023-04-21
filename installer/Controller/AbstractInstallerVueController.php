@@ -53,8 +53,6 @@ abstract class AbstractInstallerVueController extends AbstractInstallerControlle
     public const INSTALLER_SCREENS = [
         self::WELCOME_SCREEN,
         self::LICENCE_ACCEPTANCE_SCREEN,
-        self::DATABASE_CONFIG_SCREEN,
-        self::SYSTEM_CHECK_SCREEN,
         self::INSTANCE_CREATION_SCREEN,
         self::ADMIN_USER_CREATION_SCREEN,
         self::CONFIRMATION_SCREEN,

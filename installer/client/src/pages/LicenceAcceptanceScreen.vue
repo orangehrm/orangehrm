@@ -95,7 +95,7 @@ export default {
       navigate('/welcome');
     },
     onSubmit() {
-      navigate('/installer/database-config');
+      navigate('/installer/instance-creation');
     },
   },
 };

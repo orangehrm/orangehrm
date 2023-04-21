@@ -66,6 +66,9 @@ langStrings:
     value: 'Forgot Your Password'
     unitId: forgot_password
   -
+    value: 'Register'
+    unitId: register
+  -
     value: 'Invalid credentials'
     unitId: invalid_credentials
   -

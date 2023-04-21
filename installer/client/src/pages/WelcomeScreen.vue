@@ -24,38 +24,10 @@
     </oxd-text>
     <br />
     <oxd-text tag="p" class="orangehrm-installer-page-content">
-      This setup wizard will guide through the steps necessary to install/
-      upgrade OrangeHRM Starter components and their dependencies.
+      This setup wizard will guide through the steps necessary to complete the
+      registration process.
     </oxd-text>
     <br />
-    <oxd-text tag="p" class="orangehrm-installer-page-content">
-      Select an installation type;
-    </oxd-text>
-    <br />
-    <oxd-form-row class="orangehrm-installer-page-row">
-      <oxd-radio-input
-        v-model="selected"
-        value="install"
-        option-label="Fresh Installation"
-      />
-      <oxd-text tag="p" class="orangehrm-installer-page-content --label">
-        Choose this option if you are installing OrangeHRM Starter for the first
-        time
-      </oxd-text>
-    </oxd-form-row>
-
-    <oxd-form-row class="orangehrm-installer-page-row">
-      <oxd-radio-input
-        v-model="selected"
-        value="upgrade"
-        option-label="Upgrading an Existing Installation"
-      />
-      <oxd-text tag="p" class="orangehrm-installer-page-content --label">
-        Choose this option if you are already using a prior version of OrangeHRM
-        Starter (version 4.0 onwards) and would like to upgrade to
-        <b>version {{ productversion }}</b>
-      </oxd-text>
-    </oxd-form-row>
 
     <oxd-text tag="p" class="orangehrm-installer-page-content">
       Click <b>Next</b> to continue
@@ -73,12 +45,10 @@
 
 <script>
 import {navigate} from '@/core/util/helper/navigation.ts';
-import RadioInput from '@ohrm/oxd/core/components/Input/RadioInput';
 import DatabaseConfigDialog from '@/components/DatabaseConfigDialog.vue';
 export default {
   name: 'WelcomeScreen',
   components: {
-    'oxd-radio-input': RadioInput,
     'database-config-dialog': DatabaseConfigDialog,
   },
   props: {

@@ -39,7 +39,6 @@
 </template>
 
 <script>
-import {navigate} from '@/core/util/helper/navigation.ts';
 export default {
   name: 'InstallerCompleteScreen',
   props: {
@@ -50,7 +49,7 @@ export default {
   },
   methods: {
     launch() {
-      navigate('/');
+      window.location.href = window.location.origin;
     },
   },
 };

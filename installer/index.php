@@ -53,7 +53,6 @@ isInSupportedPHPRange();
 
 require realpath(__DIR__ . '/../src/vendor/autoload.php');
 
-
 $dotenv = Dotenv::createImmutable(dirname(__DIR__));
 $dotenv->load();
 

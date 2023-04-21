@@ -543,6 +543,7 @@ translations:
     - { target: 'Successfully Deleted', unitId: successfully_deleted, group: general }
     - { target: 'Punch out Time Should Be Later Than Punch in Time', unitId: punch_out_time_should_be_later_than_punch_in_time, group: time }
     - { target: 'Forgot your password', unitId: forgot_password, group: auth }
+    - { target: Register, unitId: register, group: auth }
     - { target: Username, unitId: username, group: auth }
     - { target: Password, unitId: password, group: auth }
     - { target: No Records Found, unitId: no_records_found, group: general }

@@ -151,13 +151,8 @@ export default {
       .then((response) => {
         const {data} = response.data;
         this.timezoneList = data;
-        return this.http.getAll();
-      })
-      .then((response) => {
-        const {data} = response.data;
-        this.instance = {...this.instance, ...data};
         this.isLoading = false;
-      });
+      })
   },
   methods: {
     onSubmit() {
@@ -173,7 +168,7 @@ export default {
         });
     },
     navigateUrl() {
-      navigate('/installer/system-check');
+      navigate('/installer/licence-acceptance');
     },
   },
 };

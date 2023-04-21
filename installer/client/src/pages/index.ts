@@ -32,12 +32,9 @@ import InstallScreen from '@/pages/InstallScreen.vue';
 
 export default {
   'welcome-screen': WelcomeScreen,
-  'database-info-screen': DatabaseInfoScreen,
-  'system-check-screen': SystemCheckScreen,
   'current-version-screen': CurrentVersionScreen,
   'upgrader-complete-screen': UpgraderCompleteScreen,
   'upgrade-process-screen': UpgradeScreen,
-  'database-config-screen': DatabaseConfigScreen,
   'admin-user-creation-screen': AdminUserCreationScreen,
   'licence-acceptance-screen': LicenceAcceptanceScreen,
   'instance-creation-screen': InstanceCreationScreen,

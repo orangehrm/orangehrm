@@ -40,7 +40,12 @@ class Migration extends AbstractMigration
             if (empty(trim($statement))) {
                 continue;
             }
-            $this->getConnection()->executeStatement($statement);
+            try {
+                $this->getConnection()->executeStatement($statement);
+            } catch (\Throwable $t) {
+                echo "\n\n This is the statement ". $statement . "\n\n";
+                throw $t;
+            }
         }
     }
 

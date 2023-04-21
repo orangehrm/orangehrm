@@ -161,20 +161,7 @@ class DatabaseConfigAPI extends AbstractInstallerRestController
      */
     protected function handleGet(Request $request): array
     {
-        $dbInfo = StateContainer::getInstance()->getDbInfo();
-        $useSameDbUserForOrangeHRM = isset($dbInfo[StateContainer::ORANGEHRM_DB_USER]) && $dbInfo[StateContainer::DB_USER] == $dbInfo[StateContainer::ORANGEHRM_DB_USER];
         return [
-            'data' => [
-                'dbHost' => $dbInfo[StateContainer::DB_HOST],
-                'dbPort' => $dbInfo[StateContainer::DB_PORT],
-                'dbName' => $dbInfo[StateContainer::DB_NAME],
-                'dbUser' => $dbInfo[StateContainer::DB_USER],
-                'dbType' => StateContainer::getInstance()->getDbType(),
-                'useSameDbUserForOrangeHRM' => $useSameDbUserForOrangeHRM,
-                'ohrmDbUser' => $useSameDbUserForOrangeHRM ? null : ($dbInfo[StateContainer::ORANGEHRM_DB_USER] ?? null),
-                'enableDataEncryption' => $dbInfo[StateContainer::ENABLE_DATA_ENCRYPTION],
-            ],
-            'meta' => []
         ];
     }
 }

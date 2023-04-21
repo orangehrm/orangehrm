@@ -27,25 +27,11 @@
     <br />
     <oxd-text tag="p" class="orangehrm-installer-page-content">
       All the information required for OrangeHRM installation collected in the
-      earlier steps are given below. On confirmation the installer will create
-      the database, database users, configuration file, etc
+      earlier steps are given below.
     </oxd-text>
     <br />
     <oxd-text class="confirmation-text-header">Details</oxd-text>
     <br />
-    <oxd-text class="confirmation-text-section"> Host Name </oxd-text>
-    <oxd-text class="confirmation-text-info">{{ database.dbHost }}</oxd-text>
-    <br />
-    <oxd-text class="confirmation-text-section"> Database Host Port </oxd-text>
-    <oxd-text class="confirmation-text-info">{{ database.dbPort }}</oxd-text>
-    <br />
-    <oxd-text class="confirmation-text-section"> Database Name </oxd-text>
-    <oxd-text class="confirmation-text-info">{{ database.dbName }}</oxd-text>
-    <br />
-    <oxd-text class="confirmation-text-section">
-      Privileged Database Username
-    </oxd-text>
-    <oxd-text class="confirmation-text-info">{{ database.dbUser }}</oxd-text>
     <br />
     <oxd-text class="confirmation-text-section">
       OrangeHRM Admin Username

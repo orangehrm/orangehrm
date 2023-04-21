@@ -141,7 +141,7 @@ class Migration extends AbstractMigration
                 0
             );
 
-        $this->getSchemaHelper()->dropIndex('ohrm_user', 'user_name');
+       $this->getSchemaHelper()->dropIndex('ohrm_user', 'user_name');
 
         $this->getConfigHelper()->setConfigValue('help.url', 'https://starterhelp.orangehrm.com');
         $this->getConfigHelper()->setConfigValue('help.processorClass', 'ZendeskHelpProcessor');

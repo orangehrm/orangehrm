@@ -91,35 +91,21 @@ export default {
     const errorText = ref(null);
     const {progress, start, stop, end} = useProgress();
 
-    const {
-      runCleanup,
-      runMigrations,
-      createInstance,
-      createDatabase,
-      createConfigFiles,
-      createDatabaseUser,
-      preMigrationCheck,
-    } = useInstaller(new APIService(window.appGlobal.baseUrl, ''));
+    const {runCleanup, createInstance, createDatabaseUser} = useInstaller(
+      new APIService(window.appGlobal.baseUrl, ''),
+    );
 
     const tasks = ref([
-      {name: 'Database creation', state: 0, task: createDatabase},
       {
-        name: 'Checking database permissions',
-        state: 0,
-        task: preMigrationCheck,
-      },
-      {name: 'Applying database changes', state: 0, task: runMigrations},
-      {
-        name: 'Instance and Admin user creation',
+        name: 'Organization and Admin user creation',
         state: 0,
         task: createInstance,
       },
       {
-        name: 'Create OrangeHRM database user',
+        name: 'Create user',
         state: 0,
         task: createDatabaseUser,
       },
-      {name: 'Creating configuration files', state: 0, task: createConfigFiles},
     ]);
 
     const onClickNext = () => {
