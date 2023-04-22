@@ -110,21 +110,11 @@ export default {
   },
   beforeMount() {
     this.isLoading = true;
-    this.http
-      .getAll()
-      .then((response) => {
-        const {data} = response.data;
-        this.database = {...databaseModel, ...data};
-        return this.http.request({
-          method: 'GET',
-          url: '/installer/api/admin-user',
-        });
-      })
-      .then((response) => {
-        const {data} = response.data;
-        this.adminUserName = data.username;
-        this.isLoading = false;
-      });
+    this.http.getAll().then((response) => {
+      const {data} = response.data;
+      this.database = {...databaseModel, ...data};
+      this.isLoading = false;
+    });
   },
   methods: {
     onSubmit() {

@@ -20,12 +20,13 @@
 namespace OrangeHRM\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use OrangeHRM\ORM\Tenancy\TenantAwareInterface;
 
 /**
  * @ORM\Table(name="ohrm_user_role")
  * @ORM\Entity
  */
-class UserRole
+class UserRole implements TenantAwareInterface
 {
     /**
      * @var int
@@ -136,6 +137,13 @@ class UserRole
     {
         $this->isAssignable = $isAssignable;
     }
+
+    /**
+     * @var int|null
+     *
+     * @ORM\Column(name="org_id", type="integer",nullable=true)
+     */
+    private ?int $orgId = null;
 
     /**
      * @return bool

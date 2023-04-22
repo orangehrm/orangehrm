@@ -20,12 +20,13 @@
 namespace OrangeHRM\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use OrangeHRM\ORM\Tenancy\TenantAwareInterface;
 
 /**
  * @ORM\Table(name="ohrm_user_role_screen")
  * @ORM\Entity
  */
-class ScreenPermission
+class ScreenPermission implements TenantAwareInterface
 {
     /**
      * @var int

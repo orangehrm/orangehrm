@@ -23,6 +23,7 @@ use Doctrine\ORM\NonUniqueResultException;
 use OrangeHRM\Admin\Dto\UserSearchFilterParams;
 use OrangeHRM\Authentication\Dto\UserCredential;
 use OrangeHRM\Core\Dao\BaseDao;
+use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\User;
 use OrangeHRM\Entity\UserRole;
@@ -31,6 +32,7 @@ use OrangeHRM\ORM\Paginator;
 
 class UserDao extends BaseDao
 {
+    use AuthUserTrait;
     /**
      * @param User $systemUser
      * @return User
@@ -130,7 +132,9 @@ class UserDao extends BaseDao
     {
         $query = $this->createQueryBuilder(UserRole::class, 'ur');
         $query->andWhere('ur.name = :name');
+        $query->andWhere('ur.orgId = :orgId');
         $query->setParameter('name', $roleName);
+        $query->setParameter('orgId', $this->getAuthUser()->getOrgId());
         return $query->getQuery()->getOneOrNullResult();
     }
 

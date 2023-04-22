@@ -8,12 +8,12 @@ create table `hs_hr_config`
 create table `ohrm_organization_gen_info`
 (
     `id`                  int(4) not null auto_increment,
-    `name`                varchar(100) not null,
+    `name`                varchar(255) not null,
     `tax_id`              varchar(30)  default null,
-    `registration_number` varchar(30)  default null,
+    `registration_number` varchar(50)  default null,
     `phone`               varchar(30)  default null,
     `fax`                 varchar(30)  default null,
-    `email`               varchar(30)  default null,
+    `email`               varchar(255)  default null,
     `country`             varchar(30)  default null,
     `province`            varchar(30)  default null,
     `city`                varchar(30)  default null,
@@ -1051,8 +1051,8 @@ create table `ohrm_user_role`
     `display_name`  varchar(255) not null,
     `is_assignable` tinyint(1) default 0,
     `is_predefined` tinyint(1) default 0,
-    unique key user_role_name (`name`),
     `org_id` int  default null,
+    unique key user_role_name (`name`, `org_id`),
     primary key (`id`),
     foreign key (`org_id`) references ohrm_organization_gen_info(id)
 )engine=innodb default charset=utf8;
