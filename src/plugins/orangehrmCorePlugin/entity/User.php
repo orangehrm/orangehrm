@@ -124,14 +124,6 @@ class User implements TenantAwareInterface
     private UserRole $userRole;
 
     /**
-     * @var Organization
-     *
-     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Organization")
-     * @ORM\JoinColumn(name="org_id", referencedColumnName="id", nullable=false)
-     */
-    private Organization $organization;
-
-    /**
      * @var UserAuthProvider[]
      *
      * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\UserAuthProvider", mappedBy="user")
@@ -359,21 +351,5 @@ class User implements TenantAwareInterface
     public function getOrgId(): ?int
     {
         return $this->orgId;
-    }
-
-    /**
-     * @return Organization
-     */
-    public function getOrganization(): Organization
-    {
-        return $this->organization;
-    }
-
-    /**
-     * @param Organization $organization
-     */
-    public function setOrganization(Organization $organization): void
-    {
-        $this->organization = $organization;
     }
 }

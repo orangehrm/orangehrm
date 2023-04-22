@@ -38,6 +38,13 @@ class ScreenPermission implements TenantAwareInterface
     private int $id;
 
     /**
+     * @var int|null
+     *
+     * @ORM\Column(name="org_id", type="integer",nullable=true)
+     */
+    private ?int $orgId = null;
+
+    /**
      * @var bool|null
      *
      * @ORM\Column(name="can_read", type="boolean", nullable=true)
@@ -135,6 +142,14 @@ class ScreenPermission implements TenantAwareInterface
     public function canUpdate(): bool
     {
         return (bool)$this->canUpdate;
+    }
+
+    /**
+     * @param int|null $orgId
+     */
+    public function setOrgId(?int $orgId): void
+    {
+        $this->orgId = $orgId;
     }
 
     /**

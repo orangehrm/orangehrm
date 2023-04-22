@@ -40,10 +40,10 @@ class SaveSystemUserController extends AbstractVueController
         if ($request->attributes->has('id')) {
             $component = new Component('system-user-edit');
             $component->addProp(new Prop('system-user-id', Prop::TYPE_NUMBER, $request->attributes->getInt('id')));
-            $component->addProp(new Prop('user-roles', Prop::TYPE_ARRAY, $this->getUserDao()->getFormattedAssignableUserRoles()));
         } else {
             $component = new Component('system-user-save');
         }
+        $component->addProp(new Prop('user-roles', Prop::TYPE_ARRAY, $this->getUserDao()->getFormattedAssignableUserRoles()));
         $this->setComponent($component);
     }
 }
