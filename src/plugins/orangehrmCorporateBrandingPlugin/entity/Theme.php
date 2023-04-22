@@ -20,12 +20,13 @@
 namespace OrangeHRM\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use OrangeHRM\ORM\Tenancy\TenantAware;
 
 /**
  * @ORM\Table(name="ohrm_theme")
  * @ORM\Entity
  */
-class Theme
+class Theme extends TenantAware
 {
     public const ALLOWED_IMAGE_TYPES = [
         'image/gif',

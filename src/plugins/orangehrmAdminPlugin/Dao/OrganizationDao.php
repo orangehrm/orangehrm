@@ -22,12 +22,14 @@ namespace OrangeHRM\Admin\Dao;
 use Exception;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Core\Exception\DaoException;
+use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Entity\Organization;
 use OrangeHRM\Entity\Subunit;
 use OrangeHRM\ORM\Exception\TransactionException;
 
 class OrganizationDao extends BaseDao
 {
+    use AuthUserTrait;
     /**
      * @return Organization|null
      * @throws DaoException
@@ -35,7 +37,7 @@ class OrganizationDao extends BaseDao
     public function getOrganizationGeneralInformation(): ?Organization
     {
         try {
-            $orgInfo = $this->getRepository(Organization::class)->find(1);
+            $orgInfo = $this->findById($this->getAuthUser()->getOrgId());
             if ($orgInfo instanceof Organization) {
                 return $orgInfo;
             }
@@ -43,6 +45,12 @@ class OrganizationDao extends BaseDao
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
+    }
+
+    public function findById(int $organizationId): ?Organization
+    {
+        return $this->getRepository(Organization::class)
+            ->findOneBy(['id' => $organizationId]);
     }
 
     /**
