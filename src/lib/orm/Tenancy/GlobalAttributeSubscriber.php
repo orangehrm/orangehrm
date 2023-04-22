@@ -25,7 +25,6 @@ class GlobalAttributeSubscriber implements EventSubscriber
         $entity = $args->getEntity();
         if($entity instanceof TenantAwareInterface) {
             $entity->setOrgId($this->globalAttributeValue);
-            //dd($entity);
         }
     }
 }

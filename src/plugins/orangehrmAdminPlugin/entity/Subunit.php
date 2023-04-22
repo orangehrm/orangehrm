@@ -24,6 +24,7 @@ use OrangeHRM\ORM\NestedSet\NestedSetInterface;
 use OrangeHRM\ORM\NestedSet\NestedSetTrait;
 use OrangeHRM\ORM\NestedSet\Node;
 use OrangeHRM\ORM\NestedSet\NodeInterface;
+use OrangeHRM\ORM\Tenancy\TenantAware;
 
 /**
  * Subunit
@@ -31,7 +32,7 @@ use OrangeHRM\ORM\NestedSet\NodeInterface;
  * @ORM\Table(name="ohrm_subunit")
  * @ORM\Entity
  */
-class Subunit implements NestedSetInterface
+class Subunit extends TenantAware implements NestedSetInterface
 {
     use NestedSetTrait;
 

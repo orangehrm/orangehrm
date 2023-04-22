@@ -24,7 +24,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use OrangeHRM\Entity\Decorator\DecoratorTrait;
 use OrangeHRM\Entity\Decorator\UserDecorator;
-use OrangeHRM\ORM\Tenancy\TenantAwareInterface;
+use OrangeHRM\ORM\Tenancy\TenantAware;
 
 /**
  * @method UserDecorator getDecorator()
@@ -32,7 +32,7 @@ use OrangeHRM\ORM\Tenancy\TenantAwareInterface;
  * @ORM\Table(name="ohrm_user")
  * @ORM\Entity
  */
-class User implements TenantAwareInterface
+class User extends TenantAware
 {
     use DecoratorTrait;
 
@@ -93,13 +93,6 @@ class User implements TenantAwareInterface
      * @ORM\Column(name="modified_user_id", type="integer", nullable=true)
      */
     private ?int $modifiedUserId = null;
-
-    /**
-     * @var int|null
-     *
-     * @ORM\Column(name="org_id", type="integer",nullable=true)
-     */
-    private ?int $orgId = null;
 
     /**
      * @var int|null
@@ -335,21 +328,5 @@ class User implements TenantAwareInterface
     public function setAuthProviders(array $authProviders): void
     {
         $this->authProviders = $authProviders;
-    }
-
-    /**
-     * @param int|null $orgId
-     */
-    public function setOrgId(?int $orgId): void
-    {
-        $this->orgId = $orgId;
-    }
-
-    /**
-     * @return int|null
-     */
-    public function getOrgId(): ?int
-    {
-        return $this->orgId;
     }
 }

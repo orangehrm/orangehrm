@@ -22,12 +22,13 @@ namespace OrangeHRM\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use OrangeHRM\ORM\Tenancy\TenantAware;
 
 /**
  * @ORM\Table(name="ohrm_language")
  * @ORM\Entity
  */
-class Language
+class Language extends TenantAware
 {
     /**
      * @var int

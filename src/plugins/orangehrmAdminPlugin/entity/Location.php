@@ -23,6 +23,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use OrangeHRM\Entity\Decorator\DecoratorTrait;
 use OrangeHRM\Entity\Decorator\LocationDecorator;
 use Doctrine\ORM\Mapping as ORM;
+use OrangeHRM\ORM\Tenancy\TenantAware;
 
 /**
  * @method LocationDecorator getDecorator()
@@ -30,7 +31,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="ohrm_location")
  * @ORM\Entity
  */
-class Location
+class Location extends TenantAware
 {
     use DecoratorTrait;
 
