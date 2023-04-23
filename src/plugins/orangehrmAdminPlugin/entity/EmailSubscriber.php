@@ -20,12 +20,13 @@
 namespace OrangeHRM\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use OrangeHRM\ORM\Tenancy\TenantAware;
 
 /**
  * @ORM\Table("ohrm_email_subscriber")
  * @ORM\Entity
  */
-class EmailSubscriber
+class EmailSubscriber extends TenantAware
 {
     /**
      * @var int

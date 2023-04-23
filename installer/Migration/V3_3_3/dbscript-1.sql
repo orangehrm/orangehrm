@@ -1,8 +1,9 @@
 create table `hs_hr_config`
 (
+    `id`   int         not null auto_increment,
     `key`   varchar(100) not null default '',
     `value` varchar(512) not null default '',
-    primary key (`key`)
+    primary key (`id`)
 ) engine=innodb default charset=utf8;
 
 create table `ohrm_organization_gen_info`
