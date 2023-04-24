@@ -32,7 +32,7 @@ return [
 
     'mariadbversion' => [
         'min' => '5.5',
-        'max' => '10.10',
+        'max' => '10.11',
         'excludeRange' => [],
     ],
 

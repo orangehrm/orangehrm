@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - main
+  pull_request:
+    paths:
+      - '.github/workflows/scheduled_test.yml'
   schedule:
     - cron: "0 2 * * *"
 
@@ -31,6 +34,7 @@ jobs:
           - "mariadb:10.8"
           - "mariadb:10.9"
           - "mariadb:10.10"
+          - "mariadb:10.11"
 
     services:
       mysql:
