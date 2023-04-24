@@ -81,7 +81,7 @@ create table `hs_hr_district`
 
 create table `hs_hr_payperiod`
 (
-    `payperiod_code` varchar(13) not null default '',
+    `payperiod_code`  INT AUTO_INCREMENT,
     `payperiod_name` varchar(100)         default null,
     primary key (`payperiod_code`)
 ) engine=innodb default charset=utf8;
@@ -93,7 +93,7 @@ create table `hs_hr_emp_basicsalary`
     `sal_grd_code`       int                                                         default null,
     `currency_id`        varchar(6) not null                                         default '',
     `ebsal_basic_salary` VARCHAR(100) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT null,
-    `payperiod_code`     varchar(13)                                                 default null,
+    `payperiod_code`     INT                                                 default null,
     `salary_component`   varchar(100),
     `comments`           varchar(255),
     primary key (`id`)

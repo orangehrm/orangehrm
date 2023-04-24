@@ -20,12 +20,13 @@
 namespace OrangeHRM\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use OrangeHRM\ORM\Tenancy\TenantAware;
 
 /**
  * @ORM\Table(name="hs_hr_unique_id")
  * @ORM\Entity
  */
-class UniqueId
+class UniqueId extends TenantAware
 {
     /**
      * @var int
