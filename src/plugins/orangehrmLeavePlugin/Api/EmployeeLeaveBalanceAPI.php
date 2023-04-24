@@ -172,10 +172,18 @@ class EmployeeLeaveBalanceAPI extends Endpoint implements CollectionEndpoint
             array_merge(
                 $this->getLeaveRequestService()
                     ->getLeaveRequestDao()
-                    ->getUsedLeaveTypeIdsByEmployee($empNumber),
+                    ->getUsedLeaveTypeIdsByEmployee(
+                        $empNumber,
+                        $searchFilterParams->getFromDate(),
+                        $searchFilterParams->getToDate()
+                    ),
                 $this->getLeaveEntitlementService()
                     ->getLeaveEntitlementDao()
-                    ->getLeaveTypeIdsForEntitlementsByEmployee($empNumber)
+                    ->getLeaveTypeIdsForEntitlementsByEmployee(
+                        $empNumber,
+                        $searchFilterParams->getFromDate(),
+                        $searchFilterParams->getToDate()
+                    )
             )
         );
 

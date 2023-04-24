@@ -812,16 +812,30 @@ class LeaveEntitlementDao extends BaseDao
 
     /**
      * @param int $empNumber
+     * @param DateTime|null $fromDate
+     * @param DateTime|null $toDate
      * @return int[]
      */
-    public function getLeaveTypeIdsForEntitlementsByEmployee(int $empNumber): array
-    {
+    public function getLeaveTypeIdsForEntitlementsByEmployee(
+        int $empNumber,
+        ?DateTime $fromDate = null,
+        ?DateTime $toDate = null
+    ): array {
         $q = $this->createQueryBuilder(LeaveEntitlement::class, 'entitlement')
             ->leftJoin('entitlement.leaveType', 'leaveType')
             ->select('IDENTITY(entitlement.leaveType) AS leaveTypeId')
             ->distinct();
         $q->andWhere('entitlement.employee = :empNumber')
             ->setParameter('empNumber', $empNumber);
+
+        if ($fromDate !== null) {
+            $q->andWhere($q->expr()->gte('entitlement.fromDate', ':fromDate'))
+                ->setParameter('fromDate', $fromDate);
+        }
+        if ($toDate !== null) {
+            $q->andWhere($q->expr()->lte('entitlement.toDate', ':toDate'))
+                ->setParameter('toDate', $toDate);
+        }
 
         $q->andWhere('leaveType.deleted = :leaveTypeDeleted')
             ->setParameter('leaveTypeDeleted', false);
