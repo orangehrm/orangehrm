@@ -796,16 +796,29 @@ class LeaveRequestDao extends BaseDao
 
     /**
      * @param int $empNumber
+     * @param DateTime|null $fromDate
+     * @param DateTime|null $toDate
      * @return int[]
-    */
-    public function getUsedLeaveTypeIdsByEmployee(int $empNumber): array
-    {
+     */
+    public function getUsedLeaveTypeIdsByEmployee(
+        int $empNumber,
+        ?DateTime $fromDate = null,
+        ?DateTime $toDate = null
+    ): array {
         $q = $this->createQueryBuilder(Leave::class, 'leave')
            ->leftJoin('leave.leaveType', 'leaveType')
            ->select('IDENTITY(leave.leaveType) AS leaveTypeId')
            ->distinct();
         $q->andWhere('leave.employee = :empNumber')
            ->setParameter('empNumber', $empNumber);
+        if ($fromDate !== null) {
+            $q->andWhere($q->expr()->gte('leave.date', ':fromDate'))
+                ->setParameter('fromDate', $fromDate);
+        }
+        if ($toDate !== null) {
+            $q->andWhere($q->expr()->lte('leave.date', ':toDate'))
+                ->setParameter('toDate', $toDate);
+        }
 
         $q->andWhere('leaveType.deleted = :leaveTypeDeleted')
            ->setParameter('leaveTypeDeleted', false);

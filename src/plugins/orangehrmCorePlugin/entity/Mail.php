@@ -263,7 +263,8 @@ class Mail implements \OrangeHRM\Core\Mail\Mail
         if (!in_array($status, [
             self::STATUS_PENDING,
             self::STATUS_STARTED,
-            self::STATUS_SENT
+            self::STATUS_SENT,
+            self::STATUS_FAILED,
         ])) {
             throw new InvalidArgumentException('Invalid status name');
         }

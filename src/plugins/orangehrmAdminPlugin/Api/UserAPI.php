@@ -430,7 +430,7 @@ class UserAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @OA\Delete(
-     *     path="/api/v2/admin/users/{id}",
+     *     path="/api/v2/admin/users",
      *     tags={"Admin/Users"},
      *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),
      *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse")

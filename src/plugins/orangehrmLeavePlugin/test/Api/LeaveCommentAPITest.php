@@ -147,9 +147,6 @@ class LeaveCommentAPITest extends EndpointTestCase
                     'firstName' => 'Kayla',
                     'middleName' => '',
                     'employeeId' => null,
-                    'employeeTerminationRecord' => [
-                        'terminationId' => 1,
-                    ],
                     'terminationId' => 1
                 ],
                 'date' => '2020-12-25',
@@ -311,9 +308,6 @@ class LeaveCommentAPITest extends EndpointTestCase
                         'firstName' => 'Kayla',
                         'middleName' => '',
                         'employeeId' => null,
-                        'employeeTerminationRecord' => [
-                            'terminationId' => 1
-                        ],
                         'terminationId' => 1
                     ],
                     'date' => '2020-12-25',
@@ -331,9 +325,6 @@ class LeaveCommentAPITest extends EndpointTestCase
                         'firstName' => 'Kayla',
                         'middleName' => '',
                         'employeeId' => null,
-                        'employeeTerminationRecord' => [
-                            'terminationId' => 1
-                        ],
                         'terminationId' => 1
                     ],
                     'date' => '2020-12-26',

@@ -87,13 +87,13 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
      *         name="fromDate",
      *         in="query",
      *         required=false,
-     *         @OA\Schema(type="datetime")
+     *         @OA\Schema(type="string")
      *     ),
      *     @OA\Parameter(
      *         name="toDate",
      *         in="query",
      *         required=false,
-     *         @OA\Schema(type="datetime")
+     *         @OA\Schema(type="string")
      *     ),
      *     @OA\Parameter(
      *         name="sortField",
@@ -186,9 +186,8 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
 
         $attendanceRecordTotalDuration = $this->getAttendanceService()
             ->getAttendanceDao()
-            ->getTotalWorkingTime($attendanceRecordSearchFilterParams) === null ? 0 : $this->getAttendanceService()
-            ->getAttendanceDao()
-            ->getTotalWorkingTime($attendanceRecordSearchFilterParams)['total'];
+            ->getTotalWorkingTime($attendanceRecordSearchFilterParams);
+        $attendanceRecordTotalDuration = $attendanceRecordTotalDuration === null ? 0 : $attendanceRecordTotalDuration['total'];
 
         return new EndpointCollectionResult(
             AttendanceRecordListModel::class,

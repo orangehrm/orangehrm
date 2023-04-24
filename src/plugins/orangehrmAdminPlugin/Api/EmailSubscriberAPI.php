@@ -260,25 +260,29 @@ class EmailSubscriberAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     *@OA\Get(
+     * @OA\Get(
      *     path="/api/v2/admin/email-subscriptions/{emailSubscriptionId}/subscribers/{id}",
      *     tags={"Admin/Email Configuration"},
-     * @OA\PathParameter(
-     *     name="id",
-     *     @OA\Schema(type="integer")
-     * ),
-     * @OA\Response(
-     *     response="200",
-     *     description="Success",
-     *     @OA\JsonContent(
-     *         @OA\Property(
-     *             property="data",
-     *             ref="#/components/schemas/Admin-EmailSubscriberModel"
-     *         ),
-     *         @OA\Property(property="meta", type="object")
-     *     )
-     * ),
-     * @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
+     *     @OA\PathParameter(
+     *         name="emailSubscriptionId",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\PathParameter(
+     *         name="id",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Admin-EmailSubscriberModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
      * )
      *
      * @inheritDoc
@@ -323,10 +327,6 @@ class EmailSubscriberAPI extends Endpoint implements CrudEndpoint
      *     tags={"Admin/Email Configuration"},
      *     @OA\PathParameter(
      *         name="emailSubscriptionId",
-     *         @OA\Schema(type="integer")
-     *     ),
-     *     @OA\PathParameter(
-     *         name="id",
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\PathParameter(

@@ -17,24 +17,27 @@
  * Boston, MA  02110-1301, USA
  */
 
-return [
-    'phpversion' => [
-        'min' => '7.4',
-        'max' => '8.2',
-        'excludeRange' => [],
-    ],
+namespace OrangeHRM\Leave\Dto;
 
-    'mysqlversion' => [
-        'min' => '5.5',
-        'max' => '8.0',
-        'excludeRange' => [],
-    ],
+class EmployeeLeaveBalanceSearchFilterParams extends LeaveTypeSearchFilterParams
+{
+    use DateRangeSearchFilterParamsTrait;
 
-    'mariadbversion' => [
-        'min' => '5.5',
-        'max' => '10.11',
-        'excludeRange' => [],
-    ],
+    private int $empNumber;
 
-    'webserver' => ['Apache', 'nginx', 'IIS'],
-];
+    /**
+     * @return int
+     */
+    public function getEmpNumber(): int
+    {
+        return $this->empNumber;
+    }
+
+    /**
+     * @param int $empNumber
+     */
+    public function setEmpNumber(int $empNumber): void
+    {
+        $this->empNumber = $empNumber;
+    }
+}

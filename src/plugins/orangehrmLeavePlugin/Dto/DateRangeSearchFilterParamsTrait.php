@@ -17,24 +17,51 @@
  * Boston, MA  02110-1301, USA
  */
 
-return [
-    'phpversion' => [
-        'min' => '7.4',
-        'max' => '8.2',
-        'excludeRange' => [],
-    ],
+namespace OrangeHRM\Leave\Dto;
 
-    'mysqlversion' => [
-        'min' => '5.5',
-        'max' => '8.0',
-        'excludeRange' => [],
-    ],
+use DateTime;
 
-    'mariadbversion' => [
-        'min' => '5.5',
-        'max' => '10.11',
-        'excludeRange' => [],
-    ],
+trait DateRangeSearchFilterParamsTrait
+{
+    /**
+     * @var DateTime|null
+     */
+    private ?DateTime $fromDate = null;
 
-    'webserver' => ['Apache', 'nginx', 'IIS'],
-];
+    /**
+     * @var DateTime|null
+     */
+    private ?DateTime $toDate = null;
+
+    /**
+     * @return DateTime|null
+     */
+    public function getFromDate(): ?DateTime
+    {
+        return $this->fromDate;
+    }
+
+    /**
+     * @param DateTime|null $fromDate
+     */
+    public function setFromDate(?DateTime $fromDate): void
+    {
+        $this->fromDate = $fromDate;
+    }
+
+    /**
+     * @return DateTime|null
+     */
+    public function getToDate(): ?DateTime
+    {
+        return $this->toDate;
+    }
+
+    /**
+     * @param DateTime|null $toDate
+     */
+    public function setToDate(?DateTime $toDate): void
+    {
+        $this->toDate = $toDate;
+    }
+}

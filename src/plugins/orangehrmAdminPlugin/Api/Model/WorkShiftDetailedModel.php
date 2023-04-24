@@ -38,9 +38,7 @@ use OrangeHRM\Pim\Api\Model\EmployeeModel;
  *     @OA\Property(
  *         property="employees",
  *         type="array",
- *         @OA\Items(
- *             @OA\Property(ref="#/components/schemas/Pim-EmployeeModel"),
- *         )
+ *         @OA\Items(ref="#/components/schemas/Pim-EmployeeModel")
  *     )
  * )
  */
