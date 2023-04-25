@@ -110,3 +110,28 @@
         permission:
           { read: false, create: flase, update: false, delete: false },
       }
+    - { role: Admin, permission: { read: true, create: true, update: false } }
+    - {
+        role: Supervisor,
+        permission: { read: true, create: true, update: false },
+      }
+    - {
+        role: ESS,
+        permission:
+          { read: false, create: false, update: false, delete: false },
+      }
+
+"Assign Claim Request":
+  module: claim
+  url: assignClaim/id/{id}
+  permissions:
+    - { role: Admin, permission: { read: true, create: true, update: false } }
+    - {
+        role: Supervisor,
+        permission: { read: true, create: true, update: false },
+      }
+    - {
+        role: ESS,
+        permission:
+          { read: false, create: false, update: false, delete: false },
+      }

@@ -103,7 +103,6 @@ import {
 import {APIService} from '@ohrm/core/util/services/api.service';
 import {navigate} from '@ohrm/core/util/helper/navigation';
 import ClaimEventDropdownVue from '../../components/ClaimEventDropdown.vue';
-import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete.vue';
 import ClaimEmployeeAutocomplete from '@/orangehrmClaimPlugin/components/ClaimEmployeeAutocomplete.vue';
 import {ref} from 'vue';
 
@@ -118,7 +117,6 @@ export default {
 
   components: {
     'claim-event-dropdown': ClaimEventDropdownVue,
-    'employee-autocomplete': EmployeeAutocomplete,
     'claim-employee-autocomplete': ClaimEmployeeAutocomplete,
   },
 
@@ -137,7 +135,6 @@ export default {
     const employee = ref(null);
 
     return {
-      // http,
       employee,
     };
   },
@@ -177,7 +174,9 @@ export default {
           return this.$toast.saveSuccess();
         })
         .then(() => {
-          navigate('/claim/submitClaim/id/{id}', {id: this.id});
+          navigate('/claim/assignClaim/id/{id}', {
+            id: this.id,
+          });
         });
     },
   },

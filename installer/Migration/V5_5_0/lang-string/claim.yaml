@@ -55,3 +55,6 @@ langStrings:
     unitId: initiated
   - value: "Paid"
     unitId: paid
+
+  - value: "Assign Claim"
+    unitId: assign_claim

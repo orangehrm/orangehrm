@@ -33,7 +33,7 @@
             <oxd-grid :cols="3" class="orangehrm-full-width-grid">
               <oxd-grid-item>
                 <oxd-input-field
-                  v-model="request.referenceId"
+                  v-model="empName"
                   :label="$t('general.employee')"
                   disabled
                 />
@@ -106,6 +106,7 @@
       <claim-action-buttons
         :request-id="id"
         :allowed-actions="allowedActions"
+        :is-assigned="true"
       />
     </div>
   </div>
@@ -140,16 +141,16 @@ export default {
       type: Number,
       required: true,
     },
-    employee: {
-      type: Object,
+    empNumber: {
+      type: Number,
       required: true,
     },
   },
 
-  setup() {
+  setup(props) {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      '/api/v2/claim/requests',
+      `/api/v2/claim/employees/${props.empNumber}/requests`,
     );
 
     return {
@@ -172,6 +173,8 @@ export default {
       claimEvent: {},
       currency: {},
       response: {},
+      employee: {},
+      empName: '',
       allowedActions: [],
       statusMap,
     };
@@ -195,6 +198,8 @@ export default {
         this.response = res.data;
         this.request = data;
         this.claimEvent = data.claimEvent;
+        this.employee = data.employee;
+        this.empName = this.employee.firstName + ' ' + this.employee.lastName;
         this.currency = data.currencyType;
         this.allowedActions = meta.allowedActions.map((action) => action.name);
       })
