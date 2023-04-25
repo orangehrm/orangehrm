@@ -22,12 +22,13 @@ namespace OrangeHRM\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use OrangeHRM\ORM\Tenancy\TenantAwareInterface;
 
 /**
  * @ORM\Table(name="ohrm_job_title")
  * @ORM\Entity
  */
-class JobTitle
+class JobTitle implements TenantAwareInterface
 {
     public const DELETED = 1;
     public const ACTIVE = 0;
@@ -40,6 +41,13 @@ class JobTitle
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private int $id;
+
+    /**
+     * @var int|null
+     *
+     * @ORM\Column(name="org_id", type="integer",nullable=true)
+     */
+    private ?int $orgId = null;
 
     /**
      * @var string
@@ -134,6 +142,14 @@ class JobTitle
     public function setJobDescription(?string $jobDescription): void
     {
         $this->jobDescription = $jobDescription;
+    }
+
+    /**
+     * @param int|null $orgId
+     */
+    public function setOrgId(?int $orgId): void
+    {
+        $this->orgId = $orgId;
     }
 
     /**

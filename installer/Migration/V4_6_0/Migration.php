@@ -58,7 +58,6 @@ class Migration extends AbstractMigration
                 )
                 ->addColumn('modified_at', Types::DATETIME_MUTABLE, ['Default' => null, 'Notnull' => false])
                 ->setPrimaryKey(['id'])
-                ->addUniqueConstraint(['code'])
                 ->create();
         }
 

@@ -20,13 +20,12 @@
 namespace OrangeHRM\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use OrangeHRM\ORM\Tenancy\TenantAwareInterface;
 
 /**
  * @ORM\Table(name="ohrm_module_default_page")
  * @ORM\Entity
  */
-class ModuleDefaultPage implements TenantAwareInterface
+class ModuleDefaultPage
 {
     /**
      * @var int

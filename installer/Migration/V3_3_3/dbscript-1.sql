@@ -1,8 +1,9 @@
 create table `hs_hr_config`
 (
+    `id`   int         not null auto_increment,
     `key`   varchar(100) not null default '',
     `value` varchar(512) not null default '',
-    primary key (`key`)
+    primary key (`id`)
 ) engine=innodb default charset=utf8;
 
 create table `ohrm_organization_gen_info`
@@ -80,7 +81,7 @@ create table `hs_hr_district`
 
 create table `hs_hr_payperiod`
 (
-    `payperiod_code` varchar(13) not null default '',
+    `payperiod_code`  INT AUTO_INCREMENT,
     `payperiod_name` varchar(100)         default null,
     primary key (`payperiod_code`)
 ) engine=innodb default charset=utf8;
@@ -92,7 +93,7 @@ create table `hs_hr_emp_basicsalary`
     `sal_grd_code`       int                                                         default null,
     `currency_id`        varchar(6) not null                                         default '',
     `ebsal_basic_salary` VARCHAR(100) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT null,
-    `payperiod_code`     varchar(13)                                                 default null,
+    `payperiod_code`     INT                                                 default null,
     `salary_component`   varchar(100),
     `comments`           varchar(255),
     primary key (`id`)
@@ -695,7 +696,7 @@ create table `ohrm_report`
 
 create table `ohrm_filter_field`
 (
-    `filter_field_id`     bigint(20) not null,
+    `filter_field_id`     bigint(20) not null auto_increment,
     `report_group_id`     bigint(20) not null,
     `name`                varchar(255) not null,
     `where_clause_part`   mediumtext   not null,

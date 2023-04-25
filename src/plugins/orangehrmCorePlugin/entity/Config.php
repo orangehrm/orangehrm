@@ -20,6 +20,7 @@
 namespace OrangeHRM\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use OrangeHRM\ORM\Tenancy\TenantAware;
 
 /**
  * Config
@@ -27,7 +28,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="hs_hr_config")
  * @ORM\Entity
  */
-class Config
+class Config extends TenantAware
 {
     /**
      * @var string

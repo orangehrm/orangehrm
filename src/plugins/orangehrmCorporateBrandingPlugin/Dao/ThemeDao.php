@@ -59,7 +59,8 @@ class ThemeDao extends BaseDao
         $q->andWhere('t.name = :themeName')
             ->setParameter('themeName', $themeName);
 
-        return $q->getQuery()->getOneOrNullResult();
+        $result = $q->getQuery()->execute();
+        return $result[0] ?? null;
     }
 
     /**

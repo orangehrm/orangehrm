@@ -29,6 +29,7 @@ use OrangeHRM\Framework\Framework;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\ORM\Exception\ConfigNotFoundException;
 use OrangeHRM\ORM\Functions\TimeDiff;
+use OrangeHRM\ORM\Tenancy\GlobalAttributeSubscriber;
 use OrangeHRM\ORM\Tenancy\TenantFilter;
 use Symfony\Component\Cache\Adapter\ArrayAdapter;
 use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
@@ -145,6 +146,7 @@ class Doctrine
         $orgId = $_SESSION['_sf2_attributes']['user.org_id'] ?? null;
         if ($orgId) {
             $filter = $entityManager->getFilters()->enable('tenant');
+            $entityManager->getEventManager()->addEventSubscriber(new GlobalAttributeSubscriber($orgId));
             $filter->setParameter('org_id', $orgId);
         }
 

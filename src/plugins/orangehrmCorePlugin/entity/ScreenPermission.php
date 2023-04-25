@@ -26,7 +26,7 @@ use OrangeHRM\ORM\Tenancy\TenantAwareInterface;
  * @ORM\Table(name="ohrm_user_role_screen")
  * @ORM\Entity
  */
-class ScreenPermission implements TenantAwareInterface
+class ScreenPermission // implements TenantAwareInterface
 {
     /**
      * @var int
@@ -36,6 +36,13 @@ class ScreenPermission implements TenantAwareInterface
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private int $id;
+
+    /**
+     * @var int|null
+     *
+     * @ORM\Column(name="org_id", type="integer",nullable=true)
+     */
+    private ?int $orgId = null;
 
     /**
      * @var bool|null
@@ -135,6 +142,14 @@ class ScreenPermission implements TenantAwareInterface
     public function canUpdate(): bool
     {
         return (bool)$this->canUpdate;
+    }
+
+    /**
+     * @param int|null $orgId
+     */
+    public function setOrgId(?int $orgId): void
+    {
+        $this->orgId = $orgId;
     }
 
     /**

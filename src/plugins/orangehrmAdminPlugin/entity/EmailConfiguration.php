@@ -20,6 +20,7 @@
 namespace OrangeHRM\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use OrangeHRM\ORM\Tenancy\TenantAware;
 
 /**
  * EmailConfiguration
@@ -28,7 +29,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @ORM\EntityListeners({"OrangeHRM\Entity\Listener\EmailConfigurationListener"})
  */
-class EmailConfiguration
+class EmailConfiguration extends TenantAware
 {
     /**
      * @var int

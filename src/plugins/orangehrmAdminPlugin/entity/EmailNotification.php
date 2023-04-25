@@ -20,12 +20,13 @@
 namespace OrangeHRM\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use OrangeHRM\ORM\Tenancy\TenantAware;
 
 /**
  * @ORM\Table("ohrm_email_notification")
  * @ORM\Entity
  */
-class EmailNotification
+class EmailNotification extends TenantAware
 {
     public const LEAVE_APPLICATION = 1;
     public const LEAVE_ASSIGNMENT = 2;

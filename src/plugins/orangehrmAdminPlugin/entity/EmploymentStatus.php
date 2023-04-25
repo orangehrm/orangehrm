@@ -22,6 +22,7 @@ namespace OrangeHRM\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use OrangeHRM\ORM\Tenancy\TenantAware;
 
 /**
  * EmploymentStatus
@@ -29,7 +30,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="ohrm_employment_status")
  * @ORM\Entity
  */
-class EmploymentStatus
+class EmploymentStatus extends TenantAware
 {
     /**
      * @var int

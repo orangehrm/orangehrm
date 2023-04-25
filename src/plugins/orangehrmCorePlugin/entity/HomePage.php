@@ -20,13 +20,12 @@
 namespace OrangeHRM\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use OrangeHRM\ORM\Tenancy\TenantAwareInterface;
 
 /**
  * @ORM\Table(name="ohrm_home_page")
  * @ORM\Entity
  */
-class HomePage implements TenantAwareInterface
+class HomePage
 {
     /**
      * @var int
@@ -43,13 +42,6 @@ class HomePage implements TenantAwareInterface
      * @ORM\Column(name="action", type="string", length=255, nullable=true)
      */
     private ?string $action = null;
-
-    /**
-     * @var int|null
-     *
-     * @ORM\Column(name="org_id", type="integer",nullable=true)
-     */
-    private ?int $orgId = null;
 
     /**
      * @var string|null

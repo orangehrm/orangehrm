@@ -33,7 +33,7 @@ class FilterField
      *
      * @ORM\Column(name="filter_field_id", type="integer")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private int $id;
 

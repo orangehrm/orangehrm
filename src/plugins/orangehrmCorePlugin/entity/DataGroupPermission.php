@@ -20,13 +20,12 @@
 namespace OrangeHRM\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use OrangeHRM\ORM\Tenancy\TenantAwareInterface;
 
 /**
  * @ORM\Table(name="ohrm_user_role_data_group")
  * @ORM\Entity
  */
-class DataGroupPermission implements TenantAwareInterface
+class DataGroupPermission
 {
     /**
      * @var int

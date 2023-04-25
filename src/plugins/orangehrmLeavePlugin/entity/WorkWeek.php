@@ -20,12 +20,13 @@
 namespace OrangeHRM\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use OrangeHRM\ORM\Tenancy\TenantAware;
 
 /**
  * @ORM\Table(name="ohrm_work_week")
  * @ORM\Entity
  */
-class WorkWeek
+class WorkWeek extends TenantAware
 {
     public const WORKWEEK_LENGTH_FULL_DAY = 0;
     public const WORKWEEK_LENGTH_HALF_DAY = 4;

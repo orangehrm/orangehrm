@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Admin\Controller;
 
+use OrangeHRM\Admin\Dao\UserDao;
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
@@ -26,6 +27,14 @@ use OrangeHRM\Framework\Http\Request;
 
 class SaveSystemUserController extends AbstractVueController
 {
+    /**
+     * @return UserDao
+     */
+    public function getUserDao(): UserDao
+    {
+        return $this->userDao ??= new UserDao();
+    }
+
     public function preRender(Request $request): void
     {
         if ($request->attributes->has('id')) {
@@ -34,6 +43,7 @@ class SaveSystemUserController extends AbstractVueController
         } else {
             $component = new Component('system-user-save');
         }
+        $component->addProp(new Prop('user-roles', Prop::TYPE_ARRAY, $this->getUserDao()->getFormattedAssignableUserRoles()));
         $this->setComponent($component);
     }
 }

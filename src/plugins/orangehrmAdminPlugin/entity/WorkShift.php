@@ -23,6 +23,7 @@ use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use OrangeHRM\Entity\Decorator\DecoratorTrait;
 use OrangeHRM\entity\Decorator\WorkShiftDecorator;
+use OrangeHRM\ORM\Tenancy\TenantAware;
 
 /**
  * @method WorkShiftDecorator getDecorator()
@@ -30,7 +31,7 @@ use OrangeHRM\entity\Decorator\WorkShiftDecorator;
  * @ORM\Table(name="ohrm_work_shift")
  * @ORM\Entity
  */
-class WorkShift
+class WorkShift extends TenantAware
 {
     use DecoratorTrait;
 

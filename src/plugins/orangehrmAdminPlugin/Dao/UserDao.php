@@ -124,6 +124,15 @@ class UserDao extends BaseDao
         return $query->getQuery()->execute();
     }
 
+    public function getFormattedAssignableUserRoles(): array {
+        return array_map(function (UserRole $userRole) {
+            return [
+                'id' => $userRole->getId(),
+                'label' => $userRole->getName()
+            ];
+        }, $this->getAssignableUserRoles());
+    }
+
     /**
      * @param string $roleName
      * @return UserRole|null

@@ -22,12 +22,13 @@ namespace OrangeHRM\Entity;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
+use OrangeHRM\ORM\Tenancy\TenantAware;
 
 /**
  * @ORM\Table(name="ohrm_i18n_language")
  * @ORM\Entity
  */
-class I18NLanguage
+class I18NLanguage extends TenantAware
 {
     use DateTimeHelperTrait;
 

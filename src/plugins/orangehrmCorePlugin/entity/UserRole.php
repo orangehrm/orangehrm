@@ -154,6 +154,14 @@ class UserRole implements TenantAwareInterface
     }
 
     /**
+     * @param int|null $orgId
+     */
+    public function setOrgId(?int $orgId): void
+    {
+        $this->orgId = $orgId;
+    }
+
+    /**
      * @param bool $isPredefined
      */
     public function setIsPredefined(bool $isPredefined): void
