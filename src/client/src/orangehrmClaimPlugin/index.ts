@@ -27,6 +27,7 @@ import SubmitClaim from '@/orangehrmClaimPlugin/pages/submitClaim/SubmitClaim.vu
 import MyClaims from '@/orangehrmClaimPlugin/pages/myClaims/MyClaims.vue';
 import AssignClaimRequest from '@/orangehrmClaimPlugin/pages/assignClaim/AssignClaimRequest.vue';
 import AssignClaim from '@/orangehrmClaimPlugin/pages/assignClaim/AssignClaim.vue';
+import EmployeeClaims from '@/orangehrmClaimPlugin/pages/employeeClaims/EmployeeClaims.vue';
 
 export default {
   'claim-event': ClaimEvent,
@@ -40,4 +41,5 @@ export default {
   'my-claim': MyClaims,
   'assign-claim-request': AssignClaimRequest,
   'assign-claim': AssignClaim,
+  'employee-claims': EmployeeClaims,
 };

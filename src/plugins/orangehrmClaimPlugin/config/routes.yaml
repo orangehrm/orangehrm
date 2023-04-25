@@ -181,3 +181,8 @@ claim_assign_claim_request:
   path: /claim/assignClaim/id/{id}
   controller: OrangeHRM\Claim\Controller\AssignClaimRequestController::handle
   methods: [ GET ]
+
+claim_employee_claim:
+  path: /claim/viewAssignClaim
+  controller: OrangeHRM\Claim\Controller\ViewAssignClaimController::handle
+  methods: [ GET ]
