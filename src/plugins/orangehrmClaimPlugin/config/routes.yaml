@@ -168,6 +168,11 @@ claim_assign_claim:
   controller: OrangeHRM\Claim\Controller\AssignClaimController::handle
   methods: [GET]
 
+  claim_assign_claim_request:
+  path: /claim/assignClaim/id/{id}
+  controller: OrangeHRM\Claim\Controller\AssignClaimRequestController::handle
+  methods: [ GET ]
+
 ##########################
 #        Files
 ##########################

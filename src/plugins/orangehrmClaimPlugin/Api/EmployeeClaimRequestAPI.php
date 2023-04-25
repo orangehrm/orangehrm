@@ -521,7 +521,7 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
         $allowedActions = $this->getAllowedActions($claimRequest);
 
         return new EndpointResourceResult(
-            ClaimRequestModel::class,
+            EmployeeClaimRequestModel::class,
             $claimRequest,
             new ParameterBag([self::PARAMETER_ALLOWED_ACTIONS => $allowedActions])
         );

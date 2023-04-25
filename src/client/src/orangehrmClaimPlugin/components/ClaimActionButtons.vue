@@ -84,6 +84,11 @@ export default {
       type: Array,
       required: true,
     },
+    isAssigned: {
+      default: false,
+      type: Boolean,
+      required: false,
+    },
   },
   setup(props) {
     const http = new APIService(
@@ -124,11 +129,13 @@ export default {
           return this.$toast.saveSuccess();
         })
         .then(() => {
-          navigate(`/claim/submitClaim/id/${this.requestId}`);
+          this.isAssigned
+            ? navigate(`/claim/assignClaim/id/${this.requestId}`)
+            : navigate(`/claim/submitClaim/id/${this.requestId}`);
         });
     },
     onBack() {
-      navigate('/claim/submitClaim');
+      navigate('/claim/assignClaim');
     },
   },
 };
