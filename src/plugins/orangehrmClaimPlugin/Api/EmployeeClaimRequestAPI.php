@@ -117,6 +117,12 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
         $claimRequest = new ClaimRequest();
         $empNumber = $this->getEmpNumber();
 
+        if (!is_null(
+            $this->getReference('OrangeHRM\Entity\Employee', $empNumber)
+                ->getEmployeeTerminationRecord()
+        )) {
+            throw $this->getForbiddenException();
+        }
         if (!$this->isSelfByEmpNumber($empNumber)) {
             throw $this->getForbiddenException();
         }
@@ -348,7 +354,9 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
         );
 
         if (!is_null($empNumber)) {
-            if (!$this->getEmployeeService()->getEmployeeDao()->getEmployeeByEmpNumber($empNumber) instanceof Employee) {
+            if (!$this->getEmployeeService()->getEmployeeDao()->getEmployeeByEmpNumber(
+                $empNumber
+            ) instanceof Employee) {
                 throw $this->getRecordNotFoundException();
             }
             if (!$this->isSelfByEmpNumber($empNumber)) {
