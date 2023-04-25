@@ -696,7 +696,7 @@ create table `ohrm_report`
 
 create table `ohrm_filter_field`
 (
-    `filter_field_id`     bigint(20) not null,
+    `filter_field_id`     bigint(20) not null auto_increment,
     `report_group_id`     bigint(20) not null,
     `name`                varchar(255) not null,
     `where_clause_part`   mediumtext   not null,

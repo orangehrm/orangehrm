@@ -28,7 +28,7 @@ use OrangeHRM\ORM\Tenancy\TenantAware;
  * @ORM\Table(name="ohrm_i18n_language")
  * @ORM\Entity
  */
-class I18NLanguage // extends TenantAware
+class I18NLanguage extends TenantAware
 {
     use DateTimeHelperTrait;
 

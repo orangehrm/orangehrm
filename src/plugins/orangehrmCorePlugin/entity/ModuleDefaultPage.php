@@ -20,13 +20,12 @@
 namespace OrangeHRM\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use OrangeHRM\ORM\Tenancy\TenantAwareInterface;
 
 /**
  * @ORM\Table(name="ohrm_module_default_page")
  * @ORM\Entity
  */
-class ModuleDefaultPage implements TenantAwareInterface
+class ModuleDefaultPage
 {
     /**
      * @var int
@@ -36,13 +35,6 @@ class ModuleDefaultPage implements TenantAwareInterface
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private int $id;
-
-    /**
-     * @var int|null
-     *
-     * @ORM\Column(name="org_id", type="integer",nullable=true)
-     */
-    private ?int $orgId = null;
 
     /**
      * @var string|null
@@ -180,13 +172,5 @@ class ModuleDefaultPage implements TenantAwareInterface
     public function setModule(Module $module): void
     {
         $this->module = $module;
-    }
-
-    /**
-     * @param int|null $orgId
-     */
-    public function setOrgId(?int $orgId): void
-    {
-        $this->orgId = $orgId;
     }
 }

@@ -20,13 +20,12 @@
 namespace OrangeHRM\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use OrangeHRM\ORM\Tenancy\TenantAwareInterface;
 
 /**
  * @ORM\Table(name="ohrm_user_role_data_group")
  * @ORM\Entity
  */
-class DataGroupPermission implements TenantAwareInterface
+class DataGroupPermission
 {
     /**
      * @var int
@@ -36,13 +35,6 @@ class DataGroupPermission implements TenantAwareInterface
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private int $id;
-
-    /**
-     * @var int|null
-     *
-     * @ORM\Column(name="org_id", type="integer",nullable=true)
-     */
-    private ?int $orgId = null;
 
     /**
      * @var bool|null
@@ -221,13 +213,5 @@ class DataGroupPermission implements TenantAwareInterface
     public function setUserRole(UserRole $userRole): void
     {
         $this->userRole = $userRole;
-    }
-
-    /**
-     * @param int|null $orgId
-     */
-    public function setOrgId(?int $orgId): void
-    {
-        $this->orgId = $orgId;
     }
 }

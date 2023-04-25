@@ -20,13 +20,12 @@
 namespace OrangeHRM\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use OrangeHRM\ORM\Tenancy\TenantAware;
 
 /**
  * @ORM\Table(name="ohrm_menu_item")
  * @ORM\Entity
  */
-class MenuItem //extends TenantAware
+class MenuItem
 {
     /**
      * @var int
