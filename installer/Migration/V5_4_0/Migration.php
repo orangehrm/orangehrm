@@ -80,6 +80,7 @@ class Migration extends AbstractMigration
         $this->getDataGroupHelper()->insertApiPermissions(__DIR__ . '/permission/api.yaml');
         $this->changePermissionForAttendanceConfigurationAPI();
         $this->changePermissionForTimeConfigPeriodAPI();
+        $this->changePermissionForEmployeeWorkShiftAPI();
 
         $this->getSchemaHelper()->createTable('ohrm_enforce_password')
             ->addColumn('id', Types::INTEGER, ['Autoincrement' => true])
@@ -295,6 +296,19 @@ class Migration extends AbstractMigration
     {
         $this->getDataGroupHelper()->addDataGroupPermissions(
             'apiv2_time_time_sheet_config',
+            'ESS',
+            true,
+            false,
+            false,
+            false,
+            false
+        );
+    }
+
+    private function changePermissionForEmployeeWorkShiftAPI(): void
+    {
+        $this->getDataGroupHelper()->addDataGroupPermissions(
+            'apiv2_pim_employee_work_shift',
             'ESS',
             true,
             false,
