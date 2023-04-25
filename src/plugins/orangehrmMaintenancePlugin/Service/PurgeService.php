@@ -20,7 +20,6 @@
 namespace OrangeHRM\Maintenance\Service;
 
 use Exception;
-use OrangeHRM\Core\Api\V2\Exception\InvalidParamException;
 use OrangeHRM\Core\Traits\EventDispatcherTrait;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Maintenance\Dao\PurgeDao;
@@ -30,7 +29,6 @@ use OrangeHRM\Maintenance\Event\PurgeEmployee;
 use OrangeHRM\Maintenance\PurgeStrategy\PurgeStrategy;
 use OrangeHRM\ORM\Exception\TransactionException;
 use OrangeHRM\Pim\Service\EmployeePictureService;
-use Psr\Cache\InvalidArgumentException;
 use Symfony\Component\Yaml\Yaml;
 
 class PurgeService
@@ -66,8 +64,6 @@ class PurgeService
     {
         $this->beginTransaction();
         try {
-            $this->getEmployeePictureService()->deleteETagByEmpNumber($empNumber);
-
             $purgeableEntities = $this->getPurgeableEntities(self::GDPR_PURGE_EMPLOYEE);
             foreach ($purgeableEntities as $purgeableEntityClassName => $purgeStrategies) {
                 foreach ($purgeStrategies['PurgeStrategy'] as $strategy => $strategyInfoArray) {

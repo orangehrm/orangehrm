@@ -26,7 +26,6 @@ use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\EmpPicture;
 use OrangeHRM\Pim\Dao\EmployeePictureDao;
-use Psr\Cache\InvalidArgumentException;
 
 class EmployeePictureService
 {

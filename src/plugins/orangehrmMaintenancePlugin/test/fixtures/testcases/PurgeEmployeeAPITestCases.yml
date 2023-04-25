@@ -79,6 +79,7 @@ Delete:
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+      core.cache: [ '\OrangeHRM\Tests\Util\Mock\MockCacheService', 'getCache' ]
     now:
       datetime: '2022-02-21 21:28:00'
     body:
