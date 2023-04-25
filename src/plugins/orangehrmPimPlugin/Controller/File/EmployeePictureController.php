@@ -77,10 +77,14 @@ class EmployeePictureController extends AbstractFileController
         return $response;
     }
 
-    private function setCommonHeaders($response, string $contentType)
+    /**
+     * @param BinaryFileResponse|Response $response
+     * @param string $contentType
+     */
+    private function setCommonHeaders($response, string $contentType): void
     {
         $response->headers->set('Content-Type', $contentType);
-        $response->setPublic();
+        $response->setPrivate();
         $response->setMaxAge(0);
         $response->headers->addCacheControlDirective('must-revalidate', true);
         $response->headers->set('Pragma', 'Public');
