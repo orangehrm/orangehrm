@@ -22,7 +22,7 @@ namespace OrangeHRM\Pim\Controller\File;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Controller\AbstractFileController;
 use OrangeHRM\Core\Exception\DaoException;
-use OrangeHRM\Core\Traits\ETagHelperTrait;
+use OrangeHRM\Core\Traits\LoggerTrait;
 use OrangeHRM\Entity\EmpPicture;
 use OrangeHRM\Framework\Http\BinaryFileResponse;
 use OrangeHRM\Framework\Http\Request;
@@ -31,8 +31,6 @@ use OrangeHRM\Pim\Service\EmployeePictureService;
 
 class EmployeePictureController extends AbstractFileController
 {
-    use ETagHelperTrait;
-
     /**
      * @var EmployeePictureService|null
      */
@@ -61,7 +59,7 @@ class EmployeePictureController extends AbstractFileController
             $empPicture = $this->getEmployeePictureService()->getEmpPictureByEmpNumber($empNumber);
             if ($empPicture instanceof EmpPicture) {
                 $response = $this->getResponse();
-                $response->setEtag($this->generateEtag($empPicture->getDecorator()->getPicture()));
+                $response->setEtag($this->getEmployeePictureService()->getETagByEmpPicture($empPicture));
 
                 if (!$response->isNotModified($request)) {
                     $response->setContent($empPicture->getDecorator()->getPicture());

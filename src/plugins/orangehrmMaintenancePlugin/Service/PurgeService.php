@@ -20,6 +20,7 @@
 namespace OrangeHRM\Maintenance\Service;
 
 use Exception;
+use OrangeHRM\Core\Api\V2\Exception\InvalidParamException;
 use OrangeHRM\Core\Traits\EventDispatcherTrait;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Maintenance\Dao\PurgeDao;
@@ -28,6 +29,8 @@ use OrangeHRM\Maintenance\Event\MaintenanceEvent;
 use OrangeHRM\Maintenance\Event\PurgeEmployee;
 use OrangeHRM\Maintenance\PurgeStrategy\PurgeStrategy;
 use OrangeHRM\ORM\Exception\TransactionException;
+use OrangeHRM\Pim\Service\EmployeePictureService;
+use Psr\Cache\InvalidArgumentException;
 use Symfony\Component\Yaml\Yaml;
 
 class PurgeService
@@ -39,6 +42,7 @@ class PurgeService
     private const GDPR_PURGE_CANDIDATE = 'gdpr_purge_candidate_strategy';
 
     private ?PurgeDao $purgeDao = null;
+    private ?EmployeePictureService $employeePictureService = null;
     private ?array $purgeableEntities = null;
 
     /**
@@ -46,10 +50,12 @@ class PurgeService
      */
     public function getPurgeDao(): PurgeDao
     {
-        if (is_null($this->purgeDao)) {
-            $this->purgeDao = new PurgeDao();
-        }
-        return $this->purgeDao;
+        return $this->purgeDao ??= new PurgeDao();
+    }
+
+    public function getEmployeePictureService(): EmployeePictureService
+    {
+        return $this->employeePictureService ??= new EmployeePictureService();
     }
 
     /**
@@ -60,6 +66,8 @@ class PurgeService
     {
         $this->beginTransaction();
         try {
+            $this->getEmployeePictureService()->deleteETagByEmpNumber($empNumber);
+
             $purgeableEntities = $this->getPurgeableEntities(self::GDPR_PURGE_EMPLOYEE);
             foreach ($purgeableEntities as $purgeableEntityClassName => $purgeStrategies) {
                 foreach ($purgeStrategies['PurgeStrategy'] as $strategy => $strategyInfoArray) {
@@ -73,6 +81,8 @@ class PurgeService
                 }
             }
             $this->getEntityManager()->flush();
+
+            $this->getEmployeePictureService()->deleteETagByEmpNumber($empNumber);
 
             $this->getEventDispatcher()->dispatch(
                 new PurgeEmployee($empNumber),
