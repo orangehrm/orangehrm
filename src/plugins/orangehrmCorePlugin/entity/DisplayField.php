@@ -21,12 +21,13 @@ namespace OrangeHRM\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use OrangeHRM\ORM\Tenancy\TenantAwareInterface;
 
 /**
  * @ORM\Table(name="ohrm_display_field")
  * @ORM\Entity
  */
-class DisplayField extends AbstractDisplayField
+class DisplayField extends AbstractDisplayField implements TenantAwareInterface
 {
     /**
      * @var int
@@ -36,6 +37,13 @@ class DisplayField extends AbstractDisplayField
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private int $id;
+
+    /**
+     * @var int|null
+     *
+     * @ORM\Column(name="org_id", type="integer",nullable=true)
+     */
+    protected ?int $orgId = null;
 
     /**
      * @var string|null
@@ -86,5 +94,13 @@ class DisplayField extends AbstractDisplayField
     public function setClassName(string $className): void
     {
         $this->className = $className;
+    }
+
+    /**
+     * @param int|null $orgId
+     */
+    public function setOrgId(?int $orgId): void
+    {
+        $this->orgId = $orgId;
     }
 }

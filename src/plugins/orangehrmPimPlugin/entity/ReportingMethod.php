@@ -21,12 +21,13 @@ namespace OrangeHRM\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use OrangeHRM\ORM\Tenancy\TenantAware;
 
 /**
  * @ORM\Table(name="ohrm_emp_reporting_method")
  * @ORM\Entity
  */
-class ReportingMethod
+class ReportingMethod extends TenantAware
 {
     /**
      * @var int

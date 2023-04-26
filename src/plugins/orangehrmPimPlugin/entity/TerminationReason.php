@@ -20,12 +20,13 @@
 namespace OrangeHRM\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use OrangeHRM\ORM\Tenancy\TenantAware;
 
 /**
  * @ORM\Table(name="ohrm_emp_termination_reason")
  * @ORM\Entity
  */
-class TerminationReason
+class TerminationReason extends TenantAware
 {
     /**
      * @var int

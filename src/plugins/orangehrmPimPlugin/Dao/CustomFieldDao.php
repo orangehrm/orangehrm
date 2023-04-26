@@ -20,7 +20,6 @@
 namespace OrangeHRM\Pim\Dao;
 
 use Exception;
-use InvalidArgumentException;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\CustomField;
@@ -41,34 +40,6 @@ class CustomFieldDao extends BaseDao
      */
     public function saveCustomField(CustomField $customField): CustomField
     {
-        if ($customField->getFieldNum() === 0) {
-            $q = $this->createQueryBuilder(CustomField::class, 'cf');
-            $q->select(['cf.fieldNum'])
-                ->orderBy('cf.fieldNum');
-            $fieldNumbers = $q->getQuery()->execute();
-
-            $i = 1;
-            foreach ($fieldNumbers as $num) {
-                if ($num['fieldNum'] > $i) {
-                    $freeNum = $i;
-                    break;
-                }
-                $i++;
-
-                if ($i > 10) {
-                    break;
-                }
-            }
-
-            if (empty($freeNum) && ($i <= 10)) {
-                $freeNum = $i;
-            }
-            $customField->setFieldNum($freeNum);
-        }
-        $seqNo = intval($customField->getFieldNum());
-        if (!(strlen((string)$seqNo) <= 10 && $seqNo > 0)) {
-            throw new InvalidArgumentException('Invalid `seqNo`');
-        }
         $this->beginTransaction();
         try {
             $this->persist($customField);

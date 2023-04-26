@@ -17,13 +17,21 @@ class GlobalAttributeSubscriber implements EventSubscriber
 
     public function getSubscribedEvents(): array
     {
-        return [Events::prePersist];
+        return [Events::prePersist, Events::preUpdate];
     }
 
     public function prePersist(LifecycleEventArgs $args)
     {
         $entity = $args->getEntity();
-        if($entity instanceof TenantAwareInterface) {
+        if ($entity instanceof TenantAwareInterface) {
+            $entity->setOrgId($this->globalAttributeValue);
+        }
+    }
+
+    public function preUpdate(LifecycleEventArgs $args)
+    {
+        $entity = $args->getEntity();
+        if ($entity instanceof TenantAwareInterface) {
             $entity->setOrgId($this->globalAttributeValue);
         }
     }

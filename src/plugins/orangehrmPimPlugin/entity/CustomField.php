@@ -20,12 +20,13 @@
 namespace OrangeHRM\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use OrangeHRM\ORM\Tenancy\TenantAware;
 
 /**
  * @ORM\Table(name="hs_hr_custom_fields")
  * @ORM\Entity
  */
-class CustomField
+class CustomField  extends TenantAware
 {
     public const FIELD_TYPE_STRING = 0;
     public const FIELD_TYPE_SELECT = 1;
@@ -67,9 +68,9 @@ class CustomField
      *
      * @ORM\Column(name="field_num", type="integer")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private int $fieldNum = 0;
+    private int $fieldNum;
 
     /**
      * @var string

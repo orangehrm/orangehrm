@@ -20,14 +20,17 @@
 namespace OrangeHRM\Core\Service;
 
 use DateTime;
+use OrangeHRM\Core\config\DefaultConfig;
 use OrangeHRM\Core\Dao\ConfigDao;
 use OrangeHRM\Core\Exception\DaoException;
+use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\Config;
 use OrangeHRM\LDAP\Dto\LDAPSetting;
 
 class ConfigService
 {
+    use AuthUserTrait;
     use DateTimeHelperTrait;
 
     public const FALLBACK_LANGUAGE_CODE = 'en_US';
@@ -133,6 +136,9 @@ class ConfigService
      */
     protected function _getConfigValue(string $key): ?string
     {
+        if (!$this->getAuthUser()->getOrgId()) {
+            return DefaultConfig::getDefaultValue($key);
+        }
         return $this->getConfigDao()->getValue($key);
     }
 

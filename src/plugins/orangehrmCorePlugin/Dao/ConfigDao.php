@@ -20,12 +20,15 @@
 namespace OrangeHRM\Core\Dao;
 
 use Exception;
+use OrangeHRM\Core\config\DefaultConfig;
 use OrangeHRM\Core\Exception\DaoException;
+use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\LoggerTrait;
 use OrangeHRM\Entity\Config;
 
 class ConfigDao extends BaseDao
 {
+    use AuthUserTrait;
     use LoggerTrait;
 
     /**
@@ -37,7 +40,8 @@ class ConfigDao extends BaseDao
     public function setValue(string $name, string $value): Config
     {
         try {
-            $config = $this->getRepository(Config::class)->find($name);
+            $config = $this->getRepository(Config::class)->findOneBy(['name' => $name, 'orgId' => $this->getAuthUser()?->getOrgId()]);
+            //dd($config);
 
             if (!$config instanceof Config) {
                 $config = new Config();
@@ -60,8 +64,12 @@ class ConfigDao extends BaseDao
      */
     public function getValue(string $name): ?string
     {
+        if (!$this->getAuthUser()->getOrgId()) {
+            return DefaultConfig::getDefaultValue($name);
+        }
+
         try {
-            $config = $this->getRepository(Config::class)->find($name);
+            $config = $this->getRepository(Config::class)->findOneBy(['name' => $name, 'orgId' => $this->getAuthUser()?->getOrgId()]);
             if ($config instanceof Config) {
                 return $config->getValue();
             }

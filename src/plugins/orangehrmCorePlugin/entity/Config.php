@@ -31,13 +31,21 @@ use OrangeHRM\ORM\Tenancy\TenantAware;
 class Config extends TenantAware
 {
     /**
+     * @var int
+     *
+     * @ORM\Column(name="id",type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private int $id;
+
+    /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=100)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\Column(name="name", type="string", length=255)
      */
     private string $name;
+
 
     /**
      * @var string
@@ -76,5 +84,21 @@ class Config extends TenantAware
     public function setValue(string $value): void
     {
         $this->value = $value;
+    }
+
+    /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param int $id
+     */
+    public function setId(int $id): void
+    {
+        $this->id = $id;
     }
 }

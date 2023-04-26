@@ -57,7 +57,6 @@ class UserRoleManagerService
     public function getUserRoleManager(): ?AbstractUserRoleManager
     {
         $class = $this->getUserRoleManagerClassName();
-        $manager = null;
 
         $fallbackNamespace = 'OrangeHRM\\Core\\Authorization\\Manager\\';
         if ($this->getClassHelper()->classExists($class, $fallbackNamespace)) {
