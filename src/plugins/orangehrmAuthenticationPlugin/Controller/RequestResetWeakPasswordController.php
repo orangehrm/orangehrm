@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Authentication\Controller;
 
+use OrangeHRM\Admin\Service\UserService;
 use OrangeHRM\Admin\Traits\Service\UserServiceTrait;
 use OrangeHRM\Authentication\Auth\User as AuthUser;
 use OrangeHRM\Authentication\Dto\UserCredential;
@@ -158,7 +159,11 @@ class RequestResetWeakPasswordController extends AbstractController implements P
         return new ParamRuleCollection(
             new ParamRule(
                 self::PARAMETER_USERNAME,
-                new Rule(Rules::STRING_TYPE)
+                new Rule(Rules::STRING_TYPE),
+                new Rule(Rules::LENGTH, [
+                    UserService::USERNAME_MIN_LENGTH,
+                    UserService::USERNAME_MAX_LENGTH
+                ])
             ),
             new ParamRule(
                 self::PARAMETER_RESET_CODE,
