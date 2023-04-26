@@ -149,7 +149,7 @@ class Framework extends HttpKernel
     public function handleRequest(
         Request $request,
         int $type = HttpKernelInterface::MAIN_REQUEST,
-        bool $catch = true
+        bool $catch = false
     ): Response {
         $this->configureRouter($request);
         $this->configurePlugins($request);

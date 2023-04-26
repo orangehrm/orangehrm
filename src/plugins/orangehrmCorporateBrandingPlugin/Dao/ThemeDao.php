@@ -20,6 +20,7 @@
 namespace OrangeHRM\CorporateBranding\Dao;
 
 use OrangeHRM\Core\Dao\BaseDao;
+use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\CorporateBranding\Dto\PartialTheme;
 use OrangeHRM\CorporateBranding\Dto\ThemeImage;
 use OrangeHRM\CorporateBranding\Service\ThemeService;
@@ -27,6 +28,7 @@ use OrangeHRM\Entity\Theme;
 
 class ThemeDao extends BaseDao
 {
+    use AuthUserTrait;
     /**
      * @param Theme $theme
      * @return Theme

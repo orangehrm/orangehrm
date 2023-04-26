@@ -133,7 +133,7 @@ class PartialTheme
             $theme->showSocialMediaIcons(),
             $theme->getClientLogoFilename(),
             $theme->getClientBannerFilename(),
-            $theme->getLoginBannerFilename()
+            $theme->getLoginBannerFilename(),
         );
     }
 }
