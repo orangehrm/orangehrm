@@ -25,9 +25,22 @@ use OrangeHRM\Authentication\Dto\UserCredential;
 use OrangeHRM\Authentication\Exception\AuthenticationException;
 use OrangeHRM\Authentication\Traits\CsrfTokenManagerTrait;
 use OrangeHRM\Authentication\Traits\Service\PasswordStrengthServiceTrait;
+use OrangeHRM\Core\Api\V2\Exception\InvalidParamException;
+use OrangeHRM\Core\Api\V2\Validator\ParamRule;
+use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
+use OrangeHRM\Core\Api\V2\Validator\Rule;
+use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Core\Api\V2\Validator\ValidatorException;
+use OrangeHRM\Core\Traits\LoggerTrait;
+use OrangeHRM\Core\Traits\ValidatorTrait;
+use OrangeHRM\Framework\Http\Response;
 use OrangeHRM\Core\Controller\AbstractController;
 use OrangeHRM\Core\Controller\PublicControllerInterface;
+use OrangeHRM\Core\Service\ConfigService;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
+use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
+use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
+use OrangeHRM\Core\Traits\Service\TextHelperTrait;
 use OrangeHRM\Entity\User;
 use OrangeHRM\Framework\Http\RedirectResponse;
 use OrangeHRM\Framework\Http\Request;
@@ -42,12 +55,22 @@ class RequestResetWeakPasswordController extends AbstractController implements P
     use UserServiceTrait;
     use AuthUserTrait;
     use I18NHelperTrait;
+    use ConfigServiceTrait;
+    use TextHelperTrait;
+    use LoggerTrait;
+    use EntityManagerHelperTrait;
+    use ValidatorTrait;
+
+    public const PARAMETER_CURRENT_PASSWORD = 'currentPassword';
+    public const PARAMETER_USERNAME = 'username';
+    public const PARAMETER_PASSWORD = 'password';
+    public const PARAMETER_RESET_CODE = 'resetCode';
 
     /**
      * @param Request $request
-     * @return RedirectResponse
+     * @return RedirectResponse|Response
      */
-    public function handle(Request $request): RedirectResponse
+    public function handle(Request $request)
     {
         $currentPassword = $request->request->get('currentPassword');
         $username = $request->request->get('username');
@@ -56,6 +79,10 @@ class RequestResetWeakPasswordController extends AbstractController implements P
         $token = $request->request->get('_token');
 
         $user = $this->getUserService()->geUserDao()->getUserByUserName($username);
+
+        if (!$this->validateParameters($request)) {
+            return $this->handleBadRequest();
+        }
 
         /** @var UrlGenerator $urlGenerator */
         $urlGenerator = $this->getContainer()->get(Services::URL_GENERATOR);
@@ -101,5 +128,59 @@ class RequestResetWeakPasswordController extends AbstractController implements P
             $this->getPasswordStrengthService()->saveEnforcedPassword($credentials);
             return $this->redirect("auth/login");
         }
+    }
+
+    /**
+     * @param Request $request
+     * @return bool
+     */
+    private function validateParameters(Request $request): bool
+    {
+        $variables = $request->request->all();
+
+        $paramRules = $this->getParamRuleCollection();
+        $paramRules->addExcludedParamKey('confirmPassword');
+        $paramRules->addExcludedParamKey('_token');
+
+        try {
+            return $this->validate($variables, $paramRules);
+        } catch (InvalidParamException|ValidatorException $e) {
+            $this->getLogger()->warning($e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * @return ParamRuleCollection|null
+     */
+    private function getParamRuleCollection(): ?ParamRuleCollection
+    {
+        return new ParamRuleCollection(
+            new ParamRule(
+                self::PARAMETER_USERNAME,
+                new Rule(Rules::STRING_TYPE)
+            ),
+            new ParamRule(
+                self::PARAMETER_RESET_CODE,
+                new Rule(Rules::STRING_TYPE),
+                new Rule(Rules::NOT_BLANK),
+            ),
+            new ParamRule(
+                self::PARAMETER_PASSWORD,
+                new Rule(Rules::STRING_TYPE),
+                new Rule(Rules::LENGTH, [
+                    null,
+                    ConfigService::MAX_PASSWORD_LENGTH
+                ]),
+            ),
+            new ParamRule(
+                self::PARAMETER_CURRENT_PASSWORD,
+                new Rule(Rules::STRING_TYPE),
+                new Rule(Rules::LENGTH, [
+                    null,
+                    ConfigService::MAX_PASSWORD_LENGTH
+                ]),
+            ),
+        );
     }
 }
