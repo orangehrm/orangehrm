@@ -19,9 +19,10 @@
 
 namespace Orangehrm\Rest\Api\Performance\Entity;
 
+use OrangeHRM\ORM\Tenancy\TenantAware;
 use Orangehrm\Rest\Api\Entity\Serializable;
 
-class Kpi implements Serializable
+class Kpi extends TenantAware implements Serializable
 {
     /**
      * @var
