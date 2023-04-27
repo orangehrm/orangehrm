@@ -26,6 +26,7 @@ use OrangeHRM\Authentication\Dto\UserCredential;
 use OrangeHRM\Authentication\Exception\AuthenticationException;
 use OrangeHRM\Authentication\Traits\CsrfTokenManagerTrait;
 use OrangeHRM\Authentication\Traits\Service\PasswordStrengthServiceTrait;
+use OrangeHRM\Authentication\Utility\PasswordStrengthValidation;
 use OrangeHRM\Core\Api\V2\Exception\InvalidParamException;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
@@ -61,6 +62,7 @@ class RequestResetWeakPasswordController extends AbstractController implements P
     use LoggerTrait;
     use EntityManagerHelperTrait;
     use ValidatorTrait;
+    use PasswordStrengthServiceTrait;
 
     public const PARAMETER_CURRENT_PASSWORD = 'currentPassword';
     public const PARAMETER_USERNAME = 'username';
@@ -144,6 +146,16 @@ class RequestResetWeakPasswordController extends AbstractController implements P
         $paramRules->addExcludedParamKey('_token');
 
         try {
+            $credentials = new UserCredential();
+            $credentials->setPassword($request->request->get('password'));
+            $credentials->setUsername($request->request->get('username'));
+            $passwordStrengthValidation = new PasswordStrengthValidation();
+            $passwordStrength = $passwordStrengthValidation->checkPasswordStrength($credentials);
+
+            if (!$this->getPasswordStrengthService()->isValidPassword($credentials, $passwordStrength)) {
+                return false;
+            }
+
             return $this->validate($variables, $paramRules);
         } catch (InvalidParamException|ValidatorException $e) {
             $this->getLogger()->warning($e->getMessage());
