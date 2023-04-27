@@ -23,6 +23,7 @@ use DateTime;
 use OrangeHRM\Entity\Decorator\DecoratorTrait;
 use OrangeHRM\Entity\Decorator\VacancyDecorator;
 use Doctrine\ORM\Mapping as ORM;
+use OrangeHRM\ORM\Tenancy\TenantAware;
 
 /**
  * @method VacancyDecorator getDecorator()
@@ -31,7 +32,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  *
  */
-class Vacancy
+class Vacancy extends TenantAware
 {
     use DecoratorTrait;
 

@@ -24,6 +24,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use OrangeHRM\Entity\Decorator\CandidateDecorator;
 use OrangeHRM\Entity\Decorator\DecoratorTrait;
+use OrangeHRM\ORM\Tenancy\TenantAware;
 
 /**
  * @method CandidateDecorator getDecorator()
@@ -32,7 +33,7 @@ use OrangeHRM\Entity\Decorator\DecoratorTrait;
  * @ORM\Entity
  *
  */
-class Candidate
+class Candidate extends TenantAware
 {
     use DecoratorTrait;
 
