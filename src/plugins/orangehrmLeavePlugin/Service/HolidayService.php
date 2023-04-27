@@ -21,6 +21,7 @@ namespace OrangeHRM\Leave\Service;
 
 use DateTime;
 use OrangeHRM\Core\Exception\DaoException;
+use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\CacheTrait;
 use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Entity\Holiday;
@@ -30,6 +31,7 @@ use OrangeHRM\Leave\Dto\HolidaySearchFilterParams;
 
 class HolidayService
 {
+    use AuthUserTrait;
     use CacheTrait;
     use ConfigServiceTrait;
 
@@ -69,10 +71,10 @@ class HolidayService
      * @param DateTime $toDate
      * @return string
      */
-    protected function getHolidaysCacheKey(DateTime $fromDate, DateTime $toDate): string
+    protected function getHolidaysCacheKey(DateTime $fromDate, DateTime $toDate, ?int $orgId): string
     {
         return self::LEAVE_HOLIDAYS_CACHE_KEY_PREFIX .
-            '.' . $fromDate->format('Y_m_d') . '.' . $toDate->format('Y_m_d');
+            '.' . $fromDate->format('Y_m_d') . '.' . $toDate->format('Y_m_d') . $orgId;
     }
 
     /**
@@ -116,7 +118,7 @@ class HolidayService
     protected function searchHolidaysAlongWithCache(DateTime $fromDate, DateTime $toDate): array
     {
         return $this->getCache()->get(
-            $this->getHolidaysCacheKey($fromDate, $toDate),
+            $this->getHolidaysCacheKey($fromDate, $toDate, $this->getAuthUser()->getOrgId()),
             function () use ($fromDate, $toDate) {
                 $holidays = $this->getCalculatedHolidays($fromDate, $toDate);
                 return [self::PARAMETER_DATA => $holidays, self::PARAMETER_TOTAL => count($holidays)];

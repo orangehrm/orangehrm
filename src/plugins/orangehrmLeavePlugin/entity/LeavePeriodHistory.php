@@ -23,6 +23,7 @@ use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use OrangeHRM\Entity\Decorator\DecoratorTrait;
 use OrangeHRM\Entity\Decorator\LeavePeriodHistoryDecorator;
+use OrangeHRM\ORM\Tenancy\TenantAware;
 
 /**
  * @method LeavePeriodHistoryDecorator getDecorator()
@@ -30,7 +31,7 @@ use OrangeHRM\Entity\Decorator\LeavePeriodHistoryDecorator;
  * @ORM\Table(name="ohrm_leave_period_history")
  * @ORM\Entity
  */
-class LeavePeriodHistory
+class LeavePeriodHistory extends TenantAware
 {
     use DecoratorTrait;
 

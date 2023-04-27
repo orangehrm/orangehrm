@@ -78,6 +78,7 @@ class LeavePeriodDao extends BaseDao
             $this->commitTransaction();
         } catch (Exception $e) {
             $this->rollBackTransaction();
+            dd($e->getMessage());
             throw new TransactionException($e);
         }
 

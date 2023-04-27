@@ -24,6 +24,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use OrangeHRM\Entity\Decorator\DecoratorTrait;
 use OrangeHRM\Entity\Decorator\PerformanceTrackerDecorator;
+use OrangeHRM\ORM\Tenancy\TenantAware;
 
 /**
  * @method PerformanceTrackerDecorator getDecorator()
@@ -31,7 +32,7 @@ use OrangeHRM\Entity\Decorator\PerformanceTrackerDecorator;
  * @ORM\Table(name="ohrm_performance_track")
  * @ORM\Entity
  */
-class PerformanceTracker
+class PerformanceTracker extends TenantAware
 {
     use DecoratorTrait;
 
