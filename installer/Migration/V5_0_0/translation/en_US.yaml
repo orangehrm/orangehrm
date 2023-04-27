@@ -535,7 +535,7 @@ translations:
     - { target: 'No leave types defined', unitId: no_leave_types_defined, group: leave }
     - { target: 'Language Packages', unitId: language_packages, group: general }
     - { target: Support, unitId: support, group: general }
-    - { target: 'Learning how to use a new application can be challenging. At OrangeHRM, we are committed to providing you with the necessary knowledge and skills required to fully utilize the application thereby allowing you to quickly and efficiently manage your HR processes.', unitId: getting_started_with_orangehrm_message_1, group: help }
+    - { target: 'Learning how to use a new application can be challenging. At TaskflowHR, we are committed to providing you with the necessary knowledge and skills required to fully utilize the application thereby allowing you to quickly and efficiently manage your HR processes.', unitId: getting_started_with_orangehrm_message_1, group: help }
     - { target: 'The following information repositories are available to help you understand the application:', unitId: getting_started_with_orangehrm_message_2, group: help }
     - { target: 'Customer Support', unitId: customer_support, group: help }
     - { target: 'Should you experience any issues, please do not hesitate to contact us on', unitId: contact_us_on_message, group: help }

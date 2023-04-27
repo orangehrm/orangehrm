@@ -43,7 +43,8 @@
           {{ data.companyName }}
         </oxd-text>
       </oxd-grid-item>
-      <oxd-grid-item>
+      <!--   Version   -->
+<!--      <oxd-grid-item>
         <oxd-text tag="p" class="orangehrm-about-title">
           {{ $t('general.version') }}:
         </oxd-text>
@@ -52,7 +53,7 @@
         <oxd-text tag="p" class="orangehrm-about-text">
           {{ data.productName }} {{ data.version }}
         </oxd-text>
-      </oxd-grid-item>
+      </oxd-grid-item>-->
       <template v-if="data.numberOfActiveEmployee !== undefined">
         <oxd-grid-item>
           <oxd-text tag="p" class="orangehrm-about-title">

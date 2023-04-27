@@ -30,17 +30,6 @@
           class="orangehrm-module-under-development-img"
           alt="this module is under development"
         />
-        <oxd-text tag="p" class="orangehrm-module-under-development-text">
-          {{ $t('general.this_page_is_being_developed', {version: '5.4'}) }}
-          <a
-            target="_blank"
-            class="orangehrm-module-under-development-link"
-            href="https://sourceforge.net/projects/orangehrm/files/latest/download"
-          >
-            {{ $t('general.click_here') }}
-          </a>
-          {{ $t('general.download_latest_release_with_all_features') }}
-        </oxd-text>
       </div>
     </div>
   </div>

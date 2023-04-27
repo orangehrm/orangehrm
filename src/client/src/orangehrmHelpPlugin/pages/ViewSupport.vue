@@ -45,9 +45,9 @@
               {{ $t('help.contact_us_on_message') }}
               <a
                 class="orangehrm-support-link"
-                href="mailto:ossupport@orangehrm.com"
+                href="mailto:support@taskflowhr.com"
               >
-                ossupport@orangehrm.com
+                support@taskflowhr.com
               </a>
               {{ $t('help.we_will_be_delighted_to_help') }}
             </oxd-text>
