@@ -24,6 +24,7 @@ use Doctrine\ORM\Mapping as ORM;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\Decorator\BuzzShareDecorator;
 use OrangeHRM\Entity\Decorator\DecoratorTrait;
+use OrangeHRM\ORM\Tenancy\TenantAware;
 
 /**
  * @method BuzzShareDecorator getDecorator()
@@ -31,7 +32,7 @@ use OrangeHRM\Entity\Decorator\DecoratorTrait;
  * @ORM\Table(name="ohrm_buzz_share")
  * @ORM\Entity
  */
-class BuzzShare
+class BuzzShare extends TenantAware
 {
     use DecoratorTrait;
     use DateTimeHelperTrait;
