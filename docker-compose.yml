@@ -35,6 +35,8 @@ services:
       MYSQL_DATABASE: '${DB_DATABASE}'
       MYSQL_PASSWORD: '${DB_PASSWORD}'
       MYSQL_ALLOW_EMPTY_PASSWORD: 1
+    command:
+      --sql_mode=STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION
     volumes:
       - mariadb-data:/var/lib/mysql/
     mem_swappiness: 1

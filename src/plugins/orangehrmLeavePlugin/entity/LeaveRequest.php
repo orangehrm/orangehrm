@@ -24,6 +24,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use OrangeHRM\Entity\Decorator\DecoratorTrait;
 use OrangeHRM\Entity\Decorator\LeaveRequestDecorator;
+use OrangeHRM\ORM\Tenancy\TenantAware;
 
 /**
  * @method LeaveRequestDecorator getDecorator()
@@ -31,7 +32,7 @@ use OrangeHRM\Entity\Decorator\LeaveRequestDecorator;
  * @ORM\Table(name="ohrm_leave_request")
  * @ORM\Entity
  */
-class LeaveRequest
+class LeaveRequest extends TenantAware
 {
     use DecoratorTrait;
 
