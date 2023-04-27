@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\CorporateBranding\Service;
 
+use OrangeHRM\Core\config\DefaultConfig;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\CacheTrait;
 use OrangeHRM\Core\Traits\ETagHelperTrait;
@@ -146,9 +147,11 @@ class ThemeService
      */
     public function getCurrentThemeVariables(): array
     {
-        $cacheKey = self::THEME_VARIABLES_CACHE_KEY;
-        if ($this->getAuthUser()) {
+        if ($this->getAuthUser()->getOrgId()) {
             $cacheKey = sprintf('admin.theme.%s.variables', $this->getAuthUser()->getOrgId());
+        } else {
+            $variables = json_decode(DefaultConfig::getDefaultValue(DefaultConfig::DEFAULT_THEME_VARIABLES), true);
+            return $this->getDerivedCssVariables(ThemeVariables::createFromArray($variables));
         }
         return $this->getCache()->get(
             $cacheKey,

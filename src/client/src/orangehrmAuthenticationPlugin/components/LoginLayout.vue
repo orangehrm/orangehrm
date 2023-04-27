@@ -25,15 +25,9 @@
         <div class="orangehrm-login-slot-wrapper">
           <login-branding :img-src="loginBannerSrc"></login-branding>
           <div class="orangehrm-login-slot">
-            <div class="orangehrm-login-logo-mobile">
-              <img :src="loginLogoSrc" alt="orangehrm-logo" />
-            </div>
             <slot></slot>
           </div>
         </div>
-      </div>
-      <div class="orangehrm-login-logo">
-        <img :src="loginLogoSrc" alt="orangehrm-logo" />
       </div>
     </div>
   </div>

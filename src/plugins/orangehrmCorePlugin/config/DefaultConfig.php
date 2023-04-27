@@ -4,6 +4,7 @@ namespace OrangeHRM\Core\config;
 
 class DefaultConfig
 {
+    public const DEFAULT_THEME_VARIABLES = 'theme.variables';
     public const ALL_CONFIGS = [
         'timesheet_period_and_start_date' => '<TimesheetPeriod><PeriodType>Weekly</PeriodType><ClassName>WeeklyTimesheetPeriod</ClassName><StartDate>1</StartDate><Heading>Week</Heading></TimesheetPeriod>',
         'pim_show_deprecated_fields' => 0,
@@ -17,6 +18,7 @@ class DefaultConfig
         'leave.entitlement_consumption_algorithm' => 'FIFOEntitlementConsumptionStrategy',
         'leave.work_schedule_implementation' => 'BasicWorkSchedule',
         'themeName' => 'default',
+        self::DEFAULT_THEME_VARIABLES => '{"primaryColor":"#5A45E5","primaryFontColor":"#FFFFFF","secondaryColor":"#5039ee","secondaryFontColor":"#FFFFFF","primaryGradientStartColor":"#5A45E5","primaryGradientEndColor":"#5A45E5"}', 'login_banner' => '', 'show_social_media_icons' => '1', 'client_banner' => NULL, 'client_logo_filename' => NULL, 'client_logo_file_type' => NULL, 'client_logo_file_size' => NULL, 'client_banner_filename' => NULL, 'client_banner_file_type' => NULL,
         'leave.leavePeriodStatus' => '1',
         'leave.include_pending_leave_in_balance' => '1',
         'admin.default_workshift_start_time' => '09:00',
