@@ -77,7 +77,6 @@
             display-type="main"
             :label="$t('auth.login')"
             type="submit"
-            :disabled="submitted"
           />
         </oxd-form-actions>
         <div class="orangehrm-login-forgot">
@@ -171,8 +170,10 @@ export default {
 
   methods: {
     onSubmit() {
-      this.submitted = true;
-      this.$refs.loginForm.$el.submit();
+      if (!this.submitted) {
+        this.submitted = true;
+        this.$refs.loginForm.$el.submit();
+      }
     },
     navigateUrl() {
       navigate('/auth/requestPasswordResetCode');

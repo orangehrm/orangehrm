@@ -1,3 +1,25 @@
+New & Changed Features for OrangeHRM ver 5.4
+    New Feature
+    -----------
+    - Mobile Compatibility
+        - Allowing OrangeHRM Starter 5x users to access and utilize the system through OrangeHRM Open Source mobile app
+    - Help Portal Integration
+        - OrangeHRM Starter 5x users can now easily access Starter Help Portal via the application.
+    - OAuth 2.0 support
+        - Allowing secure and standardized authorization for third-party integrations, ensuring smooth and secure data exchange between OrangeHRM and other applications.
+    - Password Policy Enforcement
+        - Enables admins to configure password policies for users and automatically enforce those policies whenever a user creates a new password.
+    - Supported Environments
+        - PHP - 7.4 to 8.2
+        - MariaDB - 5.5 to 10.11
+        - MySQL - 5.5 to 8.0
+
+    Bug Fixes
+    ---------
+    - https://github.com/orangehrm/orangehrm/issues/1622
+    - https://github.com/orangehrm/orangehrm/issues/1584
+    - https://github.com/orangehrm/orangehrm/issues/1583
+
 New & Changed Features for OrangeHRM ver 5.3
     New Feature
     -----------
