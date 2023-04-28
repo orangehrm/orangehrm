@@ -19,99 +19,23 @@
 
 namespace OrangeHRM\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-use OrangeHRM\ORM\Tenancy\TenantAware;
-
-/**
- * EmailConfiguration
- *
- * @ORM\Table("ohrm_email_configuration")
- * @ORM\Entity
- * @ORM\EntityListeners({"OrangeHRM\Entity\Listener\EmailConfigurationListener"})
- */
-class EmailConfiguration extends TenantAware
+class EmailConfiguration
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private int $id;
-
-
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="mail_type", type="string", length=50, nullable=true)
-     */
     private ?string $mailType = null;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="sent_as", type="string", length=250, nullable=false)
-     */
     private string $sentAs;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="smtp_host", type="string", length=250, nullable=true)
-     */
     private ?string $smtpHost = null;
 
-    /**
-     * @var int|null
-     *
-     * @ORM\Column(name="smtp_port", type="integer", length=10, nullable=true)
-     */
     private ?int $smtpPort = null;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="smtp_username", type="string", length=250, nullable=true)
-     */
     private ?string $smtpUsername = null;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="smtp_password", type="string", length=250, nullable=true)
-     */
     private ?string $smtpPassword = null;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="smtp_auth_type", type="string", length=50, nullable=true)
-     */
     private ?string $smtpAuthType = null;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="smtp_security_type", type="string", length=50, nullable=true)
-     */
     private ?string $smtpSecurityType = null;
-
-    /**
-     * @return int
-     */
-    public function getId(): int
-    {
-        return $this->id;
-    }
-
-    /**
-     * @param int $id
-     */
-    public function setId(int $id): void
-    {
-        $this->id = $id;
-    }
 
     /**
      * @return string|null
@@ -121,12 +45,10 @@ class EmailConfiguration extends TenantAware
         return $this->mailType;
     }
 
-    /**
-     * @param string|null $mailType
-     */
-    public function setMailType(?string $mailType): void
+    public function setMailType(?string $mailType): EmailConfiguration
     {
         $this->mailType = $mailType;
+        return $this;
     }
 
     /**
@@ -137,12 +59,10 @@ class EmailConfiguration extends TenantAware
         return $this->sentAs;
     }
 
-    /**
-     * @param string $sentAs
-     */
-    public function setSentAs(string $sentAs): void
+    public function setSentAs(string $sentAs): EmailConfiguration
     {
         $this->sentAs = $sentAs;
+        return $this;
     }
 
     /**
@@ -153,12 +73,10 @@ class EmailConfiguration extends TenantAware
         return $this->smtpHost;
     }
 
-    /**
-     * @param string|null $smtpHost
-     */
-    public function setSmtpHost(?string $smtpHost): void
+    public function setSmtpHost(?string $smtpHost): EmailConfiguration
     {
         $this->smtpHost = $smtpHost;
+        return $this;
     }
 
     /**
@@ -169,12 +87,10 @@ class EmailConfiguration extends TenantAware
         return $this->smtpPort;
     }
 
-    /**
-     * @param int|null $smtpPort
-     */
-    public function setSmtpPort(?int $smtpPort): void
+    public function setSmtpPort(?int $smtpPort): EmailConfiguration
     {
         $this->smtpPort = $smtpPort;
+        return $this;
     }
 
     /**
@@ -185,12 +101,10 @@ class EmailConfiguration extends TenantAware
         return $this->smtpUsername;
     }
 
-    /**
-     * @param string|null $smtpUsername
-     */
-    public function setSmtpUsername(?string $smtpUsername): void
+    public function setSmtpUsername(?string $smtpUsername): EmailConfiguration
     {
         $this->smtpUsername = $smtpUsername;
+        return $this;
     }
 
     /**
@@ -201,12 +115,10 @@ class EmailConfiguration extends TenantAware
         return $this->smtpPassword;
     }
 
-    /**
-     * @param string|null $smtpPassword
-     */
-    public function setSmtpPassword(?string $smtpPassword): void
+    public function setSmtpPassword(?string $smtpPassword): EmailConfiguration
     {
         $this->smtpPassword = $smtpPassword;
+        return $this;
     }
 
     /**
@@ -217,12 +129,10 @@ class EmailConfiguration extends TenantAware
         return $this->smtpAuthType;
     }
 
-    /**
-     * @param string|null $smtpAuthType
-     */
-    public function setSmtpAuthType(?string $smtpAuthType): void
+    public function setSmtpAuthType(?string $smtpAuthType): EmailConfiguration
     {
         $this->smtpAuthType = $smtpAuthType;
+        return $this;
     }
 
     /**
@@ -233,11 +143,14 @@ class EmailConfiguration extends TenantAware
         return $this->smtpSecurityType;
     }
 
-    /**
-     * @param string|null $smtpSecurityType
-     */
-    public function setSmtpSecurityType(?string $smtpSecurityType): void
+    public function setSmtpSecurityType(?string $smtpSecurityType): EmailConfiguration
     {
         $this->smtpSecurityType = $smtpSecurityType;
+        return $this;
+    }
+
+    public static function instance(): EmailConfiguration
+    {
+        return new EmailConfiguration();
     }
 }

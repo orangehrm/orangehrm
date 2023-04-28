@@ -22,26 +22,23 @@ namespace OrangeHRM\Admin\Dao;
 use Exception;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Core\Exception\DaoException;
+use OrangeHRM\Core\Service\EmailService;
 use OrangeHRM\Entity\EmailConfiguration;
 
 class EmailConfigurationDao extends BaseDao
 {
-    /**
-     * @return EmailConfiguration|null
-     * @throws DaoException
-     */
-    public function getEmailConfiguration(): ?EmailConfiguration
+    public function getEmailConfiguration(): EmailConfiguration
     {
-        try {
-            $q = $this->createQueryBuilder(EmailConfiguration::class, 'e');
-            $emailConfig = $this->fetchOne($q);
-            if ($emailConfig instanceof EmailConfiguration) {
-                return $emailConfig;
-            }
-            return null;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        return EmailConfiguration::instance()
+            ->setMailType('smtp')
+            ->setSmtpAuthType(EmailService::SMTP_AUTH_LOGIN)
+            ->setSmtpSecurityType($_ENV['MAIL_ENCRYPTION'])
+            ->setSmtpHost($_ENV['MAIL_HOST'])
+            ->setSmtpPort($_ENV['MAIL_PORT'])
+            ->setMailType($_ENV['MAIL_MAILER'])
+            ->setSmtpUsername($_ENV['MAIL_USERNAME'])
+            ->setSmtpPassword($_ENV['MAIL_PASSWORD'])
+            ->setSentAs($_ENV['MAIL_FROM_ADDRESS']);
     }
 
     /**

@@ -59,7 +59,7 @@ class RequestPasswordController extends AbstractVueController implements PublicC
                 )
             );
         } else {
-            $component = new Component('email-configuration-warning');
+                    $component = new Component('email-configuration-warning');
         }
 
         $this->setTemplate('no_header.html.twig');

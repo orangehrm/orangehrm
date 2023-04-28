@@ -35,9 +35,6 @@ class EmailConfigurationService
      */
     protected ?EmailService $emailService = null;
 
-    /**
-     * @return EmailConfigurationDao|null
-     */
     public function getEmailConfigurationDao(): EmailConfigurationDao
     {
         if (!($this->emailConfigurationDao instanceof EmailConfigurationDao)) {

@@ -200,15 +200,15 @@ class ResetPasswordService
         try {
             $this->getEmailService()->setMessageTo([$receiver->getWorkEmail()]);
             $this->getEmailService()->setMessageFrom(
-                [$this->getEmailService()->getEmailConfig()->getSentAs() => 'OrangeHRM']
+                [$this->getEmailService()->getEmailConfig()->getSentAs() => 'TaskflowHR']
             );
-            $this->getEmailService()->setMessageSubject('OrangeHRM Password Reset');
+            $this->getEmailService()->setMessageSubject('TaskflowHR Password Reset');
             $this->getEmailService()->setMessageBody(
                 $this->generatePasswordResetEmailBody($receiver, $resetCode, $userName)
             );
             return $this->getEmailService()->sendEmail();
         } catch (TransportExceptionInterface $e) {
-            $this->getLogger()->error('Invalid Email configuration');
+            $this->getLogger()->error(sprintf('Invalid Email configuration -> %s', $e->getMessage()));
             return false;
         }
     }
