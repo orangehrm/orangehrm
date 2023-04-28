@@ -128,7 +128,7 @@ class EmployeeAttendanceSummaryAPI extends Endpoint implements CollectionEndpoin
         }
 
         if ($fromDate == null && $toDate == null && $date == null) {
-            $date = $this->getDateTimeHelper()->getNow()->format('Ymd');
+            $date = $this->getDateTimeHelper()->getNow()->format('Y-m-d');
             $employeeAttendanceSummarySearchFilterParams->setFromDate(new DateTime($date . ' ' . '00:00:00'));
             $employeeAttendanceSummarySearchFilterParams->setToDate(new DateTime($date . ' ' . '23:59:59'));
         } elseif ($fromDate == null && $toDate == null) {
@@ -139,11 +139,11 @@ class EmployeeAttendanceSummaryAPI extends Endpoint implements CollectionEndpoin
                 throw $this->getInvalidParamException(["fromDate", "toDate"]);
             }
             $employeeAttendanceSummarySearchFilterParams->setFromDate(
-                new DateTime($fromDate->format('Ymd') . ' ' . '00:00:00')
+                new DateTime($fromDate->format('Y-m-d') . ' ' . '00:00:00')
             );
 
             $employeeAttendanceSummarySearchFilterParams->setToDate(
-                new DateTime($toDate->format('Ymd') . ' ' . '23:59:59')
+                new DateTime($toDate->format('Y-m-d') . ' ' . '23:59:59')
             );
         }
 
