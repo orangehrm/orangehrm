@@ -29,6 +29,7 @@
         :user="{{ user | json_encode() }}"
         brand-logo-src="{{ clientLogoUrl }}"
         brand-banner-src="{{ clientBannerUrl }}"
+        home-url="{{ baseUrl }}"
         logout-url="{{ baseUrl }}/auth/logout"
         support-url="{{ baseUrl }}/help/support"
         :update-password-url="{{ user.hasPassword ? "\"#{baseUrl}/pim/updatePassword\"" : "null" }}"
