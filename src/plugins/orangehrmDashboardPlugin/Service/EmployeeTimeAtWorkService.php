@@ -219,12 +219,20 @@ class EmployeeTimeAtWorkService
                 if ($attendanceRecord->getState() === self::STATE_PUNCHED_OUT) {
                     $punchOutUtcDateTime = $this->getDateTimeInUTC($attendanceRecord->getPunchOutUtcTime());
                     if ($punchInUtcDateTime < $startUTCDateTime && $punchOutUtcDateTime > $endUTCDateTime) {
+                        //punched in before start date and punched out after end date
                         $totalTime += $this->getTimeDifference($endUTCDateTime, $startUTCDateTime);
-                    } elseif ($punchInUtcDateTime < $startUTCDateTime && $punchOutUtcDateTime > $startUTCDateTime) {
+                    } elseif ($punchInUtcDateTime < $startUTCDateTime && $endUTCDateTime > $punchOutUtcDateTime
+                        && $punchOutUtcDateTime > $startUTCDateTime
+                    ) {
+                        //punched in before start date and punched out before end date
                         $totalTime += $this->getTimeDifference($startUTCDateTime, $punchOutUtcDateTime);
-                    } elseif ($punchInUtcDateTime < $endUTCDateTime && $punchOutUtcDateTime > $endUTCDateTime) {
+                    } elseif ($startUTCDateTime < $punchInUtcDateTime && $punchInUtcDateTime < $endUTCDateTime
+                        && $punchOutUtcDateTime > $endUTCDateTime
+                    ) {
+                        //punched in after start date and punched out after end date
                         $totalTime += $this->getTimeDifference($punchInUtcDateTime, $endUTCDateTime);
-                    } else {
+                    } elseif ($punchInUtcDateTime >= $startUTCDateTime && $punchOutUtcDateTime <= $endUTCDateTime) {
+                        //punched in and punched out in middle of start and end date
                         $totalTime += $this->getTimeDifference($punchOutUtcDateTime, $punchInUtcDateTime);
                     }
                 }
