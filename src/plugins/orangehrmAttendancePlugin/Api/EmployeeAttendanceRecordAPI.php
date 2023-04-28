@@ -155,7 +155,7 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
         }
 
         if ($fromDate == null && $toDate == null && $date == null) {
-            $date = $this->getDateTimeHelper()->getNow()->format('Ymd');
+            $date = $this->getDateTimeHelper()->getNow()->format('Y-m-d');
             $attendanceRecordSearchFilterParams->setFromDate(new DateTime($date . ' ' . '00:00:00'));
             $attendanceRecordSearchFilterParams->setToDate(new DateTime($date . ' ' . '23:59:59'));
         } elseif ($fromDate == null && $toDate == null) {
@@ -166,11 +166,11 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
                 throw $this->getInvalidParamException(["fromDate", "toDate"]);
             }
             $attendanceRecordSearchFilterParams->setFromDate(
-                new DateTime($fromDate->format('Ymd') . ' ' . '00:00:00')
+                new DateTime($fromDate->format('Y-m-d') . ' ' . '00:00:00')
             );
 
             $attendanceRecordSearchFilterParams->setToDate(
-                new DateTime($toDate->format('Ymd') . ' ' . '23:59:59')
+                new DateTime($toDate->format('Y-m-d') . ' ' . '23:59:59')
             );
         }
 
