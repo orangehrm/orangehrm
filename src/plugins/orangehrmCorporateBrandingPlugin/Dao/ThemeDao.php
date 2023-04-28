@@ -100,7 +100,7 @@ class ThemeDao extends BaseDao
         $q->andWhere('t.name = :themeName')
             ->setParameter('themeName', $themeName);
 
-        $result = $q->getQuery()->getOneOrNullResult();
+        $result = $q->getQuery()->execute()[0] ?? null;
         if ($result instanceof ThemeImage && !$result->isEmpty()) {
             return $result;
         }
