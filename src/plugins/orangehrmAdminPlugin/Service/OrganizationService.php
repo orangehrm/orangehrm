@@ -20,8 +20,11 @@
 namespace OrangeHRM\Admin\Service;
 
 use OrangeHRM\Admin\Dao\OrganizationDao;
+use OrangeHRM\Authentication\Dto\OrganizationSetup;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\Organization;
+use OrangeHRM\ORM\Exception\TransactionException;
+use Throwable;
 
 class OrganizationService
 {
@@ -68,5 +71,13 @@ class OrganizationService
     public function saveOrganizationGeneralInformation(Organization $organization): Organization
     {
         return $this->getOrganizationDao()->saveOrganizationGeneralInformation($organization);
+    }
+
+    /**
+     * @throws TransactionException
+     */
+    public function setupNewOrganization(OrganizationSetup $organizationSetup): void
+    {
+        $this->getOrganizationDao()->setupNewOrganization($organizationSetup);
     }
 }

@@ -17,6 +17,7 @@
  */
 
 import Login from './pages/Login.vue';
+import Register from './pages/Register/Register.vue';
 import Forbidden from './pages/Forbidden.vue';
 import AdministratorAccess from './pages/AdministratorAccess.vue';
 import RequestResetPassword from './pages/RequestResetPassword.vue';
@@ -27,6 +28,7 @@ import EmailConfigurationWarning from './pages/EmailConfigurationWarning.vue';
 
 export default {
   'auth-login': Login,
+  'auth-register': Register,
   'auth-forbidden': Forbidden,
   'auth-admin-access': AdministratorAccess,
   'request-reset-password': RequestResetPassword,

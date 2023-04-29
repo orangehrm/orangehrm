@@ -33,7 +33,7 @@ export class APIService {
   private _cacheStorage: WebStorage;
   private _ignorePathRegex: RegExp | undefined;
 
-  constructor(baseUrl: string, path: string) {
+  constructor(baseUrl: string, path = '') {
     this._baseUrl = baseUrl;
     this._apiSection = path;
     this._http = axios.create({

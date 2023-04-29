@@ -352,4 +352,9 @@ class Organization
     {
         $this->note = $note;
     }
+
+    public static function instance(): Organization
+    {
+        return new Organization();
+    }
 }

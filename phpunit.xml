@@ -72,4 +72,21 @@
       <directory>src/plugins/orangehrmBuzzPlugin/test</directory>
     </testsuite>
   </testsuites>
+
+  <php>
+    <env name="APP_ENV" value="testing"/>
+    <env name="BCRYPT_ROUNDS" value="4"/>
+    <env name="CACHE_DRIVER" value="array"/>
+    <env name="DB_DATABASE" value="testing"/>
+    <env name="MAIL_MAILER" value="array"/>
+    <env name="QUEUE_CONNECTION" value="sync"/>
+    <env name="SESSION_DRIVER" value="array"/>
+    <env name="TELESCOPE_ENABLED" value="false"/>
+
+    <env name="DB_HOST" value="mariadb_10"/>
+    <env name="DB_PORT" value="3306"/>
+    <env name="DB_DATABASE" value="migration_db"/>
+    <env name="DB_USERNAME" value="root"/>
+    <env name="DB_PASSWORD" value="password"/>
+  </php>
 </phpunit>

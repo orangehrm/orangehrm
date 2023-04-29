@@ -18,6 +18,11 @@ auth_validate:
   controller: OrangeHRM\Authentication\Controller\ValidateController::handle
   methods: [ POST ]
 
+auth_signup:
+  path: /auth/signup
+  controller: OrangeHRM\Authentication\Controller\SignupController::handle
+  methods: [ POST ]
+
 auth_logout:
   path: /auth/logout
   controller: OrangeHRM\Authentication\Controller\LogoutController::handle

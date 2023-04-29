@@ -19,17 +19,25 @@
 
 namespace OrangeHRM\Admin\Dao;
 
+use DateTime;
 use Exception;
+use OrangeHRM\Authentication\Dto\OrganizationSetup;
+use OrangeHRM\Authentication\Utils\RoleUtils;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
+use OrangeHRM\Core\Utility\PasswordHash;
+use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\Organization;
 use OrangeHRM\Entity\Subunit;
+use OrangeHRM\Entity\User;
 use OrangeHRM\ORM\Exception\TransactionException;
+use Throwable;
 
 class OrganizationDao extends BaseDao
 {
     use AuthUserTrait;
+
     /**
      * @return Organization|null
      * @throws DaoException
@@ -69,6 +77,68 @@ class OrganizationDao extends BaseDao
         } catch (Exception $exception) {
             $this->rollBackTransaction();
             throw new TransactionException($exception);
+        }
+    }
+
+    /**
+     * @throws TransactionException
+     */
+    public function setupNewOrganization(OrganizationSetup $organizationSetup)
+    {
+        // Organization Details
+        $organization = Organization::instance();
+        $organization->setName($organizationSetup->getOrganizationName());
+        $organization->setCountry($organizationSetup->getCountryCode());
+
+        // Subunit Details
+        $subunit = new Subunit();
+        $subunit->setLevel(0);
+        $subunit->setName($organization->getName());
+        $subunit->setLft(1);
+        $subunit->setRgt(2);
+
+        // Employee Details
+        $employee = new Employee();
+        $employee->setFirstName($organizationSetup->getFirstName());
+        $employee->setLastName($organizationSetup->getLastName());
+
+        // Role Details
+        $adminRole = RoleUtils::admin();
+        $essRole = RoleUtils::ess();
+
+        $passwordHasher = new PasswordHash();
+        $hashedPassword = $passwordHasher->hash($organizationSetup->getPassword());
+
+        // User Details
+        $user = new User();
+        $user->setUserName($organizationSetup->getEmail());
+        $user->setUserPassword($hashedPassword);
+        $user->setDateEntered(new DateTime());
+
+        $this->beginTransaction();
+        try {
+            $this->persist($organization);
+            $subunit->setOrgId($organization->getId());
+            $this->persist($subunit);
+            $employee->setOrgId($organization->getId());
+            $this->persist($employee);
+            $adminRole->setOrgId($organization->getId());
+            $essRole->setOrgId($organization->getId());
+
+            // Roles
+            $this->persist($essRole);
+            $this->persist($adminRole);
+
+            // User
+            $user->setEmployee($employee);
+            $user->setUserRole($adminRole);
+            $user->setOrgId($organization->getId());
+            $this->persist($user);
+
+            $this->commitTransaction();
+        } catch (Throwable $t) {
+            $this->rollBackTransaction();
+            throw new TransactionException($t);
         }
     }
 

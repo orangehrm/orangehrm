@@ -30,6 +30,13 @@
           :message="error?.message || ''"
           type="error"
         ></oxd-alert>
+
+        <oxd-alert
+            :show="success !== null"
+            :message="success?.message || ''"
+            type="success"
+        ></oxd-alert>
+
         <oxd-sheet
           v-if="isDemoMode"
           type="gray-lighten-2"
@@ -117,6 +124,10 @@ export default {
       type: Object,
       default: () => null,
     },
+    success: {
+      type: Object,
+      default: () => null,
+    },
     token: {
       type: String,
       required: true,
@@ -162,7 +173,8 @@ export default {
       navigate('/auth/requestPasswordResetCode');
     },
     goToRegistrationPage() {
-      window.location.href = `${window.location.origin}/installer/index.php`;
+      navigate('/auth/register');
+      //window.location.href = `${window.location.origin}/installer/index.php`;
     },
   },
 };
