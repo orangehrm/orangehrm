@@ -46,6 +46,7 @@ import SaveEmployeeReport from './pages/reports/SaveEmployeeReport.vue';
 import ViewEmployeeReport from './pages/reports/ViewEmployeeReport.vue';
 import EditEmployeeReport from './pages/reports/EditEmployeeReport.vue';
 import UpdatePassword from './pages/updatePassword/UpdatePassword.vue';
+import EmployeeSubscribe from './pages/employee/EmployeeSubscribe.vue';
 
 export default {
   'employee-save': SaveEmployee,
@@ -78,4 +79,5 @@ export default {
   'employee-report-view': ViewEmployeeReport,
   'employee-report-edit': EditEmployeeReport,
   'update-password': UpdatePassword,
+  'employee-subscribe': EmployeeSubscribe,
 };
