@@ -65,4 +65,3 @@ langStrings:
   -
     value: "Total Amount ({currencyName}) : {totalAmount}"
     unitId: total_amount
-
