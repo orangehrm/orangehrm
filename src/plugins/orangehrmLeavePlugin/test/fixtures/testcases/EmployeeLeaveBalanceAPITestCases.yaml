@@ -1,0 +1,274 @@
+GetAll:
+  'Get employee leave balance - self - Admin User':
+    userId: 1
+    services:
+      leave.leave_type_service: \OrangeHRM\Leave\Service\LeaveTypeService
+      leave.leave_period_service: \OrangeHRM\Leave\Service\LeavePeriodService
+      leave.leave_request_service: \OrangeHRM\Leave\Service\LeaveRequestService
+      leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
+      leave.leave_entitlement_service: \OrangeHRM\Leave\Service\LeaveEntitlementService
+    now:
+      datetime: '2023-04-12'
+    data: [
+      {
+        leaveType: {
+          "id": 3,
+          "name": "CAN - Vacation",
+          "deleted": false
+        },
+        usageBreakdown: null,
+        fromDate: null,
+        toDate: null
+      },
+      {
+        leaveType: {
+          "id": 1,
+          "name": "Medical",
+          "deleted": false
+        },
+        usageBreakdown: {
+          "entitled": 7.0,
+          "used": 2.5,
+          "scheduled": 0.5,
+          "pending": 1.5,
+          "taken": 0.5,
+          "balance": 4.5
+        },
+        fromDate: "2023-01-01",
+        toDate: "2023-12-31"
+      },
+      {
+        leaveType: {
+          "id": 2,
+          "name": "US - Vacation",
+          "deleted": false
+        },
+        usageBreakdown: null,
+        fromDate: null,
+        toDate: null
+      }
+    ]
+    meta:
+      total: 3
+      empNumber: 4
+
+  'Get employee leave balance - self - Ess User':
+    userId: 2
+    services:
+      leave.leave_type_service: \OrangeHRM\Leave\Service\LeaveTypeService
+      leave.leave_period_service: \OrangeHRM\Leave\Service\LeavePeriodService
+      leave.leave_request_service: \OrangeHRM\Leave\Service\LeaveRequestService
+      leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
+      leave.leave_entitlement_service: \OrangeHRM\Leave\Service\LeaveEntitlementService
+    now:
+      datetime: '2023-04-12'
+    data: [
+      {
+        leaveType: {
+          "id": 3,
+          "name": "CAN - Vacation",
+          "deleted": false
+        },
+        usageBreakdown: null,
+        fromDate: null,
+        toDate: null
+      },
+      {
+        leaveType: {
+          "id": 1,
+          "name": "Medical",
+          "deleted": false
+        },
+        usageBreakdown: {
+          "entitled": 7.0,
+          "used": 3.875,
+          "scheduled": 0.0,
+          "pending": 0.0,
+          "taken": 0.0,
+          "balance": 7.0
+        },
+        fromDate: "2023-01-01",
+        toDate: "2023-12-31"
+      },
+      {
+        leaveType: {
+          "id": 2,
+          "name": "US - Vacation",
+          "deleted": false
+        },
+        usageBreakdown: {
+          "entitled": 20.0,
+          "used": 14.0,
+          "scheduled": 1.0,
+          "pending": 1.0,
+          "taken": 1.0,
+          "balance": 17.0
+        },
+        fromDate: "2023-01-01",
+        toDate: "2023-12-31"
+      }
+    ]
+    meta:
+      total: 3
+      empNumber: 1
+
+  'Get employee leave balance by empNumber':
+    userId: 2
+    services:
+      leave.leave_type_service: \OrangeHRM\Leave\Service\LeaveTypeService
+      leave.leave_period_service: \OrangeHRM\Leave\Service\LeavePeriodService
+      leave.leave_request_service: \OrangeHRM\Leave\Service\LeaveRequestService
+      leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
+      leave.leave_entitlement_service: \OrangeHRM\Leave\Service\LeaveEntitlementService
+    query:
+      empNumber: 1
+    now:
+      datetime: '2023-04-12'
+    data: [
+      {
+        leaveType: {
+          "id": 3,
+          "name": "CAN - Vacation",
+          "deleted": false
+        },
+        usageBreakdown: null,
+        fromDate: null,
+        toDate: null
+      },
+      {
+        leaveType: {
+          "id": 1,
+          "name": "Medical",
+          "deleted": false
+        },
+        usageBreakdown: {
+          "entitled": 7.0,
+          "used": 3.875,
+          "scheduled": 0.0,
+          "pending": 0.0,
+          "taken": 0.0,
+          "balance": 7.0
+        },
+        fromDate: "2023-01-01",
+        toDate: "2023-12-31"
+      },
+      {
+        leaveType: {
+          "id": 2,
+          "name": "US - Vacation",
+          "deleted": false
+        },
+        usageBreakdown: {
+          "entitled": 20.0,
+          "used": 14.0,
+          "scheduled": 1.0,
+          "pending": 1.0,
+          "taken": 1.0,
+          "balance": 17.0
+        },
+        fromDate: "2023-01-01",
+        toDate: "2023-12-31"
+      }
+    ]
+    meta:
+      total: 3
+      empNumber: 1
+
+  'Get employee leave balance - self - by specific date range':
+    userId: 2
+    services:
+      leave.leave_type_service: \OrangeHRM\Leave\Service\LeaveTypeService
+      leave.leave_period_service: \OrangeHRM\Leave\Service\LeavePeriodService
+      leave.leave_request_service: \OrangeHRM\Leave\Service\LeaveRequestService
+      leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
+      leave.leave_entitlement_service: \OrangeHRM\Leave\Service\LeaveEntitlementService
+    query:
+      fromDate: "2023-10-01"
+      toDate: "2023-10-07"
+    now:
+      datetime: '2023-09-05'
+    data: [
+      {
+        leaveType: {
+          "id": 3,
+          "name": "CAN - Vacation",
+          "deleted": false
+        },
+        usageBreakdown: null,
+        fromDate: null,
+        toDate: null
+      },
+      {
+        leaveType: {
+          "id": 1,
+          "name": "Medical",
+          "deleted": false
+        },
+        usageBreakdown: null,
+        fromDate: null,
+        toDate: null,
+      },
+      {
+        leaveType: {
+          "id": 2,
+          "name": "US - Vacation",
+          "deleted": false
+        },
+        usageBreakdown: {
+          "entitled": 20.0,
+          "used": 14.0,
+          "scheduled": 1.0,
+          "pending": 1.0,
+          "taken": 1.0,
+          "balance": 17.0
+        },
+        fromDate: "2023-10-01",
+        toDate: "2023-10-07"
+      }
+    ]
+    meta:
+      total: 3
+      empNumber: 1
+
+  'Get employee leave balance - only fromDate':
+    userId: 2
+    services:
+      leave.leave_type_service: \OrangeHRM\Leave\Service\LeaveTypeService
+      leave.leave_period_service: \OrangeHRM\Leave\Service\LeavePeriodService
+      leave.leave_request_service: \OrangeHRM\Leave\Service\LeaveRequestService
+      leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
+      leave.leave_entitlement_service: \OrangeHRM\Leave\Service\LeaveEntitlementService
+    query:
+      fromDate: "2023-10-01"
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: 'Invalid Parameter'
+
+  'Get employee leave balance - limit and offset':
+    userId: 1
+    services:
+      leave.leave_type_service: \OrangeHRM\Leave\Service\LeaveTypeService
+      leave.leave_period_service: \OrangeHRM\Leave\Service\LeavePeriodService
+      leave.leave_request_service: \OrangeHRM\Leave\Service\LeaveRequestService
+      leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
+      leave.leave_entitlement_service: \OrangeHRM\Leave\Service\LeaveEntitlementService
+    query:
+      limit: 1
+      offset: 0
+    now:
+      datetime: '2023-04-12'
+    data: [
+      {
+        leaveType: {
+          "id": 3,
+          "name": "CAN - Vacation",
+          "deleted": false
+        },
+        usageBreakdown: null,
+        fromDate: null,
+        toDate: null
+      }
+    ]
+    meta:
+      total: 3
+      empNumber: 4
