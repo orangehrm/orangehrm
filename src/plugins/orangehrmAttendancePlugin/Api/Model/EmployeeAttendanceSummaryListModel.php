@@ -24,6 +24,25 @@ use OrangeHRM\Core\Api\V2\Serializer\ModelConstructorArgsAwareInterface;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Core\Traits\Service\NumberHelperTrait;
 
+/**
+ * @OA\Schema(
+ *     schema="Attendance-EmployeeAttendanceSummeryListModel",
+ *     type="object",
+ *     @OA\Property(property="empNumber", type="integer"),
+ *     @OA\Property(property="lastName", type="string"),
+ *     @OA\Property(property="firstName", type="string"),
+ *     @OA\Property(property="middleName", type="string"),
+ *     @OA\Property(property="employeeId", type="string"),
+ *     @OA\Property(property="terminationId", type="integer"),
+ *     @OA\Property(
+ *         property="sum",
+ *         type="object",
+ *         @OA\Property(property="hours", type="integer"),
+ *         @OA\Property(property="minutes", type="integer"),
+ *         @OA\Property(property="label", type="string")
+ *     ),
+ * )
+ */
 class EmployeeAttendanceSummaryListModel implements CollectionNormalizable, ModelConstructorArgsAwareInterface
 {
     use DateTimeHelperTrait;

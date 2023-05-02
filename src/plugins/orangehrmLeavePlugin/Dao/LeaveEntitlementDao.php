@@ -38,6 +38,7 @@ use OrangeHRM\Leave\Service\LeavePeriodService;
 use OrangeHRM\Leave\Traits\Service\LeaveConfigServiceTrait;
 use OrangeHRM\Leave\Traits\Service\LeaveEntitlementServiceTrait;
 use OrangeHRM\ORM\Exception\TransactionException;
+use OrangeHRM\ORM\ListSorter;
 use OrangeHRM\ORM\Paginator;
 use OrangeHRM\ORM\QueryBuilderWrapper;
 
@@ -102,7 +103,7 @@ class LeaveEntitlementDao extends BaseDao
         $q->leftJoin('entitlement.leaveType', 'leaveType');
         $this->setSortingAndPaginationParams($q, $entitlementSearchFilterParams);
 
-        if (!empty($entitlementSearchFilterParams->getEmpNumber())) {
+        if ($entitlementSearchFilterParams->getEmpNumber() !== null) {
             $q->andWhere('entitlement.employee = :empNumber')
                 ->setParameter('empNumber', $entitlementSearchFilterParams->getEmpNumber());
         }
@@ -112,19 +113,24 @@ class LeaveEntitlementDao extends BaseDao
                 ->setParameter('empNumbers', $entitlementSearchFilterParams->getEmpNumbers());
         }
 
-        if (!empty($entitlementSearchFilterParams->getLeaveTypeId())) {
+        if ($entitlementSearchFilterParams->getLeaveTypeId() !== null) {
             $q->andWhere('entitlement.leaveType = :leaveTypeId')
                 ->setParameter('leaveTypeId', $entitlementSearchFilterParams->getLeaveTypeId());
         }
 
-        if (!empty($entitlementSearchFilterParams->getFromDate())) {
+        if ($entitlementSearchFilterParams->getFromDate() !== null) {
             $q->andWhere($q->expr()->gte('entitlement.fromDate', ':fromDate'))
                 ->setParameter('fromDate', $entitlementSearchFilterParams->getFromDate());
         }
 
-        if (!empty($entitlementSearchFilterParams->getToDate())) {
+        if ($entitlementSearchFilterParams->getToDate() !== null) {
             $q->andWhere($q->expr()->lte('entitlement.toDate', ':toDate'))
                 ->setParameter('toDate', $entitlementSearchFilterParams->getToDate());
+        }
+
+        if ($entitlementSearchFilterParams->getLeaveTypeDeleted() !== null) {
+            $q->andWhere('leaveType.deleted = :leaveTypeDeleted')
+                ->setParameter('leaveTypeDeleted', $entitlementSearchFilterParams->getLeaveTypeDeleted());
         }
 
         // get predictable sorting
@@ -802,5 +808,39 @@ class LeaveEntitlementDao extends BaseDao
                 ->setParameter('empNumbers', $filterParams->getEmpNumbers());
         }
         return $this->getPaginator($q);
+    }
+
+    /**
+     * @param int $empNumber
+     * @param DateTime|null $fromDate
+     * @param DateTime|null $toDate
+     * @return int[]
+     */
+    public function getLeaveTypeIdsForEntitlementsByEmployee(
+        int $empNumber,
+        ?DateTime $fromDate = null,
+        ?DateTime $toDate = null
+    ): array {
+        $q = $this->createQueryBuilder(LeaveEntitlement::class, 'entitlement')
+            ->leftJoin('entitlement.leaveType', 'leaveType')
+            ->select('IDENTITY(entitlement.leaveType) AS leaveTypeId')
+            ->distinct();
+        $q->andWhere('entitlement.employee = :empNumber')
+            ->setParameter('empNumber', $empNumber);
+
+        if ($fromDate !== null) {
+            $q->andWhere($q->expr()->gte('entitlement.fromDate', ':fromDate'))
+                ->setParameter('fromDate', $fromDate);
+        }
+        if ($toDate !== null) {
+            $q->andWhere($q->expr()->lte('entitlement.toDate', ':toDate'))
+                ->setParameter('toDate', $toDate);
+        }
+
+        $q->andWhere('leaveType.deleted = :leaveTypeDeleted')
+            ->setParameter('leaveTypeDeleted', false);
+        $q->addOrderBy('leaveType.id', ListSorter::ASCENDING);
+
+        return $q->getQuery()->getSingleColumnResult();
     }
 }

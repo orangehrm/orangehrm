@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a3c33af7a75bbe6047015303befa58d9",
+    "content-hash": "c8790069d21e732da9cd9c3ca9e9b2e3",
     "packages": [
         {
             "name": "bjeavons/zxcvbn-php",
@@ -8751,20 +8751,20 @@
         },
         {
             "name": "zircote/swagger-php",
-            "version": "4.5.1",
+            "version": "4.7.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zircote/swagger-php.git",
-                "reference": "eb84fb4d65a327e604812fbddc6c27f69b9ed6e2"
+                "reference": "3727cd85f98039f4242f1be14a01d095069ce71f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zircote/swagger-php/zipball/eb84fb4d65a327e604812fbddc6c27f69b9ed6e2",
-                "reference": "eb84fb4d65a327e604812fbddc6c27f69b9ed6e2",
+                "url": "https://api.github.com/repos/zircote/swagger-php/zipball/3727cd85f98039f4242f1be14a01d095069ce71f",
+                "reference": "3727cd85f98039f4242f1be14a01d095069ce71f",
                 "shasum": ""
             },
             "require": {
-                "doctrine/annotations": "^1.7",
+                "doctrine/annotations": "^1.7 || ^2.0",
                 "ext-json": "*",
                 "php": ">=7.2",
                 "psr/log": "^1.1 || ^2.0 || ^3.0",
@@ -8823,9 +8823,9 @@
             ],
             "support": {
                 "issues": "https://github.com/zircote/swagger-php/issues",
-                "source": "https://github.com/zircote/swagger-php/tree/4.5.1"
+                "source": "https://github.com/zircote/swagger-php/tree/4.7.9"
             },
-            "time": "2022-11-09T00:17:13+00:00"
+            "time": "2023-04-12T23:40:55+00:00"
         }
     ],
     "aliases": [],

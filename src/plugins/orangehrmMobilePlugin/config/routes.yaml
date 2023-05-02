@@ -1,0 +1,7 @@
+apiv2_mobile_modules:
+  path: /api/v2/mobile/menus
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    id: 0
+    _api: OrangeHRM\Mobile\Api\MenuItemAPI

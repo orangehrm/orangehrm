@@ -121,7 +121,7 @@ class LeaveTypeDao extends BaseDao
      * Search Leave Type
      *
      * @param LeaveTypeSearchFilterParams $leaveTypeSearchParams
-     * @return array
+     * @return LeaveType[]
      */
     public function searchLeaveType(LeaveTypeSearchFilterParams $leaveTypeSearchParams): array
     {

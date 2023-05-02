@@ -1,0 +1,282 @@
+GetAll:
+  'Get employee on leave in a single day - default status - Admin user':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      leave.leave_request_service: \OrangeHRM\Leave\Service\LeaveRequestService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      fromDate: "2023-01-02"
+      toDate: "2023-01-02"
+      empNumber: 2
+    now:
+      datetime: '2023-04-12'
+    data:
+      0:
+        id: 9
+        date: "2023-01-02"
+        lengthHours: 8.0
+        lengthDays: 1.0
+        status:
+          id: 1
+          name: "Pending Approval"
+        leaveRequest:
+          id: 3
+        leaveType:
+          id: 6
+          name: "Medical"
+          deleted: false
+        startTime: null
+        endTime: null
+        durationType:
+          id: 0
+          type: "full_day"
+    meta:
+      total: 1
+
+  'Get employee on leave from date to date - default status - Admin user':
+    userId: 1
+    services:
+      leave.leave_request_service: \OrangeHRM\Leave\Service\LeaveRequestService
+    query:
+      fromDate: "2023-09-01"
+      toDate: "2023-09-07"
+      empNumber: 4
+    now:
+      datetime: '2023-04-12'
+    data:
+      0:
+        id: 1
+        date: "2023-09-01"
+        lengthHours: 8.0
+        lengthDays: 1.0
+        status:
+          id: 1
+          name: "Pending Approval"
+        leaveRequest:
+          id: 1
+        leaveType:
+          id: 6
+          name: "Medical"
+          deleted: false
+        startTime: null
+        endTime: null
+        durationType:
+          id: 0
+          type: "full_day"
+    meta:
+      total: 1
+
+  'Get employee on leave from date to date - pending, approved and taken':
+    userId: 1
+    services:
+      leave.leave_request_service: \OrangeHRM\Leave\Service\LeaveRequestService
+    query:
+      fromDate: "2023-09-01"
+      toDate: "2023-09-30"
+      empNumber: 4
+      statuses: [1, 2, 3]
+    now:
+      datetime: '2023-04-12'
+    data:
+      0:
+        id: 1
+        date: "2023-09-01"
+        lengthHours: 8.0
+        lengthDays: 1.0
+        status:
+          id: 1
+          name: "Pending Approval"
+        leaveRequest:
+          id: 1
+        leaveType:
+          id: 6
+          name: "Medical"
+          deleted: false
+        startTime: null
+        endTime: null
+        durationType:
+          id: 0
+          type: "full_day"
+      1:
+        id: 2
+        date: "2023-09-23"
+        lengthHours: 4.0
+        lengthDays: 0.5
+        status:
+          id: 2
+          name: "Scheduled"
+        leaveRequest:
+          id: 2
+        leaveType:
+          id: 6
+          name: "Medical"
+          deleted: false
+        startTime: null
+        endTime: null
+        durationType:
+          id: 2
+          type: "half_day_afternoon"
+      2:
+        id: 3
+        date: "2023-09-24"
+        lengthHours: 4.0
+        lengthDays: 0.5
+        status:
+          id: 1
+          name: "Pending Approval"
+        leaveRequest:
+          id: 2
+        leaveType:
+          id: 6
+          name: "Medical"
+          deleted: false
+        startTime: null
+        endTime: null
+        durationType:
+          id: 0
+          type: "full_day"
+      3:
+        id: 5
+        date: "2023-09-26"
+        lengthHours: 4.0
+        lengthDays: 0.5
+        status:
+          id: 3
+          name: "Taken"
+        leaveRequest:
+          id: 2
+        leaveType:
+          id: 6
+          name: "Medical"
+          deleted: false
+        startTime: null
+        endTime: null
+        durationType:
+          id: 1
+          type: "half_day_morning"
+    meta:
+      total: 4
+
+  'Get employee on leave invalid from date to date - Admin user':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      leave.leave_request_service: \OrangeHRM\Leave\Service\LeaveRequestService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      fromDate: "2023-09-01"
+      toDate: "2022-09-07"
+      empNumber: 4
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: 'Invalid Parameter'
+
+  'Get employee on leave from date to date - default status - ESS user':
+    userId: 2
+    services:
+      leave.leave_request_service: \OrangeHRM\Leave\Service\LeaveRequestService
+    query:
+      fromDate: "2023-09-01"
+      toDate: "2023-09-04"
+      empNumber: 1
+    now:
+      datetime: '2023-04-12'
+    data:
+      0:
+        id: 11
+        date: "2023-09-03"
+        lengthHours: 4.0
+        lengthDays: 0.5
+        status:
+          id: 1
+          name: "Pending Approval"
+        leaveRequest:
+          id: 4
+        leaveType:
+          id: 2
+          name: "US - Vacation"
+          deleted: false
+        startTime: null
+        endTime: null
+        durationType:
+          id: 0
+          type: "full_day"
+    meta:
+      total: 1
+
+  'Get employee on leave from date to date - Supervisor User':
+    userId: 3
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      leave.leave_request_service: \OrangeHRM\Leave\Service\LeaveRequestService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      fromDate: "2023-03-01"
+      toDate: "2023-03-07"
+      empNumber: 6
+    now:
+      datetime: '2023-04-12'
+    data:
+      0:
+        id: 55
+        date: "2023-03-07"
+        lengthHours: 8.0
+        lengthDays: 1.0
+        status:
+          id: 1
+          name: "Pending Approval"
+        leaveRequest:
+          id: 15
+        leaveType:
+          id: 2
+          name: "US - Vacation"
+          deleted: false
+        startTime: null
+        endTime: null
+        durationType:
+          id: 0
+          type: "full_day"
+    meta:
+      total: 1
+
+  'Get employee on leave from date to date - without employee number':
+    userId: 2
+    services:
+      leave.leave_request_service: \OrangeHRM\Leave\Service\LeaveRequestService
+    query:
+      fromDate: "2023-09-01"
+      toDate: "2023-09-04"
+    now:
+      datetime: '2023-04-12'
+    data:
+      0:
+        id: 11
+        date: "2023-09-03"
+        lengthHours: 4.0
+        lengthDays: 0.5
+        status:
+          id: 1
+          name: "Pending Approval"
+        leaveRequest:
+          id: 4
+        leaveType:
+          id: 2
+          name: "US - Vacation"
+          deleted: false
+        startTime: null
+        endTime: null
+        durationType:
+          id: 0
+          type: "full_day"
+    meta:
+      total: 1

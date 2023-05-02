@@ -51,7 +51,7 @@
     },
     "require-dev": {
         "phpunit/phpunit": "^9.5",
-        "zircote/swagger-php": "^4.5"
+        "zircote/swagger-php": "~4.7.9"
     },
     "autoload": {
         "psr-4": {
@@ -78,6 +78,7 @@
             "OrangeHRM\\CorporateBranding\\": "./plugins/orangehrmCorporateBrandingPlugin",
             "OrangeHRM\\LDAP\\": "./plugins/orangehrmLDAPAuthenticationPlugin",
             "OrangeHRM\\SystemCheck\\": "./plugins/orangehrmSystemCheckPlugin",
+            "OrangeHRM\\Mobile\\": "./plugins/orangehrmMobilePlugin",
             "OrangeHRM\\Claim\\": "./plugins/orangehrmClaimPlugin",
             "OrangeHRM\\Installer\\": "../installer",
             "OrangeHRM\\Entity\\": [
@@ -119,8 +120,9 @@
             "OrangeHRM\\Tests\\Dashboard\\": "./plugins/orangehrmDashboardPlugin/test",
             "OrangeHRM\\Tests\\LDAP\\": "./plugins/orangehrmLDAPAuthenticationPlugin/test",
             "OrangeHRM\\Tests\\Buzz\\": "./plugins/orangehrmBuzzPlugin/test",
-            "OrangeHRM\\Tests\\Claim\\": "./plugins/orangehrmClaimPlugin/test",
-            "OrangeHRM\\Tests\\Help\\": "./plugins/orangehrmHelpPlugin/test"
+            "OrangeHRM\\Tests\\Help\\": "./plugins/orangehrmHelpPlugin/test",
+            "OrangeHRM\\Tests\\Mobile\\": "./plugins/orangehrmMobilePlugin/test",
+            "OrangeHRM\\Tests\\Claim\\": "./plugins/orangehrmClaimPlugin/test"
         }
     },
     "scripts": {

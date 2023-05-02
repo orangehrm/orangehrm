@@ -78,18 +78,19 @@ class LeaveEntitlementDaoTest extends KernelTestCase
             $entitlementList[2],
             $entitlementList[3],
             $entitlementList[5],
+            $entitlementList[8],
             $entitlementList[1],
             $entitlementList[6],
-            $entitlementList[7]
+            $entitlementList[7],
         ];
         $results = $this->dao->getLeaveEntitlements($parameterHolder);
         $this->_compareEntitlements($expected, $results);
 
         $total = $this->dao->getLeaveEntitlementsCount($parameterHolder);
-        $this->assertEquals(7, $total);
+        $this->assertEquals(8, $total);
 
         $sum = $this->dao->getLeaveEntitlementsSum($parameterHolder);
-        $this->assertEquals(27, $sum);
+        $this->assertEquals(30.0, $sum);
     }
 
     public function testSearchLeaveEntitlementsSorting(): void
@@ -106,9 +107,10 @@ class LeaveEntitlementDaoTest extends KernelTestCase
             $entitlementList[2],
             $entitlementList[3],
             $entitlementList[6],
+            $entitlementList[8],
             $entitlementList[0],
             $entitlementList[5],
-            $entitlementList[7]
+            $entitlementList[7],
         ];
         $results = $this->dao->getLeaveEntitlements($parameterHolder);
         $this->_compareEntitlements($expected, $results);
@@ -253,7 +255,8 @@ class LeaveEntitlementDaoTest extends KernelTestCase
             $entitlementList[2],
             $entitlementList[3],
             $entitlementList[5],
-            $entitlementList[1]
+            $entitlementList[8],
+            $entitlementList[1],
         ];
         $results = $this->dao->getLeaveEntitlements($parameterHolder);
         $this->_compareEntitlements($expected, $results);
@@ -787,5 +790,24 @@ class LeaveEntitlementDaoTest extends KernelTestCase
 
         $this->assertCount(1, $employees);
         $this->assertEquals('Kayla', $employees[0]->getFirstName());
+    }
+
+    public function testGetLeaveTypeIdsForEntitlementsByEmployee(): void
+    {
+        $leaveTypeIds = $this->dao->getLeaveTypeIdsForEntitlementsByEmployee(1);
+        $this->assertEquals([1, 2], $leaveTypeIds); // leave type id: 3 is deleted
+
+        $leaveTypeIds = $this->dao->getLeaveTypeIdsForEntitlementsByEmployee(2);
+        $this->assertEquals([6], $leaveTypeIds);
+
+        // employee who does not have leaves entitlements
+        $leaveTypeIds = $this->dao->getLeaveTypeIdsForEntitlementsByEmployee(4);
+        $this->assertEmpty($leaveTypeIds);
+        $this->assertIsArray($leaveTypeIds);
+
+        // non-existing empNumber
+        $leaveTypeIds = $this->dao->getLeaveTypeIdsForEntitlementsByEmployee(1000);
+        $this->assertEmpty($leaveTypeIds);
+        $this->assertIsArray($leaveTypeIds);
     }
 }

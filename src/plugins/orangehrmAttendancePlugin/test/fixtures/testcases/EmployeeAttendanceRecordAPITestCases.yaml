@@ -660,7 +660,124 @@ GetAll:
     userId: 1
     services:
       attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
-    attributes: [ ]
-    body: [ ]
-    query: [ ]
-    invalidOnly: [ 'date', 'empNumber' ]
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      empNumber: 1
+    now:
+      datetime: '2011-05-27'
+    data: [
+      {
+        id: 1,
+        punchIn: {
+          "userDate": "2011-05-27",
+          "userTime": "12:10",
+          "offset": "5.5",
+          "note": "Im punched In"
+        },
+        punchOut: {
+          "userDate": "2011-05-28",
+          "userTime": "12:10",
+          "offset": "5.5",
+          "note": " Punched Out"
+        },
+        duration: "24.00"
+      }
+    ]
+    meta:
+      total: 1
+      sum: {
+        "hours": 24.0,
+        "minutes": 0,
+        "label": "24.00"
+      }
+
+  'Get employee attendance by from date & to date - Admin user':
+    userId: 1
+    services:
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      empNumber: 6
+    query:
+      fromDate: '2011-04-01'
+      toDate: '2011-04-30'
+    data: [
+      {
+        id: 7,
+        punchIn: {
+          "userDate": "2011-04-27",
+          "userTime": "19:06",
+          "offset": "9",
+          "note": "Im punched In"
+        },
+        punchOut: {
+          "userDate": "2011-04-27",
+          "userTime": "19:30",
+          "offset": "9",
+          "note": " Punched Out"
+        },
+        duration: "0.40"
+      },
+      {
+        id: 8,
+        punchIn: {
+          "userDate": "2011-04-25",
+          "userTime": "14:55",
+          "offset": "5.5",
+          "note": "Im punched In"
+        },
+        punchOut: {
+          "userDate": null,
+          "userTime": null,
+          "offset": null,
+          "note": null
+        },
+        duration: "0.00"
+      }
+    ]
+    meta:
+      total: 2
+      sum: {
+        "hours": 0.0,
+        "minutes": 24,
+        "label": "0.40"
+      }
+
+  'Get employee attendance break down without by fromDate':
+    userId: 1
+    services:
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      empNumber: 1
+    query:
+      toDate: '2011-04-30'
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: 'Invalid Parameter'
+
+  'Get My attendance records by invalid from date & to date':
+    userId: 3
+    services:
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+    query:
+      fromDate: '2011-04-01'
+      toDate: '2010-04-30'
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: 'Invalid Parameter'

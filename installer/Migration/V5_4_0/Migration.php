@@ -21,6 +21,7 @@ namespace OrangeHRM\Installer\Migration\V5_4_0;
 
 use Doctrine\DBAL\Schema\ForeignKeyConstraint;
 use Doctrine\DBAL\Schema\Index;
+use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Types\Types;
 use OrangeHRM\Installer\Util\V1\AbstractMigration;
 
@@ -54,6 +55,20 @@ class Migration extends AbstractMigration
             ->setParameter('display_name', 'Auth')
             ->executeQuery();
 
+        $this->getConnection()->createQueryBuilder()
+            ->insert('ohrm_module')
+            ->values(
+                [
+                    'name' => ':name',
+                    'status' => ':status',
+                    'display_name' => ':display_name'
+                ]
+            )
+            ->setParameter('name', "mobile")
+            ->setParameter('status', 1)
+            ->setParameter('display_name', 'Mobile')
+            ->executeQuery();
+
         $this->getConfigHelper()->setConfigValue('auth.password_policy.min_password_length', '8');
         $this->getConfigHelper()->setConfigValue('auth.password_policy.min_uppercase_letters', '1');
         $this->getConfigHelper()->setConfigValue('auth.password_policy.min_lowercase_letters', '1');
@@ -63,7 +78,9 @@ class Migration extends AbstractMigration
         $this->getConfigHelper()->setConfigValue('auth.password_policy.is_spaces_allowed', 'false');
 
         $this->getDataGroupHelper()->insertApiPermissions(__DIR__ . '/permission/api.yaml');
-        $this->changePermissionForModulesAPI();
+        $this->changePermissionForAttendanceConfigurationAPI();
+        $this->changePermissionForTimeConfigPeriodAPI();
+        $this->changePermissionForEmployeeWorkShiftAPI();
 
         $this->getSchemaHelper()->createTable('ohrm_enforce_password')
             ->addColumn('id', Types::INTEGER, ['Autoincrement' => true])
@@ -93,6 +110,11 @@ class Migration extends AbstractMigration
         $this->modifyDefaultPasswordEnforcement();
 
         $this->createOAuth2Tables();
+
+        // https://github.com/orangehrm/orangehrm/issues/1622
+        $this->getSchemaHelper()->addOrChangeColumns('ohrm_migration_log', [
+            'php_version' => ['Type' => Type::getType(Types::STRING), 'Length' => 255],
+        ]);
     }
 
     /**
@@ -257,10 +279,36 @@ class Migration extends AbstractMigration
         $this->getConfigHelper()->setConfigValue('oauth.access_token_ttl', 'PT30M'); // 30 minutes
     }
 
-    private function changePermissionForModulesAPI(): void
+    private function changePermissionForAttendanceConfigurationAPI(): void
     {
         $this->getDataGroupHelper()->addDataGroupPermissions(
-            'apiv2_admin_modules',
+            'apiv2_attendance_configuration',
+            'ESS',
+            true,
+            false,
+            false,
+            false,
+            false
+        );
+    }
+
+    private function changePermissionForTimeConfigPeriodAPI(): void
+    {
+        $this->getDataGroupHelper()->addDataGroupPermissions(
+            'apiv2_time_time_sheet_config',
+            'ESS',
+            true,
+            false,
+            false,
+            false,
+            false
+        );
+    }
+
+    private function changePermissionForEmployeeWorkShiftAPI(): void
+    {
+        $this->getDataGroupHelper()->addDataGroupPermissions(
+            'apiv2_pim_employee_work_shift',
             'ESS',
             true,
             false,

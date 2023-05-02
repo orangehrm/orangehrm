@@ -29,11 +29,11 @@ use OrangeHRM\Leave\Traits\Service\LeaveEntitlementServiceTrait;
  *     schema="Leave-LeaveEntitlementSummaryModel",
  *     type="object",
  *     @OA\Property(property="id", type="integer"),
- *     @OA\Property(property="entitlement", type="number"),
- *     @OA\Property(property="daysUsed", type="number"),
  *     @OA\Property(
  *         property="usageBreakdown",
  *         type="object",
+ *         @OA\Property(property="entitlement", type="number"),
+ *         @OA\Property(property="used", type="number"),
  *         @OA\Property(property="scheduled", type="number"),
  *         @OA\Property(property="pending", type="number"),
  *         @OA\Property(property="taken", type="number"),
@@ -46,8 +46,8 @@ use OrangeHRM\Leave\Traits\Service\LeaveEntitlementServiceTrait;
  *         @OA\Property(property="name", type="string"),
  *         @OA\Property(property="deleted", type="boolean")
  *     ),
- *     @OA\Property(property="fromDate", type="number"),
- *     @OA\Property(property="toDate", type="number"),
+ *     @OA\Property(property="fromDate", type="string"),
+ *     @OA\Property(property="toDate", type="string"),
  * )
  */
 class LeaveEntitlementSummaryModel implements Normalizable
@@ -76,9 +76,9 @@ class LeaveEntitlementSummaryModel implements Normalizable
 
         return [
             'id' => $entity->getId(),
-            'entitlement' => $entity->getNoOfDays(),
-            'daysUsed' => $entity->getDaysUsed(),
             'usageBreakdown' => [
+                'entitlement' => $balance->getEntitled(),
+                'used' => $balance->getUsed(),
                 'scheduled' => $balance->getScheduled(),
                 'pending' => $balance->getPending(),
                 'taken' => $balance->getTaken(),
@@ -89,8 +89,8 @@ class LeaveEntitlementSummaryModel implements Normalizable
                 'name' => $entity->getLeaveType()->getName(),
                 'deleted' => $entity->getLeaveType()->isDeleted(),
             ],
-            'fromDate' => $entity->getDecorator()->getFromDate(),
-            'toDate' => $entity->getDecorator()->getToDate(),
+            'fromDate' => $balance->getYmdAsAtDate(),
+            'toDate' => $balance->getYmdEndDate(),
         ];
     }
 }

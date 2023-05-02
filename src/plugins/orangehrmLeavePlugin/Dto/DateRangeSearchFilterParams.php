@@ -19,50 +19,9 @@
 
 namespace OrangeHRM\Leave\Dto;
 
-use DateTime;
 use OrangeHRM\Core\Dto\FilterParams;
 
 class DateRangeSearchFilterParams extends FilterParams
 {
-    /**
-     * @var DateTime|null
-     */
-    private ?DateTime $fromDate = null;
-
-    /**
-     * @var DateTime|null
-     */
-    private ?DateTime $toDate = null;
-
-    /**
-     * @return DateTime|null
-     */
-    public function getFromDate(): ?DateTime
-    {
-        return $this->fromDate;
-    }
-
-    /**
-     * @param DateTime|null $fromDate
-     */
-    public function setFromDate(?DateTime $fromDate): void
-    {
-        $this->fromDate = $fromDate;
-    }
-
-    /**
-     * @return DateTime|null
-     */
-    public function getToDate(): ?DateTime
-    {
-        return $this->toDate;
-    }
-
-    /**
-     * @param DateTime|null $toDate
-     */
-    public function setToDate(?DateTime $toDate): void
-    {
-        $this->toDate = $toDate;
-    }
+    use DateRangeSearchFilterParamsTrait;
 }

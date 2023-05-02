@@ -24,6 +24,30 @@ use OrangeHRM\Core\Api\V2\Serializer\ModelConstructorArgsAwareInterface;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Core\Traits\Service\NumberHelperTrait;
 
+/**
+ * @OA\Schema(
+ *     schema="Attendance-AttendanceRecordListModel",
+ *     type="object",
+ *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(
+ *         property="punchIn",
+ *         type="object",
+ *         @OA\Property(property="userDate", type="string", format="date"),
+ *         @OA\Property(property="userTime", type="string"),
+ *         @OA\Property(property="offset", type="string"),
+ *         @OA\Property(property="note", type="string")
+ *     ),
+ *     @OA\Property(
+ *         property="punchOut",
+ *         type="object",
+ *         @OA\Property(property="userDate", type="string", format="date"),
+ *         @OA\Property(property="userTime", type="string"),
+ *         @OA\Property(property="offset", type="string"),
+ *         @OA\Property(property="note", type="string")
+ *     ),
+ *     @OA\Property(property="duration", type="integer"),
+ * )
+ */
 class AttendanceRecordListModel implements CollectionNormalizable, ModelConstructorArgsAwareInterface
 {
     use NumberHelperTrait;

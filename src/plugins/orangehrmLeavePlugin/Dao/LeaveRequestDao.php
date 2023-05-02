@@ -30,6 +30,7 @@ use OrangeHRM\Entity\LeaveRequest;
 use OrangeHRM\Entity\LeaveRequestComment;
 use OrangeHRM\Entity\LeaveStatus;
 use OrangeHRM\Leave\Dto\CurrentAndChangeEntitlement;
+use OrangeHRM\Leave\Dto\EmployeeLeaveSearchFilterParams;
 use OrangeHRM\Leave\Dto\LeaveRequestSearchFilterParams;
 use OrangeHRM\Leave\Dto\LeaveSearchFilterParams;
 use OrangeHRM\Leave\Traits\Service\LeaveRequestServiceTrait;
@@ -723,5 +724,106 @@ class LeaveRequestDao extends BaseDao
             ->setParameter('leaveIds', $leaveIds);
 
         return $q->getQuery()->execute();
+    }
+
+    /**
+     * @param EmployeeLeaveSearchFilterParams $leaveSearchFilterParams
+     * @return Leave[]
+     */
+    public function getEmployeeLeaves(
+        EmployeeLeaveSearchFilterParams $leaveSearchFilterParams
+    ): array {
+        $this->_markApprovedLeaveAsTaken();
+        return $this->getEmployeeLeavesPaginator($leaveSearchFilterParams)->getQuery()->execute();
+    }
+
+    /**
+     * @param EmployeeLeaveSearchFilterParams $leaveSearchFilterParams
+     * @return Paginator
+     */
+    public function getEmployeeLeavesPaginator(EmployeeLeaveSearchFilterParams $leaveSearchFilterParams): Paginator
+    {
+        $q = $this->createQueryBuilder(Leave::class, 'leave')
+            ->leftJoin('leave.leaveType', 'leaveType')
+            ->leftJoin('leave.employee', 'employee')
+            ->select('leave', 'leaveType', 'employee');
+        $this->setSortingAndPaginationParams($q, $leaveSearchFilterParams);
+        $q->andWhere('leave.employee = :empNumber')
+            ->setParameter('empNumber', $leaveSearchFilterParams->getEmpNumber());
+
+        if ($leaveSearchFilterParams->getFromDate() !== null && $leaveSearchFilterParams->getToDate() !== null) {
+            $q->andWhere($q->expr()->between('leave.date', ':fromDate', ':toDate'))
+                ->setParameter('fromDate', $leaveSearchFilterParams->getFromDate())
+                ->setParameter('toDate', $leaveSearchFilterParams->getToDate());
+        } elseif ($leaveSearchFilterParams->getFromDate() !== null) {
+            $q->andWhere($q->expr()->gte('leave.date', ':fromDate'))
+                ->setParameter('fromDate', $leaveSearchFilterParams->getFromDate());
+        } elseif ($leaveSearchFilterParams->getToDate() !== null) {
+            $q->andWhere($q->expr()->lte('leave.date', ':toDate'))
+                ->setParameter('toDate', $leaveSearchFilterParams->getToDate());
+        }
+
+        if ($leaveSearchFilterParams->getIncludeEmployees() === null ||
+            $leaveSearchFilterParams->getIncludeEmployees() ===
+            LeaveRequestSearchFilterParams::INCLUDE_EMPLOYEES_ONLY_CURRENT
+        ) {
+            $q->andWhere($q->expr()->isNull('employee.employeeTerminationRecord'));
+        } elseif (
+            $leaveSearchFilterParams->getIncludeEmployees() ===
+            LeaveRequestSearchFilterParams::INCLUDE_EMPLOYEES_ONLY_PAST
+        ) {
+            $q->andWhere($q->expr()->isNotNull('employee.employeeTerminationRecord'));
+        }
+
+        if ($leaveSearchFilterParams->getStatuses() !== null) {
+            $statuses = $this->getLeaveRequestService()
+                ->getLeaveStatusesByNames($leaveSearchFilterParams->getStatuses());
+            $q->andWhere($q->expr()->in('leave.status', ':statuses'))
+                ->setParameter('statuses', $statuses);
+        }
+        return $this->getPaginator($q);
+    }
+
+    /**
+     * @param EmployeeLeaveSearchFilterParams $leaveSearchFilterParams
+     * @return int
+     */
+    public function getEmployeeLeavesCount(EmployeeLeaveSearchFilterParams $leaveSearchFilterParams): int
+    {
+        $this->_markApprovedLeaveAsTaken();
+        return $this->getEmployeeLeavesPaginator($leaveSearchFilterParams)->count();
+    }
+
+    /**
+     * @param int $empNumber
+     * @param DateTime|null $fromDate
+     * @param DateTime|null $toDate
+     * @return int[]
+     */
+    public function getUsedLeaveTypeIdsByEmployee(
+        int $empNumber,
+        ?DateTime $fromDate = null,
+        ?DateTime $toDate = null
+    ): array {
+        $q = $this->createQueryBuilder(Leave::class, 'leave')
+           ->leftJoin('leave.leaveType', 'leaveType')
+           ->select('IDENTITY(leave.leaveType) AS leaveTypeId')
+           ->distinct();
+        $q->andWhere('leave.employee = :empNumber')
+           ->setParameter('empNumber', $empNumber);
+        if ($fromDate !== null) {
+            $q->andWhere($q->expr()->gte('leave.date', ':fromDate'))
+                ->setParameter('fromDate', $fromDate);
+        }
+        if ($toDate !== null) {
+            $q->andWhere($q->expr()->lte('leave.date', ':toDate'))
+                ->setParameter('toDate', $toDate);
+        }
+
+        $q->andWhere('leaveType.deleted = :leaveTypeDeleted')
+           ->setParameter('leaveTypeDeleted', false);
+        $q->addOrderBy('leaveType.id', ListSorter::ASCENDING);
+
+        return $q->getQuery()->getSingleColumnResult();
     }
 }

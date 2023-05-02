@@ -29,6 +29,8 @@ class LeaveEntitlementSearchFilterParams extends DateRangeSearchFilterParams
 
     private ?int $leaveTypeId = null;
 
+    private ?bool $leaveTypeDeleted = null;
+
     public function __construct()
     {
         $this->setSortField('entitlement.fromDate');
@@ -80,5 +82,21 @@ class LeaveEntitlementSearchFilterParams extends DateRangeSearchFilterParams
     public function setLeaveTypeId(?int $leaveTypeId): void
     {
         $this->leaveTypeId = $leaveTypeId;
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function getLeaveTypeDeleted(): ?bool
+    {
+        return $this->leaveTypeDeleted;
+    }
+
+    /**
+     * @param bool|null $leaveTypeDeleted
+     */
+    public function setLeaveTypeDeleted(?bool $leaveTypeDeleted): void
+    {
+        $this->leaveTypeDeleted = $leaveTypeDeleted;
     }
 }

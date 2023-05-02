@@ -116,13 +116,13 @@ class HolidayAPI extends Endpoint implements CrudEndpoint
      *     @OA\Parameter(
      *         name="toDate",
      *         in="query",
-     *         required=false,
+     *         required=true,
      *         @OA\Schema(type="number")
      *     ),
      *     @OA\Parameter(
      *         name="fromDate",
      *         in="query",
-     *         required=false,
+     *         required=true,
      *         @OA\Schema(type="number")
      *     ),
      *     @OA\Parameter(

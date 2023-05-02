@@ -70,25 +70,25 @@ class JobCategoryAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     *@OA\Get(
+     * @OA\Get(
      *     path="/api/v2/admin/job-categories/{id}",
      *     tags={"Admin/Job Category"},
-     * @OA\PathParameter(
-     *     name="id",
-     *     @OA\Schema(type="integer")
-     * ),
-     * @OA\Response(
-     *     response="200",
-     *     description="Success",
-     *     @OA\JsonContent(
-     *         @OA\Property(
-     *             property="data",
-     *             ref="#/components/schemas/Admin-JobCategoryModel"
-     *         ),
-     *         @OA\Property(property="meta", type="object")
-     *     )
-     * ),
-     * @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
+     *     @OA\PathParameter(
+     *         name="id",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Admin-JobCategoryModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
      * )
      *
      * @inheritDoc
@@ -125,7 +125,7 @@ class JobCategoryAPI extends Endpoint implements CrudEndpoint
      *         name="sortField",
      *         in="query",
      *         required=false,
-     *         description="Available values : jc.name"
+     *         @OA\Schema(type="string", enum={"jc.name"})
      *     ),
      *     @OA\Parameter(ref="#/components/parameters/sortOrder"),
      *     @OA\Parameter(ref="#/components/parameters/limit"),

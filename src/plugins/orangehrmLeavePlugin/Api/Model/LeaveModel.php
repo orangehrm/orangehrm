@@ -28,7 +28,48 @@ class LeaveModel implements Normalizable
     use ModelTrait;
 
     /**
-     * @param Leave $leave
+     * @OA\Schema(
+     *     schema="Leave-LeaveModel",
+     *     type="object",
+     *     @OA\Property(property="id", type="integer"),
+     *     @OA\Property(property="date", type="string"),
+     *     @OA\Property(property="lengthHours", type="number"),
+     *     @OA\Property(property="lengthDays", type="number"),
+     *     @OA\Property(
+     *         property="status",
+     *         type="object",
+     *         @OA\Property(property="id", type="integer"),
+     *         @OA\Property(property="name", type="string"),
+     *     ),
+     *     @OA\Property(
+     *         property="leaveRequest",
+     *         type="object",
+     *         @OA\Property(property="id", type="integer"),
+     *     ),
+     *     @OA\Property(
+     *         property="leaveType",
+     *         type="object",
+     *         @OA\Property(property="id", type="integer"),
+     *         @OA\Property(property="name", type="string"),
+     *         @OA\Property(property="deleted", type="boolean")
+     *     ),
+     *     @OA\Property(property="startTime", type="string"),
+     *     @OA\Property(property="endTime", type="string"),
+     *     @OA\Property(
+     *         property="durationType",
+     *         type="object",
+     *         @OA\Property(property="id", type="integer"),
+     *         @OA\Property(property="type", type="string"),
+     *     ),
+     *     @OA\Property(
+     *         property="lastComment",
+     *         type="object",
+     *         @OA\Property(property="id", type="integer"),
+     *         @OA\Property(property="comment", type="string"),
+     *         @OA\Property(property="date", type="number"),
+     *         @OA\Property(property="time", type="number"),
+     *     ),
+     * )
      */
     public function __construct(Leave $leave)
     {

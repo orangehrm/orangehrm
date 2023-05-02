@@ -56,7 +56,7 @@ class LeaveCommentModel implements Normalizable
                 ['createdByEmployee','firstName'],
                 ['createdByEmployee','middleName'],
                 ['createdByEmployee','employeeId'],
-                ['createdByEmployee','employeeTerminationRecord','terminationId'],
+                ['createdByEmployee','terminationId'],
                 'comment',
             ]
         );

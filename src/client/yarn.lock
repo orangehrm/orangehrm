@@ -2067,9 +2067,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ohrm/oxd@npm:2.0.0-alpha.12":
-  version: 2.0.0-alpha.12
-  resolution: "@ohrm/oxd@npm:2.0.0-alpha.12"
+"@ohrm/oxd@npm:2.0.0":
+  version: 2.0.0
+  resolution: "@ohrm/oxd@npm:2.0.0"
   dependencies:
     "@revolist/vue3-datagrid": ^3.2.17
     chart.js: ^4.1.2
@@ -2078,7 +2078,7 @@ __metadata:
     nanoid: ^4.0.0
   peerDependencies:
     vue: 3.x
-  checksum: 419dcbfd0e500a30cd5260bb99f0490fe7ce6b0f12cbfd1c4e08b3a92252c9d6f006738860aea7eb3eaf34faf4290c3eef46d85c4bfed293110444ad6436e648
+  checksum: 805daef448a5b19359de8f366c5a536284795f1d0b603291bf31e4fea816b1e0a2292559a824e2b8d48b271f7b8e4a616a2a9761297e0289fd271e2f370f8609
   languageName: node
   linkType: hard
 
@@ -4352,11 +4352,11 @@ __metadata:
   linkType: hard
 
 "chart.js@npm:^4.1.2":
-  version: 4.2.0
-  resolution: "chart.js@npm:4.2.0"
+  version: 4.2.1
+  resolution: "chart.js@npm:4.2.1"
   dependencies:
     "@kurkle/color": ^0.3.0
-  checksum: 281b023c013de8700a5208a45d35248b02119fadb574d0c104c7e0720605e085195ce546fd3aa27625e9db1188fdd5f7491a411463b9c30b7654a5f4b13d8d80
+  checksum: 7319fdfd1e29812e87bbc07737e8c9072ff659bbc09ade8dd262f83424cd7e48f89afe5220e11e002c9f236883fae3f3adb8adc16acb4682b0ddcc0b661c3af9
   languageName: node
   linkType: hard
 
@@ -8594,11 +8594,11 @@ __metadata:
   linkType: hard
 
 "nanoid@npm:^4.0.0":
-  version: 4.0.0
-  resolution: "nanoid@npm:4.0.0"
+  version: 4.0.2
+  resolution: "nanoid@npm:4.0.2"
   bin:
     nanoid: bin/nanoid.js
-  checksum: 7d5946df5c6d383694195b781ae7b5067c149d164ec71e910d6b06676309c3459b68af570b944fb5ecd5065d19df464f05700d141d70bb712ff8ca06642fd8df
+  checksum: 747c399cea4664dd0be1d0ec498ffd1ef8f1f5221676fc8b577e3f46f66d9afcddb9595d63d19a2e78d0bc6cc33984f65e66bf1682c850b9e26288883d96b53f
   languageName: node
   linkType: hard
 
@@ -8951,7 +8951,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "orangehrm@workspace:."
   dependencies:
-    "@ohrm/oxd": 2.0.0-alpha.12
+    "@ohrm/oxd": 2.0.0
     "@types/hammerjs": ^2.0.41
     "@types/jest": ^27.0.1
     "@typescript-eslint/eslint-plugin": ^5.4.0

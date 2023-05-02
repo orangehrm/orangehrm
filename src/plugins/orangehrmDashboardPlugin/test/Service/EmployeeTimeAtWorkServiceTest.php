@@ -62,5 +62,18 @@ class EmployeeTimeAtWorkServiceTest extends KernelTestCase
         $spotDateTime = new DateTime('2022-09-04 11:00:00', new DateTimeZone('Asia/Colombo'));
         $currentWeekData = $this->employeeTimeAtWorkService->getTimeAtWorkResults(4, $currentDateTime, $spotDateTime);
         $this->assertCount(2, $currentWeekData);
+
+        $currentDateTime = new DateTime('2023-04-27 01:00:00', new DateTimeZone('Asia/Colombo'));
+        $spotDateTime = new DateTime('2023-04-27 11:00:00', new DateTimeZone('Asia/Colombo'));
+        $currentWeekData = $this->employeeTimeAtWorkService->getTimeAtWorkResults(9, $currentDateTime, $spotDateTime);
+        $this->assertEquals(16, $currentWeekData[1]['currentWeek']['totalTime']['hours']);
+        $this->assertEquals(0, $currentWeekData[1]['currentWeek']['totalTime']['minutes']);
+        $this->assertCount(2, $currentWeekData);
+
+        $currentDateTime = new DateTime('2023-05-04 22:30:00', new DateTimeZone('Asia/Colombo'));
+        $spotDateTime = new DateTime('2023-05-04 22:30:00', new DateTimeZone('Asia/Colombo'));
+        $currentWeekData = $this->employeeTimeAtWorkService->getTimeAtWorkResults(9, $currentDateTime, $spotDateTime);
+        $this->assertEquals(76, $currentWeekData[1]['currentWeek']['totalTime']['hours']);
+        $this->assertEquals(30, $currentWeekData[1]['currentWeek']['totalTime']['minutes']);
     }
 }

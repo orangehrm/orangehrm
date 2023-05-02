@@ -1,0 +1,31 @@
+Config:
+  - { name: 'authorize_user_role_manager_class', value: 'BasicUserRoleManager' }
+  - {"name": "leave_period_defined","value": "Yes"}
+  - {"name": "timesheet_period_set","value": "Yes"}
+
+Module:
+  - {"id": 4,"name": "leave","status": 1,"display_name": "Leave"}
+  - {"id": 5,"name": "time","status": 0,"display_name": "Time"}
+  - {"id": 6,"name": "mobile","status": 1,"display_name": "Mobile"}
+
+Employee:
+  - {"emp_number": 1,"employee_id": "0001","emp_lastname": "Admin","emp_firstname": "Devi"}
+  - {"emp_number": 2,"employee_id": "0002","emp_lastname": "Madara","emp_firstname": "Manul"}
+  - {"emp_number": 3,"employee_id": "0003","emp_lastname": "Nanayakkara","emp_firstname": "Supun"}
+
+UserRole:
+  - {"id": 1,"name": "Admin","display_name": "Admin","is_assignable": 1,"is_predefined": 1}
+  - {"id": 2,"name": "ESS","display_name": "ESS","is_assignable": 1,"is_predefined": 1}
+  - {"id": 3,"name": "Supervisor","display_name": "Supervisor","is_assignable": 0,"is_predefined": 1}
+
+User:
+  - {"id": 1,"user_role_id": 1,"emp_number": 1,"user_name": "admin","user_password": "$2y$12$cRXToxVun41SeRgsWTSzP.2cJmj4AZWi/0.BZr529V8p68PCSnRQ."}
+  - {"id": 2,"user_role_id": 2,"emp_number": 2,"user_name": "manul","user_password": "$2y$12$EH.mp1hqHt7BW4EpaeOCKeQTyokMLYWVpMSitHtoMu/W3K2xOf5p."}
+  - {"id": 3,"user_role_id": 3,"emp_number": 3,"user_name": "supun","user_password": "$2y$12$f2zH9NNS.GrX/Dmx8r2eWuJt986aPLOUF8LvEj.8aAvFxEmaPIoNa"}
+
+ReportingMethod:
+  - { "reporting_method_id": "1","reporting_method_name": "Direct" }
+  - { "reporting_method_id": "2","reporting_method_name": "Indirect" }
+
+ReportTo:
+  - {"erep_sup_emp_number": 3,"erep_sub_emp_number": 2,"erep_reporting_mode": 1}

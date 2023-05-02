@@ -123,6 +123,8 @@ class EmailQueueService
             }
         } catch (MailerException $e) {
             $this->changeMailStatus($mail, Mail::STATUS_FAILED);
+            $this->getLogger()->error($e->getMessage());
+            $this->getLogger()->error($e->getTraceAsString());
         } finally {
             $this->commitTransaction();
         }

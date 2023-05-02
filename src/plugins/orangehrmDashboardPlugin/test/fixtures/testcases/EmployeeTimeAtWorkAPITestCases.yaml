@@ -1619,3 +1619,268 @@ GetOne:
         "terminationId": null
       }
     }
+
+  'Get Employee at work - ESS User Self - Punched In and Out at 00:00:00':
+    userId: 9
+    services:
+      dashboard.employee_time_at_work_service: \OrangeHRM\Dashboard\Service\EmployeeTimeAtWorkService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    query:
+      currentDate: "2023-04-27"
+      currentTime: "02:00"
+      timezoneOffset: 5.5
+    data:
+      [
+        {
+          "workDay": {
+            "id": "1",
+            "day": "Mon",
+            "date": "2023-04-24"
+          },
+          "totalTime": {
+            "hours": 0,
+            "minutes": 0
+          }
+        },
+        {
+          "workDay": {
+            "id": "2",
+            "day": "Tue",
+            "date": "2023-04-25"
+          },
+          "totalTime": {
+            "hours": 0,
+            "minutes": 0
+          }
+        },
+        {
+          "workDay": {
+            "id": "3",
+            "day": "Wed",
+            "date": "2023-04-26"
+          },
+          "totalTime": {
+            "hours": 0,
+            "minutes": 0
+          }
+        },
+        {
+          "workDay": {
+            "id": "4",
+            "day": "Thu",
+            "date": "2023-04-27"
+          },
+          "totalTime": {
+            "hours": 7,
+            "minutes": 0
+          }
+        },
+        {
+          "workDay": {
+            "id": "5",
+            "day": "Fri",
+            "date": "2023-04-28"
+          },
+          "totalTime": {
+            "hours": 1,
+            "minutes": 0
+          }
+        },
+        {
+          "workDay": {
+            "id": "6",
+            "day": "Sat",
+            "date": "2023-04-29"
+          },
+          "totalTime": {
+            "hours": 0,
+            "minutes": 0
+          }
+        },
+        {
+          "workDay": {
+            "id": "0",
+            "day": "Sun",
+            "date": "2023-04-30"
+          },
+          "totalTime": {
+            "hours": 8,
+            "minutes": 0
+          }
+        }
+      ],
+    meta: {
+      "lastAction": {
+        "state": "PUNCHED OUT",
+        "utcDate": "2023-05-05",
+        "utcTime": "02:30",
+        "userDate": "2023-05-05",
+        "userTime": "08:00",
+        "timezoneOffset": "5.5"
+      },
+      "currentDay": {
+        "currentDate": {
+          "date": "2023-04-27",
+          "label": "Apr 27"
+        },
+        "totalTime": {
+          "hours": 7,
+          "minutes": 00
+        }
+      },
+      "currentWeek": {
+        "startDate": {
+          "date": "2023-04-24",
+          "label": "Apr 24"
+        },
+        "endDate": {
+          "date": "2023-04-30",
+          "label": "Apr 30"
+        },
+        "totalTime": {
+          "hours": 16,
+          "minutes": 0
+        }
+      },
+      "currentUser": {
+        "empNumber": 9,
+        "firstName": "Manul",
+        "middleName": "",
+        "lastName": "Madara",
+        "terminationId": null
+      }
+    }
+
+
+  'Get Employee at work - ESS User Self - Punched In and Out multiple days in different time zones':
+    userId: 9
+    services:
+      dashboard.employee_time_at_work_service: \OrangeHRM\Dashboard\Service\EmployeeTimeAtWorkService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    query:
+      currentDate: "2023-05-05"
+      currentTime: "02:00"
+      timezoneOffset: 5.5
+    data:
+      [
+        {
+          "workDay": {
+            "id": "1",
+            "day": "Mon",
+            "date": "2023-05-01"
+          },
+          "totalTime": {
+            "hours": 0,
+            "minutes": 0
+          }
+        },
+        {
+          "workDay": {
+            "id": "2",
+            "day": "Tue",
+            "date": "2023-05-02"
+          },
+          "totalTime": {
+            "hours": 20.0,
+            "minutes": 30
+          }
+        },
+        {
+          "workDay": {
+            "id": "3",
+            "day": "Wed",
+            "date": "2023-05-03"
+          },
+          "totalTime": {
+            "hours": 24.0,
+            "minutes": 0
+          }
+        },
+        {
+          "workDay": {
+            "id": "4",
+            "day": "Thu",
+            "date": "2023-05-04"
+          },
+          "totalTime": {
+            "hours": 24.0,
+            "minutes": 0
+          }
+        },
+        {
+          "workDay": {
+            "id": "5",
+            "day": "Fri",
+            "date": "2023-05-05"
+          },
+          "totalTime": {
+            "hours": 8.0,
+            "minutes": 0
+          }
+        },
+        {
+          "workDay": {
+            "id": "6",
+            "day": "Sat",
+            "date": "2023-05-06"
+          },
+          "totalTime": {
+            "hours": 0,
+            "minutes": 0
+          }
+        },
+        {
+          "workDay": {
+            "id": "0",
+            "day": "Sun",
+            "date": "2023-05-07"
+          },
+          "totalTime": {
+            "hours": 0,
+            "minutes": 0
+          }
+        }
+      ],
+    meta: {
+      "lastAction": {
+        "state": "PUNCHED OUT",
+        "utcDate": "2023-05-05",
+        "utcTime": "02:30",
+        "userDate": "2023-05-05",
+        "userTime": "08:00",
+        "timezoneOffset": "5.5"
+      },
+      "currentDay": {
+        "currentDate": {
+          "date": "2023-05-05",
+          "label": "May 05"
+        },
+        "totalTime": {
+          "hours": 8.0,
+          "minutes": 0
+        }
+      },
+      "currentWeek": {
+        "startDate": {
+          "date": "2023-05-01",
+          "label": "May 01"
+        },
+        "endDate": {
+          "date": "2023-05-07",
+          "label": "May 07"
+        },
+        "totalTime": {
+          "hours": 76,
+          "minutes": 30
+        }
+      },
+      "currentUser": {
+        "empNumber": 9,
+        "firstName": "Manul",
+        "middleName": "",
+        "lastName": "Madara",
+        "terminationId": null
+      }
+    }
