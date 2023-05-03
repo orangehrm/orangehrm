@@ -208,18 +208,23 @@ class ClaimExpenseAPI extends Endpoint implements CrudEndpoint
             $expenseType = $this->getClaimService()
                 ->getClaimDao()
                 ->getExpenseTypeById($expenseTypeId);
-            if (!$expenseType instanceof ExpenseType) {
+
+            if (!$expenseType instanceof ExpenseType || !$expenseType->getStatus()) {
                 throw $this->getInvalidParamException(self::PARAMETER_EXPENSE_TYPE_ID);
             }
+
             $claimExpense->getDecorator()->setExpenseTypeByExpenseTypeId($expenseTypeId);
             $claimExpense->setDate(
                 $this->getRequestParams()
                     ->getDateTime(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_DATE)
             );
-            $claimExpense->setAmount(
-                $this->getRequestParams()
-                    ->getFloat(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_AMOUNT)
-            );
+
+            $amount = $this->getRequestParams()->getFloat(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_AMOUNT);
+            if (!preg_match('/^\d+(\.\d{1,2})?$/', $amount)) {
+                throw $this->getInvalidParamException(self::PARAMETER_AMOUNT);
+            }
+            $claimExpense->setAmount(floor($amount*100)/100);
+
             $claimExpense->setNote(
                 $this->getRequestParams()
                     ->getStringOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_NOTE)
@@ -253,8 +258,7 @@ class ClaimExpenseAPI extends Endpoint implements CrudEndpoint
             ),
             new ParamRule(
                 self::PARAMETER_AMOUNT,
-                new Rule(Rules::FLOAT_TYPE), //TODO:: handle decimal points
-                new Rule(Rules::MIN, [0])
+                new Rule(Rules::BETWEEN, [0, 9999999999.99])
             ),
             new ParamRule(
                 self::PARAMETER_DATE,
@@ -454,8 +458,7 @@ class ClaimExpenseAPI extends Endpoint implements CrudEndpoint
             ),
             new ParamRule(
                 self::PARAMETER_AMOUNT,
-                new Rule(Rules::FLOAT_TYPE),
-                new Rule(Rules::MIN, [0])
+                new Rule(Rules::BETWEEN, [0, 9999999999.99])
             ),
             new ParamRule(
                 self::PARAMETER_DATE,

@@ -690,3 +690,13 @@ export const validVideoURL = function (value: string): boolean | string {
     translate('general.invalid_video_url_message')
   );
 };
+
+export const digitsOnlyWithTwoDecimalPoints = function (
+  value: string,
+): boolean | string {
+  return (
+    value == '' ||
+    /^\d+?(?:\.\d{2})?$/.test(value) ||
+    translate('claim.should_be_a_valid_number')
+  );
+};

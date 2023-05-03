@@ -51,8 +51,17 @@ langStrings:
     value: "Expense Type"
     unitId: expense_type
   -
-    value: "Total Amount"
-    unitId: total_amount
-  -
     value: "Pay"
     unitId: pay
+  -
+    value: "Add Expense"
+    unitId: add_expense
+  -
+    value: "Edit Expense"
+    unitId: edit_expense
+  -
+    value: "Should be a valid number (xxx.xx)"
+    unitId: should_be_a_valid_number
+  -
+    value: "Total Amount ({currencyName}) : {totalAmount}"
+    unitId: total_amount
