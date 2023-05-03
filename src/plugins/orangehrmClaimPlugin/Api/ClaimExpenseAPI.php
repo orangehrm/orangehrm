@@ -220,6 +220,9 @@ class ClaimExpenseAPI extends Endpoint implements CrudEndpoint
             );
 
             $amount = $this->getRequestParams()->getFloat(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_AMOUNT);
+            if (!preg_match('/^\d+(\.\d{1,2})?$/', $amount)) {
+                throw $this->getInvalidParamException(self::PARAMETER_AMOUNT);
+            }
             $claimExpense->setAmount(floor($amount*100)/100);
 
             $claimExpense->setNote(
@@ -255,7 +258,7 @@ class ClaimExpenseAPI extends Endpoint implements CrudEndpoint
             ),
             new ParamRule(
                 self::PARAMETER_AMOUNT,
-                new Rule(Rules::BETWEEN, [0, 999999999.99])
+                new Rule(Rules::BETWEEN, [0, 9999999999.99])
             ),
             new ParamRule(
                 self::PARAMETER_DATE,
@@ -455,7 +458,7 @@ class ClaimExpenseAPI extends Endpoint implements CrudEndpoint
             ),
             new ParamRule(
                 self::PARAMETER_AMOUNT,
-                new Rule(Rules::BETWEEN, [0, 999999999.99])
+                new Rule(Rules::BETWEEN, [0, 9999999999.99])
             ),
             new ParamRule(
                 self::PARAMETER_DATE,

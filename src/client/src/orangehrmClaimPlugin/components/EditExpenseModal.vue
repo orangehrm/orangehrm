@@ -154,7 +154,7 @@ export default {
         amount: [
           required,
           digitsOnlyWithDecimalPoint,
-          maxCurrency(1000000000),
+          maxCurrency(10000000000),
           digitsOnlyWithTwoDecimalPoints,
         ],
       },
