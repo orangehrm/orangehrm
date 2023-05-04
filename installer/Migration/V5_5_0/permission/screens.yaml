@@ -3,21 +3,14 @@
   url: viewClaimModule
   permissions:
     - { role: Admin, permission: { read: true } }
-    - {
-        role: ESS,
-        permission: { read: true, create: false, update: false, delete: false },
-      }
+    - { role: ESS, permission: { read: true, create: false, update: false, delete: false }}
 
 "Events":
   module: claim
   url: viewEvents
   permissions:
     - { role: Admin, permission: { read: true } }
-    - {
-        role: ESS,
-        permission:
-          { read: false, create: false, update: false, delete: false },
-      }
+    - { role: ESS, permission: { read: false, create: false, update: false, delete: false }}
 
 "Create Event":
   module: claim

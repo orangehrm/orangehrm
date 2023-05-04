@@ -22,7 +22,7 @@
   <oxd-dialog class="orangehrm-dialog-modal" @update:show="onCancel">
     <div class="orangehrm-modal-header">
       <oxd-text type="card-title">
-        {{ $t('claim.add_attachment') }}
+        {{ $t('general.add_attachment') }}
       </oxd-text>
     </div>
     <oxd-divider />
