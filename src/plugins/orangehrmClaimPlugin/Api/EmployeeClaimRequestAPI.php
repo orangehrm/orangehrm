@@ -195,7 +195,7 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
             );
 
             $claimEvent = $this->getClaimService()->getClaimDao()->getClaimEventById($claimEventId);
-            if ($claimEvent === null) {
+            if ($claimEvent === null || !$claimEvent->getStatus()) {
                 throw $this->getInvalidParamException(self::PARAMETER_CLAIM_EVENT_ID);
             }
 
@@ -220,7 +220,7 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
 
             $this->commitTransaction();
             return $this->getClaimService()->getClaimDao()->saveClaimRequest($claimRequest);
-        } catch (InvalidParamException|BadRequestException $e) {
+        } catch (InvalidParamException | BadRequestException $e) {
             $this->rollBackTransaction();
             throw $e;
         } catch (Exception $e) {
@@ -559,8 +559,10 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
     protected function getAllowedActions(ClaimRequest $claimRequest): array
     {
         $excludeRoles = ['Admin'];
-        if ($this->getAuthUser()->getUserRoleName() === 'Admin'
-            && !$this->getUserRoleManagerHelper()->isSelfByEmpNumber($claimRequest->getEmployee()->getEmpNumber())) {
+        if (
+            $this->getAuthUser()->getUserRoleName() === 'Admin'
+            && !$this->getUserRoleManagerHelper()->isSelfByEmpNumber($claimRequest->getEmployee()->getEmpNumber())
+        ) {
             $excludeRoles = [];
         }
         $allowedWorkflowItems = $this->getUserRoleManager()->getAllowedActions(

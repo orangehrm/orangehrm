@@ -26,6 +26,7 @@
         {{ $t('claim.expenses') }}
       </oxd-text>
       <oxd-button
+        v-if="canEdit"
         :label="$t('general.add')"
         icon-name="plus"
         display-type="text"
@@ -51,10 +52,24 @@
     />
   </div>
   <div class="orangehrm-bottom-container">
-    <oxd-text
-      >{{ $t('claim.total_amount') }}({{ currency.name }}):{{ totalAmount }}
-    </oxd-text>
+    <oxd-text>{{
+      $t('claim.total_amount', {
+        currencyName: currency.name,
+        totalAmount: totalAmount,
+      })
+    }}</oxd-text>
   </div>
+  <add-expense-modal
+    v-if="showAddExpenseModal"
+    :request-id="requestId"
+    @close="onCloseAddExpenseModal"
+  ></add-expense-modal>
+  <edit-expense-modal
+    v-if="showEditExpenseModal"
+    :request-id="requestId"
+    :data="editModalState"
+    @close="onCloseEditExpenseModal"
+  ></edit-expense-modal>
   <delete-confirmation ref="deleteDialog"></delete-confirmation>
 </template>
 
@@ -63,12 +78,16 @@ import {APIService} from '@/core/util/services/api.service';
 import usePaginate from '@ohrm/core/util/composable/usePaginate';
 import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmationDialog.vue';
 import {computed} from 'vue';
+import AddExpenseModal from './AddExpenseModal.vue';
+import EditExpenseModal from './EditExpenseModal.vue';
 
 export default {
   name: 'ClaimExpenses',
 
   components: {
     'delete-confirmation': DeleteConfirmationDialog,
+    'add-expense-modal': AddExpenseModal,
+    'edit-expense-modal': EditExpenseModal,
   },
   props: {
     requestId: {
@@ -95,7 +114,7 @@ export default {
         return {
           id: item.id,
           date: item.date ? item.date : '',
-          amount: item.amount ? item.amount.toFixed(2) : '',
+          amount: item.amount ? item.amount.toFixed(2) : '0.00',
           note: item.note ? item.note : '',
           expenseType: item.expenseType ? item.expenseType.name : '',
         };
@@ -142,21 +161,29 @@ export default {
           name: 'expenseType',
           slot: 'title',
           title: this.$t('claim.expense_type'),
-          style: {flex: 1},
+          style: {flex: 2},
         },
         {
           name: 'date',
           title: this.$t('general.date'),
           style: {flex: 1},
         },
-        {name: 'note', title: this.$t('general.note'), style: {flex: 1}},
+        {
+          name: 'note',
+          title: this.$t('general.note'),
+          cellType: 'oxd-table-cell-truncate',
+          style: {flex: 2},
+        },
         {
           name: 'amount',
-          title: this.$t('claim.amount'),
           style: {flex: 1},
+          title: this.$t('claim.amount'),
         },
       ],
       checkedItems: [],
+      showAddExpenseModal: false,
+      showEditExpenseModal: false,
+      editModalState: null,
     };
   },
 
@@ -206,7 +233,7 @@ export default {
       await this.execQuery();
     },
     onClickAdd() {
-      //TODO: Add claim expense modal
+      this.showAddExpenseModal = true;
     },
     onClickDeleteSelected() {
       const ids = [];
@@ -241,6 +268,19 @@ export default {
           this.deleteItems([item.id]);
         }
       });
+    },
+    onCloseAddExpenseModal() {
+      this.showAddExpenseModal = false;
+      this.resetDataTable();
+    },
+    onCloseEditExpenseModal() {
+      this.showEditExpenseModal = false;
+      this.resetDataTable();
+    },
+    onClickEdit(item) {
+      this.showEditExpenseModal = true;
+      this.editModalState = item;
+      this.showAddExpenseModal = false;
     },
   },
 };

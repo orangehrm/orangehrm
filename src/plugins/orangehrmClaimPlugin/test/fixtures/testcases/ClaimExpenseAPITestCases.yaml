@@ -161,6 +161,27 @@ Create:
       note: "sample note"
     invalidOnly: [ amount ]
 
+  'Create - amount with 3 decimal points':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      requestId: 1
+    body:
+      amount: 7000.899
+      expenseTypeId: 1
+      date: "2023-02-20"
+      note: "sample note"
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: 'Invalid Parameter'
+
   'Create - Without date':
     userId: 1
     services:
@@ -642,6 +663,28 @@ Update:
       note: null
       date: "2023-02-20"
     meta: [ ]
+
+  'Update - with 3 decimal points':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      requestId: 1
+      id: 1
+    body:
+      expenseTypeId: 2
+      date: "2023-02-20"
+      amount: 7000.877
+      note: ""
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: 'Invalid Parameter'
 
 Delete:
   'Delete - Claim Expense':

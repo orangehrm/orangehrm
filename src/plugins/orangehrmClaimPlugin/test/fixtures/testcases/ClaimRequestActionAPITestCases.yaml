@@ -1,8 +1,8 @@
 Update:
-  'Admin SUBMIT own INITIATED claim request':
+  "Admin SUBMIT own INITIATED claim request":
     userId: 1
     now:
-      datetime: '2023-01-17 05:40:00'
+      datetime: "2023-01-17 05:40:00"
     services:
       claim.claim_service: OrangeHRM\Claim\Service\ClaimService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
@@ -10,14 +10,18 @@ Update:
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
     factories:
-      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+      core.authorization.user_role_manager:
+        [
+          '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory',
+          "getNewUserRoleManager",
+        ]
     attributes:
       requestId: 1
     body:
       action: SUBMIT
     data:
       id: 1
-      referenceId: '202301170000001'
+      referenceId: "202301170000001"
       claimEvent:
         id: 1
         name: Office Rent
@@ -25,12 +29,12 @@ Update:
         id: CAD
         name: Canadian Dollar
       remarks: Travel expenses for business trip to New York
-      status: 'SUBMITTED'
+      status: "SUBMITTED"
 
-  'Admin SUBMIT own REJECTED claim request':
+  "Admin SUBMIT own REJECTED claim request":
     userId: 1
     now:
-      datetime: '2023-01-17 05:40:00'
+      datetime: "2023-01-17 05:40:00"
     services:
       claim.claim_service: OrangeHRM\Claim\Service\ClaimService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
@@ -38,14 +42,18 @@ Update:
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
     factories:
-      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+      core.authorization.user_role_manager:
+        [
+          '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory',
+          "getNewUserRoleManager",
+        ]
     attributes:
       requestId: 2
     body:
       action: SUBMIT
     data:
       id: 2
-      referenceId: '202301170000002'
+      referenceId: "202301170000002"
       claimEvent:
         id: 3
         name: Travel Expenses
@@ -53,9 +61,9 @@ Update:
         id: USD
         name: United States Dollar
       remarks: Marketing expenses for trade show
-      status: 'SUBMITTED'
+      status: "SUBMITTED"
 
-  'Admin CANCEL own INITIATED claim request':
+  "Admin CANCEL own INITIATED claim request":
     userId: 1
     services:
       claim.claim_service: OrangeHRM\Claim\Service\ClaimService
@@ -64,14 +72,18 @@ Update:
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
     factories:
-      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+      core.authorization.user_role_manager:
+        [
+          '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory',
+          "getNewUserRoleManager",
+        ]
     attributes:
       requestId: 1
     body:
       action: CANCEL
     data:
       id: 1
-      referenceId: '202301170000001'
+      referenceId: "202301170000001"
       claimEvent:
         id: 1
         name: Office Rent
@@ -79,9 +91,9 @@ Update:
         id: CAD
         name: Canadian Dollar
       remarks: Travel expenses for business trip to New York
-      status: 'CANCELLED'
+      status: "CANCELLED"
 
-  'Admin provide invalid action':
+  "Admin provide invalid action":
     userId: 1
     services:
       claim.claim_service: OrangeHRM\Claim\Service\ClaimService
@@ -90,14 +102,18 @@ Update:
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
     factories:
-      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+      core.authorization.user_role_manager:
+        [
+          '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory',
+          "getNewUserRoleManager",
+        ]
     attributes:
       requestId: 1
     body:
       action: CANCEL_REQUEST
-    invalidOnly: [ 'action' ]
+    invalidOnly: ["action"]
 
-  'Admin provide null action':
+  "Admin provide null action":
     userId: 1
     services:
       claim.claim_service: OrangeHRM\Claim\Service\ClaimService
@@ -106,14 +122,18 @@ Update:
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
     factories:
-      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+      core.authorization.user_role_manager:
+        [
+          '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory',
+          "getNewUserRoleManager",
+        ]
     attributes:
       requestId: 1
     body:
       action: null
-    invalidOnly: [ 'action' ]
+    invalidOnly: ["action"]
 
-  'Admin provide invalid requestId':
+  "Admin provide invalid requestId":
     userId: 1
     services:
       claim.claim_service: OrangeHRM\Claim\Service\ClaimService
@@ -122,16 +142,20 @@ Update:
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
     factories:
-      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+      core.authorization.user_role_manager:
+        [
+          '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory',
+          "getNewUserRoleManager",
+        ]
     attributes:
       requestId: rid
     body:
       action: CANCEL
     exception:
       class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
-      message: 'Invalid Parameter'
+      message: "Invalid Parameter"
 
-  'Admin PAY for onw PAID claim request':
+  "Admin PAY for onw PAID claim request":
     userId: 1
     services:
       claim.claim_service: OrangeHRM\Claim\Service\ClaimService
@@ -140,16 +164,20 @@ Update:
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
     factories:
-      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+      core.authorization.user_role_manager:
+        [
+          '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory',
+          "getNewUserRoleManager",
+        ]
     attributes:
       requestId: 3
     body:
       action: PAY
     exception:
       class: '\OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
-      message: 'Unauthorized'
+      message: "Unauthorized"
 
-  'Admin provide not-existing requestId':
+  "Admin provide not-existing requestId":
     userId: 1
     services:
       claim.claim_service: OrangeHRM\Claim\Service\ClaimService
@@ -158,19 +186,23 @@ Update:
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
     factories:
-      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+      core.authorization.user_role_manager:
+        [
+          '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory',
+          "getNewUserRoleManager",
+        ]
     attributes:
       requestId: 100
     body:
       action: CANCEL
     exception:
       class: '\OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException'
-      message: 'Record Not Found'
+      message: "Record Not Found"
 
-  'Admin SUBMIT ESS INITIATED claim request':
+  "Admin SUBMIT ESS INITIATED claim request":
     userId: 1
     now:
-      datetime: '2023-01-17 05:40:00'
+      datetime: "2023-01-17 05:40:00"
     services:
       claim.claim_service: OrangeHRM\Claim\Service\ClaimService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
@@ -178,14 +210,18 @@ Update:
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
     factories:
-      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+      core.authorization.user_role_manager:
+        [
+          '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory',
+          "getNewUserRoleManager",
+        ]
     attributes:
       requestId: 4
     body:
       action: SUBMIT
     data:
       id: 4
-      referenceId: '202301170000004'
+      referenceId: "202301170000004"
       claimEvent:
         id: 1
         name: Office Rent
@@ -193,9 +229,9 @@ Update:
         id: USD
         name: United States Dollar
       remarks: Salary expenses for temporary employee
-      status: 'PAID'
+      status: "PAID"
 
-  'Admin SUBMIT ESS REJECTED claim request':
+  "Admin SUBMIT ESS REJECTED claim request":
     userId: 1
     services:
       claim.claim_service: OrangeHRM\Claim\Service\ClaimService
@@ -204,19 +240,23 @@ Update:
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
     factories:
-      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+      core.authorization.user_role_manager:
+        [
+          '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory',
+          "getNewUserRoleManager",
+        ]
     attributes:
       requestId: 5
     body:
       action: SUBMIT
     exception:
       class: '\OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
-      message: 'Unauthorized'
+      message: "Unauthorized"
 
-  'ESS SUBMIT own INITIATED claim request':
+  "ESS SUBMIT own INITIATED claim request":
     userId: 2
     now:
-      datetime: '2023-01-17 05:40:00'
+      datetime: "2023-01-17 05:40:00"
     services:
       claim.claim_service: OrangeHRM\Claim\Service\ClaimService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
@@ -224,14 +264,18 @@ Update:
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
     factories:
-      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+      core.authorization.user_role_manager:
+        [
+          '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory',
+          "getNewUserRoleManager",
+        ]
     attributes:
       requestId: 4
     body:
       action: SUBMIT
     data:
       id: 4
-      referenceId: '202301170000004'
+      referenceId: "202301170000004"
       claimEvent:
         id: 1
         name: Office Rent
@@ -239,9 +283,9 @@ Update:
         id: USD
         name: United States Dollar
       remarks: Salary expenses for temporary employee
-      status: 'SUBMITTED'
+      status: "SUBMITTED"
 
-  'ESS CANCEL own INITIATED claim request':
+  "ESS CANCEL own INITIATED claim request":
     userId: 2
     services:
       claim.claim_service: OrangeHRM\Claim\Service\ClaimService
@@ -250,14 +294,18 @@ Update:
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
     factories:
-      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+      core.authorization.user_role_manager:
+        [
+          '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory',
+          "getNewUserRoleManager",
+        ]
     attributes:
       requestId: 4
     body:
       action: CANCEL
     data:
       id: 4
-      referenceId: '202301170000004'
+      referenceId: "202301170000004"
       claimEvent:
         id: 1
         name: Office Rent
@@ -265,9 +313,9 @@ Update:
         id: USD
         name: United States Dollar
       remarks: Salary expenses for temporary employee
-      status: 'CANCELLED'
+      status: "CANCELLED"
 
-  'ESS SUBMIT ADMIN INITIATED claim request':
+  "ESS SUBMIT ADMIN INITIATED claim request":
     userId: 2
     services:
       claim.claim_service: OrangeHRM\Claim\Service\ClaimService
@@ -276,16 +324,20 @@ Update:
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
     factories:
-      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+      core.authorization.user_role_manager:
+        [
+          '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory',
+          "getNewUserRoleManager",
+        ]
     attributes:
       requestId: 1
     body:
       action: SUBMIT
     exception:
       class: '\OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
-      message: 'Unauthorized'
+      message: "Unauthorized"
 
-  'ESS provide not-existing requestId':
+  "ESS provide not-existing requestId":
     userId: 2
     services:
       claim.claim_service: OrangeHRM\Claim\Service\ClaimService
@@ -294,16 +346,20 @@ Update:
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
     factories:
-      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+      core.authorization.user_role_manager:
+        [
+          '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory',
+          "getNewUserRoleManager",
+        ]
     attributes:
       requestId: 100
     body:
       action: CANCEL
     exception:
       class: '\OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException'
-      message: 'Record Not Found'
+      message: "Record Not Found"
 
-  'ESS try to APPROVE own SUBMITTED claim request':
+  "ESS try to APPROVE own SUBMITTED claim request":
     userId: 2
     services:
       claim.claim_service: OrangeHRM\Claim\Service\ClaimService
@@ -312,19 +368,23 @@ Update:
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
     factories:
-      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+      core.authorization.user_role_manager:
+        [
+          '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory',
+          "getNewUserRoleManager",
+        ]
     attributes:
       requestId: 6
     body:
       action: APPROVE
     exception:
       class: '\OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
-      message: 'Unauthorized'
+      message: "Unauthorized"
 
-  'Supervisor SUBMIT ESS INITIATED claim request':
+  "Supervisor SUBMIT ESS INITIATED claim request":
     userId: 3
     now:
-      datetime: '2023-01-17 05:40:00'
+      datetime: "2023-01-17 05:40:00"
     services:
       claim.claim_service: OrangeHRM\Claim\Service\ClaimService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
@@ -332,14 +392,18 @@ Update:
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
     factories:
-      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+      core.authorization.user_role_manager:
+        [
+          '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory',
+          "getNewUserRoleManager",
+        ]
     attributes:
       requestId: 4
     body:
       action: SUBMIT
     data:
       id: 4
-      referenceId: '202301170000004'
+      referenceId: "202301170000004"
       claimEvent:
         id: 1
         name: Office Rent
@@ -347,9 +411,9 @@ Update:
         id: USD
         name: United States Dollar
       remarks: Salary expenses for temporary employee
-      status: 'APPROVED'
+      status: "APPROVED"
 
-  'Supervisor PAY APPROVED claim request':
+  "Supervisor PAY APPROVED claim request":
     userId: 3
     services:
       claim.claim_service: OrangeHRM\Claim\Service\ClaimService
@@ -358,11 +422,15 @@ Update:
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
     factories:
-      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+      core.authorization.user_role_manager:
+        [
+          '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory',
+          "getNewUserRoleManager",
+        ]
     attributes:
       requestId: 7
     body:
       action: APPROVE
     exception:
       class: '\OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
-      message: 'Unauthorized'
+      message: "Unauthorized"

@@ -42,6 +42,7 @@ import {
   validHostnameFormat,
   validPortRange,
   validVideoURL,
+  digitsOnlyWithTwoDecimalPoints,
 } from '../rules';
 
 jest.mock('@/core/plugins/i18n/translate', () => {
@@ -74,6 +75,7 @@ jest.mock('@/core/plugins/i18n/translate', () => {
         'Enter a valid port number between 0 to 65535',
       'general.invalid_video_url_message':
         'This URL is not a valid URL of a video or it is not supported by the system',
+      'claim.should_be_a_valid_number': 'Should be a valid number (xxx.xx)',
     };
     return mockStrings[langString];
   };
@@ -1055,5 +1057,32 @@ describe('core/util/validation/rules::validVideoURL', () => {
     expect(result).toBe(
       'This URL is not a valid URL of a video or it is not supported by the system',
     );
+  });
+});
+
+describe('core/util/validation/rules::digitsOnlyWithTwoDecimalPoints', () => {
+  test('digitsOnlyWithTwoDecimalPoints:: with empty string', () => {
+    const result = digitsOnlyWithTwoDecimalPoints('');
+    expect(result).toEqual(true);
+  });
+
+  test('digitsOnlyWithTwoDecimalPoints:: with two decimal points', () => {
+    const result = digitsOnlyWithTwoDecimalPoints('123.98');
+    expect(result).toEqual(true);
+  });
+
+  test('digitsOnlyWithTwoDecimalPoints:: with one decimal points', () => {
+    const result = digitsOnlyWithTwoDecimalPoints('123.9');
+    expect(result).toEqual('Should be a valid number (xxx.xx)');
+  });
+
+  test('digitsOnlyWithTwoDecimalPoints:: with three decimal points', () => {
+    const result = digitsOnlyWithTwoDecimalPoints('123.998');
+    expect(result).toEqual('Should be a valid number (xxx.xx)');
+  });
+
+  test('digitsOnlyWithTwoDecimalPoints:: with no decimal points', () => {
+    const result = digitsOnlyWithTwoDecimalPoints('123.');
+    expect(result).toEqual('Should be a valid number (xxx.xx)');
   });
 });
