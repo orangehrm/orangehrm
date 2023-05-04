@@ -59,7 +59,7 @@ class EmployeeSkill
     private ?float $yearsOfExp;
 
     /**
-     * @var string | null
+     * @var string
      *
      * @ORM\Column(name="comments", type="string", length=100, nullable=false)
      */

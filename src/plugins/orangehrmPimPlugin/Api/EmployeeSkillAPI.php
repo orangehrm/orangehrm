@@ -275,7 +275,7 @@ class EmployeeSkillAPI extends Endpoint implements CrudEndpoint
     {
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $skillId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_SKILL_ID);
-        $comments = $this->getRequestParams()->getStringOrNull(
+        $comments = $this->getRequestParams()->getString(
             RequestParams::PARAM_TYPE_BODY,
             self::PARAMETER_COMMENTS
         );
