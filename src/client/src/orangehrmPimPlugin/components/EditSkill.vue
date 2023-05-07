@@ -135,7 +135,7 @@ export default {
       this.http
         .update(this.data.id, {
           yearsOfExperience: parseInt(this.skill.yearsOfExperience),
-          comments: this.skill.comments !== '' ? this.skill.comments : ' ',
+          comments: this.skill.comments !== '' ? this.skill.comments : '',
         })
         .then(() => {
           return this.$toast.updateSuccess();
