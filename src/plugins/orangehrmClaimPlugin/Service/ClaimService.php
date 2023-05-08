@@ -21,7 +21,6 @@ namespace OrangeHRM\Claim\Service;
 
 use OrangeHRM\Claim\Api\Traits\ClaimRequestAPIHelperTrait;
 use OrangeHRM\Claim\Dao\ClaimDao;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\ClaimAttachment;
@@ -59,7 +58,6 @@ class ClaimService
      * @param int $requestId
      * @param int $attachId
      * @return ClaimAttachment|null
-     * @throws DaoException
      */
     public function getClaimAttachment(int $requestId, int $attachId): ?ClaimAttachment
     {

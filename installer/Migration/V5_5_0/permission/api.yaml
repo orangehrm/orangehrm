@@ -12,8 +12,8 @@ apiv2_claim_event:
     update: true
     delete: true
   permissions:
-    - { role: Admin, permission: { read: true, create: true, update: true, delete: true } }
-    - { role: ESS, permission: { read: true, create: false, update: false, delete: false } }
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: true }}
+    - { role: ESS, permission: { read: true, create: false, update: false, delete: false }}
 
 apiv2_claim_expense_types:
   description: 'Claim - Claim Expense Types'
@@ -25,8 +25,8 @@ apiv2_claim_expense_types:
     update: true
     delete: true
   permissions:
-    - { role: Admin, permission: { read: true, create: true, update: true, delete: true } }
-    - { role: ESS, permission: { read: true, create: false, update: false, delete: false } }
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: true }}
+    - { role: ESS, permission: { read: true, create: false, update: false, delete: false }}
 
 apiv2_claim_my_claim_request:
   description: 'Claim - Create Claim Request'
@@ -38,8 +38,8 @@ apiv2_claim_my_claim_request:
     update: false
     delete: false
   permissions:
-    - { role: Admin, permission: { read: true, create: true, update: false, delete: false } }
-    - { role: ESS, permission: { read: true, create: true, update: false, delete: false } }
+    - { role: Admin, permission: { read: true, create: true, update: false, delete: false }}
+    - { role: ESS, permission: { read: true, create: true, update: false, delete: false }}
 
 apiv2_claim_employee_claim_request:
   description: 'Claim - Create Claim Request'
@@ -51,8 +51,8 @@ apiv2_claim_employee_claim_request:
     update: false
     delete: false
   permissions:
-    - { role: Admin, permission: { read: true, create: true, update: false, delete: false } }
-    - { role: ESS, permission: { read: true, create: true, update: false, delete: false } }
+    - { role: Admin, permission: { read: true, create: true, update: false, delete: false }}
+    - { role: ESS, permission: { read: true, create: true, update: false, delete: false }}
 
 apiv2_claim_expense:
   description: 'Claim - Claim Expenses'
@@ -64,8 +64,8 @@ apiv2_claim_expense:
     update: true
     delete: true
   permissions:
-    - { role: Admin, permission: { read: true, create: true, update: true, delete: true } }
-    - { role: ESS, permission: { read: true, create: true, update: true, delete: true } }
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: true }}
+    - { role: ESS, permission: { read: true, create: true, update: true, delete: true }}
 
 apiv2_claim_attachment:
   description: "Claim - Claim Attachment"
@@ -77,8 +77,8 @@ apiv2_claim_attachment:
     update: true
     delete: true
   permissions:
-    - { role: Admin, permission: { read: true, create: true, update: true, delete: true } }
-    - { role: ESS, permission: { read: true, create: true, update: true, delete: true } }
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: true }}
+    - { role: ESS, permission: { read: true, create: true, update: true, delete: true }}
 
 apiv2_claim_claim_request_action:
   description: "Claim - Claim Request Action"
@@ -90,5 +90,5 @@ apiv2_claim_claim_request_action:
     update: true
     delete: false
   permissions:
-    - { role: Admin, permission: { read: false, create: false, update: true, delete: false } }
-    - { role: ESS, permission: { read: false, create: false, update: true, delete: false } }
+    - { role: Admin, permission: { read: false, create: false, update: true, delete: false }}
+    - { role: ESS, permission: { read: false, create: false, update: true, delete: false }}

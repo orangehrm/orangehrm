@@ -528,7 +528,6 @@ class ClaimDao extends BaseDao
      * @param int $requestId
      * @param int $attachId
      * @return ClaimAttachment|null
-     * @throws DaoException
      */
     public function getClaimAttachmentFile(int $requestId, int $attachId): ?ClaimAttachment
     {
