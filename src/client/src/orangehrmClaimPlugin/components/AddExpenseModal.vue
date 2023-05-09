@@ -170,7 +170,6 @@ export default {
         .create({
           expenseTypeId: this.expense.type.id,
           date: this.expense.date,
-          //amount: (Math.floor(this.expense.amount * 100) / 100).toFixed(2),
           amount: this.expense.amount,
           note: this.expense.note,
         })
