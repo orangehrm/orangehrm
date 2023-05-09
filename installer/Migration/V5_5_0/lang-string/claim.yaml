@@ -65,3 +65,9 @@ langStrings:
   -
     value: "Total Amount ({currencyName}) : {totalAmount}"
     unitId: total_amount
+  -
+    value: "Submitted Date"
+    unitId: submitted_date
+  -
+    value: "View Details"
+    unitId: view_details
