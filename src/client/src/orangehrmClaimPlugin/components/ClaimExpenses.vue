@@ -226,9 +226,7 @@ export default {
       return computedHeaders;
     },
     formatedAmount() {
-      let value = this.totalAmount.replace(/,/g, '');
-      value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-      return value;
+      return this.totalAmount.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     },
   },
 

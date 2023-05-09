@@ -144,12 +144,12 @@ export default {
 
   data() {
     const statusMap = {
-      SUBMITTED: 'Submitted',
-      APPROVED: 'Approved',
-      REJECTED: 'Rejected',
-      CANCELLED: 'Cancelled',
-      PAID: 'Paid',
-      INITIATED: 'Initiated',
+      SUBMITTED: this.$t('claim.submitted'),
+      APPROVED: this.$t('claim.approved'),
+      REJECTED: this.$t('claim.rejected'),
+      CANCELLED: this.$t('claim.cancelled'),
+      PAID: this.$t('claim.paid'),
+      INITIATED: this.$t('claim.initiated'),
     };
     return {
       isLoading: false,

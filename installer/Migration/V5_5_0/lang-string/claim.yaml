@@ -74,3 +74,24 @@ langStrings:
   -
     value: "My Claims"
     unitId: my_claims
+  -
+    value: "Claim Module"
+    unitId: claim_module
+  -
+    value: "Initiated"
+    unitId: initiated
+  -
+    value: "Approved"
+    unitId: approved
+  -
+    value: "Rejected"
+    unitId: rejected
+  -
+    value: "Paid"
+    unitId: paid
+  -
+    value: "Submitted"
+    unitId: submitted
+  -
+    value: "Cancelled"
+    unitId: cancelled

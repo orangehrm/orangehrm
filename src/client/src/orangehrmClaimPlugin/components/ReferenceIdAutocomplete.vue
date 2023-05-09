@@ -34,7 +34,7 @@
 <script>
 import {APIService} from '@ohrm/core/util/services/api.service';
 export default {
-  name: 'ExpenseTypeAutocomplete',
+  name: 'ReferenceIdAutocomplete',
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,

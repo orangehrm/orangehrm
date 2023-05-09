@@ -34,23 +34,23 @@ export default {
     const options = ref([
       {
         id: 'INITIATED',
-        label: 'Initiated',
+        label: this.$t('claim.initiated'),
       },
       {
         id: 'SUBMITTED',
-        label: 'Submitted',
+        label: this.$t('claim.submitted'),
       },
       {
         id: 'APPROVED',
-        label: 'Approved',
+        label: this.$t('claim.approved'),
       },
       {
         id: 'REJECTED',
-        label: 'Rejected',
+        label: this.$t('claim.rejected'),
       },
       {
         id: 'CANCELLED',
-        label: 'Cancelled',
+        label: this.$t('claim.cancelled'),
       },
     ]);
     return {
