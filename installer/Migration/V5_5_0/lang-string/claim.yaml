@@ -71,3 +71,6 @@ langStrings:
   -
     value: "View Details"
     unitId: view_details
+  -
+    value: "My Claims"
+    unitId: my_claims

@@ -19,7 +19,7 @@
  -->
 
 <template>
-  <oxd-table-filter :filter-title="$t('claim.events')">
+  <oxd-table-filter :filter-title="$t('claim.my_claims')">
     <oxd-form @submit-valid="filterItems">
       <oxd-form-row>
         <oxd-grid :cols="4" class="orangehrm-full-width-grid">
