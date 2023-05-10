@@ -81,17 +81,6 @@ langStrings:
     value: "Initiated"
     unitId: initiated
   -
-    value: "Approved"
-    unitId: approved
-  -
-    value: "Rejected"
-    unitId: rejected
-  -
     value: "Paid"
     unitId: paid
-  -
-    value: "Submitted"
-    unitId: submitted
-  -
-    value: "Cancelled"
-    unitId: cancelled
+    

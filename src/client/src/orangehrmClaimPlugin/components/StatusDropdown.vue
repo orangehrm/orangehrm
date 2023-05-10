@@ -38,19 +38,23 @@ export default {
       },
       {
         id: 'SUBMITTED',
-        label: this.$t('claim.submitted'),
+        label: this.$t('time.submitted'),
       },
       {
         id: 'APPROVED',
-        label: this.$t('claim.approved'),
+        label: this.$t('time.approved'),
       },
       {
         id: 'REJECTED',
-        label: this.$t('claim.rejected'),
+        label: this.$t('leave.rejected'),
       },
       {
         id: 'CANCELLED',
-        label: this.$t('claim.cancelled'),
+        label: this.$t('leave.cancelled'),
+      },
+      {
+        id: 'PAID',
+        label: this.$t('claim.paid'),
       },
     ]);
     return {
