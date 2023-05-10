@@ -226,7 +226,11 @@ export default {
       return computedHeaders;
     },
     formatedAmount() {
-      return this.totalAmount.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+      const amount = Number(this.totalAmount);
+      return amount.toLocaleString('en-US', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      });
     },
   },
 
