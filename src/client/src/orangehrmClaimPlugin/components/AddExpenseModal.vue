@@ -170,7 +170,7 @@ export default {
         .create({
           expenseTypeId: this.expense.type.id,
           date: this.expense.date,
-          amount: this.expense.amount,
+          amount: Number(this.expense.amount).toFixed(2),
           note: this.expense.note,
         })
         .then(() => {
