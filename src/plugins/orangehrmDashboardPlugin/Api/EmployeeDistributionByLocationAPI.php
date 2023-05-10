@@ -37,6 +37,28 @@ class EmployeeDistributionByLocationAPI extends Endpoint implements CollectionEn
     public const PARAMETER_TOTAL_LOCATION_COUNT = 'totalLocationCount';
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/dashboard/employees/locations",
+     *     tags={"Dashboard"},
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="array",
+     *                 @OA\Items(ref="#/components/schemas/Dashboard-LocationModel")
+     *             ),
+     *             @OA\Property(property="meta",
+     *                 type="object",
+     *                 @OA\Property(property="otherEmployeeCount", type="integer"),
+     *                 @OA\Property(property="unassignedEmployeeCount", type="integer"),
+     *                 @OA\Property(property="totalLocationCount", type="integer"),
+     *             )
+     *         )
+     *     )
+     * )
+     *
      * @inheritDoc
      */
     public function getAll(): EndpointResult

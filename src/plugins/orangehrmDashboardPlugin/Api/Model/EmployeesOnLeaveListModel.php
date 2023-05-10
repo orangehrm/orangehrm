@@ -26,6 +26,35 @@ use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\Leave;
 
+/**
+ * @OA\Schema(
+ *     schema="Dashboard-EmployeeOnLeaveListModel",
+ *     type="object",
+ *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(property="date", type="string"),
+ *     @OA\Property(property="lengthHours", type="number"),
+ *     @OA\Property(
+ *         property="employee",
+ *         type="object",
+ *         @OA\Property(property="empNumber", type="integer"),
+ *         @OA\Property(property="employeeId", type="string"),
+ *         @OA\Property(property="firstName", type="string"),
+ *         @OA\Property(property="lastName", type="string"),
+ *         @OA\Property(property="middleName", type="string"),
+ *         @OA\Property(property="terminationId", type="integer"),
+ *     ),
+ *     @OA\Property(property="duration", type="string"),
+ *     @OA\Property(property="endTime", type="string"),
+ *     @OA\Property(property="startTime", type="string"),
+ *     @OA\Property(
+ *         property="leaveType",
+ *         type="object",
+ *         @OA\Property(property="id", type="integer"),
+ *         @OA\Property(property="name", type="string"),
+ *         @OA\Property(property="deleted", type="boolean")
+ *     ),
+ * )
+ */
 class EmployeesOnLeaveListModel implements CollectionNormalizable, ModelConstructorArgsAwareInterface
 {
     use UserRoleManagerTrait;

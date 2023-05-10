@@ -47,6 +47,120 @@ class EmployeeTimeAtWorkAPI extends Endpoint implements ResourceEndpoint
     public const PARAMETER_TIME_ZONE_OFFSET = 'timezoneOffset';
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/dashboard/employees/time-at-work",
+     *     tags={"Dashboard"},
+     *     @OA\Parameter(
+     *         name="currentDate",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         name="currentTime",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         name="timezoneOffset",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="number")
+     *     ),
+     *     @OA\Parameter(
+     *         name="empNumber",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="array",
+     *                 @OA\Items(
+     *                     @OA\Property(
+     *                         property="workDay",
+     *                         type="object",
+     *                         @OA\Property(property="id", type="string", example="1"),
+     *                         @OA\Property(property="day", type="string", example="Mon"),
+     *                         @OA\Property(property="date",  type="number", example="2023-05-10"),
+     *                     ),
+     *                     @OA\Property(
+     *                         property="totalTime",
+     *                         type="object",
+     *                         @OA\Property(property="hours", type="integer"),
+     *                         @OA\Property(property="minutes", type="integer"),
+     *                     ),
+     *                 ),
+     *             ),
+     *             @OA\Property(property="meta",
+     *                 type="object",
+     *                 @OA\Property(
+     *                     property="lastAction",
+     *                     type="object",
+     *                     @OA\Property(property="state", type="string"),
+     *                     @OA\Property(property="utcDate", type="string"),
+     *                     @OA\Property(property="utcTime", type="boolean"),
+     *                     @OA\Property(property="userDate", type="string"),
+     *                     @OA\Property(property="userTime", type="string"),
+     *                     @OA\Property(property="timezoneOffset", type="boolean"),
+     *                 ),
+     *                 @OA\Property(
+     *                     property="currentDay",
+     *                     type="object",
+     *                     @OA\Property(
+     *                         property="currentDay",
+     *                         type="object",
+     *                         @OA\Property(property="date", type="string"),
+     *                         @OA\Property(property="label", type="string"),
+     *                     ),
+     *                     @OA\Property(
+     *                         property="totalTime",
+     *                         type="object",
+     *                         @OA\Property(property="hours", type="integer"),
+     *                         @OA\Property(property="minutes", type="integer"),
+     *                     ),
+     *                 ),
+     *                 @OA\Property(
+     *                     property="currentWeek",
+     *                     type="object",
+     *                     @OA\Property(
+     *                         property="startDate",
+     *                         type="object",
+     *                         @OA\Property(property="date", type="string"),
+     *                         @OA\Property(property="label", type="string"),
+     *                     ),
+     *                     @OA\Property(
+     *                         property="endDate",
+     *                         type="object",
+     *                         @OA\Property(property="date", type="string"),
+     *                         @OA\Property(property="label", type="string"),
+     *                     ),
+     *                     @OA\Property(
+     *                         property="totalTime",
+     *                         type="object",
+     *                         @OA\Property(property="hours", type="integer"),
+     *                         @OA\Property(property="minutes", type="integer"),
+     *                     ),
+     *                 ),
+     *                 @OA\Property(
+     *                     property="currentUser",
+     *                     type="object",
+     *                     @OA\Property(property="empNumber", type="integer"),
+     *                     @OA\Property(property="firstName", type="string"),
+     *                     @OA\Property(property="lastName", type="string"),
+     *                     @OA\Property(property="middleName", type="string"),
+     *                     @OA\Property(property="terminationId", type="integer"),
+     *                 ),
+     *             )
+     *         )
+     *     )
+     * )
+     *
      * @inheritDoc
      */
     public function getOne(): EndpointResult

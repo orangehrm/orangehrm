@@ -37,6 +37,28 @@ class EmployeeDistributionBySubunitAPI extends Endpoint implements CollectionEnd
     public const PARAMETER_TOTAL_SUBUNIT_COUNT = 'totalSubunitCount';
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/dashboard/employees/subunit",
+     *     tags={"Dashboard"},
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="array",
+     *                 @OA\Items(ref="#/components/schemas/Dashboard-SubunitModel")
+     *             ),
+     *             @OA\Property(property="meta",
+     *                 type="object",
+     *                 @OA\Property(property="otherEmployeeCount", type="integer"),
+     *                 @OA\Property(property="unassignedEmployeeCount", type="integer"),
+     *                 @OA\Property(property="totalSubunitCount", type="integer"),
+     *             )
+     *         )
+     *     )
+     * )
+     *
      * @inheritDoc
      */
     public function getAll(): EndpointResult

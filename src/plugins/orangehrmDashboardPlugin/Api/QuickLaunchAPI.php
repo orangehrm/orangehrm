@@ -42,6 +42,27 @@ class QuickLaunchAPI extends Endpoint implements CollectionEndpoint
     ];
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/dashboard/shortcuts",
+     *     tags={"Dashboard"},
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="object",
+     *                 @OA\Property(property="leave.assign_leave", type="boolean", example="true"),
+     *                 @OA\Property(property="leave.leave_list", type="boolean", example="true"),
+     *                 @OA\Property(property="leave.apply_leave", type="boolean", example="true"),
+     *                 @OA\Property(property="leave.my_leave", type="boolean", example="true"),
+     *                 @OA\Property(property="time.employee_timesheet", type="boolean", example="true"),
+     *                 @OA\Property(property="time.my_timesheet", type="boolean", example="true"),
+     *             ),
+     *         )
+     *     )
+     * )
+     *
      * @inheritDoc
      */
     public function getAll(): EndpointResult

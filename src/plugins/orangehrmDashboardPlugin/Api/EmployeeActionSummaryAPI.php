@@ -52,6 +52,20 @@ class EmployeeActionSummaryAPI extends Endpoint implements ResourceEndpoint
     public const RECRUITMENT_MODULE = 'recruitment';
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/dashboard/employees/action-summary",
+     *     tags={"Dashboard"},
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="id", type="integer", example="1"),
+     *             @OA\Property(property="group", type="string", example="Leave Requests To Approve"),
+     *             @OA\Property(property="pendingActionCount", type="integer", example="1"),
+     *         )
+     *     )
+     * )
+     *
      * @inheritDoc
      */
     public function getOne(): EndpointResult

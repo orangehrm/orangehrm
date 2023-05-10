@@ -23,6 +23,19 @@ use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Dashboard\Dto\SubunitCountPair;
 
+/**
+ * @OA\Schema(
+ *     schema="Dashboard-SubunitModel",
+ *     type="object",
+ *     @OA\Property(
+ *         property="subunit",
+ *         type="object",
+ *         @OA\Property(property="id", type="integer"),
+ *         @OA\Property(property="name", type="string")
+ *     ),
+ *     @OA\Property(property="count", type="integer")
+ * )
+ */
 class EmployeeDistributionBySubunitModel implements Normalizable
 {
     use ModelTrait;
