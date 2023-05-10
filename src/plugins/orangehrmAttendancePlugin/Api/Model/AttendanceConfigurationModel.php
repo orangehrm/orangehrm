@@ -22,6 +22,15 @@ namespace OrangeHRM\Attendance\Api\Model;
 use OrangeHRM\Attendance\Dto\AttendanceConfiguration;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 
+/**
+ * @OA\Schema(
+ *     schema="Attendance-AttendanceConfigurationModel",
+ *     type="object",
+ *     @OA\Property(property="canUserChangeCurrentTime", type="boolean"),
+ *     @OA\Property(property="canUserModifyAttendance", type="boolean"),
+ *     @OA\Property(property="canSupervisorModifyAttendance", type="boolean"),
+ * )
+ */
 class AttendanceConfigurationModel implements Normalizable
 {
     private AttendanceConfiguration $attendanceConfiguration;

@@ -48,6 +48,23 @@ class AttendanceConfigurationAPI extends Endpoint implements ResourceEndpoint
     public const PARAMETER_CAN_SUPERVISOR_MODIFY_ATTENDANCE = 'canSupervisorModifyAttendance';
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/attendance/configs",
+     *     tags={"Attendance/Configuration"},
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="object",
+     *                 ref="#/components/schemas/Attendance-AttendanceConfigurationModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     )
+     * )
+     *
      * @inheritDoc
      */
     public function getOne(): EndpointResult
@@ -75,6 +92,31 @@ class AttendanceConfigurationAPI extends Endpoint implements ResourceEndpoint
     }
 
     /**
+     * @OA\Put(
+     *     path="/api/v2/attendance/configs",
+     *     tags={"Attendance/Configuration"},
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="canUserChangeCurrentTime", type="boolean", example="true"),
+     *             @OA\Property(property="canUserModifyAttendance", type="boolean", example="false"),
+     *             @OA\Property(property="canSupervisorModifyAttendance", type="boolean", example="false"),
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="object",
+     *                 ref="#/components/schemas/Attendance-AttendanceConfigurationModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     )
+     * )
+     *
      * @inheritDoc
      */
     public function update(): EndpointResult

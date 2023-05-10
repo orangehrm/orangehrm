@@ -72,7 +72,7 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Get(
      *     path="/api/v2/attendance/employees/{empNumber}/records",
-     *     tags={"Attendance/ Employee Attendance"},
+     *     tags={"Attendance/Employee Attendance"},
      *     @OA\PathParameter(
      *         name="id",
      *         @OA\Schema(type="integer")
@@ -255,8 +255,37 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Post(
+     *     path="/api/v2/attendance/employees/{empNumber}/records",
+     *     tags={"Attendance/Employee Attendance"},
+     *     @OA\PathParameter(
+     *         name="empNumber",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="date", type="string", format="date"),
+     *             @OA\Property(property="time", type="string"),
+     *             @OA\Property(property="timezoneOffset", type="string"),
+     *             @OA\Property(property="timezoneName", type="string"),
+     *             @OA\Property(property="note", type="string"),
+     *             required={"date", "name", "time", "timezoneOffset", "timezoneName"}
+     *         )
+     *     ),
+     *     @OA\Response(response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Attendance-AttendanceRecordModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     )
+     * )
+     *
      * @inheritDoc
-     * @throws Exception
      */
     public function create(): EndpointResourceResult
     {
@@ -437,6 +466,17 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Delete(
+     *     path="/api/v2/attendance/employees/{empNumber}/records",
+     *     tags={"Attendance/Employee Attendance"},
+     *     @OA\PathParameter(
+     *         name="empNumber",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),
+     *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse")
+     * )
+     *
      * @inheritDoc
      */
     public function delete(): EndpointResult
@@ -539,8 +579,37 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Put(
+     *     path="/api/v2/attendance/employees/{empNumber}/records",
+     *     tags={"Attendance/Employee Attendance"},
+     *     @OA\PathParameter(
+     *         name="empNumber",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="date", type="string", format="date"),
+     *             @OA\Property(property="time", type="string"),
+     *             @OA\Property(property="timezoneOffset", type="string"),
+     *             @OA\Property(property="timezoneName", type="string"),
+     *             @OA\Property(property="note", type="string"),
+     *             required={"date", "name", "time", "timezoneOffset", "timezoneName"}
+     *         )
+     *     ),
+     *     @OA\Response(response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Attendance-AttendanceRecordModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     )
+     * )
+     *
      * @inheritDoc
-     * @throws Exception
      */
     public function update(): EndpointResult
     {
