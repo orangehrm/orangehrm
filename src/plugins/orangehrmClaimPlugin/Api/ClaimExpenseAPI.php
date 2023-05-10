@@ -223,7 +223,7 @@ class ClaimExpenseAPI extends Endpoint implements CrudEndpoint
             if (!preg_match('/^\d+(\.\d{1,2})?$/', $amount)) {
                 throw $this->getInvalidParamException(self::PARAMETER_AMOUNT);
             }
-            $claimExpense->setAmount(floor($amount*100)/100);
+            $claimExpense->setAmount($amount);
 
             $claimExpense->setNote(
                 $this->getRequestParams()

@@ -186,7 +186,7 @@ export default {
         .update(this.data.id, {
           expenseTypeId: this.selectedOption.id,
           date: this.expense.date,
-          amount: (Math.floor(this.expense.amount * 100) / 100).toFixed(2),
+          amount: Number(this.expense.amount).toFixed(2),
           note: this.expense.note,
         })
         .then(() => {

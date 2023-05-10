@@ -65,3 +65,21 @@ langStrings:
   -
     value: "Total Amount ({currencyName}) : {totalAmount}"
     unitId: total_amount
+  -
+    value: "Submitted Date"
+    unitId: submitted_date
+  -
+    value: "View Details"
+    unitId: view_details
+  -
+    value: "My Claims"
+    unitId: my_claims
+  -
+    value: "Claim Module"
+    unitId: claim_module
+  -
+    value: "Initiated"
+    unitId: initiated
+  -
+    value: "Paid"
+    unitId: paid

@@ -134,7 +134,7 @@ export default {
 
   methods: {
     onCancel() {
-      navigate('/claim/submitClaim');
+      navigate('/claim/viewClaim');
     },
     onSave() {
       this.isLoading = true;

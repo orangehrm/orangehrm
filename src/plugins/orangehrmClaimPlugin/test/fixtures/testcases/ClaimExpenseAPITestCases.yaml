@@ -122,6 +122,33 @@ Create:
       date: "2023-02-20"
     meta: [ ]
 
+  'Create - Claim Expense with maximum amount':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      requestId: 1
+    body:
+      expenseTypeId: 1
+      date: "2023-02-20"
+      amount: 9999999999.99
+      note: "sample note"
+    data:
+      id: 5
+      expenseType:
+        id: 1
+        name: transport
+      amount: 9999999999.99
+      note: sample note
+      date: "2023-02-20"
+    meta: [ ]
+
   'Create - Claim Expense for own PAID request as ESS user':
     userId: 1
     services:
@@ -175,6 +202,27 @@ Create:
       requestId: 1
     body:
       amount: 7000.899
+      expenseTypeId: 1
+      date: "2023-02-20"
+      note: "sample note"
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: 'Invalid Parameter'
+
+  'Create - amount with more than 10,000,000,000':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      requestId: 1
+    body:
+      amount: 10000000001.0
       expenseTypeId: 1
       date: "2023-02-20"
       note: "sample note"

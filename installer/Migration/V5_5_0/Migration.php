@@ -232,7 +232,7 @@ class Migration extends AbstractMigration
                 )
                 ->setParameter('module_id', $this->getDataGroupHelper()->getModuleIdByName('claim'))
                 ->setParameter('user_role_id', $this->getDataGroupHelper()->getUserRoleIdByName('ESS'))
-                ->setParameter('action', 'claim/submitClaim') //TODO: change to myClaim
+                ->setParameter('action', 'claim/viewClaim')
                 ->executeQuery();
 
             $viewClaimModuleScreenId = $this->getConnection()
@@ -261,6 +261,8 @@ class Migration extends AbstractMigration
             $this->insertMenuItems('Expense Types', $expenseTypeScreenId, $claimConfigMenuItemId, 3, 200, 1, null);
             $submitClaimScreenId = $this->getScreenId('Submit Claim');
             $this->insertMenuItems('Submit Claim', $submitClaimScreenId, $claimMenuItemId, 2, 100, 1, null);
+            $myClaimsScreenId = $this->getScreenId('My Claims');
+            $this->insertMenuItems('My Claims', $myClaimsScreenId, $claimMenuItemId, 2, 100, 1, null);
         }
 
         $this->deleteClaimWorkflowStates();
