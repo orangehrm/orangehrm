@@ -235,6 +235,7 @@ export default {
           name: 'eventName',
           title: this.$t('claim.event_name'),
           slot: 'title',
+          cellType: 'oxd-table-cell-truncate',
           sortField: 'claimRequest.claimEvent.name',
           style: {flex: 3},
         },
