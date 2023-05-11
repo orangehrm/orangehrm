@@ -56,6 +56,65 @@ class AttendanceEditPunchInRecordOverlapAPI extends Endpoint implements Resource
     public const PARAMETER_IS_PUNCH_IN_OVERLAP = 'valid';
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/attendance/records/punch-in-overlaps",
+     *     tags={"Attendance/Attendance Overlap Edit"},
+     *     @OA\Parameter(
+     *         name="recordId",
+     *         in="query",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         name="punchInTimezoneOffset",
+     *         in="query",
+     *         required=true,
+     *         @OA\Schema(type="number")
+     *     ),
+     *     @OA\Parameter(
+     *         name="punchInDate",
+     *         in="query",
+     *         required=true,
+     *         @OA\Schema(type="string", format="date")
+     *     ),
+     *     @OA\Parameter(
+     *         name="punchInTime",
+     *         in="query",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         name="punchOutTimezoneOffset",
+     *         in="query",
+     *         required=true,
+     *         @OA\Schema(type="number")
+     *     ),
+     *     @OA\Parameter(
+     *         name="punchOutDate",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string", format="date")
+     *     ),
+     *     @OA\Parameter(
+     *         name="punchOutTime",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="object",
+     *                 @OA\Property(property="valid", type="boolean")
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     )
+     * )
+     *
      * @inheritDoc
      */
     public function getOne(): EndpointResult

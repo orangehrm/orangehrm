@@ -31,6 +31,47 @@ class AttendancePunchOutRecordOverlapAPI extends AttendancePunchInRecordOverlapA
     public const PARAMETER_IS_PUNCH_OUT_OVERLAP = 'valid';
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/attendance/punch-out/overlaps",
+     *     tags={"Attendance/Attendance Overlap"},
+     *     @OA\Parameter(
+     *         name="empNumber",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         name="timezoneOffset",
+     *         in="query",
+     *         required=true,
+     *         @OA\Schema(type="number")
+     *     ),
+     *     @OA\Parameter(
+     *         name="date",
+     *         in="query",
+     *         required=true,
+     *         @OA\Schema(type="string", format="date")
+     *     ),
+     *     @OA\Parameter(
+     *         name="time",
+     *         in="query",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="object",
+     *                 @OA\Property(property="valid", type="boolean")
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     )
+     * )
+     *
      * @inheritDoc
      */
     public function getOne(): EndpointResult
