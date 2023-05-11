@@ -55,10 +55,10 @@ class ClaimAttachmentController extends AbstractFileController
                 throw $this->getForbiddenException();
             }
 
-            try{
+            try {
                 $attachment = $this->getClaimService()->getClaimDao()
-                    ->getClaimAttachmentFile($requestId,$attachId);
-            }catch (Exception $e){
+                    ->getClaimAttachmentFile($requestId, $attachId);
+            } catch (Exception $e) {
                 throw $this->getForbiddenException();
             }
 
