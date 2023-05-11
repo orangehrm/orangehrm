@@ -52,14 +52,14 @@ class ClaimAttachmentController extends AbstractFileController
             $this->throwRecordNotFoundExceptionIfNotExist($claimRequest, ClaimRequest::class);
 
             if (!$this->getUserRoleManagerHelper()->isEmployeeAccessible($claimRequest->getEmployee()->getEmpNumber())) {
-                throw $this->getForbiddenException();
+                throw $this->getBadRequestException();
             }
 
             try {
                 $attachment = $this->getClaimService()->getClaimDao()
                     ->getClaimAttachmentFile($requestId, $attachId);
             } catch (Exception $e) {
-                throw $this->getForbiddenException();
+                throw $this->getBadRequestException();
             }
 
             if ($attachment instanceof ClaimAttachment) {
