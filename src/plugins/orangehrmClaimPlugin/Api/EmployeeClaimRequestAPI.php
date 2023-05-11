@@ -117,7 +117,7 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
         $empNumber = $this->getEmpNumber();
 
         if (!is_null(
-            $this->getReference('OrangeHRM\Entity\Employee', $empNumber)
+            $this->getEmployeeService()->getEmployeeDao()->getEmployeeByEmpNumber($empNumber)
                 ->getEmployeeTerminationRecord()
         )) {
             throw $this->getForbiddenException();
