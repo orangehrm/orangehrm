@@ -3,87 +3,53 @@
   url: viewClaimModule
   permissions:
     - { role: Admin, permission: { read: true } }
-    - {
-        role: ESS,
-        permission: { read: true, create: false, update: false, delete: false },
-      }
+    - { role: ESS, permission: { read: true, create: false, update: false, delete: false } }
 
 "Events":
   module: claim
   url: viewEvents
   permissions:
     - { role: Admin, permission: { read: true } }
-    - {
-        role: ESS,
-        permission:
-          { read: false, create: false, update: false, delete: false },
-      }
+    - { role: ESS, permission: { read: false, create: false, update: false, delete: false } }
 
 "Create Event":
   module: claim
   url: saveEvents
   permissions:
     - { role: Admin, permission: { read: true, create: true, update: true } }
-    - {
-        role: ESS,
-        permission:
-          { read: false, create: false, update: false, delete: false },
-      }
+    - { role: ESS, permission: { read: false, create: false, update: false, delete: false } }
 
 "Expense Types":
   module: claim
   url: viewExpense
   permissions:
     - { role: Admin, permission: { read: true } }
-    - {
-        role: ESS,
-        permission:
-          { read: false, create: false, update: false, delete: false },
-      }
+    - { role: ESS, permission: { read: false, create: false, update: false, delete: false } }
 
 "Create Expense":
   module: claim
   url: saveExpense
   permissions:
     - { role: Admin, permission: { read: true, create: true, update: true } }
-    - {
-        role: ESS,
-        permission:
-          { read: false, create: false, update: false, delete: false },
-      }
+    - { role: ESS, permission: { read: false, create: false, update: false, delete: false } }
 
 "Submit Claim":
   module: claim
   url: submitClaim
   permissions:
     - { role: Admin, permission: { read: true, create: true, update: false } }
-    - {
-        role: ESS,
-        permission: { read: true, create: true, update: false, delete: false },
-      }
+    - { role: ESS, permission: { read: true, create: true, update: false, delete: false } }
 
 "Submit Claim Request":
   module: claim
   url: submitClaim/id/{id}
   permissions:
-    - {
-        role: Admin,
-        permission: { read: true, create: true, update: true, delete: false },
-      }
-    - {
-        role: ESS,
-        permission: { read: true, create: true, update: true, delete: false },
-      }
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: false } }
+    - { role: ESS, permission: { read: true, create: true, update: true, delete: false } }
 
 "My Claims":
   module: claim
   url: viewClaim
   permissions:
-    - {
-        role: Admin,
-        permission: { read: true, create: true, update: true, delete: false },
-      }
-    - {
-        role: ESS,
-        permission: { read: true, create: true, update: true, delete: false },
-      }
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: false } }
+    - { role: ESS, permission: { read: true, create: true, update: true, delete: false } }

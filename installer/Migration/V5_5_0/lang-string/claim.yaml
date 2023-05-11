@@ -1,57 +1,85 @@
 langStrings:
-  - value: "Claim"
+  -
+    value: "Claim"
     unitId: claim
-  - value: "Events"
+  -
+    value: "Events"
     unitId: events
-  - value: "Add Event"
+  -
+    value: "Add Event"
     unitId: add_event
-  - value: "Edit Event"
+  -
+    value: "Edit Event"
     unitId: edit_event
-  - value: "Event Name"
+  -
+    value: "Event Name"
     unitId: event_name
-  - value: "Expense Types"
+  -
+    value: "Expense Types"
     unitId: expense_types
-  - value: "Add Expense Type"
+  -
+    value: "Add Expense Type"
     unitId: add_expense_type
-  - value: "Edit Expense Type"
+  -
+    value: "Edit Expense Type"
     unitId: edit_expense_type
-  - value: "Event"
+  -
+    value: "Event"
     unitId: event
-  - value: "Create Claim Request"
+  -
+    value: "Create Claim Request"
     unitId: create_claim_request
-  - value: "Remarks"
+  -
+    value: "Remarks"
     unitId: remarks
-  - value: "Create"
+  -
+    value: "Create"
     unitId: create
-  - value: "Submit Claim"
+  -
+    value: "Submit Claim"
     unitId: submit_claim
-  - value: "Reference Id"
+  -
+    value: "Reference Id"
     unitId: reference_id
-  - value: "Amount"
+  -
+    value: "Amount"
     unitId: amount
-  - value: "Expenses"
+  -
+    value: "Expenses"
     unitId: expenses
-  - value: "Expense Type"
+  -
+    value: "Expense Type"
     unitId: expense_type
-  - value: "Pay"
+  -
+    value: "Pay"
     unitId: pay
-  - value: "Add Expense"
+  -
+    value: "Add Expense"
     unitId: add_expense
-  - value: "Edit Expense"
+  -
+    value: "Edit Expense"
     unitId: edit_expense
-  - value: "Should be a valid number (xxx.xx)"
+  -
+    value: "Should be a valid number (xxx.xx)"
     unitId: should_be_a_valid_number
-  - value: "Total Amount ({currencyName}) : {totalAmount}"
+  -
+    value: "Total Amount ({currencyName}) : {totalAmount}"
     unitId: total_amount
-  - value: "Submitted Date"
+  -
+    value: "Submitted Date"
     unitId: submitted_date
-  - value: "View Details"
+  -
+    value: "View Details"
     unitId: view_details
-  - value: "My Claims"
+  -
+    value: "My Claims"
     unitId: my_claims
-  - value: "Claim Module"
+  -
+    value: "Claim Module"
     unitId: claim_module
-  - value: "Initiated"
+  -
+    value: "Initiated"
     unitId: initiated
-  - value: "Paid"
+  -
+    value: "Paid"
     unitId: paid
