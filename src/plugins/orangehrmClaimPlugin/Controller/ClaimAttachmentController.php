@@ -19,29 +19,21 @@
 
 namespace OrangeHRM\Claim\Controller;
 
-use OrangeHRM\Claim\Service\ClaimService;
+use Exception;
+use OrangeHRM\Claim\Traits\Service\ClaimServiceTrait;
+use OrangeHRM\Core\Api\V2\Exception\EndpointExceptionTrait;
 use OrangeHRM\Core\Controller\AbstractFileController;
+use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\ClaimAttachment;
+use OrangeHRM\Entity\ClaimRequest;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\Http\Response;
 
 class ClaimAttachmentController extends AbstractFileController
 {
-    /**
-     * @var ClaimService|null
-     */
-    protected ?ClaimService $claimService = null;
-
-    /**
-     * @return ClaimService
-     */
-    public function getClaimService(): ClaimService
-    {
-        if (!$this->claimService instanceof ClaimService) {
-            $this->claimService = new ClaimService();
-        }
-        return $this->claimService;
-    }
+    use ClaimServiceTrait;
+    use EndpointExceptionTrait;
+    use UserRoleManagerTrait;
 
     /**
      * @param Request $request
@@ -49,12 +41,27 @@ class ClaimAttachmentController extends AbstractFileController
      */
     public function handle(Request $request): Response
     {
-        $requestId = $request->attributes->get('requestId');
-        $attachId = $request->attributes->get('attachId');
         $response = $this->getResponse();
 
-        if ($requestId && $attachId) {
-            $attachment = $this->getClaimService()->getAccessibleClaimAttachment($requestId, $attachId);
+        if ($request->attributes->has('requestId') && $request->attributes->has('attachId')) {
+            $requestId = $request->attributes->get('requestId');
+            $attachId = $request->attributes->get('attachId');
+
+            $claimRequest = $this->getClaimService()->getClaimDao()
+                ->getClaimRequestById($requestId);
+            $this->throwRecordNotFoundExceptionIfNotExist($claimRequest, ClaimRequest::class);
+
+            if (!$this->getUserRoleManagerHelper()->isEmployeeAccessible($claimRequest->getEmployee()->getEmpNumber())) {
+                throw $this->getForbiddenException();
+            }
+
+            try{
+                $attachment = $this->getClaimService()->getClaimDao()
+                    ->getClaimAttachmentFile($requestId,$attachId);
+            }catch (Exception $e){
+                throw $this->getForbiddenException();
+            }
+
             if ($attachment instanceof ClaimAttachment) {
                 $this->setCommonHeadersToResponse(
                     $attachment->getFilename(),
@@ -66,7 +73,6 @@ class ClaimAttachmentController extends AbstractFileController
                 return $response;
             }
         }
-
         return $this->handleBadRequest();
     }
 }

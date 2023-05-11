@@ -19,17 +19,12 @@
 
 namespace OrangeHRM\Claim\Service;
 
-use OrangeHRM\Claim\Api\Traits\ClaimRequestAPIHelperTrait;
 use OrangeHRM\Claim\Dao\ClaimDao;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
-use OrangeHRM\Core\Traits\UserRoleManagerTrait;
-use OrangeHRM\Entity\ClaimAttachment;
 
 class ClaimService
 {
     use DateTimeHelperTrait;
-    use UserRoleManagerTrait;
-    use ClaimRequestAPIHelperTrait;
 
     /**
      * @var ClaimDao
@@ -52,26 +47,5 @@ class ClaimService
         $nextId = $this->getClaimDao()->getNextId();
         $date = $this->getDateTimeHelper()->getNow()->format('Ymd');
         return $date . str_pad("$nextId", 7, 0, STR_PAD_LEFT);
-    }
-
-    /**
-     * @param int $requestId
-     * @param int $attachId
-     * @return ClaimAttachment|null
-     */
-    public function getClaimAttachment(int $requestId, int $attachId): ?ClaimAttachment
-    {
-        return $this->getClaimDao()->getClaimAttachmentFile($requestId, $attachId);
-    }
-
-    /**
-     * @param int $requestId
-     * @param int $attachId
-     * @return ClaimAttachment|null
-     */
-    public function getAccessibleClaimAttachment(int $requestId, int $attachId): ?ClaimAttachment
-    {
-        $this->getClaimRequest($requestId);
-        return $this->getClaimAttachment($requestId, $attachId);
     }
 }

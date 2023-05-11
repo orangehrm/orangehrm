@@ -70,7 +70,7 @@ class ClaimAttachmentDecorator
      */
     public function getAttachment(): string
     {
-        if (is_null($this->attachmentString)) {
+        if ($this->attachmentString === null) {
             $this->attachmentString = stream_get_contents($this->getClaimAttachment()->getAttachment());
         }
         return $this->attachmentString;

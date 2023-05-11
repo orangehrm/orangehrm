@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\Claim\Dao;
 
-use Exception;
 use OrangeHRM\Claim\Dto\ClaimAttachmentSearchFilterParams;
 use OrangeHRM\Claim\Dto\ClaimEventSearchFilterParams;
 use OrangeHRM\Claim\Dto\ClaimExpenseSearchFilterParams;
@@ -27,7 +26,6 @@ use OrangeHRM\Claim\Dto\ClaimExpenseTypeSearchFilterParams;
 use OrangeHRM\Claim\Dto\ClaimRequestSearchFilterParams;
 use OrangeHRM\Claim\Dto\PartialClaimAttachment;
 use OrangeHRM\Core\Dao\BaseDao;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\ClaimAttachment;
 use OrangeHRM\Entity\ClaimEvent;
 use OrangeHRM\Entity\ClaimExpense;
@@ -531,16 +529,7 @@ class ClaimDao extends BaseDao
      */
     public function getClaimAttachmentFile(int $requestId, int $attachId): ?ClaimAttachment
     {
-        try {
             $criteria = ['requestId' => $requestId, 'attachId' => $attachId];
-
-            $claimAttachment = $this->getRepository(ClaimAttachment::class)->findOneBy($criteria);
-            if ($claimAttachment instanceof ClaimAttachment) {
-                return $claimAttachment;
-            }
-            return null;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+            return $this->getRepository(ClaimAttachment::class)->findOneBy($criteria);
     }
 }
