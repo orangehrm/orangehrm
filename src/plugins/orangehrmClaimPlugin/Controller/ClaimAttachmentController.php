@@ -21,7 +21,6 @@ namespace OrangeHRM\Claim\Controller;
 
 use Exception;
 use OrangeHRM\Claim\Traits\Service\ClaimServiceTrait;
-use OrangeHRM\Core\Api\V2\Exception\EndpointExceptionTrait;
 use OrangeHRM\Core\Controller\AbstractFileController;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\ClaimAttachment;
@@ -32,7 +31,6 @@ use OrangeHRM\Framework\Http\Response;
 class ClaimAttachmentController extends AbstractFileController
 {
     use ClaimServiceTrait;
-    use EndpointExceptionTrait;
     use UserRoleManagerTrait;
 
     /**
@@ -49,17 +47,19 @@ class ClaimAttachmentController extends AbstractFileController
 
             $claimRequest = $this->getClaimService()->getClaimDao()
                 ->getClaimRequestById($requestId);
-            $this->throwRecordNotFoundExceptionIfNotExist($claimRequest, ClaimRequest::class);
+            if (!($claimRequest instanceof ClaimRequest)) {
+                return $this->handleBadRequest();
+            }
 
             if (!$this->getUserRoleManagerHelper()->isEmployeeAccessible($claimRequest->getEmployee()->getEmpNumber())) {
-                throw $this->getBadRequestException();
+                return $this->handleBadRequest();
             }
 
             try {
                 $attachment = $this->getClaimService()->getClaimDao()
                     ->getClaimAttachmentFile($requestId, $attachId);
             } catch (Exception $e) {
-                throw $this->getBadRequestException();
+                return $this->handleBadRequest();
             }
 
             if ($attachment instanceof ClaimAttachment) {
