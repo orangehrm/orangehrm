@@ -61,6 +61,11 @@ class ClaimRequestSearchFilterParams extends FilterParams
      */
     protected ?DateTime $toDate = null;
 
+    /**
+     * @var string|null
+     */
+    protected ?string $empName = null;
+
     public function __construct()
     {
         $this->setSortField('claimRequest.referenceId');
@@ -73,6 +78,22 @@ class ClaimRequestSearchFilterParams extends FilterParams
     public function getReferenceId(): ?string
     {
         return $this->referenceId;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getEmpName(): ?string
+    {
+        return $this->empName;
+    }
+
+    /**
+     * @param string|null $empName
+     */
+    public function setEmpName(?string $empName): void
+    {
+        $this->empName = $empName;
     }
 
     /**
