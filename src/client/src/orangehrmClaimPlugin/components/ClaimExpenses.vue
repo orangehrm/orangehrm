@@ -55,7 +55,7 @@
     <oxd-text>{{
       $t('claim.total_amount', {
         currencyName: currency.name,
-        totalAmount: totalAmount,
+        totalAmount: formatedAmount,
       })
     }}</oxd-text>
   </div>
@@ -224,6 +224,13 @@ export default {
       }
 
       return computedHeaders;
+    },
+    formatedAmount() {
+      const amount = Number(this.totalAmount);
+      return amount.toLocaleString('en-US', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      });
     },
   },
 

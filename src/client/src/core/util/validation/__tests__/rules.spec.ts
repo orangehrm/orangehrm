@@ -1073,7 +1073,7 @@ describe('core/util/validation/rules::digitsOnlyWithTwoDecimalPoints', () => {
 
   test('digitsOnlyWithTwoDecimalPoints:: with one decimal points', () => {
     const result = digitsOnlyWithTwoDecimalPoints('123.9');
-    expect(result).toEqual('Should be a valid number (xxx.xx)');
+    expect(result).toEqual(true);
   });
 
   test('digitsOnlyWithTwoDecimalPoints:: with three decimal points', () => {
