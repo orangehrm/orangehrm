@@ -257,11 +257,6 @@ class ClaimExpenseAPI extends Endpoint implements CrudEndpoint
                 self::PARAMETER_EXPENSE_TYPE_ID,
                 new Rule(Rules::POSITIVE)
             ),
-            //            new ParamRule(
-            //                self::PARAMETER_AMOUNT,
-            //                new Rule(Rules::FLOAT_TYPE), //TODO:: handle decimal points
-            //                new Rule(Rules::MIN, [0])
-            //            ),
             new ParamRule(
                 self::PARAMETER_AMOUNT,
                 new Rule(Rules::BETWEEN, [0, 9999999999.99])

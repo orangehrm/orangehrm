@@ -162,15 +162,6 @@ claim_view_claim:
   path: /claim/viewClaim
   controller: OrangeHRM\Claim\Controller\ViewMyClaimController::handle
   methods: [GET]
-##########################
-#        Files
-##########################
-
-claim_attachment:
-  path: /claim/requests/{requestId}/attachId/{attachId}
-  controller: OrangeHRM\Claim\Controller\ClaimAttachmentController::handle
-  methods: [GET]
-  methods: [ GET ]
 
 claim_assign_claim:
   path: /claim/assignClaim
@@ -186,3 +177,12 @@ claim_employee_claim:
   path: /claim/viewAssignClaim
   controller: OrangeHRM\Claim\Controller\ViewAssignClaimController::handle
   methods: [ GET ]
+
+##########################
+#        Files
+##########################
+
+claim_attachment:
+  path: /claim/requests/{requestId}/attachId/{attachId}
+  controller: OrangeHRM\Claim\Controller\ClaimAttachmentController::handle
+  methods: [GET]
