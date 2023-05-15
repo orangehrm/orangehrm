@@ -35,6 +35,11 @@ class ClaimAttachmentDecorator
     protected ClaimAttachment $claimAttachment;
 
     /**
+     * @var string|null
+     */
+    protected ?string $attachmentString = null;
+
+    /**
      * @param ClaimAttachment $claimAttachment
      */
     public function __construct(ClaimAttachment $claimAttachment)
@@ -57,5 +62,17 @@ class ClaimAttachmentDecorator
     {
         $user = $this->getReference(User::class, $userId);
         $this->getClaimAttachment()->setUser($user);
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getAttachment(): string
+    {
+        if ($this->attachmentString === null) {
+            $this->attachmentString = stream_get_contents($this->getClaimAttachment()->getAttachment());
+        }
+        return $this->attachmentString;
     }
 }

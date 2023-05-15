@@ -171,9 +171,9 @@ class ClaimAttachment
     }
 
     /**
-     * @return string
+     * @return string | resource
      */
-    public function getAttachment(): string
+    public function getAttachment()
     {
         return $this->attachment;
     }

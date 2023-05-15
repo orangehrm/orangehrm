@@ -153,7 +153,8 @@ export default {
     const serializedFilters = computed(() => {
       return {
         referenceId:
-          typeof filters.value.referenceId === 'object'
+          typeof filters.value.referenceId === 'object' &&
+          filters.value.referenceId
             ? filters.value.referenceId.id
             : typeof filters.value.referenceId === 'string'
             ? filters.value.referenceId
