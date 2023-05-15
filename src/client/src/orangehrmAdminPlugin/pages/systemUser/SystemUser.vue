@@ -166,7 +166,7 @@ export default {
               ? $t('general.admin')
               : $t('general.ess'),
           empName: $tEmpName(item.employee, {includeMiddle: false}),
-          status: item.status ? 'Enabled' : 'Disabled',
+          status: item.status ? $t('general.enabled') : $t('general.disabled'),
           isSelectable: selectable === -1,
         };
       });

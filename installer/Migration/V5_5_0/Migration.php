@@ -401,6 +401,7 @@ class Migration extends AbstractMigration
             'name' => [
                 'Notnull' => true,
                 'Type' => Type::getType(Types::STRING),
+                'Length' => 100
             ],
             'description' => [
                 'Type' => Type::getType(Types::STRING),
@@ -419,6 +420,7 @@ class Migration extends AbstractMigration
             'name' => [
                 'Notnull' => true,
                 'Type' => Type::getType(Types::STRING),
+                'Length' => 100
             ],
             'description' => [
                 'Length' => 1000
