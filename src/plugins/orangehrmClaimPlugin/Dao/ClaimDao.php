@@ -521,4 +521,15 @@ class ClaimDao extends BaseDao
     {
         return $this->getClaimRequestPaginator($myClaimRequestSearchFilterParams)->count();
     }
+
+    /**
+     * @param int $requestId
+     * @param int $attachId
+     * @return ClaimAttachment|null
+     */
+    public function getClaimAttachmentFile(int $requestId, int $attachId): ?ClaimAttachment
+    {
+        $criteria = ['requestId' => $requestId, 'attachId' => $attachId];
+        return $this->getRepository(ClaimAttachment::class)->findOneBy($criteria);
+    }
 }

@@ -17,6 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
  -->
+
 <template>
   <oxd-dialog @update:show="onCancel">
     <div class="orangehrm-modal-header">
@@ -32,6 +33,7 @@
             <claim-expense-type-dropdown
               v-model="selectedOption"
               :label="$t('claim.expense_type')"
+              :rules="rules.type"
             ></claim-expense-type-dropdown>
           </oxd-grid-item>
         </oxd-grid>
@@ -149,6 +151,7 @@ export default {
         ...expenseModel,
       },
       rules: {
+        type: [required],
         date: [required, validDateFormat(this.userDateFormat)],
         note: [shouldNotExceedCharLength(1000)],
         amount: [

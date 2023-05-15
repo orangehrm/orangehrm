@@ -23,6 +23,7 @@
     type="select"
     :label="$t('claim.event')"
     :options="options"
+    required
   />
 </template>
 
