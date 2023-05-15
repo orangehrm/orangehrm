@@ -482,11 +482,11 @@ class ClaimDao extends BaseDao
                 ->setParameter('empNumbers', $myClaimRequestSearchFilterParams->getEmpNumbers());
         }
 
-        if (!is_null($myClaimRequestSearchFilterParams->getEmpName())) {
+        if (!is_null($myClaimRequestSearchFilterParams->getEmployeeName())) {
             $q->andWhere($q->expr()->like('employee.firstName', ':firstName'))
-                ->setParameter('firstName', '%'.$myClaimRequestSearchFilterParams->getEmpName().'%')
+                ->setParameter('firstName', '%'.$myClaimRequestSearchFilterParams->getEmployeeName().'%')
                 ->orWhere($q->expr()->like('employee.lastName', ':lastName'))
-                ->setParameter('lastName', '%'.$myClaimRequestSearchFilterParams->getEmpName().'%');
+                ->setParameter('lastName', '%'.$myClaimRequestSearchFilterParams->getEmployeeName().'%');
         }
 
         if (!is_null($myClaimRequestSearchFilterParams->getReferenceId())) {

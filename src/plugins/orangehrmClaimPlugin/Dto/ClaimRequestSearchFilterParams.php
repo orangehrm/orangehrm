@@ -64,7 +64,7 @@ class ClaimRequestSearchFilterParams extends FilterParams
     /**
      * @var string|null
      */
-    protected ?string $empName = null;
+    protected ?string $employeeName = null;
 
     public function __construct()
     {
@@ -83,17 +83,17 @@ class ClaimRequestSearchFilterParams extends FilterParams
     /**
      * @return string|null
      */
-    public function getEmpName(): ?string
+    public function getEmployeeName(): ?string
     {
-        return $this->empName;
+        return $this->employeeName;
     }
 
     /**
-     * @param string|null $empName
+     * @param string|null $employeeName
      */
-    public function setEmpName(?string $empName): void
+    public function setEmployeeName(?string $employeeName): void
     {
-        $this->empName = $empName;
+        $this->employeeName = $employeeName;
     }
 
     /**
