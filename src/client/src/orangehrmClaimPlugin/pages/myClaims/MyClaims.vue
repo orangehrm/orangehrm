@@ -154,7 +154,7 @@ export default {
       return {
         referenceId:
           typeof filters.value.referenceId === 'object' &&
-          filters.value.referenceId !== null
+          filters.value.referenceId
             ? filters.value.referenceId.id
             : typeof filters.value.referenceId === 'string'
             ? filters.value.referenceId
