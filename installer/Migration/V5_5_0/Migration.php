@@ -455,7 +455,7 @@ class Migration extends AbstractMigration
             'hs_hr_currency_type',
             ['currency_id'],
             'fk_currency_id',
-            ['onDelete' => 'RESTRICT', 'onUpdate' => 'CASCADE']
+            ['onDelete' => 'CASCADE', 'onUpdate' => 'CASCADE']
         );
         $this->getSchemaHelper()->addForeignKey('ohrm_claim_request', $foreignKeyConstraint);
     }
