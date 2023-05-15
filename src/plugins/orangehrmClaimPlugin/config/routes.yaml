@@ -162,7 +162,6 @@ claim_view_claim:
   path: /claim/viewClaim
   controller: OrangeHRM\Claim\Controller\ViewMyClaimController::handle
   methods: [ GET ]
-
 ##########################
 #        Files
 ##########################
