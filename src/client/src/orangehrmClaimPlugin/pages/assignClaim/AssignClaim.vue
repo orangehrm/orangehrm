@@ -165,12 +165,12 @@ export default {
 
   data() {
     const statusMap = {
-      SUBMITTED: 'Submitted',
-      APPROVED: 'Approved',
-      REJECTED: 'Rejected',
-      CANCELLED: 'Cancelled',
-      PAID: 'Paid',
-      INITIATED: 'Initiated',
+      SUBMITTED: this.$t('time.submitted'),
+      APPROVED: this.$t('time.approved'),
+      REJECTED: this.$t('leave.rejected'),
+      CANCELLED: this.$t('leave.cancelled'),
+      PAID: this.$t('claim.paid'),
+      INITIATED: this.$t('claim.initiated'),
     };
     return {
       isLoading: false,
@@ -178,7 +178,6 @@ export default {
       claimEvent: {},
       currency: {},
       response: {},
-      employee: {},
       allowedActions: [],
       statusMap,
     };
