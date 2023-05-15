@@ -33,7 +33,7 @@
             <oxd-grid :cols="3" class="orangehrm-full-width-grid">
               <oxd-grid-item>
                 <oxd-input-field
-                  v-model="empName"
+                  v-model="name"
                   :label="$t('general.employee')"
                   disabled
                 />
@@ -145,6 +145,10 @@ export default {
       type: Number,
       required: true,
     },
+    empName: {
+      type: String,
+      required: true,
+    },
   },
 
   setup(props) {
@@ -155,6 +159,7 @@ export default {
 
     return {
       http,
+      name: props.empName,
     };
   },
 
@@ -174,7 +179,6 @@ export default {
       currency: {},
       response: {},
       employee: {},
-      empName: '',
       allowedActions: [],
       statusMap,
     };
@@ -198,8 +202,6 @@ export default {
         this.response = res.data;
         this.request = data;
         this.claimEvent = data.claimEvent;
-        this.employee = data.employee;
-        this.empName = this.employee.firstName + ' ' + this.employee.lastName;
         this.currency = data.currencyType;
         this.allowedActions = meta.allowedActions.map((action) => action.name);
       })
