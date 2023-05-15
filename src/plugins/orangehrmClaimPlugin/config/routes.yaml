@@ -1,35 +1,35 @@
 apiv2_claim_events:
   path: /api/v2/claim/events
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
-  methods: [POST, GET, DELETE]
+  methods: [ POST, GET, DELETE ]
   defaults:
     _api: OrangeHRM\Claim\Api\ClaimEventAPI
 
 apiv2_claim_event:
   path: /api/v2/claim/events/{id}
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
-  methods: [GET, PUT]
+  methods: [ GET, PUT ]
   defaults:
     _api: OrangeHRM\Claim\Api\ClaimEventAPI
 
 apiv2_claim_expense_types:
   path: /api/v2/claim/expenses/types
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
-  methods: [POST, GET, DELETE]
+  methods: [ POST, GET, DELETE ]
   defaults:
     _api: OrangeHRM\Claim\Api\ClaimExpenseTypeAPI
 
 apiv2_claim_expense_type:
   path: /api/v2/claim/expenses/types/{id}
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
-  methods: [GET, PUT]
+  methods: [ GET, PUT ]
   defaults:
     _api: OrangeHRM\Claim\Api\ClaimExpenseTypeAPI
 
 apiv2_claim_expenses:
   path: /api/v2/claim/requests/{requestId}/expenses
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
-  methods: [POST, GET, DELETE]
+  methods: [ POST, GET, DELETE ]
   defaults:
     _api: OrangeHRM\Claim\Api\ClaimExpenseAPI
   requirements:
@@ -38,7 +38,7 @@ apiv2_claim_expenses:
 apiv2_claim_expense:
   path: /api/v2/claim/requests/{requestId}/expenses/{id}
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
-  methods: [GET, PUT]
+  methods: [ GET, PUT ]
   defaults:
     _api: OrangeHRM\Claim\Api\ClaimExpenseAPI
   requirements:
@@ -47,7 +47,7 @@ apiv2_claim_expense:
 apiv2_claim_attachments:
   path: /api/v2/claim/requests/{requestId}/attachments
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
-  methods: [POST, GET, DELETE]
+  methods: [ POST, GET, DELETE ]
   defaults:
     _api: OrangeHRM\Claim\Api\ClaimAttachmentAPI
   requirements:
@@ -56,7 +56,7 @@ apiv2_claim_attachments:
 apiv2_claim_attachment:
   path: /api/v2/claim/requests/{requestId}/attachments/{id}
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
-  methods: [GET, PUT]
+  methods: [ GET, PUT ]
   defaults:
     _api: OrangeHRM\Claim\Api\ClaimAttachmentAPI
   requirements:
@@ -65,14 +65,14 @@ apiv2_claim_attachment:
 apiv2_claim_my_claim_requests:
   path: /api/v2/claim/requests
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
-  methods: [POST, GET]
+  methods: [ POST, GET ]
   defaults:
     _api: OrangeHRM\Claim\Api\MyClaimRequestAPI
 
 apiv2_claim_my_claim_request:
   path: /api/v2/claim/requests/{id}
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
-  methods: [GET]
+  methods: [ GET ]
   defaults:
     _api: OrangeHRM\Claim\Api\MyClaimRequestAPI
   requirements:
@@ -81,21 +81,21 @@ apiv2_claim_my_claim_request:
 apiv2_claim_employee_claim_requests:
   path: /api/v2/claim/employees/{empNumber}/requests
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
-  methods: [POST]
+  methods: [ POST ]
   defaults:
     _api: OrangeHRM\Claim\Api\EmployeeClaimRequestAPI
 
 apiv2_claim_employees_claim_requests:
   path: /api/v2/claim/employees/requests
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
-  methods: [GET]
+  methods: [ GET ]
   defaults:
     _api: OrangeHRM\Claim\Api\EmployeeClaimRequestAPI
 
 apiv2_claim_employee_claim_request:
   path: /api/v2/claim/employees/{empNumber}/requests/{id}
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
-  methods: [GET]
+  methods: [ GET ]
   defaults:
     _api: OrangeHRM\Claim\Api\EmployeeClaimRequestAPI
   requirements:
@@ -105,7 +105,7 @@ apiv2_claim_employee_claim_request:
 apiv2_claim_claim_request_action:
   path: /api/v2/claim/requests/{requestId}/action
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
-  methods: [PUT, GET]
+  methods: [ PUT, GET ]
   defaults:
     _api: OrangeHRM\Claim\Api\ClaimRequestActionAPI
 
@@ -116,52 +116,52 @@ apiv2_claim_claim_request_action:
 claim_module:
   path: /claim/viewClaimModule
   controller: OrangeHRM\Claim\Controller\ClaimModuleController::handle
-  methods: [GET]
+  methods: [ GET ]
 
 claim_events:
   path: /claim/viewEvents
   controller: OrangeHRM\Claim\Controller\ClaimController::handle
-  methods: [GET]
+  methods: [ GET ]
 
 claim_save_claim_events:
   path: /claim/saveEvents
   controller: OrangeHRM\Claim\Controller\SaveClaimController::handle
-  methods: [GET]
+  methods: [ GET ]
 
 claim_edit_claim_events:
   path: /claim/saveEvents/{id}
   controller: OrangeHRM\Claim\Controller\SaveClaimController::handle
-  methods: [GET]
+  methods: [ GET ]
 
 claim_claim_expense_types:
   path: /claim/viewExpense
   controller: OrangeHRM\Claim\Controller\ClaimExpenseTypeController::handle
-  methods: [GET]
+  methods: [ GET ]
 
 claim_save_claim_expense_types:
   path: /claim/saveExpense
   controller: OrangeHRM\Claim\Controller\SaveClaimExpenseTypeController::handle
-  methods: [GET]
+  methods: [ GET ]
 
 claim_edit_claim_expense_types:
   path: /claim/saveExpense/{id}
   controller: OrangeHRM\Claim\Controller\SaveClaimExpenseTypeController::handle
-  methods: [GET]
+  methods: [ GET ]
 
 claim_submit_claim:
   path: /claim/submitClaim
   controller: OrangeHRM\Claim\Controller\SubmitClaimController::handle
-  methods: [GET]
+  methods: [ GET ]
 
 claim_submit_claim_request:
   path: /claim/submitClaim/id/{id}
   controller: OrangeHRM\Claim\Controller\SubmitClaimRequestController::handle
-  methods: [GET]
+  methods: [ GET ]
 
 claim_view_claim:
   path: /claim/viewClaim
   controller: OrangeHRM\Claim\Controller\ViewMyClaimController::handle
-  methods: [GET]
+  methods: [ GET ]
 
 claim_assign_claim:
   path: /claim/assignClaim

@@ -1083,6 +1083,6 @@ describe('core/util/validation/rules::digitsOnlyWithTwoDecimalPoints', () => {
 
   test('digitsOnlyWithTwoDecimalPoints:: with no decimal points', () => {
     const result = digitsOnlyWithTwoDecimalPoints('123.');
-    expect(result).toEqual(true);
+    expect(result).toEqual('Should be a valid number (xxx.xx)');
   });
 });
