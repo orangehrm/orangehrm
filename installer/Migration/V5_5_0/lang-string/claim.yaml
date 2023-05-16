@@ -86,3 +86,6 @@ langStrings:
   -
     value: "Assign Claim"
     unitId: assign_claim
+  -
+    value: "Employee Claims"
+    unitId: employee_claims

@@ -52,7 +52,8 @@ apiv2_claim_employee_claim_request:
     delete: false
   permissions:
     - { role: Admin, permission: { read: true, create: true, update: false, delete: false } }
-    - { role: ESS, permission: { read: true, create: true, update: false, delete: false } }
+    - { role: ESS, permission: { read: false, create: true, update: false, delete: false } }
+    - { role: Supervisor, permission: { read: true, create: true, update: false, delete: false } }
 
 apiv2_claim_expense:
   description: 'Claim - Claim Expenses'

@@ -350,9 +350,6 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
             if (!$this->getEmployeeService()->getEmployeeDao()->getEmployeeByEmpNumber($empNumber) instanceof Employee) {
                 throw $this->getRecordNotFoundException();
             }
-            if (!$this->isSelfByEmpNumber($empNumber)) {
-                throw $this->getForbiddenException();
-            }
             if (!$this->getUserRoleManagerHelper()->isEmployeeAccessible($empNumber)) {
                 throw $this->getForbiddenException();
             }
