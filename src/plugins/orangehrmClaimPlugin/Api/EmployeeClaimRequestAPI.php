@@ -68,7 +68,6 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
     public const REMARKS_MAX_LENGTH = 1000;
     public const PARAMETER_ALLOWED_ACTIONS = 'allowedActions';
     public const PARAMETER_EMPLOYEE_NUMBER = 'empNumber';
-    public const PARAMETER_EMPLOYEE_NAME = 'employeeName';
     public const PARAMETER_REFERENCE_ID = 'referenceId';
     public const PARAMETER_EVENT_ID = 'eventId';
     public const PARAMETER_STATUS = 'status';
@@ -276,12 +275,6 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\Parameter(
-     *         name="employeeName",
-     *         in="query",
-     *         required=false,
-     *         @OA\Schema(type="string")
-     *     ),
-     *     @OA\Parameter(
      *         name="fromDate",
      *         in="query",
      *         required=false,
@@ -322,7 +315,6 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
         $this->setSortingAndPaginationParams($employeeClaimRequestSearchFilterParams);
         $this->getCommonFilterParams($employeeClaimRequestSearchFilterParams);
         $this->setEmpNumbers($employeeClaimRequestSearchFilterParams);
-        $this->setemployeeName($employeeClaimRequestSearchFilterParams);
 
         $claimRequests = $this->getClaimService()->getClaimDao()
             ->getClaimRequestList($employeeClaimRequestSearchFilterParams);
@@ -381,20 +373,6 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
         } else {
             $empNumbers = $this->getUserRoleManager()->getAccessibleEntityIds(Employee::class);
             $claimRequestSearchFilterParams->setEmpNumbers($empNumbers);
-        }
-    }
-
-    /**
-     * @param ClaimRequestSearchFilterParams $ClaimRequestSearchFilterParams
-     */
-    private function setemployeeName(ClaimRequestSearchFilterParams $ClaimRequestSearchFilterParams)
-    {
-        $employeeName = $this->getRequestParams()->getStringOrNull(
-            RequestParams::PARAM_TYPE_QUERY,
-            self::PARAMETER_EMPLOYEE_NAME
-        );
-        if (!is_null($employeeName)) {
-            $ClaimRequestSearchFilterParams->setemployeeName($employeeName);
         }
     }
 
@@ -485,14 +463,6 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
                 new ParamRule(
                     self::PARAMETER_EMPLOYEE_NUMBER,
                     new Rule(Rules::POSITIVE)
-                )
-            )
-        );
-        $paramRuleCollection->addParamValidation(
-            $this->getValidationDecorator()->notRequiredParamRule(
-                new ParamRule(
-                    self::PARAMETER_EMPLOYEE_NAME,
-                    new Rule(Rules::STRING_TYPE)
                 )
             )
         );
