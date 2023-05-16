@@ -64,12 +64,12 @@ export default {
     };
   },
   methods: {
-    async loadEmployees(serachParam) {
+    async loadEmployees(searchParam) {
       return new Promise((resolve) => {
-        if (serachParam.trim()) {
+        if (searchParam.trim()) {
           this.http
             .getAll({
-              nameOrId: serachParam.trim(),
+              nameOrId: searchParam.trim(),
               ...this.params,
             })
             .then(({data}) => {

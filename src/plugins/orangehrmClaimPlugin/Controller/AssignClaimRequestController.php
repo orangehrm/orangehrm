@@ -19,29 +19,23 @@
 
 namespace OrangeHRM\Claim\Controller;
 
-use OrangeHRM\Claim\Api\Traits\ClaimRequestAPIHelperTrait;
 use OrangeHRM\Claim\Traits\Service\ClaimServiceTrait;
 use OrangeHRM\Core\Authorization\Controller\CapableViewController;
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Controller\Common\NoRecordsFoundController;
 use OrangeHRM\Core\Controller\Exception\RequestForwardableException;
 use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
-use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Entity\ClaimRequest;
 use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
 
 class AssignClaimRequestController extends AbstractVueController implements CapableViewController
 {
-    use ServiceContainerTrait;
     use ClaimServiceTrait;
-    use ClaimRequestAPIHelperTrait;
     use UserRoleManagerTrait;
     use ConfigServiceTrait;
-    use EmployeeServiceTrait;
 
     /**
      * @inheritDoc
@@ -77,13 +71,9 @@ class AssignClaimRequestController extends AbstractVueController implements Capa
         $id = $request->attributes->getInt('id');
         $claimRequest = $this->getClaimService()->getClaimDao()->getClaimRequestById($id);
         if (
-            !$claimRequest instanceof ClaimRequest ||
-            $this->getUserRoleManagerHelper()->isSelfByEmpNumber(
-                $claimRequest->getEmployee()->getEmpNumber()
-            ) ||
-            !$this->getUserRoleManagerHelper()->isEmployeeAccessible(
-                $claimRequest->getEmployee()->getEmpNumber()
-            )
+            !$claimRequest instanceof ClaimRequest
+                || $this->getUserRoleManagerHelper()->isSelfByEmpNumber($claimRequest->getEmployee()->getEmpNumber())
+                || !$this->getUserRoleManagerHelper()->isEmployeeAccessible($claimRequest->getEmployee()->getEmpNumber())
         ) {
             throw new RequestForwardableException(NoRecordsFoundController::class . '::handle');
         }

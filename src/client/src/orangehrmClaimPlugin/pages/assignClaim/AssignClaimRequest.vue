@@ -24,9 +24,7 @@
       <oxd-text tag="h6" class="orangehrm-main-title">
         {{ $t('claim.create_claim_request') }}
       </oxd-text>
-
       <oxd-divider />
-
       <oxd-form :loading="isLoading" @submit-valid="onSave">
         <oxd-form-row>
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
@@ -78,9 +76,7 @@
             </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
-
         <oxd-divider />
-
         <oxd-form-actions>
           <required-text />
           <oxd-button
