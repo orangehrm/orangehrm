@@ -115,15 +115,12 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
     {
         $claimRequest = new ClaimRequest();
         $empNumber = $this->getEmpNumber();
-
-        if (is_null($this->getEmployeeService()->getEmployeeDao()->getEmployeeByEmpNumber($empNumber))) {
-            throw $this->getForbiddenException();
+        $employee = $this->getEmployeeService()->getEmployeeDao()->getEmployeeByEmpNumber($empNumber);
+        if (is_null($employee)) {
+            throw $this->getRecordNotFoundException();
         }
 
-        if (!is_null(
-            $this->getEmployeeService()->getEmployeeDao()->getEmployeeByEmpNumber($empNumber)
-                ->getEmployeeTerminationRecord()
-        )) {
+        if (!is_null($employee->getEmployeeTerminationRecord())) {
             throw $this->getForbiddenException();
         }
 
