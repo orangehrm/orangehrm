@@ -30,7 +30,6 @@ use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
 use OrangeHRM\Core\Api\V2\Exception\BadRequestException;
-use OrangeHRM\Core\Api\V2\Exception\ForbiddenException;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\ResourceEndpoint;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
@@ -232,7 +231,7 @@ class AttendanceRecordAPI extends Endpoint implements ResourceEndpoint
     }
 
     /**
-     * @throws BadRequestException|ForbiddenException
+     * @throws BadRequestException
      */
     private function setAttendanceRecord(AttendanceRecord $attendanceRecord): AttendanceRecord
     {

@@ -40,6 +40,30 @@ class EmployeeLatestAttendanceRecordAPI extends Endpoint implements ResourceEndp
     use AuthUserTrait;
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/attendance/records/latest",
+     *     tags={"Attendance/Attendance Record Latest"},
+     *     @OA\Parameter(
+     *         name="empNumber",
+     *         in="query",
+     *         required=false,
+     *         description="Employee Number",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Attendance-EmployeeLatestAttendanceRecordModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
+     * )
+     *
      * @inheritDoc
      */
     public function getOne(): EndpointResult

@@ -22,6 +22,14 @@ namespace OrangeHRM\Attendance\Api\Model;
 use DateTime;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 
+/**
+ * @OA\Schema(
+ *     schema="Attendance-DateTimeModel",
+ *     type="object",
+ *     @OA\Property(property="utcDate", type="string", format="date"),
+ *     @OA\Property(property="utcTime", type="string")
+ * )
+ */
 class DateTimeModel implements Normalizable
 {
     /**

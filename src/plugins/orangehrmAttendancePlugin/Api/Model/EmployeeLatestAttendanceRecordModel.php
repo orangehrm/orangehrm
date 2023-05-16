@@ -23,6 +23,41 @@ use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\AttendanceRecord;
 
+/**
+ * @OA\Schema(
+ *     schema="Attendance-EmployeeLatestAttendanceRecordModel",
+ *     type="object",
+ *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(property="punchIn", type="object",
+ *         @OA\Property(property="utcDate", type="string", format="date"),
+ *         @OA\Property(property="utcTime", type="string", format="time"),
+ *         @OA\Property(property="userDate", type="string", format="date"),
+ *         @OA\Property(property="userTime", type="string", format="time"),
+ *         @OA\Property(property="offset", type="string"),
+ *         @OA\Property(property="note", type="string")
+ *     ),
+ *     @OA\Property(property="punchOut", type="object",
+ *         @OA\Property(property="utcDate", type="string", format="date"),
+ *         @OA\Property(property="utcTime", type="string", format="time"),
+ *         @OA\Property(property="userDate", type="string", format="date"),
+ *         @OA\Property(property="userTime", type="string", format="time"),
+ *         @OA\Property(property="offset", type="string"),
+ *         @OA\Property(property="note", type="string")
+ *     ),
+ *     @OA\Property(property="state", type="object",
+ *         @OA\Property(property="id", type="string"),
+ *         @OA\Property(property="name", type="string")
+ *     ),
+ *     @OA\Property(property="employee", type="object",
+ *         @OA\Property(property="empNumber", type="integer"),
+ *         @OA\Property(property="lastName", type="string"),
+ *         @OA\Property(property="firstName", type="string"),
+ *         @OA\Property(property="middleName", type="string"),
+ *         @OA\Property(property="employeeId", type="string"),
+ *         @OA\Property(property="terminationId", type="integer")
+ *     )
+ * )
+ */
 class EmployeeLatestAttendanceRecordModel implements Normalizable
 {
     use ModelTrait;
