@@ -218,7 +218,21 @@ class Migration extends AbstractMigration
                 )
                 ->setParameter('module_id', $this->getDataGroupHelper()->getModuleIdByName('claim'))
                 ->setParameter('user_role_id', $this->getDataGroupHelper()->getUserRoleIdByName('Admin'))
-                ->setParameter('action', 'claim/viewEvents')
+                ->setParameter('action', 'claim/viewAssignClaim')
+                ->executeQuery();
+
+            $this->getConnection()->createQueryBuilder()
+                ->insert('ohrm_module_default_page')
+                ->values(
+                    [
+                        'module_id' => ':module_id',
+                        'user_role_id' => ':user_role_id',
+                        'action' => ':action',
+                    ]
+                )
+                ->setParameter('module_id', $this->getDataGroupHelper()->getModuleIdByName('claim'))
+                ->setParameter('user_role_id', $this->getDataGroupHelper()->getUserRoleIdByName('Supervisor'))
+                ->setParameter('action', 'claim/viewAssignClaim')
                 ->executeQuery();
 
             $this->getConnection()->createQueryBuilder()
@@ -263,10 +277,10 @@ class Migration extends AbstractMigration
             $this->insertMenuItems('Submit Claim', $submitClaimScreenId, $claimMenuItemId, 2, 100, 1, null);
             $myClaimsScreenId = $this->getScreenId('My Claims');
             $this->insertMenuItems('My Claims', $myClaimsScreenId, $claimMenuItemId, 2, 100, 1, null);
-            $assignClaimScreenId = $this->getScreenId('Assign Claim');
-            $this->insertMenuItems('Assign Claim', $assignClaimScreenId, $claimMenuItemId, 2, 100, 1, null);
             $employeeClaimsScreenId = $this->getScreenId('Employee Claims');
             $this->insertMenuItems('Employee Claims', $employeeClaimsScreenId, $claimMenuItemId, 2, 100, 1, null);
+            $assignClaimScreenId = $this->getScreenId('Assign Claim');
+            $this->insertMenuItems('Assign Claim', $assignClaimScreenId, $claimMenuItemId, 2, 100, 1, null);
         }
 
         $this->deleteClaimWorkflowStates();
