@@ -266,6 +266,7 @@ export default {
           name: 'eventName',
           title: this.$t('claim.event_name'),
           slot: 'title',
+          cellType: 'oxd-table-cell-truncate',
           sortField: 'claimRequest.claimEvent.name',
           style: {flex: 3},
         },
@@ -307,7 +308,7 @@ export default {
           name: 'actions',
           slot: 'right',
           title: this.$t('general.actions'),
-          style: {flex: 3},
+          style: {flex: 4},
           cellType: 'oxd-table-cell-actions',
           cellConfig: {
             view: {
