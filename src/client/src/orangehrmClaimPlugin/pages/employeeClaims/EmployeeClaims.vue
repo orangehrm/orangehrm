@@ -67,7 +67,7 @@
             <date-input
               v-model="filters.toDate"
               :label="$t('general.to_date')"
-              :rules="rules.date"
+              :rules="rules.toDate"
               :years="yearsArray"
             />
           </oxd-grid-item>
@@ -133,7 +133,10 @@ import StatusDropdown from '@/orangehrmClaimPlugin/components/StatusDropdown.vue
 import {validDateFormat} from '@/core/util/validation/rules';
 import useDateFormat from '@/core/util/composable/useDateFormat';
 import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete.vue';
-import {validSelection} from '@/core/util/validation/rules';
+import {
+  validSelection,
+  endDateShouldBeAfterStartDate,
+} from '@/core/util/validation/rules';
 
 const defaultFilters = {
   referenceId: '',
@@ -325,6 +328,14 @@ export default {
       ],
       rules: {
         date: [validDateFormat(this.userDateFormat)],
+        toDate: [
+          validDateFormat(this.userDateFormat),
+          endDateShouldBeAfterStartDate(
+            () => this.filters.fromDate,
+            this.$t('general.to_date_should_be_after_from_date'),
+            {allowSameDate: true},
+          ),
+        ],
         employee: [validSelection],
       },
     };

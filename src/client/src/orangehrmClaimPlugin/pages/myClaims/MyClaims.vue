@@ -57,7 +57,7 @@
             <date-input
               v-model="filters.toDate"
               :label="$t('general.to_date')"
-              :rules="rules.date"
+              :rules="rules.toDate"
               :years="yearsArray"
             />
           </oxd-grid-item>
@@ -120,7 +120,10 @@ import usePaginate from '@ohrm/core/util/composable/usePaginate';
 import ReferenceIdAutocomplete from '@/orangehrmClaimPlugin/components/ReferenceIdAutocomplete.vue';
 import ClaimEventDropdown from '@/orangehrmClaimPlugin/components/ClaimEventDropdown.vue';
 import StatusDropdown from '@/orangehrmClaimPlugin/components/StatusDropdown.vue';
-import {validDateFormat} from '@/core/util/validation/rules';
+import {
+  validDateFormat,
+  endDateShouldBeAfterStartDate,
+} from '@/core/util/validation/rules';
 import useDateFormat from '@/core/util/composable/useDateFormat';
 
 const defaultFilters = {
@@ -295,6 +298,14 @@ export default {
       ],
       rules: {
         date: [validDateFormat(this.userDateFormat)],
+        toDate: [
+          validDateFormat(this.userDateFormat),
+          endDateShouldBeAfterStartDate(
+            () => this.filters.fromDate,
+            this.$t('general.to_date_should_be_after_from_date'),
+            {allowSameDate: true},
+          ),
+        ],
       },
     };
   },
