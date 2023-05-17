@@ -151,7 +151,7 @@ export default {
 
   methods: {
     onCancel() {
-      navigate('/claim/assignClaim');
+      navigate('/claim/viewAssignClaim');
     },
     onSave() {
       this.isLoading = true;

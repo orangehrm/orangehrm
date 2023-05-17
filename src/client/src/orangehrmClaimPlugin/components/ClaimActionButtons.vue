@@ -135,7 +135,9 @@ export default {
         });
     },
     onBack() {
-      navigate('/claim/assignClaim');
+      this.isAssigned
+        ? navigate('/claim/assignClaim')
+        : navigate('/claim/submitClaim');
     },
   },
 };
