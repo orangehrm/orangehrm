@@ -38,7 +38,7 @@ apiv2_claim_expenses:
 apiv2_claim_expense:
   path: /api/v2/claim/requests/{requestId}/expenses/{id}
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
-  methods: [GET, PUT]
+  methods: [ GET, PUT ]
   defaults:
     _api: OrangeHRM\Claim\Api\ClaimExpenseAPI
   requirements:
@@ -162,6 +162,22 @@ claim_view_claim:
   path: /claim/viewClaim
   controller: OrangeHRM\Claim\Controller\ViewMyClaimController::handle
   methods: [ GET ]
+
+claim_assign_claim:
+  path: /claim/assignClaim
+  controller: OrangeHRM\Claim\Controller\AssignClaimController::handle
+  methods: [ GET ]
+
+claim_assign_claim_request:
+  path: /claim/assignClaim/id/{id}
+  controller: OrangeHRM\Claim\Controller\AssignClaimRequestController::handle
+  methods: [ GET ]
+
+claim_employee_claim:
+  path: /claim/viewAssignClaim
+  controller: OrangeHRM\Claim\Controller\ViewAssignClaimController::handle
+  methods: [ GET ]
+
 ##########################
 #        Files
 ##########################

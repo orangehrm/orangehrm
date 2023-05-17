@@ -53,3 +53,27 @@
   permissions:
     - { role: Admin, permission: { read: true, create: true, update: true, delete: false } }
     - { role: ESS, permission: { read: true, create: true, update: true, delete: false } }
+
+"Assign Claim":
+  module: claim
+  url: assignClaim
+  permissions:
+    - { role: Admin, permission: { read: true, create: true, update: false } }
+    - { role: Supervisor, permission: { read: true, create: true, update: false } }
+    - { role: ESS, permission: { read: false, create: flase, update: false, delete: false } }
+
+"Assign Claim Request":
+  module: claim
+  url: assignClaim/id/{id}
+  permissions:
+    - { role: Admin, permission: { read: true, create: true, update: false } }
+    - { role: Supervisor, permission: { read: true, create: true, update: false } }
+    - { role: ESS, permission: { read: false, create: false, update: false, delete: false } }
+
+"Employee Claims":
+  module: claim
+  url: viewAssignClaim
+  permissions:
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: false } }
+    - { role: Supervisor, permission: { read: true, create: true, update: true, delete: false } }
+    - { role: ESS, permission: { read: false, create: false, update: false, delete: false } }

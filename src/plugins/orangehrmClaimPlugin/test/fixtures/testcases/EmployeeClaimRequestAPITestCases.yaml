@@ -513,7 +513,7 @@ GetAll:
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
-      empNumber: 1
+      empNumber: 4
     exception:
       class: '\OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
       message: 'Unauthorized'

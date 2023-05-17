@@ -19,13 +19,23 @@
  -->
 
 <template>
-  <oxd-table-filter :filter-title="$t('claim.my_claims')">
+  <oxd-table-filter :filter-title="$t('claim.employee_claims')">
     <oxd-form @submit-valid="filterItems">
       <oxd-form-row>
         <oxd-grid :cols="4" class="orangehrm-full-width-grid">
           <oxd-grid-item>
+            <employee-autocomplete
+              v-model="filters.employee"
+              :rules="rules.employee"
+              :params="{
+                includeEmployees: 'currentAndPast',
+              }"
+            />
+          </oxd-grid-item>
+          <oxd-grid-item>
             <reference-id-autocomplete
               v-model="filters.referenceId"
+              :is-assigned="true"
               :label="$t('claim.reference_id')"
             />
           </oxd-grid-item>
@@ -83,7 +93,7 @@
   <div class="orangehrm-paper-container">
     <div class="orangehrm-header-container">
       <oxd-button
-        :label="$t('claim.submit_claim')"
+        :label="$t('claim.assign_claim')"
         icon-name="plus"
         display-type="secondary"
         @click="onClickAdd"
@@ -120,14 +130,17 @@ import usePaginate from '@ohrm/core/util/composable/usePaginate';
 import ReferenceIdAutocomplete from '@/orangehrmClaimPlugin/components/ReferenceIdAutocomplete.vue';
 import ClaimEventDropdown from '@/orangehrmClaimPlugin/components/ClaimEventDropdown.vue';
 import StatusDropdown from '@/orangehrmClaimPlugin/components/StatusDropdown.vue';
+import {validDateFormat} from '@/core/util/validation/rules';
+import useDateFormat from '@/core/util/composable/useDateFormat';
+import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete.vue';
 import {
-  validDateFormat,
+  validSelection,
   endDateShouldBeAfterStartDate,
 } from '@/core/util/validation/rules';
-import useDateFormat from '@/core/util/composable/useDateFormat';
 
 const defaultFilters = {
   referenceId: '',
+  employee: null,
   claimEvent: null,
   status: null,
   fromDate: null,
@@ -136,6 +149,7 @@ const defaultFilters = {
 
 const defaultSortOrder = {
   'claimRequest.referenceId': 'DESC',
+  'claimRequest.employee.firstName': 'ASC',
   'claimRequest.claimEvent.name': 'ASC',
   'claimRequest.status': 'ASC',
   'claimRequest.submittedDate': 'ASC',
@@ -146,6 +160,13 @@ export default {
     'reference-id-autocomplete': ReferenceIdAutocomplete,
     'claim-event-dropdown': ClaimEventDropdown,
     'status-dropdown': StatusDropdown,
+    'employee-autocomplete': EmployeeAutocomplete,
+  },
+  props: {
+    empNumber: {
+      type: Number,
+      required: true,
+    },
   },
   setup() {
     const filters = ref({...defaultFilters});
@@ -162,6 +183,7 @@ export default {
             : typeof filters.value.referenceId === 'string'
             ? filters.value.referenceId
             : null,
+        empNumber: filters.value.employee?.id,
         eventId: filters.value.claimEvent ? filters.value.claimEvent?.id : null,
         status: filters.value.status ? filters.value.status?.id : null,
         fromDate: filters.value.fromDate,
@@ -176,9 +198,13 @@ export default {
 
     const claimRequestDataNormalizer = (data) => {
       return data.map((item) => {
+        const isPastEmployee = item.employee.terminationId ? true : false;
         return {
           id: item.id,
           referenceId: item.referenceId,
+          employee: isPastEmployee
+            ? `${item.employee.firstName} ${item.employee.lastName}  (Past Employee)`
+            : `${item.employee.firstName} ${item.employee.lastName}`,
           eventName: item.claimEvent.name,
           description: item.description,
           currency: item.currencyType.name,
@@ -193,7 +219,7 @@ export default {
 
     const http = new APIService(
       window.appGlobal.baseUrl,
-      '/api/v2/claim/requests',
+      '/api/v2/claim/employees/requests',
     );
     const {
       showPaginator,
@@ -234,6 +260,13 @@ export default {
           slot: 'title',
           sortField: 'claimRequest.referenceId',
           style: {flex: 3},
+        },
+        {
+          name: 'employee',
+          title: this.$t('general.employee_name'),
+          slot: 'title',
+          sortField: 'claimRequest.employee.firstName',
+          style: {flex: 4},
         },
         {
           name: 'eventName',
@@ -281,7 +314,7 @@ export default {
           name: 'actions',
           slot: 'right',
           title: this.$t('general.actions'),
-          style: {flex: 3},
+          style: {flex: 4},
           cellType: 'oxd-table-cell-actions',
           cellConfig: {
             view: {
@@ -306,6 +339,7 @@ export default {
             {allowSameDate: true},
           ),
         ],
+        employee: [validSelection],
       },
     };
   },
@@ -323,10 +357,10 @@ export default {
       this.filterItems();
     },
     onClickAdd() {
-      navigate('/claim/submitClaim');
+      navigate('/claim/assignClaim');
     },
     onClickView(item) {
-      navigate('/claim/submitClaim/id/{id}', {id: item.id});
+      navigate('/claim/assignClaim/id/{id}', {id: item.id});
     },
   },
 };
