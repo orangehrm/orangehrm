@@ -35,6 +35,22 @@ class CurrentDateTimeAPI extends Endpoint implements ResourceEndpoint
     use DateTimeHelperTrait;
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/attendance/current-datetime",
+     *     tags={"Attendance/Current Date Time"},
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Attendance-DateTimeModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     * )
+     *
      * @inheritDoc
      */
     public function getOne(): EndpointResourceResult

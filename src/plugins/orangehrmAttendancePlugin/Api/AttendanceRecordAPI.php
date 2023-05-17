@@ -21,7 +21,6 @@ namespace OrangeHRM\Attendance\Api;
 
 use DateTime;
 use DateTimeZone;
-use Exception;
 use OrangeHRM\Attendance\Api\Model\AttendanceRecordModel;
 use OrangeHRM\Attendance\Api\Model\DetailedAttendanceRecordModel;
 use OrangeHRM\Attendance\Exception\AttendanceServiceException;
@@ -31,7 +30,6 @@ use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
 use OrangeHRM\Core\Api\V2\Exception\BadRequestException;
-use OrangeHRM\Core\Api\V2\Exception\ForbiddenException;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\ResourceEndpoint;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
@@ -65,6 +63,30 @@ class AttendanceRecordAPI extends Endpoint implements ResourceEndpoint
     public const PARAMETER_PUNCH_OUT_TIMEZONE_NAME = 'punchOutTimezoneName';
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/attendance/records/{id}",
+     *     tags={"Attendance/Attendance Record"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="Attendance Record Id",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Attendance-DetailedAttendanceRecordModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
+     * )
+     *
      * @inheritDoc
      */
     public function getOne(): EndpointResult
@@ -95,8 +117,69 @@ class AttendanceRecordAPI extends Endpoint implements ResourceEndpoint
     }
 
     /**
+     * @OA\Put(
+     *     path="/api/v2/attendance/records/{id}",
+     *     tags={"Attendance/Attendance Record"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="Attendance Record Id",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="punchInDate", type="string", format="date"),
+     *             @OA\Property(property="punchInTime", type="string"),
+     *             @OA\Property(property="punchInOffset", type="number"),
+     *             @OA\Property(property="punchInTimezoneName", type="string"),
+     *             @OA\Property(property="punchOutDate", type="string", format="date"),
+     *             @OA\Property(property="punchOutTime", type="string"),
+     *             @OA\Property(property="punchOutOffset", type="number"),
+     *             @OA\Property(property="punchOutTimezoneName", type="string"),
+     *             @OA\Property(property="punchOutNote", type="string"),
+     *             required={"date", "name", "time", "timezoneOffset", "timezoneName"}
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Attendance-AttendanceRecordModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound"),
+     *     @OA\Response(
+     *         response="400",
+     *         description="Bad Request - punch in/out overlap",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="error",
+     *                 oneOf={
+     *                     @OA\Property(
+     *                         property="error",
+     *                         type="object",
+     *                         @OA\Property(property="status", type="string", default="400"),
+     *                         @OA\Property(property="message", type="string", default="Punch-In Overlap Found")
+     *                     ),
+     *                     @OA\Property(
+     *                         property="error",
+     *                         type="object",
+     *                         @OA\Property(property="status", type="string", default="400"),
+     *                         @OA\Property(property="message", type="string", default="Punch-Out Overlap Found")
+     *                     ),
+     *                 }
+     *             )
+     *         )
+     *     )
+     * )
+     *
      * @inheritDoc
-     * @throws Exception
      */
     public function update(): EndpointResult
     {
@@ -148,7 +231,7 @@ class AttendanceRecordAPI extends Endpoint implements ResourceEndpoint
     }
 
     /**
-     * @throws BadRequestException|ForbiddenException
+     * @throws BadRequestException
      */
     private function setAttendanceRecord(AttendanceRecord $attendanceRecord): AttendanceRecord
     {

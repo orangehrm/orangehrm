@@ -43,6 +43,37 @@ class TimezonesAPI extends Endpoint implements CollectionEndpoint
     public const FILTER_TIMEZONE_NAME = 'timezoneName';
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/attendance/timezones",
+     *     tags={"Attendance/Timezones"},
+     *     @OA\Parameter(
+     *         name="timezoneName",
+     *         in="query",
+     *         required=false,
+     *         description="Get single timezone details by sending timezoneName",
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="array",
+     *                 @OA\Items(
+     *                     @OA\Property(property="name", type="string"),
+     *                     @OA\Property(property="label", type="string"),
+     *                     @OA\Property(property="offset", type="string")
+     *                 ),
+     *             ),
+     *             @OA\Property(property="meta",
+     *                 type="object",
+     *                 @OA\Property(property="total", type="integer")
+     *             )
+     *         )
+     *     )
+     * )
+     *
      * @inheritDoc
      */
     public function getAll(): EndpointCollectionResult

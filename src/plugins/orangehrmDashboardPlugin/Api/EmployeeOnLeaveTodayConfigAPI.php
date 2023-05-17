@@ -39,6 +39,18 @@ class EmployeeOnLeaveTodayConfigAPI extends Endpoint implements ResourceEndpoint
     public const PARAMETER_SHOW_ONLY_ACCESSIBLE_EMPLOYEES_ON_LEAVE_TODAY = 'showOnlyAccessibleEmployeesOnLeaveToday';
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/dashboard/config/employee-on-leave-today",
+     *     tags={"Dashboard"},
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="showOnlyAccessibleEmployeesOnLeaveToday", type="boolean", example="false")
+     *         )
+     *     )
+     * )
+     *
      * @inheritDoc
      */
     public function getOne(): EndpointResult
@@ -62,6 +74,25 @@ class EmployeeOnLeaveTodayConfigAPI extends Endpoint implements ResourceEndpoint
     }
 
     /**
+     * @OA\Put(
+     *     path="/api/v2/dashboard/config/employee-on-leave-today",
+     *     tags={"Dashboard"},
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="showOnlyAccessibleEmployeesOnLeaveToday", type="boolean"),
+     *             required={"showOnlyAccessibleEmployeesOnLeaveToday"}
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="showOnlyAccessibleEmployeesOnLeaveToday", type="boolean", example="true"),
+     *         )
+     *     )
+     * )
+     *
      * @inheritDoc
      */
     public function update(): EndpointResult

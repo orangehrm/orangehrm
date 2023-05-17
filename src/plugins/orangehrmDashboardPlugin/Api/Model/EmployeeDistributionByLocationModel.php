@@ -23,6 +23,19 @@ use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Dashboard\Dto\LocationEmployeeCount;
 
+/**
+ * @OA\Schema(
+ *     schema="Dashboard-LocationModel",
+ *     type="object",
+ *     @OA\Property(
+ *         property="location",
+ *         type="object",
+ *         @OA\Property(property="id", type="integer"),
+ *         @OA\Property(property="name", type="string")
+ *     ),
+ *     @OA\Property(property="count", type="integer")
+ * )
+ */
 class EmployeeDistributionByLocationModel implements Normalizable
 {
     use ModelTrait;

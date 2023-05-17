@@ -387,6 +387,38 @@ class BuzzPostAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/buzz/posts/{id}",
+     *     tags={"Buzz/Shares"},
+     *     @OA\PathParameter(
+     *         name="id",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         name="model",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(
+     *             type="string",
+     *             enum={OrangeHRM\Buzz\Api\BuzzPostAPI::MODEL_DEFAULT_POST, OrangeHRM\Buzz\Api\BuzzPostAPI::MODEL_DETAILED_POST},
+     *             default=OrangeHRM\Buzz\Api\BuzzPostAPI::MODEL_DEFAULT_POST
+     *         )
+     *     ),
+     *     @OA\Response(response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 oneOf={
+     *                     @OA\Schema(ref="#/components/schemas/Buzz-PostModel"),
+     *                     @OA\Schema(ref="#/components/schemas/Buzz-FeedPostModel"),
+     *                 }
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     )
+     * )
+     *
      * @inheritDoc
      */
     public function getOne(): EndpointResult

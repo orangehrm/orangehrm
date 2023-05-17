@@ -53,6 +53,36 @@ class EmployeeOnLeaveAPI extends Endpoint implements CollectionEndpoint
     public const META_PARAMETER_LEAVE_PERIOD_DEFINED =  'leavePeriodDefined';
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/dashboard/employees/leaves",
+     *     tags={"Dashboard"},
+     *     @OA\Parameter(
+     *         name="sortField",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string", enum=EmployeeOnLeaveSearchFilterParams::ALLOWED_SORT_FIELDS)
+     *     ),
+     *     @OA\Parameter(ref="#/components/parameters/sortOrder"),
+     *     @OA\Parameter(ref="#/components/parameters/limit"),
+     *     @OA\Parameter(ref="#/components/parameters/offset"),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="array",
+     *                 @OA\Items(ref="#/components/schemas/Dashboard-EmployeeOnLeaveListModel")
+     *             ),
+     *             @OA\Property(property="meta",
+     *                 type="object",
+     *                 @OA\Property(property="total", type="integer"),
+     *                 @OA\Property(property="leavePeriodDefined", type="boolean"),
+     *             )
+     *         )
+     *     )
+     * )
+     *
      * @inheritDoc
      */
     public function getAll(): EndpointResult
