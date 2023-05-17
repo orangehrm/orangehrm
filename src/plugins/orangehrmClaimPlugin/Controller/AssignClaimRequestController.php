@@ -45,7 +45,10 @@ class AssignClaimRequestController extends AbstractVueController implements Capa
         $id = $request->attributes->getInt('id');
         $claimRequest = $this->getClaimService()->getClaimDao()->getClaimRequestById($id);
         $empNumber = $claimRequest->getEmployee()->getEmpNumber();
-        $empName = $claimRequest->getEmployee()->getFirstName() . ' ' . $claimRequest->getEmployee()->getLastName();
+        $isPastEmployee = $claimRequest->getEmployee()->getEmployeeTerminationRecord() !== null;
+        $empName = $isPastEmployee ?
+            $claimRequest->getEmployee()->getFirstName() . ' ' . $claimRequest->getEmployee()->getLastName() . ' (Past Employee)'
+            : $claimRequest->getEmployee()->getFirstName() . ' ' . $claimRequest->getEmployee()->getLastName();
 
         if ($this->getUserRoleManagerHelper()->isSelfByEmpNumber($claimRequest->getEmployee()->getEmpNumber())) {
             $component = new Component('submit-claim');

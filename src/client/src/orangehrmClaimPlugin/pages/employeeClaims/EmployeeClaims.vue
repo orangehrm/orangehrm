@@ -28,7 +28,7 @@
               v-model="filters.employee"
               :rules="rules.employee"
               :params="{
-                includeEmployees: 'onlyCurrent',
+                includeEmployees: 'currentAndPast',
               }"
             />
           </oxd-grid-item>
@@ -198,10 +198,13 @@ export default {
 
     const claimRequestDataNormalizer = (data) => {
       return data.map((item) => {
+        const isPastEmployee = item.employee.terminationId ? true : false;
         return {
           id: item.id,
           referenceId: item.referenceId,
-          employee: item.employee.firstName + ' ' + item.employee.lastName,
+          employee: isPastEmployee
+            ? `${item.employee.firstName} ${item.employee.lastName}  (Past Employee)`
+            : `${item.employee.firstName} ${item.employee.lastName}`,
           eventName: item.claimEvent.name,
           description: item.description,
           currency: item.currencyType.name,
@@ -263,7 +266,7 @@ export default {
           title: this.$t('general.employee_name'),
           slot: 'title',
           sortField: 'claimRequest.employee.firstName',
-          style: {flex: 3},
+          style: {flex: 4},
         },
         {
           name: 'eventName',
