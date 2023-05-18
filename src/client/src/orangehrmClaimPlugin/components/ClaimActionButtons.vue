@@ -136,8 +136,8 @@ export default {
     },
     onBack() {
       this.isAssigned
-        ? navigate('/claim/assignClaim')
-        : navigate('/claim/submitClaim');
+        ? navigate('/claim/viewAssignClaim')
+        : navigate('/claim/viewClaim');
     },
   },
 };
