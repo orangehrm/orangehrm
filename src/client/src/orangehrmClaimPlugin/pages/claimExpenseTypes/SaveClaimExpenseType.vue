@@ -119,7 +119,7 @@ export default {
         const {data} = response.data;
         this.rules.name.push((v) => {
           const index = data.findIndex(
-            (item) => item.name.toLowerCase() == v.toLowerCase(),
+            (item) => item.name.toLowerCase() == v.trim().toLowerCase(),
           );
           return index === -1 || this.$t('general.already_exists');
         });
@@ -138,6 +138,7 @@ export default {
       this.http
         .create({
           ...this.expenseTypes,
+          name: this.expenseTypes.name.trim(),
         })
         .then(() => {
           return this.$toast.saveSuccess();
