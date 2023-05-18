@@ -45,10 +45,6 @@ class AssignClaimRequestController extends AbstractVueController implements Capa
         $id = $request->attributes->getInt('id');
         $claimRequest = $this->getClaimService()->getClaimDao()->getClaimRequestById($id);
         $empNumber = $claimRequest->getEmployee()->getEmpNumber();
-        $isPastEmployee = $claimRequest->getEmployee()->getEmployeeTerminationRecord() !== null;
-        $empName = $isPastEmployee ?
-            $claimRequest->getEmployee()->getFirstName() . ' ' . $claimRequest->getEmployee()->getLastName() . ' (Past Employee)'
-            : $claimRequest->getEmployee()->getFirstName() . ' ' . $claimRequest->getEmployee()->getLastName();
 
         if ($this->getUserRoleManagerHelper()->isSelfByEmpNumber($claimRequest->getEmployee()->getEmpNumber())) {
             $this->setResponse($this->redirect("claim/submitClaim/id/{$id}"));
@@ -57,7 +53,6 @@ class AssignClaimRequestController extends AbstractVueController implements Capa
 
         $component = new Component('assign-claim');
         $component->addProp(new Prop('emp-number', Prop::TYPE_NUMBER, $empNumber));
-        $component->addProp(new Prop('emp-name', Prop::TYPE_STRING, $empName));
         $component->addProp(new Prop('id', Prop::TYPE_NUMBER, $id));
         $component->addProp(new Prop(
             'allowed-file-types',

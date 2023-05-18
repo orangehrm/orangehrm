@@ -241,6 +241,13 @@ GetOne:
           "name": "Pay"
         }
       ]
+      "employee":
+        "empNumber": 1
+        "firstName": "Kayla"
+        "lastName": "Abbey"
+        "middleName": ""
+        "employeeId": "0001"
+        "terminationId": null
 
   'GetOne - Claim Request - has CANCELLED state as a admin user':
     userId: 1
@@ -273,6 +280,13 @@ GetOne:
       }
     meta:
       "allowedActions": [ ]
+      "employee":
+        "empNumber": 1
+        "firstName": "Kayla"
+        "lastName": "Abbey"
+        "middleName": ""
+        "employeeId": "0001"
+        "terminationId": null
 
   'GetOne - Claim Request - has REJECTED state as a Admin user':
     userId: 1
@@ -303,9 +317,15 @@ GetOne:
         "remarks": "Expenses for social media advertising campaign",
         "status": "REJECTED",
       }
-    meta: {
+    meta:
       "allowedActions": [ ]
-    }
+      "employee":
+          "empNumber": 1
+          "firstName": "Kayla"
+          "lastName": "Abbey"
+          "middleName": ""
+          "employeeId": "0001"
+          "terminationId": null
 
   'GetOne - Claim Request - has SUBMITTED state as a ESS user':
     userId: 2

@@ -67,6 +67,7 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_REMARKS = 'remarks';
     public const REMARKS_MAX_LENGTH = 1000;
     public const PARAMETER_ALLOWED_ACTIONS = 'allowedActions';
+    public const PARAMETER_CLAIM_REQUEST_OWNER = 'employee';
     public const PARAMETER_EMPLOYEE_NUMBER = 'empNumber';
     public const PARAMETER_REFERENCE_ID = 'referenceId';
     public const PARAMETER_EVENT_ID = 'eventId';
@@ -491,7 +492,14 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
      *             @OA\Property(
      *                 property="meta",
      *                 type="object",
-     *                 @OA\Property(property="allowedActions", type="array", @OA\Items(type="object"))
+     *                 @OA\Property(property="allowedActions", type="array", @OA\Items(type="object")),
+     *                 @OA\Property(property="employee", type="object",
+     *                     @OA\Property(property="empNumber", type="integer"),
+     *                     @OA\Property(property="lastName", type="string"),
+     *                     @OA\Property(property="firstName", type="string"),
+     *                     @OA\Property(property="middleName", type="string"),
+     *                     @OA\Property(property="employeeId", type="string"),
+     *                 @OA\Property(property="terminationId", type="integer"))
      *             )
      *         )
      *     )
@@ -521,11 +529,13 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
         }
 
         $allowedActions = $this->getAllowedActions($claimRequest);
-
         return new EndpointResourceResult(
             ClaimRequestModel::class,
             $claimRequest,
-            new ParameterBag([self::PARAMETER_ALLOWED_ACTIONS => $allowedActions])
+            new ParameterBag([
+                self::PARAMETER_ALLOWED_ACTIONS => $allowedActions,
+                self::PARAMETER_CLAIM_REQUEST_OWNER => $this->getEmployeeService()->getEmployeeAsArray($empNumber),
+            ])
         );
     }
 

@@ -104,6 +104,14 @@ class MyClaimRequestAPI extends EmployeeClaimRequestAPI
      *                 property="meta",
      *                 type="object",
      *                 @OA\Property(property="allowedActions", type="array", @OA\Items(type="object"))
+     *                 @OA\Property(property="employee", type="object",
+     *                     @OA\Property(property="empNumber", type="integer"),
+     *                     @OA\Property(property="lastName", type="string"),
+     *                     @OA\Property(property="firstName", type="string"),
+     *                     @OA\Property(property="middleName", type="string"),
+     *                     @OA\Property(property="employeeId", type="string"),
+     *                     @OA\Property(property="terminationId", type="integer")
+     *                 )
      *             )
      *         )
      *     )

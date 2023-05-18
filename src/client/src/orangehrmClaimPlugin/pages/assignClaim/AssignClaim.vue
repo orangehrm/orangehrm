@@ -31,7 +31,7 @@
             <oxd-grid :cols="3" class="orangehrm-full-width-grid">
               <oxd-grid-item>
                 <oxd-input-field
-                  v-model="name"
+                  v-model="computedEmployeeName"
                   :label="$t('general.employee')"
                   disabled
                 />
@@ -143,10 +143,6 @@ export default {
       type: Number,
       required: true,
     },
-    empName: {
-      type: String,
-      required: true,
-    },
   },
 
   setup(props) {
@@ -157,7 +153,6 @@ export default {
 
     return {
       http,
-      name: props.empName,
     };
   },
 
@@ -177,6 +172,7 @@ export default {
       currency: {},
       response: {},
       allowedActions: [],
+      employee: {},
       statusMap,
     };
   },
@@ -187,6 +183,13 @@ export default {
         return this.allowedActions.includes('Submit');
       }
       return false;
+    },
+    computedEmployeeName() {
+      return this.employee.terminationId
+        ? `${this.employee.firstName} ${this.employee.lastName} (${this.$t(
+            'maintenance.past_employee',
+          )})`
+        : `${this.employee.firstName} ${this.employee.lastName}`;
     },
   },
 
@@ -201,6 +204,7 @@ export default {
         this.claimEvent = data.claimEvent;
         this.currency = data.currencyType;
         this.allowedActions = meta.allowedActions.map((action) => action.name);
+        this.employee = meta.employee;
       })
       .finally(() => {
         this.isLoading = false;
