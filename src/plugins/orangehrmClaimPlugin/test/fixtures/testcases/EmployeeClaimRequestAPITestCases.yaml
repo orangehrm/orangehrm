@@ -179,6 +179,27 @@ Create:
       class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
       message: 'Invalid Parameter'
 
+  'Create Claim Request - for terminated employee':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      empNumber: 3
+    body:
+      claimEventId: 2
+      currencyId: 'USD'
+      remarks: sample claim request description
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
+      message: 'Unauthorized'
+
 GetOne:
   'GetOne - Claim Request - has APPROVED state as a admin user':
     userId: 1
