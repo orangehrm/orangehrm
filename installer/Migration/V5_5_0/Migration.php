@@ -214,11 +214,13 @@ class Migration extends AbstractMigration
                         'module_id' => ':module_id',
                         'user_role_id' => ':user_role_id',
                         'action' => ':action',
+                        'priority' => ':priority',
                     ]
                 )
                 ->setParameter('module_id', $this->getDataGroupHelper()->getModuleIdByName('claim'))
                 ->setParameter('user_role_id', $this->getDataGroupHelper()->getUserRoleIdByName('Admin'))
                 ->setParameter('action', 'claim/viewAssignClaim')
+                ->setParameter('priority', 20)
                 ->executeQuery();
 
             $this->getConnection()->createQueryBuilder()
@@ -228,11 +230,13 @@ class Migration extends AbstractMigration
                         'module_id' => ':module_id',
                         'user_role_id' => ':user_role_id',
                         'action' => ':action',
+                        'priority' => ':priority',
                     ]
                 )
                 ->setParameter('module_id', $this->getDataGroupHelper()->getModuleIdByName('claim'))
                 ->setParameter('user_role_id', $this->getDataGroupHelper()->getUserRoleIdByName('Supervisor'))
                 ->setParameter('action', 'claim/viewAssignClaim')
+                ->setParameter('priority', 10)
                 ->executeQuery();
 
             $this->getConnection()->createQueryBuilder()
@@ -242,11 +246,13 @@ class Migration extends AbstractMigration
                         'module_id' => ':module_id',
                         'user_role_id' => ':user_role_id',
                         'action' => ':action',
+                        'priority' => ':priority',
                     ]
                 )
                 ->setParameter('module_id', $this->getDataGroupHelper()->getModuleIdByName('claim'))
                 ->setParameter('user_role_id', $this->getDataGroupHelper()->getUserRoleIdByName('ESS'))
                 ->setParameter('action', 'claim/viewClaim')
+                ->setParameter('priority', 0)
                 ->executeQuery();
 
             $viewClaimModuleScreenId = $this->getConnection()
