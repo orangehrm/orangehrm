@@ -36,7 +36,7 @@
                   includeEmployees: 'onlyCurrent',
                 }"
                 required
-                :emp-number="empNumber"
+                :auth-employee-number="authEmployeeNumber"
               />
             </oxd-grid-item>
           </oxd-grid>
@@ -98,7 +98,7 @@ import {
 } from '@/core/util/validation/rules';
 import {APIService} from '@ohrm/core/util/services/api.service';
 import {navigate} from '@ohrm/core/util/helper/navigation';
-import ClaimEventDropdownVue from '../../components/ClaimEventDropdown.vue';
+import ClaimEventDropdownVue from '@/orangehrmClaimPlugin/components/ClaimEventDropdown.vue';
 import ClaimEmployeeAutocomplete from '@/orangehrmClaimPlugin/components/ClaimEmployeeAutocomplete.vue';
 import {ref} from 'vue';
 
@@ -121,7 +121,7 @@ export default {
       type: Array,
       default: () => [],
     },
-    empNumber: {
+    authEmployeeNumber: {
       type: Number,
       required: true,
     },
