@@ -61,7 +61,7 @@ class ModuleServiceTest extends TestCase
     public function testUpdateModuleStatus(): void
     {
         $expectedModuleList = TestDataService::loadObjectList('Module', Config::get(Config::PLUGINS_DIR) . '/orangehrmAdminPlugin/test/fixtures/ModuleDao.yml', 'Module');
-        $moduleUpdateArray = ['admin' => true, 'pim' => false, 'leave' => true, 'time' => true, 'recruitment' => true, 'performance' => false, 'maintenance' => true];
+        $moduleUpdateArray = ['admin' => true, 'pim' => false, 'leave' => true, 'time' => true, 'recruitment' => true, 'performance' => false, 'maintenance' => true, 'claim'=> true];
         $moduleDao = $this->getMockBuilder(ModuleDao::class)->getMock();
         $moduleDao->expects($this->once())
             ->method('updateModuleStatus')
