@@ -22,6 +22,7 @@ namespace OrangeHRM\Claim\Api;
 
 use Exception;
 use OrangeHRM\Claim\Api\Model\ClaimRequestModel;
+use OrangeHRM\Claim\Api\Model\ClaimRequestSummaryModel;
 use OrangeHRM\Claim\Api\Model\EmployeeClaimRequestModel;
 use OrangeHRM\Claim\Dto\ClaimRequestSearchFilterParams;
 use OrangeHRM\Claim\Dto\EmployeeClaimRequestSearchFilterParams;
@@ -74,6 +75,13 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_STATUS = 'status';
     public const PARAMETER_FROM_DATE = 'fromDate';
     public const PARAMETER_TO_DATE = 'toDate';
+    public const PARAMETER_MODEL = 'model';
+    public const MODEL_DEFAULT = 'default';
+    public const MODEL_SUMMARY = 'summary';
+    public const MODEL_MAP = [
+        self::MODEL_DEFAULT => EmployeeClaimRequestModel::class,
+        self::MODEL_SUMMARY => ClaimRequestSummaryModel::class,
+    ];
     public const ACTIONABLE_STATES_MAP = [
         WorkflowStateMachine::CLAIM_ACTION_SUBMIT => 'SUBMIT',
         WorkflowStateMachine::CLAIM_ACTION_APPROVE => 'APPROVE',
@@ -282,6 +290,16 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
      *         required=false,
      *         @OA\Schema(type="DateTime")
      *     ),
+     *     @OA\Parameter(
+     *         name="model",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(
+     *             type="string",
+     *             enum={\OrangeHRM\Claim\Api\EmployeeClaimRequestAPI::MODEL_DEFAULT, \OrangeHRM\Claim\Api\EmployeeClaimRequestAPI::MODEL_SUMMARY},
+     *             default=\OrangeHRM\Claim\Api\EmployeeClaimRequestAPI::MODEL_DEFAULT
+     *         )
+     *     ),
      *     @OA\Parameter(ref="#/components/parameters/sortOrder"),
      *     @OA\Parameter(ref="#/components/parameters/limit"),
      *     @OA\Parameter(ref="#/components/parameters/offset"),
@@ -318,7 +336,7 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
         $count = $this->getClaimService()->getClaimDao()
             ->getClaimRequestCount($employeeClaimRequestSearchFilterParams);
 
-        return $this->getEndPointCollectionResult($claimRequests, $count);
+        return $this->getEndPointCollectionResult($claimRequests, $count, $employeeClaimRequestSearchFilterParams);
     }
 
     /**
@@ -334,8 +352,19 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
      * @param int $count
      * @return EndpointCollectionResult
      */
-    protected function getEndPointCollectionResult(array $claimRequests, int $count): EndpointCollectionResult
+    protected function getEndPointCollectionResult(
+        array $claimRequests,
+        int $count,
+        ClaimRequestSearchFilterParams $claimRequestSearchFilterParams
+    ): EndpointCollectionResult
     {
+        if ($claimRequestSearchFilterParams->getModel() === self::MODEL_SUMMARY) {
+            return new EndpointCollectionResult(
+                ClaimRequestSummaryModel::class,
+                $claimRequests,
+                new ParameterBag([CommonParams::PARAMETER_TOTAL => $count])
+            );
+        }
         return new EndpointCollectionResult(
             EmployeeClaimRequestModel::class,
             $claimRequests,
@@ -402,6 +431,12 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
                 self::PARAMETER_TO_DATE
             )
         );
+        $claimRequestSearchFilterParams->setModel(
+            $this->getRequestParams()->getStringOrNull(
+                RequestParams::PARAM_TYPE_QUERY,
+                self::PARAMETER_MODEL
+            )
+        );
     }
 
     /**
@@ -438,6 +473,13 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
                 new ParamRule(
                     self::PARAMETER_TO_DATE,
                     new Rule(Rules::DATE_TIME)
+                )
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_MODEL,
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::IN, [array_keys(self::MODEL_MAP)])
                 )
             )
         );

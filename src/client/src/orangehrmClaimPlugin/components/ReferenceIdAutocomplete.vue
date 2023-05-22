@@ -46,8 +46,8 @@ export default {
     const http = new APIService(
       window.appGlobal.baseUrl,
       props.isAssigned
-        ? '/api/v2/claim/employees/requests'
-        : '/api/v2/claim/requests',
+        ? '/api/v2/claim/employees/requests?model=summary'
+        : '/api/v2/claim/requests?model=summary',
     );
     return {
       http,
