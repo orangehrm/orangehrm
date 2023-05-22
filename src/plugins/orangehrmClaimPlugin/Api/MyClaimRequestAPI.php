@@ -210,7 +210,10 @@ class MyClaimRequestAPI extends EmployeeClaimRequestAPI
      *             @OA\Property(
      *                 property="data",
      *                 type="array",
-     *                 @OA\Items(ref="#/components/schemas/Claim-MyClaimRequestModel")
+     *                 @OA\Items(oneOf={
+     *                     @OA\Schema(ref="#/components/schemas/Claim-MyClaimRequestModel"),
+     *                     @OA\Schema(ref="#/components/schemas/Claim-ClaimRequestSummaryModel"),
+     *                 })
      *             ),
      *             @OA\Property(
      *                 property="meta",

@@ -30,7 +30,7 @@ class ClaimRequestSummaryModel implements Normalizable
 
     /**
      * @OA\Schema(
-     *     schema="Claim-EmployeeClaimRequestModel",
+     *     schema="Claim-ClaimRequestSummaryModel",
      *     type="object",
      *     @OA\Property(property="id", type="integer"),
      *     @OA\Property(property="referenceId", type="integer")
