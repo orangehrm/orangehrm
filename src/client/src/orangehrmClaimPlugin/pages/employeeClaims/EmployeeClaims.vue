@@ -212,7 +212,10 @@ export default {
             item.status.charAt(0).toUpperCase() +
             item.status.slice(1).toLowerCase(),
           submittedDate: item.submittedDate,
-          amount: parseFloat(item.amount).toFixed(2),
+          amount: Number(item.amount).toLocaleString('en-US', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          }),
         };
       });
     };
