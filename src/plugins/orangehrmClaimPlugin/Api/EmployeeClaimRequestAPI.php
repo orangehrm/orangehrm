@@ -235,7 +235,7 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
 
             $this->commitTransaction();
             return $this->getClaimService()->getClaimDao()->saveClaimRequest($claimRequest);
-        } catch (InvalidParamException | BadRequestException $e) {
+        } catch (InvalidParamException|BadRequestException $e) {
             $this->rollBackTransaction();
             throw $e;
         } catch (Exception $e) {
@@ -356,8 +356,7 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
         array $claimRequests,
         int $count,
         ClaimRequestSearchFilterParams $claimRequestSearchFilterParams
-    ): EndpointCollectionResult
-    {
+    ): EndpointCollectionResult {
         if ($claimRequestSearchFilterParams->getModel() === self::MODEL_SUMMARY) {
             return new EndpointCollectionResult(
                 ClaimRequestSummaryModel::class,
@@ -383,7 +382,9 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
         );
 
         if (!is_null($empNumber)) {
-            if (!$this->getEmployeeService()->getEmployeeDao()->getEmployeeByEmpNumber($empNumber) instanceof Employee) {
+            if (!$this->getEmployeeService()->getEmployeeDao()->getEmployeeByEmpNumber(
+                $empNumber
+            ) instanceof Employee) {
                 throw $this->getRecordNotFoundException();
             }
             if (!$this->getUserRoleManagerHelper()->isEmployeeAccessible($empNumber)) {
