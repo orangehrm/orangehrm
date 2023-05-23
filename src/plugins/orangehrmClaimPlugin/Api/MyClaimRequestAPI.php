@@ -244,9 +244,9 @@ class MyClaimRequestAPI extends EmployeeClaimRequestAPI
     protected function getEndPointCollectionResult(
         array $claimRequests,
         int $count,
-        ClaimRequestSearchFilterParams $claimRequestSearchFilterParams
+        ?string $model
     ): EndpointCollectionResult {
-        if ($claimRequestSearchFilterParams->getModel() === MyClaimRequestAPI::MODEL_SUMMARY) {
+        if ($model === EmployeeClaimRequestAPI::MODEL_SUMMARY) {
             return new EndpointCollectionResult(
                 ClaimRequestSummaryModel::class,
                 $claimRequests,

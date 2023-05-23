@@ -112,7 +112,6 @@ export default {
   },
 
   created() {
-    //TODO: Refctor this code to use validation API
     this.isLoading = true;
     this.http
       .getAll({limit: 0})

@@ -339,7 +339,9 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
         $count = $this->getClaimService()->getClaimDao()
             ->getClaimRequestCount($employeeClaimRequestSearchFilterParams);
 
-        return $this->getEndPointCollectionResult($claimRequests, $count, $employeeClaimRequestSearchFilterParams);
+        $model = $this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_MODEL);
+
+        return $this->getEndPointCollectionResult($claimRequests, $count, $model);
     }
 
     /**
@@ -353,14 +355,15 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
     /**
      * @param array $claimRequests
      * @param int $count
+     * @param string|null $model
      * @return EndpointCollectionResult
      */
     protected function getEndPointCollectionResult(
         array $claimRequests,
         int $count,
-        ClaimRequestSearchFilterParams $claimRequestSearchFilterParams
+        ?string $model
     ): EndpointCollectionResult {
-        if ($claimRequestSearchFilterParams->getModel() === self::MODEL_SUMMARY) {
+        if ($model === self::MODEL_SUMMARY) {
             return new EndpointCollectionResult(
                 ClaimRequestSummaryModel::class,
                 $claimRequests,
@@ -433,12 +436,6 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
             $this->getRequestParams()->getDateTimeOrNull(
                 RequestParams::PARAM_TYPE_QUERY,
                 self::PARAMETER_TO_DATE
-            )
-        );
-        $claimRequestSearchFilterParams->setModel(
-            $this->getRequestParams()->getStringOrNull(
-                RequestParams::PARAM_TYPE_QUERY,
-                self::PARAMETER_MODEL
             )
         );
     }

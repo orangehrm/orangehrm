@@ -186,9 +186,8 @@ export default {
     },
     computedEmployeeName() {
       return this.employee.terminationId
-        ? `${this.employee.firstName} ${this.employee.lastName} (${this.$t(
-            'maintenance.past_employee',
-          )})`
+        ? `${this.employee.firstName} ${this.employee.lastName} 
+            (${this.$t('maintenance.past_employee')})`
         : `${this.employee.firstName} ${this.employee.lastName}`;
     },
   },

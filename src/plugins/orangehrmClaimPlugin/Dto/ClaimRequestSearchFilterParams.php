@@ -61,11 +61,6 @@ class ClaimRequestSearchFilterParams extends FilterParams
      */
     protected ?DateTime $toDate = null;
 
-    /**
-     * @var string|null
-     */
-    protected ?string $model = null;
-
     public function __construct()
     {
         $this->setSortField('claimRequest.referenceId');
@@ -169,21 +164,5 @@ class ClaimRequestSearchFilterParams extends FilterParams
     public function setEmpNumbers(?array $empNumbers): void
     {
         $this->empNumbers = $empNumbers;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getModel(): ?string
-    {
-        return $this->model;
-    }
-
-    /**
-     * @param string|null $model
-     */
-    public function setModel(?string $model): void
-    {
-        $this->model = $model;
     }
 }
