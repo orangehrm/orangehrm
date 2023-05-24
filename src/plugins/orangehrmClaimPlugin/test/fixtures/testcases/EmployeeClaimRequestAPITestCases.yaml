@@ -24,6 +24,7 @@ Create:
       claimEvent:
         id: 1
         name: Office Rent
+        isDeleted: false
       currencyType:
         id: CAD
         name: Canadian Dollar
@@ -98,6 +99,7 @@ Create:
       claimEvent:
         id: 2
         name: Employee Salaries
+        isDeleted: false
       currencyType:
         id: USD
         name: United States Dollar
@@ -130,6 +132,7 @@ Create:
       claimEvent:
         id: 2
         name: Employee Salaries
+        isDeleted: false
       currencyType:
         id: USD
         name: United States Dollar
@@ -221,7 +224,8 @@ GetOne:
         "referenceId": "202301170000001",
         "claimEvent": {
           "id": 3,
-          "name": "Travel Expenses"
+          "name": "Travel Expenses",
+          "isDeleted": false
         },
         "currencyType": {
           "id": "USD",
@@ -269,7 +273,8 @@ GetOne:
         "referenceId": "202301170000008",
         "claimEvent": {
           "id": 3,
-          "name": "Travel Expenses"
+          "name": "Travel Expenses",
+          "isDeleted": false
         },
         "currencyType": {
           "id": "USD",
@@ -308,7 +313,8 @@ GetOne:
         "referenceId": "202301170000005",
         "claimEvent": {
           "id": 3,
-          "name": "Travel Expenses"
+          "name": "Travel Expenses",
+          "isDeleted": false
         },
         "currencyType": {
           "id": "USD",

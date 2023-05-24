@@ -89,3 +89,9 @@ langStrings:
   -
     value: "Employee Claims"
     unitId: employee_claims
+  -
+    value: "(Deleted Type)"
+    unitId: deleted_type
+  -
+    value: "(Deleted Event)"
+    unitId: deleted_event

@@ -25,6 +25,7 @@ Update:
       claimEvent:
         id: 1
         name: Office Rent
+        isDeleted: false
       currencyType:
         id: CAD
         name: Canadian Dollar
@@ -57,6 +58,7 @@ Update:
       claimEvent:
         id: 3
         name: Travel Expenses
+        isDeleted: false
       currencyType:
         id: USD
         name: United States Dollar
@@ -87,6 +89,7 @@ Update:
       claimEvent:
         id: 1
         name: Office Rent
+        isDeleted: false
       currencyType:
         id: CAD
         name: Canadian Dollar
@@ -225,6 +228,7 @@ Update:
       claimEvent:
         id: 1
         name: Office Rent
+        isDeleted: false
       currencyType:
         id: USD
         name: United States Dollar
@@ -279,6 +283,7 @@ Update:
       claimEvent:
         id: 1
         name: Office Rent
+        isDeleted: false
       currencyType:
         id: USD
         name: United States Dollar
@@ -309,6 +314,7 @@ Update:
       claimEvent:
         id: 1
         name: Office Rent
+        isDeleted: false
       currencyType:
         id: USD
         name: United States Dollar
@@ -407,6 +413,7 @@ Update:
       claimEvent:
         id: 1
         name: Office Rent
+        isDeleted: false
       currencyType:
         id: USD
         name: United States Dollar

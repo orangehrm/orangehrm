@@ -68,6 +68,7 @@ class ClaimExpenseModel implements Normalizable
                 'id',
                 ['getExpenseType', 'getId'],
                 ['getExpenseType', 'getName'],
+                ['getExpenseType', 'isDeleted'],
                 'amount',
                 'note',
                 ['getDecorator', 'getDate']
@@ -78,6 +79,7 @@ class ClaimExpenseModel implements Normalizable
                 'id',
                 ['expenseType', 'id'],
                 ['expenseType', 'name'],
+                ['expenseType', 'isDeleted'],
                 'amount',
                 'note',
                 'date'

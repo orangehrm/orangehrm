@@ -123,7 +123,9 @@ export default {
             : '',
           amount: item.amount ? item.amount.toFixed(2) : '0.00',
           note: item.note ? item.note : '',
-          expenseType: item.expenseType ? item.expenseType.name : '',
+          expenseType: item.expenseType.isDeleted
+            ? `${item.expenseType.name} ${this.$t('claim.deleted_type')}`
+            : item.expenseType.name,
         };
       });
     };
