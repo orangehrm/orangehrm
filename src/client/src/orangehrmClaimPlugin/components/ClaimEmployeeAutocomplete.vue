@@ -52,7 +52,7 @@ export default {
       type: String,
       default: '/api/v2/pim/employees',
     },
-    empNumber: {
+    authEmployeeNumber: {
       type: Number,
       default: null,
     },
@@ -75,7 +75,10 @@ export default {
             .then(({data}) => {
               resolve(
                 data.data
-                  .filter((employee) => employee.empNumber !== this.empNumber)
+                  .filter(
+                    (employee) =>
+                      employee.empNumber !== this.authEmployeeNumber,
+                  )
                   .map((employee) => {
                     return {
                       id: employee.empNumber,

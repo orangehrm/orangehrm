@@ -22,6 +22,7 @@ namespace OrangeHRM\Claim\Api;
 
 use Exception;
 use OrangeHRM\Claim\Api\Model\ClaimRequestModel;
+use OrangeHRM\Claim\Api\Model\ClaimRequestSummaryModel;
 use OrangeHRM\Claim\Api\Model\EmployeeClaimRequestModel;
 use OrangeHRM\Claim\Dto\ClaimRequestSearchFilterParams;
 use OrangeHRM\Claim\Dto\EmployeeClaimRequestSearchFilterParams;
@@ -67,12 +68,20 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_REMARKS = 'remarks';
     public const REMARKS_MAX_LENGTH = 1000;
     public const PARAMETER_ALLOWED_ACTIONS = 'allowedActions';
+    public const PARAMETER_CLAIM_REQUEST_OWNER = 'employee';
     public const PARAMETER_EMPLOYEE_NUMBER = 'empNumber';
     public const PARAMETER_REFERENCE_ID = 'referenceId';
     public const PARAMETER_EVENT_ID = 'eventId';
     public const PARAMETER_STATUS = 'status';
     public const PARAMETER_FROM_DATE = 'fromDate';
     public const PARAMETER_TO_DATE = 'toDate';
+    public const PARAMETER_MODEL = 'model';
+    public const MODEL_DEFAULT = 'default';
+    public const MODEL_SUMMARY = 'summary';
+    public const MODEL_MAP = [
+        self::MODEL_DEFAULT => EmployeeClaimRequestModel::class,
+        self::MODEL_SUMMARY => ClaimRequestSummaryModel::class,
+    ];
     public const ACTIONABLE_STATES_MAP = [
         WorkflowStateMachine::CLAIM_ACTION_SUBMIT => 'SUBMIT',
         WorkflowStateMachine::CLAIM_ACTION_APPROVE => 'APPROVE',
@@ -115,7 +124,13 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
     {
         $claimRequest = new ClaimRequest();
         $empNumber = $this->getEmpNumber();
-
+        $employee = $this->getEmployeeService()->getEmployeeDao()->getEmployeeByEmpNumber($empNumber);
+        if ($employee === null) {
+            throw $this->getRecordNotFoundException();
+        }
+        if (!is_null($employee->getEmployeeTerminationRecord())) {
+            throw $this->getForbiddenException();
+        }
         if (!$this->isSelfByEmpNumber($empNumber)) {
             throw $this->getForbiddenException();
         }
@@ -220,7 +235,7 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
 
             $this->commitTransaction();
             return $this->getClaimService()->getClaimDao()->saveClaimRequest($claimRequest);
-        } catch (InvalidParamException | BadRequestException $e) {
+        } catch (InvalidParamException|BadRequestException $e) {
             $this->rollBackTransaction();
             throw $e;
         } catch (Exception $e) {
@@ -275,6 +290,16 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
      *         required=false,
      *         @OA\Schema(type="DateTime")
      *     ),
+     *     @OA\Parameter(
+     *         name="model",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(
+     *             type="string",
+     *             enum={\OrangeHRM\Claim\Api\EmployeeClaimRequestAPI::MODEL_DEFAULT, \OrangeHRM\Claim\Api\EmployeeClaimRequestAPI::MODEL_SUMMARY},
+     *             default=\OrangeHRM\Claim\Api\EmployeeClaimRequestAPI::MODEL_DEFAULT
+     *         )
+     *     ),
      *     @OA\Parameter(ref="#/components/parameters/sortOrder"),
      *     @OA\Parameter(ref="#/components/parameters/limit"),
      *     @OA\Parameter(ref="#/components/parameters/offset"),
@@ -285,7 +310,10 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
      *             @OA\Property(
      *                 property="data",
      *                 type="array",
-     *                 @OA\Items(ref="#/components/schemas/Claim-EmployeeClaimRequestModel")
+     *                 @OA\Items(oneOf={
+     *                     @OA\Schema(ref="#/components/schemas/Claim-EmployeeClaimRequestModel"),
+     *                     @OA\Schema(ref="#/components/schemas/Claim-ClaimRequestSummaryModel"),
+     *                 })
      *             ),
      *             @OA\Property(
      *                 property="meta",
@@ -311,7 +339,9 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
         $count = $this->getClaimService()->getClaimDao()
             ->getClaimRequestCount($employeeClaimRequestSearchFilterParams);
 
-        return $this->getEndPointCollectionResult($claimRequests, $count);
+        $model = $this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_MODEL, self::MODEL_DEFAULT);
+
+        return $this->getEndPointCollectionResult($claimRequests, $count, $model);
     }
 
     /**
@@ -325,10 +355,21 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
     /**
      * @param array $claimRequests
      * @param int $count
+     * @param string|null $model
      * @return EndpointCollectionResult
      */
-    protected function getEndPointCollectionResult(array $claimRequests, int $count): EndpointCollectionResult
-    {
+    protected function getEndPointCollectionResult(
+        array $claimRequests,
+        int $count,
+        string $model
+    ): EndpointCollectionResult {
+        if ($model === self::MODEL_SUMMARY) {
+            return new EndpointCollectionResult(
+                ClaimRequestSummaryModel::class,
+                $claimRequests,
+                new ParameterBag([CommonParams::PARAMETER_TOTAL => $count])
+            );
+        }
         return new EndpointCollectionResult(
             EmployeeClaimRequestModel::class,
             $claimRequests,
@@ -347,7 +388,9 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
         );
 
         if (!is_null($empNumber)) {
-            if (!$this->getEmployeeService()->getEmployeeDao()->getEmployeeByEmpNumber($empNumber) instanceof Employee) {
+            if (!$this->getEmployeeService()->getEmployeeDao()->getEmployeeByEmpNumber(
+                $empNumber
+            ) instanceof Employee) {
                 throw $this->getRecordNotFoundException();
             }
             if (!$this->getUserRoleManagerHelper()->isEmployeeAccessible($empNumber)) {
@@ -432,6 +475,13 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
                     self::PARAMETER_TO_DATE,
                     new Rule(Rules::DATE_TIME)
                 )
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_MODEL,
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::IN, [array_keys(self::MODEL_MAP)])
+                )
             )
         );
     }
@@ -485,7 +535,14 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
      *             @OA\Property(
      *                 property="meta",
      *                 type="object",
-     *                 @OA\Property(property="allowedActions", type="array", @OA\Items(type="object"))
+     *                 @OA\Property(property="allowedActions", type="array", @OA\Items(type="object")),
+     *                 @OA\Property(property="employee", type="object",
+     *                     @OA\Property(property="empNumber", type="integer"),
+     *                     @OA\Property(property="lastName", type="string"),
+     *                     @OA\Property(property="firstName", type="string"),
+     *                     @OA\Property(property="middleName", type="string"),
+     *                     @OA\Property(property="employeeId", type="string"),
+     *                 @OA\Property(property="terminationId", type="integer"))
      *             )
      *         )
      *     )
@@ -515,11 +572,13 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
         }
 
         $allowedActions = $this->getAllowedActions($claimRequest);
-
         return new EndpointResourceResult(
             ClaimRequestModel::class,
             $claimRequest,
-            new ParameterBag([self::PARAMETER_ALLOWED_ACTIONS => $allowedActions])
+            new ParameterBag([
+                self::PARAMETER_ALLOWED_ACTIONS => $allowedActions,
+                self::PARAMETER_CLAIM_REQUEST_OWNER => $this->getEmployeeService()->getEmployeeAsArray($empNumber),
+            ])
         );
     }
 

@@ -144,6 +144,9 @@ class ClaimRequestSearchFilterParams extends FilterParams
      */
     public function setToDate(?DateTime $toDate): void
     {
+        if ($toDate instanceof DateTime) {
+            $toDate->setTime(23, 59, 59);
+        }
         $this->toDate = $toDate;
     }
 

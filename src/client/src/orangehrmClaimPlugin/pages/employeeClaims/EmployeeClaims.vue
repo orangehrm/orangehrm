@@ -133,6 +133,8 @@ import StatusDropdown from '@/orangehrmClaimPlugin/components/StatusDropdown.vue
 import {validDateFormat} from '@/core/util/validation/rules';
 import useDateFormat from '@/core/util/composable/useDateFormat';
 import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete.vue';
+import useEmployeeNameTranslate from '@/core/util/composable/useEmployeeNameTranslate';
+
 import {
   validSelection,
   endDateShouldBeAfterStartDate,
@@ -170,6 +172,7 @@ export default {
   },
   setup() {
     const filters = ref({...defaultFilters});
+    const {$tEmpName} = useEmployeeNameTranslate();
     const {sortDefinition, sortField, sortOrder, onSort} = useSort({
       sortDefinition: defaultSortOrder,
     });
@@ -198,13 +201,10 @@ export default {
 
     const claimRequestDataNormalizer = (data) => {
       return data.map((item) => {
-        const isPastEmployee = item.employee.terminationId ? true : false;
         return {
           id: item.id,
           referenceId: item.referenceId,
-          employee: isPastEmployee
-            ? `${item.employee.firstName} ${item.employee.lastName}  (Past Employee)`
-            : `${item.employee.firstName} ${item.employee.lastName}`,
+          employee: $tEmpName(item.employee),
           eventName: item.claimEvent.name,
           description: item.description,
           currency: item.currencyType.name,
@@ -212,7 +212,10 @@ export default {
             item.status.charAt(0).toUpperCase() +
             item.status.slice(1).toLowerCase(),
           submittedDate: item.submittedDate,
-          amount: parseFloat(item.amount).toFixed(2),
+          amount: Number(item.amount).toLocaleString('en-US', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          }),
         };
       });
     };

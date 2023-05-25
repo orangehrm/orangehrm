@@ -35,10 +35,19 @@
 import {APIService} from '@ohrm/core/util/services/api.service';
 export default {
   name: 'ReferenceIdAutocomplete',
-  setup() {
+  props: {
+    isAssigned: {
+      default: false,
+      type: Boolean,
+      required: false,
+    },
+  },
+  setup(props) {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      '/api/v2/claim/requests',
+      props.isAssigned
+        ? '/api/v2/claim/employees/requests?model=summary'
+        : '/api/v2/claim/requests?model=summary',
     );
     return {
       http,

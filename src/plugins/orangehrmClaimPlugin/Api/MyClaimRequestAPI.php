@@ -21,6 +21,7 @@
 namespace OrangeHRM\Claim\Api;
 
 use OpenApi\Annotations as OA;
+use OrangeHRM\Claim\Api\Model\ClaimRequestSummaryModel;
 use OrangeHRM\Claim\Api\Model\MyClaimRequestModel;
 use OrangeHRM\Claim\Dto\ClaimRequestSearchFilterParams;
 use OrangeHRM\Core\Api\CommonParams;
@@ -34,6 +35,11 @@ use OrangeHRM\Core\Api\V2\Validator\Rules;
 
 class MyClaimRequestAPI extends EmployeeClaimRequestAPI
 {
+    public const MODEL_MAP = [
+        self::MODEL_DEFAULT => MyClaimRequestModel::class,
+        self::MODEL_SUMMARY => ClaimRequestSummaryModel::class,
+    ];
+
     /**
      * @OA\Post(
      *     path="/api/v2/claim/requests",
@@ -103,7 +109,15 @@ class MyClaimRequestAPI extends EmployeeClaimRequestAPI
      *             @OA\Property(
      *                 property="meta",
      *                 type="object",
-     *                 @OA\Property(property="allowedActions", type="array", @OA\Items(type="object"))
+     *                 @OA\Property(property="allowedActions", type="array", @OA\Items(type="object")),
+     *                 @OA\Property(property="employee", type="object",
+     *                     @OA\Property(property="empNumber", type="integer"),
+     *                     @OA\Property(property="lastName", type="string"),
+     *                     @OA\Property(property="firstName", type="string"),
+     *                     @OA\Property(property="middleName", type="string"),
+     *                     @OA\Property(property="employeeId", type="string"),
+     *                     @OA\Property(property="terminationId", type="integer")
+     *                 )
      *             )
      *         )
      *     )
@@ -176,6 +190,16 @@ class MyClaimRequestAPI extends EmployeeClaimRequestAPI
      *         required=false,
      *         @OA\Schema(type="DateTime")
      *     ),
+     *     @OA\Parameter(
+     *         name="model",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(
+     *             type="string",
+     *             enum={\OrangeHRM\Claim\Api\MyClaimRequestAPI::MODEL_DEFAULT, \OrangeHRM\Claim\Api\MyClaimRequestAPI::MODEL_SUMMARY},
+     *             default=\OrangeHRM\Claim\Api\MyClaimRequestAPI::MODEL_DEFAULT
+     *         )
+     *     ),
      *     @OA\Parameter(ref="#/components/parameters/sortOrder"),
      *     @OA\Parameter(ref="#/components/parameters/limit"),
      *     @OA\Parameter(ref="#/components/parameters/offset"),
@@ -186,7 +210,10 @@ class MyClaimRequestAPI extends EmployeeClaimRequestAPI
      *             @OA\Property(
      *                 property="data",
      *                 type="array",
-     *                 @OA\Items(ref="#/components/schemas/Claim-MyClaimRequestModel")
+     *                 @OA\Items(oneOf={
+     *                     @OA\Schema(ref="#/components/schemas/Claim-MyClaimRequestModel"),
+     *                     @OA\Schema(ref="#/components/schemas/Claim-ClaimRequestSummaryModel"),
+     *                 })
      *             ),
      *             @OA\Property(
      *                 property="meta",
@@ -214,8 +241,18 @@ class MyClaimRequestAPI extends EmployeeClaimRequestAPI
     /**
      * @inheritDoc
      */
-    protected function getEndPointCollectionResult(array $claimRequests, int $count): EndpointCollectionResult
-    {
+    protected function getEndPointCollectionResult(
+        array $claimRequests,
+        int $count,
+        string $model
+    ): EndpointCollectionResult {
+        if ($model === EmployeeClaimRequestAPI::MODEL_SUMMARY) {
+            return new EndpointCollectionResult(
+                ClaimRequestSummaryModel::class,
+                $claimRequests,
+                new ParameterBag([CommonParams::PARAMETER_TOTAL => $count])
+            );
+        }
         return new EndpointCollectionResult(
             MyClaimRequestModel::class,
             $claimRequests,

@@ -49,7 +49,7 @@ class AssignClaimController extends AbstractVueController
         $currencies = $this->getPayGradeService()->getCurrencyArray();
         $component = new Component('assign-claim-request');
         $component->addProp(new Prop('currencies', Prop::TYPE_ARRAY, $currencies));
-        $component->addProp(new Prop('emp-number', Prop::TYPE_NUMBER, $this->getAuthUser()->getEmpNumber()));
+        $component->addProp(new Prop('auth-employee-number', Prop::TYPE_NUMBER, $this->getAuthUser()->getEmpNumber()));
         $this->setComponent($component);
     }
 }

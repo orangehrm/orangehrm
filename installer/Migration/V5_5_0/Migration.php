@@ -120,7 +120,7 @@ class Migration extends AbstractMigration
                 'ohrm_user',
                 ['id'],
                 'requestByUser',
-                ['onDelete' => 'CASCADE']
+                ['onDelete' => 'SET NULL']
             );
             $this->getSchemaHelper()->addForeignKey('ohrm_claim_request', $foreignKeyConstraint1);
             $foreignKeyConstraint2 = new ForeignKeyConstraint(
@@ -128,7 +128,7 @@ class Migration extends AbstractMigration
                 'ohrm_claim_event',
                 ['id'],
                 'claimEventId',
-                ['onDelete' => 'RESTRICT']
+                ['onDelete' => 'SET NULL']
             );
             $this->getSchemaHelper()->addForeignKey('ohrm_claim_request', $foreignKeyConstraint2);
             $foreignKeyConstraint3 = new ForeignKeyConstraint(
@@ -136,7 +136,7 @@ class Migration extends AbstractMigration
                 'hs_hr_employee',
                 ['emp_number'],
                 'claim_Request_Employee_Number',
-                ['onDelete' => 'RESTRICT']
+                ['onDelete' => 'SET NULL']
             );
             $this->getSchemaHelper()->addForeignKey('ohrm_claim_request', $foreignKeyConstraint3);
         }
@@ -214,11 +214,13 @@ class Migration extends AbstractMigration
                         'module_id' => ':module_id',
                         'user_role_id' => ':user_role_id',
                         'action' => ':action',
+                        'priority' => ':priority',
                     ]
                 )
                 ->setParameter('module_id', $this->getDataGroupHelper()->getModuleIdByName('claim'))
                 ->setParameter('user_role_id', $this->getDataGroupHelper()->getUserRoleIdByName('Admin'))
                 ->setParameter('action', 'claim/viewAssignClaim')
+                ->setParameter('priority', 20)
                 ->executeQuery();
 
             $this->getConnection()->createQueryBuilder()
@@ -228,11 +230,13 @@ class Migration extends AbstractMigration
                         'module_id' => ':module_id',
                         'user_role_id' => ':user_role_id',
                         'action' => ':action',
+                        'priority' => ':priority',
                     ]
                 )
                 ->setParameter('module_id', $this->getDataGroupHelper()->getModuleIdByName('claim'))
                 ->setParameter('user_role_id', $this->getDataGroupHelper()->getUserRoleIdByName('Supervisor'))
                 ->setParameter('action', 'claim/viewAssignClaim')
+                ->setParameter('priority', 10)
                 ->executeQuery();
 
             $this->getConnection()->createQueryBuilder()
@@ -242,11 +246,13 @@ class Migration extends AbstractMigration
                         'module_id' => ':module_id',
                         'user_role_id' => ':user_role_id',
                         'action' => ':action',
+                        'priority' => ':priority',
                     ]
                 )
                 ->setParameter('module_id', $this->getDataGroupHelper()->getModuleIdByName('claim'))
                 ->setParameter('user_role_id', $this->getDataGroupHelper()->getUserRoleIdByName('ESS'))
                 ->setParameter('action', 'claim/viewClaim')
+                ->setParameter('priority', 0)
                 ->executeQuery();
 
             $viewClaimModuleScreenId = $this->getConnection()

@@ -1,10 +1,16 @@
 Config:
   - { name: 'authorize_user_role_manager_class', value: 'BasicUserRoleManager' }
 
+TerminationReason:
+  - { "id": "1","name": "Other" }
+
+EmployeeTerminationRecord:
+  - { "id": "1", "reason_id": "1","termination_date": "2021-09-15","note": "" }
+
 Employee:
   0: { empNumber: 1, firstName: 'Kayla', lastName: 'Abbey', joinedDate: '2021-10-25', employeeId: '0001' }
   1: { empNumber: 2, firstName: 'Ashley', lastName: 'Abel', middleName: 'Aldis',  joinedDate: '2016-10-28', employeeId: '0002' }
-  2: { empNumber: 3, firstName: 'Tyler', lastName: 'Abraham',  joinedDate: '2020-01-05', employeeId: '0003' }
+  2: { empNumber: 3, firstName: 'Tyler', lastName: 'Abraham',  joinedDate: '2020-01-05', employeeId: '0003', termination_id: 1 }
   3: { empNumber: 4, firstName: 'Landon', lastName: 'Abrahams', joinedDate: '2016-12-31', employeeId: '0004' }
 
 ReportingMethod:
