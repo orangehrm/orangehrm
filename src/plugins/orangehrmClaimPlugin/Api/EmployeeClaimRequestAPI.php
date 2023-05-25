@@ -361,7 +361,7 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
     protected function getEndPointCollectionResult(
         array $claimRequests,
         int $count,
-        ?string $model
+        string $model
     ): EndpointCollectionResult {
         if ($model === self::MODEL_SUMMARY) {
             return new EndpointCollectionResult(
