@@ -26,6 +26,52 @@ use OrangeHRM\Entity\CandidateHistory;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Recruitment\Traits\Service\CandidateServiceTrait;
 
+/**
+ * @OA\Schema(
+ *     schema="Recruitment-CandidateHistoryListModel",
+ *     type="object",
+ *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(
+ *         property="action",
+ *         type="object",
+ *         @OA\Property(property="id", type="integer"),
+ *         @OA\Property(property="label", type="string")
+ *     ),
+ *     @OA\Property(property="vacancyName", type="string"),
+ *     @OA\Property(
+ *         property="performedBy",
+ *         type="object",
+ *         @OA\Property(property="empNumber", type="integer"),
+ *         @OA\Property(property="lastName", type="string"),
+ *         @OA\Property(property="firstName", type="string"),
+ *         @OA\Property(property="middleName", type="string"),
+ *         @OA\Property(property="terminationId", type="integer")
+ *     ),
+ *     @OA\Property(property="performedDate", type="string", format="date"),
+ *     @OA\Property(property="note", type="string"),
+ *     @OA\Property(
+ *         property="interview",
+ *         type="object",
+ *         @OA\Property(property="id", type="integer"),
+ *         @OA\Property(property="name", type="string"),
+ *         @OA\Property(property="date", type="string"),
+ *         @OA\Property(property="time", type="string"),
+ *         @OA\Property(
+ *             property="interviewers",
+ *             type="array",
+ *             @OA\Items(
+ *                 type="object",
+ *                 @OA\Property(property="empNumber", type="integer"),
+ *                 @OA\Property(property="firstName", type="string"),
+ *                 @OA\Property(property="middleName", type="string"),
+ *                 @OA\Property(property="lastName", type="string"),
+ *                 @OA\Property(property="terminationId", type="integer")
+ *             )
+ *         )
+ *     ),
+ *     @OA\Property(property="editable", type="boolean")
+ * )
+ */
 class CandidateHistoryListModel implements Normalizable
 {
     use ModelTrait {

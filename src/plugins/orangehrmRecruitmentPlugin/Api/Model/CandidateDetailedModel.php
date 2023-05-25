@@ -24,6 +24,53 @@ use OrangeHRM\Entity\Candidate;
 use OrangeHRM\Entity\Vacancy;
 use OrangeHRM\Recruitment\Traits\Service\RecruitmentAttachmentServiceTrait;
 
+/**
+ * @OA\Schema(
+ *     schema="Recruitment-CandidateDetailedModel",
+ *     type="object",
+ *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(property="firstName", type="string"),
+ *     @OA\Property(property="middleName", type="string"),
+ *     @OA\Property(property="lastName", type="string"),
+ *     @OA\Property(property="email", type="string"),
+ *     @OA\Property(property="contactNumber", type="string"),
+ *     @OA\Property(property="comment", type="string"),
+ *     @OA\Property(property="keywords", type="string"),
+ *     @OA\Property(property="modeOfApplication", type="string"),
+ *     @OA\Property(property="dateOfApplication", type="string", format="date"),
+ *     @OA\Property(
+ *         property="vacancy",
+ *         type="object",
+ *         @OA\Property(property="id", type="integer"),
+ *         @OA\Property(property="name", type="string"),
+ *         @OA\Property(property="status", type="boolean"),
+ *         @OA\Property(
+ *             property="jobTitle",
+ *             type="object",
+ *             @OA\Property(property="id", type="integer"),
+ *             @OA\Property(property="title", type="string"),
+ *             @OA\Property(property="isDeleted", type="boolean")
+ *         ),
+ *         @OA\Property(
+ *             property="hiringManager",
+ *             type="object",
+ *             @OA\Property(property="id", type="integer"),
+ *             @OA\Property(property="firstName", type="string"),
+ *             @OA\Property(property="middleName", type="string"),
+ *             @OA\Property(property="lastName", type="string"),
+ *             @OA\Property(property="terminationId", type="integer")
+ *         )
+ *     ),
+ *     @OA\Property(property="status", type="array",
+ *         @OA\Items(
+ *             @OA\Property(property="id", type="string"),
+ *             @OA\Property(property="lable", type="string")
+ *         )
+ *     ),
+ *     @OA\Property(property="hasAttachment", type="boolean"),
+ *     @OA\Property(property="consentToKeepData", type="boolean")
+ * )
+ */
 class CandidateDetailedModel implements Normalizable
 {
     use RecruitmentAttachmentServiceTrait;

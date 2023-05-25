@@ -23,6 +23,43 @@ use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\Interview;
 
+/**
+ * @OA\Schema(
+ *     schema="Recruitment-CandidateInterviewModel",
+ *     type="object",
+ *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(property="name", type="string"),
+ *     @OA\Property(
+ *         property="candidate",
+ *         type="object",
+ *         @OA\Property(property="id", type="integer"),
+ *         @OA\Property(property="firstName", type="string"),
+ *         @OA\Property(property="middleName", type="string"),
+ *         @OA\Property(property="lastName", type="string")
+ *     ),
+ *     @OA\Property(
+ *         property="vacancy",
+ *         type="object",
+ *         @OA\Property(property="id", type="integer"),
+ *         @OA\Property(property="name", type="string")
+ *     ),
+ *     @OA\Property(
+ *         property="interviewers",
+ *         type="array",
+ *         @OA\Items(
+ *             type="object",
+ *             @OA\Property(property="empNumber", type="integer"),
+ *             @OA\Property(property="lastName", type="string"),
+ *             @OA\Property(property="firstName", type="string"),
+ *             @OA\Property(property="middleName", type="string"),
+ *             @OA\Property(property="terminationId", type="integer")
+ *         )
+ *     ),
+ *     @OA\Property(property="interviewDate", type="string", format="date"),
+ *     @OA\Property(property="interviewTime", type="string"),
+ *     @OA\Property(property="note", type="string")
+ * )
+ */
 class CandidateInterviewModel implements Normalizable
 {
     use ModelTrait;

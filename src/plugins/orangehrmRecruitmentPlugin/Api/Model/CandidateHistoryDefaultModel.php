@@ -23,6 +23,41 @@ use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\CandidateHistory;
 
+/**
+ * @OA\Schema(
+ *     schema="Recruitment-CandidateHistoryDefaultModel",
+ *     type="object",
+ *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(
+ *         property="candidate",
+ *         type="object",
+ *         @OA\Property(property="id", type="integer"),
+ *         @OA\Property(property="firstName", type="string"),
+ *         @OA\Property(property="middleName", type="string"),
+ *         @OA\Property(property="lastName", type="string")
+ *     ),
+ *     @OA\Property(
+ *         property="vacancy",
+ *         type="object",
+ *         @OA\Property(property="id", type="integer"),
+ *         @OA\Property(property="name", type="string"),
+ *         @OA\Property(
+ *             property="hiringManager",
+ *             type="object",
+ *             @OA\Property(property="empNumber", type="string"),
+ *             @OA\Property(property="firstName", type="string"),
+ *             @OA\Property(property="middleName", type="string"),
+ *             @OA\Property(property="lastName", type="string"),
+ *             @OA\Property(property="terminationId", type="integer")
+ *         )
+ *     ),
+ *     @OA\Property(property="note", type="string"),
+ *     @OA\Property(property="action", type="object",
+ *         @OA\Property(property="id", type="integer"),
+ *         @OA\Property(property="label", type="string")
+ *     )
+ * )
+ */
 class CandidateHistoryDefaultModel implements Normalizable
 {
     use ModelTrait;

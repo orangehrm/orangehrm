@@ -27,6 +27,42 @@ use OrangeHRM\Entity\CandidateVacancy;
 use OrangeHRM\Entity\Vacancy;
 use OrangeHRM\Recruitment\Traits\Service\RecruitmentAttachmentServiceTrait;
 
+/**
+ * @OA\Schema(
+ *     schema="Recruitment-CandidateListModel",
+ *     type="object",
+ *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(property="firstName", type="string"),
+ *     @OA\Property(property="middleName", type="string"),
+ *     @OA\Property(property="lastName", type="string"),
+ *     @OA\Property(property="dateOfApplication", type="string", format="date"),
+ *     @OA\Property(
+ *         property="vacancy",
+ *         type="object",
+ *         @OA\Property(property="id", type="integer"),
+ *         @OA\Property(property="name", type="string"),
+ *         @OA\Property(property="status", type="boolean"),
+ *         @OA\Property(
+ *             property="hiringManager",
+ *             type="object",
+ *             @OA\Property(property="id", type="string"),
+ *             @OA\Property(property="firstName", type="string"),
+ *             @OA\Property(property="middleName", type="string"),
+ *             @OA\Property(property="lastName", type="string"),
+ *             @OA\Property(property="terminationId", type="integer")
+ *         )
+ *     ),
+ *     @OA\Property(property="status", type="array",
+ *         @OA\Items(
+ *             type="object",
+ *             @OA\Property(property="id", type="string"),
+ *             @OA\Property(property="lable", type="string")
+ *         )
+ *     ),
+ *     @OA\Property(property="hasAttachment", type="boolean"),
+ *     @OA\Property(property="deletable", type="boolean")
+ * )
+ */
 class CandidateListModel implements Normalizable
 {
     use RecruitmentAttachmentServiceTrait;
