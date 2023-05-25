@@ -339,7 +339,7 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
         $count = $this->getClaimService()->getClaimDao()
             ->getClaimRequestCount($employeeClaimRequestSearchFilterParams);
 
-        $model = $this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_MODEL);
+        $model = $this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_MODEL, self::MODEL_DEFAULT);
 
         return $this->getEndPointCollectionResult($claimRequests, $count, $model);
     }

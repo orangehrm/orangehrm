@@ -117,9 +117,9 @@ export default {
       .getAll({limit: 0})
       .then((response) => {
         const {data} = response.data;
-        this.rules.name.push((v) => {
+        this.rules.name.push((value) => {
           const index = data.findIndex(
-            (item) => item.name.toLowerCase() == v.trim().toLowerCase(),
+            (item) => item.name.toLowerCase() == value.trim().toLowerCase(),
           );
           return index === -1 || this.$t('general.already_exists');
         });

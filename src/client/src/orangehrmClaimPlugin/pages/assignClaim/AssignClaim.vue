@@ -31,7 +31,7 @@
             <oxd-grid :cols="3" class="orangehrm-full-width-grid">
               <oxd-grid-item>
                 <oxd-input-field
-                  v-model="computedEmployeeName"
+                  v-model="employeeName"
                   :label="$t('general.employee')"
                   disabled
                 />
@@ -116,6 +116,7 @@ import {navigate} from '@ohrm/core/util/helper/navigation';
 import ClaimAttachment from '@/orangehrmClaimPlugin/components/ClaimAttachment.vue';
 import ClaimExpenses from '@/orangehrmClaimPlugin/components/ClaimExpenses.vue';
 import ClaimActionButtons from '@/orangehrmClaimPlugin/components/ClaimActionButtons.vue';
+import useEmployeeNameTranslate from '@/core/util/composable/useEmployeeNameTranslate';
 
 export default {
   name: 'AssignClaim',
@@ -174,6 +175,7 @@ export default {
       allowedActions: [],
       employee: {},
       statusMap,
+      employeeName: '',
     };
   },
 
@@ -184,15 +186,10 @@ export default {
       }
       return false;
     },
-    computedEmployeeName() {
-      return this.employee.terminationId
-        ? `${this.employee.firstName} ${this.employee.lastName} 
-            (${this.$t('maintenance.past_employee')})`
-        : `${this.employee.firstName} ${this.employee.lastName}`;
-    },
   },
 
   beforeMount() {
+    const {$tEmpName} = useEmployeeNameTranslate();
     this.isLoading = true;
     this.http
       .get(this.id)
@@ -204,6 +201,7 @@ export default {
         this.currency = data.currencyType;
         this.allowedActions = meta.allowedActions.map((action) => action.name);
         this.employee = meta.employee;
+        this.employeeName = $tEmpName(this.employee);
       })
       .finally(() => {
         this.isLoading = false;

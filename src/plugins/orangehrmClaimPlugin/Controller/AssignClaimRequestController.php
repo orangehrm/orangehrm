@@ -47,7 +47,7 @@ class AssignClaimRequestController extends AbstractVueController implements Capa
         $empNumber = $claimRequest->getEmployee()->getEmpNumber();
 
         if ($this->getUserRoleManagerHelper()->isSelfByEmpNumber($claimRequest->getEmployee()->getEmpNumber())) {
-            $this->setResponse($this->redirect("claim/submitClaim/id/{$id}"));
+            $this->setResponse($this->redirect("claim/submitClaim/id/$id"));
             return;
         }
 
