@@ -120,7 +120,7 @@ class Migration extends AbstractMigration
                 'ohrm_user',
                 ['id'],
                 'requestByUser',
-                ['onDelete' => 'RESTRICT']
+                ['onDelete' => 'CASCADE']
             );
             $this->getSchemaHelper()->addForeignKey('ohrm_claim_request', $foreignKeyConstraint1);
             $foreignKeyConstraint2 = new ForeignKeyConstraint(
@@ -128,7 +128,7 @@ class Migration extends AbstractMigration
                 'ohrm_claim_event',
                 ['id'],
                 'claimEventId',
-                ['onDelete' => 'RESTRICT']
+                ['onDelete' => 'CASCADE']
             );
             $this->getSchemaHelper()->addForeignKey('ohrm_claim_request', $foreignKeyConstraint2);
             $foreignKeyConstraint3 = new ForeignKeyConstraint(
@@ -136,7 +136,7 @@ class Migration extends AbstractMigration
                 'hs_hr_employee',
                 ['emp_number'],
                 'claim_Request_Employee_Number',
-                ['onDelete' => 'RESTRICT']
+                ['onDelete' => 'CASCADE']
             );
             $this->getSchemaHelper()->addForeignKey('ohrm_claim_request', $foreignKeyConstraint3);
         }
