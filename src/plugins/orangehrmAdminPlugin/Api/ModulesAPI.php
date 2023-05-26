@@ -225,7 +225,11 @@ class ModulesAPI extends Endpoint implements CrudEndpoint
     {
         $modules = self::CONFIGURABLE_MODULES;
         foreach ($modules as $key => $module) {
-            $modules[$key] = $this->getRequestParams()->getBoolean(RequestParams::PARAM_TYPE_BODY, $key, true);
+            if ($key === self::PARAMETER_CLAIM) {
+                $modules[$key] = $this->getRequestParams()->getBoolean(RequestParams::PARAM_TYPE_BODY, $key, false);
+            } else {
+                $modules[$key] = $this->getRequestParams()->getBoolean(RequestParams::PARAM_TYPE_BODY, $key, true);
+            }
         }
         $this->getModuleService()->updateModuleStatus($modules);
         $this->getMenuService()->invalidateCachedMenuItems();
@@ -281,10 +285,12 @@ class ModulesAPI extends Endpoint implements CrudEndpoint
                 self::PARAMETER_DIRECTORY,
                 new Rule(Rules::BOOL_TYPE),
             ),
-            new ParamRule(
-                self::PARAMETER_CLAIM,
-                new Rule(Rules::BOOL_TYPE),
-            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_CLAIM,
+                    new Rule(Rules::BOOL_TYPE),
+                )
+            )
         );
     }
 
