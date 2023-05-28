@@ -34,6 +34,7 @@ use OrangeHRM\Entity\User;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Pim\Api\EmploymentContractAPI;
 use OrangeHRM\Pim\Dao\EmploymentContractDao;
+use OrangeHRM\Pim\Dto\PartialEmployeeAttachment;
 use OrangeHRM\Pim\Service\EmploymentContractService;
 use OrangeHRM\Tests\Util\EndpointTestCase;
 use OrangeHRM\Tests\Util\MockObject;
@@ -326,13 +327,16 @@ class EmploymentContractAPITest extends EndpointTestCase
             ->getMock();
 
         $attachTime = new DateTime();
-        $empAttachment = new EmployeeAttachment();
-        $empAttachment->setAttachment('test');
-        $empAttachment->setAttachId(1);
-        $empAttachment->setFilename('attachment.txt');
-        $empAttachment->setFileType('text/plain');
-        $empAttachment->setSize(6);
-        $empAttachment->setAttachedTime($attachTime);
+        $empAttachment = new PartialEmployeeAttachment(
+            1,
+            null,
+            'attachment.txt',
+            6,
+            'text/plain',
+            null,
+            null,
+            $attachTime
+        );
         $empContractDecorator = $this->getMockBuilder(EmpContractDecorator::class)
             ->onlyMethods(['getContractAttachment'])
             ->setConstructorArgs([$empContract])
@@ -505,6 +509,7 @@ class EmploymentContractAPITest extends EndpointTestCase
                 [
                     'getEmploymentContractDao',
                     'getContractAttachment',
+                    'getContractAttachmentById',
                     'saveContractAttachment',
                     'deleteContractAttachment'
                 ]
@@ -517,19 +522,37 @@ class EmploymentContractAPITest extends EndpointTestCase
         $employee = new Employee();
         $employee->setEmpNumber(1);
         $contractAttachment = new EmployeeAttachment();
+        $contractAttachment->setAttachId(20);
         $contractAttachment->setEmployee($employee);
         $contractAttachment->setFilename('attachment.txt');
         $contractAttachment->setAttachment('text');
         $contractAttachment->setFileType('text/plain');
         $contractAttachment->setSize(1024);
 
+        $partialContractAttachment = new PartialEmployeeAttachment(
+            $contractAttachment->getAttachId(),
+            null,
+            $contractAttachment->getFilename(),
+            $contractAttachment->getSize(),
+            $contractAttachment->getFileType(),
+            null,
+            null,
+            null
+        );
+
         $contractAttachmentMap = [
-            [1, $contractAttachment],
+            [1, $partialContractAttachment],
             [2, null],
         ];
         $employmentContractService->expects($this->once())
             ->method('getContractAttachment')
             ->will($this->returnValueMap($contractAttachmentMap));
+        $employmentContractService->expects($this->once())
+            ->method('getContractAttachmentById')
+            ->will($this->returnValueMap([
+                [1, 20, $contractAttachment],
+                [2, 1, null],
+            ]));
         $employmentContractService->expects($this->once())
             ->method('deleteContractAttachment');
 
@@ -546,7 +569,7 @@ class EmploymentContractAPITest extends EndpointTestCase
             ]
         )->onlyMethods(['getEmploymentContractService'])
             ->getMock();
-        $api->expects($this->exactly(4))
+        $api->expects($this->exactly(5))
             ->method('getEmploymentContractService')
             ->will($this->returnValue($employmentContractService));
 
@@ -590,13 +613,16 @@ class EmploymentContractAPITest extends EndpointTestCase
             ->getMock();
 
         $attachTime = new DateTime();
-        $empAttachment = new EmployeeAttachment();
-        $empAttachment->setAttachment('test');
-        $empAttachment->setAttachId(1);
-        $empAttachment->setFilename('attachment.txt');
-        $empAttachment->setFileType('text/plain');
-        $empAttachment->setSize(6);
-        $empAttachment->setAttachedTime($attachTime);
+        $empAttachment = new PartialEmployeeAttachment(
+            1,
+            null,
+            'attachment.txt',
+            6,
+            'text/plain',
+            null,
+            null,
+            $attachTime
+        );
         $empContractDecorator = $this->getMockBuilder(EmpContractDecorator::class)
             ->onlyMethods(['getContractAttachment'])
             ->setConstructorArgs([$empContract])
@@ -616,6 +642,7 @@ class EmploymentContractAPITest extends EndpointTestCase
                 [
                     'getEmploymentContractDao',
                     'getContractAttachment',
+                    'getContractAttachmentById',
                     'saveContractAttachment',
                     'deleteContractAttachment'
                 ]
@@ -628,19 +655,37 @@ class EmploymentContractAPITest extends EndpointTestCase
         $employee = new Employee();
         $employee->setEmpNumber(1);
         $contractAttachment = new EmployeeAttachment();
+        $contractAttachment->setAttachId(30);
         $contractAttachment->setEmployee($employee);
         $contractAttachment->setFilename('attachment.txt');
         $contractAttachment->setAttachment('text');
         $contractAttachment->setFileType('text/plain');
         $contractAttachment->setSize(1024);
 
+        $partialContractAttachment = new PartialEmployeeAttachment(
+            $contractAttachment->getAttachId(),
+            null,
+            $contractAttachment->getFilename(),
+            $contractAttachment->getSize(),
+            $contractAttachment->getFileType(),
+            null,
+            null,
+            null
+        );
+
         $contractAttachmentMap = [
-            [1, $contractAttachment],
+            [1, $partialContractAttachment],
             [2, null],
         ];
         $employmentContractService->expects($this->once())
             ->method('getContractAttachment')
             ->will($this->returnValueMap($contractAttachmentMap));
+        $employmentContractService->expects($this->once())
+            ->method('getContractAttachmentById')
+            ->will($this->returnValueMap([
+                [1, 30, $contractAttachment],
+                [2, 1, null],
+            ]));
         $employmentContractService->expects($this->once())
             ->method('saveContractAttachment');
 
@@ -674,7 +719,7 @@ class EmploymentContractAPITest extends EndpointTestCase
             ]
         )->onlyMethods(['getEmploymentContractService', 'getUserRoleManager'])
             ->getMock();
-        $api->expects($this->exactly(4))
+        $api->expects($this->exactly(5))
             ->method('getEmploymentContractService')
             ->will($this->returnValue($employmentContractService));
         $api->expects($this->exactly(2))

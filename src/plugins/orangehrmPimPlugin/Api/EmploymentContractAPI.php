@@ -36,6 +36,7 @@ use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\EmpContract;
 use OrangeHRM\Entity\EmployeeAttachment;
 use OrangeHRM\Pim\Api\Model\EmploymentContractModel;
+use OrangeHRM\Pim\Dto\PartialEmployeeAttachment;
 use OrangeHRM\Pim\Service\EmploymentContractService;
 
 class EmploymentContractAPI extends Endpoint implements ResourceEndpoint
@@ -176,26 +177,30 @@ class EmploymentContractAPI extends Endpoint implements ResourceEndpoint
             self::PARAMETER_CURRENT_CONTRACT_ATTACHMENT
         );
 
-        $contractAttachment = $this->getEmploymentContractService()->getContractAttachment($empNumber);
+        $partialContractAttachment = $this->getEmploymentContractService()->getContractAttachment($empNumber);
 
-        if (!$contractAttachment instanceof EmployeeAttachment && $currentContractAttachment) {
+        if (!$partialContractAttachment instanceof PartialEmployeeAttachment && $currentContractAttachment) {
             throw $this->getBadRequestException(
                 "`" . self::PARAMETER_CURRENT_CONTRACT_ATTACHMENT . "` should not define if there is no contract attachment"
             );
-        } elseif ($contractAttachment instanceof EmployeeAttachment && !$currentContractAttachment) {
+        } elseif ($partialContractAttachment instanceof PartialEmployeeAttachment && !$currentContractAttachment) {
             throw $this->getBadRequestException(
                 "`" . self::PARAMETER_CURRENT_CONTRACT_ATTACHMENT . "` should define if there is contract attachment"
             );
         }
 
-        if (!$contractAttachment instanceof EmployeeAttachment && $base64Attachment) {
+        if (!$partialContractAttachment instanceof PartialEmployeeAttachment && $base64Attachment) {
             $contractAttachment = new EmployeeAttachment();
             $contractAttachment->getDecorator()->setEmployeeByEmpNumber($empNumber);
             $this->setAttachmentAttributes($contractAttachment, $base64Attachment);
             $this->getEmploymentContractService()->saveContractAttachment($contractAttachment);
         } elseif ($currentContractAttachment === self::CONTRACT_ATTACHMENT_DELETE_CURRENT) {
+            $contractAttachment = $this->getEmploymentContractService()
+                ->getContractAttachmentById($empNumber, $partialContractAttachment->getAttachId());
             $this->getEmploymentContractService()->deleteContractAttachment($contractAttachment);
         } elseif ($currentContractAttachment === self::CONTRACT_ATTACHMENT_REPLACE_CURRENT) {
+            $contractAttachment = $this->getEmploymentContractService()
+                ->getContractAttachmentById($empNumber, $partialContractAttachment->getAttachId());
             $this->setAttachmentAttributes($contractAttachment, $base64Attachment);
             $this->getEmploymentContractService()->saveContractAttachment($contractAttachment);
         }

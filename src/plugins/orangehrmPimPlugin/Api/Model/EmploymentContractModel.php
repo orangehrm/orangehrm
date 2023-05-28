@@ -40,8 +40,8 @@ class EmploymentContractModel implements Normalizable
                 ['getDecorator', 'getContractAttachment', 'getFileType'],
                 ['getDecorator', 'getContractAttachment', 'getAttachedBy'],
                 ['getDecorator', 'getContractAttachment', 'getAttachedByName'],
-                ['getDecorator', 'getContractAttachment', 'getDecorator', 'getAttachedTime'],
-                ['getDecorator', 'getContractAttachment', 'getDecorator', 'getAttachedDate'],
+                ['getDecorator', 'getContractAttachment', 'getAttachedTime'],
+                ['getDecorator', 'getContractAttachment', 'getAttachedDate'],
             ]
         );
         $this->setAttributeNames(
