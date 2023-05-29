@@ -120,6 +120,8 @@ import usePaginate from '@ohrm/core/util/composable/usePaginate';
 import ReferenceIdAutocomplete from '@/orangehrmClaimPlugin/components/ReferenceIdAutocomplete.vue';
 import ClaimEventDropdown from '@/orangehrmClaimPlugin/components/ClaimEventDropdown.vue';
 import StatusDropdown from '@/orangehrmClaimPlugin/components/StatusDropdown.vue';
+import useLocale from '@/core/util/composable/useLocale';
+import {formatDate, parseDate} from '@ohrm/core/util/helper/datefns';
 import {
   validDateFormat,
   endDateShouldBeAfterStartDate,
@@ -152,6 +154,8 @@ export default {
     const {sortDefinition, sortField, sortOrder, onSort} = useSort({
       sortDefinition: defaultSortOrder,
     });
+    const {locale} = useLocale();
+    const {jsDateFormat, userDateFormat} = useDateFormat();
 
     const serializedFilters = computed(() => {
       return {
@@ -185,7 +189,11 @@ export default {
           status:
             item.status.charAt(0).toUpperCase() +
             item.status.slice(1).toLowerCase(),
-          submittedDate: item.submittedDate,
+          submittedDate: formatDate(
+            parseDate(item.submittedDate),
+            jsDateFormat,
+            {locale},
+          ),
           amount: Number(item.amount).toLocaleString('en-US', {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2,
