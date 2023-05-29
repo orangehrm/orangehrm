@@ -62,4 +62,10 @@ class ClaimDaoExpenseTypeTest extends KernelTestCase
         $result = $this->claimDao->deleteExpenseTypes([1, 2]);
         $this->assertEquals(2, $result);
     }
+
+    public function testIsExpenseTypeUsed(): void
+    {
+        $result = $this->claimDao->isExpenseTypeUsed(1);
+        $this->assertEquals(false, $result);
+    }
 }

@@ -34,7 +34,8 @@
               <oxd-input-field
                 v-model="claimEvent.name"
                 :label="$t('claim.event_name')"
-                disabled
+                :disabled="!canEdit"
+                :rules="rules.name"
                 required
               />
             </oxd-form-row>
@@ -78,7 +79,10 @@
 import {OxdSwitchInput} from '@ohrm/oxd';
 import {navigate} from '@ohrm/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
-import {shouldNotExceedCharLength} from '@ohrm/core/util/validation/rules';
+import {
+  required,
+  shouldNotExceedCharLength,
+} from '@ohrm/core/util/validation/rules';
 
 const initialClaimEvent = {
   name: '',
@@ -111,7 +115,10 @@ export default {
     return {
       isLoading: false,
       claimEvent: {...initialClaimEvent},
+      canEdit: false,
+      name: '',
       rules: {
+        name: [required, shouldNotExceedCharLength(100)],
         description: [shouldNotExceedCharLength(1000)],
       },
     };
@@ -124,12 +131,32 @@ export default {
       .then((response) => {
         const {data} = response.data;
         this.claimEvent = {...data};
+        this.name = data.name;
+        this.canEdit = response.data.meta.canEdit;
       })
       .finally(() => {
         this.isLoading = false;
       });
   },
-
+  created() {
+    this.isLoading = true;
+    this.http
+      .getAll({limit: 0})
+      .then((response) => {
+        const {data} = response.data;
+        this.rules.name.push((value) => {
+          const index = data.findIndex(
+            (item) =>
+              value.trim().toLowerCase() !== this.name &&
+              item.name.toLowerCase() == value.trim().toLowerCase(),
+          );
+          return index === -1 || this.$t('general.already_exists');
+        });
+      })
+      .finally(() => {
+        this.isLoading = false;
+      });
+  },
   methods: {
     onCancel() {
       navigate('/claim/viewEvents');
@@ -138,6 +165,7 @@ export default {
       this.isLoading = true;
       this.http
         .update(this.id, {
+          name: this.canEdit ? this.claimEvent.name : null,
           description: this.claimEvent.description,
           status: this.claimEvent.status,
         })

@@ -491,7 +491,7 @@ GetOne:
         "status": false
       },
     meta: {
-      "total": 1
+      "canEdit": true,
     }
 
   'get one for not existing event':
@@ -545,7 +545,14 @@ Update:
       name: 'event2 updated'
       description: 'sample description updated'
       status: true
-    invalidOnly: [ 'name' ]
+    data:
+        {
+            "id": 4,
+            "name": "event2 updated",
+            "description": "sample description updated",
+            "status": true
+        }
+    meta: [ ]
 
 Delete:
   'with one id':

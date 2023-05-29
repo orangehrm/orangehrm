@@ -53,6 +53,7 @@ class ClaimEventAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_EVENTID = 'eventId';
     public const PARAMETER_IDS = 'ids';
     public const PARAMETER_STATUS = 'status';
+    public const PARAMETER_CAN_CLAIM_EVENT_EDIT = 'canEdit';
     public const DESCRIPTION_MAX_LENGTH = 1000;
     public const NAME_MAX_LENGTH = 100;
 
@@ -310,7 +311,12 @@ class ClaimEventAPI extends Endpoint implements CrudEndpoint
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_ID);
         $claimEvent = $this->getClaimService()->getClaimDao()->getClaimEventById($id);
         $this->throwRecordNotFoundExceptionIfNotExist($claimEvent, ClaimEvent::class);
-        return new EndpointResourceResult(ClaimEventModel::class, $claimEvent);
+        $isUsed = $this->getClaimService()->getClaimDao()->isClaimEventUsed($id);
+        return new EndpointResourceResult(
+            ClaimEventModel::class,
+            $claimEvent,
+            new ParameterBag([self::PARAMETER_CAN_CLAIM_EVENT_EDIT => !$isUsed])
+        );
     }
 
     /**
@@ -336,6 +342,10 @@ class ClaimEventAPI extends Endpoint implements CrudEndpoint
      *     ),
      *     @OA\RequestBody(
      *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="name",
+     *                 type="string"
+     *             ),
      *             @OA\Property(
      *                 property="description",
      *                 type="string"
@@ -366,6 +376,14 @@ class ClaimEventAPI extends Endpoint implements CrudEndpoint
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_ID);
         $claimEvent = $this->getClaimService()->getClaimDao()->getClaimEventById($id);
         $this->throwRecordNotFoundExceptionIfNotExist($claimEvent, ClaimEvent::class);
+        $canNameEdit = !$this->getClaimService()->getClaimDao()->isClaimEventUsed($id);
+        $name = $this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_NAME);
+        if (!$canNameEdit && $name) {
+            throw $this->getInvalidParamException(self::PARAMETER_NAME);
+        }
+        if ($canNameEdit && $name) {
+            $claimEvent->setName($name);
+        }
         $this->setClaimEvent($claimEvent);
         return new EndpointResourceResult(ClaimEventModel::class, $claimEvent);
     }
@@ -391,7 +409,10 @@ class ClaimEventAPI extends Endpoint implements CrudEndpoint
             new ParamRule(
                 self::PARAMETER_STATUS,
                 new Rule(Rules::BOOL_VAL)
-            )
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                $this->getNameRule(true),
+            ),
         );
     }
 }

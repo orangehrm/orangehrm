@@ -129,4 +129,11 @@ class ClaimDaoTest extends KernelTestCase
         $result = $this->claimDao->getNextId();
         $this->assertIsInt($result);
     }
+
+    public function testIsClaimEventUsed(): void
+    {
+        $eventId = 1;
+        $result = $this->claimDao->isClaimEventUsed($eventId);
+        $this->assertEquals(false, $result);
+    }
 }
