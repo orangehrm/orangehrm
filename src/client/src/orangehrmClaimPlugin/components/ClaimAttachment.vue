@@ -78,6 +78,9 @@ import {convertFilesizeToString} from '@ohrm/core/util/helper/filesize';
 import AddAttachmentModal from './AddAttachmentModal.vue';
 import EditAttachmentModal from './EditAttachmentModal.vue';
 import useEmployeeNameTranslate from '@/core/util/composable/useEmployeeNameTranslate';
+import useLocale from '@/core/util/composable/useLocale';
+import {formatDate, parseDate} from '@ohrm/core/util/helper/datefns';
+import useDateFormat from '@/core/util/composable/useDateFormat';
 
 export default {
   name: 'ClaimAttachment',
@@ -106,6 +109,8 @@ export default {
     },
   },
   setup(props) {
+    const {locale} = useLocale();
+    const {jsDateFormat} = useDateFormat();
     const http = new APIService(
       window.appGlobal.baseUrl,
       `/api/v2/claim/requests/${props.requestId}/attachments`,
@@ -116,7 +121,9 @@ export default {
       return data.map((item) => {
         return {
           id: item.id,
-          attachedDate: item.date ? item.date : '',
+          attachedDate: item.date
+            ? formatDate(parseDate(item.date), jsDateFormat, {locale})
+            : '',
           filename: item.attachment.fileName ?? '',
           size: item.attachment.size
             ? convertFilesizeToString(item.attachment.size, 2)

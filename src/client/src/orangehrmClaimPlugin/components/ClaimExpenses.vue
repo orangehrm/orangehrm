@@ -80,6 +80,9 @@ import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmatio
 import {computed} from 'vue';
 import AddExpenseModal from './AddExpenseModal.vue';
 import EditExpenseModal from './EditExpenseModal.vue';
+import useLocale from '@/core/util/composable/useLocale';
+import {formatDate, parseDate} from '@ohrm/core/util/helper/datefns';
+import useDateFormat from '@/core/util/composable/useDateFormat';
 
 export default {
   name: 'ClaimExpenses',
@@ -104,6 +107,8 @@ export default {
     },
   },
   setup(props) {
+    const {locale} = useLocale();
+    const {jsDateFormat} = useDateFormat();
     const http = new APIService(
       window.appGlobal.baseUrl,
       `/api/v2/claim/requests/${props.requestId}/expenses`,
@@ -113,7 +118,9 @@ export default {
       return data.map((item) => {
         return {
           id: item.id,
-          date: item.date ? item.date : '',
+          date: item.date
+            ? formatDate(parseDate(item.date), jsDateFormat, {locale})
+            : '',
           amount: item.amount ? item.amount.toFixed(2) : '0.00',
           note: item.note ? item.note : '',
           expenseType: item.expenseType ? item.expenseType.name : '',
