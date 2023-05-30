@@ -155,7 +155,7 @@ export default {
       sortDefinition: defaultSortOrder,
     });
     const {locale} = useLocale();
-    const {jsDateFormat, userDateFormat} = useDateFormat();
+    const {jsDateFormat} = useDateFormat();
 
     const serializedFilters = computed(() => {
       return {
