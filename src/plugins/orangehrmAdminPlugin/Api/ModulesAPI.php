@@ -224,12 +224,9 @@ class ModulesAPI extends Endpoint implements CrudEndpoint
     public function update(): EndpointResourceResult
     {
         $modules = self::CONFIGURABLE_MODULES;
-        foreach ($modules as $key => $module) {
-            if ($key === self::PARAMETER_CLAIM) {
-                $modules[$key] = $this->getRequestParams()->getBoolean(RequestParams::PARAM_TYPE_BODY, $key, false);
-            } else {
-                $modules[$key] = $this->getRequestParams()->getBoolean(RequestParams::PARAM_TYPE_BODY, $key, true);
-            }
+        foreach (self::CONFIGURABLE_MODULES as $key => $module) {
+            $modules[$key] = $this->getRequestParams()
+                    ->getBoolean(RequestParams::PARAM_TYPE_BODY, $key, self::CONFIGURABLE_MODULES[$key]);
         }
         $this->getModuleService()->updateModuleStatus($modules);
         $this->getMenuService()->invalidateCachedMenuItems();
