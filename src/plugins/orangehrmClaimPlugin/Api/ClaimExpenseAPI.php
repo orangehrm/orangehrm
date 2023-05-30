@@ -188,7 +188,7 @@ class ClaimExpenseAPI extends Endpoint implements CrudEndpoint
     /**
      * @param ClaimExpense $claimExpense
      */
-    public function setClaimExpense(ClaimExpense $claimExpense): void
+    public function setClaimExpense(ClaimExpense $claimExpense, bool $isEdit = false): void
     {
         $this->beginTransaction();
         try {
@@ -205,15 +205,19 @@ class ClaimExpenseAPI extends Endpoint implements CrudEndpoint
                 RequestParams::PARAM_TYPE_BODY,
                 self::PARAMETER_EXPENSE_TYPE_ID
             );
-            $expenseType = $this->getClaimService()
-                ->getClaimDao()
-                ->getExpenseTypeById($expenseTypeId);
 
-            if (!$expenseType instanceof ExpenseType || !$expenseType->getStatus()) {
-                throw $this->getInvalidParamException(self::PARAMETER_EXPENSE_TYPE_ID);
+            if (!$isEdit || $expenseTypeId !== $claimExpense->getExpenseType()->getId()) {
+                $expenseType = $this->getClaimService()
+                    ->getClaimDao()
+                    ->getExpenseTypeById($expenseTypeId);
+
+                if (!$expenseType instanceof ExpenseType || !$expenseType->getStatus()) {
+                    throw $this->getInvalidParamException(self::PARAMETER_EXPENSE_TYPE_ID);
+                }
+
+                $claimExpense->getDecorator()->setExpenseTypeByExpenseTypeId($expenseTypeId);
             }
 
-            $claimExpense->getDecorator()->setExpenseTypeByExpenseTypeId($expenseTypeId);
             $claimExpense->setDate(
                 $this->getRequestParams()
                     ->getDateTime(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_DATE)
@@ -434,7 +438,7 @@ class ClaimExpenseAPI extends Endpoint implements CrudEndpoint
             ->getClaimDao()
             ->getClaimRequestExpense($requestId, $claimExpenseId);
         $this->throwRecordNotFoundExceptionIfNotExist($claimExpense, ClaimExpense::class);
-        $this->setClaimExpense($claimExpense);
+        $this->setClaimExpense($claimExpense, true);
         return new EndpointResourceResult(ClaimExpenseModel::class, $claimExpense);
     }
 
