@@ -68,6 +68,7 @@ class ClaimExpenseAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_REQUEST_ID = 'requestId';
     public const NOTE_MAX_LENGTH = 1000;
     public const PARAMETER_TOTAL_AMOUNT = 'totalAmount';
+    private const AMOUNT_VALIDATOR = '/^\d+(\.\d{1,2})?$/';
 
     /**
      * @OA\Get(
@@ -224,7 +225,7 @@ class ClaimExpenseAPI extends Endpoint implements CrudEndpoint
             );
 
             $amount = $this->getRequestParams()->getFloat(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_AMOUNT);
-            if (!preg_match('/^\d+(\.\d{1,2})?$/', $amount)) {
+            if (!preg_match(self::AMOUNT_VALIDATOR, $amount)) {
                 throw $this->getInvalidParamException(self::PARAMETER_AMOUNT);
             }
             $claimExpense->setAmount($amount);

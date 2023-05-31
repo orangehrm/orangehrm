@@ -295,7 +295,10 @@ class ClaimExpenseTypeAPI extends Endpoint implements CrudEndpoint
      *                 property="data",
      *                 ref="#/components/schemas/Claim-ExpenseTypeModel"
      *             ),
-     *             @OA\Property(property="meta", type="object")
+     *             @OA\Property(property="meta",
+     *                 type="object",
+     *                 @OA\Property(property="canEdit", type="boolean")
+     *             )
      *         )
      *     ),
      *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
@@ -375,10 +378,10 @@ class ClaimExpenseTypeAPI extends Endpoint implements CrudEndpoint
         $this->throwRecordNotFoundExceptionIfNotExist($expenseType, ExpenseType::class);
         $canNameEdit = !$this->getClaimService()->getClaimDao()->isExpenseTypeUsed($id);
         $name = $this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_NAME);
-        if (!$canNameEdit && $name) {
+        if (!$canNameEdit && $name !== null) {
             throw $this->getInvalidParamException(self::PARAMETER_NAME);
         }
-        if ($canNameEdit && $name) {
+        if ($canNameEdit && $name !== null) {
             $expenseType->setName($name);
         }
         $this->setExpenseType($expenseType);

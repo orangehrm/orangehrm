@@ -540,10 +540,9 @@ class ClaimDao extends BaseDao
     public function isClaimEventUsed(int $eventId): bool
     {
         $qb = $this->createQueryBuilder(ClaimRequest::class, 'claimRequest');
-        $qb->select('count(claimRequest.id)');
         $qb->andWhere('claimRequest.claimEvent = :eventId');
         $qb->setParameter('eventId', $eventId);
-        return $qb->getQuery()->getSingleScalarResult() > 0;
+        return $this->getPaginator($qb)->count() > 0;
     }
 
     /**
@@ -554,9 +553,8 @@ class ClaimDao extends BaseDao
     {
         $qb = $this->createQueryBuilder(ClaimExpense::class, 'claimExpense');
         $qb->leftJoin('claimExpense.expenseType', 'expenseType');
-        $qb->select('count(claimExpense.id)');
         $qb->andWhere('claimExpense.expenseType = :expenseTypeId');
         $qb->setParameter('expenseTypeId', $expenseTypeId);
-        return $qb->getQuery()->getSingleScalarResult() > 0;
+        return $this->getPaginator($qb)->count() > 0;
     }
 }
