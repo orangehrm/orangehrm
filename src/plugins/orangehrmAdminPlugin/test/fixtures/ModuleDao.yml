@@ -6,6 +6,7 @@ Module:
   4: {id: 5, name: 'recruitment', status: 1, displayName: 'Recruitment'}
   5: {id: 6, name: 'performance', status: 1, displayName: 'Performance'}
   6: {id: 7, name: 'maintenance', status: 0, displayName: 'Maintenance'}
+  7: {id: 9, name: 'claim', status: 1, displayName: 'Claim'}
 
 Employee:
   0: {empNumber: 1, emp_firstname: 'Devi', emp_lastname: 'DS', employee_id: 'E001'}

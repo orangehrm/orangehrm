@@ -7,6 +7,7 @@ Module:
   - { id: 6, name: 'performance', status: 1, displayName: 'Performance' }
   - { id: 7, name: 'directory', status: 1, displayName: 'Directory' }
   - { id: 8, name: 'maintenance', status: 0, displayName: 'Maintenance' }
+  - { id: 9, name: 'claim', status: 1, displayName: 'Claim' }
 
 Employee:
   - { empNumber: 1, emp_firstname: 'Lynda', emp_lastname: 'Jane', employee_id: '0001' }

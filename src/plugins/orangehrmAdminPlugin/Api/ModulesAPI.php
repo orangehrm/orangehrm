@@ -46,6 +46,7 @@ class ModulesAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_MAINTENANCE = 'maintenance';
     public const PARAMETER_MOBILE = 'mobile';
     public const PARAMETER_DIRECTORY = 'directory';
+    public const PARAMETER_CLAIM = 'claim';
 
     /**
      * @var ModuleService|null
@@ -65,6 +66,7 @@ class ModulesAPI extends Endpoint implements CrudEndpoint
         self::PARAMETER_MAINTENANCE => false,
         self::PARAMETER_MOBILE => false,
         self::PARAMETER_DIRECTORY => false,
+        self::PARAMETER_CLAIM => false,
     ];
 
     /**
@@ -100,7 +102,8 @@ class ModulesAPI extends Endpoint implements CrudEndpoint
      *                     @OA\Property(property="performance", type="boolean"),
      *                     @OA\Property(property="maintenance", type="boolean"),
      *                     @OA\Property(property="mobile", type="boolean"),
-     *                     @OA\Property(property="directory", type="boolean")
+     *                     @OA\Property(property="directory", type="boolean"),
+     *                     @OA\Property(property="claim", type="boolean"),
      *                 ),
      *                 example="admin: true, pim: true, leave: false, time: true,...",
      *             )
@@ -196,7 +199,8 @@ class ModulesAPI extends Endpoint implements CrudEndpoint
      *             @OA\Property(property="performance", type="boolean"),
      *             @OA\Property(property="maintenance", type="boolean"),
      *             @OA\Property(property="mobile", type="boolean"),
-     *             @OA\Property(property="directory", type="boolean")
+     *             @OA\Property(property="directory", type="boolean"),
+     *             @OA\Property(property="claim", type="boolean")
      *         )
      *     ),
      *     @OA\Response(response="200",
@@ -220,8 +224,9 @@ class ModulesAPI extends Endpoint implements CrudEndpoint
     public function update(): EndpointResourceResult
     {
         $modules = self::CONFIGURABLE_MODULES;
-        foreach ($modules as $key => $module) {
-            $modules[$key] = $this->getRequestParams()->getBoolean(RequestParams::PARAM_TYPE_BODY, $key, true);
+        foreach (self::CONFIGURABLE_MODULES as $key => $module) {
+            $modules[$key] = $this->getRequestParams()
+                    ->getBoolean(RequestParams::PARAM_TYPE_BODY, $key, self::CONFIGURABLE_MODULES[$key]);
         }
         $this->getModuleService()->updateModuleStatus($modules);
         $this->getMenuService()->invalidateCachedMenuItems();
@@ -277,6 +282,12 @@ class ModulesAPI extends Endpoint implements CrudEndpoint
                 self::PARAMETER_DIRECTORY,
                 new Rule(Rules::BOOL_TYPE),
             ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_CLAIM,
+                    new Rule(Rules::BOOL_TYPE),
+                )
+            )
         );
     }
 

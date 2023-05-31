@@ -13,7 +13,8 @@ GetAll:
       performance: true,
       maintenance: false,
       mobile: false,
-      directory: true
+      directory: true,
+      claim: true
     }
 
   'unexpected param':
@@ -37,7 +38,8 @@ Update:
       performance: false,
       maintenance: false,
       mobile: false,
-      directory: false
+      directory: false,
+      claim: false
     }
 
   'all modules enabled':
@@ -55,7 +57,8 @@ Update:
       performance: true,
       maintenance: true,
       mobile: true,
-      directory: true
+      directory: true,
+      claim: false
     }
 
   'all modules disabled':
@@ -94,7 +97,8 @@ Update:
       performance: false,
       maintenance: false,
       mobile: false,
-      directory: false
+      directory: false,
+      claim: false
     }
 
   'not submitting pim module':
@@ -112,7 +116,8 @@ Update:
       performance: false,
       maintenance: false,
       mobile: false,
-      directory: false
+      directory: false,
+      claim: false
     }
 
   'not submitting any not required module':
@@ -142,3 +147,30 @@ Update:
       core.menu_service: OrangeHRM\Core\Service\MenuService
     body: { admin: true, leave: 'test', time: false, recruitment: false, performance: false, maintenance: false, mobile: false, directory: false }
     invalidOnly: [ leave ]
+
+  'submitting with claim module':
+    userId: 1
+    services:
+      core.menu_service: OrangeHRM\Core\Service\MenuService
+      oauth.oauth_service: OrangeHRM\OAuth\Service\OAuthService
+    body: { admin: true, leave: false, time: false, recruitment: false, performance: false, maintenance: false, mobile: false, directory: false, claim: true }
+    data: {
+      admin: true,
+      pim: true,
+      leave: false,
+      time: false,
+      recruitment: false,
+      performance: false,
+      maintenance: false,
+      mobile: false,
+      directory: false,
+      claim: true
+    }
+
+  'submitting with invalid data for claim module':
+    userId: 1
+    services:
+      core.menu_service: OrangeHRM\Core\Service\MenuService
+      oauth.oauth_service: OrangeHRM\OAuth\Service\OAuthService
+    body: { admin: true, leave: false, time: false, recruitment: false, performance: false, maintenance: false, mobile: false, directory: false, claim: 1 }
+    invalidOnly: [ claim ]

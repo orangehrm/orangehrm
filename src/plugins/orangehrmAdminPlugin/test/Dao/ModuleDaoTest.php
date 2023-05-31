@@ -49,7 +49,7 @@ class ModuleDaoTest extends TestCase
     public function testGetModuleList(): void
     {
         $moduleList = $this->moduleDao->getModuleList();
-        $this->assertEquals(7, count($moduleList));
+        $this->assertCount(8, $moduleList);
         $this->assertTrue($moduleList[0] instanceof Module);
         $this->assertEquals('admin', $moduleList[0]->getName());
         $this->assertEquals(1, $moduleList[0]->getStatus());
@@ -68,17 +68,17 @@ class ModuleDaoTest extends TestCase
     public function testUpdateModuleStatusForReturnedValues(): void
     {
         $moduleUpdateArray = ['admin' => true, 'pim' => false];
-        $returedObjects = $this->moduleDao->updateModuleStatus($moduleUpdateArray);
-        $this->assertEquals(7, count($returedObjects));
-        $this->assertTrue($returedObjects[0]->getStatus());
-        $this->assertFalse($returedObjects[1]->getStatus());
+        $returnedObjects = $this->moduleDao->updateModuleStatus($moduleUpdateArray);
+        $this->assertCount(8, $returnedObjects);
+        $this->assertTrue($returnedObjects[0]->getStatus());
+        $this->assertFalse($returnedObjects[1]->getStatus());
     }
 
     public function testUpdateModuleStatusWithModulesDoesNotExists(): void
     {
         $moduleUpdateArray = ['admin' => true, 'pim' => false, 'test' => true];
         $returedObjects = $this->moduleDao->updateModuleStatus($moduleUpdateArray);
-        $this->assertEquals(7, count($returedObjects));
+        $this->assertCount(8, $returedObjects);
         foreach ($returedObjects as $returedObject) {
             $this->assertTrue($returedObject->getName() != 'test');
         }
