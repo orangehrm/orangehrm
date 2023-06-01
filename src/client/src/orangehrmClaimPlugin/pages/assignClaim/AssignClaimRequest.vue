@@ -95,6 +95,7 @@
 import {
   required,
   shouldNotExceedCharLength,
+  validSelection,
 } from '@/core/util/validation/rules';
 import {APIService} from '@ohrm/core/util/services/api.service';
 import {navigate} from '@ohrm/core/util/helper/navigation';
@@ -141,7 +142,7 @@ export default {
       request: {...claimRequest},
       id: 0,
       rules: {
-        employee: [required],
+        employee: [required, validSelection],
         event: [required],
         currency: [required],
         remarks: [shouldNotExceedCharLength(1000)],

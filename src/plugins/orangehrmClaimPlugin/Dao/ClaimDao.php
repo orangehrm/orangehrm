@@ -532,4 +532,29 @@ class ClaimDao extends BaseDao
         $criteria = ['requestId' => $requestId, 'attachId' => $attachId];
         return $this->getRepository(ClaimAttachment::class)->findOneBy($criteria);
     }
+
+    /**
+     * @param int $eventId
+     * @return bool
+     */
+    public function isClaimEventUsed(int $eventId): bool
+    {
+        $qb = $this->createQueryBuilder(ClaimRequest::class, 'claimRequest');
+        $qb->andWhere('claimRequest.claimEvent = :eventId');
+        $qb->setParameter('eventId', $eventId);
+        return $this->getPaginator($qb)->count() > 0;
+    }
+
+    /**
+     * @param int $expenseTypeId
+     * @return bool
+     */
+    public function isExpenseTypeUsed(int $expenseTypeId): bool
+    {
+        $qb = $this->createQueryBuilder(ClaimExpense::class, 'claimExpense');
+        $qb->leftJoin('claimExpense.expenseType', 'expenseType');
+        $qb->andWhere('claimExpense.expenseType = :expenseTypeId');
+        $qb->setParameter('expenseTypeId', $expenseTypeId);
+        return $this->getPaginator($qb)->count() > 0;
+    }
 }

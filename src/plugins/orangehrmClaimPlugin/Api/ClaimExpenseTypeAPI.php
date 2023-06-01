@@ -51,6 +51,7 @@ class ClaimExpenseTypeAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_STATUS = 'status';
     public const DESCRIPTION_MAX_LENGTH = 1000;
     public const NAME_MAX_LENGTH = 100;
+    public const PARAMETER_CAN_EXPENSE_TYPE_EDIT = 'canEdit';
 
     /**
      * @OA\Get(
@@ -294,7 +295,10 @@ class ClaimExpenseTypeAPI extends Endpoint implements CrudEndpoint
      *                 property="data",
      *                 ref="#/components/schemas/Claim-ExpenseTypeModel"
      *             ),
-     *             @OA\Property(property="meta", type="object")
+     *             @OA\Property(property="meta",
+     *                 type="object",
+     *                 @OA\Property(property="canEdit", type="boolean")
+     *             )
      *         )
      *     ),
      *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
@@ -307,7 +311,12 @@ class ClaimExpenseTypeAPI extends Endpoint implements CrudEndpoint
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $expenseType = $this->getClaimService()->getClaimDao()->getExpenseTypeById($id);
         $this->throwRecordNotFoundExceptionIfNotExist($expenseType, ExpenseType::class);
-        return new EndpointResourceResult(ClaimExpenseTypeModel::class, $expenseType);
+        $isUsed = $this->getClaimService()->getClaimDao()->isExpenseTypeUsed($id);
+        return new EndpointResourceResult(
+            ClaimExpenseTypeModel::class,
+            $expenseType,
+            new ParameterBag([self::PARAMETER_CAN_EXPENSE_TYPE_EDIT => !$isUsed])
+        );
     }
 
     /**
@@ -333,6 +342,10 @@ class ClaimExpenseTypeAPI extends Endpoint implements CrudEndpoint
      *     ),
      *     @OA\RequestBody(
      *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="name",
+     *                 type="string"
+     *             ),
      *             @OA\Property(
      *                 property="description",
      *                 type="string"
@@ -363,6 +376,14 @@ class ClaimExpenseTypeAPI extends Endpoint implements CrudEndpoint
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $expenseType = $this->getClaimService()->getClaimDao()->getExpenseTypeById($id);
         $this->throwRecordNotFoundExceptionIfNotExist($expenseType, ExpenseType::class);
+        $canNameEdit = !$this->getClaimService()->getClaimDao()->isExpenseTypeUsed($id);
+        $name = $this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_NAME);
+        if (!$canNameEdit && $name !== null) {
+            throw $this->getInvalidParamException(self::PARAMETER_NAME);
+        }
+        if ($canNameEdit && $name !== null) {
+            $expenseType->setName($name);
+        }
         $this->setExpenseType($expenseType);
         $this->getClaimService()->getClaimDao()->saveExpenseType($expenseType);
         return new EndpointResourceResult(ClaimExpenseTypeModel::class, $expenseType);
@@ -389,7 +410,10 @@ class ClaimExpenseTypeAPI extends Endpoint implements CrudEndpoint
             new ParamRule(
                 self::PARAMETER_STATUS,
                 new Rule(Rules::BOOL_VAL)
-            )
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                $this->getNameRule(),
+            ),
         );
     }
 }

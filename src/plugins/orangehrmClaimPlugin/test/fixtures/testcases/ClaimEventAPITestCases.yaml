@@ -532,7 +532,7 @@ GetOne:
         "status": false
       },
     meta: {
-      "total": 1
+      "canEdit": true
     }
 
   'get one for not existing event':
@@ -576,7 +576,7 @@ Update:
       class: 'OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException'
       message: 'Record Not Found'
 
-  "update an claim event with name":
+  "update an not used claim event with name":
     userId: 1
     services:
       claim.claim_service: OrangeHRM\Claim\Service\ClaimService
@@ -586,7 +586,31 @@ Update:
       name: 'event2 updated'
       description: 'sample description updated'
       status: true
-    invalidOnly: [ 'name' ]
+    data: {
+      "id": 4,
+      "name": "event2 updated",
+      "description": "sample description updated",
+      "status": true
+    }
+    meta: [ ]
+
+  "update an claim event with null name":
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    attributes:
+      id: 4
+    body:
+      name: null
+      description: 'sample description updated'
+      status: true
+    data: {
+      "id": 4,
+      "name": "Auto insurance claim",
+      "description": "sample description updated",
+      "status": true
+    }
+    meta: [ ]
 
 Delete:
   'with one id':

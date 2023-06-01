@@ -134,7 +134,8 @@ import {validDateFormat} from '@/core/util/validation/rules';
 import useDateFormat from '@/core/util/composable/useDateFormat';
 import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete.vue';
 import useEmployeeNameTranslate from '@/core/util/composable/useEmployeeNameTranslate';
-
+import useLocale from '@/core/util/composable/useLocale';
+import {formatDate, parseDate} from '@ohrm/core/util/helper/datefns';
 import {
   validSelection,
   endDateShouldBeAfterStartDate,
@@ -176,6 +177,8 @@ export default {
     const {sortDefinition, sortField, sortOrder, onSort} = useSort({
       sortDefinition: defaultSortOrder,
     });
+    const {locale} = useLocale();
+    const {jsDateFormat} = useDateFormat();
 
     const serializedFilters = computed(() => {
       return {
@@ -211,7 +214,11 @@ export default {
           status:
             item.status.charAt(0).toUpperCase() +
             item.status.slice(1).toLowerCase(),
-          submittedDate: item.submittedDate,
+          submittedDate: formatDate(
+            parseDate(item.submittedDate),
+            jsDateFormat,
+            {locale},
+          ),
           amount: Number(item.amount).toLocaleString('en-US', {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2,
