@@ -26,6 +26,7 @@ Update:
         id: 1
         name: Office Rent
         isDeleted: false
+        status: true
       currencyType:
         id: CAD
         name: Canadian Dollar
@@ -59,6 +60,7 @@ Update:
         id: 3
         name: Travel Expenses
         isDeleted: false
+        status: false
       currencyType:
         id: USD
         name: United States Dollar
@@ -90,6 +92,7 @@ Update:
         id: 1
         name: Office Rent
         isDeleted: false
+        status: true
       currencyType:
         id: CAD
         name: Canadian Dollar
@@ -229,6 +232,7 @@ Update:
         id: 1
         name: Office Rent
         isDeleted: false
+        status: true
       currencyType:
         id: USD
         name: United States Dollar
@@ -284,6 +288,7 @@ Update:
         id: 1
         name: Office Rent
         isDeleted: false
+        status: true
       currencyType:
         id: USD
         name: United States Dollar
@@ -315,6 +320,7 @@ Update:
         id: 1
         name: Office Rent
         isDeleted: false
+        status: true
       currencyType:
         id: USD
         name: United States Dollar
@@ -414,6 +420,7 @@ Update:
         id: 1
         name: Office Rent
         isDeleted: false
+        status: true
       currencyType:
         id: USD
         name: United States Dollar

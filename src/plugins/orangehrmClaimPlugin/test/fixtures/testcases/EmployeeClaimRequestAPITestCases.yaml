@@ -25,6 +25,7 @@ Create:
         id: 1
         name: Office Rent
         isDeleted: false
+        status: true
       currencyType:
         id: CAD
         name: Canadian Dollar
@@ -100,6 +101,7 @@ Create:
         id: 2
         name: Employee Salaries
         isDeleted: false
+        status: true
       currencyType:
         id: USD
         name: United States Dollar
@@ -133,6 +135,7 @@ Create:
         id: 2
         name: Employee Salaries
         isDeleted: false
+        status: true
       currencyType:
         id: USD
         name: United States Dollar
@@ -225,7 +228,8 @@ GetOne:
         "claimEvent": {
           "id": 3,
           "name": "Travel Expenses",
-          "isDeleted": false
+          "isDeleted": false,
+          "status": false
         },
         "currencyType": {
           "id": "USD",
@@ -274,7 +278,8 @@ GetOne:
         "claimEvent": {
           "id": 3,
           "name": "Travel Expenses",
-          "isDeleted": false
+          "isDeleted": false,
+          "status": false
         },
         "currencyType": {
           "id": "USD",
@@ -314,7 +319,8 @@ GetOne:
         "claimEvent": {
           "id": 3,
           "name": "Travel Expenses",
-          "isDeleted": false
+          "isDeleted": false,
+          "status": false
         },
         "currencyType": {
           "id": "USD",

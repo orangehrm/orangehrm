@@ -22,6 +22,7 @@ Create:
         id: 1
         name: transport
         isDeleted: false
+        status: true
       amount: 7000.0
       note: sample note
       date: "2023-02-20"
@@ -50,6 +51,7 @@ Create:
         id: 1
         name: transport
         isDeleted: false
+        status: true
       amount: 7000.0
       note: sample note
       date: "2023-02-20"
@@ -120,6 +122,7 @@ Create:
         id: 1
         name: transport
         isDeleted: false
+        status: true
       amount: 7000.0
       note: sample note
       date: "2023-02-20"
@@ -148,6 +151,7 @@ Create:
         id: 1
         name: transport
         isDeleted: false
+        status: true
       amount: 9999999999.99
       note: sample note
       date: "2023-02-20"
@@ -274,6 +278,7 @@ Create:
         id: 1
         name: transport
         isDeleted: false
+        status: true
       amount: 7000
       note: null
       date: "2023-02-20"
@@ -302,6 +307,7 @@ Create:
           id: 1
           name: transport
           isDeleted: false
+          status: true
         amount: 7000
         note: null
         date: "2023-02-20"
@@ -368,7 +374,8 @@ GetAll:
         "expenseType": {
           "id": 1,
           "name": "transport",
-          "isDeleted": false
+          "isDeleted": false,
+          "status": true
         },
         "amount": 100,
         "note": "Travel expenses for business trip to New York",
@@ -379,7 +386,8 @@ GetAll:
         "expenseType": {
           "id": 2,
           "name": "medical",
-          "isDeleted": false
+          "isDeleted": false,
+          "status": true
         },
         "amount": 200,
         "note": "Marketing expenses for trade show",
@@ -424,6 +432,7 @@ GetOne:
         id: 1
         name: transport
         isDeleted: false
+        status: true
       amount: 100.0
       note: Travel expenses for business trip to New York
       date: "2022-12-01"
@@ -483,6 +492,7 @@ Update:
         id: 2
         name: medical
         isDeleted: false
+        status: true
       amount: 7000.0
       note: sample note
       date: "2023-02-20"
@@ -512,6 +522,7 @@ Update:
         id: 2
         name: medical
         isDeleted: false
+        status: true
       amount: 7000.0
       note: sample note
       date: "2023-02-20"
@@ -603,6 +614,7 @@ Update:
         id: 2
         name: medical
         isDeleted: false
+        status: true
       amount: 7000.0
       note: null
       date: "2023-02-20"
@@ -692,6 +704,7 @@ Update:
         id: 2
         name: medical
         isDeleted: false
+        status: true
       amount: 7000.0
       note: null
       date: "2023-02-20"
@@ -721,6 +734,7 @@ Update:
         id: 2
         name: medical
         isDeleted: false
+        status: true
       amount: 7000.0
       note: null
       date: "2023-02-20"

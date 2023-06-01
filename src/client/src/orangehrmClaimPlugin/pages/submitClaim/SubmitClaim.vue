@@ -171,7 +171,9 @@ export default {
     },
     formattedEventName() {
       return this.claimEvent.isDeleted
-        ? `${this.claimEvent.name} ${this.$t('claim.deleted_event')}`
+        ? `${this.claimEvent.name} (${this.$t('claim.deleted_event')})`
+        : !this.claimEvent.status
+        ? `${this.claimEvent.name} (${this.$t('claim.inactive_event')})`
         : this.claimEvent.name;
     },
   },
