@@ -57,6 +57,45 @@ class CandidateHistoryAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_RULE_NOTE_MAX_LENGTH = 2000;
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/recruitment/candidates/{candidateId}/history",
+     *     tags={"Recuirtment/Candidate History"},
+     *     @OA\PathParameter(
+     *         name="candidateId",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         name="actionId",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         name="candidateId",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(ref="#/components/parameters/sortOrder"),
+     *     @OA\Parameter(ref="#/components/parameters/limit"),
+     *     @OA\Parameter(ref="#/components/parameters/offset"),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="object",
+     *                 @OA\Schema(ref="#/components/schemas/Recruitment-CandidateHistoryListModel"),
+     *             ),
+     *             @OA\Property(
+     *                 property="meta",
+     *                 type="object",
+     *                 @OA\Property(property="total", type="integer")
+     *             )
+     *         )
+     *     )
+     * )
      * @inheritDoc
      */
     public function getAll(): EndpointResult
@@ -140,6 +179,30 @@ class CandidateHistoryAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/recruitment/candidates/{candidateId}/history/{historyId}",
+     *     tags={"Recuirtment/Candidate History"},
+     *     @OA\PathParameter(
+     *         name="candidateId",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\PathParameter(
+     *         name="historyId",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Recruitment-CandidateHistoryDetailedModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object", @OA\Property(property="disabled", type="boolean"))
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
+     * )
      * @inheritDoc
      */
     public function getOne(): EndpointResult
@@ -193,6 +256,36 @@ class CandidateHistoryAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Put(
+     *     path="/api/v2/recruitment/candidates/{candidateId}/history/{historyId}",
+     *     tags={"Recuirtment/Candidate History"},
+     *     @OA\PathParameter(
+     *         name="candidateId",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\PathParameter(
+     *         name="historyId",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="note", type="string"),
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Recruitment-CandidateHistoryDetailedModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
+     * )
      * @inheritDoc
      */
     public function update(): EndpointResult

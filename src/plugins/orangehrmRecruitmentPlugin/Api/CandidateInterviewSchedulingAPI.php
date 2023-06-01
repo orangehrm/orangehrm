@@ -87,9 +87,37 @@ class CandidateInterviewSchedulingAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Post(
+     *     path="/api/v2/recruitment/candidates/{candidateId}/shedule-interview",
+     *     tags={"Recuirtment/Candidate Workflow"},
+     *     @OA\PathParameter(
+     *         name="candidateId",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="interviewName", type="string"),
+     *             @OA\Property(property="interviewDate", type="string", format="date"),
+     *             @OA\Property(property="interviewTime", type="string", format="time"),
+     *             @OA\Property(property="note", type="string"),
+     *             @OA\Property(property="interviewerEmpNumbers", type="array", @OA\Items(type="integer")),
+     *             required={"interviewName", "interviewDate", "interviewerEmpNumbers"}
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Recruitment-CandidateInterviewModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object", @OA\Property(property="historyId", type="integer"))
+     *         )
+     *     )
+     * )
      * @inheritDoc
-     * @throws TransactionException
-     * @throws BadRequestException
      */
     public function create(): EndpointResult
     {
@@ -287,6 +315,30 @@ class CandidateInterviewSchedulingAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/recruitment/candidates/{candidateId}/interview/{interviewId}",
+     *     tags={"Recuirtment/Candidate Interview"},
+     *     @OA\PathParameter(
+     *         name="candidateId",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\PathParameter(
+     *         name="interviewId",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Recruitment-CandidateInterviewModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
+     * )
      * @inheritDoc
      */
     public function getOne(): EndpointResult
@@ -330,6 +382,41 @@ class CandidateInterviewSchedulingAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Put(
+     *     path="/api/v2/recruitment/candidate/{candidateId}/interview/{interviewId}",
+     *     tags={"Recuirtment/Candidate Interview"},
+     *     @OA\PathParameter(
+     *         name="candidateId",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\PathParameter(
+     *         name="interviewId",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="interviewName", type="string"),
+     *             @OA\Property(property="interviewDate", type="string", format="date"),
+     *             @OA\Property(property="interviewTime", type="string", format="time"),
+     *             @OA\Property(property="note", type="string"),
+     *             @OA\Property(property="interviewerEmpNumbers", type="array", @OA\Items(type="integer")),
+     *             required={"interviewName", "interviewDate", "interviewerEmpNumbers"}
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Recruitment-CandidateInterviewModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
+     * )
      * @inheritDoc
      */
     public function update(): EndpointResult
