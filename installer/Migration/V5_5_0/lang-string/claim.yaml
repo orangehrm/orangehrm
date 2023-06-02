@@ -90,14 +90,14 @@ langStrings:
     value: "Employee Claims"
     unitId: employee_claims
   -
-    value: "Deleted Type"
-    unitId: deleted_type
+    value: "Deleted Expense Type"
+    unitId: deleted_expense_type
   -
     value: "Deleted Event"
     unitId: deleted_event
   -
-    value: "Inactive Type"
-    unitId: inactive_type
+    value: "Inactive Expense Type"
+    unitId: inactive_expense_type
   -
     value: "Inactive Event"
     unitId: inactive_event

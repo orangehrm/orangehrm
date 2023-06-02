@@ -175,9 +175,13 @@ export default {
         this.selectedOption = {
           id: data.expenseType.id,
           label: data.expenseType.isDeleted
-            ? `${data.expenseType.name} (${this.$t('claim.deleted_type')})`
+            ? `${data.expenseType.name} (${this.$t(
+                'claim.deleted_expense_type',
+              )})`
             : !data.expenseType.status
-            ? `${data.expenseType.name} (${this.$t('claim.inactive_type')})`
+            ? `${data.expenseType.name} (${this.$t(
+                'claim.inactive_expense_type',
+              )})`
             : data.expenseType.name,
         };
       })
