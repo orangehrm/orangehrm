@@ -77,6 +77,7 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_TO_DATE = 'toDate';
     public const PARAMETER_MODEL = 'model';
     public const MODEL_DEFAULT = 'default';
+    public const FILTER_INCLUDE_EMPLOYEES = 'includeEmployees';
     public const MODEL_SUMMARY = 'summary';
     public const MODEL_MAP = [
         self::MODEL_DEFAULT => EmployeeClaimRequestModel::class,
@@ -291,6 +292,12 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
      *         @OA\Schema(type="DateTime")
      *     ),
      *     @OA\Parameter(
+     *         name="includeEmployees",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
      *         name="model",
      *         in="query",
      *         required=false,
@@ -332,6 +339,7 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
         $this->setSortingAndPaginationParams($employeeClaimRequestSearchFilterParams);
         $this->getCommonFilterParams($employeeClaimRequestSearchFilterParams);
         $this->setEmpNumbers($employeeClaimRequestSearchFilterParams);
+        $this->setIncludeEmployees($employeeClaimRequestSearchFilterParams);
 
         $claimRequests = $this->getClaimService()->getClaimDao()
             ->getClaimRequestList($employeeClaimRequestSearchFilterParams);
@@ -401,6 +409,28 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
             $empNumbers = $this->getUserRoleManager()->getAccessibleEntityIds(Employee::class);
             $claimRequestSearchFilterParams->setEmpNumbers($empNumbers);
         }
+    }
+
+    /**
+     * @param ClaimRequestSearchFilterParams $employeeClaimRequestSearchFilterParams
+     */
+    private function setIncludeEmployees(ClaimRequestSearchFilterParams $employeeClaimRequestSearchFilterParams)
+    {
+        $employeeClaimRequestSearchFilterParams->setIncludeEmployees(
+            $this->getRequestParams()->getString(
+                RequestParams::PARAM_TYPE_QUERY,
+                self::FILTER_INCLUDE_EMPLOYEES,
+                $this->getDefaultIncludeEmployees()
+            )
+        );
+    }
+
+    /**
+     * @return string
+     */
+    private function getDefaultIncludeEmployees(): string
+    {
+        return ClaimRequestSearchFilterParams::INCLUDE_EMPLOYEES_ONLY_CURRENT;
     }
 
     /**
@@ -482,7 +512,13 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
                     new Rule(Rules::STRING_TYPE),
                     new Rule(Rules::IN, [array_keys(self::MODEL_MAP)])
                 )
-            )
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::FILTER_INCLUDE_EMPLOYEES,
+                    new Rule(Rules::IN, [EmployeeClaimRequestSearchFilterParams::INCLUDE_EMPLOYEES])
+                )
+            ),
         );
     }
 

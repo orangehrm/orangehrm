@@ -71,6 +71,10 @@
               :years="yearsArray"
             />
           </oxd-grid-item>
+          <oxd-grid-item>
+            <include-employee-dropdown v-model="filters.includeEmployees">
+            </include-employee-dropdown>
+          </oxd-grid-item>
         </oxd-grid>
       </oxd-form-row>
       <oxd-divider />
@@ -140,6 +144,8 @@ import {
   validSelection,
   endDateShouldBeAfterStartDate,
 } from '@/core/util/validation/rules';
+import IncludeEmployeeDropdownVue from '@ohrm/core/components/dropdown/IncludeEmployeeDropdown.vue';
+import usei18n from '@/core/util/composable/usei18n';
 
 const defaultFilters = {
   referenceId: '',
@@ -164,6 +170,7 @@ export default {
     'claim-event-dropdown': ClaimEventDropdown,
     'status-dropdown': StatusDropdown,
     'employee-autocomplete': EmployeeAutocomplete,
+    'include-employee-dropdown': IncludeEmployeeDropdownVue,
   },
   props: {
     empNumber: {
@@ -172,7 +179,15 @@ export default {
     },
   },
   setup() {
-    const filters = ref({...defaultFilters});
+    const {$t} = usei18n();
+    const filters = ref({
+      includeEmployees: {
+        id: 1,
+        param: 'onlyCurrent',
+        label: $t('general.current_employees_only'),
+      },
+      ...defaultFilters,
+    });
     const {$tEmpName} = useEmployeeNameTranslate();
     const {sortDefinition, sortField, sortOrder, onSort} = useSort({
       sortDefinition: defaultSortOrder,
@@ -194,6 +209,7 @@ export default {
         status: filters.value.status ? filters.value.status?.id : null,
         fromDate: filters.value.fromDate,
         toDate: filters.value.toDate,
+        includeEmployees: filters.value.includeEmployees?.param,
         sortField:
           sortField.value === 'claimRequest.claimEvent.name'
             ? 'claimEvent.name'

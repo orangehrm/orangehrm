@@ -24,12 +24,26 @@ use OrangeHRM\Core\Dto\FilterParams;
 
 class ClaimRequestSearchFilterParams extends FilterParams
 {
+    public const INCLUDE_EMPLOYEES_ONLY_CURRENT = 'onlyCurrent';
+    public const INCLUDE_EMPLOYEES_ONLY_PAST = 'onlyPast';
+    public const INCLUDE_EMPLOYEES_CURRENT_AND_PAST = 'currentAndPast';
+
+    public const INCLUDE_EMPLOYEES = [
+        self::INCLUDE_EMPLOYEES_ONLY_CURRENT,
+        self::INCLUDE_EMPLOYEES_ONLY_PAST,
+        self::INCLUDE_EMPLOYEES_CURRENT_AND_PAST,
+    ];
     public const ALLOWED_SORT_FIELDS = [
         'claimRequest.referenceId',
         'claimRequest.status',
         'claimEvent.name',
         'claimRequest.submittedDate'
     ];
+
+    /**
+     * @var string|null
+     */
+    private ?string $includeEmployees = self::INCLUDE_EMPLOYEES_ONLY_CURRENT;
 
     /**
      * @var string|null
@@ -65,6 +79,22 @@ class ClaimRequestSearchFilterParams extends FilterParams
     {
         $this->setSortField('claimRequest.referenceId');
         $this->setSortOrder('DESC');
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getIncludeEmployees(): ?string
+    {
+        return $this->includeEmployees;
+    }
+
+    /**
+     * @param string|null $includeEmployees
+     */
+    public function setIncludeEmployees(?string $includeEmployees): void
+    {
+        $this->includeEmployees = $includeEmployees;
     }
 
     /**
