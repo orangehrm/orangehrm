@@ -25,6 +25,8 @@ Update:
       claimEvent:
         id: 1
         name: Office Rent
+        isDeleted: false
+        status: true
       currencyType:
         id: CAD
         name: Canadian Dollar
@@ -57,6 +59,8 @@ Update:
       claimEvent:
         id: 3
         name: Travel Expenses
+        isDeleted: false
+        status: false
       currencyType:
         id: USD
         name: United States Dollar
@@ -87,6 +91,8 @@ Update:
       claimEvent:
         id: 1
         name: Office Rent
+        isDeleted: false
+        status: true
       currencyType:
         id: CAD
         name: Canadian Dollar
@@ -225,6 +231,8 @@ Update:
       claimEvent:
         id: 1
         name: Office Rent
+        isDeleted: false
+        status: true
       currencyType:
         id: USD
         name: United States Dollar
@@ -279,6 +287,8 @@ Update:
       claimEvent:
         id: 1
         name: Office Rent
+        isDeleted: false
+        status: true
       currencyType:
         id: USD
         name: United States Dollar
@@ -309,6 +319,8 @@ Update:
       claimEvent:
         id: 1
         name: Office Rent
+        isDeleted: false
+        status: true
       currencyType:
         id: USD
         name: United States Dollar
@@ -407,6 +419,8 @@ Update:
       claimEvent:
         id: 1
         name: Office Rent
+        isDeleted: false
+        status: true
       currencyType:
         id: USD
         name: United States Dollar
@@ -434,3 +448,25 @@ Update:
     exception:
       class: '\OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
       message: "Unauthorized"
+
+  "Admin SUBMIT deleted claim request":
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager:
+        [
+          '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory',
+          "getNewUserRoleManager",
+        ]
+    attributes:
+      requestId: 9
+    body:
+      action: SUBMIT
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException'
+      message: "Record Not Found"

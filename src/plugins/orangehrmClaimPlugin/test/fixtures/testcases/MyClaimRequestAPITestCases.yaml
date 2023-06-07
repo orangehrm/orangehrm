@@ -17,17 +17,38 @@ Create:
       currencyId: 'CAD'
       remarks: description
     data:
-      id: 10
-      referenceId: 202301170000010
+      id: 11
+      referenceId: 202301170000011
       claimEvent:
         id: 1
         name: Office Rent
+        isDeleted: false
+        status: true
       currencyType:
         id: CAD
         name: Canadian Dollar
       remarks: description
       status: INITIATED
     meta: [ ]
+
+  'Create Claim Request - Deactivated Claim Event':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    body:
+      claimEventId: 3
+      currencyId: 'CAD'
+      remarks: description
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: 'Invalid Parameter'
 
   'Create Claim Request - ESS User':
     userId: 2
@@ -47,11 +68,13 @@ Create:
       currencyId: 'USD'
       remarks: sample claim request description
     data:
-      id: 10
-      referenceId: 202301170000010
+      id: 11
+      referenceId: 202301170000011
       claimEvent:
         id: 2
         name: Employee Salaries
+        isDeleted: false
+        status: true
       currencyType:
         id: USD
         name: United States Dollar
@@ -74,14 +97,16 @@ Create:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     body:
       claimEventId: 2
-      currencyId: USD
+      currencyId: 'USD'
       remarks: ''
     data:
-      id: 10
-      referenceId: 202301170000010
+      id: 11
+      referenceId: 202301170000011
       claimEvent:
         id: 2
         name: Employee Salaries
+        isDeleted: false
+        status: true
       currencyType:
         id: USD
         name: United States Dollar
@@ -107,11 +132,13 @@ Create:
       currencyId: 'USD'
       remarks: null
     data:
-      id: 10
-      referenceId: 202301170000010
+      id: 11
+      referenceId: 202301170000011
       claimEvent:
         id: 2
         name: Employee Salaries
+        isDeleted: false
+        status: true
       currencyType:
         id: USD
         name: United States Dollar
@@ -132,7 +159,7 @@ Create:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     body:
       claimEventId: 20
-      currencyId: USD
+      currencyId: 'USD'
       remarks: sample claim request description
     exception:
       class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
@@ -177,7 +204,9 @@ GetOne:
         "referenceId": "202301170000001",
         "claimEvent": {
           "id": 3,
-          "name": "Travel Expenses"
+          "name": "Travel Expenses",
+          "isDeleted": false,
+          "status": false
         },
         "currencyType": {
           "id": "USD",
@@ -224,7 +253,9 @@ GetOne:
         "referenceId": "202301170000008",
         "claimEvent": {
           "id": 3,
-          "name": "Travel Expenses"
+          "name": "Travel Expenses",
+          "isDeleted": false,
+          "status": false
         },
         "currencyType": {
           "id": "USD",
@@ -262,7 +293,9 @@ GetOne:
         "referenceId": "202301170000005",
         "claimEvent": {
           "id": 3,
-          "name": "Travel Expenses"
+          "name": "Travel Expenses",
+          "isDeleted": false,
+          "status": false
         },
         "currencyType": {
           "id": "USD",
@@ -322,7 +355,9 @@ GetOne:
         "referenceId": "202301170000002",
         "claimEvent": {
           "id": 3,
-          "name": "Travel Expenses"
+          "name": "Travel Expenses",
+          "isDeleted": false,
+          "status": false
         },
         "currencyType": {
           "id": "USD",
@@ -365,7 +400,9 @@ GetOne:
         "referenceId": "202301170000009",
         "claimEvent": {
           "id": 3,
-          "name": "Travel Expenses"
+          "name": "Travel Expenses",
+          "isDeleted": false,
+          "status": false
         },
         "currencyType": {
           "id": "USD",
@@ -400,6 +437,23 @@ GetOne:
     exception:
       class: '\OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
       message: 'Unauthorized'
+
+  'Get Deleted Claim Request':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      id: 10
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException'
+      message: 'Record Not Found'
 
 GetAll:
   'GetAll - Admin getAll claim requests':

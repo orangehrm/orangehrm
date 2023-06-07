@@ -19,17 +19,40 @@ Create:
       currencyId: 'CAD'
       remarks: description
     data:
-      id: 10
-      referenceId: 202301170000010
+      id: 11
+      referenceId: 202301170000011
       claimEvent:
         id: 1
         name: Office Rent
+        isDeleted: false
+        status: true
       currencyType:
         id: CAD
         name: Canadian Dollar
       remarks: description
       status: INITIATED
     meta: [ ]
+
+  'Create Claim Request - deactivated event':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      empNumber: 1
+    body:
+      claimEventId: 3
+      currencyId: 'CAD'
+      remarks: description
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: 'Invalid Parameter'
 
   'Create Claim Request - ESS User for himself':
     userId: 2
@@ -90,14 +113,16 @@ Create:
       empNumber: 1
     body:
       claimEventId: 2
-      currencyId: USD
+      currencyId: 'USD'
       remarks: ''
     data:
-      id: 10
-      referenceId: 202301170000010
+      id: 11
+      referenceId: 202301170000011
       claimEvent:
         id: 2
         name: Employee Salaries
+        isDeleted: false
+        status: true
       currencyType:
         id: USD
         name: United States Dollar
@@ -125,11 +150,13 @@ Create:
       currencyId: 'USD'
       remarks: null
     data:
-      id: 10
-      referenceId: 202301170000010
+      id: 11
+      referenceId: 202301170000011
       claimEvent:
         id: 2
         name: Employee Salaries
+        isDeleted: false
+        status: true
       currencyType:
         id: USD
         name: United States Dollar
@@ -152,7 +179,7 @@ Create:
       empNumber: 1
     body:
       claimEventId: 20
-      currencyId: USD
+      currencyId: 'USD'
       remarks: sample claim request description
     exception:
       class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
@@ -221,7 +248,9 @@ GetOne:
         "referenceId": "202301170000001",
         "claimEvent": {
           "id": 3,
-          "name": "Travel Expenses"
+          "name": "Travel Expenses",
+          "isDeleted": false,
+          "status": false
         },
         "currencyType": {
           "id": "USD",
@@ -269,7 +298,9 @@ GetOne:
         "referenceId": "202301170000008",
         "claimEvent": {
           "id": 3,
-          "name": "Travel Expenses"
+          "name": "Travel Expenses",
+          "isDeleted": false,
+          "status": false
         },
         "currencyType": {
           "id": "USD",
@@ -308,7 +339,9 @@ GetOne:
         "referenceId": "202301170000005",
         "claimEvent": {
           "id": 3,
-          "name": "Travel Expenses"
+          "name": "Travel Expenses",
+          "isDeleted": false,
+          "status": false
         },
         "currencyType": {
           "id": "USD",
@@ -344,6 +377,24 @@ GetOne:
     exception:
       class: '\OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
       message: 'Unauthorized'
+
+  'GetOne - Deleted Claim Request':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      empNumber: 1
+      id: 10
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException'
+      message: 'Record Not Found'
 
 GetAll:
   'GetAll - Claim Request - has CANCELLED state as a Supervisor':
