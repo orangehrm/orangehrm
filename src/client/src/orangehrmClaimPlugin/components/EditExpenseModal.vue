@@ -174,7 +174,15 @@ export default {
         this.expense.amount = parseFloat(data.amount).toFixed(2);
         this.selectedOption = {
           id: data.expenseType.id,
-          label: data.expenseType.name,
+          label: data.expenseType.isDeleted
+            ? `${data.expenseType.name} (${this.$t(
+                'general.deleted',
+              )})`
+            : !data.expenseType.status
+            ? `${data.expenseType.name} (${this.$t(
+                'performance.inactive',
+              )})`
+            : data.expenseType.name,
         };
       })
       .finally(() => {
