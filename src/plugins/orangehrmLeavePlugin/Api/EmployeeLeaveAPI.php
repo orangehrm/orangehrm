@@ -74,7 +74,7 @@ class EmployeeLeaveAPI extends Endpoint implements CollectionEndpoint
      *         name="includeEmployees",
      *         in="query",
      *         required=false,
-     *         @OA\Schema(type="string", enum={"onlyCurrent", "onlyPast", "currentAndPast"})
+     *         @OA\Schema(type="string", enum=EmployeeLeaveSearchFilterParams::INCLUDE_EMPLOYEES)
      *     ),
      *     @OA\Parameter(
      *         name="statuses",

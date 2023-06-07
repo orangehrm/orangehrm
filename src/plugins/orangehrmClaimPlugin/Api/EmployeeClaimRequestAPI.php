@@ -77,7 +77,6 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_TO_DATE = 'toDate';
     public const PARAMETER_MODEL = 'model';
     public const MODEL_DEFAULT = 'default';
-    public const FILTER_INCLUDE_EMPLOYEES = 'includeEmployees';
     public const MODEL_SUMMARY = 'summary';
     public const MODEL_MAP = [
         self::MODEL_DEFAULT => EmployeeClaimRequestModel::class,
@@ -90,6 +89,7 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
         WorkflowStateMachine::CLAIM_ACTION_CANCEL => 'CANCEL',
         WorkflowStateMachine::CLAIM_ACTION_REJECT => 'REJECT'
     ];
+    public const FILTER_INCLUDE_EMPLOYEES = 'includeEmployees';
 
     /**
      * @OA\Post(
@@ -295,7 +295,7 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
      *         name="includeEmployees",
      *         in="query",
      *         required=false,
-     *         @OA\Schema(type="string")
+     *         @OA\Schema(type="string", enum=ClaimRequestSearchFilterParams::INCLUDE_EMPLOYEES)
      *     ),
      *     @OA\Parameter(
      *         name="model",

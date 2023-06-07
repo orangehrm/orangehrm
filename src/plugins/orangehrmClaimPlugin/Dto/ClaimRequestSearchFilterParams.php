@@ -21,6 +21,7 @@ namespace OrangeHRM\Claim\Dto;
 
 use DateTime;
 use OrangeHRM\Core\Dto\FilterParams;
+use OrangeHRM\ORM\ListSorter;
 
 class ClaimRequestSearchFilterParams extends FilterParams
 {
@@ -78,7 +79,7 @@ class ClaimRequestSearchFilterParams extends FilterParams
     public function __construct()
     {
         $this->setSortField('claimRequest.referenceId');
-        $this->setSortOrder('DESC');
+        $this->setSortOrder(ListSorter::DESCENDING);
     }
 
     /**
