@@ -23,7 +23,7 @@ use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\EmpContract;
 use OrangeHRM\Entity\Employee;
-use OrangeHRM\Entity\EmployeeAttachment;
+use OrangeHRM\Pim\Dto\PartialEmployeeAttachment;
 use OrangeHRM\Pim\Service\EmploymentContractService;
 
 class EmpContractDecorator
@@ -87,9 +87,9 @@ class EmpContractDecorator
     }
 
     /**
-     * @return EmployeeAttachment|null
+     * @return PartialEmployeeAttachment|null
      */
-    public function getContractAttachment(): ?EmployeeAttachment
+    public function getContractAttachment(): ?PartialEmployeeAttachment
     {
         $empNumber = $this->getEmpContract()->getEmployee()->getEmpNumber();
         return $this->getEmploymentContractService()->getContractAttachment($empNumber);

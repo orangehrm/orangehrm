@@ -22,6 +22,7 @@ namespace OrangeHRM\Pim\Service;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\EmployeeAttachment;
 use OrangeHRM\Pim\Dao\EmploymentContractDao;
+use OrangeHRM\Pim\Dto\PartialEmployeeAttachment;
 
 class EmploymentContractService
 {
@@ -59,10 +60,10 @@ class EmploymentContractService
 
     /**
      * @param int $empNumber
-     * @return EmployeeAttachment|null
+     * @return PartialEmployeeAttachment|null
      * @throws DaoException
      */
-    public function getContractAttachment(int $empNumber): ?EmployeeAttachment
+    public function getContractAttachment(int $empNumber): ?PartialEmployeeAttachment
     {
         $employeeAttachments = $this->getEmployeeAttachmentService()->getEmployeeAttachments(
             $empNumber,
@@ -72,6 +73,20 @@ class EmploymentContractService
             return null;
         }
         return $employeeAttachments[0];
+    }
+
+    /**
+     * @param int $empNumber
+     * @param int $attachId
+     * @return EmployeeAttachment|null
+     */
+    public function getContractAttachmentById(int $empNumber, int $attachId): ?EmployeeAttachment
+    {
+        return $this->getEmployeeAttachmentService()->getEmployeeAttachment(
+            $empNumber,
+            $attachId,
+            EmployeeAttachment::SCREEN_JOB_CONTRACT
+        );
     }
 
     /**
