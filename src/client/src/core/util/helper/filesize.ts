@@ -17,9 +17,9 @@
  */
 
 const BYTE = 1;
-const KILO_BYTE = 1024;
-const MEGA_BYTE = 1048576; // 1024 * 1024
-const GIGA_BYTE = 1073741824; // 1024 * 1024 * 1024
+const KILO_BYTE = 1000;
+const MEGA_BYTE = 1000000; // 1000 * 1000
+const GIGA_BYTE = 1000000000; // 1000 * 1000 * 1000
 
 /**
  * @param {string|number} value

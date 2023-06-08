@@ -84,7 +84,7 @@ class ReviewListAPI extends PerformanceReviewAPI
      *         name="includeEmployees",
      *         in="query",
      *         required=false,
-     *         @OA\Schema(type="string")
+     *         @OA\Schema(type="string", enum=PerformanceReviewSearchFilterParams::INCLUDE_EMPLOYEES)
      *     ),
      *     @OA\Parameter(
      *         name="sortField",

@@ -67,7 +67,7 @@ class PerformanceTrackerReviewerAPI extends Endpoint implements CollectionEndpoi
      *         name="includeEmployees",
      *         in="query",
      *         required=false,
-     *         @OA\Schema(type="string")
+     *         @OA\Schema(type="string", enum=EmployeeSearchFilterParams::INCLUDE_EMPLOYEES_MAP)
      *     ),
      *     @OA\Parameter(
      *         name="sortField",

@@ -45,6 +45,8 @@ use OrangeHRM\Entity\ClaimExpense;
  *         type="object",
  *         @OA\Property(property="id", type="integer"),
  *         @OA\Property(property="name", type="string"),
+ *         @OA\Property(property="status", type="boolean"),
+ *         @OA\Property(property="isDeleted", type="boolean"),
  *     ),
  *     @OA\Property(
  *         property="amount",
@@ -68,6 +70,8 @@ class ClaimExpenseModel implements Normalizable
                 'id',
                 ['getExpenseType', 'getId'],
                 ['getExpenseType', 'getName'],
+                ['getExpenseType', 'getStatus'],
+                ['getExpenseType', 'isDeleted'],
                 'amount',
                 'note',
                 ['getDecorator', 'getDate']
@@ -78,6 +82,8 @@ class ClaimExpenseModel implements Normalizable
                 'id',
                 ['expenseType', 'id'],
                 ['expenseType', 'name'],
+                ['expenseType', 'status'],
+                ['expenseType', 'isDeleted'],
                 'amount',
                 'note',
                 'date'

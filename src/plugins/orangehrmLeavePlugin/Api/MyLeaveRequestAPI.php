@@ -118,7 +118,7 @@ class MyLeaveRequestAPI extends EmployeeLeaveRequestAPI
      *         name="includeEmployees",
      *         in="query",
      *         required=false,
-     *         @OA\Schema(type="string", enum={"onlyCurrent", "onlyPast", "currentAndPast"})
+     *         @OA\Schema(type="string", enum=LeaveRequestSearchFilterParams::INCLUDE_EMPLOYEES)
      *     ),
      *     @OA\Parameter(
      *         name="statuses",

@@ -26,7 +26,7 @@ describe('core/util/helper/filesize', () => {
 
   test('convertFilesizeToString::convert 1000 bytes', () => {
     const result = convertFilesizeToString(1000);
-    expect(result).toBe('1000 B');
+    expect(result).toBe('1 kB');
   });
 
   test('convertFilesizeToString::convert 1024 bytes', () => {
@@ -41,36 +41,46 @@ describe('core/util/helper/filesize', () => {
 
   test('convertFilesizeToString::convert 1500 bytes', () => {
     const result = convertFilesizeToString(1500, 2);
-    expect(result).toBe('1.46 kB');
+    expect(result).toBe('1.50 kB');
   });
 
   test('convertFilesizeToString::convert 1800 bytes', () => {
     const result = convertFilesizeToString(1800, 2);
-    expect(result).toBe('1.76 kB');
+    expect(result).toBe('1.80 kB');
   });
 
   test('convertFilesizeToString::convert 1000000 bytes', () => {
-    const result = convertFilesizeToString(1000000, 2);
-    expect(result).toBe('976.56 kB');
+    const result = convertFilesizeToString(999999, 2);
+    expect(result).toBe('1000.00 kB');
   });
 
   test('convertFilesizeToString::convert 1024 kB', () => {
     const result = convertFilesizeToString(1048576, 2);
-    expect(result).toBe('1.00 MB');
+    expect(result).toBe('1.05 MB');
   });
 
   test('convertFilesizeToString::convert 1024 MB', () => {
     const result = convertFilesizeToString(1024 * 1024 * 1024, 2);
-    expect(result).toBe('1.00 GB');
+    expect(result).toBe('1.07 GB');
   });
 
   test('convertFilesizeToString::convert 1024 bytes (string type)', () => {
     const result = convertFilesizeToString('1024', 2);
-    expect(result).toBe('1.00 kB');
+    expect(result).toBe('1.02 kB');
   });
 
   test('convertFilesizeToString::convert 1024 bytes (without suffix)', () => {
     const result = convertFilesizeToString(1024, 2, false);
-    expect(result).toBe('1.00');
+    expect(result).toBe('1.02');
+  });
+
+  test('convertFilesizeToString::convert 1024 kB', () => {
+    const result = convertFilesizeToString(1000 * 1000, 2);
+    expect(result).toBe('1.00 MB');
+  });
+
+  test('convertFilesizeToString::convert 1024 MB', () => {
+    const result = convertFilesizeToString(1000 * 1000 * 1000, 2);
+    expect(result).toBe('1.00 GB');
   });
 });

@@ -40,7 +40,7 @@
               </oxd-grid-item>
               <oxd-grid-item>
                 <oxd-input-field
-                  v-model="claimEvent.name"
+                  v-model="formattedEventName"
                   :label="$t('claim.event')"
                   disabled
                 />
@@ -168,6 +168,13 @@ export default {
         return this.allowedActions.includes('Submit');
       }
       return false;
+    },
+    formattedEventName() {
+      return this.claimEvent.isDeleted
+        ? `${this.claimEvent.name} (${this.$t('general.deleted')})`
+        : !this.claimEvent.status
+        ? `${this.claimEvent.name} (${this.$t('performance.inactive')})`
+        : this.claimEvent.name;
     },
   },
 

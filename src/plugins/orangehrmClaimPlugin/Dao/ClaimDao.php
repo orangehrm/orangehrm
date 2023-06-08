@@ -507,6 +507,18 @@ class ClaimDao extends BaseDao
             $q->setParameter('toDate', $myClaimRequestSearchFilterParams->getToDate());
         }
 
+        if ($myClaimRequestSearchFilterParams->getIncludeEmployees() === null ||
+            $myClaimRequestSearchFilterParams->getIncludeEmployees() ===
+            ClaimRequestSearchFilterParams::INCLUDE_EMPLOYEES_ONLY_CURRENT
+        ) {
+            $q->andWhere($q->expr()->isNull('employee.employeeTerminationRecord'));
+        } elseif (
+            $myClaimRequestSearchFilterParams->getIncludeEmployees() ===
+            ClaimRequestSearchFilterParams::INCLUDE_EMPLOYEES_ONLY_PAST
+        ) {
+            $q->andWhere($q->expr()->isNotNull('employee.employeeTerminationRecord'));
+        }
+
         $q->andWhere('claimRequest.isDeleted = :isDeleted');
         $q->setParameter('isDeleted', false);
 
