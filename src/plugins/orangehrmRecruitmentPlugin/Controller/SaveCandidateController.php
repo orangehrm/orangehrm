@@ -59,9 +59,12 @@ class SaveCandidateController extends AbstractVueController implements CapableVi
             $updatable = true;
             if ($candidateVacancy instanceof CandidateVacancy) {
                 $rolesToExclude = [];
-                $hiringManagerEmpNumber = $candidateVacancy->getVacancy()->getHiringManager()->getEmpNumber();
-                if ($hiringManagerEmpNumber !== $this->getAuthUser()->getEmpNumber()) {
-                    $rolesToExclude = ['HiringManager', 'Interviewer'];
+                $hiringManager = $candidateVacancy->getVacancy()->getHiringManager();
+                if ($hiringManager !== null) {
+                    $hiringManagerEmpNumber = $candidateVacancy->getVacancy()->getHiringManager()->getEmpNumber();
+                    if ($hiringManagerEmpNumber !== $this->getAuthUser()->getEmpNumber()) {
+                        $rolesToExclude = ['HiringManager', 'Interviewer'];
+                    }
                 }
                 $updatable = $this->getUserRoleManager()->isEntityAccessible(
                     Candidate::class,

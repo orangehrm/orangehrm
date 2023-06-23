@@ -74,7 +74,7 @@ class CandidateDetailedModel implements Normalizable
                         'title' => $vacancy->getJobTitle()->getJobTitleName(),
                         'isDeleted' => $vacancy->getJobTitle()->isDeleted(),
                     ],
-                    'hiringManager' => [
+                    'hiringManager' => is_null($vacancy->getHiringManager()) ? null : [
                         'id' => $vacancy->getHiringManager()->getEmpNumber(),
                         'firstName' => $vacancy->getHiringManager()->getFirstName(),
                         'middleName' => $vacancy->getHiringManager()->getMiddleName(),

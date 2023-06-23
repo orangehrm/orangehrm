@@ -139,9 +139,12 @@ class CandidateAllowedActionAPI extends Endpoint implements CollectionEndpoint
      */
     private function isHiringManager(CandidateVacancy $candidateVacancy): bool
     {
-        $hiringMangerEmpNumber = $candidateVacancy->getVacancy()
-            ->getHiringManager()
-            ->getEmpNumber();
+        $hiringMangerEmpNumber = null;
+        if ($candidateVacancy->getVacancy()->getHiringManager()) {
+            $hiringMangerEmpNumber = $candidateVacancy->getVacancy()
+                ->getHiringManager()
+                ->getEmpNumber();
+        }
         return $hiringMangerEmpNumber === $this->getAuthUser()->getEmpNumber();
     }
 
