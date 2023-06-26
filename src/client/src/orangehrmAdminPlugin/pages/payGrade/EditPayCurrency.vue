@@ -76,7 +76,7 @@ import {APIService} from '@/core/util/services/api.service';
 import {
   required,
   maxCurrency,
-  digitsOnly,
+  digitsOnlyWithTwoDecimalPoints,
   maxValueShouldBeGreaterThanMinValue,
 } from '@ohrm/core/util/validation/rules';
 
@@ -114,10 +114,10 @@ export default {
       payCurrency: {...payCurrencyModel},
       rules: {
         currencyId: [required],
-        minSalary: [maxCurrency(1000000000), digitsOnly],
+        minSalary: [maxCurrency(1000000000), digitsOnlyWithTwoDecimalPoints],
         maxSalary: [
           maxCurrency(1000000000),
-          digitsOnly,
+          digitsOnlyWithTwoDecimalPoints,
           maxValueShouldBeGreaterThanMinValue(
             () => this.payCurrency.minSalary,
             this.$t('admin.should_be_higher_than_minimum_salary'),
