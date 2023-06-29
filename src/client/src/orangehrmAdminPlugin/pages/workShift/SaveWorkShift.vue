@@ -33,6 +33,7 @@
                 v-model="workShift.name"
                 :label="$t('admin.shift_name')"
                 :rules="rules.name"
+                required
               />
             </oxd-grid-item>
           </oxd-grid>

@@ -69,9 +69,11 @@ class CandidateHistoryAPI extends Endpoint implements CrudEndpoint
             ->getCandidateVacancyByCandidateId($this->getCandidateId());
         $rolesToExclude = [];
         if ($candidateVacancy instanceof CandidateVacancy) {
-            $hiringMangerEmpNumber = $candidateVacancy->getVacancy()->getHiringManager()->getEmpNumber();
-            if ($hiringMangerEmpNumber !== $this->getAuthUser()->getEmpNumber()) {
-                $rolesToExclude = ['HiringManager'];
+            if ($candidateVacancy->getVacancy()->getHiringManager() !== null) {
+                $hiringMangerEmpNumber = $candidateVacancy->getVacancy()->getHiringManager()->getEmpNumber();
+                if ($hiringMangerEmpNumber !== $this->getAuthUser()->getEmpNumber()) {
+                    $rolesToExclude = ['HiringManager'];
+                }
             }
         }
         $accessibleActionHistoryIds = $this->getUserRoleManager()
@@ -151,22 +153,24 @@ class CandidateHistoryAPI extends Endpoint implements CrudEndpoint
         $this->throwRecordNotFoundExceptionIfNotExist($candidateHistoryRecord, CandidateHistory::class);
         $vacancy = $candidateHistoryRecord->getVacancy();
         $disabled = false;
-        if ($candidateHistoryRecord->getAction() === WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_SHORTLIST &&
-            (
-                !is_null($vacancy) &&
-                $vacancy->getHiringManager()->getEmpNumber() !== $this->getAuthUser()->getEmpNumber()
-            )
-        ) {
-            $rolesToExclude = ['HiringManager'];
-            $allowedWorkflowItems = $this->getUserRoleManager()->getAllowedActions(
-                WorkflowStateMachine::FLOW_RECRUITMENT,
-                CandidateService::STATUS_MAP[WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_ATTACH_VACANCY],
-                $rolesToExclude
-            );
-            $disabled = !in_array(
-                WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_SHORTLIST,
-                array_keys($allowedWorkflowItems)
-            );
+        if ($vacancy->getHiringManager()->getEmpNumber() !== null) {
+            if ($candidateHistoryRecord->getAction() === WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_SHORTLIST &&
+                (
+                    !is_null($vacancy) &&
+                    $vacancy->getHiringManager()->getEmpNumber() !== $this->getAuthUser()->getEmpNumber()
+                )
+            ) {
+                $rolesToExclude = ['HiringManager'];
+                $allowedWorkflowItems = $this->getUserRoleManager()->getAllowedActions(
+                    WorkflowStateMachine::FLOW_RECRUITMENT,
+                    CandidateService::STATUS_MAP[WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_ATTACH_VACANCY],
+                    $rolesToExclude
+                );
+                $disabled = !in_array(
+                    WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_SHORTLIST,
+                    array_keys($allowedWorkflowItems)
+                );
+            }
         }
         return new EndpointResourceResult(
             CandidateHistoryDetailedModel::class,

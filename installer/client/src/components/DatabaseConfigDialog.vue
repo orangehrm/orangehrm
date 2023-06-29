@@ -13,9 +13,9 @@
         tag="p"
         class="orangehrm-database-config-dialog-content orangehrm-database-config--title"
       >
-        The following features and add-ons are not supported by OrangeHRM
-        Starter version 5.4. You may continue to upgrade your system to version
-        5.4, but please note that any data used in these features will be
+        The following features and add-ons are not supported in OrangeHRM
+        Starter version 5.5. You may continue to upgrade your system to version
+        5.5, but please note that any data used in these features will be
         inaccessible.
       </oxd-text>
       <oxd-classic-table
@@ -71,11 +71,8 @@ export default {
       items: [
         {
           feat: '- Social Media Authentication',
-          addon: '- Claim',
-          other: '- Marketplace',
-        },
-        {
-          addon: '- Toggl',
+          addon: '- Toggl (Discontinued)',
+          other: '- Marketplace (Discontinued)',
         },
       ],
     };

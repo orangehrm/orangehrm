@@ -473,11 +473,13 @@ export default {
         this.vacancy.numOfPositions = data.numOfPositions || '';
         this.vacancy.status = data.status;
         this.vacancy.isPublished = data.isPublished;
-        this.vacancy.hiringManager = {
-          id: data.hiringManager.id,
-          label: `${data.hiringManager.firstName} ${data.hiringManager.middleName} ${data.hiringManager.lastName}`,
-          isPastEmployee: data.hiringManager.terminationId ? true : false,
-        };
+        this.vacancy.hiringManager = data.hiringManager.id
+          ? {
+              id: data.hiringManager.id,
+              label: `${data.hiringManager.firstName} ${data.hiringManager.middleName} ${data.hiringManager.lastName}`,
+              isPastEmployee: data.hiringManager.terminationId ? true : false,
+            }
+          : this.$t('general.deleted');
         this.vacancy.jobTitle = data.jobTitle.isDeleted
           ? null
           : {

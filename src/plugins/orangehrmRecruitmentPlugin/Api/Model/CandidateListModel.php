@@ -54,10 +54,10 @@ class CandidateListModel implements Normalizable
         $vacancy = !is_null($candidateVacancy) ? $candidateVacancy->getVacancy() : null;
         $rolesToExclude = [];
         $deletable = true;
-        if ($vacancy instanceof Vacancy &&
-            $vacancy->getHiringManager()->getEmpNumber() !== $this->getAuthUser()->getEmpNumber()
-        ) {
-            $rolesToExclude = ['HiringManager', 'Interviewer'];
+        if ($vacancy instanceof Vacancy && $vacancy->getHiringManager()) {
+            if ($vacancy->getHiringManager()->getEmpNumber() !== $this->getAuthUser()->getEmpNumber()) {
+                $rolesToExclude = ['HiringManager', 'Interviewer'];
+            }
         }
         if ($candidateVacancy instanceof CandidateVacancy &&
             !in_array(
@@ -86,7 +86,7 @@ class CandidateListModel implements Normalizable
                     'id' => $vacancy->getId(),
                     'name' => $vacancy->getName(),
                     'status' => $vacancy->getStatus(),
-                    'hiringManager' => [
+                    'hiringManager' => is_null($vacancy->getHiringManager()) ? null : [
                         'id' => $vacancy->getHiringManager()->getEmpNumber(),
                         'firstName' => $vacancy->getHiringManager()->getFirstName(),
                         'middleName' => $vacancy->getHiringManager()->getMiddleName(),
