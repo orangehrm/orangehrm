@@ -71,7 +71,7 @@ class PsrHttpFactoryHelper
      * @param \Symfony\Component\HttpFoundation\Response|Response $response
      * @return ResponseInterface
      */
-    public function createPsr7Response(Response $response): ResponseInterface
+    public function createPsr7Response($response): ResponseInterface
     {
         return $this->getPsrHttpFactory()->createResponse($response);
     }

@@ -250,4 +250,22 @@ class AccessTokenRepositoryTest extends KernelTestCase
         $this->assertFalse($revoked);
         // Invalid state, should check whether access token exist before execute this method
     }
+
+    public function testGetAccessToken(): void
+    {
+        $accessToken = $this->accessTokenRepository->getAccessToken(
+            '05a81084f60f6440c8bd2555200836584e365210aee54ffee8e9dc04c7ec0068a6cde45ef5999e47'
+        );
+        $this->assertEquals(1, $accessToken->getId());
+
+        $accessToken = $this->accessTokenRepository->getAccessToken(
+            '388b9ae63e03fafa079ef891142828dc869e5b5f67c6094614492259ce95794e3f18a9057b667eae'
+        );
+        $this->assertEquals(2, $accessToken->getId());
+
+        $accessToken = $this->accessTokenRepository->getAccessToken(
+            'invalid-token'
+        );
+        $this->assertNull($accessToken);
+    }
 }

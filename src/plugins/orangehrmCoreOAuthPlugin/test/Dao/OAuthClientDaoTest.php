@@ -109,6 +109,17 @@ class OAuthClientDaoTest extends TestCase
         $this->assertNull($client);
     }
 
+    public function testGetOAuthClientByClientId(): void
+    {
+        $client = $this->oAuthClientDao->getOAuthClientByClientId('85c5ce5fe84ee8dc2035378d9b35f04dfabf9e8e0aa7eb636cb0d90ed5c7f906');
+
+        $this->assertEquals("ohrm-mobile-updated", $client->getName());
+        $this->assertEquals(1, $client->getId());
+
+        $client = $this->oAuthClientDao->getOAuthClientByClientId('invalid-id');
+        $this->assertNull($client);
+    }
+
     public function testDeleteOAuthClients(): void
     {
         $this->oAuthClientDao->deleteOAuthClients([1]);
