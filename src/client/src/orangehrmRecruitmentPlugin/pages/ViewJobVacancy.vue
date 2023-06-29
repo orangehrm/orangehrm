@@ -168,7 +168,9 @@ export default {
             ? item.jobTitle.title + $t('general.deleted')
             : item.jobTitle?.title,
 
-          hiringManager: $tEmpName(item.hiringManager),
+          hiringManager: item.hiringManager?.id
+            ? $tEmpName(item.hiringManager)
+            : $t('general.deleted'),
           status: item.status ? $t('general.active') : $t('general.closed'),
         };
       });

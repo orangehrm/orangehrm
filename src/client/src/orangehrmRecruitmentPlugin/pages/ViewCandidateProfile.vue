@@ -24,6 +24,7 @@
   <candidate-profile
     v-if="candidate"
     :candidate="candidate"
+    :allowed-file-types="allowedFileTypes"
     :max-file-size="maxFileSize"
     :updatable="updatable"
     @update="onCandidateUpdate"

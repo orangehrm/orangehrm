@@ -52,7 +52,11 @@ class HiringManagerAPI extends Endpoint implements CollectionEndpoint
             ->getVacancyDao()
             ->getVacancyListGroupByHiringManager($vacancySearchFilterParams);
         $hiringManagerEmpNumbers = array_map(function ($vacancy) {
-            return $vacancy->getHiringManager()->getEmpNumber();
+            if ($vacancy->getHiringManager() !== null) {
+                return $vacancy->getHiringManager()->getEmpNumber();
+            } else {
+                return null;
+            }
         }, $vacancies);
         $employeeSearchFilterParams = new EmployeeSearchFilterParams();
         $this->setSortingAndPaginationParams($employeeSearchFilterParams);

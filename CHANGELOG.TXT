@@ -1,3 +1,18 @@
+New & Changed Features for OrangeHRM ver 5.5
+    New Feature
+    -----------
+    - Claim Module
+        - Allowing OrangeHRM Opensource 5x users to create and manage Claims
+    - Supported Environments
+        - PHP - 7.4 to 8.2
+        - MariaDB - 5.5 to 10.11
+        - MySQL - 5.5 to 8.0
+
+    Bug Fixes
+    ---------
+    - https://github.com/orangehrm/orangehrm/issues/1684
+    - https://github.com/orangehrm/orangehrm/issues/1698
+
 New & Changed Features for OrangeHRM ver 5.4
     New Feature
     -----------

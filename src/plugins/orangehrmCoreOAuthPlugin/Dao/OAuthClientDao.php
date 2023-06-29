@@ -73,11 +73,7 @@ class OAuthClientDao extends BaseDao
      */
     public function getOAuthClientById(int $id): ?OAuthClient
     {
-        $oauthClient = $this->getRepository(OAuthClient::class)->find($id);
-        if ($oauthClient instanceof OAuthClient) {
-            return $oauthClient;
-        }
-        return null;
+        return $this->getRepository(OAuthClient::class)->find($id);
     }
 
     /**
@@ -86,11 +82,7 @@ class OAuthClientDao extends BaseDao
      */
     public function getOAuthClientByClientId(string $clientId): ?OAuthClient
     {
-        $oauthClient = $this->getRepository(OAuthClient::class)->findOneBy(['clientId' => $clientId]);
-        if ($oauthClient instanceof OAuthClient) {
-            return $oauthClient;
-        }
-        return null;
+        return $this->getRepository(OAuthClient::class)->findOneBy(['clientId' => $clientId]);
     }
 
     /**

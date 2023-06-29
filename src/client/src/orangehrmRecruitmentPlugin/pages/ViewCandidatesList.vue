@@ -222,12 +222,12 @@ export default {
           candidate: `${item.firstName} ${item.middleName || ''} ${
             item.lastName
           }`,
-          manager: item?.vacancy?.hiringManager
+          manager: item?.vacancy?.hiringManager?.id
             ? $tEmpName(item.vacancy.hiringManager, {
                 includeMiddle: true,
                 excludePastEmpTag: false,
               })
-            : '',
+            : $t('general.deleted'),
           dateOfApplication: formatDate(
             parseDate(item.dateOfApplication),
             jsDateFormat,
