@@ -36,8 +36,11 @@ class Migration extends AbstractMigration
     public function up(): void
     {
         $this->insertI18nGroups();
+        $groups = ['claim', 'general'];
+        foreach ($groups as $group) {
+            $this->getLangStringHelper()->insertOrUpdateLangStrings($group);
+        }
         $this->getLangStringHelper()->deleteNonCustomizedLangStrings('claim');
-        $this->getLangStringHelper()->insertOrUpdateLangStrings('claim');
 
         $this->updateLangStringVersion($this->getVersion());
 

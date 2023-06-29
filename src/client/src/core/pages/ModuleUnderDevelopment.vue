@@ -31,7 +31,7 @@
           alt="this module is under development"
         />
         <oxd-text tag="p" class="orangehrm-module-under-development-text">
-          {{ $t('general.this_page_is_being_developed', {version: '5.4'}) }}
+          {{ $t('general.page_under_development') }}
           <a
             target="_blank"
             class="orangehrm-module-under-development-link"
@@ -39,7 +39,7 @@
           >
             {{ $t('general.click_here') }}
           </a>
-          {{ $t('general.download_latest_release_with_all_features') }}
+          {{ $t('general.download_latest_release') }}
         </oxd-text>
       </div>
     </div>
