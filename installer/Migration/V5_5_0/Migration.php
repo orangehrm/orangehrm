@@ -37,12 +37,21 @@ class Migration extends AbstractMigration
     {
         $this->insertI18nGroups();
         $groups = ['claim', 'general'];
+        $this->getLangStringHelper()->deleteNonCustomizedLangStrings('claim');
         foreach ($groups as $group) {
             $this->getLangStringHelper()->insertOrUpdateLangStrings($group);
         }
-        $this->getLangStringHelper()->deleteNonCustomizedLangStrings('claim');
 
         $this->updateLangStringVersion($this->getVersion());
+
+        $this->getLangHelper()->deleteLangStringByUnitId(
+            'this_page_is_being_developed',
+            $this->getLangHelper()->getGroupIdByName('general')
+        );
+        $this->getLangHelper()->deleteLangStringByUnitId(
+            'download_latest_release_with_all_features',
+            $this->getLangHelper()->getGroupIdByName('general')
+        );
 
         if (!$this->getSchemaHelper()->tableExists(['ohrm_claim_event'])) {
             $this->getSchemaHelper()->createTable('ohrm_claim_event')
