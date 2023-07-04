@@ -37,10 +37,10 @@ class Migration extends AbstractMigration
     {
         $this->insertI18nGroups();
         $groups = ['claim', 'general'];
+        $this->getLangStringHelper()->deleteNonCustomizedLangStrings('claim');
         foreach ($groups as $group) {
             $this->getLangStringHelper()->insertOrUpdateLangStrings($group);
         }
-        $this->getLangStringHelper()->deleteNonCustomizedLangStrings('claim');
 
         $this->updateLangStringVersion($this->getVersion());
 
