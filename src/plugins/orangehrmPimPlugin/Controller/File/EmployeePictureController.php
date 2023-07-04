@@ -65,6 +65,7 @@ class EmployeePictureController extends AbstractFileController
                     $this->setCommonHeaders($response, $empPicture->getFileType());
                 }
 
+                $response->setMaxAge(Config::get(Config::MAX_SESSION_IDLE_TIME));
                 return $response;
             }
         }
@@ -85,7 +86,6 @@ class EmployeePictureController extends AbstractFileController
     {
         $response->headers->set('Content-Type', $contentType);
         $response->setPrivate();
-        $response->setMaxAge(0);
         $response->headers->addCacheControlDirective('must-revalidate', true);
         $response->headers->set('Pragma', 'Public');
     }
