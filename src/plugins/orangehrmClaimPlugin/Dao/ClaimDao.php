@@ -75,7 +75,7 @@ class ClaimDao extends BaseDao
             $q->andWhere('claimEvent.id = :id');
             $q->setParameter('id', $claimEventSearchFilterParams->getId());
         }
-        $q->andWhere('claimEvent.isDeleted = :isDeleted'); //TODO:
+        $q->andWhere('claimEvent.isDeleted = :isDeleted');
         $q->setParameter('isDeleted', false);
         return $this->getPaginator($q);
     }

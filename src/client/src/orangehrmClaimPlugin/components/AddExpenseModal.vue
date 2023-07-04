@@ -97,7 +97,6 @@ import {yearRange} from '@ohrm/core/util/helper/year-range';
 import {OxdDialog} from '@ohrm/oxd';
 import {
   shouldNotExceedCharLength,
-  digitsOnlyWithDecimalPoint,
   maxCurrency,
   digitsOnlyWithTwoDecimalPoints,
 } from '@ohrm/core/util/validation/rules';
@@ -155,7 +154,6 @@ export default {
         note: [shouldNotExceedCharLength(1000)],
         amount: [
           required,
-          digitsOnlyWithDecimalPoint,
           maxCurrency(10000000000),
           digitsOnlyWithTwoDecimalPoints,
         ],
