@@ -213,9 +213,16 @@ class EmployeePictureServiceTest extends KernelTestCase
         $empPicture->setPicture($pictureData);
         $empPicture->setEmployee($employee);
 
-        $expected = $this->generateEtag($pictureData);
-        $service = new EmployeePictureService();
-        $this->assertEquals($expected, $service->getETagByEmpPicture($empPicture));
+        $service = $this->getMockBuilder(EmployeePictureService::class)
+            ->onlyMethods(['getEmpPictureByEmpNumber'])
+            ->getMock();
+        $service->expects($this->once())
+            ->method('getEmpPictureByEmpNumber')
+            ->with(1)
+            ->willReturn($empPicture);
+
+        $expected = $this->generateEtag($empPicture->getDecorator()->getPicture());
+        $this->assertEquals($expected, $service->getETagByEmpNumber(1));
 
         $this->getEntityManager()->flush();
     }

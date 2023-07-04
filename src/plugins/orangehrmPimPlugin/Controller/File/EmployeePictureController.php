@@ -55,17 +55,18 @@ class EmployeePictureController extends AbstractFileController
     {
         $empNumber = $request->attributes->get('empNumber');
         if (!is_null($empNumber)) {
-            $empPicture = $this->getEmployeePictureService()->getEmpPictureByEmpNumber($empNumber);
-            if ($empPicture instanceof EmpPicture) {
-                $response = $this->getResponse();
-                $response->setEtag($this->getEmployeePictureService()->getETagByEmpPicture($empPicture));
+            $response = $this->getResponse();
+            $eTag = $this->getEmployeePictureService()->getETagByEmpNumber($empNumber);
 
+            if (!is_null($eTag)) {
+                $response->setEtag($eTag);
                 if (!$response->isNotModified($request)) {
-                    $response->setContent($empPicture->getDecorator()->getPicture());
-                    $this->setCommonHeaders($response, $empPicture->getFileType());
+                    $empPicture = $this->getEmployeePictureService()->getEmpPictureByEmpNumber($empNumber);
+                    if ($empPicture instanceof EmpPicture) {
+                        $response->setContent($empPicture->getDecorator()->getPicture());
+                        $this->setCommonHeaders($response, $empPicture->getFileType());
+                    }
                 }
-
-                $response->setMaxAge(Config::get(Config::MAX_SESSION_IDLE_TIME));
                 return $response;
             }
         }
@@ -86,6 +87,7 @@ class EmployeePictureController extends AbstractFileController
     {
         $response->headers->set('Content-Type', $contentType);
         $response->setPrivate();
+        $response->setMaxAge(0);
         $response->headers->addCacheControlDirective('must-revalidate', true);
         $response->headers->set('Pragma', 'Public');
     }

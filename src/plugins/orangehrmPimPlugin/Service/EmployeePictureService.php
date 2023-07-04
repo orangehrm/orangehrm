@@ -124,16 +124,19 @@ class EmployeePictureService
     }
 
     /**
-     * @param EmpPicture $empPicture
-     * @return string
+     * @param int $empNumber
+     * @return string|null
      */
-    public function getETagByEmpPicture(EmpPicture $empPicture): string
+    public function getETagByEmpNumber(int $empNumber): ?string
     {
-        $cacheKey = $this->generateEmpPictureETagCacheKey($empPicture->getEmployee()->getEmpNumber());
+        $cacheKey = $this->generateEmpPictureETagCacheKey($empNumber);
         $cacheItem = $this->getCache()->getItem($cacheKey);
         if (!$cacheItem->isHit()) {
-            $this->getEmpPictureETagAlongWithCache($empPicture);
-            $cacheItem = $this->getCache()->getItem($cacheKey);
+            $empPicture = $this->getEmpPictureByEmpNumber($empNumber);
+            if ($empPicture instanceof EmpPicture) {
+                $this->getEmpPictureETagAlongWithCache($empPicture);
+                $cacheItem = $this->getCache()->getItem($cacheKey);
+            }
         }
         return $cacheItem->get();
     }
