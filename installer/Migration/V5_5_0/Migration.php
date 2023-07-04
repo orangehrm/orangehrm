@@ -36,8 +36,11 @@ class Migration extends AbstractMigration
     public function up(): void
     {
         $this->insertI18nGroups();
+        $groups = ['claim', 'general'];
+        foreach ($groups as $group) {
+            $this->getLangStringHelper()->insertOrUpdateLangStrings($group);
+        }
         $this->getLangStringHelper()->deleteNonCustomizedLangStrings('claim');
-        $this->getLangStringHelper()->insertOrUpdateLangStrings('claim');
 
         $this->updateLangStringVersion($this->getVersion());
 
@@ -290,6 +293,7 @@ class Migration extends AbstractMigration
         }
 
         $this->deleteClaimWorkflowStates();
+        $this->removeMarketplaceTables();
 
         $this->insertWorkflowState(
             'INITIATED',
@@ -703,5 +707,12 @@ class Migration extends AbstractMigration
             ->where('workflow = :workflow')
             ->setParameter('workflow', 'CLAIM')
             ->executeQuery();
+    }
+
+    private function removeMarketplaceTables(): void
+    {
+        if ($this->getSchemaManager()->tablesExist('ohrm_marketplace_addon')) {
+            $this->getSchemaManager()->dropTable('ohrm_marketplace_addon');
+        }
     }
 }

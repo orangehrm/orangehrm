@@ -143,8 +143,9 @@ export default {
       workShift: {...workShiftModel},
       rules: {
         name: [required, shouldNotExceedCharLength(50)],
-        fromTime: [validTimeFormat],
+        fromTime: [required, validTimeFormat],
         endTime: [
+          required,
           validTimeFormat,
           endTimeShouldBeAfterStartTime(
             () => this.workShift.startTime,

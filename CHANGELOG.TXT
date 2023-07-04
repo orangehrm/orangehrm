@@ -12,6 +12,7 @@ New & Changed Features for OrangeHRM ver 5.5
     ---------
     - https://github.com/orangehrm/orangehrm/issues/1684
     - https://github.com/orangehrm/orangehrm/issues/1698
+    - https://github.com/orangehrm/orangehrm/issues/1665
 
 New & Changed Features for OrangeHRM ver 5.4
     New Feature

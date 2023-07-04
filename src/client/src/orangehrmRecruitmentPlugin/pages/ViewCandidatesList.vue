@@ -210,7 +210,17 @@ export default {
     const {locale} = useLocale();
     const {jsDateFormat, userDateFormat} = useDateFormat();
     const {$tEmpName} = useEmployeeNameTranslate();
-
+    const statuses = [
+      {id: 1, label: $t('recruitment.application_initiated')},
+      {id: 2, label: $t('recruitment.shortlisted')},
+      {id: 3, label: $t('leave.rejected')},
+      {id: 4, label: $t('recruitment.interview_scheduled')},
+      {id: 5, label: $t('recruitment.interview_passed')},
+      {id: 6, label: $t('recruitment.interview_failed')},
+      {id: 7, label: $t('recruitment.job_offered')},
+      {id: 8, label: $t('recruitment.offer_declined')},
+      {id: 9, label: $t('recruitment.hired')},
+    ];
     const candidateDataNormalizer = (data) => {
       return data.map((item) => {
         return {
@@ -233,7 +243,9 @@ export default {
             jsDateFormat,
             {locale},
           ),
-          status: item.status?.label,
+          status:
+            statuses.find((status) => status.id === item.status?.id)?.label ||
+            '',
           resume: item.hasAttachment,
           isSelectable: item.deletable,
         };

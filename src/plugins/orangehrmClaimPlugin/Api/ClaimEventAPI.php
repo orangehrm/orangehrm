@@ -97,7 +97,7 @@ class ClaimEventAPI extends Endpoint implements CrudEndpoint
     /**
      * @param ClaimEvent $claimEvent
      */
-    public function setClaimEvent(ClaimEvent $claimEvent)
+    public function setClaimEvent(ClaimEvent $claimEvent): void
     {
         $claimEvent->setDescription(
             $this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_DESCRIPTION)

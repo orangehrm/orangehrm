@@ -1,0 +1,16 @@
+langStrings:
+  -
+    value: 'This page is currently under development.'
+    unitId: page_under_development
+  -
+    value: 'to download the latest stable release.'
+    unitId: download_latest_release
+  -
+    value: 'Today'
+    unitId: today
+  -
+    value: 'Clear'
+    unitId: clear
+  -
+    value: 'Close'
+    unitId: close
