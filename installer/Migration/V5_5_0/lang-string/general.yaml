@@ -5,3 +5,12 @@ langStrings:
   -
     value: 'to download the latest stable release.'
     unitId: download_latest_release
+  -
+    value: 'Today'
+    unitId: today
+  -
+    value: 'Clear'
+    unitId: clear
+  -
+    value: 'Close'
+    unitId: close
