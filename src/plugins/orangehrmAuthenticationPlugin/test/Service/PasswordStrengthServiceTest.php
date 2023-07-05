@@ -74,7 +74,7 @@ class PasswordStrengthServiceTest extends KernelTestCase
     {
         $credential = new UserCredential('admin', 'Admin123');
         $messages = $this->passwordStrengthService->checkPasswordPolicies($credential, 2);
-        $this->assertEquals($messages[0], 'Should have at least 8 characters');
+        $this->assertEquals($messages[0], 'Your password must contain minimum 1 special character');
 
         $credential = new UserCredential('admin', 'Admin@OHRM123');
         $messages = $this->passwordStrengthService->checkPasswordPolicies($credential, 2);
