@@ -162,7 +162,7 @@ class PasswordStrengthService
         if ($minLength < 0) {
             $minLength = 0;
         }
-        return $this->getTextHelper()->strLength($password) <= $minLength;
+        return $this->getTextHelper()->strLength($password) < $minLength;
     }
 
     /**

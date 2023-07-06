@@ -470,12 +470,12 @@ class AppSetupUtility
         $isIn = false;
         $versions = [];
         foreach (self::MIGRATIONS_MAP as $version => $migration) {
-            if ($version == $toVersion) {
+            if ($version === $toVersion) {
                 $isIn = false;
                 $versions[] = $version;
             } elseif ($isIn) {
                 $versions[] = $version;
-            } elseif ($version == $fromVersion) {
+            } elseif ($version === $fromVersion) {
                 $isIn = true;
                 !$includeFromVersion ?: $versions[] = $version;
             }
