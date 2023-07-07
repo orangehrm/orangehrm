@@ -554,6 +554,23 @@ Update:
         }
     meta: [ ]
 
+  "update a claim event without changing name":
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+    attributes:
+      id: 2
+    body:
+      name: 'medical'
+      description:  'medical expenses'
+      status: true
+    data:
+      id: 2
+      name: 'medical'
+      description: 'medical expenses'
+      status: true
+    meta: [ ]
+
 Delete:
   'with one id':
     userId: 1
