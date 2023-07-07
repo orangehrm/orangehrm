@@ -303,6 +303,7 @@ class Migration extends AbstractMigration
 
         $this->deleteClaimWorkflowStates();
         $this->removeMarketplaceTables();
+        $this->updateI18nGroups();
 
         $this->insertWorkflowState(
             'INITIATED',
@@ -723,5 +724,16 @@ class Migration extends AbstractMigration
         if ($this->getSchemaManager()->tablesExist('ohrm_marketplace_addon')) {
             $this->getSchemaManager()->dropTable('ohrm_marketplace_addon');
         }
+    }
+
+    private function updateI18nGroups(): void
+    {
+        $qb = $this->createQueryBuilder()
+            ->update('ohrm_i18n_lang_string', 'langString')
+            ->set('langString.group_id', ':groupId')
+            ->setParameter('groupId', $this->getLangHelper()->getGroupIdByName('general'));
+        $qb->andWhere($qb->expr()->in('langString.unit_id', ':unitIdToChangeGroup'))
+            ->setParameter('unitIdToChangeGroup', 'today')
+            ->executeQuery();
     }
 }

@@ -146,11 +146,13 @@ export default {
         const {data} = response.data;
         this.rules.name.push((value) => {
           const index = data.findIndex(
-            (item) =>
-              value.trim().toLowerCase() !== this.name &&
-              item.name.toLowerCase() == value.trim().toLowerCase(),
+            (item) => item.name.toLowerCase() == value.trim().toLowerCase(),
           );
-          return index === -1 || this.$t('general.already_exists');
+          if (index > -1) {
+            const {id} = data[index];
+            return id != this.id ? this.$t('general.already_exists') : true;
+          }
+          return true;
         });
       })
       .finally(() => {

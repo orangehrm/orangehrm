@@ -114,7 +114,7 @@ class TimezonesAPI extends Endpoint implements CollectionEndpoint
         }
         usort(
             $timezones,
-            fn ($timezone1, $timezone2) => $timezone1['offset'] > $timezone2['offset']
+            fn ($timezone1, $timezone2) => $timezone1['offset'] > $timezone2['offset'] ? 1 : -1
         );
         return new EndpointCollectionResult(
             ArrayModel::class,

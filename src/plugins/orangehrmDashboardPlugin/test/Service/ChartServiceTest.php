@@ -19,25 +19,51 @@
 
 namespace OrangeHRM\Tests\Dashboard\Service;
 
+use OrangeHRM\Admin\Service\CompanyStructureService;
+use OrangeHRM\Config\Config;
 use OrangeHRM\Dashboard\Dao\ChartDao;
 use OrangeHRM\Dashboard\Service\ChartService;
-use OrangeHRM\Tests\Util\TestCase;
+use OrangeHRM\Framework\Services;
+use OrangeHRM\Tests\Util\KernelTestCase;
+use OrangeHRM\Tests\Util\TestDataService;
 
 /**
  * @group Dashboard
  * @group Service
  */
-class ChartServiceTest extends TestCase
+class ChartServiceTest extends KernelTestCase
 {
+    protected string $fixture;
     private ChartService $chartService;
 
+    /**
+     * Set up method
+     */
     protected function setUp(): void
     {
         $this->chartService = new ChartService();
+        $this->fixture = Config::get(
+            Config::PLUGINS_DIR
+        ) . '/orangehrmDashboardPlugin/test/fixtures/ChartDao.yml';
+        TestDataService::populate($this->fixture);
+        $this->createKernelWithMockServices([
+            Services::COMPANY_STRUCTURE_SERVICE => new CompanyStructureService(),
+        ]);
     }
 
     public function testGetChartDao(): void
     {
         $this->assertTrue($this->chartService->getChartDao() instanceof ChartDao);
+    }
+
+    public function testGetEmployeeDistributionBySubunit(): void
+    {
+        $distributionBySubunit = $this->chartService->getEmployeeDistributionBySubunit();
+        $subunitCountPairs = $distributionBySubunit->getSubunitCountPairs();
+        $this->assertEquals('0', $distributionBySubunit->getOtherEmployeeCount());
+        $this->assertEquals('9', $distributionBySubunit->getTotalSubunitCount());
+        $this->assertEquals('3', $distributionBySubunit->getUnassignedEmployeeCount());
+        $this->assertEquals('8', $distributionBySubunit->getLimit());
+        $this->assertEquals($distributionBySubunit->getTotalSubunitCount(), sizeof($subunitCountPairs));
     }
 }

@@ -201,7 +201,7 @@ class ClaimExpenseTypeAPI extends Endpoint implements CrudEndpoint
     {
         return new ParamRuleCollection(
             $this->getValidationDecorator()->requiredParamRule(
-                $this->getNameRule(),
+                $this->getNameRule(false),
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
@@ -219,12 +219,19 @@ class ClaimExpenseTypeAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @param bool $update
      * @return ParamRule
      */
-    protected function getNameRule(): ParamRule
+    protected function getNameRule(bool $update): ParamRule
     {
         $entityProperties = new EntityUniquePropertyOption();
         $ignoreValues = ['isDeleted' => true];
+        if ($update) {
+            $ignoreValues['getId'] = $this->getRequestParams()->getInt(
+                RequestParams::PARAM_TYPE_ATTRIBUTE,
+                CommonParams::PARAMETER_ID
+            );
+        }
         $entityProperties->setIgnoreValues($ignoreValues);
 
         return new ParamRule(
@@ -412,7 +419,7 @@ class ClaimExpenseTypeAPI extends Endpoint implements CrudEndpoint
                 new Rule(Rules::BOOL_VAL)
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
-                $this->getNameRule(),
+                $this->getNameRule(true),
             ),
         );
     }
