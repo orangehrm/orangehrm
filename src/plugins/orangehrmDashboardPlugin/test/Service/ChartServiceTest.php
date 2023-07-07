@@ -64,5 +64,6 @@ class ChartServiceTest extends KernelTestCase
         $this->assertEquals('9', $distributionBySubunit->getTotalSubunitCount());
         $this->assertEquals('3', $distributionBySubunit->getUnassignedEmployeeCount());
         $this->assertEquals('8', $distributionBySubunit->getLimit());
+        $this->assertEquals($distributionBySubunit->getTotalSubunitCount(), sizeof($subunitCountPairs));
     }
 }
