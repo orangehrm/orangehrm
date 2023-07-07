@@ -50,7 +50,7 @@ class ChartService
         usort(
             $subunitCountPairs,
             static function (SubunitCountPair $x, SubunitCountPair $y) {
-                return $x->getCount() < $y->getCount();
+                return ($x->getCount() < $y->getCount()) ? 1 : -1;
             }
         );
 
