@@ -45,7 +45,7 @@
       <div class="orangehrm-attendance-card-bar">
         <oxd-text tag="span" class="orangehrm-attendance-card-fulltime">
           <b>{{ dayTotal.hours }}h</b> <b>{{ dayTotal.minutes }}m</b>
-          {{ $t('dashboard.today') }}
+          {{ $t('general.today') }}
         </oxd-text>
         <oxd-icon-button
           name="stopwatch"
