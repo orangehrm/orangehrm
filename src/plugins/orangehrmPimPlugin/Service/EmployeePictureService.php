@@ -127,12 +127,14 @@ class EmployeePictureService
      * @param int $empNumber
      * @return string|null
      */
-    public function getETagByEmpNumber(int $empNumber): ?string
+    public function getEmpPictureETagByEmpNumber(int $empNumber): ?string
     {
         $cacheKey = $this->generateEmpPictureETagCacheKey($empNumber);
         $cacheItem = $this->getCache()->getItem($cacheKey);
         if (!$cacheItem->isHit()) {
+            // if picture eTag is not cached need to create
             $empPicture = $this->getEmpPictureByEmpNumber($empNumber);
+            // need to check if employee  has a picture
             if ($empPicture instanceof EmpPicture) {
                 $this->getEmpPictureETagAlongWithCache($empPicture);
                 $cacheItem = $this->getCache()->getItem($cacheKey);
@@ -144,7 +146,7 @@ class EmployeePictureService
     /**
      * @param int $empNumber
      */
-    public function deleteETagByEmpNumber(int $empNumber): void
+    public function deleteEmpPictureETagByEmpNumber(int $empNumber): void
     {
         $this->getCache()->delete($this->generateEmpPictureETagCacheKey($empNumber));
     }

@@ -78,7 +78,7 @@ class PurgeService
             }
             $this->getEntityManager()->flush();
 
-            $this->getEmployeePictureService()->deleteETagByEmpNumber($empNumber);
+            $this->getEmployeePictureService()->deleteEmpPictureETagByEmpNumber($empNumber);
 
             $this->getEventDispatcher()->dispatch(
                 new PurgeEmployee($empNumber),

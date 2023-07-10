@@ -112,7 +112,7 @@ class EmployeePictureAPI extends Endpoint implements ResourceEndpoint
         $empPicture->setHeight($height);
 
         $this->getEmployeePictureService()->saveEmployeePicture($empPicture);
-        $this->getEmployeePictureService()->deleteETagByEmpNumber($empNumber);
+        $this->getEmployeePictureService()->deleteEmpPictureETagByEmpNumber($empNumber);
 
         return new EndpointResourceResult(EmployeePictureModel::class, $empPicture);
     }

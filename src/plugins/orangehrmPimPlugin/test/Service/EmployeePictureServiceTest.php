@@ -222,7 +222,7 @@ class EmployeePictureServiceTest extends KernelTestCase
             ->willReturn($empPicture);
 
         $expected = $this->generateEtag($empPicture->getDecorator()->getPicture());
-        $this->assertEquals($expected, $service->getETagByEmpNumber(1));
+        $this->assertEquals($expected, $service->getEmpPictureETagByEmpNumber(1));
 
         $this->getEntityManager()->flush();
     }
