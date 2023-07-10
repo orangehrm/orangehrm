@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Admin\Api;
 
+use OrangeHRM\Admin\Dao\ValidationUniqueDao;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
@@ -33,7 +34,11 @@ class ValidationUniqueAPI extends Endpoint implements ResourceEndpoint
     public const PARAMETER_ENTITY_Id = 'entityId';
     public const PARAMETER_ENTITY_NAME = 'entityName';
     public const PARAMETER_ATTRIBUTE_NAME = 'attributeName';
+    public const PARAMETER_MATCH_BY_FIELD = 'matchByField';
+    public const PARAMETER_MATCH_BY_VALUE = 'matchByValue';
     public const PARAMETER_IS_UNIQUE_RECORD = 'valid';
+
+    private ?ValidationUniqueDao $validationUniqueDao = null;
 
     public function getOne(): EndpointResult
     {
@@ -41,15 +46,22 @@ class ValidationUniqueAPI extends Endpoint implements ResourceEndpoint
         $entityId = $this->getRequestParams()->getIntOrNull(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_ENTITY_Id);
         $entityName = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_ENTITY_NAME);
         $attributeName = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_ATTRIBUTE_NAME);
+        $matchByField = $this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_MATCH_BY_FIELD);
+        $matchByValue = $this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_MATCH_BY_VALUE);
 
-        if (!is_null($entityId)) {
-            // TODO: If entityId is there allow duplicate value
-        }
+        $unique = $this->getValidationUniqueDao()->isValueUnique(
+            $value,
+            $entityName,
+            $attributeName,
+            $entityId,
+            $matchByField,
+            $matchByValue
+        );
 
         return new EndpointResourceResult(
             ArrayModel::class,
             [
-                self::PARAMETER_IS_UNIQUE_RECORD => random_int(0, 1) === 1,
+                self::PARAMETER_IS_UNIQUE_RECORD => $unique,
             ]
         );
     }
@@ -64,7 +76,17 @@ class ValidationUniqueAPI extends Endpoint implements ResourceEndpoint
         $paramsRules->addExcludedParamKey(self::PARAMETER_ENTITY_Id);
         $paramsRules->addExcludedParamKey(self::PARAMETER_ENTITY_NAME);
         $paramsRules->addExcludedParamKey(self::PARAMETER_ATTRIBUTE_NAME);
+        $paramsRules->addExcludedParamKey(self::PARAMETER_MATCH_BY_FIELD);
+        $paramsRules->addExcludedParamKey(self::PARAMETER_MATCH_BY_VALUE);
         return $paramsRules;
+    }
+
+    /**
+     * @return ValidationUniqueDao
+     */
+    public function getValidationUniqueDao(): ValidationUniqueDao
+    {
+        return $this->validationUniqueDao ??= new ValidationUniqueDao();
     }
 
     /**

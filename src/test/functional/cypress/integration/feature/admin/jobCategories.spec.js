@@ -35,6 +35,9 @@ describe('Admin - Job Category', function () {
     cy.intercept('DELETE', '**/api/v2/admin/job-categories').as(
       'deleteJobCategories',
     );
+    cy.intercept('GET', '**/api/v2/admin/validation/unique*').as(
+      'getUniqueValidation',
+    );
     cy.fixture('user').then(({admin}) => {
       this.user = admin;
     });
@@ -52,9 +55,11 @@ describe('Admin - Job Category', function () {
   describe('Add job Category', function () {
     it('add job category', function () {
       cy.loginTo(this.user, '/admin/saveJobCategory');
-      cy.wait('@getJobCategories');
       cy.getOXD('form').within(() => {
         cy.getOXDInput('Name').type(this.strings.chars50.text);
+        cy.wait('@getUniqueValidation')
+          .its('response.statusCode')
+          .should('eq', 200);
         cy.getOXD('button').contains('Save').click();
       });
       cy.wait('@postJobCategories');
@@ -62,7 +67,6 @@ describe('Admin - Job Category', function () {
     });
     it('Job Category form validations', function () {
       cy.loginTo(this.user, '/admin/saveJobCategory');
-      cy.wait('@getJobCategories');
       cy.getOXD('form').within(() => {
         cy.getOXDInput('Name')
           .type(this.strings.chars100.text)
@@ -75,9 +79,11 @@ describe('Admin - Job Category', function () {
     });
     it('add a job category and click cancel', function () {
       cy.loginTo(this.user, '/admin/saveJobCategory');
-      cy.wait('@getJobCategories');
       cy.getOXD('form').within(() => {
         cy.getOXDInput('Name').type(this.strings.chars50.text);
+        cy.wait('@getUniqueValidation')
+          .its('response.statusCode')
+          .should('eq', 200);
         cy.getOXD('button').contains('Cancel').click();
       });
       cy.wait('@getJobCategories');
@@ -88,9 +94,11 @@ describe('Admin - Job Category', function () {
   describe('Update job Category', function () {
     it('Edit job category', function () {
       cy.loginTo(this.user, '/admin/saveJobCategory/1');
-      cy.wait('@getJobCategories');
       cy.getOXD('form').within(() => {
         cy.getOXDInput('Name').clear().type(this.strings.chars50.text);
+        cy.wait('@getUniqueValidation')
+          .its('response.statusCode')
+          .should('eq', 200);
         cy.getOXD('button').contains('Save').click();
       });
       cy.wait('@updateJobCategories');

@@ -79,7 +79,7 @@ export default {
     const educationUniqueValidation = createUniqueValidator(
       'education',
       'name',
-      props.educationId,
+      {entityId: props.educationId},
     );
 
     return {
@@ -98,8 +98,8 @@ export default {
       rules: {
         name: [
           required,
-          shouldNotExceedCharLength(100),
           this.educationUniqueValidation,
+          shouldNotExceedCharLength(100),
         ],
       },
     };

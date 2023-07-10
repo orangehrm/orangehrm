@@ -79,7 +79,7 @@ export default {
     const langugageUniqueValidation = createUniqueValidator(
       'language',
       'name',
-      props.qualificationLanguageId,
+      {entityId: props.qualificationLanguageId},
     );
 
     return {

@@ -100,6 +100,7 @@ import {
 } from '@ohrm/core/util/validation/rules';
 import EntitlementSituationalModal from '@/orangehrmLeavePlugin/components/EntitlementSituationalModal';
 import {OxdLabel} from '@ohrm/oxd';
+import useServerValidation from '@/core/util/composable/useServerValidation';
 
 const leaveTypeModel = {
   id: '',
@@ -119,13 +120,20 @@ export default {
     },
   },
 
-  setup() {
+  setup(props) {
     const http = new APIService(
       window.appGlobal.baseUrl,
       '/api/v2/leave/leave-types',
     );
+    const {createUniqueValidator} = useServerValidation(http);
+    const leaveTypeUniqueValidation = createUniqueValidator(
+      'leaveType',
+      'name',
+      {entityId: props.leaveTypeId},
+    );
     return {
       http,
+      leaveTypeUniqueValidation,
     };
   },
 
@@ -135,7 +143,11 @@ export default {
       isLoading: false,
       leaveType: {...leaveTypeModel},
       rules: {
-        name: [required, shouldNotExceedCharLength(50)],
+        name: [
+          required,
+          this.leaveTypeUniqueValidation,
+          shouldNotExceedCharLength(50),
+        ],
       },
     };
   },
@@ -148,23 +160,6 @@ export default {
         this.leaveType.id = data.id;
         this.leaveType.name = data.name;
         this.leaveType.situational = data.situational;
-
-        // Fetch list data for unique test
-        return this.http.getAll();
-      })
-      .then((response) => {
-        const {data} = response.data;
-        this.rules.name.push((v) => {
-          const index = data.findIndex((item) => item.name == v);
-          if (index > -1) {
-            const {id} = data[index];
-            return id != this.leaveTypeId
-              ? this.$t('general.already_exists')
-              : true;
-          } else {
-            return true;
-          }
-        });
       })
       .finally(() => {
         this.isLoading = false;

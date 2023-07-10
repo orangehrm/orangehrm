@@ -80,7 +80,7 @@ export default {
     const jobCategoryUniqueValidation = createUniqueValidator(
       'jobCategory',
       'name',
-      props.jobCategoryId,
+      {entityId: props.jobCategoryId},
     );
 
     return {

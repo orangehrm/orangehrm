@@ -115,7 +115,7 @@ import {
   shouldNotExceedCharLength,
   shouldNotLessThanCharLength,
 } from '@ohrm/core/util/validation/rules';
-import {promiseDebounce} from '@ohrm/oxd';
+import useServerValidation from '@/core/util/composable/useServerValidation';
 
 const userModel = {
   id: '',
@@ -140,14 +140,22 @@ export default {
     },
   },
 
-  setup() {
+  setup(props) {
     const http = new APIService(
       window.appGlobal.baseUrl,
       '/api/v2/admin/users',
     );
     http.setIgnorePath('/api/v2/admin/validation/user-name');
+    const {createUniqueValidator} = useServerValidation(http);
+    const usernameValidation = createUniqueValidator('user', 'userName', {
+      entityId: props.systemUserId,
+      matchByField: 'deleted',
+      matchByValue: 'false',
+    });
+
     return {
       http,
+      usernameValidation,
     };
   },
 
@@ -158,9 +166,9 @@ export default {
       rules: {
         username: [
           required,
+          this.usernameValidation,
           shouldNotLessThanCharLength(5),
           shouldNotExceedCharLength(40),
-          promiseDebounce(this.validateUserName, 500),
         ],
         role: [required],
         employee: [required, validSelection],
@@ -224,29 +232,6 @@ export default {
         .then(() => {
           this.onCancel();
         });
-    },
-    validateUserName(user) {
-      return new Promise((resolve) => {
-        if (user) {
-          this.http
-            .request({
-              method: 'GET',
-              url: `/api/v2/admin/validation/user-name`,
-              params: {
-                userName: this.user.username.trim(),
-                userId: this.systemUserId,
-              },
-            })
-            .then((response) => {
-              const {data} = response.data;
-              return data.valid === true
-                ? resolve(true)
-                : resolve(this.$t('general.already_exists'));
-            });
-        } else {
-          resolve(true);
-        }
-      });
     },
   },
 };

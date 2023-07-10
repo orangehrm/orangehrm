@@ -110,6 +110,7 @@ import {
 } from '@ohrm/core/util/validation/rules';
 import {yearRange} from '@/core/util/helper/year-range';
 import useDateFormat from '@/core/util/composable/useDateFormat';
+import useServerValidation from '@/core/util/composable/useServerValidation';
 
 const holidayModel = {
   id: '',
@@ -131,16 +132,23 @@ export default {
     },
   },
 
-  setup() {
+  setup(props) {
     const http = new APIService(
       window.appGlobal.baseUrl,
       '/api/v2/leave/holidays',
     );
     const {userDateFormat} = useDateFormat();
+    const {createUniqueValidator} = useServerValidation(http);
+    const holidayDateUniqueValidation = createUniqueValidator(
+      'holiday',
+      'date',
+      {entityId: props.holidayId},
+    );
 
     return {
       http,
       userDateFormat,
+      holidayDateUniqueValidation,
     };
   },
 
@@ -151,7 +159,11 @@ export default {
       holiday: {...holidayModel},
       rules: {
         name: [required, shouldNotExceedCharLength(200)],
-        date: [required, validDateFormat(this.userDateFormat)],
+        date: [
+          required,
+          validDateFormat(this.userDateFormat),
+          this.holidayDateUniqueValidation,
+        ],
         length: [required],
       },
     };
@@ -171,41 +183,6 @@ export default {
             return h.id === data.length;
           });
         }
-        // Fetch list data for unique test
-        const today = new Date();
-        const startDate =
-          today.getFullYear() -
-          100 +
-          '-' +
-          (today.getMonth() + 1) +
-          '-' +
-          today.getDate();
-        const endDate =
-          today.getFullYear() +
-          100 +
-          '-' +
-          (today.getMonth() + 1) +
-          '-' +
-          today.getDate();
-        return this.http.getAll({
-          fromDate: startDate,
-          toDate: endDate,
-          limit: 0,
-        });
-      })
-      .then((response) => {
-        const {data} = response.data;
-        this.rules.date.push((v) => {
-          const index = data.findIndex((item) => item.date === v);
-          if (index > -1) {
-            const id = data[index].id;
-            return id != this.holidayId
-              ? this.$t('general.already_exists')
-              : true;
-          } else {
-            return true;
-          }
-        });
       })
       .finally(() => {
         this.isLoading = false;

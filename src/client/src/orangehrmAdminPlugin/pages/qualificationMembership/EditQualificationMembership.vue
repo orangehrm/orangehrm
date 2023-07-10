@@ -79,7 +79,7 @@ export default {
     const membershipUniqueValidation = createUniqueValidator(
       'membership',
       'name',
-      props.qualificationMembershipId,
+      {entityId: props.qualificationMembershipId},
     );
 
     return {

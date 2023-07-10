@@ -140,6 +140,7 @@ import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete'
 import JobtitleDropdown from '@/orangehrmPimPlugin/components/JobtitleDropdown';
 import VacancyLinkCard from '../components/VacancyLinkCard.vue';
 import {OxdSwitchInput} from '@ohrm/oxd';
+import useServerValidation from '@/core/util/composable/useServerValidation';
 
 const vacancyModel = {
   jobTitle: null,
@@ -166,8 +167,14 @@ export default {
       window.appGlobal.baseUrl,
       '/api/v2/recruitment/vacancies',
     );
+    const {createUniqueValidator} = useServerValidation(http);
+    const vacancyNameUniqueValidation = createUniqueValidator(
+      'vacancy',
+      'name',
+    );
     return {
       http,
+      vacancyNameUniqueValidation,
     };
   },
   data() {
@@ -176,7 +183,11 @@ export default {
       vacancy: {...vacancyModel},
       rules: {
         jobTitle: [required],
-        name: [required, shouldNotExceedCharLength(50)],
+        name: [
+          required,
+          this.vacancyNameUniqueValidation,
+          shouldNotExceedCharLength(50),
+        ],
         hiringManager: [required, validSelection],
         numOfPositions: [
           (value) => {
@@ -193,21 +204,6 @@ export default {
       rssFeedUrl: `${basePath}/recruitmentApply/jobs.rss`,
       webUrl: `${basePath}/recruitmentApply/jobs.html`,
     };
-  },
-  created() {
-    this.isLoading = true;
-    this.http
-      .getAll({limit: 0})
-      .then((response) => {
-        const {data} = response.data;
-        this.rules.name.push((v) => {
-          const index = data.findIndex((item) => item.name == v);
-          return index === -1 || this.$t('general.already_exists');
-        });
-      })
-      .finally(() => {
-        this.isLoading = false;
-      });
   },
   methods: {
     onCancel() {

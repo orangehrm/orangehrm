@@ -282,6 +282,7 @@ import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete'
 import JobtitleDropdown from '@/orangehrmPimPlugin/components/JobtitleDropdown';
 import VacancyLinkCard from '../components/VacancyLinkCard.vue';
 import {OxdSwitchInput} from '@ohrm/oxd';
+import useServerValidation from '@/core/util/composable/useServerValidation';
 
 const vacancyModel = {
   jobTitle: null,
@@ -341,7 +342,7 @@ export default {
       required: true,
     },
   },
-  setup() {
+  setup(props) {
     const http = new APIService(
       window.appGlobal.baseUrl,
       '/api/v2/recruitment/vacancies',
@@ -350,9 +351,16 @@ export default {
       window.appGlobal.baseUrl,
       '/api/v2/recruitment/vacancy/attachments',
     );
+    const {createUniqueValidator} = useServerValidation(http);
+    const vacancyNameUniqueValidation = createUniqueValidator(
+      'vacancy',
+      'name',
+      {entityId: props.vacancyId},
+    );
     return {
       http,
       httpAttachments,
+      vacancyNameUniqueValidation,
     };
   },
   data() {
@@ -367,7 +375,11 @@ export default {
       vacancyAttachment: {...VacancyAttachmentModel},
       rules: {
         jobTitle: [required],
-        name: [required, shouldNotExceedCharLength(50)],
+        name: [
+          required,
+          this.vacancyNameUniqueValidation,
+          shouldNotExceedCharLength(50),
+        ],
         hiringManager: [
           required,
           validSelection,
@@ -486,16 +498,6 @@ export default {
               id: data.jobTitle.id,
               label: data.jobTitle.title,
             };
-        return this.http.getAll({limit: 0});
-      })
-      .then((response) => {
-        const {data} = response.data;
-        this.rules.name.push((v) => {
-          const index = data.findIndex((item) => {
-            return item.name == v && item.name != this.currentName;
-          });
-          return index === -1 || this.$t('general.already_exists');
-        });
       })
       .then(() => {
         this.httpAttachments

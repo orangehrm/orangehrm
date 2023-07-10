@@ -32,6 +32,9 @@ describe('Admin - Employment Status', function () {
     cy.intercept('DELETE', '**/api/v2/admin/employment-statuses').as(
       'deleteEmpStatus',
     );
+    cy.intercept('GET', '**/api/v2/admin/validation/unique*').as(
+      'getUniqueValidation',
+    );
     cy.fixture('user').then(({admin}) => {
       this.user = admin;
     });
@@ -48,9 +51,11 @@ describe('Admin - Employment Status', function () {
   describe('create snapshot with emp status', function () {
     it('create snapshot with emp status', function () {
       cy.loginTo(this.user, '/admin/saveEmploymentStatus');
-      cy.wait('@getEmpStatus');
       cy.getOXD('form').within(() => {
         cy.getOXDInput('Name').type(this.strings.chars50.text);
+        cy.wait('@getUniqueValidation')
+          .its('response.statusCode')
+          .should('eq', 200);
         cy.getOXD('button').contains('Save').click();
       });
       cy.wait('@postEmpStatus').then(function () {
@@ -62,9 +67,11 @@ describe('Admin - Employment Status', function () {
   describe('add emp status', function () {
     it('add an emp status and save', function () {
       cy.loginTo(this.user, '/admin/saveEmploymentStatus');
-      cy.wait('@getEmpStatus');
       cy.getOXD('form').within(() => {
         cy.getOXDInput('Name').type(this.strings.chars10.text);
+        cy.wait('@getUniqueValidation')
+          .its('response.statusCode')
+          .should('eq', 200);
         cy.getOXD('button').contains('Save').click();
       });
       cy.wait('@postEmpStatus');
@@ -73,9 +80,11 @@ describe('Admin - Employment Status', function () {
 
     it('add an emp status and cancel', function () {
       cy.loginTo(this.user, '/admin/saveEmploymentStatus');
-      cy.wait('@getEmpStatus');
       cy.getOXD('form').within(() => {
         cy.getOXDInput('Name').type(this.strings.chars30.text);
+        cy.wait('@getUniqueValidation')
+          .its('response.statusCode')
+          .should('eq', 200);
         cy.getOXD('button').contains('Cancel').click();
       });
       cy.wait('@getEmpStatus');
@@ -85,7 +94,6 @@ describe('Admin - Employment Status', function () {
     it('add emp status form validations', function () {
       cy.task('db:restore', {name: 'empStatus'});
       cy.loginTo(this.user, '/admin/saveEmploymentStatus');
-      cy.wait('@getEmpStatus');
       cy.getOXD('form').within(() => {
         cy.getOXDInput('Name')
           .type(this.strings.chars100.text)
@@ -108,6 +116,9 @@ describe('Admin - Employment Status', function () {
       ).click();
       cy.getOXD('form').within(() => {
         cy.getOXDInput('Name').clear().type(this.strings.chars30.text);
+        cy.wait('@getUniqueValidation')
+          .its('response.statusCode')
+          .should('eq', 200);
         cy.getOXD('button').contains('Save').click();
       });
       cy.wait('@putEmpStatus');

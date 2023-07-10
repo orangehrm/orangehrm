@@ -78,7 +78,7 @@ export default {
     const nationalityUniqueValidation = createUniqueValidator(
       'nationality',
       'name',
-      props.nationalityId,
+      {entityId: props.nationalityId},
     );
 
     return {

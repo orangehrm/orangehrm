@@ -65,7 +65,7 @@ import {
   required,
   shouldNotExceedCharLength,
 } from '@ohrm/core/util/validation/rules';
-import {promiseDebounce} from '@ohrm/oxd';
+import useServerValidation from '@/core/util/composable/useServerValidation';
 
 const customerModel = {
   id: '',
@@ -79,14 +79,25 @@ export default {
       required: true,
     },
   },
-  setup() {
+  setup(props) {
     const http = new APIService(
       window.appGlobal.baseUrl,
       '/api/v2/time/customers',
     );
     http.setIgnorePath('/api/v2/time/validation/customer-name');
+    const {createUniqueValidator} = useServerValidation(http);
+    const customerNameUniqueValidation = createUniqueValidator(
+      'customer',
+      'name',
+      {
+        entityId: props.customerId,
+        matchByField: 'deleted',
+        matchByValue: 'false',
+      },
+    );
     return {
       http,
+      customerNameUniqueValidation,
     };
   },
   data() {
@@ -96,8 +107,8 @@ export default {
       rules: {
         name: [
           required,
+          this.customerNameUniqueValidation,
           shouldNotExceedCharLength(50),
-          promiseDebounce(this.validateCustomerName, 500),
         ],
         description: [shouldNotExceedCharLength(255)],
       },
@@ -134,29 +145,6 @@ export default {
     },
     onCancel() {
       navigate('/time/viewCustomers');
-    },
-    validateCustomerName(customer) {
-      return new Promise((resolve) => {
-        if (customer) {
-          this.http
-            .request({
-              method: 'GET',
-              url: `/api/v2/time/validation/customer-name`,
-              params: {
-                customerName: this.customer.name.trim(),
-                customerId: this.customerId,
-              },
-            })
-            .then((response) => {
-              const {data} = response.data;
-              return data.valid === true
-                ? resolve(true)
-                : resolve(this.$t('general.already_exists'));
-            });
-        } else {
-          resolve(true);
-        }
-      });
     },
   },
 };

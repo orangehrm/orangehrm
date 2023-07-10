@@ -202,6 +202,7 @@ import {
   validDateFormat,
 } from '@ohrm/core/util/validation/rules';
 import useDateFormat from '@/core/util/composable/useDateFormat';
+import useServerValidation from '@/core/util/composable/useServerValidation';
 
 const employeeModel = {
   firstName: '',
@@ -257,10 +258,20 @@ export default {
       `/api/v2/pim/employees/${props.empNumber}/personal-details`,
     );
     const {userDateFormat} = useDateFormat();
+    const {createUniqueValidator} = useServerValidation(http);
+    const employeeIdUniqueValidation = createUniqueValidator(
+      'employee',
+      'employeeId',
+      {
+        entityId: props.empNumber,
+        translateKey: 'pim.employee_id_exists',
+      },
+    );
 
     return {
       http,
       userDateFormat,
+      employeeIdUniqueValidation,
     };
   },
 
@@ -272,7 +283,10 @@ export default {
         firstName: [required, shouldNotExceedCharLength(30)],
         middleName: [shouldNotExceedCharLength(30)],
         lastName: [required, shouldNotExceedCharLength(30)],
-        employeeId: [shouldNotExceedCharLength(10)],
+        employeeId: [
+          this.employeeIdUniqueValidation,
+          shouldNotExceedCharLength(10),
+        ],
         otherId: [shouldNotExceedCharLength(30)],
         drivingLicenseNo: [shouldNotExceedCharLength(30)],
         ssnNumber: [shouldNotExceedCharLength(30)],
@@ -299,24 +313,6 @@ export default {
         return this.http.request({
           method: 'GET',
           url: '/api/v2/pim/employees',
-        });
-      })
-      .then((response) => {
-        const {data} = response.data;
-        this.rules.employeeId.push((v) => {
-          const index = data.findIndex(
-            (item) =>
-              item.employeeId?.trim() &&
-              String(item.employeeId).toLowerCase() == String(v).toLowerCase(),
-          );
-          if (index > -1) {
-            const {empNumber} = data[index];
-            return empNumber != this.empNumber
-              ? this.$t('pim.employee_id_exists')
-              : true;
-          } else {
-            return true;
-          }
         });
       })
       .finally(() => {

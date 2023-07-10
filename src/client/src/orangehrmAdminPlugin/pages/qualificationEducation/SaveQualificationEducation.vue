@@ -90,8 +90,8 @@ export default {
       rules: {
         name: [
           required,
+          this.educationUniqueValidation,
           shouldNotExceedCharLength(100),
-          this.qualificationUniqueValidation,
         ],
       },
     };

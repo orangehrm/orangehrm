@@ -76,11 +76,9 @@ export default {
       '/api/v2/admin/licenses',
     );
     const {createUniqueValidator} = useServerValidation(http);
-    const licenseUniqueValidation = createUniqueValidator(
-      'license',
-      'name',
-      props.licenseId,
-    );
+    const licenseUniqueValidation = createUniqueValidator('license', 'name', {
+      entityId: props.licenseId,
+    });
 
     return {
       http,

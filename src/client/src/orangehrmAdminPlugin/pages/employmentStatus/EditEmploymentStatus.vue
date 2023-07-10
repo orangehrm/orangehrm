@@ -81,7 +81,7 @@ export default {
     const employmentStatusValidation = createUniqueValidator(
       'employmentStatus',
       'name',
-      props.employmentStatusId,
+      {entityId: props.employmentStatusId},
     );
 
     return {
@@ -100,8 +100,8 @@ export default {
       rules: {
         name: [
           required,
-          shouldNotExceedCharLength(50),
           this.employmentStatusValidation,
+          shouldNotExceedCharLength(50),
         ],
       },
     };

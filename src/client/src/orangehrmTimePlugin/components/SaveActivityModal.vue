@@ -58,6 +58,7 @@ import {
 } from '@ohrm/core/util/validation/rules';
 import {APIService} from '@/core/util/services/api.service';
 import {OxdDialog} from '@ohrm/oxd';
+import useServerValidation from '@/core/util/composable/useServerValidation';
 
 export default {
   name: 'SaveActivityModal',
@@ -76,8 +77,18 @@ export default {
       window.appGlobal.baseUrl,
       `/api/v2/time/project/${props.projectId}/activities`,
     );
+    const {createUniqueValidator} = useServerValidation(http);
+    const activityNameUniqueValidation = createUniqueValidator(
+      'projectActivity',
+      'name',
+      {
+        matchByField: 'project',
+        matchByValue: props.projectId,
+      },
+    );
     return {
       http,
+      activityNameUniqueValidation,
     };
   },
   data() {
@@ -85,33 +96,13 @@ export default {
       isLoading: false,
       name: '',
       rules: {
-        name: [required, shouldNotExceedCharLength(100)],
+        name: [
+          required,
+          this.activityNameUniqueValidation,
+          shouldNotExceedCharLength(100),
+        ],
       },
     };
-  },
-  beforeMount() {
-    this.isLoading = true;
-    this.http
-      .getAll({limit: 0})
-      .then((response) => {
-        const {data} = response.data;
-        if (data) {
-          this.rules.name.push((v) => {
-            const index = data.findIndex(
-              (item) =>
-                String(item.name).toLowerCase() == String(v).toLowerCase(),
-            );
-            if (index > -1) {
-              return this.$t('general.already_exists');
-            } else {
-              return true;
-            }
-          });
-        }
-      })
-      .finally(() => {
-        this.isLoading = false;
-      });
   },
   methods: {
     onSave() {

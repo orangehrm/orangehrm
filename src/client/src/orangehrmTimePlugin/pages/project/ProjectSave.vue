@@ -116,6 +116,7 @@ import {promiseDebounce} from '@ohrm/oxd';
 import AddCustomerModal from '@/orangehrmTimePlugin/components/AddCustomerModal.vue';
 import CustomerAutocomplete from '@/orangehrmTimePlugin/components/CustomerAutocomplete.vue';
 import ProjectAdminAutocomplete from '@/orangehrmTimePlugin/components/ProjectAdminAutocomplete.vue';
+import useServerValidation from '@/core/util/composable/useServerValidation';
 
 const defaultProjectModel = {
   name: null,
@@ -136,9 +137,11 @@ export default {
       window.appGlobal.baseUrl,
       '/api/v2/time/projects',
     );
+    const {createUniqueValidator} = useServerValidation(http);
     http.setIgnorePath('/api/v2/time/validation/project-name');
     return {
       http,
+      createUniqueValidator,
     };
   },
   data() {
@@ -151,8 +154,8 @@ export default {
       rules: {
         name: [
           required,
-          shouldNotExceedCharLength(50),
           promiseDebounce(this.validateProjectName, 500),
+          shouldNotExceedCharLength(50),
         ],
         description: [shouldNotExceedCharLength(255)],
         customer: [required, validSelection],
@@ -214,27 +217,15 @@ export default {
         });
     },
     validateProjectName(project) {
-      return new Promise((resolve) => {
-        if (project) {
-          this.http
-            .request({
-              method: 'GET',
-              url: `/api/v2/time/validation/project-name`,
-              params: {
-                projectName: this.project.name.trim(),
-                customerId: this.project.customer?.id,
-              },
-            })
-            .then((response) => {
-              const {data} = response.data;
-              return data.valid === true
-                ? resolve(true)
-                : resolve(this.$t('general.already_exists'));
-            });
-        } else {
-          resolve(true);
-        }
-      });
+      const projectNameUniqueValidation = this.createUniqueValidator(
+        'project',
+        'name',
+        {
+          matchByField: 'customer',
+          matchByValue: this.project.customer ? this.project.customer.id : -1,
+        },
+      );
+      return projectNameUniqueValidation(project);
     },
   },
 };

@@ -61,6 +61,7 @@ import {
   required,
   shouldNotExceedCharLength,
 } from '@ohrm/core/util/validation/rules';
+import useServerValidation from '@/core/util/composable/useServerValidation';
 
 export default {
   props: {
@@ -69,13 +70,20 @@ export default {
       required: true,
     },
   },
-  setup() {
+  setup(props) {
     const http = new APIService(
       window.appGlobal.baseUrl,
       '/api/v2/pim/termination-reasons',
     );
+    const {createUniqueValidator} = useServerValidation(http);
+    const terminationReasonUniqueValidation = createUniqueValidator(
+      'terminationReason',
+      'name',
+      {entityId: props.terminationReasonId},
+    );
     return {
       http,
+      terminationReasonUniqueValidation,
     };
   },
 
@@ -87,7 +95,11 @@ export default {
         name: '',
       },
       rules: {
-        name: [required, shouldNotExceedCharLength(100)],
+        name: [
+          required,
+          this.terminationReasonUniqueValidation,
+          shouldNotExceedCharLength(100),
+        ],
       },
     };
   },
@@ -100,22 +112,6 @@ export default {
         const {data} = response.data;
         this.termination.id = data.id;
         this.termination.name = data.name;
-        // Fetch list data for unique test
-        return this.http.getAll({limit: 0});
-      })
-      .then((response) => {
-        const {data} = response.data;
-        this.rules.name.push((v) => {
-          const index = data.findIndex((item) => item.name === v);
-          if (index > -1) {
-            const {id} = data[index];
-            return id !== this.termination.id
-              ? this.$t('general.already_exists')
-              : true;
-          } else {
-            return true;
-          }
-        });
       })
       .finally(() => {
         this.isLoading = false;
