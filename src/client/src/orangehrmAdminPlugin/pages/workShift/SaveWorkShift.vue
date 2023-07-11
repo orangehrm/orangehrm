@@ -143,7 +143,7 @@ export default {
 
     return {
       http,
-      workShiftUniqueValidation: workShiftUniqueValidation,
+      workShiftUniqueValidation,
     };
   },
   data() {

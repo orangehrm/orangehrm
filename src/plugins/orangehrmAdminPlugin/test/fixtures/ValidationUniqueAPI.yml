@@ -1,0 +1,35 @@
+Config:
+  - { name: 'authorize_user_role_manager_class', value: 'BasicUserRoleManager' }
+
+TerminationReason:
+  - {"id": 1,"name": "Other"}
+  - {"id": 2,"name": "Retired"}
+  - {"id": 3,"name": "Contract Not Renewed"}
+
+EmployeeTerminationRecord:
+  - {"id": 1,"reason_id": 3,"termination_date": "2023-07-11","note": null}
+
+Employee:
+  - {"emp_number": 1,"employee_id": "0001","emp_lastname": "Admin","emp_firstname": "Devi","emp_work_email": "devi@admin.com","purged_at": null}
+  - {"emp_number": 3,"employee_id": "0002","emp_lastname": "Employee","emp_firstname": "Purged","termination_id": 1,"purged_at": "2023-07-11 16:07:20"}
+  - {"emp_number": 4,"employee_id": "0003","emp_lastname": "Perera","emp_firstname": "Sharuka","emp_work_email": "sharuka@admin.com","purged_at": null}
+
+UserRole:
+  - {"id": 1,"name": "Admin","display_name": "Admin","is_assignable": 1,"is_predefined": 1}
+  - {"id": 2,"name": "ESS","display_name": "ESS","is_assignable": 1,"is_predefined": 1}
+
+User:
+  - {"id": 1,"user_role_id": 1,"emp_number": 1,"user_name": "admin","deleted": 0}
+  - {"id": 2,"user_role_id": 2,"emp_number": 4,"user_name": "sharuka","deleted": 1}
+
+EmailNotification:
+  - {"id": 1,"name": "Leave Applications","is_enable": 0}
+  - {"id": 2,"name": "Leave Assignments","is_enable": 0}
+  - {"id": 3,"name": "Leave Approvals","is_enable": 0}
+  - {"id": 4,"name": "Leave Cancellations","is_enable": 0}
+  - {"id": 5,"name": "Leave Rejections","is_enable": 0}
+
+EmailSubscriber:
+  - {"id": 1,"notification_id": 1,"name": "Devi","email": "devi@admin.com"}
+  - {"id": 2,"notification_id": 1,"name": "Sharuka","email": "sharuka@admin.com"}
+  - {"id": 3,"notification_id": 3,"name": "Devi","email": "devi@admin.com"}

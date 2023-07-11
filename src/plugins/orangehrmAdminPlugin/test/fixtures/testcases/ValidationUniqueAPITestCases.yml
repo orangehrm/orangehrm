@@ -1,0 +1,102 @@
+GetOne:
+  'with only value param':
+    userId: 1
+    query:
+      value: "test"
+    invalidOnly: [ "entityName", "attributeName" ]
+
+  'for existing employee Id':
+    userId: 1
+    query:
+      value: "0001"
+      entityName: "employee"
+      attributeName: "employeeId"
+    data:
+      valid: false
+
+  'for existing employeeId editing':
+    userId: 1
+    query:
+      value: "0001"
+      entityName: "employee"
+      attributeName: "employeeId"
+      entityId: "1"
+    data:
+      valid: true
+
+  'for new employeeId':
+    userId: 1
+    query:
+      value: "0005"
+      entityName: "employee"
+      attributeName: "employeeId"
+    data:
+      valid: true
+
+  'for existing username':
+    userId: 1
+    query:
+      value: "admin"
+      entityName: "user"
+      attributeName: "userName"
+      matchByField: "deleted"
+      matchByValue: "false"
+    data:
+      valid: false
+
+  'for existing username editing':
+    userId: 1
+    query:
+      value: "admin"
+      entityName: "user"
+      attributeName: "userName"
+      entityId: 1
+      matchByField: "deleted"
+      matchByValue: "false"
+    data:
+      valid: true
+
+  'for existing deleted username':
+    userId: 1
+    query:
+      value: "sharuka"
+      entityName: "user"
+      attributeName: "userName"
+      matchByField: "deleted"
+      matchByValue: "false"
+    data:
+      valid: true
+
+  'for existing email subscriber':
+    userId: 1
+    query:
+      value: "devi@admin.com"
+      entityName: "emailSubscriber"
+      attributeName: "email"
+      matchByField: "emailNotification"
+      matchByValue: "1"
+    data:
+      valid: false
+
+  'for existing email subscriber editing':
+    userId: 1
+    query:
+      value: "devi@admin.com"
+      entityName: "emailSubscriber"
+      attributeName: "email"
+      entityId: 1
+      matchByField: "emailNotification"
+      matchByValue: "1"
+    data:
+      valid: true
+
+  'for existing email in different subscriber':
+    userId: 1
+    query:
+      value: "sharuka@admin.com"
+      entityName: "emailSubscriber"
+      attributeName: "email"
+      matchByField: "emailNotification"
+      matchByValue: "3"
+    data:
+      valid: true

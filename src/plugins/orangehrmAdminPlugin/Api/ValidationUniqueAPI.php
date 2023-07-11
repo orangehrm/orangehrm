@@ -26,26 +26,87 @@ use OrangeHRM\Core\Api\V2\EndpointResult;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\ResourceEndpoint;
+use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
+use OrangeHRM\Core\Api\V2\Validator\Rule;
+use OrangeHRM\Core\Api\V2\Validator\Rules;
 
 class ValidationUniqueAPI extends Endpoint implements ResourceEndpoint
 {
     public const PARAMETER_VALUE = 'value';
-    public const PARAMETER_ENTITY_Id = 'entityId';
+    public const PARAMETER_ENTITY_ID = 'entityId';
     public const PARAMETER_ENTITY_NAME = 'entityName';
     public const PARAMETER_ATTRIBUTE_NAME = 'attributeName';
     public const PARAMETER_MATCH_BY_FIELD = 'matchByField';
     public const PARAMETER_MATCH_BY_VALUE = 'matchByValue';
     public const PARAMETER_IS_UNIQUE_RECORD = 'valid';
+    public const PARAM_RULE_VALUE_MAX_LENGTH = 500;
+    public const PARAM_RULE_ENTITY_NAME_MAX_LENGTH = 50;
+    public const PARAM_RULE_ATTRIBUTE_NAME_MAX_LENGTH = 100;
 
     private ?ValidationUniqueDao $validationUniqueDao = null;
 
+    /**
+     * @OA\Get(
+     *     path="/api/v2/admin/validation/unique",
+     *     tags={"Admin/Unique Validation"},
+     *     @OA\Parameter(
+     *         name="value",
+     *         in="query",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         name="entityName",
+     *         in="query",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         name="attributeName",
+     *         in="query",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         name="entityId",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         name="matchByField",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         name="matchByValue",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="object",
+     *                 @OA\Property(property="valid", type="boolean")
+     *             )
+     *         )
+     *     )
+     * )
+     *
+     * @inheritDoc
+     */
     public function getOne(): EndpointResult
     {
         $value = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_VALUE);
-        $entityId = $this->getRequestParams()->getIntOrNull(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_ENTITY_Id);
         $entityName = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_ENTITY_NAME);
         $attributeName = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_ATTRIBUTE_NAME);
+        $entityId = $this->getRequestParams()->getIntOrNull(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_ENTITY_ID);
         $matchByField = $this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_MATCH_BY_FIELD);
         $matchByValue = $this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_MATCH_BY_VALUE);
 
@@ -71,14 +132,35 @@ class ValidationUniqueAPI extends Endpoint implements ResourceEndpoint
      */
     public function getValidationRuleForGetOne(): ParamRuleCollection
     {
-        $paramsRules = new ParamRuleCollection();
-        $paramsRules->addExcludedParamKey(self::PARAMETER_VALUE);
-        $paramsRules->addExcludedParamKey(self::PARAMETER_ENTITY_Id);
-        $paramsRules->addExcludedParamKey(self::PARAMETER_ENTITY_NAME);
-        $paramsRules->addExcludedParamKey(self::PARAMETER_ATTRIBUTE_NAME);
-        $paramsRules->addExcludedParamKey(self::PARAMETER_MATCH_BY_FIELD);
-        $paramsRules->addExcludedParamKey(self::PARAMETER_MATCH_BY_VALUE);
-        return $paramsRules;
+        return new ParamRuleCollection(
+            new ParamRule(
+                self::PARAMETER_VALUE,
+                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_VALUE_MAX_LENGTH])
+            ),
+            new ParamRule(
+                self::PARAMETER_ENTITY_NAME,
+                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_ENTITY_NAME_MAX_LENGTH])
+            ),
+            new ParamRule(
+                self::PARAMETER_ATTRIBUTE_NAME,
+                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_ATTRIBUTE_NAME_MAX_LENGTH])
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(self::PARAMETER_ENTITY_ID, new Rule(Rules::POSITIVE))
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_MATCH_BY_FIELD,
+                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_ENTITY_NAME_MAX_LENGTH])
+                )
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_MATCH_BY_VALUE,
+                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_ATTRIBUTE_NAME_MAX_LENGTH])
+                )
+            )
+        );
     }
 
     /**
