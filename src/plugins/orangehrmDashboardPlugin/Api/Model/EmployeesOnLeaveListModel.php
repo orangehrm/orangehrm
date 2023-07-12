@@ -31,7 +31,7 @@ use OrangeHRM\Entity\Leave;
  *     schema="Dashboard-EmployeeOnLeaveListModel",
  *     type="object",
  *     @OA\Property(property="id", type="integer"),
- *     @OA\Property(property="date", type="string"),
+ *     @OA\Property(property="date", type="string", format="date"),
  *     @OA\Property(property="lengthHours", type="number"),
  *     @OA\Property(
  *         property="employee",

@@ -134,7 +134,7 @@ class LeaveBalanceAPI extends Endpoint implements ResourceEndpoint
      *     path="/api/v2/leave/leave-balance/leave-type/{leaveTypeId}",
      *     tags={"Leave/Leave Balance"},
      *     @OA\PathParameter(
-     *         name="id",
+     *         name="leaveTypeId",
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\Parameter(
@@ -155,9 +155,9 @@ class LeaveBalanceAPI extends Endpoint implements ResourceEndpoint
      *                     @OA\Property(
      *                         property="balance",
      *                         type="object",
-     *                         @OA\Property(property="asAtDate", type="number", example="2022-10-01"),
+     *                         @OA\Property(property="asAtDate", type="string", format="date"),
      *                         @OA\Property(property="balance", type="integer"),
-     *                         @OA\Property(property="endDate", type="number", example="2022-12-31"),
+     *                         @OA\Property(property="endDate", type="string", format="date"),
      *                         @OA\Property(property="entitled", type="integer"),
      *                         @OA\Property(property="pending", type="integer"),
      *                         @OA\Property(property="scheduled", type="integer"),

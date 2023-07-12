@@ -32,7 +32,7 @@ class EmployeeLeaveModel implements Normalizable
      *     schema="Leave-EmployeeLeaveModel",
      *     type="object",
      *     @OA\Property(property="id", type="integer"),
-     *     @OA\Property(property="date", type="string"),
+     *     @OA\Property(property="date", type="string", format="date"),
      *     @OA\Property(property="lengthHours", type="string"),
      *     @OA\Property(property="lengthDays", type="string"),
      *     @OA\Property(

@@ -87,7 +87,7 @@ class EmployeeTimeAtWorkAPI extends Endpoint implements ResourceEndpoint
      *                         type="object",
      *                         @OA\Property(property="id", type="string", example="1"),
      *                         @OA\Property(property="day", type="string", example="Mon"),
-     *                         @OA\Property(property="date",  type="number", example="2023-05-10"),
+     *                         @OA\Property(property="date", type="string", format="date"),
      *                     ),
      *                     @OA\Property(
      *                         property="totalTime",
@@ -103,9 +103,9 @@ class EmployeeTimeAtWorkAPI extends Endpoint implements ResourceEndpoint
      *                     property="lastAction",
      *                     type="object",
      *                     @OA\Property(property="state", type="string"),
-     *                     @OA\Property(property="utcDate", type="string"),
+     *                     @OA\Property(property="utcDate", type="string", format="date"),
      *                     @OA\Property(property="utcTime", type="boolean"),
-     *                     @OA\Property(property="userDate", type="string"),
+     *                     @OA\Property(property="userDate", type="string", format="date"),
      *                     @OA\Property(property="userTime", type="string"),
      *                     @OA\Property(property="timezoneOffset", type="boolean"),
      *                 ),
@@ -115,7 +115,7 @@ class EmployeeTimeAtWorkAPI extends Endpoint implements ResourceEndpoint
      *                     @OA\Property(
      *                         property="currentDay",
      *                         type="object",
-     *                         @OA\Property(property="date", type="string"),
+     *                         @OA\Property(property="date", type="string", format="date"),
      *                         @OA\Property(property="label", type="string"),
      *                     ),
      *                     @OA\Property(
@@ -131,13 +131,13 @@ class EmployeeTimeAtWorkAPI extends Endpoint implements ResourceEndpoint
      *                     @OA\Property(
      *                         property="startDate",
      *                         type="object",
-     *                         @OA\Property(property="date", type="string"),
+     *                         @OA\Property(property="date", type="string", format="date"),
      *                         @OA\Property(property="label", type="string"),
      *                     ),
      *                     @OA\Property(
      *                         property="endDate",
      *                         type="object",
-     *                         @OA\Property(property="date", type="string"),
+     *                         @OA\Property(property="date", type="string", format="date"),
      *                         @OA\Property(property="label", type="string"),
      *                     ),
      *                     @OA\Property(

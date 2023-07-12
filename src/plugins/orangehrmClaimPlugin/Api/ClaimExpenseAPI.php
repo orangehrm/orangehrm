@@ -162,7 +162,7 @@ class ClaimExpenseAPI extends Endpoint implements CrudEndpoint
      *             @OA\Property(property="amount", type="float"),
      *             @OA\Property(property="requestId", type="integer"),
      *             @OA\Property(property="note", type="string"),
-     *             @OA\Property(property="date", type="datetime"),
+     *             @OA\Property(property="date", type="string", format="date-time"),
      *             required={"name", "expenseTypeId", "amount", "requestId", "date"}
      *         )
      *     ),
@@ -406,7 +406,7 @@ class ClaimExpenseAPI extends Endpoint implements CrudEndpoint
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             @OA\Property(property="expenseTypeId", type="integer"),
-     *             @OA\Property(property="date", type="string"),
+     *             @OA\Property(property="date", type="string", format="date"),
      *             @OA\Property(property="amount", type="float"),
      *             @OA\Property(property="note", type="string")
      *         )

@@ -32,7 +32,7 @@ class LeaveModel implements Normalizable
      *     schema="Leave-LeaveModel",
      *     type="object",
      *     @OA\Property(property="id", type="integer"),
-     *     @OA\Property(property="date", type="string"),
+     *     @OA\Property(property="date", type="string", format="date"),
      *     @OA\Property(property="lengthHours", type="number"),
      *     @OA\Property(property="lengthDays", type="number"),
      *     @OA\Property(
@@ -66,8 +66,8 @@ class LeaveModel implements Normalizable
      *         type="object",
      *         @OA\Property(property="id", type="integer"),
      *         @OA\Property(property="comment", type="string"),
-     *         @OA\Property(property="date", type="number"),
-     *         @OA\Property(property="time", type="number"),
+     *         @OA\Property(property="date", type="string", format="date"),
+     *         @OA\Property(property="time", type="string"),
      *     ),
      * )
      */

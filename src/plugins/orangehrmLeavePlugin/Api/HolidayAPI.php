@@ -191,7 +191,7 @@ class HolidayAPI extends Endpoint implements CrudEndpoint
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="date", type="number"),
+     *             @OA\Property(property="date", type="string", format="date"),
      *             @OA\Property(
      *                 property="length",
      *                 type="integer",
@@ -283,7 +283,7 @@ class HolidayAPI extends Endpoint implements CrudEndpoint
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="date", type="number"),
+     *             @OA\Property(property="date", type="string", format="date"),
      *             @OA\Property(
      *                 property="length",
      *                 type="integer",
