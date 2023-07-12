@@ -75,6 +75,30 @@ class VacancyAttachmentAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Post(
+     *     path="/api/v2/recruitment/vacancy/attachments",
+     *     tags={"Recruitment/Vacancy Attachments"},
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="vacancyId", type="integer"),
+     *             @OA\Property(property="comment", type="string"),
+     *             @OA\Property(property="attachmentType", type="integer"),
+     *             @OA\Property(property="attachment", ref="#/components/schemas/Base64Attachment"),
+     *             required={"vacancyId", "attachment"}
+     *         )
+     *     ),
+     *     @OA\Response(response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Recruitment-VacancyAttachmentModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     )
+     * )
      * @inheritDoc
      */
     public function create(): EndpointResult
@@ -192,6 +216,30 @@ class VacancyAttachmentAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Delete(
+     *     path="/api/v2/recruitment/vacancy/attachments",
+     *     tags={"Recruitment/Vacancy Attachments"},
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="ids", type="array",
+     *                 @OA\Items(type="integer")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="array",
+     *                 @OA\Items(type="integer")
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     )
+     * )
+     *
      * @inheritDoc
      */
     public function delete(): EndpointResult
@@ -211,6 +259,27 @@ class VacancyAttachmentAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/recruitment/vacancies/{vacancyId}/attachments",
+     *     tags={"Recruitment/Vacancy Attachments"},
+     *     @OA\PathParameter(
+     *         name="vacancyId",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Recruitment-VacancyAttachmentModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
+     * )
+     *
      * @inheritDoc
      */
     public function getOne(): EndpointResult
@@ -258,6 +327,40 @@ class VacancyAttachmentAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Put(
+     *     path="/api/v2/recruitment/vacancies/{vacancyId}/attachments/{attachmentId}",
+     *     tags={"Recruitment/Vacancy Attachments"},
+     *     @OA\PathParameter(
+     *         name="attachmentId",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\PathParameter(
+     *         name="vacancyId",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             @OA\Property(property="currentAttachment", type="string"),
+     *             @OA\Property(property="attachment", ref="#/components/schemas/Base64Attachment"),
+     *             @OA\Property(property="vacancyId", type="integer"),
+     *             @OA\Property(property="comment", type="string"),
+     *             @OA\Property(property="attachmentType", type="integer")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Recruitment-VacancyAttachmentModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
+     * )
+     *
      * @inheritDoc
      */
     public function update(): EndpointResult

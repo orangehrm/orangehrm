@@ -24,6 +24,33 @@ use OrangeHRM\Entity\WorkflowStateMachine;
 class CandidateHiringAPI extends AbstractCandidateActionAPI
 {
     /**
+     * * @OA\Put(
+     *     path="/api/v2/recruitment/candidates/{candidateId}/hire",
+     *     tags={"Recuirtment/Candidate Workflow"},
+     *     @OA\PathParameter(
+     *         name="candidateId",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="note", type="string"),
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Recruitment-CandidateHistoryDefaultModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
+     * )
+     *
      * @inheritDoc
      */
     public function getResultingState(): int

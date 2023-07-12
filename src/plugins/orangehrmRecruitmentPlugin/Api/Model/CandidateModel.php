@@ -23,6 +23,17 @@ use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\Candidate;
 
+/**
+ * @OA\Schema(
+ *     schema="Recruitment-CandidateModel",
+ *     type="object",
+ *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(property="firstName", type="string"),
+ *     @OA\Property(property="middleName", type="string"),
+ *     @OA\Property(property="lastName", type="string"),
+ *     @OA\Property(property="email", type="string")
+ * )
+ */
 class CandidateModel implements Normalizable
 {
     use ModelTrait;
