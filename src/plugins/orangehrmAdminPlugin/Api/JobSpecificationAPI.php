@@ -53,6 +53,26 @@ class JobSpecificationAPI extends Endpoint implements ResourceEndpoint
     }
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/admin/job-titles/{id}/specification",
+     *     tags={"Admin/Job Specification"},
+     *     @OA\PathParameter(
+     *         name="id",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Admin-JobSpecificationModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
+     * )
      * @inheritDoc
      */
     public function getOne(): EndpointResourceResult
