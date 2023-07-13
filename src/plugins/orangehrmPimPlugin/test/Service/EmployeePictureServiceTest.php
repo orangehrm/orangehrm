@@ -23,12 +23,15 @@ use Generator;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper;
 use OrangeHRM\Core\Authorization\Manager\BasicUserRoleManager;
+use OrangeHRM\Core\Traits\ETagHelperTrait;
+use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\EmpPicture;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Pim\Dao\EmployeePictureDao;
 use OrangeHRM\Pim\Service\EmployeePictureService;
 use OrangeHRM\Tests\Util\KernelTestCase;
+use OrangeHRM\Tests\Util\Mock\MockCacheService;
 
 /**
  * @group Pim
@@ -36,6 +39,9 @@ use OrangeHRM\Tests\Util\KernelTestCase;
  */
 class EmployeePictureServiceTest extends KernelTestCase
 {
+    use ETagHelperTrait;
+    use EntityManagerHelperTrait;
+
     public function testGetEmployeePictureDao(): void
     {
         $service = new EmployeePictureService();
@@ -195,5 +201,29 @@ class EmployeePictureServiceTest extends KernelTestCase
         yield [file_get_contents($fixturesBasePath . '200x200.jpeg'), [200, 200]];
         yield [file_get_contents($fixturesBasePath . '225x115.jpeg'), [200, 102]];
         yield [file_get_contents($fixturesBasePath . '225x225.jpeg'), [200, 200]];
+    }
+
+    public function testGetETagByEmpPicture(): void
+    {
+        $this->createKernelWithMockServices([Services::CACHE => MockCacheService::getCache()]);
+        $pictureData = 'test_picture';
+        $employee = new Employee();
+        $employee->setEmpNumber(1);
+        $empPicture = new EmpPicture();
+        $empPicture->setPicture($pictureData);
+        $empPicture->setEmployee($employee);
+
+        $service = $this->getMockBuilder(EmployeePictureService::class)
+            ->onlyMethods(['getEmpPictureByEmpNumber'])
+            ->getMock();
+        $service->expects($this->once())
+            ->method('getEmpPictureByEmpNumber')
+            ->with(1)
+            ->willReturn($empPicture);
+
+        $expected = $this->generateEtag($empPicture->getDecorator()->getPicture());
+        $this->assertEquals($expected, $service->getEmpPictureETagByEmpNumber(1));
+
+        $this->getEntityManager()->flush();
     }
 }
