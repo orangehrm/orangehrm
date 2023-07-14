@@ -24,6 +24,15 @@ use OrangeHRM\Core\Api\V2\Serializer\ModelConstructorArgsAwareInterface;
 use OrangeHRM\Entity\ProjectActivity;
 use OrangeHRM\Time\Traits\Service\ProjectServiceTrait;
 
+/**
+ * @OA\Schema(
+ *     schema="Time-CopyActivityModel",
+ *     type="object",
+ *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(property="name", type="string"),
+ *     @OA\Property(property="unique", type="boolean")
+ * )
+ */
 class CopyActivityModel implements CollectionNormalizable, ModelConstructorArgsAwareInterface
 {
     use ProjectServiceTrait;

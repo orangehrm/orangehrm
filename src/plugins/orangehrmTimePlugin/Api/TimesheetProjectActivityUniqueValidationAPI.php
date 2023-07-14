@@ -44,6 +44,42 @@ class TimesheetProjectActivityUniqueValidationAPI extends Endpoint implements Re
     public const PARAMETER_DUPLICATE = 'duplicate';
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/time/validation/{timesheetId}/project-activity",
+     *     tags={"Time/Timesheet Project Activity Unique Validation"},
+     *     @OA\PathParameter(
+     *         name="timesheetId",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         name="projectId",
+     *         in="query",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         name="activityId",
+     *         in="query",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="array",
+     *                 @OA\Items(
+     *                     @OA\Property(property="duplicate", type="boolean"),
+     *                 )
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         ),
+     *         @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
+     *     )
+     * )
+     *
      * @inheritDoc
      */
     public function getOne(): EndpointResult

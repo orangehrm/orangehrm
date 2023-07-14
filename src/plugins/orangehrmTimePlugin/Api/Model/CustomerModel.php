@@ -23,6 +23,16 @@ use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\Customer;
 
+/**
+ * @OA\Schema(
+ *     schema="Time-CustomerModel",
+ *     type="object",
+ *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(property="name", type="string"),
+ *     @OA\Property(property="description", type="string"),
+ *     @OA\Property(property="deleted", type="boolean")
+ * )
+ */
 class CustomerModel implements Normalizable
 {
     use ModelTrait;

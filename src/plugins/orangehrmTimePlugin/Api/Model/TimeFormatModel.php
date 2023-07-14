@@ -21,6 +21,14 @@ namespace OrangeHRM\Time\Api\Model;
 
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 
+/**
+ * @OA\Schema(
+ *     schema="Time-TimeFormatModel",
+ *     type="object",
+ *     @OA\Property(property="formatId", type="integer"),
+ *     @OA\Property(property="format", type="string"),
+ * )
+ */
 class TimeFormatModel implements Normalizable
 {
     /**

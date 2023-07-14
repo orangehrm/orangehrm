@@ -59,6 +59,22 @@ class TimeConfigPeriodAPI extends Endpoint implements ResourceEndpoint
     }
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/time/time-sheet-period",
+     *     tags={"Time/Timesheet Period"},
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Time-TimeConfigPeriodModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         ),
+     *     )
+     * )
+     *
      * @inheritDoc
      */
     public function getOne(): EndpointResult
@@ -81,6 +97,40 @@ class TimeConfigPeriodAPI extends Endpoint implements ResourceEndpoint
     }
 
     /**
+     * @OA\Put(
+     *     path="/api/v2/time/time-sheet-period",
+     *     tags={"Time/Timesheet Period"},
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="startDay", type="integer"),
+     *             required={"startDay"}
+     *         )
+     *     ),
+     *     @OA\Response(response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Time-TimeConfigPeriodModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="400",
+     *         description="Bad Request - Already defined",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="error",
+     *                 type="object",
+     *                 @OA\Property(property="status", type="string", default="400"),
+     *                 @OA\Property(property="message", type="string", default="Already defined")
+     *             )
+     *         )
+     *     ),
+     * )
+     *
      * @inheritDoc
      */
     public function update(): EndpointResult

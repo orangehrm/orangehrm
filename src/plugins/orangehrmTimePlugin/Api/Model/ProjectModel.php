@@ -23,6 +23,16 @@ use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\Project;
 
+/**
+ * @OA\Schema(
+ *     schema="Time-ProjectModel",
+ *     type="object",
+ *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(property="name", type="string"),
+ *     @OA\Property(property="description", type="string"),
+ *     @OA\Property(property="deleted", type="boolean")
+ * )
+ */
 class ProjectModel implements Normalizable
 {
     use ModelTrait;

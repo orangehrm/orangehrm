@@ -23,6 +23,25 @@ use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\TimesheetItem;
 
+/**
+ * @OA\Schema(
+ *     schema="Time-TimesheetItemModel",
+ *     type="object",
+ *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(property="date", type="string", format="date"),
+ *     @OA\Property(property="comment", type="string"),
+ *     @OA\Property(property="project", type="object",
+ *         @OA\Property(property="id", type="integer"),
+ *         @OA\Property(property="name", type="string"),
+ *         @OA\Property(property="deleted", type="boolean")
+ *     ),
+ *     @OA\Property(property="activity", type="object",
+ *         @OA\Property(property="id", type="integer"),
+ *         @OA\Property(property="name", type="string"),
+ *         @OA\Property(property="deleted", type="boolean")
+ *     ),
+ * )
+ */
 class TimesheetItemModel implements Normalizable
 {
     use ModelTrait;

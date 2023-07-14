@@ -26,6 +26,100 @@ use OrangeHRM\Core\Report\Api\EndpointAwareReport;
 class TimeReportDataAPI extends ReportDataAPI
 {
     /**
+     * @OA\Get(
+     *     path="/api/v2/time/reports/data",
+     *     tags={"Time/Timesheet Report"},
+     *     @OA\Parameter(
+     *         name="name",
+     *         in="query",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         name="projectId",
+     *         in="query",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         name="limit",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         name="fromDate",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         name="toDate",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="array",
+     *                 @OA\Items(
+     *                     @OA\Property(
+     *                         property="headers",
+     *                         type="array",
+     *                         @OA\Items(
+     *                             @OA\Property(property="activityId", type="integer"),
+     *                             @OA\Property(property="activityName", type="string"),
+     *                             @OA\Property(property="deleted", type="boolean"),
+     *                             @OA\Property(property="time", type="string"),
+     *                             @OA\Property(
+     *                                 property="_url",
+     *                                 type="object",
+     *                                 @OA\Property(property="activityName", type="string")
+     *                             )
+     *                         )
+     *                     )
+     *                 )
+     *             ),
+     *             @OA\Property(
+     *                 property="meta",
+     *                 type="object",
+     *                 @OA\Property(property="total", type="integer"),
+     *                 @OA\Property(
+     *                     property="sum",
+     *                     type="object",
+     *                     @OA\Property(property="hours", type="integer"),
+     *                     @OA\Property(property="minutes", type="integer"),
+     *                     @OA\Property(property="label", type="string")
+     *                 ),
+     *                 @OA\Property(
+     *                     property="project",
+     *                     type="object",
+     *                     @OA\Property(property="id", type="integer"),
+     *                     @OA\Property(property="name", type="string"),
+     *                     @OA\Property(property="description", type="string"),
+     *                     @OA\Property(property="deleted", type="boolean")
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="400",
+     *         description="Bad Request - Invalid report name",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="error",
+     *                 type="object",
+     *                 @OA\Property(property="status", type="string", default="400"),
+     *                 @OA\Property(property="message", type="string", default="Invalid report name")
+     *             )
+     *         )
+     *     ),
+     * )
+     *
      * @inheritDoc
      * @throws BadRequestException
      */

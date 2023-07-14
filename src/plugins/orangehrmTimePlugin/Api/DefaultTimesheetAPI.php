@@ -47,6 +47,34 @@ class DefaultTimesheetAPI extends Endpoint implements ResourceEndpoint
     public const FILTER_DATE = 'date';
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/time/timesheets/default",
+     *     tags={"Time/Default Timesheet"},
+     *     @OA\Parameter(
+     *         name="date",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string", format="date")
+     *     ),
+     *     @OA\Parameter(
+     *         name="empNumber",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Time-DefaultTimesheetModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         ),
+     *     )
+     * )
+     *
      * @inheritDoc
      * @throws Exception
      */

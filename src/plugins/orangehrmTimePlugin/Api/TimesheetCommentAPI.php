@@ -56,6 +56,36 @@ class TimesheetCommentAPI extends Endpoint implements ResourceEndpoint
     public const PARAM_RULE_COMMENT_MAX_LENGTH = 2000;
 
     /**
+     * @OA\Put(
+     *     path="/api/v2/time/timesheets/{timesheetId}/entries/comment",
+     *     tags={"Time/Timesheet Comment"},
+     *     @OA\PathParameter(
+     *         name="timesheetId",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="projectId", type="integer"),
+     *             @OA\Property(property="activityId", type="integer"),
+     *             @OA\Property(property="date", type="string", format="date"),
+     *             @OA\Property(property="comment", type="string"),
+     *             required={"projectId", "projectId", "date"}
+     *         )
+     *     ),
+     *     @OA\Response(response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Time-TimesheetItemModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
+     * )
+     *
      * @inheritDoc
      */
     public function update(): EndpointResult
@@ -188,6 +218,31 @@ class TimesheetCommentAPI extends Endpoint implements ResourceEndpoint
     }
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/time/timesheets/{timesheetId}/entries/{id}/comment",
+     *     tags={"Time/Timesheet Comment"},
+     *     @OA\PathParameter(
+     *         name="timesheetId",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\PathParameter(
+     *         name="id",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Time-TimesheetItemModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         ),
+     *         @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
+     *     )
+     * )
+     *
      * @inheritDoc
      */
     public function getOne(): EndpointResult

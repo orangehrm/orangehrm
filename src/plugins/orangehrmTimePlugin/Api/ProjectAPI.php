@@ -93,6 +93,86 @@ class ProjectAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/time/projects",
+     *     tags={"Time/Project"},
+     *     @OA\Parameter(
+     *         name="projectId",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         name="onlyAllowed",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="boolean")
+     *     ),
+     *     @OA\Parameter(
+     *         name="customerId",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         name="name",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         name="empNumber",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         name="customerOrProjectName",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         name="excludeProjectIds",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(
+     *             type="array",
+     *             @OA\Items(type="integer")
+     *         ),
+     *     ),
+     *     @OA\Parameter(
+     *         name="model",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(
+     *             type="string",
+     *             enum={OrangeHRM\Time\Api\ProjectAPI::MODEL_DEFAULT, OrangeHRM\Time\Api\ProjectAPI::MODEL_DETAILED},
+     *             default=OrangeHRM\Time\Api\ProjectAPI::MODEL_DEFAULT
+     *         )
+     *     ),
+     *     @OA\Parameter(ref="#/components/parameters/sortOrder"),
+     *     @OA\Parameter(ref="#/components/parameters/limit"),
+     *     @OA\Parameter(ref="#/components/parameters/offset"),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 oneOf={
+     *                     @OA\Schema(ref="#/components/schemas/Time-ProjectModel"),
+     *                     @OA\Schema(ref="#/components/schemas/Time-ProjectDetailedModel"),
+     *                 }
+     *             ),
+     *             @OA\Property(property="meta",
+     *                 type="object",
+     *                 @OA\Property(property="total", type="integer")
+     *             )
+     *         )
+     *     )
+     * )
+     *
      * @inheritDoc
      */
     public function getAll(): EndpointCollectionResult
@@ -242,6 +322,33 @@ class ProjectAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Post(
+     *     path="/api/v2/time/projects",
+     *     tags={"Time/Project"},
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="customerId", type="integer"),
+     *             @OA\Property(property="name", type="string"),
+     *             @OA\Property(property="description", type="string"),
+     *             @OA\Property(property="projectAdminsEmpNumbers", type="array",
+     *                 @OA\Items(type="integer")
+     *             ),
+     *             required={"customerId", "name"}
+     *         )
+     *     ),
+     *     @OA\Response(response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Time-TimesheetModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     * )
+     *
      * @inheritDoc
      */
     public function create(): EndpointResourceResult
@@ -336,6 +443,13 @@ class ProjectAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Delete(
+     *     path="/api/v2/time/projects",
+     *     tags={"Time/Project"},
+     *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),
+     *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse")
+     * )
+     *
      * @inheritDoc
      * @throws BadRequestException
      */
@@ -366,6 +480,40 @@ class ProjectAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/time/projects/{id}",
+     *     tags={"Time/Project"},
+     *     @OA\PathParameter(
+     *         name="id",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         name="model",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(
+     *             type="string",
+     *             enum={OrangeHRM\Time\Api\ProjectAPI::MODEL_DEFAULT, OrangeHRM\Time\Api\ProjectAPI::MODEL_DETAILED},
+     *             default=OrangeHRM\Time\Api\ProjectAPI::MODEL_DEFAULT
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 oneOf={
+     *                     @OA\Schema(ref="#/components/schemas/Time-ProjectModel"),
+     *                     @OA\Schema(ref="#/components/schemas/Time-ProjectDetailedModel"),
+     *                 }
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         ),
+     *         @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
+     *     )
+     * )
+     *
      * @inheritDoc
      */
     public function getOne(): EndpointResult
@@ -395,6 +543,38 @@ class ProjectAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Put(
+     *     path="/api/v2/time/projects/{id}",
+     *     tags={"Time/Project"},
+     *     @OA\PathParameter(
+     *         name="id",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="customerId", type="integer"),
+     *             @OA\Property(property="name", type="string"),
+     *             @OA\Property(property="description", type="string"),
+     *             @OA\Property(property="projectAdminsEmpNumbers", type="array",
+     *                 @OA\Items(type="integer")
+     *             ),
+     *             required={"customerId", "name"}
+     *         )
+     *     ),
+     *     @OA\Response(response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Time-ProjectDetailedModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
+     * )
+     *
      * @inheritDoc
      */
     public function update(): EndpointResult

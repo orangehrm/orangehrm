@@ -43,6 +43,38 @@ class ValidationCustomerNameAPI extends Endpoint implements ResourceEndpoint
     public const PARAM_RULE_CUSTOMER_NAME_MAX_LENGTH = 50;
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/time/validation/customer-name",
+     *     tags={"Time/Validate Customer Name"},
+     *     @OA\Parameter(
+     *         name="customerId",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         name="customerName",
+     *         in="query",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="array",
+     *                 @OA\Items(
+     *                     @OA\Property(property="valid", type="boolean"),
+     *                 )
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         ),
+     *         @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
+     *     )
+     * )
+     *
      * @inheritDoc
      */
     public function getOne(): EndpointResult
