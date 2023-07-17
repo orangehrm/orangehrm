@@ -37,7 +37,10 @@ export default function useProgress() {
   const increment = () => {
     setTimeout(() => {
       if (progress.value === 100 || !working) return;
-      progress.value = generator.next().value * 100;
+      // to prevent progress.value reaching 100 prematurely
+      if (progress.value < 99) {
+        progress.value = generator.next().value * 100;
+      }
       increment();
     }, frequency + Math.random() * 500);
   };
