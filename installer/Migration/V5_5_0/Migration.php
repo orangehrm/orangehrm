@@ -44,6 +44,16 @@ class Migration extends AbstractMigration
 
         $this->updateLangStringVersion($this->getVersion());
 
+        $this->getSchemaHelper()->dropForeignKeys('ohrm_i18n_translate', ['langStringId']);
+        $foreignKeyConstraint = new ForeignKeyConstraint(
+            ['lang_string_id'],
+            'ohrm_i18n_lang_string',
+            ['id'],
+            'langStringId',
+            ['onDelete' => 'CASCADE']
+        );
+        $this->getSchemaHelper()->addForeignKey('ohrm_i18n_translate', $foreignKeyConstraint);
+
         $this->getLangHelper()->deleteLangStringByUnitId(
             'this_page_is_being_developed',
             $this->getLangHelper()->getGroupIdByName('general')
