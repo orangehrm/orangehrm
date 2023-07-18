@@ -28,6 +28,7 @@ use OrangeHRM\Maintenance\Event\MaintenanceEvent;
 use OrangeHRM\Maintenance\Event\PurgeEmployee;
 use OrangeHRM\Maintenance\PurgeStrategy\PurgeStrategy;
 use OrangeHRM\ORM\Exception\TransactionException;
+use OrangeHRM\Pim\Service\EmployeePictureService;
 use Symfony\Component\Yaml\Yaml;
 
 class PurgeService
@@ -39,6 +40,7 @@ class PurgeService
     private const GDPR_PURGE_CANDIDATE = 'gdpr_purge_candidate_strategy';
 
     private ?PurgeDao $purgeDao = null;
+    private ?EmployeePictureService $employeePictureService = null;
     private ?array $purgeableEntities = null;
 
     /**
@@ -46,10 +48,12 @@ class PurgeService
      */
     public function getPurgeDao(): PurgeDao
     {
-        if (is_null($this->purgeDao)) {
-            $this->purgeDao = new PurgeDao();
-        }
-        return $this->purgeDao;
+        return $this->purgeDao ??= new PurgeDao();
+    }
+
+    public function getEmployeePictureService(): EmployeePictureService
+    {
+        return $this->employeePictureService ??= new EmployeePictureService();
     }
 
     /**
@@ -73,6 +77,8 @@ class PurgeService
                 }
             }
             $this->getEntityManager()->flush();
+
+            $this->getEmployeePictureService()->deleteEmpPictureETagByEmpNumber($empNumber);
 
             $this->getEventDispatcher()->dispatch(
                 new PurgeEmployee($empNumber),

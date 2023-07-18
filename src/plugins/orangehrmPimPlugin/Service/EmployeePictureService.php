@@ -20,6 +20,8 @@
 namespace OrangeHRM\Pim\Service;
 
 use OrangeHRM\Core\Exception\DaoException;
+use OrangeHRM\Core\Traits\CacheTrait;
+use OrangeHRM\Core\Traits\ETagHelperTrait;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\EmpPicture;
@@ -28,6 +30,12 @@ use OrangeHRM\Pim\Dao\EmployeePictureDao;
 class EmployeePictureService
 {
     use UserRoleManagerTrait;
+    use CacheTrait;
+    use ETagHelperTrait;
+
+    public const PIM_EMP_PICTURE_CACHE_KEY_PREFIX = 'pim.emp_picture';
+
+    public const ETAG_CACHE_KEY_SUFFIX = 'etag';
 
     /**
      * @var EmployeePictureDao|null
@@ -113,5 +121,56 @@ class EmployeePictureService
             return $this->getEmpPictureByEmpNumber($empNumber);
         }
         return null;
+    }
+
+    /**
+     * @param int $empNumber
+     * @return string|null
+     */
+    public function getEmpPictureETagByEmpNumber(int $empNumber): ?string
+    {
+        $cacheKey = $this->generateEmpPictureETagCacheKey($empNumber);
+        $cacheItem = $this->getCache()->getItem($cacheKey);
+        if (!$cacheItem->isHit()) {
+            // if picture eTag is not cached need to create
+            $empPicture = $this->getEmpPictureByEmpNumber($empNumber);
+            // need to check if employee  has a picture
+            if ($empPicture instanceof EmpPicture) {
+                $this->getEmpPictureETagAlongWithCache($empPicture);
+                $cacheItem = $this->getCache()->getItem($cacheKey);
+            }
+        }
+        return $cacheItem->get();
+    }
+
+    /**
+     * @param int $empNumber
+     */
+    public function deleteEmpPictureETagByEmpNumber(int $empNumber): void
+    {
+        $this->getCache()->delete($this->generateEmpPictureETagCacheKey($empNumber));
+    }
+
+    /**
+     * @param EmpPicture $empPicture
+     * @return string
+     */
+    private function getEmpPictureETagAlongWithCache(EmpPicture $empPicture): string
+    {
+        return $this->getCache()->get(
+            $this->generateEmpPictureETagCacheKey($empPicture->getEmployee()->getEmpNumber()),
+            function () use ($empPicture) {
+                return $this->generateEtag($empPicture->getDecorator()->getPicture());
+            }
+        );
+    }
+
+    /**
+     * @param int $empNumber
+     * @return string
+     */
+    private function generateEmpPictureETagCacheKey(int $empNumber): string
+    {
+        return self::PIM_EMP_PICTURE_CACHE_KEY_PREFIX . '.' . $empNumber . '.' . self::ETAG_CACHE_KEY_SUFFIX;
     }
 }

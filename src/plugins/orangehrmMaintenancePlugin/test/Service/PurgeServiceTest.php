@@ -73,6 +73,7 @@ use OrangeHRM\Maintenance\PurgeStrategy\ReplaceWithValuePurgeStrategy;
 use OrangeHRM\Maintenance\Service\PurgeService;
 use OrangeHRM\ORM\Exception\TransactionException;
 use OrangeHRM\Tests\Util\KernelTestCase;
+use OrangeHRM\Tests\Util\Mock\MockCacheService;
 use OrangeHRM\Tests\Util\TestDataService;
 
 /**
@@ -210,7 +211,10 @@ class PurgeServiceTest extends KernelTestCase
 
     public function testPurgeEmployeeData(): void
     {
-        $this->createKernelWithMockServices([Services::DATETIME_HELPER_SERVICE => new DateTimeHelperService()]);
+        $this->createKernelWithMockServices([
+            Services::DATETIME_HELPER_SERVICE => new DateTimeHelperService(),
+            Services::CACHE => MockCacheService::getCache()
+        ]);
         $this->purgeService->purgeEmployeeData(1);
 
         $purgedEmployee = $this->getRepository(Employee::class)->findOneBy(['empNumber' => 1]);

@@ -22,7 +22,6 @@ namespace OrangeHRM\Pim\Controller\File;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Controller\AbstractFileController;
 use OrangeHRM\Core\Exception\DaoException;
-use OrangeHRM\Core\Traits\ETagHelperTrait;
 use OrangeHRM\Entity\EmpPicture;
 use OrangeHRM\Framework\Http\BinaryFileResponse;
 use OrangeHRM\Framework\Http\Request;
@@ -31,8 +30,6 @@ use OrangeHRM\Pim\Service\EmployeePictureService;
 
 class EmployeePictureController extends AbstractFileController
 {
-    use ETagHelperTrait;
-
     /**
      * @var EmployeePictureService|null
      */
@@ -58,16 +55,18 @@ class EmployeePictureController extends AbstractFileController
     {
         $empNumber = $request->attributes->get('empNumber');
         if (!is_null($empNumber)) {
-            $empPicture = $this->getEmployeePictureService()->getEmpPictureByEmpNumber($empNumber);
-            if ($empPicture instanceof EmpPicture) {
-                $response = $this->getResponse();
-                $response->setEtag($this->generateEtag($empPicture->getDecorator()->getPicture()));
+            $response = $this->getResponse();
+            $eTag = $this->getEmployeePictureService()->getEmpPictureETagByEmpNumber($empNumber);
 
+            if (!is_null($eTag)) {
+                $response->setEtag($eTag);
                 if (!$response->isNotModified($request)) {
-                    $response->setContent($empPicture->getDecorator()->getPicture());
-                    $this->setCommonHeaders($response, $empPicture->getFileType());
+                    $empPicture = $this->getEmployeePictureService()->getEmpPictureByEmpNumber($empNumber);
+                    if ($empPicture instanceof EmpPicture) {
+                        $response->setContent($empPicture->getDecorator()->getPicture());
+                        $this->setCommonHeaders($response, $empPicture->getFileType());
+                    }
                 }
-
                 return $response;
             }
         }
@@ -80,10 +79,14 @@ class EmployeePictureController extends AbstractFileController
         return $response;
     }
 
-    private function setCommonHeaders($response, string $contentType)
+    /**
+     * @param BinaryFileResponse|Response $response
+     * @param string $contentType
+     */
+    private function setCommonHeaders($response, string $contentType): void
     {
         $response->headers->set('Content-Type', $contentType);
-        $response->setPublic();
+        $response->setPrivate();
         $response->setMaxAge(0);
         $response->headers->addCacheControlDirective('must-revalidate', true);
         $response->headers->set('Pragma', 'Public');
