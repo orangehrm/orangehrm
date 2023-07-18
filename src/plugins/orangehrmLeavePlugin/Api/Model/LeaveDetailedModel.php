@@ -24,6 +24,38 @@ use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
 use OrangeHRM\Leave\Dto\LeaveRequest\DetailedLeave;
 
+/**
+ * @OA\Schema(
+ *     schema="Leave-LeaveDetailedModel",
+ *     type="object",
+ *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(property="dates", type="object",
+ *         @OA\Property(property="fromDate", type="string", format="date"),
+ *         @OA\Property(property="toDate", type="string", format="date"),
+ *         @OA\Property(property="durationType", type="object",
+ *             @OA\Property(property="id", type="integer"),
+ *             @OA\Property(property="type", type="string"),
+ *         ),
+ *         @OA\Property(property="startTime", type="string"),
+ *         @OA\Property(property="endTime", type="string"),
+ *     ),
+ *     @OA\Property(property="lengthHours", type="integer"),
+ *     @OA\Property(property="leaveBalance", type="object"),
+ *     @OA\Property(property="leaveStatus", type="object"),
+ *     @OA\Property(property="allowedActions", type="object"),
+ *     @OA\Property(property="leaveType", type="object",
+ *         @OA\Property(property="id", type="integer"),
+ *         @OA\Property(property="name", type="string"),
+ *         @OA\Property(property="deleted", type="boolean"),
+ *     ),
+ *     @OA\Property(property="lastComment", type="object",
+ *         @OA\Property(property="id", type="integer"),
+ *         @OA\Property(property="comment", type="string"),
+ *         @OA\Property(property="date", type="string", format="date"),
+ *         @OA\Property(property="time", type="string"),
+ *     ),
+ * )
+ */
 class LeaveDetailedModel implements Normalizable
 {
     use DateTimeHelperTrait;

@@ -110,6 +110,50 @@ class LeaveOverlapAPI extends Endpoint implements CollectionEndpoint
     }
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/leave/overlap-leaves",
+     *     tags={"Leave/Overlap Leave"},
+     *     @OA\Parameter(
+     *         name="empNumber",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         name="fromDate",
+     *         in="query",
+     *         required=true,
+     *         @OA\Schema(type="number")
+     *     ),
+     *     @OA\Parameter(
+     *         name="toDate",
+     *         in="query",
+     *         required=true,
+     *         @OA\Schema(type="number")
+     *     ),
+     *     @OA\Parameter(
+     *         name="duration[type]",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string", example="full_day, half_day_afternoon")
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Leave-OverlapLeaveModel"
+     *             ),
+     *             @OA\Property(property="meta",
+     *                 type="object",
+     *                 @OA\Property(property="empNumber", type="integer"),
+     *                 @OA\Property(property="isWorkShiftLengthExceeded", type="boolean")
+     *             )
+     *         )
+     *     ),
+     * )
+     *
      * @inheritDoc
      */
     public function getAll(): EndpointResult

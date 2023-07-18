@@ -89,7 +89,6 @@ class EmployeeTimesheetItemAPI extends Endpoint implements CrudEndpoint
      *         @OA\JsonContent(
      *             @OA\Property(
      *                 property="data",
-     *                 type="object",
      *                 @OA\Schema(ref="#/components/schemas/Time-DetailedTimesheetModel"),
      *             ),
      *             @OA\Property(property="meta",

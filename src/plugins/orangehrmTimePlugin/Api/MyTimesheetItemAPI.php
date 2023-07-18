@@ -38,7 +38,6 @@ class MyTimesheetItemAPI extends EmployeeTimesheetItemAPI
      *         @OA\JsonContent(
      *             @OA\Property(
      *                 property="data",
-     *                 type="object",
      *                 @OA\Schema(ref="#/components/schemas/Time-DetailedTimesheetModel"),
      *             ),
      *             @OA\Property(property="meta",

@@ -69,7 +69,6 @@ class EmployeeTimesheetListAPI extends Endpoint implements CollectionEndpoint
      *         @OA\JsonContent(
      *             @OA\Property(
      *                 property="data",
-     *                 type="object",
      *                 @OA\Schema(ref="#/components/schemas/Time-EmployeeTimesheetModel"),
      *             ),
      *             @OA\Property(

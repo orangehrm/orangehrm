@@ -67,7 +67,6 @@ class EmployeeListAPI extends EndPoint implements CollectionEndpoint
      *         @OA\JsonContent(
      *             @OA\Property(
      *                 property="data",
-     *                 type="object",
      *                 @OA\Schema(ref="#/components/schemas/Pim-EmployeeModel"),
      *             ),
      *             @OA\Property(

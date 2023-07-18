@@ -23,54 +23,54 @@ use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\Leave;
 
+/**
+ * @OA\Schema(
+ *     schema="Leave-LeaveModel",
+ *     type="object",
+ *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(property="date", type="string", format="date"),
+ *     @OA\Property(property="lengthHours", type="number"),
+ *     @OA\Property(property="lengthDays", type="number"),
+ *     @OA\Property(
+ *         property="status",
+ *         type="object",
+ *         @OA\Property(property="id", type="integer"),
+ *         @OA\Property(property="name", type="string"),
+ *     ),
+ *     @OA\Property(
+ *         property="leaveRequest",
+ *         type="object",
+ *         @OA\Property(property="id", type="integer"),
+ *     ),
+ *     @OA\Property(
+ *         property="leaveType",
+ *         type="object",
+ *         @OA\Property(property="id", type="integer"),
+ *         @OA\Property(property="name", type="string"),
+ *         @OA\Property(property="deleted", type="boolean")
+ *     ),
+ *     @OA\Property(property="startTime", type="string"),
+ *     @OA\Property(property="endTime", type="string"),
+ *     @OA\Property(
+ *         property="durationType",
+ *         type="object",
+ *         @OA\Property(property="id", type="integer"),
+ *         @OA\Property(property="type", type="string"),
+ *     ),
+ *     @OA\Property(
+ *         property="lastComment",
+ *         type="object",
+ *         @OA\Property(property="id", type="integer"),
+ *         @OA\Property(property="comment", type="string"),
+ *         @OA\Property(property="date", type="string", format="date"),
+ *         @OA\Property(property="time", type="string"),
+ *     ),
+ * )
+ */
 class LeaveModel implements Normalizable
 {
     use ModelTrait;
 
-    /**
-     * @OA\Schema(
-     *     schema="Leave-LeaveModel",
-     *     type="object",
-     *     @OA\Property(property="id", type="integer"),
-     *     @OA\Property(property="date", type="string", format="date"),
-     *     @OA\Property(property="lengthHours", type="number"),
-     *     @OA\Property(property="lengthDays", type="number"),
-     *     @OA\Property(
-     *         property="status",
-     *         type="object",
-     *         @OA\Property(property="id", type="integer"),
-     *         @OA\Property(property="name", type="string"),
-     *     ),
-     *     @OA\Property(
-     *         property="leaveRequest",
-     *         type="object",
-     *         @OA\Property(property="id", type="integer"),
-     *     ),
-     *     @OA\Property(
-     *         property="leaveType",
-     *         type="object",
-     *         @OA\Property(property="id", type="integer"),
-     *         @OA\Property(property="name", type="string"),
-     *         @OA\Property(property="deleted", type="boolean")
-     *     ),
-     *     @OA\Property(property="startTime", type="string"),
-     *     @OA\Property(property="endTime", type="string"),
-     *     @OA\Property(
-     *         property="durationType",
-     *         type="object",
-     *         @OA\Property(property="id", type="integer"),
-     *         @OA\Property(property="type", type="string"),
-     *     ),
-     *     @OA\Property(
-     *         property="lastComment",
-     *         type="object",
-     *         @OA\Property(property="id", type="integer"),
-     *         @OA\Property(property="comment", type="string"),
-     *         @OA\Property(property="date", type="string", format="date"),
-     *         @OA\Property(property="time", type="string"),
-     *     ),
-     * )
-     */
     public function __construct(Leave $leave)
     {
         $this->setEntity($leave);

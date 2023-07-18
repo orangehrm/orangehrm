@@ -22,6 +22,40 @@ namespace OrangeHRM\Leave\Api\Model;
 use OrangeHRM\Entity\Leave;
 use OrangeHRM\Entity\LeaveComment;
 
+/**
+ * @OA\Schema(
+ *     schema="Leave-OverlapLeaveModel",
+ *     type="object",
+ *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(property="date", type="string", format="date"),
+ *     @OA\Property(property="lengthHours", type="integer"),
+ *     @OA\Property(property="lengthDays", type="integer"),
+ *     @OA\Property(property="status", type="object",
+ *         @OA\Property(property="id", type="integer"),
+ *         @OA\Property(property="name", type="string"),
+ *     ),
+ *     @OA\Property(property="leaveRequest", type="object",
+ *         @OA\Property(property="id", type="integer"),
+ *     ),
+ *     @OA\Property(property="leaveType", type="object",
+ *         @OA\Property(property="id", type="integer"),
+ *         @OA\Property(property="name", type="string"),
+ *         @OA\Property(property="deleted", type="boolean"),
+ *     ),
+ *     @OA\Property(property="startTime", type="string", nullable=true),
+ *     @OA\Property(property="endTime", type="string", nullable=true),
+ *     @OA\Property(property="durationType", type="object",
+ *         @OA\Property(property="id", type="integer"),
+ *         @OA\Property(property="type", type="string"),
+ *     ),
+ *     @OA\Property(property="lastComment", type="object",
+ *         @OA\Property(property="id", type="integer", nullable=true),
+ *         @OA\Property(property="comment", type="string", nullable=true),
+ *         @OA\Property(property="date", type="string", format="date", nullable=true),
+ *         @OA\Property(property="time", type="string", nullable=true),
+ *     ),
+ * )
+ */
 class OverlapLeaveModel extends LeaveModel
 {
     private Leave $leave;
