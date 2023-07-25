@@ -60,6 +60,28 @@ class UpdatePasswordAPI extends Endpoint implements ResourceEndpoint
     }
 
     /**
+     * @OA\Put(
+     *     path="/api/v2/pim/update-password",
+     *     tags={"Pim/Update Password"},
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="currentPassword", type="string"),
+     *             @OA\Property(property="newPassword", type="string"),
+     *             required={"currentPassword", "newPassword"},
+     *         )
+     *     ),
+     *     @OA\Response(response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Admin-UserModel"
+     *             ),
+     *         )
+     *     ),
+     * )
+     *
      * @inheritDoc
      */
     public function update(): EndpointResult

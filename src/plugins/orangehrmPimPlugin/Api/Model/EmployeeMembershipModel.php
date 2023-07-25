@@ -23,6 +23,25 @@ use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\EmployeeMembership;
 
+/**
+ * @OA\Schema(
+ *     schema="Pim-EmployeeMembershipModel",
+ *     type="object",
+ *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(property="membership", type="object",
+ *         @OA\Property(property="id", type="integer"),
+ *         @OA\Property(property="name", type="string")
+ *     ),
+ *     @OA\Property(property="subscriptionFee", type="number"),
+ *     @OA\Property(property="subscriptionPaidBy", type="string"),
+ *     @OA\Property(property="currencyType", type="object",
+ *         @OA\Property(property="id", type="integer"),
+ *         @OA\Property(property="name", type="string")
+ *     ),
+ *     @OA\Property(property="subscriptionCommenceDate", type="string", format="date"),
+ *     @OA\Property(property="subscriptionRenewalDate", type="string", format="date")
+ * )
+ */
 class EmployeeMembershipModel implements Normalizable
 {
     use ModelTrait;

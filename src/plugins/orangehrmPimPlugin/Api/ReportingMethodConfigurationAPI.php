@@ -33,7 +33,6 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\ReportingMethod;
 use OrangeHRM\Pim\Api\Model\ReportingMethodConfigurationModel;
 use OrangeHRM\Pim\Dto\ReportingMethodSearchFilterParams;
@@ -61,9 +60,27 @@ class ReportingMethodConfigurationAPI extends EndPoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/pim/reporting-methods/{id}",
+     *     tags={"Pim/Reporting Method Configuration"},
+     *     @OA\PathParameter(
+     *         name="id",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Pim-ReportingMethodConfigurationModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
+     * )
      * @inheritDoc
-     * @throws RecordNotFoundException
-     * @throws Exception
      */
     public function getOne(): EndpointResourceResult
     {
@@ -87,6 +104,30 @@ class ReportingMethodConfigurationAPI extends EndPoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/pim/reporting-methods",
+     *     tags={"Pim/Reporting Method Configuration"},
+     *     @OA\Parameter(
+     *         name="sortField",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string", enum=ReportingMethodSearchFilterParams::ALLOWED_SORT_FIELDS)
+     *     ),
+     *     @OA\Parameter(ref="#/components/parameters/sortOrder"),
+     *     @OA\Parameter(ref="#/components/parameters/limit"),
+     *     @OA\Parameter(ref="#/components/parameters/offset"),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Pim-ReportingMethodConfigurationModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     * )
      * @inheritDoc
      * @throws Exception
      */
@@ -114,6 +155,28 @@ class ReportingMethodConfigurationAPI extends EndPoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Post(
+     *     path="/api/v2/pim/reporting-methods",
+     *     tags={"Pim/Reporting Method Configuration"},
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="name", type="string"),
+     *             required={"name"}
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Pim-ReportingMethodConfigurationModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     )
+     * )
      * @inheritDoc
      * @throws Exception
      */
@@ -125,7 +188,6 @@ class ReportingMethodConfigurationAPI extends EndPoint implements CrudEndpoint
 
     /**
      * @return ReportingMethod
-     * @throws DaoException
      * @throws RecordNotFoundException
      */
     public function saveReportingMethod(): ReportingMethod
@@ -157,6 +219,33 @@ class ReportingMethodConfigurationAPI extends EndPoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Put(
+     *     path="/api/v2/pim/reporting-methods/{id}",
+     *     tags={"Pim/Reporting Method Configuration"},
+     *     @OA\PathParameter(
+     *         name="id",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="name", type="string"),
+     *             required={"name"}
+     *         )
+     *     ),
+     *     @OA\Response(response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Pim-ReportingMethodConfigurationModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
+     * )
+     *
      * @inheritDoc
      * @throws Exception
      */
@@ -203,6 +292,13 @@ class ReportingMethodConfigurationAPI extends EndPoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Delete(
+     *     path="/api/v2/pim/reporting-methods",
+     *     tags={"Pim/Reporting Method Configuration"},
+     *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),
+     *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse")
+     * )
+     *
      * @return EndpointResourceResult
      * @throws Exception
      */

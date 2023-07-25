@@ -23,6 +23,23 @@ use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\Employee;
 
+/**
+ * @OA\Schema(
+ *     schema="Pim-EmployeeContactDetailsModel",
+ *     type="object",
+ *     @OA\Property(property="street1", type="string"),
+ *     @OA\Property(property="street2", type="string"),
+ *     @OA\Property(property="city", type="string"),
+ *     @OA\Property(property="province", type="string"),
+ *     @OA\Property(property="zipCode", type="string"),
+ *     @OA\Property(property="countryCode", type="string"),
+ *     @OA\Property(property="homeTelephone", type="string"),
+ *     @OA\Property(property="workTelephone", type="string"),
+ *     @OA\Property(property="mobile", type="string"),
+ *     @OA\Property(property="workEmail", type="string"),
+ *     @OA\Property(property="otherEmail", type="string")
+ * )
+ */
 class EmployeeContactDetailsModel implements Normalizable
 {
     use ModelTrait;

@@ -24,6 +24,29 @@ use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Entity\Employee;
 
+/**
+ * @OA\Schema(
+ *     schema="Pim-EmployeePersonalDetailModel",
+ *     type="object",
+ *     @OA\Property(property="empNumber", type="integer"),
+ *     @OA\Property(property="lastName", type="string"),
+ *     @OA\Property(property="firstName", type="string"),
+ *     @OA\Property(property="middleName", type="string"),
+ *     @OA\Property(property="employeeId", type="string"),
+ *     @OA\Property(property="otherId", type="string"),
+ *     @OA\Property(property="drivingLicenseNo", type="string"),
+ *     @OA\Property(property="drivingLicenseExpiredDate", type="string", format="date"),
+ *     @OA\Property(property="gender", type="string"),
+ *     @OA\Property(property="maritalStatus", type="string"),
+ *     @OA\Property(property="birthday", type="string", format="date"),
+ *     @OA\Property(property="terminationId", type="integer"),
+ *     @OA\Property(property="nationality", type="object",
+ *         @OA\Property(property="id", type="integer"),
+ *         @OA\Property(property="name", type="string")
+ *     )
+ * )
+ */
+//TODO - need to change this schema
 class EmployeePersonalDetailModel implements Normalizable
 {
     use ModelTrait;

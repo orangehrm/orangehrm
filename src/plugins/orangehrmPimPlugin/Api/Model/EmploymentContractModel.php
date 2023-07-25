@@ -23,6 +23,24 @@ use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\EmpContract;
 
+/**
+ * @OA\Schema(
+ *     schema="Pim-EmploymentContractModel",
+ *     type="object",
+ *     @OA\Property(property="startDate", type="string", format="date"),
+ *     @OA\Property(property="endDate", type="string", format="date"),
+ *     @OA\Property(property="contractAttachment", type="object",
+ *         @OA\Property(property="id", type="integer"),
+ *         @OA\Property(property="filename", type="string"),
+ *         @OA\Property(property="size", type="integer"),
+ *         @OA\Property(property="fileType", type="string"),
+ *         @OA\Property(property="attachedBy", type="string"),
+ *         @OA\Property(property="attachedByName", type="string"),
+ *         @OA\Property(property="attachedTime", type="string"),
+ *         @OA\Property(property="attachedDate", type="string"),
+ *     ),
+ * )
+ */
 class EmploymentContractModel implements Normalizable
 {
     use ModelTrait;

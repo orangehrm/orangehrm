@@ -19,11 +19,9 @@
 
 namespace OrangeHRM\Pim\Api;
 
-use Exception;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
-use OrangeHRM\Core\Api\V2\Exception\NotImplementedException;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\ResourceEndpoint;
@@ -39,6 +37,29 @@ class EmployeeWorkShiftAPI extends Endpoint implements ResourceEndpoint
     use WorkScheduleServiceTrait;
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/pim/employees/{empNumber}/work-shift",
+     *     tags={"Pim/Employee Work Shift"},
+     *     @OA\PathParameter(
+     *         name="empNumber",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Pim-EmployeeWorkShiftModel"
+     *             ),
+     *             @OA\Property(property="meta",
+     *                 type="object",
+     *                 @OA\Property(property="empNumber", type="integer")
+     *             )
+     *         )
+     *     )
+     * )
+     *
      * @inheritDoc
      */
     public function getOne(): EndpointResourceResult
@@ -67,7 +88,6 @@ class EmployeeWorkShiftAPI extends Endpoint implements ResourceEndpoint
 
     /**
      * @inheritDoc
-     * @throws Exception
      */
     public function update(): EndpointResourceResult
     {
@@ -83,8 +103,7 @@ class EmployeeWorkShiftAPI extends Endpoint implements ResourceEndpoint
     }
 
     /**
-     * @return EndpointResourceResult
-     * @throws NotImplementedException
+     * @inheritDoc
      */
     public function delete(): EndpointResourceResult
     {

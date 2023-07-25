@@ -72,6 +72,27 @@ class EmployeePersonalDetailAPI extends Endpoint implements ResourceEndpoint
     public const PARAM_RULE_SIN_NUMBER_MAX_LENGTH = 100;
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/pim/employees/{empNumber}/personal-details",
+     *     tags={"Pim/Employee Personal Details"},
+     *     @OA\PathParameter(
+     *         name="empNumber",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Pim-EmployeePersonalDetailModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
+     * )
+     *
      * @inheritDoc
      */
     public function getOne(): EndpointResourceResult
@@ -97,6 +118,48 @@ class EmployeePersonalDetailAPI extends Endpoint implements ResourceEndpoint
     }
 
     /**
+     * @OA\Put(
+     *     path="/api/v2/pim/employees/{empNumber}/personal-details",
+     *     tags={"Pim/Employee Personal Details"},
+     *     @OA\PathParameter(
+     *         name="empNumber",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="lastName", type="string"),
+     *             @OA\Property(property="firstName", type="string"),
+     *             @OA\Property(property="middleName", type="string"),
+     *             @OA\Property(property="employeeId", type="string"),
+     *             @OA\Property(property="otherId", type="string"),
+     *             @OA\Property(property="drivingLicenseNo", type="string"),
+     *             @OA\Property(property="drivingLicenseExpiredDate", type="string", format="date"),
+     *             @OA\Property(property="ssnNumber", type="string"),
+     *             @OA\Property(property="sinNumber", type="string"),
+     *             @OA\Property(property="gender", type="integer"),
+     *             @OA\Property(property="maritalStatus", type="string"),
+     *             @OA\Property(property="birthday", type="string", format="date"),
+     *             @OA\Property(property="nationalityId", type="integer"),
+     *             @OA\Property(property="nickname", type="string"),
+     *             @OA\Property(property="smoker", type="boolean"),
+     *             @OA\Property(property="militaryService", type="string"),
+     *             required={"lastName", "firstName"},
+     *         )
+     *     ),
+     *     @OA\Response(response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Pim-EmployeeDependentModel"
+     *             ),
+     *             @OA\Property(property="empNumber", type="integer")
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
+     * )
+     *
      * @inheritDoc
      */
     public function update(): EndpointResourceResult

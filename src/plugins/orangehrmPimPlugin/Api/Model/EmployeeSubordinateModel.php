@@ -23,6 +23,23 @@ use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\ReportTo;
 
+/**
+ * @OA\Schema(
+ *     schema="Pim-EmployeeSubordinateModel",
+ *     type="object",
+ *     @OA\Property(property="subordinate", type="object",
+ *         @OA\Property(property="empNumber", type="integer"),
+ *         @OA\Property(property="firstName", type="string"),
+ *         @OA\Property(property="lastName", type="string"),
+ *         @OA\Property(property="middleName", type="string"),
+ *         @OA\Property(property="terminationId", type="integer"),
+ *     ),
+ *     @OA\Property(property="reportingMethod", type="object",
+ *         @OA\Property(property="id", type="integer"),
+ *         @OA\Property(property="name", type="string"),
+ *     ),
+ * )
+ */
 class EmployeeSubordinateModel implements Normalizable
 {
     use ModelTrait;

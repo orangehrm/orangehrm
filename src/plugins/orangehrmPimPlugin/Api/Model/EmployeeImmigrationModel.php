@@ -23,6 +23,24 @@ use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\EmployeeImmigrationRecord;
 
+/**
+ * @OA\Schema(
+ *     schema="Pim-EmployeeImmigrationModel",
+ *     type="object",
+ *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(property="number", type="string"),
+ *     @OA\Property(property="issuedDate", type="string", format="date"),
+ *     @OA\Property(property="expiryDate", type="string", format="date"),
+ *     @OA\Property(property="type", type="string"),
+ *     @OA\Property(property="status", type="string"),
+ *     @OA\Property(property="reviewDate", type="string", format="date"),
+ *     @OA\Property(property="country", type="object",
+ *         @OA\Property(property="code", type="string"),
+ *         @OA\Property(property="name", type="string")
+ *     ),
+ *     @OA\Property(property="comment", type="string")
+ * )
+ */
 class EmployeeImmigrationModel implements Normalizable
 {
     use ModelTrait;

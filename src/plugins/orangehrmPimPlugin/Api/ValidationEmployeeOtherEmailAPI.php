@@ -43,6 +43,32 @@ class ValidationEmployeeOtherEmailAPI extends Endpoint implements ResourceEndpoi
     public const PARAM_RULE_OTHER_EMAIL_MAX_LENGTH = 50;
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/pim/employees/{empNumber}/contact-details/validation/other-emails",
+     *     tags={"Pim/Employee Email Validation"},
+     *     @OA\PathParameter(
+     *         name="empNumber",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         name="otherEmail",
+     *         in="query",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 @OA\Property(property="valid", type="boolean")
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     * )
+     *
      * @inheritDoc
      */
     public function getOne(): EndpointResult

@@ -66,6 +66,28 @@ class EmployeeContactDetailsAPI extends Endpoint implements CrudEndpoint
     public const PARAM_RULE_OTHER_EMAIL_MAX_LENGTH = 50;
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/pim/employee/{empNumber}/contact-details",
+     *     tags={"Pim/Employee Contact Details"},
+     *     @OA\PathParameter(
+     *         name="empNumber",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Pim-EmployeeContactDetailsModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
+     * ),
+     *
+     * )
+     *
      * @return EndpointResourceResult
      * @throws Exception
      */
@@ -128,6 +150,42 @@ class EmployeeContactDetailsAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Put(
+     *     path="/api/v2/pim/employee/{empNumber}/contact-details",
+     *     tags={"Pim/Employee Contact Details"},
+     *     @OA\PathParameter(
+     *         name="empNumber",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="street1", type="string"),
+     *             @OA\Property(property="street2", type="string"),
+     *             @OA\Property(property="city", type="string"),
+     *             @OA\Property(property="province", type="string"),
+     *             @OA\Property(property="zipCode", type="string"),
+     *             @OA\Property(property="countryCode", type="string"),
+     *             @OA\Property(property="homeTelephone", type="string"),
+     *             @OA\Property(property="workTelephone", type="string"),
+     *             @OA\Property(property="mobile", type="string"),
+     *             @OA\Property(property="workEmail", type="string"),
+     *             @OA\Property(property="otherEmail", type="string"),
+     *         )
+     *     ),
+     *     @OA\Response(response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Pim-EmployeeContactDetailsModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
+     * )
+     *
      * @inheritDoc
      * @throws Exception
      */

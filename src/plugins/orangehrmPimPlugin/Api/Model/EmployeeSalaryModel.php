@@ -23,6 +23,35 @@ use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\EmployeeSalary;
 
+/**
+ * @OA\Schema(
+ *     schema="Pim-EmployeeSalaryModel",
+ *     type="object",
+ *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(property="amount", type="number"),
+ *     @OA\Property(property="salaryName", type="string"),
+ *     @OA\Property(property="comment", type="string"),
+ *     @OA\Property(property="payPeriod", type="object",
+ *         @OA\Property(property="id", type="integer"),
+ *         @OA\Property(property="name", type="string")
+ *     ),
+ *     @OA\Property(property="payGrade", type="object",
+ *         @OA\Property(property="id", type="integer"),
+ *         @OA\Property(property="name", type="string")
+ *     ),
+ *     @OA\Property(property="currencyType", type="object",
+ *         @OA\Property(property="id", type="integer"),
+ *         @OA\Property(property="name", type="string")
+ *     ),
+ *     @OA\Property(property="directDebit", type="object",
+ *         @OA\Property(property="id", type="integer"),
+ *         @OA\Property(property="routingNumber", type="string"),
+ *         @OA\Property(property="account", type="string"),
+ *         @OA\Property(property="amount", type="number"),
+ *         @OA\Property(property="accountType", type="string")
+ *     )
+ * )
+ */
 class EmployeeSalaryModel implements Normalizable
 {
     use ModelTrait;

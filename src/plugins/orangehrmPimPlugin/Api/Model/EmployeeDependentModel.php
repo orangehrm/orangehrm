@@ -23,6 +23,17 @@ use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\EmpDependent;
 
+/**
+ * @OA\Schema(
+ *     schema="Pim-EmployeeDependentModel",
+ *     type="object",
+ *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(property="name", type="string"),
+ *     @OA\Property(property="relationshipType", type="string"),
+ *     @OA\Property(property="relationship", type="string"),
+ *     @OA\Property(property="dateOfBirth", type="string", format="date")
+ * )
+ */
 class EmployeeDependentModel implements Normalizable
 {
     use ModelTrait;

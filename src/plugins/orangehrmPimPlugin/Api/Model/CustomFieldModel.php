@@ -23,6 +23,17 @@ use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\CustomField;
 
+/**
+ * @OA\Schema(
+ *     schema="Pim-CustomFieldModel",
+ *     type="object",
+ *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(property="fieldName", type="string"),
+ *     @OA\Property(property="fieldType", type="string"),
+ *     @OA\Property(property="extraData", type="string"),
+ *     @OA\Property(property="screen", type="string")
+ * )
+ */
 class CustomFieldModel implements Normalizable
 {
     use ModelTrait;

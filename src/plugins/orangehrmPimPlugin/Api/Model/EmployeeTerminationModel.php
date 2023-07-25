@@ -23,6 +23,19 @@ use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\EmployeeTerminationRecord;
 
+/**
+ * @OA\Schema(
+ *     schema="Pim-EmployeeTerminationModel",
+ *     type="object",
+ *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(property="note", type="string"),
+ *     @OA\Property(property="date", type="string", format="date"),
+ *     @OA\Property(property="terminationReason", type="object",
+ *         @OA\Property(property="id", type="integer"),
+ *         @OA\Property(property="name", type="string"),
+ *     ),
+ * )
+ */
 class EmployeeTerminationModel implements Normalizable
 {
     use ModelTrait;

@@ -23,6 +23,14 @@ use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\Report;
 
+/**
+ * @OA\Schema(
+ *     schema="Pim-PimDefinedReportModel",
+ *     type="object",
+ *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(property="name", type="string"),
+ * )
+ */
 class PimDefinedReportModel implements Normalizable
 {
     use ModelTrait;

@@ -46,6 +46,26 @@ class EmployeeJobDetailAPI extends Endpoint implements ResourceEndpoint
     public const PARAMETER_LOCATION_ID = 'locationId';
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/pim/employees/{empNumber}/job-details",
+     *     tags={"Pim/Employee Job Details"},
+     *     @OA\PathParameter(
+     *         name="empNumber",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Pim-EmployeeJobDetailModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     )
+     * )
+     *
      * @inheritDoc
      */
     public function getOne(): EndpointResourceResult
@@ -73,6 +93,36 @@ class EmployeeJobDetailAPI extends Endpoint implements ResourceEndpoint
     }
 
     /**
+     * @OA\Put(
+     *     path="/api/v2/pim/employees/{empNumber}/job-details",
+     *     tags={"Pim/Employee Job Details"},
+     *     @OA\PathParameter(
+     *         name="empNumber",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="joinedDate", type="string", format="date"),
+     *             @OA\Property(property="jobTitleId", type="integer"),
+     *             @OA\Property(property="empStatusId", type="integer"),
+     *             @OA\Property(property="jobCategoryId", type="integer"),
+     *             @OA\Property(property="subunitId", type="integer"),
+     *             @OA\Property(property="locationId", type="integer")
+     *         )
+     *     ),
+     *     @OA\Response(response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Pim-EmployeeJobDetailModel"
+     *             ),
+     *             @OA\Property(property="empNumber", type="integer")
+     *         )
+     *     )
+     * )
+     *
      * @inheritDoc
      */
     public function update(): EndpointResourceResult

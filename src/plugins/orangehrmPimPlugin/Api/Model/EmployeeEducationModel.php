@@ -23,6 +23,23 @@ use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\EmployeeEducation;
 
+/**
+ * @OA\Schema(
+ *     schema="Pim-EmployeeEducationModel",
+ *     type="object",
+ *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(property="institute", type="string"),
+ *     @OA\Property(property="major", type="string"),
+ *     @OA\Property(property="year", type="integer"),
+ *     @OA\Property(property="score", type="string"),
+ *     @OA\Property(property="startDate", type="string", format="date"),
+ *     @OA\Property(property="endDate", type="string", format="date"),
+ *     @OA\Property(property="education", type="object",
+ *         @OA\Property(property="id", type="integer"),
+ *         @OA\Property(property="name", type="string")
+ *     )
+ * )
+ */
 class EmployeeEducationModel implements Normalizable
 {
     use ModelTrait;
