@@ -55,6 +55,22 @@ class AboutOrganizationAPI extends Endpoint implements ResourceEndpoint
     }
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/core/about",
+     *     tags={"Core/About Organization"},
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Core-AboutOrganizationModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     * )
+     *
      * @inheritDoc
      */
     public function getOne(): EndpointResult
