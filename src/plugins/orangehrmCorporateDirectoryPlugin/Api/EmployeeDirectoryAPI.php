@@ -73,7 +73,6 @@ class EmployeeDirectoryAPI extends Endpoint implements CrudEndpoint
      *         response="200",
      *         description="Success",
      *         @OA\JsonContent(
-     *
      *             @OA\Property(
      *                 property="data",
      *                 type="array",

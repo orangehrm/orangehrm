@@ -24,6 +24,31 @@ use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\LDAP\Dto\LDAPSetting;
 use OrangeHRM\LDAP\Dto\LDAPUserLookupSetting;
 
+/**
+ * @OA\Schema(
+ *     schema="LDAP-LDAPConfigModel",
+ *     type="object",
+ *     @OA\Property(property="enable", type="boolean"),
+ *     @OA\Property(property="hostname", type="string"),
+ *     @OA\Property(property="port", type="integer"),
+ *     @OA\Property(property="encryption", type="string"),
+ *     @OA\Property(property="ldapImplementation", type="string"),
+ *     @OA\Property(property="bindAnonymously", type="boolean"),
+ *     @OA\Property(property="bindUserDN", type="string", nullable=true),
+ *     @OA\Property(property="hasBindUserPassword", type="boolean"),
+ *     @OA\Property(property="userLookupSettings", type="array", @OA\Items(type="string")),
+ *     @OA\Property(property="dataMapping", type="object",
+ *         @OA\Property(property="firstName", type="string"),
+ *         @OA\Property(property="middleName", type="string", nullable=true),
+ *         @OA\Property(property="lastName", type="string"),
+ *         @OA\Property(property="workEmail", type="string", nullable=true),
+ *         @OA\Property(property="employeeId", type="string", nullable=true),
+ *         @OA\Property(property="userStatus", type="string", nullable=true)
+ *     ),
+ *     @OA\Property(property="mergeLDAPUsersWithExistingSystemUsers", type="boolean"),
+ *     @OA\Property(property="syncInterval", type="integer")
+ * )
+ */
 class LDAPConfigModel implements Normalizable
 {
     /**

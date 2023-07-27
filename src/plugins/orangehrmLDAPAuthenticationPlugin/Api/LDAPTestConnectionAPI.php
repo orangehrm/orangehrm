@@ -68,6 +68,67 @@ class LDAPTestConnectionAPI extends Endpoint implements CollectionEndpoint
     }
 
     /**
+     * @OA\Post(
+     *     path="/api/v2/admin/ldap-test-connection",
+     *     tags={"LDAP/LDAP test connection"},
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="hostname", type="string"),
+     *             @OA\Property(property="port", type="integer"),
+     *             @OA\Property(property="encryption", type="string", enum={"none", "ssl", "tls"}),
+     *             @OA\Property(property="ldapImplementation", type="string"),
+     *             @OA\Property(property="bindAnonymously", type="boolean"),
+     *             @OA\Property(property="bindUserDN", type="string"),
+     *             @OA\Property(property="bindUserPassword", type="string"),
+     *             @OA\Property(property="userLookupSettings", type="array",
+     *                 @OA\Items(
+     *                     type="object",
+     *                     @OA\Property(property="baseDN", type="string"),
+     *                     @OA\Property(property="searchScope", type="string", enum={"base", "one", "sub"}),
+     *                     @OA\Property(property="userNameAttribute", type="string"),
+     *                     @OA\Property(property="userSearchFilter", type="string"),
+     *                     @OA\Property(property="userUniqueIdAttribute", type="string"),
+     *                     @OA\Property(property="employeeSelectorMapping", type="object")
+     *                 )
+     *             ),
+     *             @OA\Property(property="dataMapping", type="object",
+     *                 @OA\Property(property="firstName", type="string"),
+     *                 @OA\Property(property="lastName", type="string"),
+     *                 @OA\Property(property="userStatus", type="string"),
+     *                 @OA\Property(property="workEmail", type="string"),
+     *                 @OA\Property(property="employeeId", type="string")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="array",
+     *                 @OA\Items(
+     *                     @OA\Property(property="category", type="string", enum={"Login"}),
+     *                     @OA\Property(property="checks", type="object",
+     *                         @OA\Property(property="label", type="string"),
+     *                         @OA\Property(property="value", type="string"),
+     *                     )
+     *                 ),
+     *                 @OA\Items(
+     *                     @OA\Property(property="category", type="string", enum={"Lookup"}),
+     *                     @OA\Property(property="checks", type="object",
+     *                         @OA\Property(property="label", type="string"),
+     *                         @OA\Property(property="value", type="object",
+     *                             @OA\Property(property="message", type="string"),
+     *                             @OA\Property(property="status", type="string"),
+     *                         ),
+     *                     ),
+     *                 ),
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     )
+     * )
      * @inheritDoc
      */
     public function create(): EndpointResult

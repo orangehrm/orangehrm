@@ -23,6 +23,25 @@ use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\LDAPSyncStatus;
 
+/**
+ * @OA\Schema(
+ *     schema="LDAP-LDAPSyncStatusModel",
+ *     type="object",
+ *     @OA\Property(
+ *         property="syncStartedAt",
+ *         type="object",
+ *         @OA\Property(property="date", type="string"),
+ *         @OA\Property(property="time", type="string")
+ *     ),
+ *     @OA\Property(
+ *         property="syncFinishedAt",
+ *         type="object",
+ *         @OA\Property(property="date", type="string"),
+ *         @OA\Property(property="time", type="string")
+ *     ),
+ *     @OA\Property(property="syncStatus", type="string")
+ * )
+ */
 class LDAPSyncStatusModel implements Normalizable
 {
     use ModelTrait;

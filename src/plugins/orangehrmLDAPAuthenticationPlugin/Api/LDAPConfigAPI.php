@@ -86,6 +86,62 @@ class LDAPConfigAPI extends Endpoint implements ResourceEndpoint
     public const PARAMETER_RULE_BASE_DISTINGUISHED_NAME_MAX_LENGTH = 255;
 
     /**
+     * @OA\Put(
+     *     path="/api/v2/admin/ldap-config",
+     *     tags={"LDAP/LDAP Config"},
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="enable", type="boolean"),
+     *             @OA\Property(property="hostname", type="string"),
+     *             @OA\Property(property="port", type="integer"),
+     *             @OA\Property(property="encryption", type="string", enum={"none", "ssl", "tls"}),
+     *             @OA\Property(property="ldapImplementation", type="string"),
+     *             @OA\Property(property="bindAnonymously", type="boolean"),
+     *             @OA\Property(property="bindUserDN", type="string"),
+     *             @OA\Property(property="bindUserPassword", type="string"),
+     *             @OA\Property(property="userLookupSettings", type="array",
+     *                 @OA\Items(
+     *                     type="object",
+     *                     @OA\Property(property="baseDN", type="string"),
+     *                     @OA\Property(property="searchScope", type="string", enum={"base", "one", "sub"}),
+     *                     @OA\Property(property="userNameAttribute", type="string"),
+     *                     @OA\Property(property="userSearchFilter", type="string"),
+     *                     @OA\Property(property="userUniqueIdAttribute", type="string"),
+     *                     @OA\Property(property="employeeSelectorMapping", type="array",
+     *                         @OA\Items(
+     *                             type="object",
+     *                             @OA\Property(property="field", type="string"),
+     *                             @OA\Property(property="attributeName", type="string")
+     *                         )
+     *                     )
+     *                 ),
+     *             ),
+     *             @OA\Property(property="dataMapping", type="object",
+     *                 @OA\Property(property="firstName", type="string"),
+     *                 @OA\Property(property="middleName", type="string"),
+     *                 @OA\Property(property="lastName", type="string"),
+     *                 @OA\Property(property="userStatus", type="string"),
+     *                 @OA\Property(property="workEmail", type="string"),
+     *                 @OA\Property(property="employeeId", type="string")
+     *             ),
+     *             @OA\Property(property="mergeLDAPUsersWithExistingSystemUsers", type="boolean"),
+     *             @OA\Property(property="syncInterval", type="string"),
+     *             required={"userLookupSettings", "dataMapping", "mergeLDAPUsersWithExistingSystemUsers", "syncInterval"},
+     *         ),
+     *     ),
+     *     @OA\Response(response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/LDAP-LDAPConfigModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     * )
+     *
      * @inheritDoc
      */
     public function update(): EndpointResult
@@ -230,6 +286,21 @@ class LDAPConfigAPI extends Endpoint implements ResourceEndpoint
     }
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/admin/ldap-config",
+     *     tags={"LDAP/LDAP Config"},
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/LDAP-LDAPConfigModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     )
+     * )
      * @inheritDoc
      */
     public function getOne(): EndpointResult
