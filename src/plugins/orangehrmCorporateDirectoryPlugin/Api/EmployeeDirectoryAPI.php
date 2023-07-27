@@ -56,6 +56,38 @@ class EmployeeDirectoryAPI extends Endpoint implements CrudEndpoint
     ];
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/directory/employees/{empNumber}",
+     *     tags={"CorporateDirectory/Employee Directory"},
+     *     @OA\Parameter(
+     *         name="model",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(
+     *             type="string",
+     *             enum={OrangeHRM\CorporateDirectory\Api\EmployeeDirectoryAPI::MODEL_DEFAULT, OrangeHRM\CorporateDirectory\Api\EmployeeDirectoryAPI::MODEL_DETAILED, OrangeHRM\CorporateDirectory\Api\EmployeeDirectoryAPI::MODEL_DETAILED},
+     *             default=OrangeHRM\CorporateDirectory\Api\EmployeeDirectoryAPI::MODEL_DEFAULT
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="array",
+     *                 @OA\Items(
+     *                     oneOf={
+     *                         @OA\Schema(ref="#/components/schemas/CorporateDirectory-EmployeeDirectoryModel"),
+     *                         @OA\Schema(ref="#/components/schemas/CorporateDirectory-EmployeeDirectoryDetailedModel"),
+     *                     }
+     *                 )
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     )
+     * )
      * @inheritDoc
      */
     public function getOne(): EndpointResourceResult
@@ -120,6 +152,61 @@ class EmployeeDirectoryAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/directory/employees",
+     *     tags={"CorporateDirectory/Employee Directory"},
+     *     @OA\Parameter(
+     *         name="empNumber",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         name="nameOrId",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         name="jobTitleId",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         name="locationId",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         name="model",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(
+     *             type="string",
+     *             enum={OrangeHRM\CorporateDirectory\Api\EmployeeDirectoryAPI::MODEL_DEFAULT, OrangeHRM\CorporateDirectory\Api\EmployeeDirectoryAPI::MODEL_DETAILED, OrangeHRM\CorporateDirectory\Api\EmployeeDirectoryAPI::MODEL_DETAILED},
+     *             default=OrangeHRM\CorporateDirectory\Api\EmployeeDirectoryAPI::MODEL_DEFAULT
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="array",
+     *                 @OA\Items(
+     *                     oneOf={
+     *                         @OA\Schema(ref="#/components/schemas/CorporateDirectory-EmployeeDirectoryModel"),
+     *                         @OA\Schema(ref="#/components/schemas/CorporateDirectory-EmployeeDirectoryDetailedModel"),
+     *                     }
+     *                 )
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     )
+     * )
      * @inheritDoc
      */
     public function getAll(): EndpointCollectionResult

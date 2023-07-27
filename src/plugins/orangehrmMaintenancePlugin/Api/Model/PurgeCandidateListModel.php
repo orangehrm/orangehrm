@@ -25,6 +25,7 @@ use OrangeHRM\Entity\Candidate;
 /**
  * @OA\Schema(
  *     schema="Maintenance-PurgeCandidateListModel",
+ *     type="object",
  *     @OA\Property(property="id", type="integer"),
  *     @OA\Property(property="firstName", type="string"),
  *     @OA\Property(property="middleName", type="string"),
