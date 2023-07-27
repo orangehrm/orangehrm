@@ -21,6 +21,14 @@ namespace OrangeHRM\Maintenance\Api\Model;
 
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 
+/**
+ * @OA\Schema(
+ *     schema="Maintenance-PurgeEmployeeModel",
+ *     @OA\Property(property="purged", type="object",
+ *         @OA\Property(property="empNumber", type="integer")
+ *     )
+ * )
+ */
 class PurgeEmployeeModel implements Normalizable
 {
     private int $empNumber;

@@ -22,6 +22,20 @@ namespace OrangeHRM\Maintenance\Api\Model;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\Candidate;
 
+/**
+ * @OA\Schema(
+ *     schema="Maintenance-PurgeCandidateListModel",
+ *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(property="firstName", type="string"),
+ *     @OA\Property(property="middleName", type="string"),
+ *     @OA\Property(property="lastName", type="string"),
+ *     @OA\Property(property="dateOfApplication", type="string", format="date"),
+ *     @OA\Property(property="status", type="object",
+ *         @OA\Property(property="id", type="integer"),
+ *         @OA\Property(property="label", type="string")
+ *     )
+ * )
+ */
 class PurgeCandidateListModel implements Normalizable
 {
     /**

@@ -50,6 +50,28 @@ class PurgeEmployeeAPI extends Endpoint implements CollectionEndpoint
     }
 
     /**
+     * @OA\Delete(
+     *     path="/api/v2/maintenance/purge",
+     *     tags={"Maintenance/Purge Employee"},
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="empNumber", type="integer"),
+     *             required={"empNumber"}
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Maintenance-PurgeEmployeeModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     * )
      * @inheritDoc
      * @throws BadRequestException|TransactionException
      */
