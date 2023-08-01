@@ -59,7 +59,7 @@ class CandidateHistoryAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Get(
      *     path="/api/v2/recruitment/candidates/{candidateId}/history",
-     *     tags={"Recuirtment/Candidate History"},
+     *     tags={"Recruitment/Candidate History"},
      *     @OA\PathParameter(
      *         name="candidateId",
      *         @OA\Schema(type="integer")
@@ -172,7 +172,7 @@ class CandidateHistoryAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Get(
      *     path="/api/v2/recruitment/candidates/{candidateId}/history/{historyId}",
-     *     tags={"Recuirtment/Candidate History"},
+     *     tags={"Recruitment/Candidate History"},
      *     @OA\PathParameter(
      *         name="candidateId",
      *         @OA\Schema(type="integer")
@@ -252,7 +252,7 @@ class CandidateHistoryAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Put(
      *     path="/api/v2/recruitment/candidates/{candidateId}/history/{historyId}",
-     *     tags={"Recuirtment/Candidate History"},
+     *     tags={"Recruitment/Candidate History"},
      *     @OA\PathParameter(
      *         name="candidateId",
      *         @OA\Schema(type="integer")

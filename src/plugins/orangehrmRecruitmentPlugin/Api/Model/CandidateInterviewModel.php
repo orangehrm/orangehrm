@@ -56,7 +56,7 @@ use OrangeHRM\Entity\Interview;
  *         )
  *     ),
  *     @OA\Property(property="interviewDate", type="string", format="date"),
- *     @OA\Property(property="interviewTime", type="string"),
+ *     @OA\Property(property="interviewTime", type="string", format="time"),
  *     @OA\Property(property="note", type="string")
  * )
  */

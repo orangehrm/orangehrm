@@ -103,7 +103,7 @@ class TimeConfigPeriodAPI extends Endpoint implements ResourceEndpoint
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="startDay", type="integer"),
+     *             @OA\Property(property="startDay", type="integer", minimum=1, maximum=7),
      *             required={"startDay"}
      *         )
      *     ),

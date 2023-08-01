@@ -105,7 +105,7 @@ class CandidateAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Get(
      *     path="/api/v2/recruitment/candidates",
-     *     tags={"Recuirtment/Candidates"},
+     *     tags={"Recruitment/Candidates"},
      *     @OA\Parameter(
      *         name="sortField",
      *         in="query",
@@ -128,7 +128,7 @@ class CandidateAPI extends Endpoint implements CrudEndpoint
      *         name="vacancyId",
      *         in="query",
      *         required=false,
-     *         @OA\Schema(type="boolean")
+     *         @OA\Schema(type="integer")
      *     ),
      *     @OA\Parameter(
      *         name="hiringManagerId",
@@ -149,7 +149,8 @@ class CandidateAPI extends Endpoint implements CrudEndpoint
      *             "INTERVIEW FAILED",
      *             "JOB OFFERED",
      *             "OFFER DECLINED",
-     *         "HIRED"})
+     *             "HIRED"
+     *         })
      *     ),
      *     @OA\Parameter(
      *         name="fromDate",
@@ -180,6 +181,19 @@ class CandidateAPI extends Endpoint implements CrudEndpoint
      *         in="query",
      *         required=false,
      *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         name="model",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(
+     *             type="string",
+     *             enum={
+     *                 OrangeHRM\Recruitment\Api\CandidateAPI::MODEL_DEFAULT,
+     *                 OrangeHRM\Recruitment\Api\CandidateAPI::MODEL_CANDIDATE_LIST,
+     *                 OrangeHRM\Recruitment\Api\CandidateAPI::MODEL_CANDIDATE_DETAILED
+     *             }
+     *         )
      *     ),
      *     @OA\Parameter(ref="#/components/parameters/sortOrder"),
      *     @OA\Parameter(ref="#/components/parameters/limit"),

@@ -89,7 +89,7 @@ class EmployeeTimesheetItemAPI extends Endpoint implements CrudEndpoint
      *         @OA\JsonContent(
      *             @OA\Property(
      *                 property="data",
-     *                 @OA\Schema(ref="#/components/schemas/Time-DetailedTimesheetModel"),
+     *                 ref="#/components/schemas/Time-DetailedTimesheetModel",
      *             ),
      *             @OA\Property(property="meta",
      *                 type="object",
@@ -368,7 +368,19 @@ class EmployeeTimesheetItemAPI extends Endpoint implements CrudEndpoint
      *             @OA\Property(property="meta", type="object")
      *         )
      *     ),
-     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound"),
+     *     @OA\Response(
+     *         response="400",
+     *         description="Bad Request",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="error",
+     *                 type="object",
+     *                 @OA\Property(property="status", type="string", default="400"),
+     *                 @OA\Property(property="message", type="string", example="Performed action not allowed")
+     *             )
+     *         )
+     *     ),
      * )
      *
      * @inheritDoc

@@ -43,7 +43,7 @@ class HiringManagerAPI extends Endpoint implements CollectionEndpoint
     /**
      * @OA\Get(
      *     path="/api/v2/recruitment/hiring-managers",
-     *     tags={"Recuirtment/Hiring Managers"},
+     *     tags={"Recruitment/Hiring Managers"},
      *     @OA\Parameter(
      *         name="sortField",
      *         in="query",

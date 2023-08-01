@@ -123,19 +123,72 @@ class LeaveOverlapAPI extends Endpoint implements CollectionEndpoint
      *         name="fromDate",
      *         in="query",
      *         required=true,
-     *         @OA\Schema(type="number")
+     *         @OA\Schema(type="string", format="date")
      *     ),
      *     @OA\Parameter(
      *         name="toDate",
      *         in="query",
      *         required=true,
-     *         @OA\Schema(type="number")
+     *         @OA\Schema(type="string", format="date")
      *     ),
      *     @OA\Parameter(
      *         name="duration[type]",
      *         in="query",
      *         required=false,
      *         @OA\Schema(type="string", example="full_day, half_day_afternoon")
+     *     ),
+     *     @OA\Parameter(
+     *         name="duration[fromTime]",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string", format="time")
+     *     ),
+     *     @OA\Parameter(
+     *         name="duration[toTime]",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string", format="time")
+     *     ),
+     *     @OA\Parameter(
+     *         name="endDuration[type]",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(
+     *             type="string",
+     *             enum={
+     *                 OrangeHRM\Leave\Dto\LeaveDuration::FULL_DAY,
+     *                 OrangeHRM\Leave\Dto\LeaveDuration::HALF_DAY_MORNING,
+     *                 OrangeHRM\Leave\Dto\LeaveDuration::HALF_DAY_AFTERNOON,
+     *                 OrangeHRM\Leave\Dto\LeaveDuration::SPECIFY_TIME
+     *             }
+     *         )
+     *     ),
+     *     @OA\Parameter(
+     *         name="endDuration[fromTime]",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string", format="time")
+     *     ),
+     *     @OA\Parameter(
+     *         name="endDuration[toTime]",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string", format="time")
+     *     ),
+     *     @OA\Parameter(
+     *         name="partialOption",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(
+     *             type="string",
+     *             enum={
+     *                 OrangeHRM\Leave\Dto\LeaveParameterObject::PARTIAL_OPTION_NONE,
+     *                 OrangeHRM\Leave\Dto\LeaveParameterObject::PARTIAL_OPTION_ALL,
+     *                 OrangeHRM\Leave\Dto\LeaveParameterObject::PARTIAL_OPTION_START,
+     *                 OrangeHRM\Leave\Dto\LeaveParameterObject::PARTIAL_OPTION_END,
+     *                 OrangeHRM\Leave\Dto\LeaveParameterObject::PARTIAL_OPTION_START_END
+     *             }
+     *         )
      *     ),
      *     @OA\Response(
      *         response="200",

@@ -65,7 +65,7 @@ class CandidateAllowedActionAPI extends Endpoint implements CollectionEndpoint
     /**
      * @OA\Get(
      *     path="/api/v2/recruitment/candidates/{candidateId}/actions/allowed",
-     *     tags={"Recuirtment/Candidate Workflow"},
+     *     tags={"Recruitment/Candidate Workflow"},
      *     @OA\PathParameter(
      *         name="candidateId",
      *         @OA\Schema(type="integer")
@@ -87,7 +87,8 @@ class CandidateAllowedActionAPI extends Endpoint implements CollectionEndpoint
      *                 @OA\Property(property="total", type="integer")
      *             )
      *         )
-     *     )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
      * )
      * @inheritDoc
      */

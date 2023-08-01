@@ -57,7 +57,10 @@ class ValidateProjectNameAPI extends Endpoint implements ResourceEndpoint
      *         name="projectName",
      *         in="query",
      *         required=true,
-     *         @OA\Schema(type="string")
+     *         @OA\Schema(
+     *             type="string",
+     *             maxLength=OrangeHRM\Time\Api\ValidateProjectNameAPI::PARAM_RULE_PROJECT_NAME_MAX_LENGTH
+     *         )
      *     ),
      *     @OA\Parameter(
      *         name="customerId",
@@ -77,9 +80,9 @@ class ValidateProjectNameAPI extends Endpoint implements ResourceEndpoint
      *                 )
      *             ),
      *             @OA\Property(property="meta", type="object")
-     *         ),
-     *         @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
-     *     )
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
      * )
      *
      * @inheritDoc

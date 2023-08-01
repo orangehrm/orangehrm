@@ -45,7 +45,7 @@ class EmployeeListAPI extends EndPoint implements CollectionEndpoint
     /**
      * @OA\Get(
      *     path="/api/v2/recruitment/interviwers",
-     *     tags={"Recuirtment/Employee List"},
+     *     tags={"Recruitment/Employee List"},
      *     @OA\Parameter(
      *         name="sortField",
      *         in="query",
@@ -56,7 +56,10 @@ class EmployeeListAPI extends EndPoint implements CollectionEndpoint
      *         name="nameOrId",
      *         in="query",
      *         required=false,
-     *         @OA\Schema(type="string")
+     *         @OA\Schema(
+     *             type="string",
+     *             maxLength=OrangeHRM\Recruitment\Api\EmployeeListAPI::PARAM_RULE_FILTER_NAME_OR_ID_MAX_LENGTH
+     *         )
      *     ),
      *     @OA\Parameter(ref="#/components/parameters/sortOrder"),
      *     @OA\Parameter(ref="#/components/parameters/limit"),
@@ -67,7 +70,7 @@ class EmployeeListAPI extends EndPoint implements CollectionEndpoint
      *         @OA\JsonContent(
      *             @OA\Property(
      *                 property="data",
-     *                 @OA\Schema(ref="#/components/schemas/Pim-EmployeeModel"),
+     *                 ref="#/components/schemas/Pim-EmployeeModel",
      *             ),
      *             @OA\Property(
      *                 property="meta",

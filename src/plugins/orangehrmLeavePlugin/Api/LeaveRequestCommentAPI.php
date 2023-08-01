@@ -104,7 +104,8 @@ class LeaveRequestCommentAPI extends Endpoint implements CollectionEndpoint
      *                 @OA\Property(property="total", type="integer")
      *             )
      *         )
-     *     )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
      * )
      *
      * @inheritDoc
@@ -162,7 +163,11 @@ class LeaveRequestCommentAPI extends Endpoint implements CollectionEndpoint
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="comment", type="string"),
+     *             @OA\Property(
+     *                 property="comment",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Leave\Api\LeaveRequestCommentApi::PARAM_RULE_COMMENT_MAX_LENGTH
+     *             ),
      *         ),
      *     ),
      *     @OA\Response(response="200",
@@ -173,9 +178,9 @@ class LeaveRequestCommentAPI extends Endpoint implements CollectionEndpoint
      *                 ref="#/components/schemas/Leave-LeaveRequestCommentModel"
      *             ),
      *             @OA\Property(property="meta", type="object"),
-     *         ),
-     *         @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
-     *     )
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
      * )
      *
      * @inheritDoc

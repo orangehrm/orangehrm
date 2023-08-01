@@ -57,7 +57,7 @@ use OrangeHRM\Recruitment\Traits\Service\CandidateServiceTrait;
  *         @OA\Property(property="id", type="integer"),
  *         @OA\Property(property="name", type="string"),
  *         @OA\Property(property="date", type="string", format="date"),
- *         @OA\Property(property="time", type="string"),
+ *         @OA\Property(property="time", type="string", format="time"),
  *         @OA\Property(
  *             property="interviewers",
  *             type="array",

@@ -60,7 +60,10 @@ class ProjectActivityAPI extends Endpoint implements CrudEndpoint
      *         name="projectActivityName",
      *         in="query",
      *         required=false,
-     *         @OA\Schema(type="string")
+     *         @OA\Schema(
+     *             type="string",
+     *             maxLength=OrangeHRM\Time\Api\ProjectActivityAPI::PARAM_RULE_STRING_MAX_LENGTH
+     *         )
      *     ),
      *     @OA\Parameter(ref="#/components/parameters/sortOrder"),
      *     @OA\Parameter(ref="#/components/parameters/limit"),
@@ -154,7 +157,11 @@ class ProjectActivityAPI extends Endpoint implements CrudEndpoint
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="name", type="string"),
+     *             @OA\Property(
+     *                 property="name",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Time\Api\ProjectActivityAPI::PARAM_RULE_STRING_MAX_LENGTH
+     *             ),
      *             required={"name"}
      *         )
      *     ),
@@ -211,7 +218,19 @@ class ProjectActivityAPI extends Endpoint implements CrudEndpoint
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),
-     *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse")
+     *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse"),
+     *     @OA\Response(
+     *         response="400",
+     *         description="Bad Request",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="error",
+     *                 type="object",
+     *                 @OA\Property(property="status", type="string", default="400"),
+     *                 @OA\Property(property="message", type="string", example="Not Allowed to Delete Project Activities Which Have Time Logged Against")
+     *             )
+     *         )
+     *     ),
      * )
      * @inheritDoc
      */
@@ -265,9 +284,9 @@ class ProjectActivityAPI extends Endpoint implements CrudEndpoint
      *                 ref="#/components/schemas/Time-ProjectActivityModel"
      *             ),
      *             @OA\Property(property="meta", type="object")
-     *         ),
-     *         @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
-     *     )
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
      * )
      *
      * @inheritDoc
@@ -311,7 +330,11 @@ class ProjectActivityAPI extends Endpoint implements CrudEndpoint
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="name", type="string"),
+     *             @OA\Property(
+     *                 property="name",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Time\Api\ProjectActivityAPI::PARAM_RULE_STRING_MAX_LENGTH
+     *             ),
      *             required={"name"}
      *         )
      *     ),

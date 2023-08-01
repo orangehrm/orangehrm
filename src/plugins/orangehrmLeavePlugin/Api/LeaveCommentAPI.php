@@ -106,7 +106,8 @@ class LeaveCommentAPI extends Endpoint implements CollectionEndpoint
      *                 @OA\Property(property="total", type="integer")
      *             )
      *         )
-     *     )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
      * )
      *
      * @inheritDoc
@@ -175,9 +176,9 @@ class LeaveCommentAPI extends Endpoint implements CollectionEndpoint
      *                 ref="#/components/schemas/Leave-LeaveCommentModel"
      *             ),
      *             @OA\Property(property="meta", type="object"),
-     *         ),
-     *         @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
-     *     )
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
      * )
      *
      * @inheritDoc

@@ -125,8 +125,16 @@ class CustomerAPI extends Endpoint implements CrudEndpoint
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="name", type="string"),
-     *             @OA\Property(property="description", type="string"),
+     *             @OA\Property(
+     *                 property="name",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Time\Api\CustomerAPI::PARAM_RULE_NAME_MAX_LENGTH
+     *             ),
+     *             @OA\Property(
+     *                 property="description",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Time\Api\CustomerAPI::PARAM_RULE_DESCRIPTION_MAX_LENGTH
+     *             ),
      *             required={"name"}
      *         )
      *     ),
@@ -170,7 +178,19 @@ class CustomerAPI extends Endpoint implements CrudEndpoint
      *     path="/api/v2/time/customers",
      *     tags={"Time/Customers"},
      *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),
-     *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse")
+     *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse"),
+     *     @OA\Response(
+     *         response="400",
+     *         description="Bad Request",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="error",
+     *                 type="object",
+     *                 @OA\Property(property="status", type="string", default="400"),
+     *                 @OA\Property(property="message", type="string", default="Not Allowed to Delete Customer(s) Which Have Time Logged Against")
+     *             )
+     *         )
+     *     ),
      * )
      *
      * @inheritDoc
@@ -264,8 +284,16 @@ class CustomerAPI extends Endpoint implements CrudEndpoint
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="name", type="string"),
-     *             @OA\Property(property="description", type="string"),
+     *             @OA\Property(
+     *                 property="name",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Time\Api\CustomerAPI::PARAM_RULE_NAME_MAX_LENGTH
+     *             ),
+     *             @OA\Property(
+     *                 property="description",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Time\Api\CustomerAPI::PARAM_RULE_DESCRIPTION_MAX_LENGTH
+     *             ),
      *             required={"name"}
      *         )
      *     ),

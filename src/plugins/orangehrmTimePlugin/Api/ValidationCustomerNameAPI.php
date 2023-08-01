@@ -56,7 +56,10 @@ class ValidationCustomerNameAPI extends Endpoint implements ResourceEndpoint
      *         name="customerName",
      *         in="query",
      *         required=true,
-     *         @OA\Schema(type="string")
+     *         @OA\Schema(
+     *             type="string",
+     *             maxLength=OrangeHRM\Time\Api\ValidationCustomerNameAPI::PARAM_RULE_CUSTOMER_NAME_MAX_LENGTH
+     *         )
      *     ),
      *     @OA\Response(
      *         response="200",
@@ -64,15 +67,13 @@ class ValidationCustomerNameAPI extends Endpoint implements ResourceEndpoint
      *         @OA\JsonContent(
      *             @OA\Property(
      *                 property="data",
-     *                 type="array",
-     *                 @OA\Items(
-     *                     @OA\Property(property="valid", type="boolean"),
-     *                 )
+     *                 type="object",
+     *                 @OA\Property(property="valid", type="boolean"),
      *             ),
      *             @OA\Property(property="meta", type="object")
-     *         ),
-     *         @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
-     *     )
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
      * )
      *
      * @inheritDoc

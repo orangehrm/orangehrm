@@ -33,7 +33,14 @@ class LeaveReportDataAPI extends ReportDataAPI
      *         name="name",
      *         in="query",
      *         required=true,
-     *         @OA\Schema(type="string", enum={OrangeHRM\Leave\Api\LeaveReportAPI::LEAVE_REPORT_MAP})
+     *         @OA\Schema(
+     *             type="string",
+     *             enum={
+     *                 "employee_leave_entitlements_and_usage",
+     *                 "my_leave_entitlements_and_usage",
+     *                 "leave_type_leave_entitlements_and_usage"
+     *             }
+     *         )
      *     ),
      *     @OA\Parameter(
      *         name="empNumber",
@@ -45,13 +52,19 @@ class LeaveReportDataAPI extends ReportDataAPI
      *         name="fromDate",
      *         in="query",
      *         required=false,
-     *         @OA\Schema(type="string")
+     *         @OA\Schema(type="string", format="date")
      *     ),
      *     @OA\Parameter(
      *         name="toDate",
      *         in="query",
      *         required=false,
-     *         @OA\Schema(type="string")
+     *         @OA\Schema(type="string", format="date")
+     *     ),
+     *     @OA\Parameter(
+     *         name="includeEmployees",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string", enum=OrangeHRM\Leave\Dto\LeaveRequestSearchFilterParams::INCLUDE_EMPLOYEES)
      *     ),
      *     @OA\Parameter(ref="#/components/parameters/sortOrder"),
      *     @OA\Parameter(ref="#/components/parameters/limit"),

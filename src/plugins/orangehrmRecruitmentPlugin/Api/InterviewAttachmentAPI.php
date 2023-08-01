@@ -148,7 +148,11 @@ class InterviewAttachmentAPI extends Endpoint implements CrudEndpoint
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="comment", type="string"),
+     *             @OA\Property(
+     *                 property="comment",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Recruitment\Api\InterviewAttachmentAPI::PARAM_RULE_COMMENT_MAX_LENGTH
+     *             ),
      *             @OA\Property(property="attachment", ref="#/components/schemas/Base64Attachment"),
      *             required={"attachment"}
      *         )
@@ -162,7 +166,8 @@ class InterviewAttachmentAPI extends Endpoint implements CrudEndpoint
      *             ),
      *             @OA\Property(property="meta", type="object")
      *         )
-     *     )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
      * )
      *
      * @inheritDoc
@@ -270,25 +275,8 @@ class InterviewAttachmentAPI extends Endpoint implements CrudEndpoint
      *         name="interviewId",
      *         @OA\Schema(type="integer")
      *     ),
-     *     @OA\RequestBody(
-     *         @OA\JsonContent(
-     *             type="object",
-     *             @OA\Property(property="ids", type="array",
-     *                 @OA\Items(type="integer")
-     *             )
-     *         )
-     *     ),
-     *     @OA\Response(response="200",
-     *         description="Success",
-     *         @OA\JsonContent(
-     *             @OA\Property(
-     *                 property="data",
-     *                 type="array",
-     *                 @OA\Items(type="integer")
-     *             ),
-     *             @OA\Property(property="meta", type="object")
-     *         )
-     *     )
+     *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),
+     *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse")
      * )
      *
      * @inheritDoc
@@ -395,7 +383,7 @@ class InterviewAttachmentAPI extends Endpoint implements CrudEndpoint
      *     path="/api/v2/recruitment/interviews/{interviewId}/attachments/{attachmentId}",
      *     tags={"Recruitment/Interview Attachments"},
      *     @OA\PathParameter(
-     *         name="candidateId",
+     *         name="interviewId",
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\PathParameter(
@@ -404,9 +392,17 @@ class InterviewAttachmentAPI extends Endpoint implements CrudEndpoint
      *     ),
      *     @OA\RequestBody(
      *         @OA\JsonContent(
-     *             @OA\Property(property="currentAttachment", type="string"),
+     *             @OA\Property(
+     *                 property="currentAttachment",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Recruitment\Api\InterviewAttachmentAPI::PARAM_RULE_CURRENT_ATTACHMENT_MAX_LENGTH
+     *             ),
      *             @OA\Property(property="attachment", ref="#/components/schemas/Base64Attachment"),
-     *             @OA\Property(property="comment", type="string"),
+     *             @OA\Property(
+     *                 property="comment",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Recruitment\Api\InterviewAttachmentAPI::PARAM_RULE_COMMENT_MAX_LENGTH
+     *             ),
      *         )
      *     ),
      *     @OA\Response(
@@ -420,8 +416,7 @@ class InterviewAttachmentAPI extends Endpoint implements CrudEndpoint
      *             @OA\Property(property="meta", type="object")
      *         )
      *     ),
-     * ),
-     * @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
      * )
      *
      * @inheritDoc

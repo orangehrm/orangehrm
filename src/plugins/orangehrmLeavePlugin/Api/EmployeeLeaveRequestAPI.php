@@ -160,13 +160,13 @@ class EmployeeLeaveRequestAPI extends Endpoint implements CrudEndpoint
      *         name="fromDate",
      *         in="query",
      *         required=false,
-     *         @OA\Schema(type="string")
+     *         @OA\Schema(type="string", format="date")
      *     ),
      *     @OA\Parameter(
      *         name="toDate",
      *         in="query",
      *         required=false,
-     *         @OA\Schema(type="string")
+     *         @OA\Schema(type="string", format="date")
      *     ),
      *     @OA\Parameter(
      *         name="sortField",
@@ -208,7 +208,7 @@ class EmployeeLeaveRequestAPI extends Endpoint implements CrudEndpoint
      *         @OA\JsonContent(
      *             @OA\Property(
      *                 property="data",
-     *                 @OA\Schema(ref="#/components/schemas/Leave-LeaveRequestDetailedModel"),
+     *                 ref="#/components/schemas/Leave-LeaveRequestDetailedModel",
      *             ),
      *             @OA\Property(
      *                 property="meta",
@@ -432,7 +432,16 @@ class EmployeeLeaveRequestAPI extends Endpoint implements CrudEndpoint
      *             @OA\Property(property="partialOption", type="string", enum={"none, all, start, end, start_end"}),
      *             @OA\Property(property="duration", type="object",
      *                 required={"type"},
-     *                 @OA\Property(property="type", type="string", enum={"full_day, half_day_morning, half_day_afternoon, specify_time"})
+     *                 @OA\Property(
+     *                     property="type",
+     *                     type="string",
+     *                     enum={
+     *                         OrangeHRM\Leave\Dto\LeaveDuration::FULL_DAY,
+     *                         OrangeHRM\Leave\Dto\LeaveDuration::HALF_DAY_MORNING,
+     *                         OrangeHRM\Leave\Dto\LeaveDuration::HALF_DAY_AFTERNOON,
+     *                         OrangeHRM\Leave\Dto\LeaveDuration::SPECIFY_TIME
+     *                     }
+     *                 )
      *             )
      *         )
      *     ),

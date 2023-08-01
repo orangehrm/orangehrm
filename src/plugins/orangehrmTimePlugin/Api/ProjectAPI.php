@@ -118,7 +118,10 @@ class ProjectAPI extends Endpoint implements CrudEndpoint
      *         name="name",
      *         in="query",
      *         required=false,
-     *         @OA\Schema(type="string")
+     *         @OA\Schema(
+     *             type="string",
+     *             maxLength=OrangeHRM\Time\Api\ProjectAPI::PARAMETER_RULE_NAME_MAX_LENGTH
+     *         )
      *     ),
      *     @OA\Parameter(
      *         name="empNumber",
@@ -130,7 +133,10 @@ class ProjectAPI extends Endpoint implements CrudEndpoint
      *         name="customerOrProjectName",
      *         in="query",
      *         required=false,
-     *         @OA\Schema(type="string")
+     *         @OA\Schema(
+     *             type="string",
+     *             maxLength=OrangeHRM\Time\Api\ProjectAPI::PARAMETER_RULE_NAME_MAX_LENGTH
+     *         )
      *     ),
      *     @OA\Parameter(
      *         name="excludeProjectIds",
@@ -329,8 +335,16 @@ class ProjectAPI extends Endpoint implements CrudEndpoint
      *         @OA\JsonContent(
      *             type="object",
      *             @OA\Property(property="customerId", type="integer"),
-     *             @OA\Property(property="name", type="string"),
-     *             @OA\Property(property="description", type="string"),
+     *             @OA\Property(
+     *                 property="name",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Time\Api\ProjectAPI::PARAMETER_RULE_NAME_MAX_LENGTH
+     *             ),
+     *             @OA\Property(
+     *                 property="description",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Time\Api\ProjectAPI::PARAMETER_RULE_DESCRIPTION_MAX_LENGTH
+     *             ),
      *             @OA\Property(property="projectAdminsEmpNumbers", type="array",
      *                 @OA\Items(type="integer")
      *             ),
@@ -347,6 +361,7 @@ class ProjectAPI extends Endpoint implements CrudEndpoint
      *             @OA\Property(property="meta", type="object")
      *         )
      *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
      * )
      *
      * @inheritDoc
@@ -509,9 +524,9 @@ class ProjectAPI extends Endpoint implements CrudEndpoint
      *                 }
      *             ),
      *             @OA\Property(property="meta", type="object")
-     *         ),
-     *         @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
-     *     )
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
      * )
      *
      * @inheritDoc
@@ -554,8 +569,16 @@ class ProjectAPI extends Endpoint implements CrudEndpoint
      *         @OA\JsonContent(
      *             type="object",
      *             @OA\Property(property="customerId", type="integer"),
-     *             @OA\Property(property="name", type="string"),
-     *             @OA\Property(property="description", type="string"),
+     *             @OA\Property(
+     *                 property="name",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Time\Api\ProjectAPI::PARAMETER_RULE_NAME_MAX_LENGTH
+     *             ),
+     *             @OA\Property(
+     *                 property="description",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Time\Api\ProjectAPI::PARAMETER_RULE_DESCRIPTION_MAX_LENGTH
+     *             ),
      *             @OA\Property(property="projectAdminsEmpNumbers", type="array",
      *                 @OA\Items(type="integer")
      *             ),

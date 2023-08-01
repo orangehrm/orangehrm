@@ -41,7 +41,14 @@ class LeaveReportAPI extends ReportAPI
      *         name="name",
      *         in="query",
      *         required=true,
-     *         @OA\Schema(type="string", enum={OrangeHRM\Leave\Api\LeaveReportAPI::LEAVE_REPORT_MAP})
+     *         @OA\Schema(
+     *             type="string",
+     *             enum={
+     *                 "employee_leave_entitlements_and_usage",
+     *                 "my_leave_entitlements_and_usage",
+     *                 "leave_type_leave_entitlements_and_usage"
+     *             }
+     *         )
      *     ),
      *     @OA\Response(
      *         response="200",

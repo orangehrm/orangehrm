@@ -82,8 +82,16 @@ class VacancyAttachmentAPI extends Endpoint implements CrudEndpoint
      *         @OA\JsonContent(
      *             type="object",
      *             @OA\Property(property="vacancyId", type="integer"),
-     *             @OA\Property(property="comment", type="string"),
-     *             @OA\Property(property="attachmentType", type="integer"),
+     *             @OA\Property(
+     *                 property="comment",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Recruitment\Api\VacancyAttachmentAPI::PARAM_RULE_COMMENT_MAX_LENGTH
+     *             ),
+     *             @OA\Property(
+     *                 property="attachmentType",
+     *                 type="integer",
+     *                 maximum=OrangeHRM\Recruitment\Api\VacancyAttachmentAPI::PARAM_RULE_ATTACHMENT_TYPE_MAX_LENGTH
+     *             ),
      *             @OA\Property(property="attachment", ref="#/components/schemas/Base64Attachment"),
      *             required={"vacancyId", "attachment"}
      *         )
@@ -219,25 +227,8 @@ class VacancyAttachmentAPI extends Endpoint implements CrudEndpoint
      * @OA\Delete(
      *     path="/api/v2/recruitment/vacancy/attachments",
      *     tags={"Recruitment/Vacancy Attachments"},
-     *     @OA\RequestBody(
-     *         @OA\JsonContent(
-     *             type="object",
-     *             @OA\Property(property="ids", type="array",
-     *                 @OA\Items(type="integer")
-     *             )
-     *         )
-     *     ),
-     *     @OA\Response(response="200",
-     *         description="Success",
-     *         @OA\JsonContent(
-     *             @OA\Property(
-     *                 property="data",
-     *                 type="array",
-     *                 @OA\Items(type="integer")
-     *             ),
-     *             @OA\Property(property="meta", type="object")
-     *         )
-     *     )
+     *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),
+     *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse")
      * )
      *
      * @inheritDoc

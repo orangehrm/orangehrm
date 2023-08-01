@@ -82,7 +82,7 @@ class VacancyAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Get(
      *     path="/api/v2/recruitment/vacancies/{id}",
-     *     tags={"Recuirtment/Vacancy"},
+     *     tags={"Recruitment/Vacancy"},
      *     @OA\PathParameter(
      *         name="id",
      *         @OA\Schema(type="integer")
@@ -130,7 +130,7 @@ class VacancyAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Get(
      *     path="/api/v2/recruitment/vacancies",
-     *     tags={"Recuirtment/Vacancy"},
+     *     tags={"Recruitment/Vacancy"},
      *     @OA\Parameter(
      *         name="sortField",
      *         in="query",
@@ -162,7 +162,7 @@ class VacancyAPI extends Endpoint implements CrudEndpoint
      *         @OA\Schema(type="string")
      *     ),
      *     @OA\Parameter(
-     *         name="vacancyIds",
+     *         name="vacancyId",
      *         in="query",
      *         required=false,
      *         @OA\Schema(type="integer")
@@ -328,16 +328,20 @@ class VacancyAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Post(
      *     path="/api/v2/recruitment/vacancies",
-     *     tags={"Recuirtment/Vacancy"},
+     *     tags={"Recruitment/Vacancy"},
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
      *             @OA\Property(property="name", type="string"),
      *             @OA\Property(property="status", type="boolean"),
      *             @OA\Property(property="jobTitleId", type="integer"),
-     *             @OA\Property(property="isPublished", type="boleean"),
+     *             @OA\Property(property="isPublished", type="boolean"),
      *             @OA\Property(property="description", type="string"),
-     *             @OA\Property(property="numOfPositions", type="integer"),
+     *             @OA\Property(
+     *                 property="numOfPositions",
+     *                 type="integer",
+     *                 maximum=OrangeHRM\Recruitment\Api\VacancyAPI::PARAMETER_RULE_NO_OF_POSITIONS_MAX_LENGTH
+     *             ),
      *             @OA\Property(property="employeeId", type="integer"),
      *             required={"name", "status", "jobTitleId", "isPublished", "employeeId"}
      *         )
@@ -492,7 +496,7 @@ class VacancyAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Put(
      *     path="/api/v2/recruitment/vacancies/{id}",
-     *     tags={"Recuirtment/Vacancy"},
+     *     tags={"Recruitment/Vacancy"},
      *     @OA\PathParameter(
      *         name="id",
      *         @OA\Schema(type="integer")
@@ -505,7 +509,11 @@ class VacancyAPI extends Endpoint implements CrudEndpoint
      *             @OA\Property(property="jobTitleId", type="integer"),
      *             @OA\Property(property="isPublished", type="boleean"),
      *             @OA\Property(property="description", type="string"),
-     *             @OA\Property(property="numOfPositions", type="integer"),
+     *             @OA\Property(
+     *                 property="numOfPositions",
+     *                 type="integer",
+     *                 maximum=OrangeHRM\Recruitment\Api\VacancyAPI::PARAMETER_RULE_NO_OF_POSITIONS_MAX_LENGTH
+     *             ),
      *             @OA\Property(property="employeeId", type="integer"),
      *             required={"name", "status", "jobTitleId", "isPublished", "employeeId"}
      *         )
@@ -553,7 +561,7 @@ class VacancyAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Delete(
      *     path="/api/v2/recruitment/vacancies",
-     *     tags={"Recuirtment/Vacancy"},
+     *     tags={"Recruitment/Vacancy"},
      *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),
      *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse")
      * )

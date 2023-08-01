@@ -75,9 +75,9 @@ class TimesheetProjectActivityUniqueValidationAPI extends Endpoint implements Re
      *                 )
      *             ),
      *             @OA\Property(property="meta", type="object")
-     *         ),
-     *         @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
-     *     )
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
      * )
      *
      * @inheritDoc

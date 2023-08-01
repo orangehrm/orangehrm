@@ -237,7 +237,8 @@ class CandidateAttachmentAPI extends Endpoint implements CrudEndpoint
      *         @OA\JsonContent(
      *             @OA\Property(
      *                 property="currentAttachment",
-     *                 type="string"
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Recruitment\Api\CandidateAttachmentAPI::PARAM_RULE_CURRENT_ATTACHMENT_MAX_LENGTH
      *             ),
      *             @OA\Property(property="attachment", ref="#/components/schemas/Base64Attachment"),
      *         )

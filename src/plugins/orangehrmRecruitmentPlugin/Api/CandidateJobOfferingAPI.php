@@ -26,7 +26,7 @@ class CandidateJobOfferingAPI extends AbstractCandidateActionAPI
     /**
      * @OA\Put(
      *     path="/api/v2/recruitment/candidates/{candidateId}/job/offer",
-     *     tags={"Recuirtment/Candidate Workflow"},
+     *     tags={"Recruitment/Candidate Workflow"},
      *     @OA\PathParameter(
      *         name="candidateId",
      *         @OA\Schema(type="integer")

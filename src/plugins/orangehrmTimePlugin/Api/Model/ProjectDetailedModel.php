@@ -36,12 +36,16 @@ use OrangeHRM\Entity\Project;
  *         @OA\Property(property="deleted", type="boolean"),
  *     ),
  *     @OA\Property(property="deleted", type="boolean"),
- *     @OA\Property(property="projectAdmins", type="object",
- *         @OA\Property(property="empNumber", type="integer"),
- *         @OA\Property(property="lastName", type="string"),
- *         @OA\Property(property="firstName", type="string"),
- *         @OA\Property(property="middleName", type="string"),
- *         @OA\Property(property="terminationId", type="integer")
+ *     @OA\Property(
+ *         property="projectAdmins",
+ *         type="array",
+ *         @OA\Items(
+ *             @OA\Property(property="empNumber", type="integer"),
+ *             @OA\Property(property="lastName", type="string"),
+ *             @OA\Property(property="firstName", type="string"),
+ *             @OA\Property(property="middleName", type="string"),
+ *             @OA\Property(property="terminationId", type="integer")
+ *         )
  *     )
  * )
  */

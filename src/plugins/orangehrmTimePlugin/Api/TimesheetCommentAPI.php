@@ -69,7 +69,11 @@ class TimesheetCommentAPI extends Endpoint implements ResourceEndpoint
      *             @OA\Property(property="projectId", type="integer"),
      *             @OA\Property(property="activityId", type="integer"),
      *             @OA\Property(property="date", type="string", format="date"),
-     *             @OA\Property(property="comment", type="string"),
+     *             @OA\Property(
+     *                 property="comment",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Time\Api\TimesheetCommentAPI::PARAM_RULE_COMMENT_MAX_LENGTH
+     *             ),
      *             required={"projectId", "projectId", "date"}
      *         )
      *     ),
@@ -238,9 +242,9 @@ class TimesheetCommentAPI extends Endpoint implements ResourceEndpoint
      *                 ref="#/components/schemas/Time-TimesheetItemModel"
      *             ),
      *             @OA\Property(property="meta", type="object")
-     *         ),
-     *         @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
-     *     )
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
      * )
      *
      * @inheritDoc

@@ -63,7 +63,10 @@ class ValidationProjectActivityNameAPI extends Endpoint implements ResourceEndpo
      *         name="activityName",
      *         in="query",
      *         required=true,
-     *         @OA\Schema(type="string")
+     *         @OA\Schema(
+     *             type="string",
+     *             maxLength=OrangeHRM\Time\Api\ValidationProjectActivityNameAPI::PARAM_RULE_PROJECT_ACTIVITY_NAME_MAX_LENGTH
+     *         )
      *     ),
      *     @OA\Response(
      *         response="200",
@@ -71,15 +74,13 @@ class ValidationProjectActivityNameAPI extends Endpoint implements ResourceEndpo
      *         @OA\JsonContent(
      *             @OA\Property(
      *                 property="data",
-     *                 type="array",
-     *                 @OA\Items(
-     *                     @OA\Property(property="valid", type="boolean"),
-     *                 )
+     *                 type="object",
+     *                 @OA\Property(property="valid", type="boolean"),
      *             ),
      *             @OA\Property(property="meta", type="object")
-     *         ),
-     *         @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
-     *     )
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
      * )
      *
      * @inheritDoc

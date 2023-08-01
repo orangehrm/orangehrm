@@ -51,13 +51,13 @@ class TimeReportDataAPI extends ReportDataAPI
      *         name="fromDate",
      *         in="query",
      *         required=false,
-     *         @OA\Schema(type="string")
+     *         @OA\Schema(type="string", format="date")
      *     ),
      *     @OA\Parameter(
      *         name="toDate",
      *         in="query",
      *         required=false,
-     *         @OA\Schema(type="string")
+     *         @OA\Schema(type="string", format="date")
      *     ),
      *     @OA\Response(
      *         response="200",

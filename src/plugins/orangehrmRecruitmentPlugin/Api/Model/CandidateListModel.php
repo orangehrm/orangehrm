@@ -56,7 +56,7 @@ use OrangeHRM\Recruitment\Traits\Service\RecruitmentAttachmentServiceTrait;
  *         @OA\Items(
  *             type="object",
  *             @OA\Property(property="id", type="string"),
- *             @OA\Property(property="lable", type="string")
+ *             @OA\Property(property="label", type="string")
  *         )
  *     ),
  *     @OA\Property(property="hasAttachment", type="boolean"),

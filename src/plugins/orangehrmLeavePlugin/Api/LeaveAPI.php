@@ -229,7 +229,7 @@ class LeaveAPI extends Endpoint implements CrudEndpoint
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="action", type="string", example="APPROVED,CANCEL"),
+     *             @OA\Property(property="action", type="string", enum={"APPROVE", "REJECT", "CANCEL"}),
      *         )
      *     ),
      *     @OA\Response(

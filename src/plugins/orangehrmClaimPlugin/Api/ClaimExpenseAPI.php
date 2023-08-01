@@ -159,10 +159,10 @@ class ClaimExpenseAPI extends Endpoint implements CrudEndpoint
      *         @OA\JsonContent(
      *             type="object",
      *             @OA\Property(property="expenseTypeId", type="integer"),
-     *             @OA\Property(property="amount", type="float"),
+     *             @OA\Property(property="amount", type="float", minimum=0, maximum=9999999999.99),
      *             @OA\Property(property="requestId", type="integer"),
-     *             @OA\Property(property="note", type="string"),
-     *             @OA\Property(property="date", type="string", format="date-time"),
+     *             @OA\Property(property="note", type="string", maxLength=OrangeHRM\Claim\Api\ClaimExpenseAPI::NOTE_MAX_LENGTH),
+     *             @OA\Property(property="date", type="string", format="date"),
      *             required={"name", "expenseTypeId", "amount", "requestId", "date"}
      *         )
      *     ),
@@ -177,7 +177,7 @@ class ClaimExpenseAPI extends Endpoint implements CrudEndpoint
      *         )
      *     )
      * )
-     * @inheritDoc
+     * @inheritDocG409
      */
     public function create(): EndpointResult
     {
@@ -407,8 +407,8 @@ class ClaimExpenseAPI extends Endpoint implements CrudEndpoint
      *         @OA\JsonContent(
      *             @OA\Property(property="expenseTypeId", type="integer"),
      *             @OA\Property(property="date", type="string", format="date"),
-     *             @OA\Property(property="amount", type="float"),
-     *             @OA\Property(property="note", type="string")
+     *             @OA\Property(property="amount", type="float", minimum=0, maximum=9999999999.99),
+     *             @OA\Property(property="note", type="string", maxLength=OrangeHRM\Claim\Api\ClaimExpenseAPI::NOTE_MAX_LENGTH)
      *         )
      *     ),
      *     @OA\Response(

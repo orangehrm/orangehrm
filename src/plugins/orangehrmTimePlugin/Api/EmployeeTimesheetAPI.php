@@ -83,13 +83,13 @@ class EmployeeTimesheetAPI extends Endpoint implements CrudEndpoint
      *         name="fromDate",
      *         in="query",
      *         required=false,
-     *         @OA\Schema(type="DateTime")
+     *         @OA\Schema(type="string", format="date-time")
      *     ),
      *     @OA\Parameter(
      *         name="toDate",
      *         in="query",
      *         required=false,
-     *         @OA\Schema(type="DateTime")
+     *         @OA\Schema(type="string", format="date-time")
      *     ),
      *     @OA\Parameter(ref="#/components/parameters/sortOrder"),
      *     @OA\Parameter(ref="#/components/parameters/limit"),
@@ -106,6 +106,18 @@ class EmployeeTimesheetAPI extends Endpoint implements CrudEndpoint
      *             @OA\Property(property="meta",
      *                 type="object",
      *                 @OA\Property(property="total", type="integer")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="400",
+     *         description="Bad Request",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="error",
+     *                 type="object",
+     *                 @OA\Property(property="status", type="string", default="400"),
+     *                 @OA\Property(property="message", type="string", example="To Date is required")
      *             )
      *         )
      *     )
@@ -342,8 +354,16 @@ class EmployeeTimesheetAPI extends Endpoint implements CrudEndpoint
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="date", @OA\Schema(type="string", enum=TimesheetService::TIMESHEET_ACTION_MAP)),
-     *             @OA\Property(property="comment", type="string"),
+     *             @OA\Property(
+     *                 property="action",
+     *                 type="string",
+     *                 enum=OrangeHRM\Time\Service\TimesheetService::TIMESHEET_ACTION_MAP
+     *             ),
+     *             @OA\Property(
+     *                 property="comment",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Time\Api\EmployeeTimesheetAPI::PARAM_RULE_COMMENT_MAX_LENGTH
+     *             ),
      *             required={"date"}
      *         )
      *     ),
@@ -357,7 +377,19 @@ class EmployeeTimesheetAPI extends Endpoint implements CrudEndpoint
      *             @OA\Property(property="meta", type="object")
      *         )
      *     ),
-     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound"),
+     *     @OA\Response(
+     *         response="400",
+     *         description="Bad Request",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="error",
+     *                 type="object",
+     *                 @OA\Property(property="status", type="string", default="400"),
+     *                 @OA\Property(property="message", type="string")
+     *             )
+     *         )
+     *     )
      * )
      *
      * @inheritDoc
