@@ -22,6 +22,15 @@ namespace OrangeHRM\Time\Api\Model;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 
+/**
+ * @OA\Schema(
+ *     schema="Time-TotalDurationModel",
+ *     type="object",
+ *     @OA\Property(property="hours", type="integer"),
+ *     @OA\Property(property="minutes", type="string"),
+ *     @OA\Property(property="label", type="string"),
+ * )
+ */
 class TotalDurationModel implements Normalizable
 {
     use DateTimeHelperTrait;

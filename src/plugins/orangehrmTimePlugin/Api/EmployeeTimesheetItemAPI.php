@@ -76,6 +76,84 @@ class EmployeeTimesheetItemAPI extends Endpoint implements CrudEndpoint
     public const META_PARAMETER_ALLOWED_ACTIONS = 'allowedActions';
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/time/employees/timesheets/{timesheetId}/entries",
+     *     tags={"Time/Employee Timesheet"},
+     *     @OA\PathParameter(
+     *         name="timesheetId",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Time-DetailedTimesheetModel",
+     *             ),
+     *             @OA\Property(property="meta",
+     *                 type="object",
+     *                 @OA\Property(
+     *                     property="timesheet",
+     *                     type="object",
+     *                     @OA\Property(property="id", type="integer"),
+     *                     @OA\Property(
+     *                         property="status",
+     *                         type="object",
+     *                         @OA\Property(property="id", type="integer"),
+     *                         @OA\Property(property="name", type="integer"),
+     *                     ),
+     *                     @OA\Property(property="startDate", type="string", format="date"),
+     *                     @OA\Property(property="endDate", type="string", format="date"),
+     *                 ),
+     *                 @OA\Property(
+     *                     property="sum",
+     *                     type="object",
+     *                     @OA\Property(property="hours", type="integer"),
+     *                     @OA\Property(property="minutes", type="integer"),
+     *                     @OA\Property(property="label", type="string"),
+     *                 ),
+     *                 @OA\Property(
+     *                     property="columns",
+     *                     type="object",
+     *                     @OA\AdditionalProperties(
+     *                         @OA\Property(
+     *                             property="total",
+     *                             type="object",
+     *                             @OA\Property(property="hours", type="integer"),
+     *                             @OA\Property(property="minutes", type="integer"),
+     *                             @OA\Property(property="label", type="string"),
+     *                         ),
+     *                     ),
+     *                 ),
+     *                 @OA\Property(
+     *                     property="dates",
+     *                     type="array",
+     *                     @OA\Items(type="string", format="date")
+     *                 ),
+     *                 @OA\Property(
+     *                     property="employee",
+     *                     type="object",
+     *                     @OA\Property(property="empNumber", type="integer"),
+     *                     @OA\Property(property="firstName", type="string"),
+     *                     @OA\Property(property="lastName", type="string"),
+     *                     @OA\Property(property="middleName", type="string"),
+     *                     @OA\Property(property="employeeId", type="string"),
+     *                     @OA\Property(property="terminationId", type="integer"),
+     *                 ),
+     *                 @OA\Property(
+     *                     property="allowedActions",
+     *                     type="array",
+     *                     @OA\Items(
+     *                         @OA\Property(property="action", type="string"),
+     *                         @OA\Property(property="name", type="string")
+     *                     )
+     *                 ),
+     *             )
+     *         )
+     *     )
+     * )
+     *
      * @inheritDoc
      */
     public function getAll(): EndpointResult
@@ -258,6 +336,53 @@ class EmployeeTimesheetItemAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Put(
+     *     path="/api/v2/time/employees/timesheets/{timesheetId}/entries",
+     *     tags={"Time/Employee Timesheet"},
+     *     @OA\PathParameter(
+     *         name="timesheetId",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="name", type="string"),
+     *             @OA\Property(property="countryCode", type="string"),
+     *             @OA\Property(property="province", type="string"),
+     *             @OA\Property(property="city", type="string"),
+     *             @OA\Property(property="address", type="string"),
+     *             @OA\Property(property="zipCode", type="string"),
+     *             @OA\Property(property="phone", type="string"),
+     *             @OA\Property(property="fax", type="string"),
+     *             @OA\Property(property="note", type="string"),
+     *             required={"name", "countryCode"}
+     *         )
+     *     ),
+     *     @OA\Response(response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Time-DetailedTimesheetModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound"),
+     *     @OA\Response(
+     *         response="400",
+     *         description="Bad Request",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="error",
+     *                 type="object",
+     *                 @OA\Property(property="status", type="string", default="400"),
+     *                 @OA\Property(property="message", type="string", example="Performed action not allowed")
+     *             )
+     *         )
+     *     ),
+     * )
+     *
      * @inheritDoc
      */
     public function update(): EndpointResult

@@ -24,6 +24,18 @@ use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\Vacancy;
 
+/**
+ * @OA\Schema(
+ *     schema="Recruitment-VacancyModel",
+ *     type="object",
+ *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(property="name", type="string"),
+ *     @OA\Property(property="description", type="string"),
+ *     @OA\Property(property="numOfPositions", type="integer"),
+ *     @OA\Property(property="status", type="boolean"),
+ *     @OA\Property(property="isPublished", type="boolean")
+ * )
+ */
 class VacancyModel implements Normalizable
 {
     use ModelTrait;

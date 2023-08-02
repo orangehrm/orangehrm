@@ -23,6 +23,26 @@ use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\TimesheetActionLog;
 
+/**
+ * @OA\Schema(
+ *     schema="Time-TimesheetActionLogModel",
+ *     type="object",
+ *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(property="action", type="object",
+ *         @OA\Property(property="name", type="string"),
+ *         @OA\Property(property="label", type="string"),
+ *     ),
+ *     @OA\Property(property="comment", type="string"),
+ *     @OA\Property(property="date", type="string", format="date"),
+ *     @OA\Property(property="performedEmployee", type="object",
+ *         @OA\Property(property="empNumber", type="integer"),
+ *         @OA\Property(property="lastName", type="string"),
+ *         @OA\Property(property="firstName", type="string"),
+ *         @OA\Property(property="middleName", type="string"),
+ *         @OA\Property(property="terminationId", type="integer")
+ *     )
+ * )
+ */
 class TimesheetActionLogModel implements Normalizable
 {
     use ModelTrait;

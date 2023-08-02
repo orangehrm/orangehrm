@@ -235,6 +235,10 @@ class BuzzShareAPI extends Endpoint implements CrudEndpoint
      * @OA\Put(
      *     path="/api/v2/buzz/shares/{id}",
      *     tags={"Buzz/Shares"},
+     *     @OA\PathParameter(
+     *         name="id",
+     *         @OA\Schema(type="integer")
+     *     ),
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",

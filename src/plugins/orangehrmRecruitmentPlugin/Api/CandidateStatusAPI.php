@@ -34,6 +34,22 @@ class CandidateStatusAPI extends Endpoint implements CollectionEndpoint
     use VacancyServiceTrait;
     use I18NHelperTrait;
     /**
+     * @OA\Get(
+     *     path="/api/v2/recruitment/candidates/status",
+     *     tags={"Recruitment/Candidates"},
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="object",
+     *                 @OA\Property(property="id", type="integer"),
+     *                 @OA\Property(property="label", type="string"),
+     *             ),
+     *         )
+     *     ),
+     * )
      * @inheritDoc
      */
     public function getAll(): EndpointResult

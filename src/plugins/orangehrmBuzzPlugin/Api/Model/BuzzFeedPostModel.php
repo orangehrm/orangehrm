@@ -65,11 +65,7 @@ use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
  *     ),
  *     @OA\Property(property="createdDate", type="string", format="date"),
  *     @OA\Property(property="createdTime", type="string"),
- *     @OA\Property(
- *         property="originalPost",
- *         type="null",
- *         default="null"
- *     ),
+ *     @OA\Property(property="originalPost", type="object", nullable=true),
  *     @OA\Property(
  *         property="permission",
  *         type="object",
@@ -109,11 +105,7 @@ use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
  *     ),
  *     @OA\Property(property="createdDate", type="string", format="date"),
  *     @OA\Property(property="createdTime", type="string"),
- *     @OA\Property(
- *         property="originalPost",
- *         type="null",
- *         default="null"
- *     ),
+ *     @OA\Property(property="originalPost", type="object", nullable=true),
  *     @OA\Property(
  *         property="permission",
  *         type="object",
@@ -154,11 +146,7 @@ use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
  *     ),
  *     @OA\Property(property="createdDate", type="string", format="date"),
  *     @OA\Property(property="createdTime", type="string"),
- *     @OA\Property(
- *         property="originalPost",
- *         type="null",
- *         default="null"
- *     ),
+ *     @OA\Property(property="originalPost", type="object", nullable=true),
  *     @OA\Property(
  *         property="permission",
  *         type="object",

@@ -85,6 +85,35 @@ class EmployeeLeaveRequestAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/leave/employees/leave-requests/{leaveRequestId}",
+     *     tags={"Leave/Employee Leave Request"},
+     *     @OA\Parameter(
+     *         name="model",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(
+     *             type="string",
+     *             enum={OrangeHRM\Leave\Api\EmployeeLeaveRequestAPI::MODEL_DEFAULT, OrangeHRM\Leave\Api\EmployeeLeaveRequestAPI::MODEL_DETAILED},
+     *             default=OrangeHRM\Leave\Api\EmployeeLeaveRequestAPI::MODEL_DEFAULT
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 oneOf={
+     *                     @OA\Schema(ref="#/components/schemas/Leave-LeaveRequestModel"),
+     *                     @OA\Schema(ref="#/components/schemas/Leave-LeaveRequestDetailedModel"),
+     *                 }
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     * )
+     *
      * @inheritDoc
      */
     public function getOne(): EndpointResult
@@ -124,6 +153,71 @@ class EmployeeLeaveRequestAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/leave/employees/leave-requests",
+     *     tags={"Leave/Employee Leave Request"},
+     *     @OA\Parameter(
+     *         name="fromDate",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string", format="date")
+     *     ),
+     *     @OA\Parameter(
+     *         name="toDate",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string", format="date")
+     *     ),
+     *     @OA\Parameter(
+     *         name="sortField",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string", enum=LeaveRequestSearchFilterParams::ALLOWED_SORT_FIELDS)
+     *     ),
+     *     @OA\Parameter(
+     *         name="includeEmployees",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string", enum=LeaveRequestSearchFilterParams::INCLUDE_EMPLOYEES)
+     *     ),
+     *     @OA\Parameter(
+     *         name="subunitId",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         name="empNumber",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         name="statuses",
+     *         in="query",
+     *         required=false,
+     *         description="-1 => rejected, 0 => cancelled, 1 => pending, 2 => approved, 3 => taken",
+     *         @OA\Schema(type="integer", enum=LeaveRequestSearchFilterParams::LEAVE_STATUSES)
+     *     ),
+     *     @OA\Parameter(ref="#/components/parameters/sortOrder"),
+     *     @OA\Parameter(ref="#/components/parameters/limit"),
+     *     @OA\Parameter(ref="#/components/parameters/offset"),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Leave-LeaveRequestDetailedModel",
+     *             ),
+     *             @OA\Property(
+     *                 property="meta",
+     *                 type="object",
+     *                 @OA\Property(property="total", type="integer")
+     *             )
+     *         )
+     *     )
+     * )
      * @inheritDoc
      */
     public function getAll(): EndpointResult
@@ -313,6 +407,59 @@ class EmployeeLeaveRequestAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Post(
+     *     path="/api/v2/leave/employees/leave-requests",
+     *     tags={"Leave/Employee Leave Request"},
+     *     @OA\Parameter(
+     *         name="model",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(
+     *             type="string",
+     *             enum={OrangeHRM\Leave\Api\EmployeeLeaveRequestAPI::MODEL_DEFAULT, OrangeHRM\Leave\Api\EmployeeLeaveRequestAPI::MODEL_DETAILED},
+     *             default=OrangeHRM\Leave\Api\EmployeeLeaveRequestAPI::MODEL_DEFAULT
+     *         )
+     *     ),
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             required={"empNumber", "leaveTypeId", "fromDate", "toDate", "duration"},
+     *             @OA\Property(property="empNumber", type="integer"),
+     *             @OA\Property(property="leaveTypeId", type="integer"),
+     *             @OA\Property(property="fromDate", type="string", format="date"),
+     *             @OA\Property(property="toDate", type="string", format="date"),
+     *             @OA\Property(property="comment", type="string"),
+     *             @OA\Property(property="partialOption", type="string", enum={"none, all, start, end, start_end"}),
+     *             @OA\Property(property="duration", type="object",
+     *                 required={"type"},
+     *                 @OA\Property(
+     *                     property="type",
+     *                     type="string",
+     *                     enum={
+     *                         OrangeHRM\Leave\Dto\LeaveDuration::FULL_DAY,
+     *                         OrangeHRM\Leave\Dto\LeaveDuration::HALF_DAY_MORNING,
+     *                         OrangeHRM\Leave\Dto\LeaveDuration::HALF_DAY_AFTERNOON,
+     *                         OrangeHRM\Leave\Dto\LeaveDuration::SPECIFY_TIME
+     *                     }
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 oneOf={
+     *                     @OA\Schema(ref="#/components/schemas/Leave-LeaveRequestModel"),
+     *                     @OA\Schema(ref="#/components/schemas/Leave-LeaveRequestDetailedModel"),
+     *                 }
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     * )
+     *
      * @inheritDoc
      */
     public function create(): EndpointResult
@@ -364,6 +511,57 @@ class EmployeeLeaveRequestAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Put(
+     *     path="/api/v2/leave/employees/leave-requests/{leaveRequestId}",
+     *     tags={"Leave/Employee Leave Request"},
+     *     @OA\PathParameter(
+     *         name="leaveRequestId",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         name="model",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(
+     *             type="string",
+     *             enum={OrangeHRM\Leave\Api\EmployeeLeaveRequestAPI::MODEL_DEFAULT, OrangeHRM\Leave\Api\EmployeeLeaveRequestAPI::MODEL_DETAILED},
+     *             default=OrangeHRM\Leave\Api\EmployeeLeaveRequestAPI::MODEL_DEFAULT
+     *         )
+     *     ),
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="action", type="string"),
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 oneOf={
+     *                     @OA\Schema(ref="#/components/schemas/Leave-LeaveRequestModel"),
+     *                     @OA\Schema(ref="#/components/schemas/Leave-LeaveRequestDetailedModel"),
+     *                 }
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound"),
+     *     @OA\Response(
+     *         response="400",
+     *         description="Bad Request",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="error",
+     *                 type="object",
+     *                 @OA\Property(property="status", type="string", default="400"),
+     *                 @OA\Property(property="message", type="string", example="Leave request has multiple statuses, Performed action not allowed")
+     *             )
+     *         )
+     *     ),
+     * )
      * @inheritDoc
      */
     public function update(): EndpointResult

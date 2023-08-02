@@ -19,6 +19,13 @@
 
 namespace OrangeHRM\Time\Api\Model;
 
+/**
+ * @OA\Schema(
+ *     schema="Time-TimeConfigPeriodModel",
+ *     type="object",
+ *     @OA\Property(property="startDay", type="string", format="date"),
+ * )
+ */
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Time\Dto\TimeConfigPeriod;
 

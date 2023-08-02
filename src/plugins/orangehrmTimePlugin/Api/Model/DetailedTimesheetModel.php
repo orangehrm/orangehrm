@@ -25,6 +25,40 @@ use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
 use OrangeHRM\Entity\TimesheetItem;
 use OrangeHRM\Time\Dto\DetailedTimesheet;
 
+/**
+ * @OA\Schema(
+ *     schema="Time-DetailedTimesheetModel",
+ *     type="object",
+ *     @OA\Property(property="project", type="object",
+ *         @OA\Property(property="id", type="integer"),
+ *         @OA\Property(property="name", type="string"),
+ *         @OA\Property(property="deleted", type="boolean"),
+ *     ),
+ *     @OA\Property(property="customer", type="object",
+ *         @OA\Property(property="id", type="integer"),
+ *         @OA\Property(property="name", type="string"),
+ *         @OA\Property(property="deleted", type="boolean"),
+ *     ),
+ *     @OA\Property(property="activity", type="object",
+ *         @OA\Property(property="id", type="integer"),
+ *         @OA\Property(property="name", type="string"),
+ *         @OA\Property(property="deleted", type="boolean"),
+ *     ),
+ *     @OA\Property(property="total", type="object",
+ *         @OA\Property(property="hours", type="integer"),
+ *         @OA\Property(property="minutes", type="integer"),
+ *         @OA\Property(property="label", type="string"),
+ *     ),
+ *     @OA\Property(property="dates", type="object",
+ *         @OA\AdditionalProperties(
+ *             @OA\Property(property="id", type="integer"),
+ *             @OA\Property(property="date", type="string", format="date"),
+ *             @OA\Property(property="comment", type="string", nullable=true),
+ *             @OA\Property(property="duration", type="string", nullable=true),
+ *         ),
+ *     ),
+ * )
+ */
 class DetailedTimesheetModel implements CollectionNormalizable
 {
     use DateTimeHelperTrait;

@@ -22,6 +22,19 @@ namespace OrangeHRM\Time\Api\Model;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\Timesheet;
 
+/**
+ * @OA\Schema(
+ *     schema="Time-DefaultTimesheetModel",
+ *     type="object",
+ *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(property="status", type="object",
+ *         @OA\Property(property="id", type="integer"),
+ *         @OA\Property(property="name", type="integer"),
+ *     ),
+ *     @OA\Property(property="startDate", type="string", format="date"),
+ *     @OA\Property(property="endDate", type="string", format="date")
+ * )
+ */
 class DefaultTimesheetModel implements Normalizable
 {
     /**

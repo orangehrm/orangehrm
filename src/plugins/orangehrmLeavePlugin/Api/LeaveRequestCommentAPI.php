@@ -80,7 +80,35 @@ class LeaveRequestCommentAPI extends Endpoint implements CollectionEndpoint
     }
 
     /**
-     * @inheritdoc
+     * @OA\Get(
+     *     path="/api/v2/leave/leave-requests/{leaveRequestId}/leave-comments",
+     *     tags={"Leave/Leave Request Comment"},
+     *     @OA\PathParameter(
+     *         name="leaveRequestId",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(ref="#/components/parameters/sortOrder"),
+     *     @OA\Parameter(ref="#/components/parameters/limit"),
+     *     @OA\Parameter(ref="#/components/parameters/offset"),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Leave-LeaveRequestCommentModel"
+     *             ),
+     *             @OA\Property(
+     *                 property="meta",
+     *                 type="object",
+     *                 @OA\Property(property="total", type="integer")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
+     * )
+     *
+     * @inheritDoc
      */
     public function getAll(): EndpointCollectionResult
     {
@@ -125,6 +153,36 @@ class LeaveRequestCommentAPI extends Endpoint implements CollectionEndpoint
     }
 
     /**
+     * @OA\Post(
+     *     path="/api/v2/leave/leave-requests/{leaveRequestId}/leave-comments",
+     *     tags={"Leave/Leave Request Comment"},
+     *     @OA\PathParameter(
+     *         name="leaveRequestId",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="comment",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Leave\Api\LeaveRequestCommentApi::PARAM_RULE_COMMENT_MAX_LENGTH
+     *             ),
+     *         ),
+     *     ),
+     *     @OA\Response(response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Leave-LeaveRequestCommentModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object"),
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
+     * )
+     *
      * @inheritDoc
      */
     public function create(): EndpointResourceResult

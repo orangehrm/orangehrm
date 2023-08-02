@@ -87,6 +87,62 @@ class CandidateInterviewSchedulingAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Post(
+     *     path="/api/v2/recruitment/candidates/{candidateId}/shedule-interview",
+     *     tags={"Recruitment/Candidate Workflow"},
+     *     @OA\PathParameter(
+     *         name="candidateId",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="interviewName",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Recruitment\Api\CandidateInterviewSchedulingAPI::PARAMETER_RULE_INTERVIEW_NAME_MAX_LENGTH
+     *             ),
+     *             @OA\Property(property="interviewDate", type="string", format="date"),
+     *             @OA\Property(property="interviewTime", type="string", format="time"),
+     *             @OA\Property(
+     *                 property="note",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Recruitment\Api\CandidateInterviewSchedulingAPI::PARAMETER_RULE_NOTE_MAX_LENGTH
+     *             ),
+     *             @OA\Property(property="interviewerEmpNumbers", type="array", @OA\Items(type="integer")),
+     *             required={"interviewName", "interviewDate", "interviewerEmpNumbers"}
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Recruitment-CandidateInterviewModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object", @OA\Property(property="historyId", type="integer"))
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound"),
+     *     @OA\Response(
+     *         response="400",
+     *         description="Bad Request - Exceeded max interview per vacancy count",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="error",
+     *                 type="object",
+     *                 @OA\Property(property="status", type="string", default="400"),
+     *                 @OA\Property(
+     *                     property="message",
+     *                     type="string",
+     *                     default="You Can not Schedule More Than Two Interviews Per Candidate For The Same Vacancy"
+     *                 )
+     *             )
+     *         )
+     *     )
+     * )
+     *
      * @inheritDoc
      * @throws TransactionException
      * @throws BadRequestException
@@ -287,6 +343,30 @@ class CandidateInterviewSchedulingAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/recruitment/candidates/{candidateId}/interview/{interviewId}",
+     *     tags={"Recruitment/Candidate Interview"},
+     *     @OA\PathParameter(
+     *         name="candidateId",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\PathParameter(
+     *         name="interviewId",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Recruitment-CandidateInterviewModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
+     * )
      * @inheritDoc
      */
     public function getOne(): EndpointResult
@@ -330,6 +410,50 @@ class CandidateInterviewSchedulingAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Put(
+     *     path="/api/v2/recruitment/candidate/{candidateId}/interview/{interviewId}",
+     *     tags={"Recruitment/Candidate Interview"},
+     *     @OA\PathParameter(
+     *         name="candidateId",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\PathParameter(
+     *         name="interviewId",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="interviewName",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Recruitment\Api\CandidateInterviewSchedulingAPI::PARAMETER_RULE_INTERVIEW_NAME_MAX_LENGTH
+     *             ),
+     *             @OA\Property(property="interviewDate", type="string", format="date"),
+     *             @OA\Property(property="interviewTime", type="string", format="time"),
+     *             @OA\Property(
+     *                 property="note",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Recruitment\Api\CandidateInterviewSchedulingAPI::PARAMETER_RULE_NOTE_MAX_LENGTH
+     *             ),
+     *             @OA\Property(property="interviewerEmpNumbers", type="array", @OA\Items(type="integer")),
+     *             required={"interviewName", "interviewDate", "interviewerEmpNumbers"}
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Recruitment-CandidateInterviewModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
+     * )
+     *
      * @inheritDoc
      */
     public function update(): EndpointResult

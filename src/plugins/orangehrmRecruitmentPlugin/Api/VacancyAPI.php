@@ -80,6 +80,27 @@ class VacancyAPI extends Endpoint implements CrudEndpoint
     ];
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/recruitment/vacancies/{id}",
+     *     tags={"Recruitment/Vacancy"},
+     *     @OA\PathParameter(
+     *         name="id",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Recruitment-VacancyDetailedModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
+     * )
+     *
      * @inheritDoc
      */
     public function getOne(): EndpointResourceResult
@@ -107,6 +128,70 @@ class VacancyAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/recruitment/vacancies",
+     *     tags={"Recruitment/Vacancy"},
+     *     @OA\Parameter(
+     *         name="sortField",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string", enum=VacancySearchFilterParams::ALLOWED_SORT_FIELDS)
+     *     ),
+     *     @OA\Parameter(
+     *         name="jobTitleId",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         name="hiringManagerId",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         name="status",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="boolean")
+     *     ),
+     *     @OA\Parameter(
+     *         name="name",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         name="vacancyId",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(ref="#/components/parameters/sortOrder"),
+     *     @OA\Parameter(ref="#/components/parameters/limit"),
+     *     @OA\Parameter(ref="#/components/parameters/offset"),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="array",
+     *                 @OA\Items(oneOf={
+     *                     @OA\Schema(ref="#/components/schemas/Recruitment-VacancyModel"),
+     *                     @OA\Schema(ref="#/components/schemas/Recruitment-VacancySummaryModel"),
+     *                     @OA\Schema(ref="#/components/schemas/Recruitment-VacancyDetailedModel")
+     *                 })
+     *             ),
+     *             @OA\Property(
+     *                 property="meta",
+     *                 type="object",
+     *                 @OA\Property(property="total", type="integer")
+     *             )
+     *         )
+     *     )
+     * )
+     *
      * @inheritDoc
      */
     public function getAll(): EndpointCollectionResult
@@ -241,6 +326,39 @@ class VacancyAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Post(
+     *     path="/api/v2/recruitment/vacancies",
+     *     tags={"Recruitment/Vacancy"},
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="name", type="string"),
+     *             @OA\Property(property="status", type="boolean"),
+     *             @OA\Property(property="jobTitleId", type="integer"),
+     *             @OA\Property(property="isPublished", type="boolean"),
+     *             @OA\Property(property="description", type="string"),
+     *             @OA\Property(
+     *                 property="numOfPositions",
+     *                 type="integer",
+     *                 maximum=OrangeHRM\Recruitment\Api\VacancyAPI::PARAMETER_RULE_NO_OF_POSITIONS_MAX_LENGTH
+     *             ),
+     *             @OA\Property(property="employeeId", type="integer"),
+     *             required={"name", "status", "jobTitleId", "isPublished", "employeeId"}
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Recruitment-VacancyDetailedModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     )
+     * )
+     *
      * @inheritDoc
      */
     public function create(): EndpointResult
@@ -376,6 +494,44 @@ class VacancyAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Put(
+     *     path="/api/v2/recruitment/vacancies/{id}",
+     *     tags={"Recruitment/Vacancy"},
+     *     @OA\PathParameter(
+     *         name="id",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="name", type="string"),
+     *             @OA\Property(property="status", type="boolean"),
+     *             @OA\Property(property="jobTitleId", type="integer"),
+     *             @OA\Property(property="isPublished", type="boleean"),
+     *             @OA\Property(property="description", type="string"),
+     *             @OA\Property(
+     *                 property="numOfPositions",
+     *                 type="integer",
+     *                 maximum=OrangeHRM\Recruitment\Api\VacancyAPI::PARAMETER_RULE_NO_OF_POSITIONS_MAX_LENGTH
+     *             ),
+     *             @OA\Property(property="employeeId", type="integer"),
+     *             required={"name", "status", "jobTitleId", "isPublished", "employeeId"}
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Recruitment-VacancyDetailedModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
+     * )
+     *
      * @inheritDoc
      */
     public function update(): EndpointResult
@@ -403,6 +559,13 @@ class VacancyAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Delete(
+     *     path="/api/v2/recruitment/vacancies",
+     *     tags={"Recruitment/Vacancy"},
+     *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),
+     *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse")
+     * )
+     *
      * @inheritDoc
      */
     public function delete(): EndpointResult

@@ -34,6 +34,73 @@ class LeaveReportAPI extends ReportAPI
     ];
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/leave/reports",
+     *     tags={"Leave/Leave Report"},
+     *     @OA\Parameter(
+     *         name="name",
+     *         in="query",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string",
+     *             enum={
+     *                 "employee_leave_entitlements_and_usage",
+     *                 "my_leave_entitlements_and_usage",
+     *                 "leave_type_leave_entitlements_and_usage"
+     *             }
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="array",
+     *                 @OA\Items(
+     *                     @OA\Property(
+     *                         property="headers",
+     *                         type="array",
+     *                         @OA\Items(
+     *                             @OA\Property(property="name", type="string"),
+     *                             @OA\Property(property="prop", type="string"),
+     *                             @OA\Property(property="size", type="integer"),
+     *                             @OA\Property(property="pin", type="string", nullable=true),
+     *                             @OA\Property(
+     *                                 property="cellProperties",
+     *                                 type="object",
+     *                                 @OA\Property(
+     *                                     property="class",
+     *                                     type="object",
+     *                                     @OA\Property(property="cell-action", type="boolean")
+     *                                 )
+     *                             )
+     *                         )
+     *                     )
+     *                 )
+     *             ),
+     *             @OA\Property(
+     *                 property="meta",
+     *                 type="object",
+     *                 @OA\Property(property="headers", type="string", nullable=true),
+     *                 @OA\Property(property="filters", type="string", nullable=true)
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="400",
+     *         description="Bad Request - Invalid report name",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="error",
+     *                 type="object",
+     *                 @OA\Property(property="status", type="string", default="400"),
+     *                 @OA\Property(property="message", type="string", default="Invalid report name")
+     *             )
+     *         )
+     *     ),
+     * )
+     *
      * @return EndpointAwareReport
      * @throws BadRequestException
      */

@@ -23,6 +23,26 @@ use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\Timesheet;
 
+/**
+ * @OA\Schema(
+ *     schema="Time-EmployeeTimesheetModel",
+ *     type="object",
+ *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(property="employee", type="object",
+ *         @OA\Property(property="empNumber", type="integer"),
+ *         @OA\Property(property="lastName", type="string"),
+ *         @OA\Property(property="firstName", type="string"),
+ *         @OA\Property(property="middleName", type="string"),
+ *         @OA\Property(property="terminationId", type="integer")
+ *     ),
+ *     @OA\Property(property="status", type="object",
+ *         @OA\Property(property="id", type="integer"),
+ *         @OA\Property(property="name", type="string"),
+ *     ),
+ *     @OA\Property(property="startDate", type="string", format="date"),
+ *     @OA\Property(property="endDate", type="string", format="date")
+ * )
+ */
 class EmployeeTimesheetModel implements Normalizable
 {
     use ModelTrait;

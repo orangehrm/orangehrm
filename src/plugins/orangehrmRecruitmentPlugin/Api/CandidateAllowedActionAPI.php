@@ -63,6 +63,33 @@ class CandidateAllowedActionAPI extends Endpoint implements CollectionEndpoint
     ];
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/recruitment/candidates/{candidateId}/actions/allowed",
+     *     tags={"Recruitment/Candidate Workflow"},
+     *     @OA\PathParameter(
+     *         name="candidateId",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="array",
+     *                 @OA\Items(
+     *                     @OA\Property(property="id", type="integer"),
+     *                     @OA\Property(property="label", type="string"),
+     *                 ),
+     *             ),
+     *             @OA\Property(property="meta",
+     *                 type="object",
+     *                 @OA\Property(property="total", type="integer")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
+     * )
      * @inheritDoc
      */
     public function getAll(): EndpointResult

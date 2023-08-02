@@ -103,6 +103,122 @@ class CandidateAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_RULE_COMMENT_MAX_LENGTH = 250;
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/recruitment/candidates",
+     *     tags={"Recruitment/Candidates"},
+     *     @OA\Parameter(
+     *         name="sortField",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string", enum=CandidateSearchFilterParams::ALLOWED_SORT_FIELDS)
+     *     ),
+     *     @OA\Parameter(
+     *         name="candidateId",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         name="jobTitleId",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         name="vacancyId",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         name="hiringManagerId",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         name="status",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string", enum={
+     *             "APPLICATION INITIATED",
+     *             "SHORTLISTED",
+     *             "REJECTED",
+     *             "INTERVIEW SCHEDULED",
+     *             "INTERVIEW PASSED",
+     *             "INTERVIEW FAILED",
+     *             "JOB OFFERED",
+     *             "OFFER DECLINED",
+     *             "HIRED"
+     *         })
+     *     ),
+     *     @OA\Parameter(
+     *         name="fromDate",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string", format="date")
+     *     ),
+     *     @OA\Parameter(
+     *         name="toDate",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string", format="date")
+     *     ),
+     *     @OA\Parameter(
+     *         name="keywords",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         name="methodOfApplication",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         name="candidateName",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         name="model",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(
+     *             type="string",
+     *             enum={
+     *                 OrangeHRM\Recruitment\Api\CandidateAPI::MODEL_DEFAULT,
+     *                 OrangeHRM\Recruitment\Api\CandidateAPI::MODEL_CANDIDATE_LIST,
+     *                 OrangeHRM\Recruitment\Api\CandidateAPI::MODEL_CANDIDATE_DETAILED
+     *             }
+     *         )
+     *     ),
+     *     @OA\Parameter(ref="#/components/parameters/sortOrder"),
+     *     @OA\Parameter(ref="#/components/parameters/limit"),
+     *     @OA\Parameter(ref="#/components/parameters/offset"),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="array",
+     *                 @OA\Items(oneOf={
+     *                     @OA\Schema(ref="#/components/schemas/Recruitment-CandidateModel"),
+     *                     @OA\Schema(ref="#/components/schemas/Recruitment-CandidateListModel"),
+     *                     @OA\Schema(ref="#/components/schemas/Recruitment-CandidateDetailedModel")
+     *                 })
+     *             ),
+     *             @OA\Property(
+     *                 property="meta",
+     *                 type="object",
+     *                 @OA\Property(property="total", type="integer")
+     *             )
+     *         )
+     *     )
+     * )
      * @inheritDoc
      * @throws BadRequestException
      */

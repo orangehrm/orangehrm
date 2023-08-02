@@ -74,7 +74,7 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
      *     path="/api/v2/attendance/employees/{empNumber}/records",
      *     tags={"Attendance/Employee Attendance"},
      *     @OA\PathParameter(
-     *         name="id",
+     *         name="empNumber",
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\Parameter(

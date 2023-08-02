@@ -23,6 +23,20 @@ use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Recruitment\Dto\RecruitmentAttachment;
 
+/**
+ * @OA\Schema(
+ *     schema="Recruitment-VacancyAttachmentModel",
+ *     type="object",
+ *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(property="vacancyId", type="integer"),
+ *     @OA\Property(property="attachment", type="object",
+ *         @OA\Property(property="fileName", type="string"),
+ *         @OA\Property(property="fileType", type="string"),
+ *         @OA\Property(property="fileSize", type="integer")
+ *     ),
+ *     @OA\Property(property="comment", type="string")
+ * )
+ */
 class VacancyAttachmentModel implements Normalizable
 {
     use ModelTrait;

@@ -91,8 +91,8 @@ use OrangeHRM\Leave\Dto\LeaveRequest\DetailedLeaveRequest;
  *         type="object",
  *         @OA\Property(property="id", type="integer"),
  *         @OA\Property(property="comment", type="string"),
- *         @OA\Property(property="date", type="number"),
- *         @OA\Property(property="time", type="number"),
+ *         @OA\Property(property="date", type="string", format="date"),
+ *         @OA\Property(property="time", type="string"),
  *     ),
  * )
  */

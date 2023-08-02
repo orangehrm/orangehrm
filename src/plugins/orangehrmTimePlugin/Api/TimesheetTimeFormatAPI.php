@@ -34,6 +34,22 @@ class TimesheetTimeFormatAPI extends Endpoint implements ResourceEndpoint
     use ConfigServiceTrait;
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/time/config/time-format",
+     *     tags={"Time/Timesheet Time Format"},
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Time-TimeFormatModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         ),
+     *     )
+     * )
+     *
      * @inheritDoc
      * @throws CoreServiceException
      */

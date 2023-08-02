@@ -69,21 +69,26 @@ class WorkWeekAPI extends Endpoint implements ResourceEndpoint
      * @OA\Get(
      *     path="/api/v2/leave/workweek",
      *     tags={"Leave/Configure"},
+     *     @OA\Parameter(
+     *         name="model",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(
+     *             type="string",
+     *             enum={OrangeHRM\Leave\Api\WorkWeekAPI::MODEL_DEFAULT, OrangeHRM\Leave\Api\WorkWeekAPI::MODEL_INDEXED},
+     *             default=OrangeHRM\Leave\Api\WorkWeekAPI::MODEL_DEFAULT
+     *         )
+     *     ),
      *     @OA\Response(
      *         response="200",
      *         description="Success",
      *         @OA\JsonContent(
      *             @OA\Property(
      *                 property="data",
-     *                 type="object",
-     *                 @OA\Property(property="monday", type="integer"),
-     *                 @OA\Property(property="tuesday", type="integer"),
-     *                 @OA\Property(property="wednesday", type="integer"),
-     *                 @OA\Property(property="thursday", type="integer"),
-     *                 @OA\Property(property="friday", type="integer"),
-     *                 @OA\Property(property="saturday", type="integer"),
-     *                 @OA\Property(property="sunday", type="integer"),
-     *                 description="0 - working day, 4 - half day, 8 - non working day"
+     *                 oneOf={
+     *                     @OA\Schema(ref="#/components/schemas/Leave-WorkWeekIndexedModel"),
+     *                     @OA\Schema(ref="#/components/schemas/Leave-WorkWeekModel"),
+     *                 }
      *             ),
      *             @OA\Property(property="meta", type="object")
      *         )
@@ -156,6 +161,16 @@ class WorkWeekAPI extends Endpoint implements ResourceEndpoint
      * @OA\Put(
      *     path="/api/v2/leave/workweek",
      *     tags={"Leave/Configure"},
+     *     @OA\Parameter(
+     *         name="model",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(
+     *             type="string",
+     *             enum={OrangeHRM\Leave\Api\WorkWeekAPI::MODEL_DEFAULT, OrangeHRM\Leave\Api\WorkWeekAPI::MODEL_INDEXED},
+     *             default=OrangeHRM\Leave\Api\WorkWeekAPI::MODEL_DEFAULT
+     *         )
+     *     ),
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
@@ -175,15 +190,10 @@ class WorkWeekAPI extends Endpoint implements ResourceEndpoint
      *         @OA\JsonContent(
      *             @OA\Property(
      *                 property="data",
-     *                 type="object",
-     *                 @OA\Property(property="monday", type="integer"),
-     *                 @OA\Property(property="tuesday", type="integer"),
-     *                 @OA\Property(property="wednesday", type="integer"),
-     *                 @OA\Property(property="thursday", type="integer"),
-     *                 @OA\Property(property="friday", type="integer"),
-     *                 @OA\Property(property="saturday", type="integer"),
-     *                 @OA\Property(property="sunday", type="integer"),
-     *                 description="0 - working day, 4 - half day, 8 - non working day"
+     *                 oneOf={
+     *                     @OA\Schema(ref="#/components/schemas/Leave-WorkWeekIndexedModel"),
+     *                     @OA\Schema(ref="#/components/schemas/Leave-WorkWeekModel"),
+     *                 }
      *             ),
      *             @OA\Property(property="meta", type="object")
      *         )

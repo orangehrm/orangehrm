@@ -45,6 +45,36 @@ class ValidationLeaveEntitlementValueAPI extends Endpoint implements ResourceEnd
     public const PARAMETER_DAYS_USED = 'daysUsed';
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/leave/leave-entitlements/{id}/validation/entitlements",
+     *     tags={"Leave/Validate Leave Entitlement"},
+     *     @OA\PathParameter(
+     *         name="id",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         name="entitlement",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="array",
+     *                 @OA\Items(
+     *                     @OA\Property(property="valid", type="boolean"),
+     *                     @OA\Property(property="daysUsed", type="integer"),
+     *                 )
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         ),
+     *     )
+     * )
+     *
      * @inheritDoc
      */
     public function getOne(): EndpointResult

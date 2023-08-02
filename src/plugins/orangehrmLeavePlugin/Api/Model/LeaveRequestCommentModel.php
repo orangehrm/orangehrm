@@ -23,6 +23,27 @@ use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\LeaveRequestComment;
 
+/**
+ * @OA\Schema(
+ *     schema="Leave-LeaveRequestCommentModel",
+ *     type="object",
+ *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(property="leaveRequest", type="object",
+ *         @OA\Property(property="id", type="integer"),
+ *     ),
+ *     @OA\Property(property="date", type="string", format="date"),
+ *     @OA\Property(property="time", type="string", format="time"),
+ *     @OA\Property(property="createdByEmployee", type="object",
+ *         @OA\Property(property="empNumber", type="string"),
+ *         @OA\Property(property="lastName", type="string"),
+ *         @OA\Property(property="firstName", type="string"),
+ *         @OA\Property(property="middleName", type="string"),
+ *         @OA\Property(property="employeeId", type="integer"),
+ *         @OA\Property(property="terminationId", type="integer"),
+ *     ),
+ *     @OA\Property(property="comment", type="string"),
+ * )
+ */
 class LeaveRequestCommentModel implements Normalizable
 {
     use ModelTrait;

@@ -23,6 +23,19 @@ use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\WorkWeek;
 
+/**
+ * @OA\Schema(
+ *     schema="Leave-WorkWeekModel",
+ *     type="object",
+ *     @OA\Property(property="monday", type="integer"),
+ *     @OA\Property(property="tuesday", type="integer"),
+ *     @OA\Property(property="wednesday", type="integer"),
+ *     @OA\Property(property="thursday", type="integer"),
+ *     @OA\Property(property="friday", type="integer"),
+ *     @OA\Property(property="saturday", type="integer"),
+ *     @OA\Property(property="sunday", type="integer")
+ * )
+ */
 class WorkWeekModel implements Normalizable
 {
     use ModelTrait;

@@ -26,6 +26,101 @@ use OrangeHRM\Core\Report\Api\EndpointAwareReport;
 class LeaveReportDataAPI extends ReportDataAPI
 {
     /**
+     * @OA\Get(
+     *     path="/api/v2/leave/reports/data",
+     *     tags={"Leave/Leave Report"},
+     *     @OA\Parameter(
+     *         name="name",
+     *         in="query",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string",
+     *             enum={
+     *                 "employee_leave_entitlements_and_usage",
+     *                 "my_leave_entitlements_and_usage",
+     *                 "leave_type_leave_entitlements_and_usage"
+     *             }
+     *         )
+     *     ),
+     *     @OA\Parameter(
+     *         name="empNumber",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         name="fromDate",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string", format="date")
+     *     ),
+     *     @OA\Parameter(
+     *         name="toDate",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string", format="date")
+     *     ),
+     *     @OA\Parameter(
+     *         name="includeEmployees",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string", enum=OrangeHRM\Leave\Dto\LeaveRequestSearchFilterParams::INCLUDE_EMPLOYEES)
+     *     ),
+     *     @OA\Parameter(ref="#/components/parameters/sortOrder"),
+     *     @OA\Parameter(ref="#/components/parameters/limit"),
+     *     @OA\Parameter(ref="#/components/parameters/offset"),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="data", type="array",
+     *                 @OA\Items(type="object",
+     *                     @OA\Property(property="leaveTypeName", type="string"),
+     *                     @OA\Property(property="entitlementDays", type="string"),
+     *                     @OA\Property(property="pendingApprovalDays", type="string"),
+     *                     @OA\Property(property="scheduledDays", type="string"),
+     *                     @OA\Property(property="takenDays", type="string"),
+     *                     @OA\Property(property="balanceDays", type="string"),
+     *                     @OA\Property(property="leaveTypeDeleted", type="boolean"),
+     *                     @OA\Property(property="_url", type="object",
+     *                         @OA\Property(property="entitlementDays", type="string"),
+     *                         @OA\Property(property="pendingApprovalDays", type="string"),
+     *                         @OA\Property(property="scheduledDays", type="string"),
+     *                         @OA\Property(property="takenDays", type="string")
+     *                     )
+     *                 )
+     *             ),
+     *             @OA\Property(
+     *                 property="meta",
+     *                 type="object",
+     *                 @OA\Property(property="total", type="integer"),
+     *                 @OA\Property(
+     *                     property="employee",
+     *                     type="object",
+     *                     @OA\Property(property="empNumber", type="integer"),
+     *                     @OA\Property(property="firstName", type="string"),
+     *                     @OA\Property(property="lastName", type="string"),
+     *                     @OA\Property(property="middleName", type="string"),
+     *                     @OA\Property(property="employeeId", type="string"),
+     *                     @OA\Property(property="terminationId", type="integer"),
+     *                 ),
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="400",
+     *         description="Bad Request - Invalid report name",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="error",
+     *                 type="object",
+     *                 @OA\Property(property="status", type="string", default="400"),
+     *                 @OA\Property(property="message", type="string", default="Invalid report name")
+     *             )
+     *         )
+     *     ),
+     * )
+     *
      * @return EndpointAwareReport
      * @throws BadRequestException
      */

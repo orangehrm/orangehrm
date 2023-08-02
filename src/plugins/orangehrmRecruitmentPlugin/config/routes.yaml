@@ -31,7 +31,7 @@ apiv2_recruitment_vacancies_attachment:
 apiv2_recruitment_vacancy_attachments:
   path: /api/v2/recruitment/vacancy/attachments
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
-  methods: [ GET, POST, DELETE ]
+  methods: [ POST, DELETE ]
   defaults:
     _api: OrangeHRM\Recruitment\Api\VacancyAttachmentAPI
 
