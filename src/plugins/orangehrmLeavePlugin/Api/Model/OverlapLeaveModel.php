@@ -42,8 +42,8 @@ use OrangeHRM\Entity\LeaveComment;
  *         @OA\Property(property="name", type="string"),
  *         @OA\Property(property="deleted", type="boolean"),
  *     ),
- *     @OA\Property(property="startTime", type="string", format="time"),
- *     @OA\Property(property="endTime", type="string", format="time"),
+ *     @OA\Property(property="startTime", type="string", format="time", nullable=true),
+ *     @OA\Property(property="endTime", type="string", format="time", nullable=true),
  *     @OA\Property(property="durationType", type="object",
  *         @OA\Property(property="id", type="integer"),
  *         @OA\Property(property="type", type="string"),
@@ -52,7 +52,7 @@ use OrangeHRM\Entity\LeaveComment;
  *         @OA\Property(property="id", type="integer"),
  *         @OA\Property(property="comment", type="string"),
  *         @OA\Property(property="date", type="string", format="date"),
- *         @OA\Property(property="time", type="string", format="time"),
+ *         @OA\Property(property="time", type="string", format="time", nullable=true),
  *     ),
  * )
  */

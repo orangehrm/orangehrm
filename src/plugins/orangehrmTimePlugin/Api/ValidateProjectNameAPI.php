@@ -74,10 +74,8 @@ class ValidateProjectNameAPI extends Endpoint implements ResourceEndpoint
      *         @OA\JsonContent(
      *             @OA\Property(
      *                 property="data",
-     *                 type="array",
-     *                 @OA\Items(
-     *                     @OA\Property(property="valid", type="boolean"),
-     *                 )
+     *                 type="object",
+     *                 @OA\Property(property="valid", type="boolean"),
      *             ),
      *             @OA\Property(property="meta", type="object")
      *         )

@@ -62,7 +62,7 @@ class TimeReportAPI extends ReportAPI
      *                             @OA\Property(property="name", type="string"),
      *                             @OA\Property(property="prop", type="string"),
      *                             @OA\Property(property="size", type="integer"),
-     *                             @OA\Property(property="pin", type="string", default="null"),
+     *                             @OA\Property(property="pin", type="string", nullable=true),
      *                             @OA\Property(
      *                                 property="cellProperties",
      *                                 type="object",
@@ -79,8 +79,8 @@ class TimeReportAPI extends ReportAPI
      *             @OA\Property(
      *                 property="meta",
      *                 type="object",
-     *                 @OA\Property(property="headers", type="string", default="null"),
-     *                 @OA\Property(property="filters", type="string", default="null")
+     *                 @OA\Property(property="headers", type="string", nullable=true),
+     *                 @OA\Property(property="filters", type="string", nullable=true)
      *             )
      *         )
      *     ),

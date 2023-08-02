@@ -68,7 +68,7 @@ use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
  *     @OA\Property(
  *         property="originalPost",
  *         type="null",
- *         default="null"
+ *         nullable=true
  *     ),
  *     @OA\Property(
  *         property="permission",
@@ -112,7 +112,7 @@ use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
  *     @OA\Property(
  *         property="originalPost",
  *         type="null",
- *         default="null"
+ *         nullable=true
  *     ),
  *     @OA\Property(
  *         property="permission",
@@ -157,7 +157,7 @@ use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
  *     @OA\Property(
  *         property="originalPost",
  *         type="null",
- *         default="null"
+ *         nullable=true
  *     ),
  *     @OA\Property(
  *         property="permission",
