@@ -75,7 +75,7 @@ class EmployeeAttachmentAPI extends Endpoint implements CrudEndpoint
      *     ),
      *     @OA\PathParameter(
      *         name="screen",
-     *         @OA\Schema(type="string", enum={OrangeHRM\Entity\EmployeeAttachment::SCREENS})
+     *         @OA\Schema(type="string", enum=OrangeHRM\Entity\EmployeeAttachment::SCREENS)
      *     ),
      *     @OA\PathParameter(
      *         name="id",
@@ -159,7 +159,7 @@ class EmployeeAttachmentAPI extends Endpoint implements CrudEndpoint
      *     ),
      *     @OA\PathParameter(
      *         name="screen",
-     *         @OA\Schema(type="string", enum={OrangeHRM\Entity\EmployeeAttachment::SCREENS})
+     *         @OA\Schema(type="string", enum=OrangeHRM\Entity\EmployeeAttachment::SCREENS)
      *     ),
      *     @OA\Parameter(ref="#/components/parameters/sortOrder"),
      *     @OA\Parameter(ref="#/components/parameters/limit"),
@@ -223,7 +223,7 @@ class EmployeeAttachmentAPI extends Endpoint implements CrudEndpoint
      *     ),
      *     @OA\PathParameter(
      *         name="screen",
-     *         @OA\Schema(type="string", enum={OrangeHRM\Entity\EmployeeAttachment::SCREENS})
+     *         @OA\Schema(type="string", enum=OrangeHRM\Entity\EmployeeAttachment::SCREENS)
      *     ),
      *     @OA\RequestBody(
      *         @OA\JsonContent(
@@ -246,7 +246,7 @@ class EmployeeAttachmentAPI extends Endpoint implements CrudEndpoint
      *             @OA\Property(property="meta",
      *                 type="object",
      *                 @OA\Property(property="empNumber", type="integer"),
-     *                 @OA\Property(property="screen", type="string", enum={OrangeHRM\Entity\EmployeeAttachment::SCREENS})
+     *                 @OA\Property(property="screen", type="string", enum=OrangeHRM\Entity\EmployeeAttachment::SCREENS)
      *             )
      *         )
      *     ),
@@ -378,7 +378,7 @@ class EmployeeAttachmentAPI extends Endpoint implements CrudEndpoint
      *     ),
      *     @OA\PathParameter(
      *         name="screen",
-     *         @OA\Schema(type="string", enum={OrangeHRM\Entity\EmployeeAttachment::SCREENS})
+     *         @OA\Schema(type="string", enum=OrangeHRM\Entity\EmployeeAttachment::SCREENS)
      *     ),
      *     @OA\PathParameter(
      *         name="id",

@@ -230,8 +230,8 @@ class EmployeeLanguageAPI extends Endpoint implements CrudEndpoint
      *         @OA\JsonContent(
      *             type="object",
      *             @OA\Property(property="languageId", type="integer"),
-     *             @OA\Property(property="fluencyId", type="integer", enum={OrangeHRM\Entity\EmployeeLanguage::FLUENCIES}),
-     *             @OA\Property(property="competencyId", type="integer", enum={OrangeHRM\Entity\EmployeeLanguage::COMPETENCIES}),
+     *             @OA\Property(property="fluencyId", type="integer", enum=OrangeHRM\Entity\EmployeeLanguage::FLUENCIES),
+     *             @OA\Property(property="competencyId", type="integer", enum=OrangeHRM\Entity\EmployeeLanguage::COMPETENCIES),
      *             @OA\Property(property="comment", type="string"),
      *             required={"languageId", "fluencyId", "competencyId", "comment"}
      *         )
@@ -352,8 +352,8 @@ class EmployeeLanguageAPI extends Endpoint implements CrudEndpoint
      *         @OA\JsonContent(
      *             type="object",
      *             @OA\Property(property="languageId", type="integer"),
-     *             @OA\Property(property="fluencyId", type="integer", enum={OrangeHRM\Entity\EmployeeLanguage::FLUENCIES}),
-     *             @OA\Property(property="competencyId", type="integer", enum={OrangeHRM\Entity\EmployeeLanguage::COMPETENCIES}),
+     *             @OA\Property(property="fluencyId", type="integer", enum=OrangeHRM\Entity\EmployeeLanguage::FLUENCIES),
+     *             @OA\Property(property="competencyId", type="integer", enum=OrangeHRM\Entity\EmployeeLanguage::COMPETENCIES),
      *             @OA\Property(property="comment", type="string"),
      *             required={"competencyId"}
      *         )

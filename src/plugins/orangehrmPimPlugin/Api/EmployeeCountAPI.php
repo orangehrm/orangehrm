@@ -100,7 +100,7 @@ class EmployeeCountAPI extends Endpoint implements CollectionEndpoint
      *         name="includeEmployees",
      *         in="query",
      *         required=false,
-     *         @OA\Schema(type="string", enum={OrangeHRM\Pim\Dto\EmployeeSearchFilterParams::INCLUDE_EMPLOYEES_MAP})
+     *         @OA\Schema(type="string", enum=OrangeHRM\Pim\Dto\EmployeeSearchFilterParams::INCLUDE_EMPLOYEES_MAP)
      *     ),
      *     @OA\Response(
      *         response="200",

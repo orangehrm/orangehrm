@@ -43,10 +43,14 @@ use OrangeHRM\Entity\Employee;
  *     @OA\Property(property="nationality", type="object",
  *         @OA\Property(property="id", type="integer"),
  *         @OA\Property(property="name", type="string")
- *     )
+ *     ),
+ *     @OA\Property(property="ssnNumber", type="string", nullable=true),
+ *     @OA\Property(property="sinNumber", type="string", nullable=true),
+ *     @OA\Property(property="nickname", type="string", nullable=true),
+ *     @OA\Property(property="smoker", type="integer", nullable=true),
+ *     @OA\Property(property="militaryService", type="string", nullable=true),
  * )
  */
-//TODO - need to change this schema
 class EmployeePersonalDetailModel implements Normalizable
 {
     use ModelTrait;

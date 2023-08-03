@@ -127,8 +127,7 @@ class OptionalFieldAPI extends Endpoint implements ResourceEndpoint
      *                     @OA\Property(property="showSIN", type="boolean"),
      *                     @OA\Property(property="showTaxExemptions", type="boolean")
      *                 ),
-     *             ),
-     *             @OA\Property(property="empNumber", type="integer")
+     *             )
      *         )
      *     ),
      *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")

@@ -240,13 +240,13 @@ class CustomFieldAPI extends Endpoint implements CrudEndpoint
      *             @OA\Property(
      *                 property="fieldType",
      *                 type="integer",
-     *                 enum={OrangeHRM\Entity\CustomField::FIELD_TYPES},
+     *                 enum=OrangeHRM\Entity\CustomField::FIELD_TYPES,
      *                 maxLength=OrangeHRM\Pim\Api\CustomFieldAPI::PARAM_RULE_TYPE_MAX_LENGTH
      *             ),
      *             @OA\Property(
      *                 property="screen",
      *                 type="string",
-     *                 enum={OrangeHRM\Entity\CustomField::SCREENS},
+     *                 enum=OrangeHRM\Entity\CustomField::SCREENS,
      *                 maxLength=OrangeHRM\Pim\Api\CustomFieldAPI::PARAM_RULE_SCREEN_MAX_LENGTH
      *             ),
      *             @OA\Property(
@@ -266,6 +266,18 @@ class CustomFieldAPI extends Endpoint implements CrudEndpoint
      *             @OA\Property(property="meta", type="object")
      *         )
      *     ),
+     *     @OA\Response(
+     *         response="400",
+     *         description="Bad Request",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="error",
+     *                 type="object",
+     *                 @OA\Property(property="status", type="string", default="400"),
+     *                 @OA\Property(property="message", type="string")
+     *             )
+     *         )
+     *     )
      * )
      *
      * @inheritDoc
@@ -360,13 +372,13 @@ class CustomFieldAPI extends Endpoint implements CrudEndpoint
      *             @OA\Property(
      *                 property="fieldType",
      *                 type="integer",
-     *                 enum={OrangeHRM\Entity\CustomField::FIELD_TYPES},
+     *                 enum=OrangeHRM\Entity\CustomField::FIELD_TYPES,
      *                 maxLength=OrangeHRM\Pim\Api\CustomFieldAPI::PARAM_RULE_TYPE_MAX_LENGTH
      *             ),
      *             @OA\Property(
      *                 property="screen",
      *                 type="string",
-     *                 enum={OrangeHRM\Entity\CustomField::SCREENS},
+     *                 enum=OrangeHRM\Entity\CustomField::SCREENS,
      *                 maxLength=OrangeHRM\Pim\Api\CustomFieldAPI::PARAM_RULE_SCREEN_MAX_LENGTH
      *             ),
      *             @OA\Property(

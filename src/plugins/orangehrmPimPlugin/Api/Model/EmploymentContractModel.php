@@ -36,8 +36,8 @@ use OrangeHRM\Entity\EmpContract;
  *         @OA\Property(property="fileType", type="string"),
  *         @OA\Property(property="attachedBy", type="string"),
  *         @OA\Property(property="attachedByName", type="string"),
- *         @OA\Property(property="attachedTime", type="string"),
- *         @OA\Property(property="attachedDate", type="string"),
+ *         @OA\Property(property="attachedTime", type="string", format="time"),
+ *         @OA\Property(property="attachedDate", type="string", format="date"),
  *     ),
  * )
  */

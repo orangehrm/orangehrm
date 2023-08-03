@@ -464,6 +464,18 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
      *             ),
      *             @OA\Property(property="meta", type="object")
      *         )
+     *     ),
+     *     @OA\Response(
+     *         response="400",
+     *         description="Bad Request",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="error",
+     *                 type="object",
+     *                 @OA\Property(property="status", type="string", default="400"),
+     *                 @OA\Property(property="message", type="string", example="Logged in User Not Allowed to Create an Employee")
+     *             )
+     *         )
      *     )
      * )
      *

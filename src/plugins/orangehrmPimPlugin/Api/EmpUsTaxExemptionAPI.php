@@ -144,10 +144,13 @@ class EmpUsTaxExemptionAPI extends Endpoint implements ResourceEndpoint
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="name", type="string"),
-     *             @OA\Property(property="relationshipType", type="string"),
-     *             @OA\Property(property="relationship", type="string"),
-     *             @OA\Property(property="dateOfBirth", type="string"),
+     *             @OA\Property(property="federalStatus", type="string"),
+     *             @OA\Property(property="federalExemptions", type="integer"),
+     *             @OA\Property(property="taxStateCode", type="string"),
+     *             @OA\Property(property="stateStatus", type="string"),
+     *             @OA\Property(property="stateExemptions", type="integer"),
+     *             @OA\Property(property="unemploymentStateCode", type="string"),
+     *             @OA\Property(property="workStateCode", type="string")
      *         )
      *     ),
      *     @OA\Response(response="200",

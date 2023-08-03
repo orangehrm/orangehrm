@@ -319,9 +319,21 @@ class PimDefinedReportAPI extends Endpoint implements CrudEndpoint
      *                 type="string",
      *                 maxLength=OrangeHRM\Pim\Api\PimDefinedReportAPI::PARAM_RULE_NAME_MAX_LENGTH
      *             ),
-     *             @OA\Property(property="relationshipType", type="string"),
-     *             @OA\Property(property="relationship", type="string"),
-     *             @OA\Property(property="dateOfBirth", type="string"),
+     *             @OA\Property(property="include", type="string", enum={"onlyPast", "currentAndPast", "onlyCurrent"}),
+     *             @OA\Property(property="criteria", type="object",
+     *                 @OA\Property(type="object",
+     *                     @OA\Property(property="x", type="string"),
+     *                     @OA\Property(property="y", type="string"),
+     *                     @OA\Property(property="operator", type="string")
+     *                 ),
+     *             ),
+     *             @OA\Property(property="fieldGroup", type="object",
+     *                 @OA\Property(type="object",
+     *                     required={"fields", "includeHeader"},
+     *                     @OA\Property(property="fields", type="array", @OA\Items(type="integer")),
+     *                     @OA\Property(property="includeHeader", type="boolean")
+     *                 ),
+     *             )
      *         )
      *     ),
      *     @OA\Response(response="200",

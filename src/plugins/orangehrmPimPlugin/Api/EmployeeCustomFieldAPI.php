@@ -78,7 +78,7 @@ class EmployeeCustomFieldAPI extends Endpoint implements ResourceEndpoint
      *         name="screen",
      *         in="query",
      *         required=false,
-     *         @OA\Schema(type="integer", enum={OrangeHRM\Entity\CustomField::SCREENS})
+     *         @OA\Schema(type="integer", enum=OrangeHRM\Entity\CustomField::SCREENS)
      *     ),
      *     @OA\Response(
      *         response="200",
