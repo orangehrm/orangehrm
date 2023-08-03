@@ -33,7 +33,21 @@ use OrangeHRM\Entity\Candidate;
  *     @OA\Property(property="dateOfApplication", type="string", format="date"),
  *     @OA\Property(property="status", type="object",
  *         @OA\Property(property="id", type="integer"),
- *         @OA\Property(property="label", type="string")
+ *         @OA\Property(
+ *             property="label",
+ *             type="string",
+ *             enum={
+ *                 "application initiated",
+ *                 "shortlisted",
+ *                 "rejected",
+ *                 "interview scheduled",
+ *                 "interview passed",
+ *                 "interview failed",
+ *                 "job offered",
+ *                 "offer declined",
+ *                 "hired"
+ *             },
+ *         )
  *     )
  * )
  */

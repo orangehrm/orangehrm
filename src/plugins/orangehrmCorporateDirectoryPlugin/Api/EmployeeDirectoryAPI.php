@@ -184,7 +184,10 @@ class EmployeeDirectoryAPI extends Endpoint implements CrudEndpoint
      *         required=false,
      *         @OA\Schema(
      *             type="string",
-     *             enum={OrangeHRM\CorporateDirectory\Api\EmployeeDirectoryAPI::MODEL_DEFAULT, OrangeHRM\CorporateDirectory\Api\EmployeeDirectoryAPI::MODEL_DETAILED, OrangeHRM\CorporateDirectory\Api\EmployeeDirectoryAPI::MODEL_DETAILED},
+     *             enum={
+     *                 OrangeHRM\CorporateDirectory\Api\EmployeeDirectoryAPI::MODEL_DEFAULT,
+     *                 OrangeHRM\CorporateDirectory\Api\EmployeeDirectoryAPI::MODEL_DETAILED
+     *             },
      *             default=OrangeHRM\CorporateDirectory\Api\EmployeeDirectoryAPI::MODEL_DEFAULT
      *         )
      *     ),

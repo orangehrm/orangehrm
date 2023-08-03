@@ -99,8 +99,23 @@ class LDAPConfigAPI extends Endpoint implements ResourceEndpoint
      *                 maxLength=OrangeHRM\LDAP\Api\LDAPConfigAPI::PARAMETER_RULE_HOST_NAME_MAX_LENGTH
      *             ),
      *             @OA\Property(property="port", type="integer"),
-     *             @OA\Property(property="encryption", type="string", enum={"none", "ssl", "tls"}),
-     *             @OA\Property(property="ldapImplementation", type="string"),
+     *             @OA\Property(
+     *                 property="encryption",
+     *                 type="string",
+     *                 enum={
+     *                     OrangeHRM\LDAP\Api\LDAPConfigAPI::ENCRYPTION_NONE,
+     *                     OrangeHRM\LDAP\Api\LDAPConfigAPI::ENCRYPTION_TLS,
+     *                     OrangeHRM\LDAP\Api\LDAPConfigAPI::ENCRYPTION_SSL
+     *                 }
+     *             ),
+     *             @OA\Property(
+     *                 property="ldapImplementation",
+     *                 type="string",
+     *                 enum={
+     *                     OrangeHRM\LDAP\Api\LDAPConfigAPI::LDAP_IMPLEMENTATION_OPEN_LDAP,
+     *                     OrangeHRM\LDAP\Api\LDAPConfigAPI::LDAP_IMPLEMENTATION_ACTIVE_DIRECTORY,
+     *                 }
+     *             ),
      *             @OA\Property(property="bindAnonymously", type="boolean"),
      *             @OA\Property(
      *                 property="bindUserDN",
@@ -120,33 +135,73 @@ class LDAPConfigAPI extends Endpoint implements ResourceEndpoint
      *                         type="string",
      *                         maxLength=OrangeHRM\LDAP\Api\LDAPConfigAPI::PARAMETER_RULE_BASE_DISTINGUISHED_NAME_MAX_LENGTH
      *                     ),
-     *                     @OA\Property(property="searchScope", type="string", enum={"base", "one", "sub"}),
-     *                     @OA\Property(property="userNameAttribute", type="string"),
+     *                     @OA\Property(property="searchScope", type="string", enum={"one", "sub"}),
+     *                     @OA\Property(
+     *                         property="userNameAttribute",
+     *                         type="string",
+     *                         maxLength=OrangeHRM\LDAP\Api\LDAPConfigAPI::PARAMETER_RULE_ATTRIBUTE_MAX_LENGTH
+     *                     ),
      *                     @OA\Property(
      *                         property="userSearchFilter",
      *                         type="string",
      *                         maxLength=OrangeHRM\LDAP\Api\LDAPConfigAPI::PARAMETER_RULE_USER_SEARCH_FILTER_MAX_LENGTH
      *                     ),
-     *                     @OA\Property(property="userUniqueIdAttribute", type="string"),
+     *                     @OA\Property(
+     *                         property="userUniqueIdAttribute",
+     *                         type="string",
+     *                         maxLength=OrangeHRM\LDAP\Api\LDAPConfigAPI::PARAMETER_RULE_ATTRIBUTE_MAX_LENGTH
+     *                     ),
      *                     @OA\Property(property="employeeSelectorMapping", type="array",
      *                         @OA\Items(
      *                             type="object",
-     *                             @OA\Property(property="field", type="string"),
-     *                             @OA\Property(property="attributeName", type="string")
+     *                             @OA\Property(
+     *                                 property="field",
+     *                                 type="string",
+     *                                 enum={OrangeHRM\LDAP\Dto\LDAPEmployeeSelectorMapping::ALLOWED_FIELDS}
+     *                             ),
+     *                             @OA\Property(
+     *                                 property="attributeName",
+     *                                 type="string",
+     *                                 maxLength=OrangeHRM\LDAP\Api\LDAPConfigAPI::PARAMETER_RULE_ATTRIBUTE_MAX_LENGTH
+     *                             )
      *                         )
      *                     )
      *                 ),
      *             ),
      *             @OA\Property(property="dataMapping", type="object",
-     *                 @OA\Property(property="firstName", type="string"),
-     *                 @OA\Property(property="middleName", type="string"),
-     *                 @OA\Property(property="lastName", type="string"),
-     *                 @OA\Property(property="userStatus", type="string"),
-     *                 @OA\Property(property="workEmail", type="string"),
-     *                 @OA\Property(property="employeeId", type="string")
+     *                 @OA\Property(
+     *                     property="firstName",
+     *                     type="string",
+     *                     maxLength=OrangeHRM\LDAP\Api\LDAPConfigAPI::PARAMETER_RULE_ATTRIBUTE_MAX_LENGTH
+     *                 ),
+     *                 @OA\Property(
+     *                     property="middleName",
+     *                     type="string",
+     *                     maxLength=OrangeHRM\LDAP\Api\LDAPConfigAPI::PARAMETER_RULE_ATTRIBUTE_MAX_LENGTH
+     *                 ),
+     *                 @OA\Property(
+     *                     property="lastName",
+     *                     type="string",
+     *                     maxLength=OrangeHRM\LDAP\Api\LDAPConfigAPI::PARAMETER_RULE_ATTRIBUTE_MAX_LENGTH
+     *                 ),
+     *                 @OA\Property(
+     *                     property="userStatus",
+     *                     type="string",
+     *                     maxLength=OrangeHRM\LDAP\Api\LDAPConfigAPI::PARAMETER_RULE_ATTRIBUTE_MAX_LENGTH
+     *                 ),
+     *                 @OA\Property(
+     *                     property="workEmail",
+     *                     type="string",
+     *                     maxLength=OrangeHRM\LDAP\Api\LDAPConfigAPI::PARAMETER_RULE_ATTRIBUTE_MAX_LENGTH
+     *                 ),
+     *                 @OA\Property(
+     *                     property="employeeId",
+     *                     type="string",
+     *                     maxLength=OrangeHRM\LDAP\Api\LDAPConfigAPI::PARAMETER_RULE_ATTRIBUTE_MAX_LENGTH
+     *                 ),
      *             ),
      *             @OA\Property(property="mergeLDAPUsersWithExistingSystemUsers", type="boolean"),
-     *             @OA\Property(property="syncInterval", type="string"),
+     *             @OA\Property(property="syncInterval", type="string", minimum=1, maximum=23),
      *             required={"userLookupSettings", "dataMapping", "mergeLDAPUsersWithExistingSystemUsers", "syncInterval"},
      *         ),
      *     ),

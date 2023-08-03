@@ -124,6 +124,36 @@ class ThemeAPI extends Endpoint implements ResourceEndpoint
      *             @OA\Property(property="clientLogo", ref="#/components/schemas/Base64Attachment"),
      *             @OA\Property(property="clientBanner", ref="#/components/schemas/Base64Attachment"),
      *             @OA\Property(property="loginBanner", ref="#/components/schemas/Base64Attachment"),
+     *             @OA\Property(
+     *                 property="currentClientLogo",
+     *                 type="string",
+     *                 nullable=true,
+     *                 enum={
+     *                     OrangeHRM\CorporateBranding\Api\ThemeAPI::KEEP_CURRENT,
+     *                     OrangeHRM\CorporateBranding\Api\ThemeAPI::DELETE_CURRENT,
+     *                     OrangeHRM\CorporateBranding\Api\ThemeAPI::REPLACE_CURRENT,
+     *                 }
+     *             ),
+     *             @OA\Property(
+     *                 property="currentClientBanner",
+     *                 type="string",
+     *                 nullable=true,
+     *                 enum={
+     *                     OrangeHRM\CorporateBranding\Api\ThemeAPI::KEEP_CURRENT,
+     *                     OrangeHRM\CorporateBranding\Api\ThemeAPI::DELETE_CURRENT,
+     *                     OrangeHRM\CorporateBranding\Api\ThemeAPI::REPLACE_CURRENT,
+     *                 }
+     *             ),
+     *             @OA\Property(
+     *                 property="currentLoginBanner",
+     *                 type="string",
+     *                 nullable=true,
+     *                 enum={
+     *                     OrangeHRM\CorporateBranding\Api\ThemeAPI::KEEP_CURRENT,
+     *                     OrangeHRM\CorporateBranding\Api\ThemeAPI::DELETE_CURRENT,
+     *                     OrangeHRM\CorporateBranding\Api\ThemeAPI::REPLACE_CURRENT,
+     *                 }
+     *             )
      *         )
      *     ),
      *     @OA\Response(response="200",
