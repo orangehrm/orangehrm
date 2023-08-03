@@ -218,7 +218,11 @@ class EmployeeLicenseAPI extends Endpoint implements CrudEndpoint
      *         @OA\JsonContent(
      *             type="object",
      *             @OA\Property(property="licenseId", type="integer"),
-     *             @OA\Property(property="licenseNo", type="string"),
+     *             @OA\Property(
+     *                 property="licenseNo",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Pim\Api\EmployeeLicenseAPI::PARAM_RULE_LICENSE_NO_MAX_LENGTH
+     *             ),
      *             @OA\Property(property="issuedDate", type="string", format="date"),
      *             @OA\Property(property="expiryDate", type="string", format="date"),
      *             required={"licenseNo"}
@@ -308,7 +312,11 @@ class EmployeeLicenseAPI extends Endpoint implements CrudEndpoint
      *         @OA\JsonContent(
      *             type="object",
      *             @OA\Property(property="licenseId", type="integer"),
-     *             @OA\Property(property="licenseNo", type="string"),
+     *             @OA\Property(
+     *                 property="licenseNo",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Pim\Api\EmployeeLicenseAPI::PARAM_RULE_LICENSE_NO_MAX_LENGTH
+     *             ),
      *             @OA\Property(property="issuedDate", type="string", format="date"),
      *             @OA\Property(property="expiryDate", type="string", format="date"),
      *             required={"licenseNo"}

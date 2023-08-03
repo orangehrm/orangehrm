@@ -161,7 +161,11 @@ class ReportingMethodConfigurationAPI extends EndPoint implements CrudEndpoint
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="name", type="string"),
+     *             @OA\Property(
+     *                 property="name",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Pim\Api\ReportingMethodConfigurationAPI::PARAM_RULE_NAME_MAX_LENGTH
+     *             ),
      *             required={"name"}
      *         )
      *     ),
@@ -229,7 +233,11 @@ class ReportingMethodConfigurationAPI extends EndPoint implements CrudEndpoint
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="name", type="string"),
+     *             @OA\Property(
+     *                 property="name",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Pim\Api\ReportingMethodConfigurationAPI::PARAM_RULE_NAME_MAX_LENGTH
+     *             ),
      *             required={"name"}
      *         )
      *     ),

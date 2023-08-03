@@ -183,11 +183,31 @@ class EmpEmergencyContactAPI extends Endpoint implements CrudEndpoint
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="name", type="string"),
-     *             @OA\Property(property="relationship", type="string"),
-     *             @OA\Property(property="homePhone", type="string"),
-     *             @OA\Property(property="officePhone", type="string"),
-     *             @OA\Property(property="mobilePhone", type="string"),
+     *             @OA\Property(
+     *                 property="name",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Pim\Api\EmpEmergencyContactAPI::PARAM_RULE_MAX_LENGTH
+     *             ),
+     *             @OA\Property(
+     *                 property="relationship",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Pim\Api\EmpEmergencyContactAPI::PARAM_RULE_HOME_PHONE_MAX_LENGTH
+     *             ),
+     *             @OA\Property(
+     *                 property="homePhone",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Pim\Api\EmpEmergencyContactAPI::PARAM_RULE_HOME_PHONE_MAX_LENGTH
+     *             ),
+     *             @OA\Property(
+     *                 property="officePhone",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Pim\Api\EmpEmergencyContactAPI::PARAM_RULE_OFFICE_PHONE_MAX_LENGTH
+     *             ),
+     *             @OA\Property(
+     *                 property="mobilePhone",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Pim\Api\EmpEmergencyContactAPI::PARAM_RULE_MOBILE_PHONE_MAX_LENGTH
+     *             ),
      *             required={"name", "relationship", "homePhone", "officePhone", "mobilePhone"}
      *         )
      *     ),
@@ -394,10 +414,31 @@ class EmpEmergencyContactAPI extends Endpoint implements CrudEndpoint
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="fieldName", type="string"),
-     *             @OA\Property(property="fieldType", type="integer"),
-     *             @OA\Property(property="screen", type="string"),
-     *             @OA\Property(property="extraData", type="string")
+     *             @OA\Property(
+     *                 property="name",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Pim\Api\EmpEmergencyContactAPI::PARAM_RULE_MAX_LENGTH
+     *             ),
+     *             @OA\Property(
+     *                 property="relationship",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Pim\Api\EmpEmergencyContactAPI::PARAM_RULE_HOME_PHONE_MAX_LENGTH
+     *             ),
+     *             @OA\Property(
+     *                 property="homePhone",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Pim\Api\EmpEmergencyContactAPI::PARAM_RULE_HOME_PHONE_MAX_LENGTH
+     *             ),
+     *             @OA\Property(
+     *                 property="officePhone",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Pim\Api\EmpEmergencyContactAPI::PARAM_RULE_OFFICE_PHONE_MAX_LENGTH
+     *             ),
+     *             @OA\Property(
+     *                 property="mobilePhone",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Pim\Api\EmpEmergencyContactAPI::PARAM_RULE_MOBILE_PHONE_MAX_LENGTH
+     *             ),
      *         )
      *     ),
      *     @OA\Response(response="200",

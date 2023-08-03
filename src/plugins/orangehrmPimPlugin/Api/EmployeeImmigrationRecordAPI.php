@@ -186,8 +186,16 @@ class EmployeeImmigrationRecordAPI extends Endpoint implements CrudEndpoint
     *             @OA\Property(property="type", type="integer"),
     *             @OA\Property(property="status", type="string"),
     *             @OA\Property(property="reviewDate", type="string", format="date"),
-    *             @OA\Property(property="countryCode", type="string"),
-    *             @OA\Property(property="comment", type="string"),
+    *             @OA\Property(
+     *                 property="countryCode",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Pim\Api\EmployeeImmigrationRecordAPI::PARAM_RULE_COUNTRY_MAX_LENGTH
+     *             ),
+    *             @OA\Property(
+     *                 property="comment",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Pim\Api\EmployeeImmigrationRecordAPI::PARAM_RULE_COMMENT_MAX_LENGTH
+     *             ),
     *             @OA\Property(property="additionalProperties", type="boolean", default=true),
      *             required={"name", "type"}
      *         )
@@ -427,8 +435,16 @@ class EmployeeImmigrationRecordAPI extends Endpoint implements CrudEndpoint
      *             @OA\Property(property="type", type="integer"),
      *             @OA\Property(property="status", type="string"),
      *             @OA\Property(property="reviewDate", type="string", format="date"),
-     *             @OA\Property(property="countryCode", type="string"),
-     *             @OA\Property(property="comment", type="string"),
+     *             @OA\Property(
+     *                 property="countryCode",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Pim\Api\EmployeeImmigrationRecordAPI::PARAM_RULE_COUNTRY_MAX_LENGTH
+     *             ),
+     *             @OA\Property(
+     *                 property="comment",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Pim\Api\EmployeeImmigrationRecordAPI::PARAM_RULE_COMMENT_MAX_LENGTH
+     *             ),
      *             @OA\Property(property="additionalProperties", type="boolean", default=true),
      *             required={"name", "type"}
      *         )

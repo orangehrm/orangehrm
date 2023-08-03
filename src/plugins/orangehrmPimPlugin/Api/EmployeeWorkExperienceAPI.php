@@ -195,11 +195,23 @@ class EmployeeWorkExperienceAPI extends Endpoint implements CrudEndpoint
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="company", type="string"),
-     *             @OA\Property(property="jobTitle", type="string"),
+     *             @OA\Property(
+     *                 property="company",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Pim\Api\EmployeeWorkExperienceAPI::PARAM_RULE_EMPLOYER_MAX_LENGTH
+     *             ),
+     *             @OA\Property(
+     *                 property="jobTitle",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Pim\Api\EmployeeWorkExperienceAPI::PARAM_RULE_JOB_TITLE_MAX_LENGTH
+     *             ),
      *             @OA\Property(property="fromDate", type="string", format="date"),
      *             @OA\Property(property="toDate", type="string", format="date"),
-     *             @OA\Property(property="comment", type="string"),
+     *             @OA\Property(
+     *                 property="comment",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Pim\Api\EmployeeWorkExperienceAPI::PARAM_RULE_COMMENTS_MAX_LENGTH
+     *             ),
      *             required={"jobTitle", "company"}
      *         )
      *     ),
@@ -299,11 +311,23 @@ class EmployeeWorkExperienceAPI extends Endpoint implements CrudEndpoint
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="company", type="string"),
-     *             @OA\Property(property="jobTitle", type="string"),
+     *             @OA\Property(
+     *                 property="company",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Pim\Api\EmployeeWorkExperienceAPI::PARAM_RULE_EMPLOYER_MAX_LENGTH
+     *             ),
+     *             @OA\Property(
+     *                 property="jobTitle",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Pim\Api\EmployeeWorkExperienceAPI::PARAM_RULE_JOB_TITLE_MAX_LENGTH
+     *             ),
      *             @OA\Property(property="fromDate", type="string", format="date"),
      *             @OA\Property(property="toDate", type="string", format="date"),
-     *             @OA\Property(property="comment", type="string"),
+     *             @OA\Property(
+     *                 property="comment",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Pim\Api\EmployeeWorkExperienceAPI::PARAM_RULE_COMMENTS_MAX_LENGTH
+     *             ),
      *             required={"jobTitle", "company"}
      *         )
      *     ),

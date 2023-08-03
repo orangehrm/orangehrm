@@ -160,17 +160,50 @@ class EmployeeContactDetailsAPI extends Endpoint implements CrudEndpoint
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="street1", type="string"),
-     *             @OA\Property(property="street2", type="string"),
-     *             @OA\Property(property="city", type="string"),
-     *             @OA\Property(property="province", type="string"),
-     *             @OA\Property(property="zipCode", type="string"),
-     *             @OA\Property(property="countryCode", type="string"),
-     *             @OA\Property(property="homeTelephone", type="string"),
-     *             @OA\Property(property="workTelephone", type="string"),
-     *             @OA\Property(property="mobile", type="string"),
-     *             @OA\Property(property="workEmail", type="string"),
-     *             @OA\Property(property="otherEmail", type="string"),
+     *             @OA\Property(
+     *                 property="street1",
+     *                 type="string",
+     *             maxLength=OrangeHRM\Pim\Api\EmployeeContactDetailsAPI::PARAM_RULE_STREET_1_MAX_LENGTH),
+     *             @OA\Property(
+     *                 property="street2",
+     *                 type="string",
+     *             maxLength=OrangeHRM\Pim\Api\EmployeeContactDetailsAPI::PARAM_RULE_STREET_2_MAX_LENGTH),
+     *             @OA\Property(
+     *                 property="city",
+     *                 type="string",
+     *             maxLength=OrangeHRM\Pim\Api\EmployeeContactDetailsAPI::PARAM_RULE_CITY_MAX_LENGTH),
+     *             @OA\Property(
+     *                 property="province",
+     *                 type="string",
+     *             maxLength=OrangeHRM\Pim\Api\EmployeeContactDetailsAPI::PARAM_RULE_PROVINCE_MAX_LENGTH),
+     *             @OA\Property(
+     *                 property="zipCode",
+     *                 type="string",
+     *             maxLength=OrangeHRM\Pim\Api\EmployeeContactDetailsAPI::PARAM_RULE_ZIP_CODE_MAX_LENGTH),
+     *             @OA\Property(
+     *                 property="countryCode",
+     *                 type="string",
+     *             maxLength=OrangeHRM\Pim\Api\EmployeeContactDetailsAPI::PARAM_RULE_COUNTRY_MAX_LENGTH),
+     *             @OA\Property(
+     *                 property="homeTelephone",
+     *                 type="string",
+     *             maxLength=OrangeHRM\Pim\Api\EmployeeContactDetailsAPI::PARAM_RULE_HOME_TELEPHONE_MAX_LENGTH),
+     *             @OA\Property(
+     *                 property="workTelephone",
+     *                 type="string",
+     *             maxLength=OrangeHRM\Pim\Api\EmployeeContactDetailsAPI::PARAM_RULE_WORK_TELEPHONE_MAX_LENGTH),
+     *             @OA\Property(
+     *                 property="mobile",
+     *                 type="string",
+     *             maxLength=OrangeHRM\Pim\Api\EmployeeContactDetailsAPI::PARAM_RULE_MOBILE_MAX_LENGTH),
+     *             @OA\Property(
+     *                 property="workEmail",
+     *                 type="string",
+     *             maxLength=OrangeHRM\Pim\Api\EmployeeContactDetailsAPI::PARAM_RULE_WORK_EMAIL_MAX_LENGTH),
+     *             @OA\Property(
+     *                 property="otherEmail",
+     *                 type="string",
+     *             maxLength=OrangeHRM\Pim\Api\EmployeeContactDetailsAPI::PARAM_RULE_OTHER_EMAIL_MAX_LENGTH),
      *         )
      *     ),
      *     @OA\Response(response="200",

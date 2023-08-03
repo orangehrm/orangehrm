@@ -157,13 +157,13 @@ class CustomFieldAPI extends Endpoint implements CrudEndpoint
      *         name="toDate",
      *         in="query",
      *         required=true,
-     *         @OA\Schema(type="number")
+     *         @OA\Schema(type="string", format="date")
      *     ),
      *     @OA\Parameter(
      *         name="fromDate",
      *         in="query",
      *         required=true,
-     *         @OA\Schema(type="number")
+     *         @OA\Schema(type="string", format="date")
      *     ),
      *     @OA\Parameter(
      *         name="sortField",
@@ -232,17 +232,29 @@ class CustomFieldAPI extends Endpoint implements CrudEndpoint
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="fieldName", type="string"),
+     *             @OA\Property(
+     *                 property="fieldName",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Pim\Api\CustomFieldAPI::PARAM_RULE_NAME_MAX_LENGTH
+     *             ),
      *             @OA\Property(
      *                 property="fieldType",
      *                 type="integer",
-     *             enum={OrangeHRM\Entity\CustomField::FIELD_TYPES}),
+     *                 enum={OrangeHRM\Entity\CustomField::FIELD_TYPES},
+     *                 maxLength=OrangeHRM\Pim\Api\CustomFieldAPI::PARAM_RULE_TYPE_MAX_LENGTH
+     *             ),
      *             @OA\Property(
      *                 property="screen",
      *                 type="string",
-     *             enum={OrangeHRM\Entity\CustomField::SCREENS}),
-     *             @OA\Property(property="extraData", type="string")
-     *         )
+     *                 enum={OrangeHRM\Entity\CustomField::SCREENS},
+     *                 maxLength=OrangeHRM\Pim\Api\CustomFieldAPI::PARAM_RULE_SCREEN_MAX_LENGTH
+     *             ),
+     *             @OA\Property(
+     *                 property="extraData",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Pim\Api\CustomFieldAPI::PARAM_RULE_EXTRA_DATA_MAX_LENGTH
+     *             ),
+     *         ),
      *     ),
      *     @OA\Response(response="200",
      *         description="Success",
@@ -340,10 +352,28 @@ class CustomFieldAPI extends Endpoint implements CrudEndpoint
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="fieldName", type="string"),
-     *             @OA\Property(property="fieldType", type="integer"),
-     *             @OA\Property(property="screen", type="string"),
-     *             @OA\Property(property="extraData", type="string")
+     *             @OA\Property(
+     *                 property="fieldName",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Pim\Api\CustomFieldAPI::PARAM_RULE_NAME_MAX_LENGTH
+     *             ),
+     *             @OA\Property(
+     *                 property="fieldType",
+     *                 type="integer",
+     *                 enum={OrangeHRM\Entity\CustomField::FIELD_TYPES},
+     *                 maxLength=OrangeHRM\Pim\Api\CustomFieldAPI::PARAM_RULE_TYPE_MAX_LENGTH
+     *             ),
+     *             @OA\Property(
+     *                 property="screen",
+     *                 type="string",
+     *                 enum={OrangeHRM\Entity\CustomField::SCREENS},
+     *                 maxLength=OrangeHRM\Pim\Api\CustomFieldAPI::PARAM_RULE_SCREEN_MAX_LENGTH
+     *             ),
+     *             @OA\Property(
+     *                 property="extraData",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Pim\Api\CustomFieldAPI::PARAM_RULE_EXTRA_DATA_MAX_LENGTH
+     *             )
      *         )
      *     ),
      *     @OA\Response(response="200",
@@ -356,7 +386,19 @@ class CustomFieldAPI extends Endpoint implements CrudEndpoint
      *             @OA\Property(property="meta", type="object")
      *         )
      *     ),
-     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound"),
+     *     @OA\Response(
+     *         response="400",
+     *         description="Bad Request",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="error",
+     *                 type="object",
+     *                 @OA\Property(property="status", type="string", default="400"),
+     *                 @OA\Property(property="message", type="string", default="Bad Request")
+     *             )
+     *         )
+     *     )
      * )
      *
      * @inheritDoc

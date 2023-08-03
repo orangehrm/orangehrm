@@ -92,11 +92,12 @@ class EmployeeAttachmentAPI extends Endpoint implements CrudEndpoint
      *             @OA\Property(
      *                 property="meta",
      *                 type="object",
-     *             @OA\Property(property="empNumber", type="integer")),
-     *         @OA\Property(property="screen", type="string", example="personal"))
-     *     )
-     * ),
-     * @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
+     *                 @OA\Property(property="empNumber", type="integer"),
+     *                 @OA\Property(property="screen", type="string", example="personal")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
      * )
      *
      * @inheritDoc
@@ -227,7 +228,11 @@ class EmployeeAttachmentAPI extends Endpoint implements CrudEndpoint
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="description", type="string"),
+     *             @OA\Property(
+     *                 property="description",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Pim\Api\EmployeeAttachmentAPI::PARAM_RULE_DESCRIPTION_MAX_LENGTH
+     *             ),
      *             @OA\Property(property="attachment", ref="#/components/schemas/Base64Attachment"),
      *         )
      *     ),
@@ -241,7 +246,7 @@ class EmployeeAttachmentAPI extends Endpoint implements CrudEndpoint
      *             @OA\Property(property="meta",
      *                 type="object",
      *                 @OA\Property(property="empNumber", type="integer"),
-     *                 @OA\Property(property="screen", type="string", example="personal")
+     *                 @OA\Property(property="screen", type="string", enum={OrangeHRM\Entity\EmployeeAttachment::SCREENS})
      *             )
      *         )
      *     ),
@@ -382,7 +387,11 @@ class EmployeeAttachmentAPI extends Endpoint implements CrudEndpoint
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="description", type="string"),
+     *             @OA\Property(
+     *                 property="description",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Pim\Api\EmployeeAttachmentAPI::PARAM_RULE_DESCRIPTION_MAX_LENGTH
+     *             ),
      *             @OA\Property(property="attachment", ref="#/components/schemas/Base64Attachment"),
      *         )
      *     ),

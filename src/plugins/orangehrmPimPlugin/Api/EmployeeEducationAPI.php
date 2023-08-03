@@ -231,10 +231,26 @@ class EmployeeEducationAPI extends Endpoint implements CrudEndpoint
      *         @OA\JsonContent(
      *             type="object",
      *             @OA\Property(property="educationId", type="integer"),
-     *             @OA\Property(property="institute", type="string"),
-     *             @OA\Property(property="major", type="string"),
-     *             @OA\Property(property="year", type="integer"),
-     *             @OA\Property(property="score", type="string"),
+     *             @OA\Property(
+     *                 property="institute",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Pim\Api\EmployeeEducationAPI::PARAM_RULE_INSTITUTE_MAX_LENGTH
+     *             ),
+     *             @OA\Property(
+     *                 property="major",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Pim\Api\EmployeeEducationAPI::PARAM_RULE_MAJOR_MAX_LENGTH
+     *             ),
+     *             @OA\Property(
+     *                 property="year",
+     *                 type="integer",
+     *                 maxLength=OrangeHRM\Pim\Api\EmployeeEducationAPI::PARAM_RULE_YEAR_MAX_LENGTH
+     *             ),
+     *             @OA\Property(
+     *                 property="score",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Pim\Api\EmployeeEducationAPI::PARAM_RULE_SCORE_MAX_LENGTH
+     *             ),
      *             @OA\Property(property="startDate", type="string", format="date"),
      *             @OA\Property(property="endDate", type="string", format="date"),
      *             required={"educationId"}
@@ -352,10 +368,26 @@ class EmployeeEducationAPI extends Endpoint implements CrudEndpoint
      *         @OA\JsonContent(
      *             type="object",
      *             @OA\Property(property="educationId", type="integer"),
-     *             @OA\Property(property="institute", type="string"),
-     *             @OA\Property(property="major", type="string"),
-     *             @OA\Property(property="year", type="integer"),
-     *             @OA\Property(property="score", type="string"),
+     *             @OA\Property(
+     *                 property="institute",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Pim\Api\EmployeeEducationAPI::PARAM_RULE_INSTITUTE_MAX_LENGTH
+     *             ),
+     *             @OA\Property(
+     *                 property="major",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Pim\Api\EmployeeEducationAPI::PARAM_RULE_MAJOR_MAX_LENGTH
+     *             ),
+     *             @OA\Property(
+     *                 property="year",
+     *                 type="integer",
+     *                 maxLength=OrangeHRM\Pim\Api\EmployeeEducationAPI::PARAM_RULE_YEAR_MAX_LENGTH
+     *             ),
+     *             @OA\Property(
+     *                 property="score",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Pim\Api\EmployeeEducationAPI::PARAM_RULE_SCORE_MAX_LENGTH
+     *             ),
      *             @OA\Property(property="startDate", type="string", format="date"),
      *             @OA\Property(property="endDate", type="string", format="date"),
      *             required={"educationId"}

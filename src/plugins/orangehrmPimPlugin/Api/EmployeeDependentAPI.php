@@ -254,10 +254,18 @@ class EmployeeDependentAPI extends Endpoint implements CrudEndpoint
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="name", type="string"),
-     *             @OA\Property(property="relationshipType", type="string"),
+     *             @OA\Property(
+     *                 property="name",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Pim\Api\EmployeeDependentAPI::PARAM_RULE_NAME_MAX_LENGTH
+     *             ),
+     *             @OA\Property(
+     *                 property="relationshipType",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Pim\Api\EmployeeDependentAPI::PARAM_RULE_RELATIONSHIP_MAX_LENGTH
+     *             ),
      *             @OA\Property(property="relationship", type="string"),
-     *             @OA\Property(property="dateOfBirth", type="string"),
+     *             @OA\Property(property="dateOfBirth", type="string", format="date"),
      *             required={"name", "relationshipType"}
      *         )
      *     ),
@@ -390,10 +398,18 @@ class EmployeeDependentAPI extends Endpoint implements CrudEndpoint
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="name", type="string"),
-     *             @OA\Property(property="relationshipType", type="string"),
+     *             @OA\Property(
+     *                 property="name",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Pim\Api\EmployeeDependentAPI::PARAM_RULE_NAME_MAX_LENGTH
+     *             ),
+     *             @OA\Property(
+     *                 property="relationshipType",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Pim\Api\EmployeeDependentAPI::PARAM_RULE_RELATIONSHIP_MAX_LENGTH
+     *             ),
      *             @OA\Property(property="relationship", type="string"),
-     *             @OA\Property(property="dateOfBirth", type="string"),
+     *             @OA\Property(property="dateOfBirth", type="string", format="date"),
      *         )
      *     ),
      *     @OA\Response(response="200",

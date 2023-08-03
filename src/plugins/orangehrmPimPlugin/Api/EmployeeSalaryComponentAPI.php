@@ -225,6 +225,75 @@ class EmployeeSalaryComponentAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Post(
+     *     path="/api/v2/pim/employees/{empNumber}/salary-components",
+     *     tags={"Pim/Employee Salary"},
+     *     @OA\PathParameter(
+     *         name="empNumber",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="payGradeId", type="integer", nullable=true),
+     *             @OA\Property(
+     *                 property="salaryComponent",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Pim\Api\EmployeeSalaryComponentAPI::PARAM_RULE_SALARY_COMPONENT_MAX_LENGTH
+     *             ),
+     *             @OA\Property(property="payFrequencyId", type="integer", nullable=true),
+     *             @OA\Property(property="currencyId", type="string"),
+     *             @OA\Property(
+     *                 property="salaryAmount",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Pim\Api\EmployeeSalaryComponentAPI::PARAM_RULE_SALARY_AMOUNT_MAX_LENGTH
+     *             ),
+     *             @OA\Property(
+     *                 property="comment",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Pim\Api\EmployeeSalaryComponentAPI::PARAM_RULE_COMMENT_MAX_LENGTH,
+     *                 nullable=true
+     *             ),
+     *             @OA\Property(property="addDirectDeposit", type="boolean"),
+     *             @OA\Property(
+     *                 property="directDepositAccount",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Pim\Api\EmployeeSalaryComponentAPI::PARAM_RULE_DIRECT_DEPOSIT_ACCOUNT_MAX_LENGTH,
+     *                 nullable=true
+     *             ),
+     *             @OA\Property(
+     *                 property="directDepositAccountType",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Pim\Api\EmployeeSalaryComponentAPI::PARAM_RULE_DIRECT_DEPOSIT_ACCOUNT_TYPE_MAX_LENGTH,
+     *                 nullable=true
+     *             ),
+     *             @OA\Property(
+     *                 property="directDepositRoutingNumber",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Pim\Api\EmployeeSalaryComponentAPI::PARAM_RULE_DIRECT_DEPOSIT_ROUTING_NUMBER_MAX_LENGTH,
+     *                 nullable=true
+     *             ),
+     *             @OA\Property(
+     *                 property="directDepositAmount",
+     *                 type="number",
+     *                 minimum=OrangeHRM\Pim\Api\EmployeeSalaryComponentAPI::PARAM_RULE_DIRECT_DEPOSIT_AMOUNT_MIN,
+     *                 maximum=OrangeHRM\Pim\Api\EmployeeSalaryComponentAPI::PARAM_RULE_DIRECT_DEPOSIT_AMOUNT_MAX,
+     *                 nullable=true
+     *             ),
+     *             required={"salaryComponent", "currencyId", "salaryAmount"}
+     *         )
+     *     ),
+     *     @OA\Response(response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Pim-EmployeeSalaryModel"
+     *             ),
+     *             @OA\Property(property="empNumber", type="integer")
+     *         )
+     *     )
+     * )
      * @inheritDoc
      */
     public function create(): EndpointResourceResult
@@ -446,6 +515,41 @@ class EmployeeSalaryComponentAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Put(
+     *     path="/api/v2/pim/employees/{empNumber}/salary-components/{id}",
+     *     tags={"Pim/Employee Salary"},
+     *     @OA\PathParameter(
+     *         name="empNumber",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\PathParameter(
+     *         name="id",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="payGradeId", type="integer", nullable=true),
+     *             @OA\Property(property="salaryComponent", type="string", maxLength=OrangeHRM\Pim\Api\EmployeeSalaryComponentAPI::PARAM_RULE_SALARY_COMPONENT_MAX_LENGTH),
+     *             @OA\Property(property="payFrequencyId", type="integer", nullable=true),
+     *             @OA\Property(property="currencyId", type="string"),
+     *             @OA\Property(property="salaryAmount", type="string", maxLength=OrangeHRM\Pim\Api\EmployeeSalaryComponentAPI::PARAM_RULE_SALARY_AMOUNT_MAX_LENGTH),
+     *             @OA\Property(property="comment", type="string", maxLength=OrangeHRM\Pim\Api\EmployeeSalaryComponentAPI::PARAM_RULE_COMMENT_MAX_LENGTH, nullable=true),
+     *             @OA\Property(property="addDirectDeposit", type="boolean"),
+     *             required={"salaryComponent", "currencyId", "salaryAmount"}
+     *         )
+     *     ),
+     *     @OA\Response(response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Pim-EmployeeSalaryModel"
+     *             ),
+     *             @OA\Property(property="empNumber", type="integer")
+     *         )
+     *     )
+     * )
      * @inheritDoc
      */
     public function update(): EndpointResourceResult

@@ -74,20 +74,40 @@ class LDAPTestConnectionAPI extends Endpoint implements CollectionEndpoint
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="hostname", type="string"),
+     *             @OA\Property(
+     *                 property="hostname",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\LDAP\Api\LDAPConfigAPI::PARAMETER_RULE_HOST_NAME_MAX_LENGTH
+     *             ),
      *             @OA\Property(property="port", type="integer"),
      *             @OA\Property(property="encryption", type="string", enum={"none", "ssl", "tls"}),
      *             @OA\Property(property="ldapImplementation", type="string"),
      *             @OA\Property(property="bindAnonymously", type="boolean"),
-     *             @OA\Property(property="bindUserDN", type="string"),
-     *             @OA\Property(property="bindUserPassword", type="string"),
+     *             @OA\Property(
+     *                 property="bindUserDN",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\LDAP\Api\LDAPConfigAPI::PARAMETER_RULE_BIND_USER_DISTINGUISHED_NAME_MAX_LENGTH
+     *             ),
+     *             @OA\Property(
+     *                 property="bindUserPassword",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\LDAP\Api\LDAPConfigAPI::PARAMETER_RULE_BIND_USER_PASSWORD_MAX_LENGTH
+     *             ),
      *             @OA\Property(property="userLookupSettings", type="array",
      *                 @OA\Items(
      *                     type="object",
-     *                     @OA\Property(property="baseDN", type="string"),
+     *                     @OA\Property(
+     *                         property="baseDN",
+     *                         type="string",
+     *                         maxLength=OrangeHRM\LDAP\Api\LDAPConfigAPI::PARAMETER_RULE_BASE_DISTINGUISHED_NAME_MAX_LENGTH
+     *                     ),
      *                     @OA\Property(property="searchScope", type="string", enum={"base", "one", "sub"}),
      *                     @OA\Property(property="userNameAttribute", type="string"),
-     *                     @OA\Property(property="userSearchFilter", type="string"),
+     *                     @OA\Property(
+     *                         property="userSearchFilter",
+     *                         type="string",
+     *                         maxLength=OrangeHRM\LDAP\Api\LDAPConfigAPI::PARAMETER_RULE_USER_SEARCH_FILTER_MAX_LENGTH
+     *                     ),
      *                     @OA\Property(property="userUniqueIdAttribute", type="string"),
      *                     @OA\Property(property="employeeSelectorMapping", type="object")
      *                 )

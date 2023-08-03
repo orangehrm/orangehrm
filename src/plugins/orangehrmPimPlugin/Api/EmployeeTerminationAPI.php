@@ -152,8 +152,12 @@ class EmployeeTerminationAPI extends Endpoint implements CrudEndpoint
      *         @OA\JsonContent(
      *             type="object",
      *             @OA\Property(property="terminationReasonId", type="integer"),
-     *             @OA\Property(property="date", type="string"),
-     *             @OA\Property(property="note", type="string"),
+     *             @OA\Property(property="date", type="string", format="date"),
+     *             @OA\Property(
+     *                 property="note",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Pim\Api\EmployeeTerminationAPI::PARAM_RULE_NOTE_MAX_LENGTH
+     *             ),
      *             required={"terminationReasonId", "date"}
      *         )
      *     ),
@@ -270,7 +274,11 @@ class EmployeeTerminationAPI extends Endpoint implements CrudEndpoint
      *             type="object",
      *             @OA\Property(property="terminationReasonId", type="integer"),
      *             @OA\Property(property="date", type="string"),
-     *             @OA\Property(property="note", type="string"),
+     *             @OA\Property(
+     *                 property="note",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Pim\Api\EmployeeTerminationAPI::PARAM_RULE_NOTE_MAX_LENGTH
+     *             ),
      *             required={"terminationReasonId", "date"}
      *         )
      *     ),

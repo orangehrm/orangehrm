@@ -427,11 +427,30 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
      *         @OA\JsonContent(
      *             type="object",
      *             @OA\Property(property="empNumber", type="integer"),
-     *             @OA\Property(property="lastName", type="string"),
-     *             @OA\Property(property="firstName", type="string"),
-     *             @OA\Property(property="middleName", type="string"),
-     *             @OA\Property(property="employeeId", type="string"),
-     *             @OA\Property(property="empPicture", ref="#/components/schemas/Base64Attachment"),
+     *             @OA\Property(
+     *                 property="lastName",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Pim\Api\EmployeeAPI::PARAM_RULE_LAST_NAME_MAX_LENGTH
+     *             ),
+     *             @OA\Property(
+     *                 property="firstName",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Pim\Api\EmployeeAPI::PARAM_RULE_FIRST_NAME_MAX_LENGTH
+     *             ),
+     *             @OA\Property(
+     *                 property="middleName",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Pim\Api\EmployeeAPI::PARAM_RULE_MIDDLE_NAME_MAX_LENGTH
+     *             ),
+     *             @OA\Property(
+     *                 property="employeeId",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Pim\Api\EmployeeAPI::PARAM_RULE_EMPLOYEE_ID_MAX_LENGTH
+     *             ),
+     *             @OA\Property(
+     *                 property="empPicture",
+     *                 ref="#/components/schemas/Base64Attachment",
+     *             ),
      *             required={"firstName", "lastName"}
      *         )
      *     ),

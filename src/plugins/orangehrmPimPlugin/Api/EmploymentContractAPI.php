@@ -143,7 +143,15 @@ class EmploymentContractAPI extends Endpoint implements ResourceEndpoint
      *             type="object",
      *             @OA\Property(property="startDate", type="string", format="date"),
      *             @OA\Property(property="endDate", type="string", format="date"),
-     *             @OA\Property(property="currentContractAttachment", type="string", enum={"replaceCurrent", "deleteCurrent", "keepCurrent"}),
+     *             @OA\Property(
+     *                 property="currentContractAttachment",
+     *                 type="string",
+     *                 enum={
+     *                     OrangeHRM\Pim\Api\EmploymentContractAPI::CONTRACT_ATTACHMENT_REPLACE_CURRENT,
+     *                     OrangeHRM\Pim\Api\EmploymentContractAPI::CONTRACT_ATTACHMENT_KEEP_CURRENT,
+     *                     OrangeHRM\Pim\Api\EmploymentContractAPI::CONTRACT_ATTACHMENT_DELETE_CURRENT
+     *                 }
+     *             ),
      *             @OA\Property(property="contractAttachment", ref="#/components/schemas/Base64Attachment"),
      *         )
      *     ),

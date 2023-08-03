@@ -67,7 +67,11 @@ class UpdatePasswordAPI extends Endpoint implements ResourceEndpoint
      *         @OA\JsonContent(
      *             type="object",
      *             @OA\Property(property="currentPassword", type="string"),
-     *             @OA\Property(property="newPassword", type="string"),
+     *             @OA\Property(
+     *                 property="newPassword",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Pim\Api\UpdatePasswordAPI::PARAM_RULE_PASSWORD_MAX_LENGTH
+     *             ),
      *             required={"currentPassword", "newPassword"},
      *         )
      *     ),

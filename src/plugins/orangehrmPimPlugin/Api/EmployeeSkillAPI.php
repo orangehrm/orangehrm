@@ -213,8 +213,16 @@ class EmployeeSkillAPI extends Endpoint implements CrudEndpoint
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="yearsOfExperience", type="integer"),
-     *             @OA\Property(property="comments", type="string"),
+     *             @OA\Property(
+     *                 property="yearsOfExperience",
+     *                 type="integer",
+     *                 maxLength=OrangeHRM\Pim\Api\EmployeeSkillAPI::PARAM_RULE_YEARS_OF_EXP_MAX_LENGTH
+     *             ),
+     *             @OA\Property(
+     *                 property="comments",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Pim\Api\EmployeeSkillAPI::PARAM_RULE_COMMENTS_MAX_LENGTH
+     *             ),
      *             @OA\Property(property="skillId", type="integer"),
      *             required={"skillId"}
      *         )
@@ -301,8 +309,16 @@ class EmployeeSkillAPI extends Endpoint implements CrudEndpoint
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="yearsOfExperience", type="integer"),
-     *             @OA\Property(property="comments", type="string")
+     *             @OA\Property(
+     *                 property="yearsOfExperience",
+     *                 type="integer",
+     *                 maxLength=OrangeHRM\Pim\Api\EmployeeSkillAPI::PARAM_RULE_YEARS_OF_EXP_MAX_LENGTH
+     *             ),
+     *             @OA\Property(
+     *                 property="comments",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Pim\Api\EmployeeSkillAPI::PARAM_RULE_COMMENTS_MAX_LENGTH
+     *             ),
      *         )
      *     ),
      *     @OA\Response(response="200",
