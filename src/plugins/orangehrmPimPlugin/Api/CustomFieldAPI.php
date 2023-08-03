@@ -69,7 +69,7 @@ class CustomFieldAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Get(
      *     path="/api/v2/pim/custom-fields/{id}",
-     *     tags={"Pim/Custom Field"},
+     *     tags={"PIM/Custom Field"},
      *     @OA\PathParameter(
      *         name="id",
      *         @OA\Schema(type="integer")
@@ -152,7 +152,7 @@ class CustomFieldAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Get(
      *     path="/api/v2/pim/custom-fields",
-     *     tags={"Pim/Custom Field"},
+     *     tags={"PIM/Custom Field"},
      *     @OA\Parameter(
      *         name="toDate",
      *         in="query",
@@ -228,7 +228,7 @@ class CustomFieldAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Post(
      *     path="/api/v2/pim/custom-fields",
-     *     tags={"Pim/Custom Field"},
+     *     tags={"PIM/Custom Field"},
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
@@ -344,7 +344,7 @@ class CustomFieldAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Put(
      *     path="/api/v2/pim/custom-fields/{id}",
-     *     tags={"Pim/Custom Field"},
+     *     tags={"PIM/Custom Field"},
      *     @OA\PathParameter(
      *         name="id",
      *         @OA\Schema(type="integer")
@@ -438,7 +438,7 @@ class CustomFieldAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Delete(
      *     path="/api/v2/pim/custom-fields",
-     *     tags={"Pim/Custom Field"},
+     *     tags={"PIM/Custom Field"},
      *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),
      *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse")
      * )

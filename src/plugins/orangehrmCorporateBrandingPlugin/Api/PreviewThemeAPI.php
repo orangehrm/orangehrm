@@ -53,7 +53,7 @@ class PreviewThemeAPI extends Endpoint implements CollectionEndpoint
     /**
      * @OA\Post(
      *     path="/api/v2/admin/theme/preview",
-     *     tags={"Corporate Branding/Preview Theme"},
+     *     tags={"Admin/Preview Theme"},
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             @OA\Property(property="primaryColor", type="string", example="#FF7B1D"),

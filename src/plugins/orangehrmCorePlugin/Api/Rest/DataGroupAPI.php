@@ -32,6 +32,7 @@ class DataGroupAPI extends Endpoint implements CollectionEndpoint
     use UserRoleManagerTrait;
 
     /**
+     * @OA\Hidden
      * @OA\Get(
      *     path="/api/v2/core/data-groups",
      *     tags={"Core/Data Group"},

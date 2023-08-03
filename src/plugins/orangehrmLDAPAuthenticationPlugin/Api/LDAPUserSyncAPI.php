@@ -71,7 +71,7 @@ class LDAPUserSyncAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Post(
      *     path="/api/v2/admin/ldap/user-sync",
-     *     tags={"LDAP/LDAP user sync"},
+     *     tags={"Admin/LDAP user sync"},
      *     @OA\Response(response="200",
      *         description="Success",
      *         @OA\JsonContent(
@@ -164,7 +164,7 @@ class LDAPUserSyncAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Get(
      *     path="/api/v2/admin/ldap/user-sync",
-     *     tags={"LDAP/LDAP user sync"},
+     *     tags={"Admin/LDAP user sync"},
      *     @OA\Response(
      *         response="200",
      *         description="Success",
