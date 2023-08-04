@@ -88,7 +88,7 @@ class EmpEmergencyContactAPI extends Endpoint implements CrudEndpoint
      *         name="name",
      *         in="query",
      *         required=false,
-     *         @OA\Schema(type="string")
+     *         @OA\Schema(type="string", maxLength=OrangeHRM\Pim\Api\EmpEmergencyContactAPI::PARAM_RULE_MAX_LENGTH)
      *     ),
      *     @OA\Parameter(
      *         name="sortField",

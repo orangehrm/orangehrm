@@ -74,7 +74,10 @@ class EmployeeAllowedReportToEmployeeAPI extends Endpoint implements CollectionE
      *         name="nameOrId",
      *         in="query",
      *         required=false,
-     *         @OA\Schema(type="string")
+     *         @OA\Schema(
+     *             type="string",
+     *             maxLength=OrangeHRM\Pim\Api\EmployeeAllowedReportToEmployeeAPI::PARAM_RULE_FILTER_NAME_OR_ID_MAX_LENGTH
+     *         )
      *     ),
      *     @OA\Parameter(
      *         name="sortField",

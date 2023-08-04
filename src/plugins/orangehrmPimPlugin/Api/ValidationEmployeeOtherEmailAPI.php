@@ -54,7 +54,10 @@ class ValidationEmployeeOtherEmailAPI extends Endpoint implements ResourceEndpoi
      *         name="otherEmail",
      *         in="query",
      *         required=true,
-     *         @OA\Schema(type="string")
+     *         @OA\Schema(
+     *             type="string",
+     *             maxLength=OrangeHRM\Pim\Api\ValidationEmployeeOtherEmailAPI::PARAM_RULE_OTHER_EMAIL_MAX_LENGTH
+     *         )
      *     ),
      *     @OA\Response(
      *         response="200",
