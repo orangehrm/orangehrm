@@ -32,30 +32,6 @@ class DataGroupAPI extends Endpoint implements CollectionEndpoint
     use UserRoleManagerTrait;
 
     /**
-     * @OA\Hidden
-     * @OA\Get(
-     *     path="/api/v2/core/data-groups",
-     *     tags={"Core/Data Group"},
-     *     @OA\Response(
-     *         response="200",
-     *         description="Success",
-     *         @OA\JsonContent(
-     *             @OA\Property(
-     *                 property="data",
-     *                 additionalProperties={
-     *                     "type" : "object",
-     *                     "properties" : {
-     *                         "canRead" : {"type" : "boolean"},
-     *                         "canCreate" : {"type" : "boolean"},
-     *                         "canUpdate" : {"type" : "boolean"},
-     *                         "canDelete" : {"type" : "boolean"}
-     *                     }
-     *                 }
-     *             )
-     *         )
-     *     ),
-     * )
-     *
      * @inheritDoc
      */
     public function getAll(): EndpointResult
