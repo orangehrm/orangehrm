@@ -88,13 +88,20 @@ class EmployeeLeaveRequestAPI extends Endpoint implements CrudEndpoint
      * @OA\Get(
      *     path="/api/v2/leave/employees/leave-requests/{leaveRequestId}",
      *     tags={"Leave/Employee Leave Request"},
+     *     @OA\PathParameter(
+     *         name="leaveRequestId",
+     *         @OA\Schema(type="integer")
+     *     ),
      *     @OA\Parameter(
      *         name="model",
      *         in="query",
      *         required=false,
      *         @OA\Schema(
      *             type="string",
-     *             enum={OrangeHRM\Leave\Api\EmployeeLeaveRequestAPI::MODEL_DEFAULT, OrangeHRM\Leave\Api\EmployeeLeaveRequestAPI::MODEL_DETAILED},
+     *             enum={
+     *                 OrangeHRM\Leave\Api\EmployeeLeaveRequestAPI::MODEL_DEFAULT,
+     *                 OrangeHRM\Leave\Api\EmployeeLeaveRequestAPI::MODEL_DETAILED
+     *             },
      *             default=OrangeHRM\Leave\Api\EmployeeLeaveRequestAPI::MODEL_DEFAULT
      *         )
      *     ),
@@ -416,7 +423,10 @@ class EmployeeLeaveRequestAPI extends Endpoint implements CrudEndpoint
      *         required=false,
      *         @OA\Schema(
      *             type="string",
-     *             enum={OrangeHRM\Leave\Api\EmployeeLeaveRequestAPI::MODEL_DEFAULT, OrangeHRM\Leave\Api\EmployeeLeaveRequestAPI::MODEL_DETAILED},
+     *             enum={
+     *                 OrangeHRM\Leave\Api\EmployeeLeaveRequestAPI::MODEL_DEFAULT,
+     *                 OrangeHRM\Leave\Api\EmployeeLeaveRequestAPI::MODEL_DETAILED
+     *             },
      *             default=OrangeHRM\Leave\Api\EmployeeLeaveRequestAPI::MODEL_DEFAULT
      *         )
      *     ),
@@ -524,7 +534,10 @@ class EmployeeLeaveRequestAPI extends Endpoint implements CrudEndpoint
      *         required=false,
      *         @OA\Schema(
      *             type="string",
-     *             enum={OrangeHRM\Leave\Api\EmployeeLeaveRequestAPI::MODEL_DEFAULT, OrangeHRM\Leave\Api\EmployeeLeaveRequestAPI::MODEL_DETAILED},
+     *             enum={
+     *                 OrangeHRM\Leave\Api\EmployeeLeaveRequestAPI::MODEL_DEFAULT,
+     *                 OrangeHRM\Leave\Api\EmployeeLeaveRequestAPI::MODEL_DETAILED
+     *             },
      *             default=OrangeHRM\Leave\Api\EmployeeLeaveRequestAPI::MODEL_DEFAULT
      *         )
      *     ),
