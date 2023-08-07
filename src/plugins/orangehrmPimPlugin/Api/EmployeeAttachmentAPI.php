@@ -467,6 +467,14 @@ class EmployeeAttachmentAPI extends Endpoint implements CrudEndpoint
      * @OA\Delete(
      *     path="/api/v2/pim/employees/{empNumber}/screen/{screen}/attachments",
      *     tags={"Pim/Employee Attachment"},
+     *     @OA\PathParameter(
+     *         name="empNumber",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\PathParameter(
+     *         name="screen",
+     *         @OA\Schema(type="string", enum=OrangeHRM\Entity\EmployeeAttachment::SCREENS)
+     *     ),
      *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),
      *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse")
      * )

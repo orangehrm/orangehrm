@@ -173,10 +173,6 @@ class EmployeeImmigrationRecordAPI extends Endpoint implements CrudEndpoint
      *         name="empNumber",
      *         @OA\Schema(type="integer")
      *     ),
-     *     @OA\PathParameter(
-     *         name="id",
-     *         @OA\Schema(type="integer")
-     *     ),
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",

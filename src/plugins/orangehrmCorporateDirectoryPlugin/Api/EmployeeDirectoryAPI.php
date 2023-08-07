@@ -59,6 +59,10 @@ class EmployeeDirectoryAPI extends Endpoint implements CrudEndpoint
      * @OA\Get(
      *     path="/api/v2/directory/employees/{empNumber}",
      *     tags={"Directory"},
+     *     @OA\PathParameter(
+     *         name="empNumber",
+     *         @OA\Schema(type="integer")
+     *     ),
      *     @OA\Parameter(
      *         name="model",
      *         in="query",
