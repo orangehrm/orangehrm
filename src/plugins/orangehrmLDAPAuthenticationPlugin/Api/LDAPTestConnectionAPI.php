@@ -70,7 +70,7 @@ class LDAPTestConnectionAPI extends Endpoint implements CollectionEndpoint
     /**
      * @OA\Post(
      *     path="/api/v2/admin/ldap-test-connection",
-     *     tags={"Admin/LDAP Test Connection"},
+     *     tags={"Admin/LDAP Config"},
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
@@ -168,14 +168,14 @@ class LDAPTestConnectionAPI extends Endpoint implements CollectionEndpoint
      *                 property="data",
      *                 type="array",
      *                 @OA\Items(
-     *                     @OA\Property(property="category", type="string", enum={"Login"}),
+     *                     @OA\Property(property="category", type="string", example="Login"),
      *                     @OA\Property(property="checks", type="object",
      *                         @OA\Property(property="label", type="string"),
      *                         @OA\Property(property="value", type="string"),
      *                     )
      *                 ),
      *                 @OA\Items(
-     *                     @OA\Property(property="category", type="string", enum={"Lookup"}),
+     *                     @OA\Property(property="category", type="string", example="Lookup"),
      *                     @OA\Property(property="checks", type="object",
      *                         @OA\Property(property="label", type="string"),
      *                         @OA\Property(property="value", type="object",
