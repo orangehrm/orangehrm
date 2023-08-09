@@ -23,6 +23,28 @@ use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\EmpUsTaxExemption;
 
+/**
+ * @OA\Schema(
+ *     schema="Pim-EmpUsTaxExemptionModel",
+ *     type="object",
+ *     @OA\Property(property="federalStatus", type="string"),
+ *     @OA\Property(property="federalExemptions", type="integer"),
+ *     @OA\Property(property="taxState", type="object",
+ *         @OA\Property(property="code", type="string"),
+ *         @OA\Property(property="name", type="string"),
+ *     ),
+ *     @OA\Property(property="stateStatus", type="string"),
+ *     @OA\Property(property="stateExemptions", type="integer"),
+ *     @OA\Property(property="unemploymentState", type="object",
+ *         @OA\Property(property="code", type="string"),
+ *         @OA\Property(property="name", type="string"),
+ *     ),
+ *     @OA\Property(property="workState", type="object",
+ *         @OA\Property(property="code", type="string"),
+ *         @OA\Property(property="name", type="string"),
+ *     ),
+ * )
+ */
 class EmpUsTaxExemptionModel implements Normalizable
 {
     use ModelTrait;

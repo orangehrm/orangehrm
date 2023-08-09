@@ -23,6 +23,19 @@ use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\EmployeeLicense;
 
+/**
+ * @OA\Schema(
+ *     schema="Pim-EmployeeLicenseModel",
+ *     type="object",
+ *     @OA\Property(property="licenseNo", type="string"),
+ *     @OA\Property(property="issuedDate", type="string", format="date"),
+ *     @OA\Property(property="expiryDate", type="string", format="date"),
+ *     @OA\Property(property="license", type="object",
+ *         @OA\Property(property="id", type="integer"),
+ *         @OA\Property(property="name", type="string")
+ *     )
+ * )
+ */
 class EmployeeLicenseModel implements Normalizable
 {
     use ModelTrait;

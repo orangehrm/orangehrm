@@ -23,6 +23,34 @@ use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\Employee;
 
+/**
+ * @OA\Schema(
+ *     schema="CorporateDirectory-EmployeeDirectoryDetailedModel",
+ *     type="object",
+ *     @OA\Property(property="empNumber", type="integer"),
+ *     @OA\Property(property="lastName", type="string"),
+ *     @OA\Property(property="firstName", type="string"),
+ *     @OA\Property(property="middleName", type="string"),
+ *     @OA\Property(property="terminationId", type="integer"),
+ *     @OA\Property(property="jobTitle", type="object",
+ *         @OA\Property(property="id", type="integer"),
+ *         @OA\Property(property="title", type="string"),
+ *         @OA\Property(property="isDeleted", type="boolean")
+ *     ),
+ *     @OA\Property(property="subunit", type="object",
+ *         @OA\Property(property="id", type="integer"),
+ *         @OA\Property(property="name", type="string")
+ *     ),
+ *     @OA\Property(property="location", type="object",
+ *         @OA\Property(property="id", type="integer"),
+ *         @OA\Property(property="name", type="string")
+ *     ),
+ *     @OA\Property(property="contactInfo", type="object",
+ *         @OA\Property(property="workEmail", type="string"),
+ *         @OA\Property(property="workTelephone", type="string")
+ *     )
+ * )
+ */
 class EmployeeDirectoryDetailedModel implements Normalizable
 {
     use ModelTrait;

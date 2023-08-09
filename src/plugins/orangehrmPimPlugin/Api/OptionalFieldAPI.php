@@ -59,6 +59,28 @@ class OptionalFieldAPI extends Endpoint implements ResourceEndpoint
     }
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/pim/optional-field",
+     *     tags={"Pim/Optional Field"},
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="array",
+     *                 @OA\Items(
+     *                     @OA\Property(property="pimShowDeprecatedFields", type="boolean"),
+     *                     @OA\Property(property="showSSN", type="boolean"),
+     *                     @OA\Property(property="showSIN", type="boolean"),
+     *                     @OA\Property(property="showTaxExemptions", type="boolean")
+     *                 ),
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     * )
+     *
      * @inheritDoc
      */
     public function getOne(): EndpointResourceResult
@@ -80,6 +102,37 @@ class OptionalFieldAPI extends Endpoint implements ResourceEndpoint
     }
 
     /**
+     * @OA\Put(
+     *     path="/api/v2/pim/optional-field",
+     *     tags={"Pim/Optional Field"},
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="pimShowDeprecatedFields", type="boolean"),
+     *             @OA\Property(property="showSSN", type="boolean"),
+     *             @OA\Property(property="showSIN", type="boolean"),
+     *             @OA\Property(property="showTaxExemptions", type="boolean"),
+     *             required={"pimShowDeprecatedFields", "showSSN", "showSIN", "showTaxExemptions"}
+     *         )
+     *     ),
+     *     @OA\Response(response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="array",
+     *                 @OA\Items(
+     *                     @OA\Property(property="pimShowDeprecatedFields", type="boolean"),
+     *                     @OA\Property(property="showSSN", type="boolean"),
+     *                     @OA\Property(property="showSIN", type="boolean"),
+     *                     @OA\Property(property="showTaxExemptions", type="boolean")
+     *                 ),
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
+     * )
+     *
      * @inheritDoc
      * @throws Exception
      */

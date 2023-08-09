@@ -25,6 +25,19 @@ use OrangeHRM\Entity\Language;
 use OrangeHRM\Pim\Dto\EmployeeLanguagesSearchFilterParams;
 use OrangeHRM\Pim\Service\EmployeeLanguageService;
 
+/**
+ * @OA\Schema(
+ *     schema="Pim-EmployeeAllowedLanguageModel",
+ *     type="object",
+ *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(property="name", type="string"),
+ *     @OA\Property(
+ *         property="allowedFluencyIds",
+ *         type="array",
+ *         @OA\Items(type="integer")
+ *     )
+ * )
+ */
 class EmployeeAllowedLanguageModel implements CollectionNormalizable
 {
     public const EMP_NUMBER = 'empNumber';

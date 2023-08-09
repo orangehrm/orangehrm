@@ -23,6 +23,44 @@ use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\Employee;
 
+/**
+ * @OA\Schema(
+ *     schema="Pim-EmployeeJobDetailModel",
+ *     type="object",
+ *     @OA\Property(property="empNumber", type="integer"),
+ *     @OA\Property(property="joinedDate", type="string", format="date"),
+ *     @OA\Property(property="jobTitle", type="object",
+ *         @OA\Property(property="id", type="integer"),
+ *         @OA\Property(property="title", type="string"),
+ *         @OA\Property(property="isDeleted", type="boolean")
+ *     ),
+ *     @OA\Property(property="jobSpecificationAttachment", type="object",
+ *         @OA\Property(property="id", type="integer"),
+ *         @OA\Property(property="filename", type="string")
+ *     ),
+ *     @OA\Property(property="empStatus", type="object",
+ *         @OA\Property(property="id", type="integer"),
+ *         @OA\Property(property="name", type="string")
+ *     ),
+ *     @OA\Property(property="jobCategory", type="object",
+ *         @OA\Property(property="id", type="integer"),
+ *         @OA\Property(property="name", type="string")
+ *     ),
+ *     @OA\Property(property="subunit", type="object",
+ *         @OA\Property(property="id", type="integer"),
+ *         @OA\Property(property="name", type="string"),
+ *         @OA\Property(property="unitId", type="integer")
+ *     ),
+ *     @OA\Property(property="location", type="object",
+ *         @OA\Property(property="id", type="integer"),
+ *         @OA\Property(property="name", type="string")
+ *     ),
+ *     @OA\Property(property="employeeTerminationRecord", type="object",
+ *         @OA\Property(property="id", type="integer"),
+ *         @OA\Property(property="date", type="string", format="date")
+ *     )
+ * )
+ */
 class EmployeeJobDetailModel implements Normalizable
 {
     use ModelTrait;

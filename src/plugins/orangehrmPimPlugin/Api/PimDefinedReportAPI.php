@@ -71,6 +71,47 @@ class PimDefinedReportAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/pim/reports/defined",
+     *     tags={"Pim/Defined Report"},
+     *     @OA\Parameter(
+     *         name="name",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         name="reportId",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         name="sortField",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string", enum=PimDefinedReportSearchFilterParams::ALLOWED_SORT_FIELDS)
+     *     ),
+     *     @OA\Parameter(ref="#/components/parameters/sortOrder"),
+     *     @OA\Parameter(ref="#/components/parameters/limit"),
+     *     @OA\Parameter(ref="#/components/parameters/offset"),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Pim-PimDefinedReportModel"
+     *             ),
+     *             @OA\Property(property="meta",
+     *                 type="object",
+     *                 @OA\Property(property="total", type="integer"),
+     *                 @OA\Property(property="empNumber", type="integer")
+     *             )
+     *         )
+     *     ),
+     * )
+     *
      * @inheritDoc
      */
     public function getAll(): EndpointResult
@@ -120,6 +161,48 @@ class PimDefinedReportAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Post(
+     *     path="/api/v2/pim/reports/defined",
+     *     tags={"Pim/Defined Report"},
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             required={"name", "include", "criteria", "fieldGroup"},
+     *             @OA\Property(
+     *                 property="name",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Pim\Api\PimDefinedReportAPI::PARAM_RULE_NAME_MAX_LENGTH
+     *             ),
+     *             @OA\Property(property="include", type="string", enum={"onlyPast", "currentAndPast", "onlyCurrent"}),
+     *             @OA\Property(property="criteria", type="object",
+     *                 @OA\Property(type="object",
+     *                     @OA\Property(property="x", type="string"),
+     *                     @OA\Property(property="y", type="string"),
+     *                     @OA\Property(property="operator", type="string")
+     *                 ),
+     *             ),
+     *             @OA\Property(property="fieldGroup", type="object",
+     *                 @OA\Property(type="object",
+     *                     required={"fields", "includeHeader"},
+     *                     @OA\Property(property="fields", type="array", @OA\Items(type="integer")),
+     *                     @OA\Property(property="includeHeader", type="boolean")
+     *                 ),
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Pim-PimDefinedReportModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     )
+     * )
+     *
      * @inheritDoc
      * @throws TransactionException
      */
@@ -163,6 +246,13 @@ class PimDefinedReportAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Delete(
+     *     path="/api/v2/pim/reports/defined",
+     *     tags={"Pim/Defined Report"},
+     *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),
+     *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse")
+     * )
+     *
      * @inheritDoc
      */
     public function delete(): EndpointResult
@@ -214,6 +304,51 @@ class PimDefinedReportAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Put(
+     *     path="/api/v2/pim/reports/defined/{id}",
+     *     tags={"Pim/Defined Report"},
+     *     @OA\PathParameter(
+     *         name="id",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="name",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Pim\Api\PimDefinedReportAPI::PARAM_RULE_NAME_MAX_LENGTH
+     *             ),
+     *             @OA\Property(property="include", type="string", enum={"onlyPast", "currentAndPast", "onlyCurrent"}),
+     *             @OA\Property(property="criteria", type="object",
+     *                 @OA\Property(type="object",
+     *                     @OA\Property(property="x", type="string"),
+     *                     @OA\Property(property="y", type="string"),
+     *                     @OA\Property(property="operator", type="string")
+     *                 ),
+     *             ),
+     *             @OA\Property(property="fieldGroup", type="object",
+     *                 @OA\Property(type="object",
+     *                     required={"fields", "includeHeader"},
+     *                     @OA\Property(property="fields", type="array", @OA\Items(type="integer")),
+     *                     @OA\Property(property="includeHeader", type="boolean")
+     *                 ),
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Pim-PimDefinedReportModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
+     * )
+     *
      * @inheritDoc
      * @throws TransactionException
      */

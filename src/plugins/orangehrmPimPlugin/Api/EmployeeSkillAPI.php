@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\Pim\Api;
 
-use Exception;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
@@ -33,7 +32,6 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\EmployeeSkill;
 use OrangeHRM\Pim\Api\Model\EmployeeSkillModel;
 use OrangeHRM\Pim\Dto\EmployeeSkillSearchFilterParams;
@@ -65,9 +63,36 @@ class EmployeeSkillAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/pim/employees/{empNumber}/skills/{id}",
+     *     tags={"Pim/Employee Skill"},
+     *     @OA\PathParameter(
+     *         name="empNumber",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\PathParameter(
+     *         name="id",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Pim-EmployeeSkillModel"
+     *             ),
+     *             @OA\Property(property="meta",
+     *                 type="object",
+     *                 @OA\Property(property="empNumber", type="integer")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
+     * )
+     *
      * @return EndpointResourceResult
      * @throws RecordNotFoundException
-     * @throws Exception
      */
     public function getOne(): EndpointResourceResult
     {
@@ -101,8 +126,40 @@ class EmployeeSkillAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/pim/employees/{empNumber}/skills",
+     *     tags={"Pim/Employee Skill"},
+     *     @OA\PathParameter(
+     *         name="empNumber",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         name="sortField",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string", enum=EmployeeSkillSearchFilterParams::ALLOWED_SORT_FIELDS)
+     *     ),
+     *     @OA\Parameter(ref="#/components/parameters/sortOrder"),
+     *     @OA\Parameter(ref="#/components/parameters/limit"),
+     *     @OA\Parameter(ref="#/components/parameters/offset"),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Pim-EmployeeSkillModel"
+     *             ),
+     *             @OA\Property(property="meta",
+     *                 type="object",
+     *                 @OA\Property(property="total", type="integer"),
+     *                 @OA\Property(property="empNumber", type="integer")
+     *             )
+     *         )
+     *     ),
+     * )
+     *
      * @return EndpointCollectionResult
-     * @throws Exception
      */
     public function getAll(): EndpointCollectionResult
     {
@@ -146,8 +203,44 @@ class EmployeeSkillAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Post(
+     *     path="/api/v2/pim/employees/{empNumber}/skills",
+     *     tags={"Pim/Employee Skill"},
+     *     @OA\PathParameter(
+     *         name="empNumber",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="yearsOfExperience",
+     *                 type="integer",
+     *                 maxLength=OrangeHRM\Pim\Api\EmployeeSkillAPI::PARAM_RULE_YEARS_OF_EXP_MAX_LENGTH
+     *             ),
+     *             @OA\Property(
+     *                 property="comments",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Pim\Api\EmployeeSkillAPI::PARAM_RULE_COMMENTS_MAX_LENGTH
+     *             ),
+     *             @OA\Property(property="skillId", type="integer"),
+     *             required={"skillId"}
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Pim-EmployeeSkillModel"
+     *             ),
+     *             @OA\Property(property="empNumber", type="integer")
+     *         )
+     *     )
+     * )
+     *
      * @inheritDoc
-     * @throws Exception
      */
     public function create(): EndpointResourceResult
     {
@@ -202,8 +295,46 @@ class EmployeeSkillAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Put(
+     *     path="/api/v2/pim/employees/{empNumber}/skills/{id}",
+     *     tags={"Pim/Employee Skill"},
+     *     @OA\PathParameter(
+     *         name="empNumber",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\PathParameter(
+     *         name="id",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="yearsOfExperience",
+     *                 type="integer",
+     *                 maxLength=OrangeHRM\Pim\Api\EmployeeSkillAPI::PARAM_RULE_YEARS_OF_EXP_MAX_LENGTH
+     *             ),
+     *             @OA\Property(
+     *                 property="comments",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Pim\Api\EmployeeSkillAPI::PARAM_RULE_COMMENTS_MAX_LENGTH
+     *             ),
+     *         )
+     *     ),
+     *     @OA\Response(response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Pim-EmployeeSkillModel"
+     *             ),
+     *             @OA\Property(property="empNumber", type="integer")
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
+     * )
+     *
      * @inheritDoc
-     * @throws Exception
      */
     public function update(): EndpointResourceResult
     {
@@ -233,9 +364,18 @@ class EmployeeSkillAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Delete(
+     *     path="/api/v2/pim/employees/{empNumber}/skills",
+     *     tags={"Pim/Employee Skill"},
+     *     @OA\PathParameter(
+     *         name="empNumber",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),
+     *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse")
+     * )
+     *
      * @inheritDoc
-     * @throws DaoException
-     * @throws Exception
      */
     public function delete(): EndpointResourceResult
     {
@@ -269,7 +409,6 @@ class EmployeeSkillAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @return EmployeeSkill
-     * @throws DaoException
      */
     public function saveEmployeeSkill(): EmployeeSkill
     {

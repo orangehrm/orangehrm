@@ -23,6 +23,18 @@ use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\EmpPicture;
 
+/**
+ * @OA\Schema(
+ *     schema="Pim-EmployeePictureModel",
+ *     type="object",
+ *     @OA\Property(property="empNumber", type="integer"),
+ *     @OA\Property(property="filename", type="string"),
+ *     @OA\Property(property="fileType", type="string"),
+ *     @OA\Property(property="size", type="integer"),
+ *     @OA\Property(property="width", type="integer"),
+ *     @OA\Property(property="height", type="integer")
+ * )
+ */
 class EmployeePictureModel implements Normalizable
 {
     use ModelTrait;

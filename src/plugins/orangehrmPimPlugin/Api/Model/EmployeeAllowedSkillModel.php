@@ -23,6 +23,14 @@ use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\Skill;
 
+/**
+ * @OA\Schema(
+ *     schema="Pim-EmployeeAllowedSkillModel",
+ *     type="object",
+ *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(property="name", type="string")
+ * )
+ */
 class EmployeeAllowedSkillModel implements Normalizable
 {
     use ModelTrait;

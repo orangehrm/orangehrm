@@ -23,6 +23,18 @@ use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\EmpEmergencyContact;
 
+/**
+ * @OA\Schema(
+ *     schema="Pim-EmpEmergencyContactModel",
+ *     type="object",
+ *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(property="name", type="string"),
+ *     @OA\Property(property="relationship", type="string"),
+ *     @OA\Property(property="homePhone", type="string"),
+ *     @OA\Property(property="officePhone", type="string"),
+ *     @OA\Property(property="mobilePhone", type="string")
+ * )
+ */
 class EmpEmergencyContactModel implements Normalizable
 {
     use ModelTrait;

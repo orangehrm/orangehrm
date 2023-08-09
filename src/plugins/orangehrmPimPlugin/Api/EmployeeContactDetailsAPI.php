@@ -66,6 +66,26 @@ class EmployeeContactDetailsAPI extends Endpoint implements CrudEndpoint
     public const PARAM_RULE_OTHER_EMAIL_MAX_LENGTH = 50;
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/pim/employee/{empNumber}/contact-details",
+     *     tags={"Pim/Employee Contact Details"},
+     *     @OA\PathParameter(
+     *         name="empNumber",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Pim-EmployeeContactDetailsModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
+     * )
+     *
      * @return EndpointResourceResult
      * @throws Exception
      */
@@ -128,6 +148,86 @@ class EmployeeContactDetailsAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Put(
+     *     path="/api/v2/pim/employee/{empNumber}/contact-details",
+     *     tags={"Pim/Employee Contact Details"},
+     *     @OA\PathParameter(
+     *         name="empNumber",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="street1",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Pim\Api\EmployeeContactDetailsAPI::PARAM_RULE_STREET_1_MAX_LENGTH
+     *             ),
+     *             @OA\Property(
+     *                 property="street2",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Pim\Api\EmployeeContactDetailsAPI::PARAM_RULE_STREET_2_MAX_LENGTH
+     *             ),
+     *             @OA\Property(
+     *                 property="city",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Pim\Api\EmployeeContactDetailsAPI::PARAM_RULE_CITY_MAX_LENGTH
+     *             ),
+     *             @OA\Property(
+     *                 property="province",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Pim\Api\EmployeeContactDetailsAPI::PARAM_RULE_PROVINCE_MAX_LENGTH
+     *             ),
+     *             @OA\Property(
+     *                 property="zipCode",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Pim\Api\EmployeeContactDetailsAPI::PARAM_RULE_ZIP_CODE_MAX_LENGTH
+     *             ),
+     *             @OA\Property(
+     *                 property="countryCode",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Pim\Api\EmployeeContactDetailsAPI::PARAM_RULE_COUNTRY_MAX_LENGTH
+     *             ),
+     *             @OA\Property(
+     *                 property="homeTelephone",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Pim\Api\EmployeeContactDetailsAPI::PARAM_RULE_HOME_TELEPHONE_MAX_LENGTH
+     *             ),
+     *             @OA\Property(
+     *                 property="workTelephone",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Pim\Api\EmployeeContactDetailsAPI::PARAM_RULE_WORK_TELEPHONE_MAX_LENGTH
+     *             ),
+     *             @OA\Property(
+     *                 property="mobile",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Pim\Api\EmployeeContactDetailsAPI::PARAM_RULE_MOBILE_MAX_LENGTH
+     *             ),
+     *             @OA\Property(
+     *                 property="workEmail",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Pim\Api\EmployeeContactDetailsAPI::PARAM_RULE_WORK_EMAIL_MAX_LENGTH
+     *             ),
+     *             @OA\Property(
+     *                 property="otherEmail",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Pim\Api\EmployeeContactDetailsAPI::PARAM_RULE_OTHER_EMAIL_MAX_LENGTH
+     *             ),
+     *         )
+     *     ),
+     *     @OA\Response(response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Pim-EmployeeContactDetailsModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
+     * )
+     *
      * @inheritDoc
      * @throws Exception
      */

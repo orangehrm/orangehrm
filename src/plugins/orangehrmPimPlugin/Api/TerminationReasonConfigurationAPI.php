@@ -59,6 +59,30 @@ class TerminationReasonConfigurationAPI extends EndPoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/pim/termination-reasons",
+     *     tags={"Pim/Termination Reason Configuration"},
+     *     @OA\Parameter(
+     *         name="sortField",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string", enum=TerminationReasonConfigurationSearchFilterParams::ALLOWED_SORT_FIELDS)
+     *     ),
+     *     @OA\Parameter(ref="#/components/parameters/sortOrder"),
+     *     @OA\Parameter(ref="#/components/parameters/limit"),
+     *     @OA\Parameter(ref="#/components/parameters/offset"),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Pim-TerminationReasonConfigurationModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     * )
      * @inheritDoc
      * @throws Exception
      */
@@ -86,6 +110,33 @@ class TerminationReasonConfigurationAPI extends EndPoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Post(
+     *     path="/api/v2/pim/termination-reasons",
+     *     tags={"Pim/Termination Reason Configuration"},
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="name",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Pim\Api\TerminationReasonConfigurationAPI::PARAM_RULE_NAME_MAX_LENGTH
+     *             ),
+     *             required={"name"}
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Pim-TerminationReasonConfigurationModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     )
+     * )
+     *
      * @inheritDoc
      * @throws Exception
      */
@@ -129,6 +180,13 @@ class TerminationReasonConfigurationAPI extends EndPoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Delete(
+     *     path="/api/v2/pim/termination-reasons",
+     *     tags={"Pim/Termination Reason Configuration"},
+     *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),
+     *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse")
+     * )
+     *
      * @inheritDoc
      * @throws Exception
      */
@@ -141,7 +199,6 @@ class TerminationReasonConfigurationAPI extends EndPoint implements CrudEndpoint
 
     /**
      * @inheritDoc
-     * @throws DaoException
      */
     public function getValidationRuleForDelete(): ParamRuleCollection
     {
@@ -163,6 +220,27 @@ class TerminationReasonConfigurationAPI extends EndPoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/pim/termination-reasons/{id}",
+     *     tags={"Pim/Termination Reason Configuration"},
+     *     @OA\PathParameter(
+     *         name="id",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Pim-TerminationReasonConfigurationModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
+     * )
+     *
      * @inheritDoc
      */
     public function getOne(): EndpointResourceResult
@@ -187,6 +265,36 @@ class TerminationReasonConfigurationAPI extends EndPoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Put(
+     *     path="/api/v2/pim/termination-reasons/{id}",
+     *     tags={"Pim/Termination Reason Configuration"},
+     *     @OA\PathParameter(
+     *         name="id",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="name",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Pim\Api\TerminationReasonConfigurationAPI::PARAM_RULE_NAME_MAX_LENGTH
+     *             ),
+     *             required={"name"}
+     *         )
+     *     ),
+     *     @OA\Response(response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Pim-ReportingMethodConfigurationModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     )
+     * )
+     *
      * @inheritDoc
      * @throws Exception
      */

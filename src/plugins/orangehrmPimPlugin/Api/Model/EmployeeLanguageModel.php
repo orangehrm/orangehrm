@@ -23,6 +23,25 @@ use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\EmployeeLanguage;
 
+/**
+ * @OA\Schema(
+ *     schema="Pim-EmployeeLanguageModel",
+ *     type="object",
+ *     @OA\Property(property="language", type="object",
+ *         @OA\Property(property="id", type="integer"),
+ *         @OA\Property(property="name", type="string")
+ *     ),
+ *     @OA\Property(property="fluency", type="object",
+ *         @OA\Property(property="id", type="integer"),
+ *         @OA\Property(property="name", type="string")
+ *     ),
+ *     @OA\Property(property="competency", type="object",
+ *         @OA\Property(property="id", type="integer"),
+ *         @OA\Property(property="name", type="string")
+ *     ),
+ *     @OA\Property(property="comment", type="string")
+ * )
+ */
 class EmployeeLanguageModel implements Normalizable
 {
     use ModelTrait;

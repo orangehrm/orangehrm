@@ -23,6 +23,14 @@ use OrangeHRM\Admin\Dto\WorkShiftStartAndEndTime;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 
+/**
+ * @OA\Schema(
+ *     schema="Pim-EmployeeWorkShiftModel",
+ *     type="object",
+ *     @OA\Property(property="startTime", type="string", format="time"),
+ *     @OA\Property(property="endTime", type="string", format="time"),
+ * )
+ */
 class EmployeeWorkShiftModel implements Normalizable
 {
     use DateTimeHelperTrait;

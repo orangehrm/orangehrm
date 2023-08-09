@@ -23,6 +23,14 @@ use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\TerminationReason;
 
+/**
+ * @OA\Schema(
+ *     schema="Pim-TerminationReasonConfigurationModel",
+ *     type="object",
+ *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(property="name", type="string")
+ * )
+ */
 class TerminationReasonConfigurationModel implements Normalizable
 {
     use ModelTrait;

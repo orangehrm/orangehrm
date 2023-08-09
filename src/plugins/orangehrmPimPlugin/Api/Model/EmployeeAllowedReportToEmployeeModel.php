@@ -23,6 +23,18 @@ use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\Employee;
 
+/**
+ * @OA\Schema(
+ *     schema="Pim-EmployeeAllowedReportToEmployeeModel",
+ *     type="object",
+ *     @OA\Property(property="empNumber", type="integer"),
+ *     @OA\Property(property="lastName", type="string"),
+ *     @OA\Property(property="firstName", type="string"),
+ *     @OA\Property(property="middleName", type="string"),
+ *     @OA\Property(property="employeeId", type="integer"),
+ *     @OA\Property(property="terminationId", type="integer")
+ * )
+ */
 class EmployeeAllowedReportToEmployeeModel implements Normalizable
 {
     use ModelTrait;

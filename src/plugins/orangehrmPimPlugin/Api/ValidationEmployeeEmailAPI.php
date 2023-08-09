@@ -43,6 +43,35 @@ class ValidationEmployeeEmailAPI extends Endpoint implements ResourceEndpoint
     public const PARAM_RULE_WORK_EMAIL_MAX_LENGTH = 50;
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/pim/employees/{empNumber}/contact-details/validation/work-emails",
+     *     tags={"Pim/Employee Email Validation"},
+     *     @OA\PathParameter(
+     *         name="empNumber",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         name="workEmail",
+     *         in="query",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string",
+     *             maxLength=OrangeHRM\Pim\Api\ValidationEmployeeEmailAPI::PARAM_RULE_WORK_EMAIL_MAX_LENGTH
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 @OA\Property(property="valid", type="boolean")
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     * )
+     *
      * @inheritDoc
      */
     public function getOne(): EndpointResult

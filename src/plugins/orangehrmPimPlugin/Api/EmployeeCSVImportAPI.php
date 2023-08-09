@@ -85,6 +85,31 @@ class EmployeeCSVImportAPI extends Endpoint implements CollectionEndpoint
     }
 
     /**
+     * @OA\Post(
+     *     path="/api/v2/pim/csv-import",
+     *     tags={"Pim/Employee CSV Import"},
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="attachment", ref="#/components/schemas/Base64Attachment"),
+     *             required={"attachment"}
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="meta",
+     *                 type="object",
+     *                 @OA\Property(property="failed", type="integer"),
+     *                 @OA\Property(property="failedRows", type="array", @OA\Items(type="integer")),
+     *                 @OA\Property(property="success", type="integer"),
+     *                 @OA\Property(property="total", type="integer"),
+     *             )
+     *         )
+     *     )
+     * )
+     *
      * @inheritDoc
      * @throws Exception
      */

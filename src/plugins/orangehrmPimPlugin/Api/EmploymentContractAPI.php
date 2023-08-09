@@ -71,6 +71,29 @@ class EmploymentContractAPI extends Endpoint implements ResourceEndpoint
     }
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/pim/employees/{empNumber}/employment-contract",
+     *     tags={"Pim/Employement Contract"},
+     *     @OA\PathParameter(
+     *         name="empNumber",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Pim-EmploymentContractModel"
+     *             ),
+     *             @OA\Property(property="meta",
+     *                 type="object",
+     *                 @OA\Property(property="empNumber", type="integer")
+     *             )
+     *         )
+     *     ),
+     * )
+     *
      * @inheritDoc
      */
     public function getOne(): EndpointResourceResult
@@ -108,6 +131,42 @@ class EmploymentContractAPI extends Endpoint implements ResourceEndpoint
     }
 
     /**
+     * @OA\Put(
+     *     path="/api/v2/pim/employees/{empNumber}/employment-contract",
+     *     tags={"Pim/Employement Contract"},
+     *     @OA\PathParameter(
+     *         name="empNumber",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="startDate", type="string", format="date"),
+     *             @OA\Property(property="endDate", type="string", format="date"),
+     *             @OA\Property(
+     *                 property="currentContractAttachment",
+     *                 type="string",
+     *                 enum={
+     *                     OrangeHRM\Pim\Api\EmploymentContractAPI::CONTRACT_ATTACHMENT_REPLACE_CURRENT,
+     *                     OrangeHRM\Pim\Api\EmploymentContractAPI::CONTRACT_ATTACHMENT_KEEP_CURRENT,
+     *                     OrangeHRM\Pim\Api\EmploymentContractAPI::CONTRACT_ATTACHMENT_DELETE_CURRENT
+     *                 }
+     *             ),
+     *             @OA\Property(property="contractAttachment", ref="#/components/schemas/Base64Attachment"),
+     *         )
+     *     ),
+     *     @OA\Response(response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Pim-EmploymentContractModel"
+     *             ),
+     *             @OA\Property(property="empNumber", type="integer")
+     *         )
+     *     ),
+     * )
+     *
      * @inheritDoc
      */
     public function update(): EndpointResourceResult

@@ -67,6 +67,27 @@ class CustomFieldAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/pim/custom-fields/{id}",
+     *     tags={"PIM/Custom Field"},
+     *     @OA\PathParameter(
+     *         name="id",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Pim-CustomFieldModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
+     * )
+     *
      * @inheritDoc
      */
     public function getOne(): EndpointResourceResult
@@ -129,8 +150,48 @@ class CustomFieldAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     * @return EndpointCollectionResult
-     * @throws Exception
+     * @OA\Get(
+     *     path="/api/v2/pim/custom-fields",
+     *     tags={"PIM/Custom Field"},
+     *     @OA\Parameter(
+     *         name="toDate",
+     *         in="query",
+     *         required=true,
+     *         @OA\Schema(type="string", format="date")
+     *     ),
+     *     @OA\Parameter(
+     *         name="fromDate",
+     *         in="query",
+     *         required=true,
+     *         @OA\Schema(type="string", format="date")
+     *     ),
+     *     @OA\Parameter(
+     *         name="sortField",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string", enum=CustomFieldSearchFilterParams::ALLOWED_SORT_FIELDS)
+     *     ),
+     *     @OA\Parameter(ref="#/components/parameters/sortOrder"),
+     *     @OA\Parameter(ref="#/components/parameters/limit"),
+     *     @OA\Parameter(ref="#/components/parameters/offset"),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Pim-CustomFieldModel"
+     *             ),
+     *             @OA\Property(property="meta",
+     *                 type="object",
+     *                 @OA\Property(property="total", type="integer")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
+     * )
+     *
+     * @inheritDoc
      */
     public function getAll(): EndpointCollectionResult
     {
@@ -165,6 +226,60 @@ class CustomFieldAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Post(
+     *     path="/api/v2/pim/custom-fields",
+     *     tags={"PIM/Custom Field"},
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="fieldName",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Pim\Api\CustomFieldAPI::PARAM_RULE_NAME_MAX_LENGTH
+     *             ),
+     *             @OA\Property(
+     *                 property="fieldType",
+     *                 type="integer",
+     *                 enum=OrangeHRM\Entity\CustomField::FIELD_TYPES,
+     *                 maxLength=OrangeHRM\Pim\Api\CustomFieldAPI::PARAM_RULE_TYPE_MAX_LENGTH
+     *             ),
+     *             @OA\Property(
+     *                 property="screen",
+     *                 type="string",
+     *                 enum=OrangeHRM\Entity\CustomField::SCREENS,
+     *                 maxLength=OrangeHRM\Pim\Api\CustomFieldAPI::PARAM_RULE_SCREEN_MAX_LENGTH
+     *             ),
+     *             @OA\Property(
+     *                 property="extraData",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Pim\Api\CustomFieldAPI::PARAM_RULE_EXTRA_DATA_MAX_LENGTH
+     *             ),
+     *         ),
+     *     ),
+     *     @OA\Response(response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Pim-CustomFieldModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="400",
+     *         description="Bad Request",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="error",
+     *                 type="object",
+     *                 @OA\Property(property="status", type="string", default="400"),
+     *                 @OA\Property(property="message", type="string")
+     *             )
+     *         )
+     *     )
+     * )
+     *
      * @inheritDoc
      * @throws Exception
      */
@@ -239,6 +354,65 @@ class CustomFieldAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Put(
+     *     path="/api/v2/pim/custom-fields/{id}",
+     *     tags={"PIM/Custom Field"},
+     *     @OA\PathParameter(
+     *         name="id",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="fieldName",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Pim\Api\CustomFieldAPI::PARAM_RULE_NAME_MAX_LENGTH
+     *             ),
+     *             @OA\Property(
+     *                 property="fieldType",
+     *                 type="integer",
+     *                 enum=OrangeHRM\Entity\CustomField::FIELD_TYPES,
+     *                 maxLength=OrangeHRM\Pim\Api\CustomFieldAPI::PARAM_RULE_TYPE_MAX_LENGTH
+     *             ),
+     *             @OA\Property(
+     *                 property="screen",
+     *                 type="string",
+     *                 enum=OrangeHRM\Entity\CustomField::SCREENS,
+     *                 maxLength=OrangeHRM\Pim\Api\CustomFieldAPI::PARAM_RULE_SCREEN_MAX_LENGTH
+     *             ),
+     *             @OA\Property(
+     *                 property="extraData",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Pim\Api\CustomFieldAPI::PARAM_RULE_EXTRA_DATA_MAX_LENGTH
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Leave-HolidayModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound"),
+     *     @OA\Response(
+     *         response="400",
+     *         description="Bad Request",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="error",
+     *                 type="object",
+     *                 @OA\Property(property="status", type="string", default="400"),
+     *                 @OA\Property(property="message", type="string", default="Bad Request")
+     *             )
+     *         )
+     *     )
+     * )
+     *
      * @inheritDoc
      * @throws Exception
      */
@@ -274,8 +448,14 @@ class CustomFieldAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Delete(
+     *     path="/api/v2/pim/custom-fields",
+     *     tags={"PIM/Custom Field"},
+     *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),
+     *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse")
+     * )
+     *
      * @inheritDoc
-     * @throws DaoException
      * @throws Exception
      */
     public function delete(): EndpointResourceResult

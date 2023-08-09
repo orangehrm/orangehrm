@@ -24,6 +24,17 @@ use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 
+/**
+ * @OA\Schema(
+ *     schema="Core-AboutOrganizationModel",
+ *     type="object",
+ *     @OA\Property(property="companyName", type="string"),
+ *     @OA\Property(property="productName", type="string"),
+ *     @OA\Property(property="version", type="string"),
+ *     @OA\Property(property="numberOfActiveEmployee", type="integer"),
+ *     @OA\Property(property="numberOfPastEmployee", type="integer"),
+ * )
+ */
 class AboutOrganizationModel implements Normalizable
 {
     use UserRoleManagerTrait;

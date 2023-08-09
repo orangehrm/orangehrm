@@ -60,6 +60,36 @@ class UpdatePasswordAPI extends Endpoint implements ResourceEndpoint
     }
 
     /**
+     * @OA\Put(
+     *     path="/api/v2/pim/update-password",
+     *     tags={"Pim/Update Password"},
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="currentPassword",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Pim\Api\UpdatePasswordAPI::PARAM_RULE_PASSWORD_MAX_LENGTH
+     *             ),
+     *             @OA\Property(
+     *                 property="newPassword",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Pim\Api\UpdatePasswordAPI::PARAM_RULE_PASSWORD_MAX_LENGTH
+     *             ),
+     *             required={"currentPassword", "newPassword"},
+     *         )
+     *     ),
+     *     @OA\Response(response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Admin-UserModel"
+     *             ),
+     *         )
+     *     ),
+     * )
+     *
      * @inheritDoc
      */
     public function update(): EndpointResult

@@ -59,6 +59,29 @@ class PurgeCandidateAPI extends Endpoint implements CollectionEndpoint
     }
 
     /**
+     * @OA\Delete(
+     *     path="/api/v2/maintenance/candidates/purge",
+     *     tags={"Maintenance/Purge Candidate"},
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="vacancyId", type="integer"),
+     *             required={"vacancyId"}
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Maintenance-PurgeCandidateModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     * )
+     *
      * @inheritDoc
      * @throws TransactionException
      */
@@ -87,6 +110,40 @@ class PurgeCandidateAPI extends Endpoint implements CollectionEndpoint
     }
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/maintenance/candidates",
+     *     tags={"Maintenance/Purge Candidate"},
+     *     @OA\Parameter(
+     *         name="vacancyId",
+     *         in="query",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         name="sortField",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string", enum=CandidateSearchFilterParams::ALLOWED_SORT_FIELDS)
+     *     ),
+     *     @OA\Parameter(ref="#/components/parameters/sortOrder"),
+     *     @OA\Parameter(ref="#/components/parameters/limit"),
+     *     @OA\Parameter(ref="#/components/parameters/offset"),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Maintenance-PurgeCandidateListModel"
+     *             ),
+     *             @OA\Property(property="meta",
+     *                 type="object",
+     *                 @OA\Property(property="total", type="integer")
+     *             )
+     *         )
+     *     )
+     * )
+     *
      * @inheritDoc
      */
     public function getAll(): EndpointResult

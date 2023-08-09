@@ -69,6 +69,74 @@ class LDAPUserSyncAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Post(
+     *     path="/api/v2/admin/ldap/user-sync",
+     *     tags={"Admin/LDAP Config"},
+     *     @OA\Response(response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/LDAP-LDAPSyncStatusModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="400",
+     *         description="Bad Request",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="error",
+     *                 oneOf={
+     *                     @OA\Property(
+     *                         property="error",
+     *                         type="object",
+     *                         @OA\Property(property="status", type="string", default="400"),
+     *                         @OA\Property(property="message", type="string", default="LDAP settings not configured")
+     *                     ),
+     *                     @OA\Property(
+     *                         property="error",
+     *                         type="object",
+     *                         @OA\Property(property="status", type="string", default="400"),
+     *                         @OA\Property(property="message", type="string", default="LDAP sync not enabled")
+     *                     ),
+     *                     @OA\Property(
+     *                         property="error",
+     *                         type="object",
+     *                         @OA\Property(property="status", type="string", default="400"),
+     *                         @OA\Property(property="message", type="string", default="Please check the settings for your LDAP configuration")
+     *                     )
+     *                 },
+     *                 @OA\Examples(
+     *                     example="bad request 1",
+     *                     summary="LDAP settings not configured",
+     *                     value={
+     *                         "status" : 400,
+     *                         "message" : "LDAP settings not configured"
+     *                     }
+     *                 ),
+     *                 @OA\Examples(
+     *                     example="bad request 2",
+     *                     summary="LDAP sync not enabled",
+     *                     value={
+     *                         "status" : 400,
+     *                         "message" : "LDAP sync not enabled"
+     *                     }
+     *                 ),
+     *                 @OA\Examples(
+     *                     example="bad request 3",
+     *                     summary="LDAP configuration error",
+     *                     value={
+     *                         "status" : 400,
+     *                         "message" : "Please check the settings for your LDAP configuration"
+     *                     }
+     *                 ),
+     *             ),
+     *         )
+     *     )
+     * )
+     * )
      * @inheritDoc
      */
     public function create(): EndpointResult
@@ -119,6 +187,21 @@ class LDAPUserSyncAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/admin/ldap/user-sync",
+     *     tags={"Admin/LDAP Config"},
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/LDAP-LDAPSyncStatusModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     )
+     * )
      * @inheritDoc
      */
     public function getOne(): EndpointResult

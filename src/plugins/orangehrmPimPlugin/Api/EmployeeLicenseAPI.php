@@ -64,9 +64,36 @@ class EmployeeLicenseAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/pim/employees/{empNumber}/licenses/{id}",
+     *     tags={"Pim/Employee Licenses"},
+     *     @OA\PathParameter(
+     *         name="empNumber",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\PathParameter(
+     *         name="id",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Pim-EmployeeLicenseModel"
+     *             ),
+     *             @OA\Property(property="meta",
+     *                 type="object",
+     *                 @OA\Property(property="empNumber", type="integer")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
+     * )
+     *
      * @inheritDoc
      * @return EndpointResourceResult
-     * @throws DaoException
      */
     public function getOne(): EndpointResourceResult
     {
@@ -103,6 +130,39 @@ class EmployeeLicenseAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/pim/employees/{empNumber}/licenses",
+     *     tags={"Pim/Employee Licenses"},
+     *     @OA\PathParameter(
+     *         name="empNumber",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         name="sortField",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string", enum=EmployeeLicenseSearchFilterParams::ALLOWED_SORT_FIELDS)
+     *     ),
+     *     @OA\Parameter(ref="#/components/parameters/sortOrder"),
+     *     @OA\Parameter(ref="#/components/parameters/limit"),
+     *     @OA\Parameter(ref="#/components/parameters/offset"),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Pim-EmployeeLicenseModel"
+     *             ),
+     *             @OA\Property(property="meta",
+     *                 type="object",
+     *                 @OA\Property(property="total", type="integer"),
+     *                 @OA\Property(property="empNumber", type="integer")
+     *             )
+     *         )
+     *     ),
+     * )
+     *
      * @return EndpointCollectionResult
      * @throws Exception
      */
@@ -147,6 +207,40 @@ class EmployeeLicenseAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Post(
+     *     path="/api/v2/pim/employees/{empNumber}/licenses",
+     *     tags={"Pim/Employee Licenses"},
+     *     @OA\PathParameter(
+     *         name="empNumber",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="licenseId", type="integer"),
+     *             @OA\Property(
+     *                 property="licenseNo",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Pim\Api\EmployeeLicenseAPI::PARAM_RULE_LICENSE_NO_MAX_LENGTH
+     *             ),
+     *             @OA\Property(property="issuedDate", type="string", format="date"),
+     *             @OA\Property(property="expiryDate", type="string", format="date"),
+     *             required={"licenseNo"}
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Pim-EmployeeLicenseModel"
+     *             ),
+     *             @OA\Property(property="empNumber", type="integer")
+     *         )
+     *     )
+     * )
+     *
      * @inheritDoc
      * @throws Exception
      */
@@ -203,6 +297,44 @@ class EmployeeLicenseAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Put(
+     *     path="/api/v2/pim/employees/{empNumber}/licenses/{id}",
+     *     tags={"Pim/Employee Licenses"},
+     *     @OA\PathParameter(
+     *         name="empNumber",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\PathParameter(
+     *         name="id",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="licenseId", type="integer"),
+     *             @OA\Property(
+     *                 property="licenseNo",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Pim\Api\EmployeeLicenseAPI::PARAM_RULE_LICENSE_NO_MAX_LENGTH
+     *             ),
+     *             @OA\Property(property="issuedDate", type="string", format="date"),
+     *             @OA\Property(property="expiryDate", type="string", format="date"),
+     *             required={"licenseNo"}
+     *         )
+     *     ),
+     *     @OA\Response(response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Pim-EmployeeLicenseModel"
+     *             ),
+     *             @OA\Property(property="empNumber", type="integer")
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
+     * )
+     *
      * @inheritDoc
      * @throws Exception
      */
@@ -234,8 +366,18 @@ class EmployeeLicenseAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Delete(
+     *     path="/api/v2/pim/employees/{empNumber}/licenses",
+     *     tags={"Pim/Employee Licenses"},
+     *     @OA\PathParameter(
+     *         name="empNumber",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),
+     *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse")
+     * )
+     *
      * @inheritDoc
-     * @throws DaoException
      * @throws Exception
      */
     public function delete(): EndpointResourceResult

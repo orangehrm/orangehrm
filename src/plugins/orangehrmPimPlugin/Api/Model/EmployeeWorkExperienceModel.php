@@ -23,6 +23,22 @@ use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\EmpWorkExperience;
 
+/**
+ * @OA\Schema(
+ *     schema="Pim-EmployeeWorkExperienceModel",
+ *     type="object",
+ *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(property="company", type="string"),
+ *     @OA\Property(property="jobTitle", type="string"),
+ *     @OA\Property(property="comment", type="string"),
+ *     @OA\Property(property="fromDate", type="string", format="date"),
+ *     @OA\Property(property="toDate", type="string", format="date"),
+ *     @OA\Property(property="education", type="object",
+ *         @OA\Property(property="id", type="integer"),
+ *         @OA\Property(property="name", type="string"),
+ *     ),
+ * )
+ */
 class EmployeeWorkExperienceModel implements Normalizable
 {
     use ModelTrait;
