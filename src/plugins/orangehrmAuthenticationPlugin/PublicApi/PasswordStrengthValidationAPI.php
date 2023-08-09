@@ -66,6 +66,8 @@ class PasswordStrengthValidationAPI extends Endpoint implements CollectionEndpoi
      * @OA\Post(
      *     path="/api/v2/auth/validation/password",
      *     tags={"Authentication/Password Strength"},
+     *     summary="Validate Password Strength",
+     *     operationId="validate-password-strength",
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
