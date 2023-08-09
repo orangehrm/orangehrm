@@ -73,6 +73,8 @@ class LanguageAPI extends Endpoint implements CrudEndpoint
      * @OA\Get(
      *     path="/api/v2/admin/languages/{id}",
      *     tags={"Admin/Languages"},
+     *     summary="Get One Language",
+     *     operationId="get-one-language",
      *     @OA\PathParameter(
      *         name="id",
      *         @OA\Schema(type="integer")
@@ -119,6 +121,8 @@ class LanguageAPI extends Endpoint implements CrudEndpoint
      * @OA\Get(
      *     path="/api/v2/admin/languages",
      *     tags={"Admin/Languages"},
+     *     summary="Get All Languages",
+     *     operationId="get-all-languages",
      *     @OA\Parameter(
      *         name="sortField",
      *         in="query",
@@ -175,6 +179,8 @@ class LanguageAPI extends Endpoint implements CrudEndpoint
      * @OA\Post(
      *     path="/api/v2/admin/languages",
      *     tags={"Admin/Languages"},
+     *     summary="Create Language",
+     *     operationId="create-language",
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
@@ -256,6 +262,8 @@ class LanguageAPI extends Endpoint implements CrudEndpoint
      * @OA\Put(
      *     path="/api/v2/admin/languages/{id}",
      *     tags={"Admin/Languages"},
+     *     summary="Update Language",
+     *     operationId="update-language",
      *     @OA\PathParameter(
      *         name="id",
      *         @OA\Schema(type="integer")
@@ -311,6 +319,8 @@ class LanguageAPI extends Endpoint implements CrudEndpoint
      * @OA\Delete(
      *     path="/api/v2/admin/languages",
      *     tags={"Admin/Languages"},
+     *     summary="Delete Languages",
+     *     operationId="delete-language",
      *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),
      *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse")
      * )

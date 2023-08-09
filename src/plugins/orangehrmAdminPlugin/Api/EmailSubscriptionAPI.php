@@ -60,6 +60,8 @@ class EmailSubscriptionAPI extends Endpoint implements CrudEndpoint
      * @OA\Get(
      *     path="/api/v2/admin/email-subscriptions",
      *     tags={"Admin/Email Configuration"},
+     *     summary="Get All Email Subscriptions",
+     *     operationId="get-all-email-subscriptions",
      *     @OA\Parameter(
      *         name="sortField",
      *         in="query",
@@ -167,6 +169,8 @@ class EmailSubscriptionAPI extends Endpoint implements CrudEndpoint
      * @OA\Put(
      *     path="/api/v2/admin/email-subscriptions/{id}",
      *     tags={"Admin/Email Configuration"},
+     *     summary="Update Email Subscription",
+     *     operationId="update-email-susbcription",
      *     @OA\PathParameter(
      *         name="id",
      *         @OA\Schema(type="integer")

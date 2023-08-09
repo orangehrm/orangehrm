@@ -53,6 +53,8 @@ class EducationAPI extends Endpoint implements CrudEndpoint
      * @OA\Get(
      *     path="/api/v2/admin/educations/{id}",
      *     tags={"Admin/Education"},
+     *     summary="Get One Education",
+     *     operationId="get-one-education",
      *     @OA\PathParameter(
      *         name="id",
      *         @OA\Schema(type="integer")
@@ -118,6 +120,8 @@ class EducationAPI extends Endpoint implements CrudEndpoint
      * @OA\Get(
      *     path="/api/v2/admin/educations",
      *     tags={"Admin/Education"},
+     *     summary="Get All Educations",
+     *     operationId="get-all-educations",
      *     @OA\Parameter(
      *         name="sortField",
      *         in="query",
@@ -176,6 +180,8 @@ class EducationAPI extends Endpoint implements CrudEndpoint
      * @OA\Post(
      *     path="/api/v2/admin/educations",
      *     tags={"Admin/Education"},
+     *     summary="Create Education",
+     *     operationId="create-education",
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
@@ -241,6 +247,8 @@ class EducationAPI extends Endpoint implements CrudEndpoint
      * @OA\Put(
      *     path="/api/v2/admin/educations/{id}",
      *     tags={"Admin/Education"},
+     *     summary="Update Education",
+     *     operationId="update-education",
      *     @OA\PathParameter(
      *         name="id",
      *         @OA\Schema(type="integer")
@@ -311,6 +319,8 @@ class EducationAPI extends Endpoint implements CrudEndpoint
      * @OA\Delete(
      *     path="/api/v2/admin/educations",
      *     tags={"Admin/Education"},
+     *     summary="Delete Educations",
+     *     operationId="delete-education",
      *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),
      *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse")
      * )

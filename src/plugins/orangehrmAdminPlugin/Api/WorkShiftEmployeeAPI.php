@@ -48,6 +48,8 @@ class WorkShiftEmployeeAPI extends EndPoint implements CollectionEndpoint
      * @OA\Get(
      *     path="/api/v2/admin/work-shifts/employees",
      *     tags={"Admin/Work Shift"},
+     *     summary="Get All Work Shift Employees",
+     *     operationId="get-all-work-shift-employees",
      *     @OA\Parameter(
      *         name="nameOrId",
      *         in="query",

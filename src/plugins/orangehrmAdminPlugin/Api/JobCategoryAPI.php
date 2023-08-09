@@ -73,6 +73,8 @@ class JobCategoryAPI extends Endpoint implements CrudEndpoint
      * @OA\Get(
      *     path="/api/v2/admin/job-categories/{id}",
      *     tags={"Admin/Job Category"},
+     *     summary="Get One Job Category",
+     *     operationId="get-one-job-category",
      *     @OA\PathParameter(
      *         name="id",
      *         @OA\Schema(type="integer")
@@ -121,6 +123,8 @@ class JobCategoryAPI extends Endpoint implements CrudEndpoint
      * @OA\Get(
      *     path="/api/v2/admin/job-categories",
      *     tags={"Admin/Job Category"},
+     *     summary="Get All Job Categorys",
+     *     operationId="get-all-job-categorys",
      *     @OA\Parameter(
      *         name="sortField",
      *         in="query",
@@ -195,6 +199,8 @@ class JobCategoryAPI extends Endpoint implements CrudEndpoint
      * @OA\Post(
      *     path="/api/v2/admin/job-categories",
      *     tags={"Admin/Job Category"},
+     *     summary="Create Job Category",
+     *     operationId="create-job-category",
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
@@ -237,6 +243,8 @@ class JobCategoryAPI extends Endpoint implements CrudEndpoint
      * @OA\Put(
      *     path="/api/v2/admin/job-categories/{id}",
      *     tags={"Admin/Job Category"},
+     *     summary="Update Job Category",
+     *     operationId="update-job-category",
      *     @OA\PathParameter(
      *         name="id",
      *         @OA\Schema(type="integer")
@@ -306,6 +314,8 @@ class JobCategoryAPI extends Endpoint implements CrudEndpoint
      * @OA\Delete(
      *     path="/api/v2/admin/job-categories",
      *     tags={"Admin/Job Category"},
+     *     summary="Delete Job Categories",
+     *     operationId="delete-job-category",
      *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),
      *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse")
      * )

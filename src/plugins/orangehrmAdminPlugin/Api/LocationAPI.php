@@ -117,6 +117,8 @@ class LocationAPI extends Endpoint implements CrudEndpoint
      * @OA\Get(
      *     path="/api/v2/admin/locations/{id}",
      *     tags={"Admin/Locations"},
+     *     summary="Get One Location",
+     *     operationId="get-one-location",
      *     @OA\PathParameter(
      *         name="id",
      *         @OA\Schema(type="integer")
@@ -149,6 +151,8 @@ class LocationAPI extends Endpoint implements CrudEndpoint
      * @OA\Get(
      *     path="/api/v2/admin/locations",
      *     tags={"Admin/Locations"},
+     *     summary="Get All Locations",
+     *     operationId="get-all-locations",
      *     @OA\Parameter(
      *         name="name",
      *         in="query",
@@ -252,6 +256,8 @@ class LocationAPI extends Endpoint implements CrudEndpoint
      * @OA\Post(
      *     path="/api/v2/admin/locations",
      *     tags={"Admin/Locations"},
+     *     summary="Create Location",
+     *     operationId="create-location",
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
@@ -379,6 +385,8 @@ class LocationAPI extends Endpoint implements CrudEndpoint
      * @OA\Delete(
      *     path="/api/v2/admin/locations",
      *     tags={"Admin/Locations"},
+     *     summary="Delete Locations",
+     *     operationId="delete-location",
      *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),
      *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse")
      * )
@@ -406,6 +414,8 @@ class LocationAPI extends Endpoint implements CrudEndpoint
      * @OA\Put(
      *     path="/api/v2/admin/locations/{id}",
      *     tags={"Admin/Locations"},
+     *     summary="Update Location",
+     *     operationId="update-location",
      *     @OA\PathParameter(
      *         name="id",
      *         @OA\Schema(type="integer")

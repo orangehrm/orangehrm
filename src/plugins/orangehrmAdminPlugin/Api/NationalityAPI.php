@@ -64,6 +64,8 @@ class NationalityAPI extends EndPoint implements CrudEndpoint
      * @OA\Get(
      *     path="/api/v2/admin/nationalities/{id}",
      *     tags={"Admin/Nationality"},
+     *     summary="Get One Nationality",
+     *     operationId="get-one-nationality",
      *     @OA\PathParameter(
      *         name="id",
      *         @OA\Schema(type="integer")
@@ -109,6 +111,8 @@ class NationalityAPI extends EndPoint implements CrudEndpoint
      * @OA\Get(
      *     path="/api/v2/admin/nationalities",
      *     tags={"Admin/Nationality"},
+     *     summary="Get All Nationalities",
+     *     operationId="get-all-nationalities",
      *     @OA\Parameter(
      *         name="sortField",
      *         in="query",
@@ -165,6 +169,8 @@ class NationalityAPI extends EndPoint implements CrudEndpoint
      * @OA\Post(
      *     path="/api/v2/admin/nationalities",
      *     tags={"Admin/Nationality"},
+     *     summary="Create Nationality",
+     *     operationId="create-natonality",
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
@@ -231,6 +237,8 @@ class NationalityAPI extends EndPoint implements CrudEndpoint
      * @OA\Put(
      *     path="/api/v2/admin/nationalities/{id}",
      *     tags={"Admin/Nationality"},
+     *     summary="Update Nationality",
+     *     operationId="update-nationality",
      *     @OA\PathParameter(
      *         name="id",
      *         @OA\Schema(type="integer")
@@ -301,6 +309,8 @@ class NationalityAPI extends EndPoint implements CrudEndpoint
      * @OA\Delete(
      *     path="/api/v2/admin/nationalities",
      *     tags={"Admin/Nationality"},
+     *     summary="Delete Nationalities",
+     *     operationId="delete-nationality",
      *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),
      *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse")
      * )

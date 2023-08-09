@@ -53,6 +53,8 @@ class SubunitAPI extends Endpoint implements CrudEndpoint
      * @OA\Get(
      *     path="/api/v2/admin/subunits/{id}",
      *     tags={"Admin/Subunits"},
+     *     summary="Get One Subunit",
+     *     operationId="get-one-subunit",
      *     @OA\PathParameter(
      *         name="id",
      *         @OA\Schema(type="integer")
@@ -99,6 +101,8 @@ class SubunitAPI extends Endpoint implements CrudEndpoint
      * @OA\Get(
      *     path="/api/v2/admin/subunits",
      *     tags={"Admin/Subunits"},
+     *     summary="Get All Subunits",
+     *     operationId="get-all-subunits",
      *     @OA\Parameter(
      *         name="depth",
      *         in="query",
@@ -179,6 +183,8 @@ class SubunitAPI extends Endpoint implements CrudEndpoint
      * @OA\Post(
      *     path="/api/v2/admin/subunits",
      *     tags={"Admin/Subunits"},
+     *     summary="Create Subunit",
+     *     operationId="create-subunit",
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
@@ -266,6 +272,8 @@ class SubunitAPI extends Endpoint implements CrudEndpoint
      * @OA\Put(
      *     path="/api/v2/admin/subunits/{id}",
      *     tags={"Admin/Subunits"},
+     *     summary="Update Subunit",
+     *     operationId="update-subunit",
      *     @OA\PathParameter(
      *         name="id",
      *         @OA\Schema(type="integer")
@@ -323,6 +331,8 @@ class SubunitAPI extends Endpoint implements CrudEndpoint
      * @OA\Delete(
      *     path="/api/v2/admin/subunits",
      *     tags={"Admin/Subunits"},
+     *     summary="Delete Subunits",
+     *     operationId="delete-subunit",
      *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),
      *     @OA\Response(
      *         response="200",

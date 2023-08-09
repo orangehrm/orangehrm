@@ -73,6 +73,8 @@ class LicenseAPI extends Endpoint implements CrudEndpoint
      * @OA\Get(
      *     path="/api/v2/admin/licenses/{id}",
      *     tags={"Admin/License"},
+     *     summary="Get One License",
+     *     operationId="get-one-license",
      *     @OA\PathParameter(
      *         name="id",
      *         @OA\Schema(type="integer")
@@ -119,6 +121,8 @@ class LicenseAPI extends Endpoint implements CrudEndpoint
      * @OA\Get(
      *     path="/api/v2/admin/licenses",
      *     tags={"Admin/License"},
+     *     summary="Get All Licenses",
+     *     operationId="get-all-licenses",
      *     @OA\Parameter(
      *         name="sortField",
      *         in="query",
@@ -175,6 +179,8 @@ class LicenseAPI extends Endpoint implements CrudEndpoint
      * @OA\Post(
      *     path="/api/v2/admin/licenses",
      *     tags={"Admin/License"},
+     *     summary="Create License",
+     *     operationId="create-license",
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
@@ -240,6 +246,8 @@ class LicenseAPI extends Endpoint implements CrudEndpoint
      * @OA\Put(
      *     path="/api/v2/admin/licenses/{id}",
      *     tags={"Admin/License"},
+     *     summary="Update License",
+     *     operationId="update-license",
      *     @OA\PathParameter(
      *         name="id",
      *         @OA\Schema(type="integer")
@@ -310,6 +318,8 @@ class LicenseAPI extends Endpoint implements CrudEndpoint
      * @OA\Delete(
      *     path="/api/v2/admin/licenses",
      *     tags={"Admin/License"},
+     *     summary="Delete Licenses",
+     *     operationId="delete-license",
      *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),
      *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse")
      * )

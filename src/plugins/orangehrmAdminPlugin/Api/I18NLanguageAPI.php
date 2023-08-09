@@ -48,6 +48,8 @@ class I18NLanguageAPI extends Endpoint implements CrudEndpoint
      * @OA\Get(
      *     path="/api/v2/admin/i18n/languages",
      *     tags={"Admin/I18N"},
+     *     summary="Get I18N Languages",
+     *     operationId="get-i18n-languages",
      *     @OA\Parameter(
      *         name="activeOnly",
      *         in="query",
@@ -172,6 +174,8 @@ class I18NLanguageAPI extends Endpoint implements CrudEndpoint
      * @OA\Put(
      *     path="/api/v2/admin/i18n/languages/{id}",
      *     tags={"Admin/I18N"},
+     *     summary="Update I18N Language",
+     *     operationId="update-i18n-language",
      *     @OA\PathParameter(
      *         name="id",
      *         @OA\Schema(type="integer")

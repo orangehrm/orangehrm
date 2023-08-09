@@ -71,6 +71,8 @@ class LDAPTestConnectionAPI extends Endpoint implements CollectionEndpoint
      * @OA\Post(
      *     path="/api/v2/admin/ldap-test-connection",
      *     tags={"Admin/LDAP Config"},
+     *     summary="Test LDAP Connection",
+     *     operationId="test-ldap-connection",
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",

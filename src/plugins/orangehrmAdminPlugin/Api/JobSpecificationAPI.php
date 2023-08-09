@@ -56,6 +56,8 @@ class JobSpecificationAPI extends Endpoint implements ResourceEndpoint
      * @OA\Get(
      *     path="/api/v2/admin/job-titles/{id}/specification",
      *     tags={"Admin/Job Specification"},
+     *     summary="Get Job Specification",
+     *     operationId="get-job-specification",
      *     @OA\PathParameter(
      *         name="id",
      *         @OA\Schema(type="integer")

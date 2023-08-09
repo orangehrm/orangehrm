@@ -68,6 +68,8 @@ class EmailSubscriberAPI extends Endpoint implements CrudEndpoint
      * @OA\Get(
      *     path="/api/v2/admin/email-subscriptions/{emailSubscriptionId}/subscribers",
      *     tags={"Admin/Email Configuration"},
+     *     summary="Get All Email Subscribers",
+     *     operationId="get-all-email-subscribers",
      *     @OA\PathParameter(
      *         name="emailSubscriptionId",
      *         @OA\Schema(type="integer")
@@ -145,6 +147,8 @@ class EmailSubscriberAPI extends Endpoint implements CrudEndpoint
      * @OA\Post(
      *     path="/api/v2/admin/email-subscriptions/{emailSubscriptionId}/subscribers",
      *     tags={"Admin/Email Configuration"},
+     *     summary="Create Email Subscriber",
+     *     operationId="create-email-subscriber",
      *     @OA\PathParameter(
      *         name="emailSubscriptionId",
      *         @OA\Schema(type="integer")
@@ -219,6 +223,8 @@ class EmailSubscriberAPI extends Endpoint implements CrudEndpoint
      * @OA\Delete(
      *     path="/api/v2/admin/email-subscriptions/{emailSubscriptionId}/subscribers",
      *     tags={"Admin/Email Configuration"},
+     *     summary="Delete Email Subscribers",
+     *     operationId="delete-email-subscriber",
      *     @OA\PathParameter(
      *         name="emailSubscriptionId",
      *         @OA\Schema(type="integer")
@@ -263,6 +269,8 @@ class EmailSubscriberAPI extends Endpoint implements CrudEndpoint
      * @OA\Get(
      *     path="/api/v2/admin/email-subscriptions/{emailSubscriptionId}/subscribers/{id}",
      *     tags={"Admin/Email Configuration"},
+     *     summary="Get One Email Subscriber",
+     *     operationId="get-one-email-subscriber",
      *     @OA\PathParameter(
      *         name="emailSubscriptionId",
      *         @OA\Schema(type="integer")
@@ -325,6 +333,8 @@ class EmailSubscriberAPI extends Endpoint implements CrudEndpoint
      * @OA\Put(
      *     path="/api/v2/admin/email-subscriptions/{emailSubscriptionId}/subscribers/{id}",
      *     tags={"Admin/Email Configuration"},
+     *     summary="Update Email Susbcriber",
+     *     operationId="update-email-subscriber",
      *     @OA\PathParameter(
      *         name="emailSubscriptionId",
      *         @OA\Schema(type="integer")

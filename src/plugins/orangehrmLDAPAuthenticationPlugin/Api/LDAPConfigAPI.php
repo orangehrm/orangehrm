@@ -89,6 +89,8 @@ class LDAPConfigAPI extends Endpoint implements ResourceEndpoint
      * @OA\Put(
      *     path="/api/v2/admin/ldap-config",
      *     tags={"Admin/LDAP Config"},
+     *     summary="Update LDAP Config",
+     *     operationId="update-ldap-config",
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
@@ -364,6 +366,8 @@ class LDAPConfigAPI extends Endpoint implements ResourceEndpoint
      * @OA\Get(
      *     path="/api/v2/admin/ldap-config",
      *     tags={"Admin/LDAP Config"},
+     *     summary="Get LDAP Config",
+     *     operationId="get-one-ldap-config",
      *     @OA\Response(
      *         response="200",
      *         description="Success",
