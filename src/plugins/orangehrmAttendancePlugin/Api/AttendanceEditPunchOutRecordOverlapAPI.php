@@ -59,6 +59,8 @@ class AttendanceEditPunchOutRecordOverlapAPI extends Endpoint implements Resourc
      * @OA\Get(
      *     path="/api/v2/attendance/records/punch-out-overlaps",
      *     tags={"Attendance/Attendance Overlap Edit"},
+     *     summary="Get Attendance Punch Out Edit Overlap",
+     *     operationId="get-attendance-punch-out-edit-overlap",
      *     @OA\Parameter(
      *         name="recordId",
      *         in="query",

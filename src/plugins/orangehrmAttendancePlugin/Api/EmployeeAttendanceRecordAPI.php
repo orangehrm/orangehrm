@@ -73,6 +73,8 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
      * @OA\Get(
      *     path="/api/v2/attendance/employees/{empNumber}/records",
      *     tags={"Attendance/Employee Attendance"},
+     *     summary="Get Employee Attendance Records",
+     *     operationId="get-employee-attendance-records",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")
@@ -258,6 +260,8 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
      * @OA\Post(
      *     path="/api/v2/attendance/employees/{empNumber}/records",
      *     tags={"Attendance/Employee Attendance"},
+     *     summary="Create Employee Attendance Record",
+     *     operationId="create-employee-attendance-record",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")
@@ -469,6 +473,8 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
      * @OA\Delete(
      *     path="/api/v2/attendance/employees/{empNumber}/records",
      *     tags={"Attendance/Employee Attendance"},
+     *     summary="Delete Employee Attendance Records",
+     *     operationId="delete-employee-attendance-records",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")
@@ -582,6 +588,8 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
      * @OA\Put(
      *     path="/api/v2/attendance/employees/{empNumber}/records",
      *     tags={"Attendance/Employee Attendance"},
+     *     summary="Update Employee Attendance Record",
+     *     operationId="update-employee-attendance-record",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")

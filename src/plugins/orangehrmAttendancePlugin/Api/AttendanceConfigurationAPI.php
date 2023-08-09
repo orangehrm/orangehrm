@@ -51,6 +51,8 @@ class AttendanceConfigurationAPI extends Endpoint implements ResourceEndpoint
      * @OA\Get(
      *     path="/api/v2/attendance/configs",
      *     tags={"Attendance/Configuration"},
+     *     summary="Get Attendance Configuration",
+     *     operationId="get-attendance-configuration",
      *     @OA\Response(
      *         response="200",
      *         description="Success",
@@ -95,6 +97,8 @@ class AttendanceConfigurationAPI extends Endpoint implements ResourceEndpoint
      * @OA\Put(
      *     path="/api/v2/attendance/configs",
      *     tags={"Attendance/Configuration"},
+     *     summary="Update Attendance Configuration",
+     *     operationId="update-attendance-configuration",
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",

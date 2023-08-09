@@ -53,6 +53,8 @@ class AttendancePunchInRecordOverlapAPI extends Endpoint implements ResourceEndp
      * @OA\Get(
      *     path="/api/v2/attendance/punch-in/overlaps",
      *     tags={"Attendance/Attendance Overlap"},
+     *     summary="Get Attendance Punch In Overlap",
+     *     operationId="get-attendance-punch-in-overlap",
      *     @OA\Parameter(
      *         name="empNumber",
      *         in="query",
