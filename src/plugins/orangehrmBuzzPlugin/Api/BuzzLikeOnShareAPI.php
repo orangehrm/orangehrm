@@ -57,6 +57,8 @@ class BuzzLikeOnShareAPI extends Endpoint implements CollectionEndpoint
      * @OA\Get(
      *     path="/api/v2/buzz/shares/{shareId}/likes",
      *     tags={"Buzz/Like on Shares"},
+     *     summary="Get Buzz Post Likes",
+     *     operationId="get-buzz-post-likes",
      *     @OA\PathParameter(
      *         name="shareId",
      *         @OA\Schema(type="integer")
@@ -135,6 +137,8 @@ class BuzzLikeOnShareAPI extends Endpoint implements CollectionEndpoint
      * @OA\Post(
      *     path="/api/v2/buzz/shares/{shareId}/likes",
      *     tags={"Buzz/Like on Shares"},
+     *     summary="Like Buzz Post",
+     *     operationId="like-buzz-post",
      *     @OA\PathParameter(
      *         name="shareId",
      *         @OA\Schema(type="integer")
@@ -245,6 +249,8 @@ class BuzzLikeOnShareAPI extends Endpoint implements CollectionEndpoint
      * @OA\Delete(
      *     path="/api/v2/buzz/shares/{shareId}/likes",
      *     tags={"Buzz/Like on Shares"},
+     *     summary="Remove Buzz Post Like",
+     *     operationId="remove-buzz-post-like",
      *     @OA\PathParameter(
      *         name="shareId",
      *         @OA\Schema(type="integer")

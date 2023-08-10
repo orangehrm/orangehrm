@@ -46,6 +46,8 @@ class BuzzPostShareAPI extends Endpoint implements CollectionEndpoint
      * @OA\Get(
      *     path="/api/v2/buzz/posts/{id}/shares",
      *     tags={"Buzz/Post Shares"},
+     *     summary="Get Buzz Post Shares",
+     *     operationId="get-buzz-post-shares",
      *     @OA\PathParameter(
      *         name="id",
      *         @OA\Schema(type="integer")

@@ -57,6 +57,8 @@ class BuzzLikeOnCommentAPI extends Endpoint implements CollectionEndpoint
      * @OA\Get(
      *     path="/api/v2/buzz/comments/{commentId}/likes",
      *     tags={"Buzz/Like on Comments"},
+     *     summary="Get Buzz Comment Likes",
+     *     operationId="get-buzz-comment-likes",
      *     @OA\PathParameter(
      *         name="commentId",
      *         @OA\Schema(type="integer")
@@ -137,6 +139,8 @@ class BuzzLikeOnCommentAPI extends Endpoint implements CollectionEndpoint
      * @OA\Post(
      *     path="/api/v2/buzz/comments/{commentId}/likes",
      *     tags={"Buzz/Like on Comments"},
+     *     summary="Like Buzz Comment",
+     *     operationId="like-buzz-comment",
      *     @OA\PathParameter(
      *         name="commentId",
      *         @OA\Schema(type="integer")
@@ -247,6 +251,8 @@ class BuzzLikeOnCommentAPI extends Endpoint implements CollectionEndpoint
      * @OA\Delete(
      *     path="/api/v2/buzz/comments/{commentId}/likes",
      *     tags={"Buzz/Like on Comments"},
+     *     summary="Remove Buzz Comment Like",
+     *     operationId="remove-buzz-comment-like",
      *     @OA\PathParameter(
      *         name="commentId",
      *         @OA\Schema(type="integer")

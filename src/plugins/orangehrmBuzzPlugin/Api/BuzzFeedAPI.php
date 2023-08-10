@@ -40,6 +40,8 @@ class BuzzFeedAPI extends Endpoint implements CollectionEndpoint
      * @OA\Get(
      *     path="/api/v2/buzz/feed",
      *     tags={"Buzz/Feed"},
+     *     summary="Get Buzz Feed",
+     *     operationId="get-buzz-feed",
      *     @OA\Parameter(
      *         name="sortField",
      *         in="query",
