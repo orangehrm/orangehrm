@@ -26,20 +26,18 @@ class ValidationUniqueDao extends BaseDao
      * @param string $entityName
      * @param string $attributeName
      * @param string|null $entityId
-     * @param string|null $entityIdField
      * @param string|null $matchByField
      * @param string|null $matchByValue
      * @return bool
      */
-    public function isValueUnique(string $value, string $entityName, string $attributeName, ?string $entityId, ?string $entityIdField, ?string $matchByField, ?string $matchByValue): bool
+    public function isValueUnique(string $value, string $entityName, string $attributeName, ?string $entityId, ?string $matchByField, ?string $matchByValue): bool
     {
         $qb = $this->createQueryBuilder('OrangeHRM\\Entity\\'  . $entityName, 'entity');
         $qb->andWhere($qb->expr()->eq('entity.' . $attributeName, ':value'))
             ->setParameter('value', $value);
 
         if (!is_null($entityId)) {
-            $id = $entityIdField ?? 'id';
-            $qb->andWhere($qb->expr()->neq('entity.' . $id, ':id'))
+            $qb->andWhere($qb->expr()->neq('entity.id', ':id'))
                 ->setParameter('id', $entityId);
         }
 

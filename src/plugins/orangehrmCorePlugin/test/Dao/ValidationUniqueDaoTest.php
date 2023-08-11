@@ -50,18 +50,6 @@ class ValidationUniqueDaoTest extends TestCase
                 null,
                 null,
                 null,
-                null,
-            )
-        );
-        $this->assertTrue(
-            $this->uniqueDao->isValueUnique(
-                "0001",
-                'Employee',
-                'employeeId',
-                1,
-                'empNumber',
-                null,
-                null,
             )
         );
     }
@@ -75,8 +63,7 @@ class ValidationUniqueDaoTest extends TestCase
                 'userName',
                 null,
                 null,
-                'deleted',
-                'false',
+                null
             )
         );
 
@@ -87,8 +74,7 @@ class ValidationUniqueDaoTest extends TestCase
                 'userName',
                 1,
                 null,
-                'deleted',
-                'false',
+                null,
             )
         );
 
@@ -98,9 +84,8 @@ class ValidationUniqueDaoTest extends TestCase
                 'User',
                 'userName',
                 null,
-                null,
                 'deleted',
-                'false',
+                'true',
             )
         );
     }
@@ -113,9 +98,8 @@ class ValidationUniqueDaoTest extends TestCase
                 'EmailSubscriber',
                 'email',
                 null,
-                null,
                 'emailNotification',
-                '1',
+                1,
             )
         );
 
@@ -125,9 +109,19 @@ class ValidationUniqueDaoTest extends TestCase
                 'EmailSubscriber',
                 'email',
                 1,
+                'emailNotification',
+                1,
+            )
+        );
+
+        $this->assertTrue(
+            $this->uniqueDao->isValueUnique(
+                "devi@admin.com",
+                'EmailSubscriber',
+                'email',
                 null,
                 'emailNotification',
-                '1',
+                2,
             )
         );
 
@@ -137,9 +131,8 @@ class ValidationUniqueDaoTest extends TestCase
                 'EmailSubscriber',
                 'email',
                 null,
-                null,
                 'emailNotification',
-                '3',
+                3,
             )
         );
     }

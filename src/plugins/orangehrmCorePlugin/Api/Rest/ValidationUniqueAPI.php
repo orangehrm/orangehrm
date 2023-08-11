@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\Core\Api\Rest;
 
-use Exception;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
@@ -36,7 +35,6 @@ class ValidationUniqueAPI extends Endpoint implements ResourceEndpoint
 {
     public const PARAMETER_VALUE = 'value';
     public const PARAMETER_ENTITY_ID = 'entityId';
-    public const PARAMETER_ENTITY_ID_FIELD = 'entityIdField';
     public const PARAMETER_ENTITY_NAME = 'entityName';
     public const PARAMETER_ATTRIBUTE_NAME = 'attributeName';
     public const PARAMETER_MATCH_BY_FIELD = 'matchByField';
@@ -45,32 +43,27 @@ class ValidationUniqueAPI extends Endpoint implements ResourceEndpoint
     public const PARAM_RULE_VALUE_MAX_LENGTH = 500;
     public const PARAM_RULE_ENTITY_NAME_MAX_LENGTH = 50;
     public const PARAM_RULE_ATTRIBUTE_NAME_MAX_LENGTH = 100;
-    public const ADMIN_VALIDATION_ENTITIES = [
-        'EmailSubscriber',
-        'EmploymentStatus',
-        'JobCategory',
-        'JobTitle',
-        'Location',
-        'Nationality',
-        'PayGrade',
-        'Education',
-        'Language',
-        'License',
-        'Membership',
-        'Skill',
-        'User',
-        'WorkShift',
-    ];
-    public const CLAIM_VALIDATION_ENTITIES = ['ClaimEvent', 'ExpenseType'];
-    public const LEAVE_VALIDATION_ENTITIES = ['LeaveType'];
-    public const PIM_VALIDATION_ENTITIES = ['Employee', 'TerminationReason'];
-    public const RECRUITMENT_VALIDATION_ENTITIES = ['Vacancy'];
-    public const VALIDATION_ENTITY_MAP = [
-        ...self::ADMIN_VALIDATION_ENTITIES,
-        ...self::CLAIM_VALIDATION_ENTITIES,
-        ...self::LEAVE_VALIDATION_ENTITIES,
-        ...self::PIM_VALIDATION_ENTITIES,
-        ...self::RECRUITMENT_VALIDATION_ENTITIES,
+    public const VALIDATION_ENTITIES = [
+        'EmailSubscriber' => ['attributeName' => ['email'], 'matchByField' => ['emailNotification']],
+        'EmploymentStatus' => ['attributeName' => ['name']],
+        'JobCategory' => ['attributeName' => ['name']],
+        'JobTitle' => ['attributeName' => ['jobTitleName']],
+        'Location' => ['attributeName' => ['name']],
+        'Nationality' => ['attributeName' => ['name']],
+        'PayGrade' => ['attributeName' => ['name']],
+        'Education' => ['attributeName' => ['name']],
+        'Language' => ['attributeName' => ['name']],
+        'License' => ['attributeName' => ['name']],
+        'Membership' => ['attributeName' => ['name']],
+        'Skill' => ['attributeName' => ['name']],
+        'User' => ['attributeName' => ['userName'], 'matchByField' => ['deleted']],
+        'WorkShift' => ['attributeName' => ['name']],
+        'ClaimEvent' => ['attributeName' => ['name']],
+        'ExpenseType'  => ['attributeName' => ['name']],
+        'LeaveType' => ['attributeName' => ['name']],
+        'Employee' => ['attributeName' => ['employeeId']],
+        'TerminationReason' => ['attributeName' => ['name']],
+        'Vacancy' => ['attributeName' => ['name']]
     ];
 
     private ?ValidationUniqueDao $validationUniqueDao = null;
@@ -91,13 +84,45 @@ class ValidationUniqueAPI extends Endpoint implements ResourceEndpoint
      *         name="entityName",
      *         in="query",
      *         required=true,
-     *         @OA\Schema(type="string", enum=OrangeHRM\Core\Api\Rest\ValidationUniqueAPI::VALIDATION_ENTITY_MAP)
+     *         @OA\Schema(
+     *             type="string",
+     *             enum={
+     *                 "EmailSubscriber",
+     *                 "EmploymentStatus",
+     *                 "JobCategory",
+     *                 "JobTitle",
+     *                 "Location",
+     *                 "Nationality",
+     *                 "PayGrade",
+     *                 "Education",
+     *                 "Language",
+     *                 "License",
+     *                 "Membership",
+     *                 "Skill",
+     *                 "WorkShift",
+     *                 "ExpenseType",
+     *                 "ClaimEvent",
+     *                 "LeaveType",
+     *                 "Employee",
+     *                 "User",
+     *                 "TerminationReason",
+     *                 "Vacancy"
+     *             }
+     *         )
      *     ),
      *     @OA\Parameter(
      *         name="attributeName",
      *         in="query",
      *         required=true,
-     *         @OA\Schema(type="string")
+     *         @OA\Schema(
+     *             type="string",
+     *             enum={
+     *                 "email",
+     *                 "jobTitleName",
+     *                 "name",
+     *                 "userName"
+     *             }
+     *         )
      *     ),
      *     @OA\Parameter(
      *         name="entityId",
@@ -106,16 +131,16 @@ class ValidationUniqueAPI extends Endpoint implements ResourceEndpoint
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\Parameter(
-     *         name="entityIdField",
-     *         in="query",
-     *         required=false,
-     *         @OA\Schema(type="integer")
-     *     ),
-     *     @OA\Parameter(
      *         name="matchByField",
      *         in="query",
      *         required=false,
-     *         @OA\Schema(type="string")
+     *         @OA\Schema(
+     *             type="string",
+     *             enum={
+     *                 "emailNotification",
+     *                 "deleted"
+     *             }
+     *         )
      *     ),
      *     @OA\Parameter(
      *         name="matchByValue",
@@ -156,23 +181,17 @@ class ValidationUniqueAPI extends Endpoint implements ResourceEndpoint
         $entityName = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_ENTITY_NAME);
         $attributeName = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_ATTRIBUTE_NAME);
         $entityId = $this->getRequestParams()->getIntOrNull(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_ENTITY_ID);
-        $entityIdField = $this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_ENTITY_ID_FIELD);
         $matchByField = $this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_MATCH_BY_FIELD);
         $matchByValue = $this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_MATCH_BY_VALUE);
 
-        try {
-            $unique = $this->getValidationUniqueDao()->isValueUnique(
-                $value,
-                $entityName,
-                $attributeName,
-                $entityId,
-                $entityIdField,
-                $matchByField,
-                $matchByValue
-            );
-        } catch (Exception $exception) {
-            throw $this->getBadRequestException("Entity does not contain one or more of the given fields");
-        }
+        $unique = $this->getValidationUniqueDao()->isValueUnique(
+            $value,
+            $entityName,
+            $attributeName,
+            $entityId,
+            $matchByField,
+            $matchByValue
+        );
 
         return new EndpointResourceResult(
             ArrayModel::class,
@@ -195,25 +214,21 @@ class ValidationUniqueAPI extends Endpoint implements ResourceEndpoint
             new ParamRule(
                 self::PARAMETER_ENTITY_NAME,
                 new Rule(Rules::LENGTH, [null, self::PARAM_RULE_ENTITY_NAME_MAX_LENGTH]),
-                new Rule(Rules::IN, [self::VALIDATION_ENTITY_MAP])
+                new Rule(Rules::IN, [array_keys(self::VALIDATION_ENTITIES)])
             ),
             new ParamRule(
                 self::PARAMETER_ATTRIBUTE_NAME,
-                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_ATTRIBUTE_NAME_MAX_LENGTH])
+                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_ATTRIBUTE_NAME_MAX_LENGTH]),
+                new Rule(Rules::IN, [$this->getAttributeNameRuleArray()])
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(self::PARAMETER_ENTITY_ID, new Rule(Rules::POSITIVE))
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
-                    self::PARAMETER_ENTITY_ID_FIELD,
-                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_ATTRIBUTE_NAME_MAX_LENGTH])
-                )
-            ),
-            $this->getValidationDecorator()->notRequiredParamRule(
-                new ParamRule(
                     self::PARAMETER_MATCH_BY_FIELD,
-                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_ENTITY_NAME_MAX_LENGTH])
+                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_ENTITY_NAME_MAX_LENGTH]),
+                    new Rule(Rules::IN, [$this->getMatchByFieldRuleArray()])
                 )
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
@@ -223,6 +238,34 @@ class ValidationUniqueAPI extends Endpoint implements ResourceEndpoint
                 )
             )
         );
+    }
+
+    /**
+     * @return array
+     */
+    private function getAttributeNameRuleArray(): array
+    {
+        $entityName = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_ENTITY_NAME);
+        if (array_key_exists($entityName, self::VALIDATION_ENTITIES)) {
+            return self::VALIDATION_ENTITIES[$entityName][self::PARAMETER_ATTRIBUTE_NAME];
+        }
+        return [];
+    }
+
+    /**
+     * @return array
+     */
+    private function getMatchByFieldRuleArray(): array
+    {
+        $entityName = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_ENTITY_NAME);
+        if (array_key_exists($entityName, self::VALIDATION_ENTITIES)) {
+            $entityFields = self::VALIDATION_ENTITIES[$entityName];
+            if (array_key_exists(self::PARAMETER_MATCH_BY_FIELD, $entityFields)) {
+                return $entityFields[self::PARAMETER_MATCH_BY_FIELD];
+            }
+        }
+
+        return [];
     }
 
     /**

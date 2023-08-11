@@ -29,7 +29,6 @@ type useServerValidationOptions = {
 // If a secondary attribute is needed, assign the name and value to matchByField and matchByValue respectively
 type createUniqueValidatorOptions = {
   entityId?: number;
-  entityIdField?: string;
   matchByField?: string;
   matchByValue?: string;
   translateKey?: string;
@@ -67,7 +66,6 @@ export default function useServerValidation(
                 entityName,
                 attributeName,
                 entityId: validationOptions.entityId,
-                entityIdField: validationOptions.entityIdField,
                 matchByField: validationOptions.matchByField,
                 matchByValue: validationOptions.matchByValue,
               },
