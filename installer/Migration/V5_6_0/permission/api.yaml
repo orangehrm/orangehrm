@@ -1,0 +1,16 @@
+##########################
+#        Core
+##########################
+
+apiv2_core_validate_uniqueness:
+  description: 'Core - Validate Uniqueness'
+  api: OrangeHRM\Core\Api\Rest\ValidationUniqueAPI
+  module: core
+  allowed:
+    read: true
+    create: false
+    update: false
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false } }
+    - { role: ESS, permission: { read: false, create: false, update: false, delete: false } }

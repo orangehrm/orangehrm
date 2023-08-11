@@ -38,6 +38,8 @@ class Migration extends AbstractMigration
             ['onDelete' => 'CASCADE']
         );
         $this->getSchemaHelper()->addForeignKey('ohrm_i18n_translate', $foreignKeyConstraint);
+
+        $this->getDataGroupHelper()->insertApiPermissions(__DIR__ . '/permission/api.yaml');
     }
 
     /**
