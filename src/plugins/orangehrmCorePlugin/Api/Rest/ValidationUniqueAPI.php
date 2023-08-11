@@ -65,14 +65,12 @@ class ValidationUniqueAPI extends Endpoint implements ResourceEndpoint
     public const LEAVE_VALIDATION_ENTITIES = ['LeaveType'];
     public const PIM_VALIDATION_ENTITIES = ['Employee', 'TerminationReason'];
     public const RECRUITMENT_VALIDATION_ENTITIES = ['Vacancy'];
-    public const TIME_VALIDATION_ENTITIES = ['Customer', 'ProjectActivity', 'Project'];
     public const VALIDATION_ENTITY_MAP = [
         ...self::ADMIN_VALIDATION_ENTITIES,
         ...self::CLAIM_VALIDATION_ENTITIES,
         ...self::LEAVE_VALIDATION_ENTITIES,
         ...self::PIM_VALIDATION_ENTITIES,
         ...self::RECRUITMENT_VALIDATION_ENTITIES,
-        ...self::TIME_VALIDATION_ENTITIES,
     ];
 
     private ?ValidationUniqueDao $validationUniqueDao = null;
@@ -81,6 +79,8 @@ class ValidationUniqueAPI extends Endpoint implements ResourceEndpoint
      * @OA\Get(
      *     path="/api/v2/core/validation/unique",
      *     tags={"Core/Unique Validation"},
+     *     summary="Validate Uniqueness",
+     *     operationId="validate-uniqueness",
      *     @OA\Parameter(
      *         name="value",
      *         in="query",
