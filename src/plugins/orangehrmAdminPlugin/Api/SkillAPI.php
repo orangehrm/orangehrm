@@ -76,8 +76,8 @@ class SkillAPI extends Endpoint implements CrudEndpoint
      * @OA\Get(
      *     path="/api/v2/admin/skills/{id}",
      *     tags={"Admin/Skills"},
-     *     summary="Get One Skill",
-     *     operationId="get-one-skill",
+     *     summary="Get a Skill",
+     *     operationId="get-a-skill",
      *     @OA\PathParameter(
      *         name="id",
      *         @OA\Schema(type="integer")
@@ -124,8 +124,8 @@ class SkillAPI extends Endpoint implements CrudEndpoint
      * @OA\Get(
      *     path="/api/v2/admin/skills",
      *     tags={"Admin/Skills"},
-     *     summary="Get All Skills",
-     *     operationId="get-all-skills",
+     *     summary="List All Skills",
+     *     operationId="list-all-skills",
      *     @OA\Parameter(
      *         name="sortField",
      *         in="query",
@@ -204,8 +204,8 @@ class SkillAPI extends Endpoint implements CrudEndpoint
      * @OA\Post(
      *     path="/api/v2/admin/skills",
      *     tags={"Admin/Skills"},
-     *     summary="Create Skill",
-     *     operationId="create-skill",
+     *     summary="Create a Skill",
+     *     operationId="create-a-skill",
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
@@ -261,8 +261,8 @@ class SkillAPI extends Endpoint implements CrudEndpoint
      * @OA\Put(
      *     path="/api/v2/admin/skills/{id}",
      *     tags={"Admin/Skills"},
-     *     summary="Update Skill",
-     *     operationId="update-skill",
+     *     summary="Update a Skill",
+     *     operationId="update-a-skill",
      *     @OA\PathParameter(
      *         name="id",
      *         @OA\Schema(type="integer")
@@ -317,7 +317,7 @@ class SkillAPI extends Endpoint implements CrudEndpoint
      *     path="/api/v2/admin/skills",
      *     tags={"Admin/Skills"},
      *     summary="Delete Skills",
-     *     operationId="delete-skill",
+     *     operationId="delete-skills",
      *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),
      *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse")
      * )

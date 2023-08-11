@@ -57,8 +57,8 @@ class PayGradeAPI extends Endpoint implements CrudEndpoint
      * @OA\Get(
      *     path="/api/v2/admin/pay-grades",
      *     tags={"Admin/Pay Grade"},
-     *     summary="Get All Pay Grades",
-     *     operationId="get-all-pay-grades",
+     *     summary="List All Pay Grades",
+     *     operationId="list-all-pay-grades",
      *     @OA\Parameter(
      *         name="sortField",
      *         in="query",
@@ -112,8 +112,8 @@ class PayGradeAPI extends Endpoint implements CrudEndpoint
      * @OA\Post(
      *     path="/api/v2/admin/pay-grades",
      *     tags={"Admin/Pay Grade"},
-     *     summary="Create Pay Grade",
-     *     operationId="create-pay-group",
+     *     summary="Create a Pay Grade",
+     *     operationId="create-a-pay-grade",
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
@@ -156,7 +156,7 @@ class PayGradeAPI extends Endpoint implements CrudEndpoint
      *     path="/api/v2/admin/pay-grades",
      *     tags={"Admin/Pay Grade"},
      *     summary="Delete Pay Grades",
-     *     operationId="delete-pay-grade",
+     *     operationId="delete-pay-grades",
      *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),
      *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse")
      * )
@@ -184,8 +184,8 @@ class PayGradeAPI extends Endpoint implements CrudEndpoint
      * @OA\Get(
      *     path="/api/v2/admin/pay-grades/{id}",
      *     tags={"Admin/Pay Grade"},
-     *     summary="Get One Pay Grade",
-     *     operationId="get-one-pay-grade",
+     *     summary="Get a Pay Grade",
+     *     operationId="get-a-pay-grade",
      *     @OA\PathParameter(
      *         name="id",
      *         @OA\Schema(type="integer")
@@ -228,8 +228,8 @@ class PayGradeAPI extends Endpoint implements CrudEndpoint
      * @OA\Put(
      *     path="/api/v2/admin/pay-grades/{id}",
      *     tags={"Admin/Pay Grade"},
-     *     summary="Update Pay Grade",
-     *     operationId="update-pay-grade",
+     *     summary="Update a Pay Grade",
+     *     operationId="update-a-pay-grade",
      *     @OA\PathParameter(
      *         name="id",
      *         @OA\Schema(type="integer")

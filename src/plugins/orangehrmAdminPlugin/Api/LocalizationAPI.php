@@ -45,8 +45,8 @@ class LocalizationAPI extends Endpoint implements CrudEndpoint
      * @OA\Get(
      *     path="/api/v2/admin/localization",
      *     tags={"Admin/Localization"},
-     *     summary="Get Localization",
-     *     operationId="get-localization",
+     *     summary="Get Localization Settings",
+     *     operationId="get-localization-settings",
      *     @OA\Response(
      *         response="200",
      *         description="Success",
@@ -81,8 +81,8 @@ class LocalizationAPI extends Endpoint implements CrudEndpoint
      * @OA\Put(
      *     path="/api/v2/admin/localization}",
      *     tags={"Admin/Localization"},
-     *     summary="Update Localization",
-     *     operationId="update-localization",
+     *     summary="Update Localization Settings",
+     *     operationId="update-localization-settings",
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",

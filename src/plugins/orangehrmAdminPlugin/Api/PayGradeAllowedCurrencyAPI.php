@@ -53,8 +53,8 @@ class PayGradeAllowedCurrencyAPI extends Endpoint implements CollectionEndpoint
      * @OA\Get(
      *     path="/api/v2/admin/pay-grades/{payGradeId}/currencies/allowed",
      *     tags={"Admin/Pay Grade"},
-     *     summary="Get Pay Grade Allowed Currencies",
-     *     operationId="get-pay-grade-allowed-currencies",
+     *     summary="List Allowed Currencies for Pay Grade",
+     *     operationId="list-allowed-currencies-for-pay-grade",
      *     @OA\PathParameter(
      *         name="payGradeId",
      *         @OA\Schema(type="integer")

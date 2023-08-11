@@ -91,8 +91,8 @@ class OrganizationAPI extends Endpoint implements CrudEndpoint
      * @OA\Get(
      *     path="/api/v2/admin/organization",
      *     tags={"Admin/Organization"},
-     *     summary="Get Organization",
-     *     operationId="get-organization",
+     *     summary="Get Organization Details",
+     *     operationId="get-organization-details",
      *     @OA\Response(
      *         response="200",
      *         description="Success",
@@ -181,8 +181,8 @@ class OrganizationAPI extends Endpoint implements CrudEndpoint
      * @OA\Put(
      *     path="/api/v2/admin/organization",
      *     tags={"Admin/Organization"},
-     *     summary="Update Organization",
-     *     operationId="update-organization",
+     *     summary="Update Organization Details",
+     *     operationId="update-organization-details",
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",

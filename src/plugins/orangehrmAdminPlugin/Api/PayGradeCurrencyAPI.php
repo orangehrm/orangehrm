@@ -63,8 +63,8 @@ class PayGradeCurrencyAPI extends Endpoint implements CrudEndpoint
      * @OA\Get(
      *     path="/api/v2/admin/pay-grades/{payGradeId}/currencies/{id}",
      *     tags={"Admin/Pay Grade"},
-     *     summary="Get One Pay Grade Currency",
-     *     operationId="get-one-pay-grade-currency",
+     *     summary="Get a Pay Grade Currency",
+     *     operationId="get-a-pay-grade-currency",
      *     @OA\PathParameter(
      *         name="payGradeId",
      *         @OA\Schema(type="integer")
@@ -119,8 +119,8 @@ class PayGradeCurrencyAPI extends Endpoint implements CrudEndpoint
      * @OA\Get(
      *     path="/api/v2/admin/pay-grades/{payGradeId}/currencies",
      *     tags={"Admin/Pay Grade"},
-     *     summary="Get All Pay Grade Currencies",
-     *     operationId="get-all-pay-grade-currencies",
+     *     summary="List All Pay Grade Currencies",
+     *     operationId="list-all-pay-grade-currencies",
      *     @OA\PathParameter(
      *         name="payGradeId",
      *         @OA\Schema(type="integer")
@@ -193,8 +193,8 @@ class PayGradeCurrencyAPI extends Endpoint implements CrudEndpoint
      * @OA\Post(
      *     path="/api/v2/admin/pay-grades/{payGradeId}/currencies",
      *     tags={"Admin/Pay Grade"},
-     *     summary="Create Pay Grade Currency",
-     *     operationId="create-pay-grade-currency",
+     *     summary="Create a Pay Grade Currency",
+     *     operationId="create-a-pay-grade-currency",
      *     @OA\PathParameter(
      *         name="payGradeId",
      *         @OA\Schema(type="integer")
@@ -252,8 +252,8 @@ class PayGradeCurrencyAPI extends Endpoint implements CrudEndpoint
      * @OA\Put(
      *     path="/api/v2/admin/pay-grades/{payGradeId}/currencies/{id}",
      *     tags={"Admin/Pay Grade"},
-     *     summary="Update Pay Grade Currency",
-     *     operationId="update-pay-grade-currency",
+     *     summary="Update a Pay Grade Currency",
+     *     operationId="update-a-pay-grade-currency",
      *     @OA\PathParameter(
      *         name="payGradeId",
      *         @OA\Schema(type="integer")
@@ -314,7 +314,7 @@ class PayGradeCurrencyAPI extends Endpoint implements CrudEndpoint
      *     path="/api/v2/admin/pay-grades/{payGradeId}/currencies",
      *     tags={"Admin/Pay Grade"},
      *     summary="Delete Pay Grade Currencies",
-     *     operationId="delete-pay-grade-currency",
+     *     operationId="delete-pay-grade-currencies",
      *     @OA\PathParameter(
      *         name="payGradeId",
      *         @OA\Schema(type="integer")

@@ -71,8 +71,8 @@ class MembershipAPI extends Endpoint implements CrudEndpoint
      * @OA\Get(
      *     path="/api/v2/admin/memberships/{id}",
      *     tags={"Admin/Memberships"},
-     *     summary="Get One Membership",
-     *     operationId="get-one-membership",
+     *     summary="Get a Membership",
+     *     operationId="get-a-membership",
      *     @OA\PathParameter(
      *         name="id",
      *         @OA\Schema(type="integer")
@@ -119,8 +119,8 @@ class MembershipAPI extends Endpoint implements CrudEndpoint
      * @OA\Get(
      *     path="/api/v2/admin/memberships",
      *     tags={"Admin/Memberships"},
-     *     summary="Get All Memberships",
-     *     operationId="get-all-memberships",
+     *     summary="List All Memberships",
+     *     operationId="list-all-memberships",
      *     @OA\Parameter(
      *         name="sortField",
      *         in="query",
@@ -177,8 +177,8 @@ class MembershipAPI extends Endpoint implements CrudEndpoint
      * @OA\Post(
      *     path="/api/v2/admin/memberships",
      *     tags={"Admin/Memberships"},
-     *     summary="Create Membership",
-     *     operationId="create-membership",
+     *     summary="Create a Membership",
+     *     operationId="create-a-membership",
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
@@ -244,8 +244,8 @@ class MembershipAPI extends Endpoint implements CrudEndpoint
      * @OA\Put(
      *     path="/api/v2/admin/memberships/{id}",
      *     tags={"Admin/Memberships"},
-     *     summary="Update Membership",
-     *     operationId="update-membership",
+     *     summary="Update a Membership",
+     *     operationId="update-a-membership",
      *     @OA\PathParameter(
      *         name="id",
      *         @OA\Schema(type="integer")
@@ -317,7 +317,7 @@ class MembershipAPI extends Endpoint implements CrudEndpoint
      *     path="/api/v2/admin/memberships",
      *     tags={"Admin/Memberships"},
      *     summary="Delete Memberships",
-     *     operationId="delete-membership",
+     *     operationId="delete-memberships",
      *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),
      *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse")
      * )

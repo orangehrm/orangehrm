@@ -62,7 +62,7 @@ class EmploymentStatusAPI extends Endpoint implements CrudEndpoint
      * @OA\Get(
      *     path="/api/v2/admin/employment-statuses/{id}",
      *     tags={"Admin/Employment Status"},
-     *     summary="Get One Employment Status",
+     *     summary="Get an Employment Status",
      *     operationId="get-one-employment-status",
      *     @OA\PathParameter(
      *         name="id",
@@ -110,8 +110,8 @@ class EmploymentStatusAPI extends Endpoint implements CrudEndpoint
      * @OA\Get(
      *     path="/api/v2/admin/employment-statuses",
      *     tags={"Admin/Employment Status"},
-     *     summary="Get All Employment Statuses",
-     *     operationId="get-all-employment-statuses",
+     *     summary="List All Employment Statuses",
+     *     operationId="list-all-employment-statuses",
      *     @OA\Parameter(
      *         name="sortField",
      *         in="query",
@@ -179,8 +179,8 @@ class EmploymentStatusAPI extends Endpoint implements CrudEndpoint
      * @OA\Post(
      *     path="/api/v2/admin/employment-statuses",
      *     tags={"Admin/Employment Status"},
-     *     summary="Create Employment Status",
-     *     operationId="create-employment-status",
+     *     summary="Create an Employment Status",
+     *     operationId="create-an-employment-status",
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
@@ -224,8 +224,8 @@ class EmploymentStatusAPI extends Endpoint implements CrudEndpoint
      * @OA\Put(
      *     path="/api/v2/admin/employment-statuses/{id}",
      *     tags={"Admin/Employment Status"},
-     *     summary="Update Employment Status",
-     *     operationId="update-employment-status",
+     *     summary="Update an Employment Status",
+     *     operationId="update-an-employment-status",
      *     @OA\PathParameter(
      *         name="id",
      *         @OA\Schema(type="integer")
@@ -291,7 +291,7 @@ class EmploymentStatusAPI extends Endpoint implements CrudEndpoint
      * @OA\Delete(
      *     path="/api/v2/admin/employment-statuses",
      *     summary="Delete Employment Statuses",
-     *     operationId="delete-employment-status",
+     *     operationId="delete-employment-statuses",
      *     tags={"Admin/Employment Status"},
      *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),
      *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse")

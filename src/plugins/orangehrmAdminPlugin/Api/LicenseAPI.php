@@ -73,8 +73,8 @@ class LicenseAPI extends Endpoint implements CrudEndpoint
      * @OA\Get(
      *     path="/api/v2/admin/licenses/{id}",
      *     tags={"Admin/License"},
-     *     summary="Get One License",
-     *     operationId="get-one-license",
+     *     summary="Get a License",
+     *     operationId="get-a-license",
      *     @OA\PathParameter(
      *         name="id",
      *         @OA\Schema(type="integer")
@@ -121,8 +121,8 @@ class LicenseAPI extends Endpoint implements CrudEndpoint
      * @OA\Get(
      *     path="/api/v2/admin/licenses",
      *     tags={"Admin/License"},
-     *     summary="Get All Licenses",
-     *     operationId="get-all-licenses",
+     *     summary="List All Licenses",
+     *     operationId="list-all-licenses",
      *     @OA\Parameter(
      *         name="sortField",
      *         in="query",
@@ -179,8 +179,8 @@ class LicenseAPI extends Endpoint implements CrudEndpoint
      * @OA\Post(
      *     path="/api/v2/admin/licenses",
      *     tags={"Admin/License"},
-     *     summary="Create License",
-     *     operationId="create-license",
+     *     summary="Create a License",
+     *     operationId="create-a-license",
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
@@ -246,8 +246,8 @@ class LicenseAPI extends Endpoint implements CrudEndpoint
      * @OA\Put(
      *     path="/api/v2/admin/licenses/{id}",
      *     tags={"Admin/License"},
-     *     summary="Update License",
-     *     operationId="update-license",
+     *     summary="Update a License",
+     *     operationId="update-a-license",
      *     @OA\PathParameter(
      *         name="id",
      *         @OA\Schema(type="integer")
@@ -319,7 +319,7 @@ class LicenseAPI extends Endpoint implements CrudEndpoint
      *     path="/api/v2/admin/licenses",
      *     tags={"Admin/License"},
      *     summary="Delete Licenses",
-     *     operationId="delete-license",
+     *     operationId="delete-licenses",
      *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),
      *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse")
      * )

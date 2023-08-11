@@ -117,8 +117,8 @@ class LocationAPI extends Endpoint implements CrudEndpoint
      * @OA\Get(
      *     path="/api/v2/admin/locations/{id}",
      *     tags={"Admin/Locations"},
-     *     summary="Get One Location",
-     *     operationId="get-one-location",
+     *     summary="Get a Location",
+     *     operationId="get-a-location",
      *     @OA\PathParameter(
      *         name="id",
      *         @OA\Schema(type="integer")
@@ -151,8 +151,8 @@ class LocationAPI extends Endpoint implements CrudEndpoint
      * @OA\Get(
      *     path="/api/v2/admin/locations",
      *     tags={"Admin/Locations"},
-     *     summary="Get All Locations",
-     *     operationId="get-all-locations",
+     *     summary="List All Locations",
+     *     operationId="list-all-locations",
      *     @OA\Parameter(
      *         name="name",
      *         in="query",
@@ -256,8 +256,8 @@ class LocationAPI extends Endpoint implements CrudEndpoint
      * @OA\Post(
      *     path="/api/v2/admin/locations",
      *     tags={"Admin/Locations"},
-     *     summary="Create Location",
-     *     operationId="create-location",
+     *     summary="Create a Location",
+     *     operationId="create-a-location",
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
@@ -386,7 +386,7 @@ class LocationAPI extends Endpoint implements CrudEndpoint
      *     path="/api/v2/admin/locations",
      *     tags={"Admin/Locations"},
      *     summary="Delete Locations",
-     *     operationId="delete-location",
+     *     operationId="delete-locations",
      *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),
      *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse")
      * )
@@ -414,8 +414,8 @@ class LocationAPI extends Endpoint implements CrudEndpoint
      * @OA\Put(
      *     path="/api/v2/admin/locations/{id}",
      *     tags={"Admin/Locations"},
-     *     summary="Update Location",
-     *     operationId="update-location",
+     *     summary="Update a Location",
+     *     operationId="update-a-location",
      *     @OA\PathParameter(
      *         name="id",
      *         @OA\Schema(type="integer")

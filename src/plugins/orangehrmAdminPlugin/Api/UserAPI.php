@@ -66,8 +66,8 @@ class UserAPI extends Endpoint implements CrudEndpoint
      * @OA\Get(
      *     path="/api/v2/admin/users/{id}",
      *     tags={"Admin/Users"},
-     *     summary="Get One User",
-     *     operationId="get-one-user",
+     *     summary="Get a User",
+     *     operationId="get-a-user",
      *     @OA\PathParameter(
      *         name="id",
      *         @OA\Schema(type="integer")
@@ -111,8 +111,8 @@ class UserAPI extends Endpoint implements CrudEndpoint
      * @OA\Get(
      *     path="/api/v2/admin/users",
      *     tags={"Admin/Users"},
-     *     summary="Get All Users",
-     *     operationId="get-all-users",
+     *     summary="List All Users",
+     *     operationId="list-all-users",
      *     @OA\Parameter(
      *         name="username",
      *         in="query",
@@ -227,8 +227,8 @@ class UserAPI extends Endpoint implements CrudEndpoint
      * @OA\Post(
      *     path="/api/v2/admin/users",
      *     tags={"Admin/Users"},
-     *     summary="Create User",
-     *     operationId="create-user",
+     *     summary="Create a User",
+     *     operationId="create-a-user",
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
@@ -367,8 +367,8 @@ class UserAPI extends Endpoint implements CrudEndpoint
      * @OA\Put(
      *     path="/api/v2/admin/users/{id}",
      *     tags={"Admin/Users"},
-     *     summary="Update User",
-     *     operationId="update-user",
+     *     summary="Update a User",
+     *     operationId="update-a-user",
      *     @OA\PathParameter(
      *         name="id",
      *         @OA\Schema(type="integer")
@@ -441,7 +441,7 @@ class UserAPI extends Endpoint implements CrudEndpoint
      *     path="/api/v2/admin/users",
      *     tags={"Admin/Users"},
      *     summary="Delete Users",
-     *     operationId="delete-user",
+     *     operationId="delete-users",
      *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),
      *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse")
      * )

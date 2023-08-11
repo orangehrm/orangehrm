@@ -68,8 +68,8 @@ class EmailSubscriberAPI extends Endpoint implements CrudEndpoint
      * @OA\Get(
      *     path="/api/v2/admin/email-subscriptions/{emailSubscriptionId}/subscribers",
      *     tags={"Admin/Email Configuration"},
-     *     summary="Get All Email Subscribers",
-     *     operationId="get-all-email-subscribers",
+     *     summary="List All Email Subscribers",
+     *     operationId="list-all-email-subscribers",
      *     @OA\PathParameter(
      *         name="emailSubscriptionId",
      *         @OA\Schema(type="integer")
@@ -147,8 +147,8 @@ class EmailSubscriberAPI extends Endpoint implements CrudEndpoint
      * @OA\Post(
      *     path="/api/v2/admin/email-subscriptions/{emailSubscriptionId}/subscribers",
      *     tags={"Admin/Email Configuration"},
-     *     summary="Create Email Subscriber",
-     *     operationId="create-email-subscriber",
+     *     summary="Create an Email Subscriber",
+     *     operationId="create-an-email-subscriber",
      *     @OA\PathParameter(
      *         name="emailSubscriptionId",
      *         @OA\Schema(type="integer")
@@ -224,7 +224,7 @@ class EmailSubscriberAPI extends Endpoint implements CrudEndpoint
      *     path="/api/v2/admin/email-subscriptions/{emailSubscriptionId}/subscribers",
      *     tags={"Admin/Email Configuration"},
      *     summary="Delete Email Subscribers",
-     *     operationId="delete-email-subscriber",
+     *     operationId="delete-email-subscribers",
      *     @OA\PathParameter(
      *         name="emailSubscriptionId",
      *         @OA\Schema(type="integer")
@@ -269,8 +269,8 @@ class EmailSubscriberAPI extends Endpoint implements CrudEndpoint
      * @OA\Get(
      *     path="/api/v2/admin/email-subscriptions/{emailSubscriptionId}/subscribers/{id}",
      *     tags={"Admin/Email Configuration"},
-     *     summary="Get One Email Subscriber",
-     *     operationId="get-one-email-subscriber",
+     *     summary="Get an Email Subscriber",
+     *     operationId="get-an-email-subscriber",
      *     @OA\PathParameter(
      *         name="emailSubscriptionId",
      *         @OA\Schema(type="integer")
@@ -333,8 +333,8 @@ class EmailSubscriberAPI extends Endpoint implements CrudEndpoint
      * @OA\Put(
      *     path="/api/v2/admin/email-subscriptions/{emailSubscriptionId}/subscribers/{id}",
      *     tags={"Admin/Email Configuration"},
-     *     summary="Update Email Susbcriber",
-     *     operationId="update-email-subscriber",
+     *     summary="Update an Email Susbcriber",
+     *     operationId="update-an-email-subscriber",
      *     @OA\PathParameter(
      *         name="emailSubscriptionId",
      *         @OA\Schema(type="integer")
