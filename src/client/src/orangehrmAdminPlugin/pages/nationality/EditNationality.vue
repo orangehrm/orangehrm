@@ -76,9 +76,9 @@ export default {
     );
     const {createUniqueValidator} = useServerValidation(http);
     const nationalityUniqueValidation = createUniqueValidator(
-      'nationality',
+      'Nationality',
       'name',
-      props.nationalityId,
+      {entityId: props.nationalityId},
     );
 
     return {

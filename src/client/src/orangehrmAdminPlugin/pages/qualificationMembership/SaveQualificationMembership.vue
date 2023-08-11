@@ -71,7 +71,7 @@ export default {
     );
     const {createUniqueValidator} = useServerValidation(http);
     const membershipUniqueValidation = createUniqueValidator(
-      'membership',
+      'Membership',
       'name',
     );
 

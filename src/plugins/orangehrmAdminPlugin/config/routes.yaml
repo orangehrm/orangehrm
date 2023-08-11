@@ -334,14 +334,6 @@ apiv2_admin_i18n_groups:
   defaults:
     _api: OrangeHRM\Admin\Api\I18NGroupAPI
 
-apiv2_admin_validate_uniqueness:
-  path: /api/v2/admin/validation/unique
-  controller: OrangeHRM\Core\Controller\Rest\V2\GenericPublicRestController::handle
-  methods: [ GET ]
-  defaults:
-    _key: value
-    _api: OrangeHRM\Admin\Api\ValidationUniqueAPI
-
 ##########################
 #        Files
 ##########################

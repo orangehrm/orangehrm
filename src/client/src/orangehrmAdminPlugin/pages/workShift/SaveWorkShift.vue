@@ -136,14 +136,14 @@ export default {
       '/api/v2/admin/work-shifts',
     );
     const {createUniqueValidator} = useServerValidation(http);
-    const workshiftUniqueValidation = createUniqueValidator(
-      'workshift',
+    const workShiftUniqueValidation = createUniqueValidator(
+      'WorkShift',
       'name',
     );
 
     return {
       http,
-      workshiftUniqueValidation,
+      workShiftUniqueValidation,
     };
   },
   data() {
@@ -153,8 +153,8 @@ export default {
       rules: {
         name: [
           required,
+          this.workShiftUniqueValidation,
           shouldNotExceedCharLength(50),
-          this.workshiftUniqueValidation,
         ],
         fromTime: [required, validTimeFormat],
         endTime: [

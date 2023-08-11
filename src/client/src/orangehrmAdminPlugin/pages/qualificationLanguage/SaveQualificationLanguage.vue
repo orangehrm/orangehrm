@@ -70,7 +70,7 @@ export default {
       '/api/v2/admin/languages',
     );
     const {createUniqueValidator} = useServerValidation(http);
-    const langugageUniqueValidation = createUniqueValidator('language', 'name');
+    const langugageUniqueValidation = createUniqueValidator('Language', 'name');
 
     return {
       http,

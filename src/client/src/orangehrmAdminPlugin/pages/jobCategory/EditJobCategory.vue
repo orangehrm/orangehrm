@@ -78,9 +78,9 @@ export default {
     );
     const {createUniqueValidator} = useServerValidation(http);
     const jobCategoryUniqueValidation = createUniqueValidator(
-      'jobCategory',
+      'JobCategory',
       'name',
-      props.jobCategoryId,
+      {entityId: props.jobCategoryId},
     );
 
     return {

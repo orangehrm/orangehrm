@@ -134,9 +134,9 @@ export default {
     );
     const {createUniqueValidator} = useServerValidation(http);
     const jobTitleUniqueValidation = createUniqueValidator(
-      'jobTitle',
-      'title',
-      props.jobTitleId,
+      'JobTitle',
+      'jobTitleName',
+      {entityId: props.jobTitleId},
     );
 
     return {
@@ -152,8 +152,8 @@ export default {
       rules: {
         title: [
           required,
-          shouldNotExceedCharLength(100),
           this.jobTitleUniqueValidation,
+          shouldNotExceedCharLength(100),
         ],
         description: [shouldNotExceedCharLength(400)],
         specification: [

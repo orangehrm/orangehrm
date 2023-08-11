@@ -42,7 +42,6 @@ describe('Admin - Job Titles', function () {
   describe('create job title', function () {
     it('add job title', function () {
       cy.loginTo(this.user, '/admin/saveJobTitle');
-      cy.wait('@getJobTitles');
       cy.getOXD('form').within(() => {
         cy.getOXDInput('Job Title').type(this.strings.chars50.text);
         cy.getOXDInput('Job Description').type(this.strings.chars120.text);
@@ -57,7 +56,6 @@ describe('Admin - Job Titles', function () {
     it('add job title form validations should work', function () {
       cy.task('db:restore', {name: 'jobTitle'});
       cy.loginTo(this.user, '/admin/saveJobTitle');
-      cy.wait('@getJobTitles');
       cy.getOXD('form').within(() => {
         cy.getOXDInput('Job Title')
           .setValue(this.strings.chars120.text)

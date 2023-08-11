@@ -85,7 +85,7 @@ export default {
       '/api/v2/admin/skills',
     );
     const {createUniqueValidator} = useServerValidation(http);
-    const skillUniqueValidation = createUniqueValidator('skill', 'name');
+    const skillUniqueValidation = createUniqueValidator('Skill', 'name');
 
     return {
       http,

@@ -123,7 +123,10 @@ export default {
       '/api/v2/admin/job-titles',
     );
     const {createUniqueValidator} = useServerValidation(http);
-    const jobTitleUniqueValidation = createUniqueValidator('jobTitle', 'title');
+    const jobTitleUniqueValidation = createUniqueValidator(
+      'JobTitle',
+      'jobTitleName',
+    );
 
     return {
       http,
@@ -138,8 +141,8 @@ export default {
       rules: {
         title: [
           required,
-          shouldNotExceedCharLength(100),
           this.jobTitleUniqueValidation,
+          shouldNotExceedCharLength(100),
         ],
         description: [shouldNotExceedCharLength(400)],
         specification: [

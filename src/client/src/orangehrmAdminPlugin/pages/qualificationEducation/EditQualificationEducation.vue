@@ -77,9 +77,9 @@ export default {
     );
     const {createUniqueValidator} = useServerValidation(http);
     const educationUniqueValidation = createUniqueValidator(
-      'education',
+      'Education',
       'name',
-      props.educationId,
+      {entityId: props.educationId},
     );
 
     return {
@@ -98,8 +98,8 @@ export default {
       rules: {
         name: [
           required,
-          shouldNotExceedCharLength(100),
           this.educationUniqueValidation,
+          shouldNotExceedCharLength(100),
         ],
       },
     };

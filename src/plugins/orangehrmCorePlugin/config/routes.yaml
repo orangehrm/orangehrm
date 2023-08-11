@@ -29,3 +29,11 @@ apiv2_core_public_api_version:
   defaults:
     id: 0
     _api:  OrangeHRM\Core\PublicApi\VersionAPI
+
+apiv2_core_validate_uniqueness:
+  path: /api/v2/core/validation/unique
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _key: value
+    _api: OrangeHRM\Core\Api\Rest\ValidationUniqueAPI

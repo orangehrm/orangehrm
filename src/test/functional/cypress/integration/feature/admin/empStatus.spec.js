@@ -48,7 +48,6 @@ describe('Admin - Employment Status', function () {
   describe('create snapshot with emp status', function () {
     it('create snapshot with emp status', function () {
       cy.loginTo(this.user, '/admin/saveEmploymentStatus');
-      cy.wait('@getEmpStatus');
       cy.getOXD('form').within(() => {
         cy.getOXDInput('Name').type(this.strings.chars50.text);
         cy.getOXD('button').contains('Save').click();
@@ -62,7 +61,6 @@ describe('Admin - Employment Status', function () {
   describe('add emp status', function () {
     it('add an emp status and save', function () {
       cy.loginTo(this.user, '/admin/saveEmploymentStatus');
-      cy.wait('@getEmpStatus');
       cy.getOXD('form').within(() => {
         cy.getOXDInput('Name').type(this.strings.chars10.text);
         cy.getOXD('button').contains('Save').click();
@@ -73,7 +71,6 @@ describe('Admin - Employment Status', function () {
 
     it('add an emp status and cancel', function () {
       cy.loginTo(this.user, '/admin/saveEmploymentStatus');
-      cy.wait('@getEmpStatus');
       cy.getOXD('form').within(() => {
         cy.getOXDInput('Name').type(this.strings.chars30.text);
         cy.getOXD('button').contains('Cancel').click();
@@ -85,7 +82,6 @@ describe('Admin - Employment Status', function () {
     it('add emp status form validations', function () {
       cy.task('db:restore', {name: 'empStatus'});
       cy.loginTo(this.user, '/admin/saveEmploymentStatus');
-      cy.wait('@getEmpStatus');
       cy.getOXD('form').within(() => {
         cy.getOXDInput('Name')
           .type(this.strings.chars100.text)

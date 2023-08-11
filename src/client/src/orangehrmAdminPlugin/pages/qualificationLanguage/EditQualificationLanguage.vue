@@ -77,9 +77,9 @@ export default {
     );
     const {createUniqueValidator} = useServerValidation(http);
     const langugageUniqueValidation = createUniqueValidator(
-      'language',
+      'Language',
       'name',
-      props.qualificationLanguageId,
+      {entityId: props.qualificationLanguageId},
     );
 
     return {

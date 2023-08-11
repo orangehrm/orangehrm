@@ -70,7 +70,7 @@ export default {
       '/api/v2/admin/licenses',
     );
     const {createUniqueValidator} = useServerValidation(http);
-    const licenseUniqueValidation = createUniqueValidator('license', 'name');
+    const licenseUniqueValidation = createUniqueValidator('License', 'name');
 
     return {
       http,

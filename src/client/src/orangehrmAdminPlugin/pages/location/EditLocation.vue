@@ -171,11 +171,9 @@ export default {
       '/api/v2/admin/locations',
     );
     const {createUniqueValidator} = useServerValidation(http);
-    const locationUniqueValidation = createUniqueValidator(
-      'location',
-      'name',
-      props.locationId,
-    );
+    const locationUniqueValidation = createUniqueValidator('Location', 'name', {
+      entityId: props.locationId,
+    });
 
     return {
       http,

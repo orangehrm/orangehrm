@@ -91,9 +91,13 @@ export default {
     );
     const {createUniqueValidator} = useServerValidation(http);
     const subscriberUniqueValidation = createUniqueValidator(
-      'subscriber',
+      'EmailSubscriber',
       'email',
-      props.data.id,
+      {
+        entityId: props.data.id,
+        matchByField: 'emailNotification',
+        matchByValue: props.data.subscriptionId,
+      },
     );
 
     return {
@@ -110,8 +114,8 @@ export default {
         email: [
           required,
           validEmailFormat,
-          shouldNotExceedCharLength(100),
           this.subscriberUniqueValidation,
+          shouldNotExceedCharLength(100),
         ],
       },
     };

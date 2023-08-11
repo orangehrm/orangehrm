@@ -94,7 +94,7 @@ export default {
     );
     const {createUniqueValidator} = useServerValidation(http);
     const skillUniqueValidation = createUniqueValidator(
-      'skill',
+      'Skill',
       'name',
       props.qualificationSkillId,
     );
