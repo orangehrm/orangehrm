@@ -58,6 +58,8 @@ class AboutOrganizationAPI extends Endpoint implements ResourceEndpoint
      * @OA\Get(
      *     path="/api/v2/core/about",
      *     tags={"Core/About Organization"},
+     *     summary="Get Basic Organization Details",
+     *     operationId="get-basic-organization-details",
      *     @OA\Response(
      *         response="200",
      *         description="Success",
