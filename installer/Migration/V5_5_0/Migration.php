@@ -44,6 +44,14 @@ class Migration extends AbstractMigration
 
         $this->updateLangStringVersion($this->getVersion());
 
+        $this->deleteLangStringTranslationByLangStringUnitId(
+            'this_page_is_being_developed'
+        );
+
+        $this->deleteLangStringTranslationByLangStringUnitId(
+            'download_latest_release_with_all_features'
+        );
+
         $this->getLangHelper()->deleteLangStringByUnitId(
             'this_page_is_being_developed',
             $this->getLangHelper()->getGroupIdByName('general')
@@ -734,6 +742,23 @@ class Migration extends AbstractMigration
             ->setParameter('groupId', $this->getLangHelper()->getGroupIdByName('general'));
         $qb->andWhere($qb->expr()->in('langString.unit_id', ':unitIdToChangeGroup'))
             ->setParameter('unitIdToChangeGroup', 'today')
+            ->executeQuery();
+    }
+
+    private function deleteLangStringTranslationByLangStringUnitId(string $unitId): void
+    {
+        $id = $this->getConnection()->createQueryBuilder()
+            ->select('id')
+            ->from('ohrm_i18n_lang_string', 'langString')
+            ->andWhere('langString.unit_id = :unitId')
+            ->setParameter('unitId', $unitId)
+            ->executeQuery()
+            ->fetchOne();
+
+        $this->createQueryBuilder()
+            ->delete('ohrm_i18n_translate')
+            ->andWhere('ohrm_i18n_translate.lang_string_id = :id')
+            ->setParameter('id', $id)
             ->executeQuery();
     }
 }
