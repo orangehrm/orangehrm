@@ -44,7 +44,9 @@ class QuickLaunchAPI extends Endpoint implements CollectionEndpoint
     /**
      * @OA\Get(
      *     path="/api/v2/dashboard/shortcuts",
-     *     tags={"Dashboard"},
+     *     tags={"Dashboard/Widgets"},
+     *     summary="Get Quick Launch Shortcuts",
+     *     operationId="get-quick-launch-shortcuts",
      *     @OA\Response(
      *         response="200",
      *         description="Success",

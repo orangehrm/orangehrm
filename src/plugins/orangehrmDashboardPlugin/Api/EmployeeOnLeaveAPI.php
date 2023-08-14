@@ -55,7 +55,9 @@ class EmployeeOnLeaveAPI extends Endpoint implements CollectionEndpoint
     /**
      * @OA\Get(
      *     path="/api/v2/dashboard/employees/leaves",
-     *     tags={"Dashboard"},
+     *     tags={"Dashboard/Widgets"},
+     *     summary="Get Employees on Leave Today",
+     *     operationId="get-employees-on-leave-today",
      *     @OA\Parameter(
      *         name="sortField",
      *         in="query",

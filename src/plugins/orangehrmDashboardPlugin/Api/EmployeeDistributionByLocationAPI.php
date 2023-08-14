@@ -39,7 +39,9 @@ class EmployeeDistributionByLocationAPI extends Endpoint implements CollectionEn
     /**
      * @OA\Get(
      *     path="/api/v2/dashboard/employees/locations",
-     *     tags={"Dashboard"},
+     *     tags={"Dashboard/Widgets"},
+     *     summary="Get Employee Distribution by Location",
+     *     operationId="get-employee-distribution-by-location",
      *     @OA\Response(
      *         response="200",
      *         description="Success",

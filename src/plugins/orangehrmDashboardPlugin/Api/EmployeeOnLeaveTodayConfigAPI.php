@@ -41,7 +41,9 @@ class EmployeeOnLeaveTodayConfigAPI extends Endpoint implements ResourceEndpoint
     /**
      * @OA\Get(
      *     path="/api/v2/dashboard/config/employee-on-leave-today",
-     *     tags={"Dashboard"},
+     *     tags={"Dashboard/Widgets"},
+     *     summary="Get Employees on Leave Today Configuration",
+     *     operationId="get-employees-on-leave-today-configuration",
      *     @OA\Response(
      *         response="200",
      *         description="Success",
@@ -76,7 +78,9 @@ class EmployeeOnLeaveTodayConfigAPI extends Endpoint implements ResourceEndpoint
     /**
      * @OA\Put(
      *     path="/api/v2/dashboard/config/employee-on-leave-today",
-     *     tags={"Dashboard"},
+     *     tags={"Dashboard/Widgets"},
+     *     summary="Configure Employees on Leave Today",
+     *     operationId="configure-employees-on-leave-today",
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",

@@ -49,7 +49,9 @@ class EmployeeTimeAtWorkAPI extends Endpoint implements ResourceEndpoint
     /**
      * @OA\Get(
      *     path="/api/v2/dashboard/employees/time-at-work",
-     *     tags={"Dashboard"},
+     *     tags={"Dashboard/Widgets"},
+     *     summary="Get My Time at Work",
+     *     operationId="get-my-time-at-work",
      *     @OA\Parameter(
      *         name="currentDate",
      *         in="query",

@@ -54,7 +54,9 @@ class EmployeeActionSummaryAPI extends Endpoint implements ResourceEndpoint
     /**
      * @OA\Get(
      *     path="/api/v2/dashboard/employees/action-summary",
-     *     tags={"Dashboard"},
+     *     tags={"Dashboard/Widgets"},
+     *     summary="Get My Action Summary",
+     *     operationId="get-my-action-summary",
      *     @OA\Response(
      *         response="200",
      *         description="Success",
