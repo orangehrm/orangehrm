@@ -53,6 +53,8 @@ class PurgeEmployeeAPI extends Endpoint implements CollectionEndpoint
      * @OA\Delete(
      *     path="/api/v2/maintenance/purge",
      *     tags={"Maintenance/Purge Employee"},
+     *     summary="Purge Employee",
+     *     operationId="purge-employee",
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",

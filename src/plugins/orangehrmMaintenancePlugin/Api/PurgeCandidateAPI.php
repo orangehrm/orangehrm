@@ -62,6 +62,8 @@ class PurgeCandidateAPI extends Endpoint implements CollectionEndpoint
      * @OA\Delete(
      *     path="/api/v2/maintenance/candidates/purge",
      *     tags={"Maintenance/Purge Candidate"},
+     *     summary="Purge Candidate",
+     *     operationId="purge-candidate",
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
@@ -113,6 +115,8 @@ class PurgeCandidateAPI extends Endpoint implements CollectionEndpoint
      * @OA\Get(
      *     path="/api/v2/maintenance/candidates",
      *     tags={"Maintenance/Purge Candidate"},
+     *     summary="List Purgeable Candidates for a Vacancy",
+     *     operationId="list-purgeable-candidates-for-a-vacancy",
      *     @OA\Parameter(
      *         name="vacancyId",
      *         in="query",
