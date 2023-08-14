@@ -74,6 +74,8 @@ class ClaimExpenseAPI extends Endpoint implements CrudEndpoint
      * @OA\Get(
      *     path="/api/v2/claim/requests/{requestId}/expenses",
      *     tags={"Claim/Expenses"},
+     *     summary="List All Expenses from a Claim",
+     *     operationId="list-all-expenses-from-a-claim",
      *     @OA\PathParameter(
      *         name="requestId",
      *         @OA\Schema(type="integer")
@@ -151,6 +153,8 @@ class ClaimExpenseAPI extends Endpoint implements CrudEndpoint
      * @OA\Post(
      *     path="/api/v2/claim/requests/{requestId}/expenses",
      *     tags={"Claim/Expenses"},
+     *     summary="Add an Expense to a Claim",
+     *     operationId="add-an-expense-to-a-claim",
      *     @OA\PathParameter(
      *         name="requestId",
      *         @OA\Schema(type="integer")
@@ -285,6 +289,8 @@ class ClaimExpenseAPI extends Endpoint implements CrudEndpoint
      * @OA\Delete(
      *     path="/api/v2/claim/requests/{requestId}/expenses",
      *     tags={"Claim/Expenses"},
+     *     summary="Remove an Expense from a Claim",
+     *     operationId="remove-an-expense-from-a-claim",
      *     @OA\PathParameter(
      *         name="requestId",
      *         @OA\Schema(type="integer")
@@ -332,6 +338,8 @@ class ClaimExpenseAPI extends Endpoint implements CrudEndpoint
      * @OA\Get(
      *     path="/api/v2/claim/requests/{requestId}/expenses/{id}",
      *     tags={"Claim/Expenses"},
+     *     summary="Get an Expense from a Claim",
+     *     operationId="get-an-expense-from-a-claim",
      *     @OA\PathParameter(
      *         name="requestId",
      *         @OA\Schema(type="integer")
@@ -395,6 +403,8 @@ class ClaimExpenseAPI extends Endpoint implements CrudEndpoint
      * @OA\Put(
      *     path="/api/v2/claim/requests/{requestId}/expenses/{id}",
      *     tags={"Claim/Expenses"},
+     *     summary="Update an Expense from a Claim",
+     *     operationId="update-an-expense-from-a-claim",
      *     @OA\PathParameter(
      *         name="requestId",
      *         @OA\Schema(type="integer")

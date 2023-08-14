@@ -43,7 +43,9 @@ class MyClaimRequestAPI extends EmployeeClaimRequestAPI
     /**
      * @OA\Post(
      *     path="/api/v2/claim/requests",
-     *     tags={"Claim/Requests"},
+     *     tags={"Claim/My Requests"},
+     *     summary="Create My Claim Request",
+     *     operationId="create-my-claim-request",
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
@@ -91,7 +93,9 @@ class MyClaimRequestAPI extends EmployeeClaimRequestAPI
     /**
      * @OA\Get(
      *     path="/api/v2/claim/requests/{id}",
-     *     tags={"Claim/Requests"},
+     *     tags={"Claim/My Requests"},
+     *     summary="Get My Claim Request",
+     *     operationId="get-my-claim-request",
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
@@ -153,7 +157,9 @@ class MyClaimRequestAPI extends EmployeeClaimRequestAPI
     /**
      * @OA\Get(
      *     path="/api/v2/claim/requests",
-     *     tags={"Claim/Requests"},
+     *     tags={"Claim/My Requests"},
+     *     summary="List My Claim Requests",
+     *     operationId="list-my-claim-requests",
      *     @OA\Parameter(
      *         name="sortField",
      *         in="query",
