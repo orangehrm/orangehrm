@@ -38,8 +38,8 @@ class CurrentDateTimeAPI extends Endpoint implements ResourceEndpoint
      * @OA\Get(
      *     path="/api/v2/attendance/current-datetime",
      *     tags={"Attendance/Current Date Time"},
-     *     summary="Get Current Date Time",
-     *     operationId="get-current-date-time",
+     *     summary="Get the Current Date & Time",
+     *     operationId="get-the-current-date-and-time",
      *     @OA\Response(
      *         response="200",
      *         description="Success",

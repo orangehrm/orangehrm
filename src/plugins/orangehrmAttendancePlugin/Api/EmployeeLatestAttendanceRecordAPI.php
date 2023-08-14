@@ -42,9 +42,9 @@ class EmployeeLatestAttendanceRecordAPI extends Endpoint implements ResourceEndp
     /**
      * @OA\Get(
      *     path="/api/v2/attendance/records/latest",
-     *     tags={"Attendance/Attendance Record Latest"},
-     *     summary="Get Latest Attendance Record",
-     *     operationId="get-latest-attendance-record",
+     *     tags={"Attendance/Attendance Record"},
+     *     summary="Get the Latest Attendance Record",
+     *     operationId="get-the-latest-attendance-record",
      *     @OA\Parameter(
      *         name="empNumber",
      *         in="query",
