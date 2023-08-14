@@ -67,7 +67,7 @@ class EmailSubscriberAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Get(
      *     path="/api/v2/admin/email-subscriptions/{emailSubscriptionId}/subscribers",
-     *     tags={"Admin/Email Configuration"},
+     *     tags={"Admin/Email Subscriber"},
      *     summary="List All Email Subscribers",
      *     operationId="list-all-email-subscribers",
      *     @OA\PathParameter(
@@ -146,7 +146,7 @@ class EmailSubscriberAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Post(
      *     path="/api/v2/admin/email-subscriptions/{emailSubscriptionId}/subscribers",
-     *     tags={"Admin/Email Configuration"},
+     *     tags={"Admin/Email Subscriber"},
      *     summary="Create an Email Subscriber",
      *     operationId="create-an-email-subscriber",
      *     @OA\PathParameter(
@@ -222,7 +222,7 @@ class EmailSubscriberAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Delete(
      *     path="/api/v2/admin/email-subscriptions/{emailSubscriptionId}/subscribers",
-     *     tags={"Admin/Email Configuration"},
+     *     tags={"Admin/Email Subscriber"},
      *     summary="Delete Email Subscribers",
      *     operationId="delete-email-subscribers",
      *     @OA\PathParameter(
@@ -268,7 +268,7 @@ class EmailSubscriberAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Get(
      *     path="/api/v2/admin/email-subscriptions/{emailSubscriptionId}/subscribers/{id}",
-     *     tags={"Admin/Email Configuration"},
+     *     tags={"Admin/Email Subscriber"},
      *     summary="Get an Email Subscriber",
      *     operationId="get-an-email-subscriber",
      *     @OA\PathParameter(
@@ -332,7 +332,7 @@ class EmailSubscriberAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Put(
      *     path="/api/v2/admin/email-subscriptions/{emailSubscriptionId}/subscribers/{id}",
-     *     tags={"Admin/Email Configuration"},
+     *     tags={"Admin/Email Subscriber"},
      *     summary="Update an Email Susbcriber",
      *     operationId="update-an-email-subscriber",
      *     @OA\PathParameter(

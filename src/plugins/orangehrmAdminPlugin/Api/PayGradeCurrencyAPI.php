@@ -62,7 +62,7 @@ class PayGradeCurrencyAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Get(
      *     path="/api/v2/admin/pay-grades/{payGradeId}/currencies/{id}",
-     *     tags={"Admin/Pay Grade"},
+     *     tags={"Admin/Pay Grade Currency"},
      *     summary="Get a Pay Grade Currency",
      *     operationId="get-a-pay-grade-currency",
      *     @OA\PathParameter(
@@ -118,7 +118,7 @@ class PayGradeCurrencyAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Get(
      *     path="/api/v2/admin/pay-grades/{payGradeId}/currencies",
-     *     tags={"Admin/Pay Grade"},
+     *     tags={"Admin/Pay Grade Currency"},
      *     summary="List All Pay Grade Currencies",
      *     operationId="list-all-pay-grade-currencies",
      *     @OA\PathParameter(
@@ -192,7 +192,7 @@ class PayGradeCurrencyAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Post(
      *     path="/api/v2/admin/pay-grades/{payGradeId}/currencies",
-     *     tags={"Admin/Pay Grade"},
+     *     tags={"Admin/Pay Grade Currency"},
      *     summary="Create a Pay Grade Currency",
      *     operationId="create-a-pay-grade-currency",
      *     @OA\PathParameter(
@@ -251,7 +251,7 @@ class PayGradeCurrencyAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Put(
      *     path="/api/v2/admin/pay-grades/{payGradeId}/currencies/{id}",
-     *     tags={"Admin/Pay Grade"},
+     *     tags={"Admin/Pay Grade Currency"},
      *     summary="Update a Pay Grade Currency",
      *     operationId="update-a-pay-grade-currency",
      *     @OA\PathParameter(
@@ -312,7 +312,7 @@ class PayGradeCurrencyAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Delete(
      *     path="/api/v2/admin/pay-grades/{payGradeId}/currencies",
-     *     tags={"Admin/Pay Grade"},
+     *     tags={"Admin/Pay Grade Currency"},
      *     summary="Delete Pay Grade Currencies",
      *     operationId="delete-pay-grade-currencies",
      *     @OA\PathParameter(
