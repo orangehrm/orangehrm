@@ -125,6 +125,8 @@ class MenuItemAPI extends Endpoint implements ResourceEndpoint
      * @OA\Get(
      *     path="/api/v2/mobile/menus",
      *     tags={"Mobile/Menu Items"},
+     *     summary="List Mobile Menu Items",
+     *     operationId="list-mobile-menu-items",
      *     @OA\Response(
      *         response="200",
      *         description="Success",
