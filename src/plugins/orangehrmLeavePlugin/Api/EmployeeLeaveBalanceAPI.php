@@ -54,6 +54,8 @@ class EmployeeLeaveBalanceAPI extends Endpoint implements CollectionEndpoint
      * @OA\Get(
      *     path="/api/v2/leave/employees/leave-balances",
      *     tags={"Leave/Leave Balance"},
+     *     summary="Get an Employee's Leave Balance",
+     *     operationId="get-an-employees-leave-balance",
      *     @OA\Parameter(
      *         name="empNumber",
      *         in="query",

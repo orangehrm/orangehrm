@@ -83,6 +83,8 @@ class LeaveRequestCommentAPI extends Endpoint implements CollectionEndpoint
      * @OA\Get(
      *     path="/api/v2/leave/leave-requests/{leaveRequestId}/leave-comments",
      *     tags={"Leave/Leave Request Comment"},
+     *     summary="List Comments for a Leave Request",
+     *     operationId="list-comments-for-a-leave-request",
      *     @OA\PathParameter(
      *         name="leaveRequestId",
      *         @OA\Schema(type="integer")
@@ -156,6 +158,8 @@ class LeaveRequestCommentAPI extends Endpoint implements CollectionEndpoint
      * @OA\Post(
      *     path="/api/v2/leave/leave-requests/{leaveRequestId}/leave-comments",
      *     tags={"Leave/Leave Request Comment"},
+     *     summary="Comment on a Leave Request",
+     *     operationId="comment-on-a-leave-request",
      *     @OA\PathParameter(
      *         name="leaveRequestId",
      *         @OA\Schema(type="integer")

@@ -55,6 +55,8 @@ class EmployeeLeaveEntitlementAPI extends Endpoint implements CrudEndpoint
      * @OA\Get(
      *     path="/api/v2/leave/employees/{empNumber}/leave-entitlements",
      *     tags={"Leave/Entitlements"},
+     *     summary="Get an Employee's Leave Entitlement",
+     *     operationId="get-an-employees-leave-entitlement",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")
@@ -137,6 +139,8 @@ class EmployeeLeaveEntitlementAPI extends Endpoint implements CrudEndpoint
      * @OA\Get(
      *     path="/api/v2/leave/employees/leave-entitlements",
      *     tags={"Leave/Entitlements"},
+     *     summary="List an Employee's Leave Entitlements",
+     *     operationId="list-an-employees-leave-entitlements",
      *     @OA\Parameter(
      *         name="leaveTypeId",
      *         in="query",

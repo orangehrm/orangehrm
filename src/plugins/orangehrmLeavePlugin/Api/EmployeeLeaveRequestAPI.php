@@ -88,6 +88,8 @@ class EmployeeLeaveRequestAPI extends Endpoint implements CrudEndpoint
      * @OA\Get(
      *     path="/api/v2/leave/employees/leave-requests/{leaveRequestId}",
      *     tags={"Leave/Employee Leave Request"},
+     *     summary="Get a Leave Request",
+     *     operationId="get-a-leave-request",
      *     @OA\PathParameter(
      *         name="leaveRequestId",
      *         @OA\Schema(type="integer")
@@ -163,6 +165,8 @@ class EmployeeLeaveRequestAPI extends Endpoint implements CrudEndpoint
      * @OA\Get(
      *     path="/api/v2/leave/employees/leave-requests",
      *     tags={"Leave/Employee Leave Request"},
+     *     summary="List All Leave Requests",
+     *     operationId="list-all-leave-requests",
      *     @OA\Parameter(
      *         name="fromDate",
      *         in="query",
@@ -417,6 +421,8 @@ class EmployeeLeaveRequestAPI extends Endpoint implements CrudEndpoint
      * @OA\Post(
      *     path="/api/v2/leave/employees/leave-requests",
      *     tags={"Leave/Employee Leave Request"},
+     *     summary="Create a Leave Request",
+     *     operationId="create-a-leave-request",
      *     @OA\Parameter(
      *         name="model",
      *         in="query",
@@ -524,6 +530,8 @@ class EmployeeLeaveRequestAPI extends Endpoint implements CrudEndpoint
      * @OA\Put(
      *     path="/api/v2/leave/employees/leave-requests/{leaveRequestId}",
      *     tags={"Leave/Employee Leave Request"},
+     *     summary="Update a Leave Request",
+     *     operationId="update-a-leave-request",
      *     @OA\PathParameter(
      *         name="leaveRequestId",
      *         @OA\Schema(type="integer")

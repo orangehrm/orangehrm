@@ -86,6 +86,8 @@ class LeaveAPI extends Endpoint implements CrudEndpoint
      * @OA\Get(
      *     path="/api/v2/leave/leave-requests/{leaveRequestId}/leaves",
      *     tags={"Leave/Leaves"},
+     *     summary="List All Leaves in a Leave Request",
+     *     operationId="list-all-leaves-in-a-leave-request",
      *     @OA\PathParameter(
      *         name="leaveRequestId",
      *         @OA\Schema(type="integer")
@@ -222,6 +224,8 @@ class LeaveAPI extends Endpoint implements CrudEndpoint
      * @OA\Put(
      *     path="/api/v2/leave/leaves/{leaveId}",
      *     tags={"Leave/Leaves"},
+     *     summary="Update a Leave",
+     *     operationId="update-a-leave",
      *     @OA\PathParameter(
      *         name="leaveId",
      *         @OA\Schema(type="integer")

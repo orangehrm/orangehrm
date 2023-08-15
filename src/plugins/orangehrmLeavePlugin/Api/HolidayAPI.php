@@ -57,6 +57,8 @@ class HolidayAPI extends Endpoint implements CrudEndpoint
      * @OA\Get(
      *     path="/api/v2/leave/holidays/{id}",
      *     tags={"Leave/Configure"},
+     *     summary="Get a Holiday",
+     *     operationId="get-a-holiday",
      *     @OA\PathParameter(
      *         name="id",
      *         @OA\Schema(type="integer")
@@ -113,6 +115,8 @@ class HolidayAPI extends Endpoint implements CrudEndpoint
      * @OA\Get(
      *     path="/api/v2/leave/holidays",
      *     tags={"Leave/Configure"},
+     *     summary="List All Holidays",
+     *     operationId="list-all-holidays",
      *     @OA\Parameter(
      *         name="toDate",
      *         in="query",
@@ -188,6 +192,8 @@ class HolidayAPI extends Endpoint implements CrudEndpoint
      * @OA\Post(
      *     path="/api/v2/leave/holidays",
      *     tags={"Leave/Configure"},
+     *     summary="Create a Holiday",
+     *     operationId="create-a-holiday",
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
@@ -276,6 +282,8 @@ class HolidayAPI extends Endpoint implements CrudEndpoint
      * @OA\Put(
      *     path="/api/v2/leave/holidays/{id}",
      *     tags={"Leave/Configure"},
+     *     summary="Update a Holiday",
+     *     operationId="Update a Holiday",
      *     @OA\PathParameter(
      *         name="id",
      *         @OA\Schema(type="integer")
@@ -334,6 +342,8 @@ class HolidayAPI extends Endpoint implements CrudEndpoint
      * @OA\Delete(
      *     path="/api/v2/leave/holidays",
      *     tags={"Leave/Configure"},
+     *     summary="Delete Holidays",
+     *     operationId="delete-holidays",
      *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),
      *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse")
      * )
