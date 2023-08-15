@@ -73,7 +73,9 @@ class EmploymentContractAPI extends Endpoint implements ResourceEndpoint
     /**
      * @OA\Get(
      *     path="/api/v2/pim/employees/{empNumber}/employment-contract",
-     *     tags={"Pim/Employement Contract"},
+     *     tags={"PIM/Employement Contract"},
+     *     summary="Get an Employee's Employment Contract",
+     *     operationId="get-an-employees-employment-contract",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")
@@ -133,7 +135,9 @@ class EmploymentContractAPI extends Endpoint implements ResourceEndpoint
     /**
      * @OA\Put(
      *     path="/api/v2/pim/employees/{empNumber}/employment-contract",
-     *     tags={"Pim/Employement Contract"},
+     *     tags={"PIM/Employement Contract"},
+     *     summary="Update an Employee's Employment Contract",
+     *     operationId="update-an-employees-employment-contract",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")

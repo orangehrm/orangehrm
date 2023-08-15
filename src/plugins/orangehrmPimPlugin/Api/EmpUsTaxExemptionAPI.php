@@ -66,7 +66,9 @@ class EmpUsTaxExemptionAPI extends Endpoint implements ResourceEndpoint
     /**
      * @OA\Get(
      *     path="/api/v2/pim/employees/{empNumber}/tax-exemption",
-     *     tags={"Pim/Employee US Tax Exemption"},
+     *     tags={"PIM/Employee US Tax Exemption"},
+     *     summary="Get an Employee's US Tax Exemption Details",
+     *     operationId="get-an-employees-us-tax-expemption-details",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")
@@ -136,7 +138,9 @@ class EmpUsTaxExemptionAPI extends Endpoint implements ResourceEndpoint
     /**
      * @OA\Put(
      *     path="/api/v2/pim/employees/{empNumber}/tax-exemption",
-     *     tags={"Pim/Employee US Tax Exemption"},
+     *     tags={"PIM/Employee US Tax Exemption"},
+     *     summary="Update an Employee's US Tax Exemption Details",
+     *     operationId="update-an-employees-us-tax-exemption-details",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")

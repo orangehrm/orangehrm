@@ -62,7 +62,9 @@ class UpdatePasswordAPI extends Endpoint implements ResourceEndpoint
     /**
      * @OA\Put(
      *     path="/api/v2/pim/update-password",
-     *     tags={"Pim/Update Password"},
+     *     tags={"PIM/Update Password"},
+     *     summary="Update Password",
+     *     operationId="update-password",
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",

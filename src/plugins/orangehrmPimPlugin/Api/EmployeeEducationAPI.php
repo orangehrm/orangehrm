@@ -72,7 +72,9 @@ class EmployeeEducationAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Get(
      *     path="/api/v2/pim/employees/{empNumber}/educations/{id}",
-     *     tags={"Pim/Employee Education"},
+     *     tags={"PIM/Employee Education"},
+     *     summary="Get an Employee's Educational Qualification",
+     *     operationId="get-an-employees-educational-qualification",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")
@@ -148,7 +150,9 @@ class EmployeeEducationAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Get(
      *     path="/api/v2/pim/employees/{empNumber}/educations",
-     *     tags={"Pim/Employee Education"},
+     *     tags={"PIM/Employee Education"},
+     *     summary="List an Employee's Educational Qualifications",
+     *     operationId="list-an-employees-educational-qualifications",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")
@@ -222,7 +226,9 @@ class EmployeeEducationAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Post(
      *     path="/api/v2/pim/employees/{empNumber}/educations",
-     *     tags={"Pim/Employee Education"},
+     *     tags={"PIM/Employee Education"},
+     *     summary="Add an Educational Qualification to an Employee",
+     *     operationId="add-an-educational-qualification-to-an-employee",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")
@@ -355,7 +361,9 @@ class EmployeeEducationAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Put(
      *     path="/api/v2/pim/employees/{empNumber}/educations/{id}",
-     *     tags={"Pim/Employee Education"},
+     *     tags={"PIM/Employee Education"},
+     *     summary="Update an Employee's Educational Qualification",
+     *     operationId="update-an-employees-educational-qualification",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")
@@ -440,7 +448,9 @@ class EmployeeEducationAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Delete(
      *     path="/api/v2/pim/employees/{empNumber}/educations",
-     *     tags={"Pim/Employee Education"},
+     *     tags={"PIM/Employee Education"},
+     *     summary="Delete an Employee's Educational Qualifications",
+     *     operationId="delete-an-employees-educational-qualifications",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")

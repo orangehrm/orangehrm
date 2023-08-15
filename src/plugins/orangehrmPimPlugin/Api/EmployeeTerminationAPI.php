@@ -48,7 +48,9 @@ class EmployeeTerminationAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Get(
      *     path="/api/v2/pim/employees/{empNumber}/terminations/{id}",
-     *     tags={"Pim/Employee Termination"},
+     *     tags={"PIM/Employee Termination"},
+     *     summary="Get an Employee's Termination Record",
+     *     operationId="get-an-employees-termination-record",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")
@@ -143,7 +145,9 @@ class EmployeeTerminationAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Post(
      *     path="/api/v2/pim/employees/{empNumber}/terminations",
-     *     tags={"Pim/Employee Termination"},
+     *     tags={"PIM/Employee Termination"},
+     *     summary="Terminate an Employee",
+     *     operationId="terminate-an-employee",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")
@@ -260,7 +264,9 @@ class EmployeeTerminationAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Put(
      *     path="/api/v2/pim/employees/{empNumber}/terminations/{id}",
-     *     tags={"Pim/Employee Termination"},
+     *     tags={"PIM/Employee Termination"},
+     *     summary="Update an Employee's Termination Record",
+     *     operationId="update-an-employees-termination-record",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")
@@ -336,7 +342,9 @@ class EmployeeTerminationAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Delete(
      *     path="/api/v2/pim/employees/{empNumber}/terminations",
-     *     tags={"Pim/Employee Termination"},
+     *     tags={"PIM/Employee Termination"},
+     *     summary="Delete an Employee's Termination Record",
+     *     operationId="delete-an-employees-termination-record",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")

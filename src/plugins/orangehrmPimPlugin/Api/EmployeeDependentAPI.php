@@ -70,7 +70,9 @@ class EmployeeDependentAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Get(
      *     path="/api/v2/pim/employees/{empNumber}/dependents/{id}",
-     *     tags={"Pim/Employee Dependent"},
+     *     tags={"PIM/Employee Dependent"},
+     *     summary="Get an Employee's Dependent",
+     *     operationId="get-an-employees-dependent",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")
@@ -139,7 +141,9 @@ class EmployeeDependentAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Get(
      *     path="/api/v2/pim/employees/{empNumber}/dependents",
-     *     tags={"Pim/Employee Dependent"},
+     *     tags={"PIM/Employee Dependent"},
+     *     summary="List an Employee's Dependents",
+     *     operationId="list-an-employees-dependents",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")
@@ -246,7 +250,9 @@ class EmployeeDependentAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Post(
      *     path="/api/v2/pim/employees/{empNumber}/dependents",
-     *     tags={"Pim/Employee Dependent"},
+     *     tags={"PIM/Employee Dependent"},
+     *     summary="Add a Dependent to an Employee",
+     *     operationId="add-a-dependent-to-an-employee",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")
@@ -386,7 +392,9 @@ class EmployeeDependentAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Put(
      *     path="/api/v2/pim/employees/{empNumber}/dependents/{id}",
-     *     tags={"Pim/Employee Dependent"},
+     *     tags={"PIM/Employee Dependent"},
+     *     summary="Update an Employee's Dependent",
+     *     operationId="update-an-employees-dependent",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")
@@ -463,7 +471,9 @@ class EmployeeDependentAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Delete(
      *     path="/api/v2/pim/employees/{empNumber}/dependents",
-     *     tags={"Pim/Employee Dependent"},
+     *     tags={"PIM/Employee Dependent"},
+     *     summary="Delete an Employee's Dependents",
+     *     operationId="delete-an-employees-dependents",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")

@@ -67,6 +67,34 @@ class EmployeeWorkExperienceAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/pim/employees/{empNumber}/work-experiences/{id}",
+     *     tags={"PIM/Employee Work Experience"},
+     *     summary="Get an Employee's Work Experience Record",
+     *     operationId="get-an-employees-work-experience-record",
+     *     @OA\PathParameter(
+     *         name="empNumber",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\PathParameter(
+     *         name="id",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Pim-EmployeeWorkExperienceModel"
+     *             ),
+     *             @OA\Property(property="meta",
+     *                 type="object",
+     *                 @OA\Property(property="empNumber", type="integer")
+     *             )
+     *         )
+     *     ),
+     * )
      * @inheritDoc
      */
     public function getOne(): EndpointResourceResult
@@ -109,7 +137,9 @@ class EmployeeWorkExperienceAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Get(
      *     path="/api/v2/pim/employees/{empNumber}/work-experiences",
-     *     tags={"Pim/Employee Work Experience"},
+     *     tags={"PIM/Employee Work Experience"},
+     *     summary="List Employee's Work Experience Records",
+     *     operationId="list-employees-work-experience-records",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")
@@ -187,7 +217,9 @@ class EmployeeWorkExperienceAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Post(
      *     path="/api/v2/pim/employees/{empNumber}/work-experiences",
-     *     tags={"Pim/Employee Work Experience"},
+     *     tags={"PIM/Employee Work Experience"},
+     *     summary="Add a Work Experience Record to an Employee",
+     *     operationId="add-a-work-experience-record-to-an-employee",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")
@@ -299,7 +331,9 @@ class EmployeeWorkExperienceAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Put(
      *     path="/api/v2/pim/employees/{empNumber}/work-experiences/{id}",
-     *     tags={"Pim/Employee Work Experience"},
+     *     tags={"PIM/Employee Work Experience"},
+     *     summary="Update an Employee's Work Experiece Record",
+     *     operationId="update-an-employees-work-experience-record",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")
@@ -375,7 +409,9 @@ class EmployeeWorkExperienceAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Delete(
      *     path="/api/v2/pim/employees/{empNumber}/work-experiences",
-     *     tags={"Pim/Employee Work Experience"},
+     *     tags={"PIM/Employee Work Experience"},
+     *     summary="Delete an Employee's Work Experience Records",
+     *     operationId="delete-an-employees-work-experience-records",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")

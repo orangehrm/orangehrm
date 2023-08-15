@@ -45,7 +45,9 @@ class ValidationEmployeeOtherEmailAPI extends Endpoint implements ResourceEndpoi
     /**
      * @OA\Get(
      *     path="/api/v2/pim/employees/{empNumber}/contact-details/validation/other-emails",
-     *     tags={"Pim/Employee Email Validation"},
+     *     tags={"PIM/Employee Email Validation"},
+     *     summary="Validate an Employee's Other Email",
+     *     operationId="validate-an-employee-other-email",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")

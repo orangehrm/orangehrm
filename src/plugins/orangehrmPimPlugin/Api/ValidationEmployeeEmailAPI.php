@@ -45,7 +45,9 @@ class ValidationEmployeeEmailAPI extends Endpoint implements ResourceEndpoint
     /**
      * @OA\Get(
      *     path="/api/v2/pim/employees/{empNumber}/contact-details/validation/work-emails",
-     *     tags={"Pim/Employee Email Validation"},
+     *     tags={"PIM/Employee Email Validation"},
+     *     summary="Validate an Employee's Work Email",
+     *     operationId="validate-an-employees-work-email",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")

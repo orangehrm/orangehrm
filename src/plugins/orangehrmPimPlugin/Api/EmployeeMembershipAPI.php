@@ -64,7 +64,9 @@ class EmployeeMembershipAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Get(
      *     path="/api/v2/pim/employees/{empNumber}/memberships/{id}",
-     *     tags={"Pim/Employee Membership"},
+     *     tags={"PIM/Employee Membership"},
+     *     summary="Get an Employee's Membership",
+     *     operationId="get-an-employees-membership",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")
@@ -132,7 +134,9 @@ class EmployeeMembershipAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Get(
      *     path="/api/v2/pim/employees/{empNumber}/memberships",
-     *     tags={"Pim/Employee Membership"},
+     *     tags={"PIM/Employee Membership"},
+     *     summary="List an Employee's Memberships",
+     *     operationId="list-an-employees-memberships",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")
@@ -210,7 +214,9 @@ class EmployeeMembershipAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Post(
      *     path="/api/v2/pim/employees/{empNumber}/memberships",
-     *     tags={"Pim/Employee Membership"},
+     *     tags={"PIM/Employee Membership"},
+     *     summary="Add a Membership to an Employee",
+     *     operationId="add-a-membership-to-an-employee",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")
@@ -311,7 +317,9 @@ class EmployeeMembershipAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Put(
      *     path="/api/v2/pim/employees/{empNumber}/memberships/{id}",
-     *     tags={"Pim/Employee Membership"},
+     *     tags={"PIM/Employee Membership"},
+     *     summary="Update an Employee's Membership",
+     *     operationId="update-an-employees-membership",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")
@@ -378,7 +386,9 @@ class EmployeeMembershipAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Delete(
      *     path="/api/v2/pim/employees/{empNumber}/memberships",
-     *     tags={"Pim/Employee Membership"},
+     *     tags={"PIM/Employee Membership"},
+     *     summary="Delete an Employee's Memberships",
+     *     operationId="delete-an-employees-memberships",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")

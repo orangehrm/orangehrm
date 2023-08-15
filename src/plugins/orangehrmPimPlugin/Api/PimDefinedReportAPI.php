@@ -73,7 +73,9 @@ class PimDefinedReportAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Get(
      *     path="/api/v2/pim/reports/defined",
-     *     tags={"Pim/Defined Report"},
+     *     tags={"PIM/Defined Report"},
+     *     summary="List All PIM Reports",
+     *     operationId="list-all-pim-reports",
      *     @OA\Parameter(
      *         name="name",
      *         in="query",
@@ -163,7 +165,9 @@ class PimDefinedReportAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Post(
      *     path="/api/v2/pim/reports/defined",
-     *     tags={"Pim/Defined Report"},
+     *     tags={"PIM/Defined Report"},
+     *     summary="Create a PIM Report",
+     *     operationId="create-a-pim-report",
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
@@ -248,7 +252,9 @@ class PimDefinedReportAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Delete(
      *     path="/api/v2/pim/reports/defined",
-     *     tags={"Pim/Defined Report"},
+     *     tags={"PIM/Defined Report"},
+     *     summary="Delete PIM Reports",
+     *     operationId="delete-pim-reports",
      *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),
      *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse")
      * )
@@ -306,7 +312,9 @@ class PimDefinedReportAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Put(
      *     path="/api/v2/pim/reports/defined/{id}",
-     *     tags={"Pim/Defined Report"},
+     *     tags={"PIM/Defined Report"},
+     *     summary="Update a PIM Report",
+     *     operationId="update-a-pim-report",
      *     @OA\PathParameter(
      *         name="id",
      *         @OA\Schema(type="integer")

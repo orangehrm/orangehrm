@@ -69,7 +69,9 @@ class EmployeeCustomFieldAPI extends Endpoint implements ResourceEndpoint
     /**
      * @OA\Get(
      *     path="/api/v2/pim/employees/{empNumber}/custom-fields",
-     *     tags={"Pim/Employee Custom Field"},
+     *     tags={"PIM/Employee Custom Field"},
+     *     summary="List an Employee's Custom Fields",
+     *     operationId="list-an-employees-custom-fields",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")
@@ -205,7 +207,9 @@ class EmployeeCustomFieldAPI extends Endpoint implements ResourceEndpoint
     /**
      * @OA\Put(
      *     path="/api/v2/pim/employees/{empNumber}/custom-fields",
-     *     tags={"Pim/Employee Custom Field"},
+     *     tags={"PIM/Employee Custom Field"},
+     *     summary="Update an Employee's Custom Fields",
+     *     operationId="update-an-employees-custom-fields",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")

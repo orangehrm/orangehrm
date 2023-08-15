@@ -65,7 +65,9 @@ class EmployeeAllowedReportToEmployeeAPI extends Endpoint implements CollectionE
     /**
      * @OA\Get(
      *     path="/api/v2/pim/employees/{empNumber}/report-to/allowed",
-     *     tags={"PIM/Employee Allowed Report"},
+     *     tags={"PIM/Employee Report To"},
+     *     summary="List Available Employees",
+     *     operationId="list-available-employees",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")

@@ -61,7 +61,9 @@ class TerminationReasonConfigurationAPI extends EndPoint implements CrudEndpoint
     /**
      * @OA\Get(
      *     path="/api/v2/pim/termination-reasons",
-     *     tags={"Pim/Termination Reason Configuration"},
+     *     tags={"PIM/Termination Reason Configuration"},
+     *     summary="List All Termination Reasons",
+     *     operationId="list-all-termination-reasons",
      *     @OA\Parameter(
      *         name="sortField",
      *         in="query",
@@ -112,7 +114,9 @@ class TerminationReasonConfigurationAPI extends EndPoint implements CrudEndpoint
     /**
      * @OA\Post(
      *     path="/api/v2/pim/termination-reasons",
-     *     tags={"Pim/Termination Reason Configuration"},
+     *     tags={"PIM/Termination Reason Configuration"},
+     *     summary="Create a Termination Reason",
+     *     operationId="create-a-termination-reason",
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
@@ -182,7 +186,9 @@ class TerminationReasonConfigurationAPI extends EndPoint implements CrudEndpoint
     /**
      * @OA\Delete(
      *     path="/api/v2/pim/termination-reasons",
-     *     tags={"Pim/Termination Reason Configuration"},
+     *     tags={"PIM/Termination Reason Configuration"},
+     *     summary="Delete Termination Reasons",
+     *     operationId="delete-termination-reasons",
      *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),
      *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse")
      * )
@@ -222,7 +228,9 @@ class TerminationReasonConfigurationAPI extends EndPoint implements CrudEndpoint
     /**
      * @OA\Get(
      *     path="/api/v2/pim/termination-reasons/{id}",
-     *     tags={"Pim/Termination Reason Configuration"},
+     *     tags={"PIM/Termination Reason Configuration"},
+     *     summary="Get a Termination Reason",
+     *     operationId="get-a-termination-reason",
      *     @OA\PathParameter(
      *         name="id",
      *         @OA\Schema(type="integer")
@@ -267,7 +275,9 @@ class TerminationReasonConfigurationAPI extends EndPoint implements CrudEndpoint
     /**
      * @OA\Put(
      *     path="/api/v2/pim/termination-reasons/{id}",
-     *     tags={"Pim/Termination Reason Configuration"},
+     *     tags={"PIM/Termination Reason Configuration"},
+     *     summary="Update a Termination Reason",
+     *     operationId="update-a-termination-reason",
      *     @OA\PathParameter(
      *         name="id",
      *         @OA\Schema(type="integer")

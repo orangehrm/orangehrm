@@ -66,7 +66,9 @@ class EmployeeLicenseAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Get(
      *     path="/api/v2/pim/employees/{empNumber}/licenses/{id}",
-     *     tags={"Pim/Employee Licenses"},
+     *     tags={"PIM/Employee Licenses"},
+     *     summary="Get an Employee's License",
+     *     operationId="get-an-employees-license",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")
@@ -132,7 +134,9 @@ class EmployeeLicenseAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Get(
      *     path="/api/v2/pim/employees/{empNumber}/licenses",
-     *     tags={"Pim/Employee Licenses"},
+     *     tags={"PIM/Employee Licenses"},
+     *     summary="List an Employee's Licenses",
+     *     operationId="list-an-employees-licenses",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")
@@ -209,7 +213,9 @@ class EmployeeLicenseAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Post(
      *     path="/api/v2/pim/employees/{empNumber}/licenses",
-     *     tags={"Pim/Employee Licenses"},
+     *     tags={"PIM/Employee Licenses"},
+     *     summary="Add a License to an Employee",
+     *     operationId="add-a-license-to-an-employee",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")
@@ -299,7 +305,9 @@ class EmployeeLicenseAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Put(
      *     path="/api/v2/pim/employees/{empNumber}/licenses/{id}",
-     *     tags={"Pim/Employee Licenses"},
+     *     tags={"PIM/Employee Licenses"},
+     *     summary="Update an Employee's License",
+     *     operationId="update-an-employees-license",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")
@@ -368,7 +376,9 @@ class EmployeeLicenseAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Delete(
      *     path="/api/v2/pim/employees/{empNumber}/licenses",
-     *     tags={"Pim/Employee Licenses"},
+     *     tags={"PIM/Employee Licenses"},
+     *     summary="Delete an Employee's Licenses",
+     *     operationId="delete-an-employees-licenses",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")

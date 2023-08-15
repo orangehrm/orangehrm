@@ -62,7 +62,9 @@ class ReportingMethodConfigurationAPI extends EndPoint implements CrudEndpoint
     /**
      * @OA\Get(
      *     path="/api/v2/pim/reporting-methods/{id}",
-     *     tags={"Pim/Reporting Method Configuration"},
+     *     tags={"PIM/Reporting Method Configuration"},
+     *     summary="Get a Reporting Method",
+     *     operationId="get-a-reporting-method",
      *     @OA\PathParameter(
      *         name="id",
      *         @OA\Schema(type="integer")
@@ -106,7 +108,9 @@ class ReportingMethodConfigurationAPI extends EndPoint implements CrudEndpoint
     /**
      * @OA\Get(
      *     path="/api/v2/pim/reporting-methods",
-     *     tags={"Pim/Reporting Method Configuration"},
+     *     tags={"PIM/Reporting Method Configuration"},
+     *     summary="List All Reporting Methods",
+     *     operationId="list-all-reporting-methods",
      *     @OA\Parameter(
      *         name="sortField",
      *         in="query",
@@ -157,7 +161,9 @@ class ReportingMethodConfigurationAPI extends EndPoint implements CrudEndpoint
     /**
      * @OA\Post(
      *     path="/api/v2/pim/reporting-methods",
-     *     tags={"Pim/Reporting Method Configuration"},
+     *     tags={"PIM/Reporting Method Configuration"},
+     *     summary="Create a Reporting Method",
+     *     operationId="create-a-reporting-method",
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
@@ -225,7 +231,9 @@ class ReportingMethodConfigurationAPI extends EndPoint implements CrudEndpoint
     /**
      * @OA\Put(
      *     path="/api/v2/pim/reporting-methods/{id}",
-     *     tags={"Pim/Reporting Method Configuration"},
+     *     tags={"PIM/Reporting Method Configuration"},
+     *     summary="Update a Reporting Method",
+     *     operationId="update-a-reporting-method",
      *     @OA\PathParameter(
      *         name="id",
      *         @OA\Schema(type="integer")
@@ -302,7 +310,9 @@ class ReportingMethodConfigurationAPI extends EndPoint implements CrudEndpoint
     /**
      * @OA\Delete(
      *     path="/api/v2/pim/reporting-methods",
-     *     tags={"Pim/Reporting Method Configuration"},
+     *     tags={"PIM/Reporting Method Configuration"},
+     *     summary="Delete Reporting Methods",
+     *     operationId="delete-reporting-methods",
      *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),
      *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse")
      * )
