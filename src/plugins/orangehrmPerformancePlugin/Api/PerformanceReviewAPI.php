@@ -62,7 +62,9 @@ class PerformanceReviewAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Get(
      *     path="/api/v2/performance/manage/reviews",
-     *     tags={"Performance/Reviews"},
+     *     tags={"Performance/Review Configuration"},
+     *     summary="List All Performance Reviews",
+     *     operationId="list-all-performance-reviews",
      *     @OA\Parameter(
      *         name="empNumber",
      *         in="query",
@@ -269,7 +271,9 @@ class PerformanceReviewAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Post(
      *     path="/api/v2/performance/manage/reviews",
-     *     tags={"Performance/Reviews"},
+     *     tags={"Performance/Review Configuration"},
+     *     summary="Create a Performance Review",
+     *     operationId="create-a-performance-review",
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
@@ -399,7 +403,9 @@ class PerformanceReviewAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Delete(
      *     path="/api/v2/performance/manage/reviews",
-     *     tags={"Performance/Reviews"},
+     *     tags={"Performance/Review Configuration"},
+     *     summary="Delete Performance Reviews",
+     *     operationId="delete-performance-reviews",
      *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),
      *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse")
      * )
@@ -427,25 +433,27 @@ class PerformanceReviewAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     *@OA\Get(
+     * @OA\Get(
      *     path="/api/v2/performance/manage/reviews/{id}",
-     *     tags={"Performance/Reviews"},
-     * @OA\PathParameter(
-     *     name="id",
-     *     @OA\Schema(type="integer")
-     * ),
-     * @OA\Response(
-     *     response="200",
-     *     description="Success",
-     *     @OA\JsonContent(
-     *         @OA\Property(
-     *             property="data",
-     *             ref="#/components/schemas/Performance-PerformanceReviewModel"
-     *         ),
-     *         @OA\Property(property="meta", type="object")
-     *     )
-     * ),
-     * @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
+     *     tags={"Performance/Review Configuration"},
+     *     summary="Get a Performance Review",
+     *     operationId="get-a-performance-review",
+     *     @OA\PathParameter(
+     *         name="id",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Performance-PerformanceReviewModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
      * )
      *
      * @inheritDoc
@@ -474,7 +482,9 @@ class PerformanceReviewAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Put(
      *     path="/api/v2/performance/manage/reviews/{id}",
-     *     tags={"Performance/Reviews"},
+     *     tags={"Performance/Review Configuration"},
+     *     summary="Update a Performance Review",
+     *     operationId="update-a-performance-review",
      *     @OA\PathParameter(
      *         name="id",
      *         @OA\Schema(type="integer")

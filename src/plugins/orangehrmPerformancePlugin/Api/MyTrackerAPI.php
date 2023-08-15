@@ -39,7 +39,9 @@ class MyTrackerAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Get(
      *     path="/api/v2/performance/trackers}",
-     *     tags={"Performance/My Tracker"},
+     *     tags={"Performance/Trackers"},
+     *     summary="List My Performance Trackers",
+     *     operationId="list-my-performance-trackers",
      *     @OA\Parameter(
      *         name="sortField",
      *         in="query",

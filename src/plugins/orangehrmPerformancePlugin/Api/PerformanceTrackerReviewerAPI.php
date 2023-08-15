@@ -47,7 +47,9 @@ class PerformanceTrackerReviewerAPI extends Endpoint implements CollectionEndpoi
     /**
      * @OA\Get(
      *     path="/api/v2/performance/trackers/reviewers",
-     *     tags={"Performance/Configure Trackers"},
+     *     tags={"Performance/Tracker Configuration"},
+     *     summary="List All Available Tracker Reviewers",
+     *     operationId="list-all-available-employees",
      *     @OA\Parameter(
      *         name="empNumber",
      *         in="query",
