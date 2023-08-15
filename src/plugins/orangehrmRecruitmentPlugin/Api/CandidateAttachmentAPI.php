@@ -71,6 +71,8 @@ class CandidateAttachmentAPI extends Endpoint implements CrudEndpoint
      * @OA\Post(
      *     path="/api/v2/recruitment/candidate/attachments",
      *     tags={"Recruitment/Candidate Attachments"},
+     *     summary="Add an Attachment to a Candidate",
+     *     operationId="add-an-attachment-to-a-candidate",
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
@@ -181,6 +183,8 @@ class CandidateAttachmentAPI extends Endpoint implements CrudEndpoint
      * @OA\Get(
      *     path="/api/v2/recruitment/candidate/{candidateId}/attachment",
      *     tags={"Recruitment/Candidate Attachments"},
+     *     summary="Get a Candidate's Attachment",
+     *     operationId="get-a-candidates-attachment",
      *     @OA\PathParameter(
      *         name="candidateId",
      *         @OA\Schema(type="integer")
@@ -229,6 +233,8 @@ class CandidateAttachmentAPI extends Endpoint implements CrudEndpoint
      * @OA\Put(
      *     path="/api/v2/recruitment/candidate/{candidateId}/attachment",
      *     tags={"Recruitment/Candidate Attachments"},
+     *     summary="Update a Candidate's Attachment",
+     *     operationId="",
      *     @OA\PathParameter(
      *         name="candidateId",
      *         @OA\Schema(type="integer")

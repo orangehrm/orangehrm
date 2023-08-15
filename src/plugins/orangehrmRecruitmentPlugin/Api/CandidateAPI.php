@@ -106,6 +106,8 @@ class CandidateAPI extends Endpoint implements CrudEndpoint
      * @OA\Get(
      *     path="/api/v2/recruitment/candidates",
      *     tags={"Recruitment/Candidates"},
+     *     summary="List All Candidates",
+     *     operationId="list-all-candidates",
      *     @OA\Parameter(
      *         name="sortField",
      *         in="query",

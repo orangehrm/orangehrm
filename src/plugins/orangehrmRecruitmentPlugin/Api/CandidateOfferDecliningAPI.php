@@ -27,6 +27,8 @@ class CandidateOfferDecliningAPI extends AbstractCandidateActionAPI
      * @OA\Put(
      *     path="/api/v2/recruitment/candidates/{candidateId}/job/decline",
      *     tags={"Recruitment/Candidate Workflow"},
+     *     summary="Decline Job Offer for Candidate",
+     *     operationId="decline-job-offer-for-candidate",
      *     @OA\PathParameter(
      *         name="candidateId",
      *         @OA\Schema(type="integer")

@@ -27,6 +27,8 @@ class CandidateShortlistingAPI extends AbstractCandidateActionAPI
      * @OA\Put(
      *     path="/api/v2/recruitment/candidates/{candidateId}/shortlist",
      *     tags={"Recruitment/Candidate Workflow"},
+     *     summary="Shortlist Candidate",
+     *     operationId="shortlist-candidate",
      *     @OA\PathParameter(
      *         name="candidateId",
      *         @OA\Schema(type="integer")

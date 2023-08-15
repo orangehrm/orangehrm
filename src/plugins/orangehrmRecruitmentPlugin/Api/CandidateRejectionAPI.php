@@ -27,6 +27,8 @@ class CandidateRejectionAPI extends AbstractCandidateActionAPI
      * @OA\Put(
      *     path="/api/v2/recruitment/candidates/{candidateId}/reject",
      *     tags={"Recruitment/Candidate Workflow"},
+     *     summary="Reject Candidate",
+     *     operationId="reject-candidate",
      *     @OA\PathParameter(
      *         name="candidateId",
      *         @OA\Schema(type="integer")

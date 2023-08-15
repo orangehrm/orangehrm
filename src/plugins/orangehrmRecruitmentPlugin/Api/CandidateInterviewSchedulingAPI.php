@@ -90,6 +90,8 @@ class CandidateInterviewSchedulingAPI extends Endpoint implements CrudEndpoint
      * @OA\Post(
      *     path="/api/v2/recruitment/candidates/{candidateId}/shedule-interview",
      *     tags={"Recruitment/Candidate Workflow"},
+     *     summary="Schedule Interview for a Candidate",
+     *     operationId="schedule-interview-for-a-candidate",
      *     @OA\PathParameter(
      *         name="candidateId",
      *         @OA\Schema(type="integer")
@@ -346,6 +348,8 @@ class CandidateInterviewSchedulingAPI extends Endpoint implements CrudEndpoint
      * @OA\Get(
      *     path="/api/v2/recruitment/candidates/{candidateId}/interview/{interviewId}",
      *     tags={"Recruitment/Candidate Interview"},
+     *     summary="Get a Candidate's Inteview",
+     *     operationId="get-a-candidates-interview",
      *     @OA\PathParameter(
      *         name="candidateId",
      *         @OA\Schema(type="integer")
@@ -413,6 +417,8 @@ class CandidateInterviewSchedulingAPI extends Endpoint implements CrudEndpoint
      * @OA\Put(
      *     path="/api/v2/recruitment/candidate/{candidateId}/interview/{interviewId}",
      *     tags={"Recruitment/Candidate Interview"},
+     *     summary="Update a Candidate's Interview",
+     *     operationId="update-a-candidates-interview",
      *     @OA\PathParameter(
      *         name="candidateId",
      *         @OA\Schema(type="integer")
