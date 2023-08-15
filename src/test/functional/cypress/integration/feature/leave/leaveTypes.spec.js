@@ -39,7 +39,6 @@ describe('Leave - leave types', function () {
   describe('create snapshot with leave type', function () {
     it('create snapshot with leave type', function () {
       cy.loginTo(this.user, '/leave/defineLeaveType');
-      cy.wait('@getLeaveTypes');
       cy.getOXD('form').within(() => {
         cy.getOXDInput('Name').type(this.strings.leaveTypes.leavetype2);
         cy.getOXD('button').contains('Save').click();
@@ -53,7 +52,6 @@ describe('Leave - leave types', function () {
   describe('add leave type', function () {
     it('add a leave type and save', function () {
       cy.loginTo(this.user, '/leave/defineLeaveType');
-      cy.wait('@getLeaveTypes');
       cy.getOXD('form').within(() => {
         cy.getOXDInput('Name').type(this.strings.leaveTypes.leavetype1);
         cy.getOXD('button').contains('Save').click();
@@ -64,7 +62,6 @@ describe('Leave - leave types', function () {
 
     it('add a leave type and cancel', function () {
       cy.loginTo(this.user, '/leave/defineLeaveType');
-      cy.wait('@getLeaveTypes');
       cy.getOXD('form').within(() => {
         cy.getOXDInput('Name').type(this.strings.leaveTypes.leavetype2);
         cy.getOXD('button').contains('Cancel').click();
@@ -76,7 +73,6 @@ describe('Leave - leave types', function () {
     it('add leave type form validations', function () {
       cy.task('db:restore', {name: 'leaveTypes'});
       cy.loginTo(this.user, '/leave/defineLeaveType');
-      cy.wait('@getLeaveTypes');
       cy.getOXD('form').within(() => {
         cy.getOXDInput('Name')
           .type(this.strings.chars100.text)

@@ -61,6 +61,7 @@ import {
   required,
   shouldNotExceedCharLength,
 } from '@ohrm/core/util/validation/rules';
+import useServerValidation from '@/core/util/composable/useServerValidation';
 
 export default {
   props: {
@@ -69,13 +70,21 @@ export default {
       required: true,
     },
   },
-  setup() {
+  setup(props) {
     const http = new APIService(
       window.appGlobal.baseUrl,
       '/api/v2/admin/languages',
     );
+    const {createUniqueValidator} = useServerValidation(http);
+    const langugageUniqueValidation = createUniqueValidator(
+      'Language',
+      'name',
+      {entityId: props.qualificationLanguageId},
+    );
+
     return {
       http,
+      langugageUniqueValidation,
     };
   },
 
@@ -87,7 +96,11 @@ export default {
         name: '',
       },
       rules: {
-        name: [required, shouldNotExceedCharLength(120)],
+        name: [
+          required,
+          shouldNotExceedCharLength(120),
+          this.langugageUniqueValidation,
+        ],
       },
     };
   },
@@ -100,25 +113,6 @@ export default {
         const {data} = response.data;
         this.language.id = data.id;
         this.language.name = data.name;
-        // Fetch list data for unique test
-        return this.http.getAll();
-      })
-      .then((response) => {
-        const {data} = response.data;
-        this.rules.name.push((v) => {
-          const index = data.findIndex(
-            (item) =>
-              String(item.name).toLowerCase() == String(v).toLowerCase(),
-          );
-          if (index > -1) {
-            const {id} = data[index];
-            return id !== this.language.id
-              ? this.$t('general.already_exists')
-              : true;
-          } else {
-            return true;
-          }
-        });
       })
       .finally(() => {
         this.isLoading = false;

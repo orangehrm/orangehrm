@@ -139,6 +139,7 @@ import {
   validFileTypes,
 } from '@ohrm/core/util/validation/rules';
 import {OxdSwitchInput} from '@ohrm/oxd';
+import useServerValidation from '@/core/util/composable/useServerValidation';
 
 const defaultPic = `${window.appGlobal.publicPath}/images/default-photo.png`;
 
@@ -189,9 +190,23 @@ export default {
       '/api/v2/pim/employees',
     );
 
+    const {createUniqueValidator} = useServerValidation(http);
+    const employeeIdUniqueValidation = createUniqueValidator(
+      'Employee',
+      'employeeId',
+      {translateKey: 'pim.employee_id_exists'},
+    );
+    const usernameUniqueValidation = createUniqueValidator('User', 'userName', {
+      matchByField: 'deleted',
+      matchByValue: 'false',
+      translateKey: 'pim.username_already_exists',
+    });
+
     return {
       http,
       employee,
+      employeeIdUniqueValidation,
+      usernameUniqueValidation,
     };
   },
 
@@ -205,13 +220,17 @@ export default {
         firstName: [required, shouldNotExceedCharLength(30)],
         middleName: [shouldNotExceedCharLength(30)],
         lastName: [required, shouldNotExceedCharLength(30)],
-        employeeId: [shouldNotExceedCharLength(10)],
+        employeeId: [
+          this.employeeIdUniqueValidation,
+          shouldNotExceedCharLength(10),
+        ],
         empPicture: [
           maxFileSize(1024 * 1024),
           validFileTypes(this.allowedImageTypes),
         ],
         username: [
           required,
+          this.usernameUniqueValidation,
           shouldNotLessThanCharLength(5),
           shouldNotExceedCharLength(40),
         ],
@@ -237,44 +256,9 @@ export default {
 
   created() {
     this.isLoading = true;
-    this.http
-      .getAll()
-      .then((response) => {
-        const {data} = response.data;
-        this.rules.employeeId.push((v) => {
-          const index = data.findIndex(
-            (item) =>
-              item.employeeId?.trim() &&
-              String(item.employeeId).toLowerCase() == String(v).toLowerCase(),
-          );
-          if (index > -1) {
-            return this.$t('pim.employee_id_exists');
-          } else {
-            return true;
-          }
-        });
-        return this.http.request({
-          method: 'GET',
-          url: '/api/v2/admin/users',
-        });
-      })
-      .then((response) => {
-        const {data} = response.data;
-        this.rules.username.push((v) => {
-          const index = data.findIndex(
-            (item) =>
-              String(item.userName).toLowerCase() == String(v).toLowerCase(),
-          );
-          if (index > -1) {
-            return this.$t('pim.username_already_exists');
-          } else {
-            return true;
-          }
-        });
-      })
-      .finally(() => {
-        this.isLoading = false;
-      });
+    this.http.getAll().finally(() => {
+      this.isLoading = false;
+    });
   },
 
   methods: {

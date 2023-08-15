@@ -147,6 +147,7 @@ import {
   shouldNotExceedCharLength,
   validPhoneNumberFormat,
 } from '@ohrm/core/util/validation/rules';
+import useServerValidation from '@/core/util/composable/useServerValidation';
 
 const initialLocation = {
   name: '',
@@ -173,8 +174,12 @@ export default {
       window.appGlobal.baseUrl,
       '/api/v2/admin/locations',
     );
+    const {createUniqueValidator} = useServerValidation(http);
+    const locationUniqueValidation = createUniqueValidator('Location', 'name');
+
     return {
       http,
+      locationUniqueValidation,
     };
   },
 
@@ -183,7 +188,11 @@ export default {
       isLoading: false,
       location: {...initialLocation},
       rules: {
-        name: [required, shouldNotExceedCharLength(100)],
+        name: [
+          required,
+          shouldNotExceedCharLength(100),
+          this.locationUniqueValidation,
+        ],
         countryCode: [required],
         province: [shouldNotExceedCharLength(50)],
         city: [shouldNotExceedCharLength(50)],
@@ -200,25 +209,6 @@ export default {
     hasCreatePermissions() {
       return this.$can.create(`locations`);
     },
-  },
-
-  created() {
-    this.isLoading = true;
-    this.http
-      .getAll({limit: 0})
-      .then((response) => {
-        const {data} = response.data;
-        this.rules.name.push((v) => {
-          const index = data.findIndex(
-            (item) =>
-              String(item.name).toLowerCase() == String(v).toLowerCase(),
-          );
-          return index === -1 || this.$t('general.already_exists');
-        });
-      })
-      .finally(() => {
-        this.isLoading = false;
-      });
   },
 
   methods: {

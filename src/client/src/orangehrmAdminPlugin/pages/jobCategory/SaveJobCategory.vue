@@ -61,6 +61,7 @@ import {
   required,
   shouldNotExceedCharLength,
 } from '@ohrm/core/util/validation/rules';
+import useServerValidation from '@/core/util/composable/useServerValidation';
 
 export default {
   setup() {
@@ -68,8 +69,15 @@ export default {
       window.appGlobal.baseUrl,
       '/api/v2/admin/job-categories',
     );
+    const {createUniqueValidator} = useServerValidation(http);
+    const jobCategoryUniqueValidation = createUniqueValidator(
+      'JobCategory',
+      'name',
+    );
+
     return {
       http,
+      jobCategoryUniqueValidation,
     };
   },
   data() {
@@ -80,30 +88,14 @@ export default {
         name: '',
       },
       rules: {
-        name: [required, shouldNotExceedCharLength(50)],
+        name: [
+          required,
+          shouldNotExceedCharLength(50),
+          this.jobCategoryUniqueValidation,
+        ],
       },
       errors: [],
     };
-  },
-
-  created() {
-    this.isLoading = true;
-    this.http
-      .getAll({limit: 0})
-      .then((response) => {
-        const {data} = response.data;
-        this.rules.name.push((v) => {
-          const index = data.findIndex(
-            (item) =>
-              String(item.name).toLowerCase() == String(v).toLowerCase(),
-          );
-          return index === -1 || this.$t('general.already_exists');
-        });
-        this.isLoading = false;
-      })
-      .finally(() => {
-        this.isLoading = false;
-      });
   },
 
   methods: {

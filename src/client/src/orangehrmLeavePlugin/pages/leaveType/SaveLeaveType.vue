@@ -100,6 +100,7 @@ import {
 } from '@ohrm/core/util/validation/rules';
 import EntitlementSituationalModal from '@/orangehrmLeavePlugin/components/EntitlementSituationalModal';
 import {OxdLabel} from '@ohrm/oxd';
+import useServerValidation from '@/core/util/composable/useServerValidation';
 
 const leaveTypeModel = {
   id: '',
@@ -118,8 +119,14 @@ export default {
       window.appGlobal.baseUrl,
       '/api/v2/leave/leave-types',
     );
+    const {createUniqueValidator} = useServerValidation(http);
+    const leaveTypeUniqueValidation = createUniqueValidator(
+      'LeaveType',
+      'name',
+    );
     return {
       http,
+      leaveTypeUniqueValidation,
     };
   },
 
@@ -129,25 +136,14 @@ export default {
       isLoading: false,
       leaveType: {...leaveTypeModel},
       rules: {
-        name: [required, shouldNotExceedCharLength(50)],
+        name: [
+          required,
+          this.leaveTypeUniqueValidation,
+          shouldNotExceedCharLength(50),
+        ],
       },
       errors: [],
     };
-  },
-  created() {
-    this.isLoading = true;
-    this.http
-      .getAll()
-      .then((response) => {
-        const {data} = response.data;
-        this.rules.name.push((v) => {
-          const index = data.findIndex((item) => item.name == v);
-          return index === -1 || this.$t('general.already_exists');
-        });
-      })
-      .finally(() => {
-        this.isLoading = false;
-      });
   },
 
   methods: {

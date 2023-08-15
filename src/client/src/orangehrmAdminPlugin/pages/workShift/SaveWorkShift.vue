@@ -108,6 +108,7 @@ import {
   endTimeShouldBeAfterStartTime,
 } from '@ohrm/core/util/validation/rules';
 import {diffInTime} from '@/core/util/helper/datefns';
+import useServerValidation from '@/core/util/composable/useServerValidation';
 import WorkShiftEmployeeAutocomplete from '@/orangehrmAdminPlugin/components/WorkShiftEmployeeAutocomplete';
 
 const workShiftModel = {
@@ -134,8 +135,15 @@ export default {
       window.appGlobal.baseUrl,
       '/api/v2/admin/work-shifts',
     );
+    const {createUniqueValidator} = useServerValidation(http);
+    const workShiftUniqueValidation = createUniqueValidator(
+      'WorkShift',
+      'name',
+    );
+
     return {
       http,
+      workShiftUniqueValidation,
     };
   },
   data() {
@@ -143,7 +151,11 @@ export default {
       isLoading: false,
       workShift: {...workShiftModel},
       rules: {
-        name: [required, shouldNotExceedCharLength(50)],
+        name: [
+          required,
+          this.workShiftUniqueValidation,
+          shouldNotExceedCharLength(50),
+        ],
         fromTime: [required, validTimeFormat],
         endTime: [
           required,
@@ -165,24 +177,8 @@ export default {
     },
   },
   beforeMount() {
-    this.isLoading = true;
-    this.workShift.startTime = this.workShiftConfig.startTime;
     this.workShift.endTime = this.workShiftConfig.endTime;
-    this.http
-      .getAll({limit: 0})
-      .then((response) => {
-        const {data} = response.data;
-        this.rules.name.push((v) => {
-          const index = data.findIndex(
-            (item) =>
-              String(item.name).toLowerCase() == String(v).toLowerCase(),
-          );
-          return index === -1 || this.$t('general.already_exists');
-        });
-      })
-      .finally(() => {
-        this.isLoading = false;
-      });
+    this.workShift.startTime = this.workShiftConfig.startTime;
   },
   methods: {
     onSave() {

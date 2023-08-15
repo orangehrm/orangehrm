@@ -61,6 +61,7 @@ import {
   required,
   shouldNotExceedCharLength,
 } from '@ohrm/core/util/validation/rules';
+import useServerValidation from '@/core/util/composable/useServerValidation';
 
 export default {
   props: {
@@ -69,13 +70,19 @@ export default {
       required: true,
     },
   },
-  setup() {
+  setup(props) {
     const http = new APIService(
       window.appGlobal.baseUrl,
       '/api/v2/admin/licenses',
     );
+    const {createUniqueValidator} = useServerValidation(http);
+    const licenseUniqueValidation = createUniqueValidator('License', 'name', {
+      entityId: props.licenseId,
+    });
+
     return {
       http,
+      licenseUniqueValidation,
     };
   },
 
@@ -87,7 +94,11 @@ export default {
         name: '',
       },
       rules: {
-        name: [required, shouldNotExceedCharLength(100)],
+        name: [
+          required,
+          shouldNotExceedCharLength(100),
+          this.licenseUniqueValidation,
+        ],
       },
     };
   },
@@ -100,25 +111,6 @@ export default {
         const {data} = response.data;
         this.license.id = data.id;
         this.license.name = data.name;
-        // Fetch list data for unique test
-        return this.http.getAll({limit: 0});
-      })
-      .then((response) => {
-        const {data} = response.data;
-        this.rules.name.push((v) => {
-          const index = data.findIndex(
-            (item) =>
-              String(item.name).toLowerCase() == String(v).toLowerCase(),
-          );
-          if (index > -1) {
-            const {id} = data[index];
-            return id !== this.license.id
-              ? this.$t('general.already_exists')
-              : true;
-          } else {
-            return true;
-          }
-        });
       })
       .finally(() => {
         this.isLoading = false;

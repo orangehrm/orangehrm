@@ -1,0 +1,118 @@
+GetOne:
+  'with only value param':
+    userId: 1
+    query:
+      value: "test"
+    invalidOnly: [ "entityName", "attributeName" ]
+
+  'for existing employee Id':
+    userId: 1
+    query:
+      value: "0001"
+      entityName: "Employee"
+      attributeName: "employeeId"
+    data:
+      valid: false
+
+  'for employee with invalid field':
+    userId: 1
+    query:
+      value: "0001"
+      entityName: "Employee"
+      attributeName: "firstName"
+    invalidOnly: [ 'attributeName' ]
+
+  'for new employeeId':
+    userId: 1
+    query:
+      value: "0005"
+      entityName: "Employee"
+      attributeName: "employeeId"
+    data:
+      valid: true
+
+  'for existing username':
+    userId: 1
+    query:
+      value: "admin"
+      entityName: "User"
+      attributeName: "userName"
+      matchByField: "deleted"
+      matchByValue: "false"
+    data:
+      valid: false
+
+  'for invalid matchByField':
+    userId: 1
+    query:
+      value: "admin"
+      entityName: "User"
+      attributeName: "userName"
+      matchByField: "id"
+      matchByValue: "1"
+    invalidOnly: ['matchByField']
+
+  'for existing username editing':
+    userId: 1
+    query:
+      value: "admin"
+      entityName: "User"
+      attributeName: "userName"
+      entityId: 1
+      matchByField: "deleted"
+      matchByValue: "false"
+    data:
+      valid: true
+
+  'for existing deleted username':
+    userId: 1
+    query:
+      value: "sharuka"
+      entityName: "User"
+      attributeName: "userName"
+      matchByField: "deleted"
+      matchByValue: "false"
+    data:
+      valid: true
+
+  'for existing email subscriber':
+    userId: 1
+    query:
+      value: "devi@admin.com"
+      entityName: "EmailSubscriber"
+      attributeName: "email"
+      matchByField: "emailNotification"
+      matchByValue: "1"
+    data:
+      valid: false
+
+  'for existing email subscriber editing':
+    userId: 1
+    query:
+      value: "devi@admin.com"
+      entityName: "EmailSubscriber"
+      attributeName: "email"
+      entityId: 1
+      matchByField: "emailNotification"
+      matchByValue: "1"
+    data:
+      valid: true
+
+  'for existing email in different subscriber':
+    userId: 1
+    query:
+      value: "sharuka@admin.com"
+      entityName: "EmailSubscriber"
+      attributeName: "email"
+      matchByField: "emailNotification"
+      matchByValue: "3"
+    data:
+      valid: true
+
+  for unsupported entity:
+    userId: 1
+    query:
+      value: "2022-07-19"
+      entityName: "Holiday"
+      attributeName: "date"
+    invalidOnly: [ 'entityName', 'attributeName' ]

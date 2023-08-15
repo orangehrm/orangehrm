@@ -66,6 +66,7 @@ import {
   required,
   shouldNotExceedCharLength,
 } from '@ohrm/core/util/validation/rules';
+import useServerValidation from '@/core/util/composable/useServerValidation';
 import PayGradeCurrency from '@/orangehrmAdminPlugin/pages/payGrade/PayGradeCurrency.vue';
 
 export default {
@@ -80,13 +81,18 @@ export default {
     },
   },
 
-  setup() {
+  setup(props) {
     const http = new APIService(
       window.appGlobal.baseUrl,
       '/api/v2/admin/pay-grades',
     );
+    const {createUniqueValidator} = useServerValidation(http);
+    const payGradeUniqueValidation = createUniqueValidator('PayGrade', 'name', {
+      entityId: props.payGradeId,
+    });
     return {
       http,
+      payGradeUniqueValidation,
     };
   },
 
@@ -98,7 +104,11 @@ export default {
         name: '',
       },
       rules: {
-        name: [required, shouldNotExceedCharLength(50)],
+        name: [
+          required,
+          this.payGradeUniqueValidation,
+          shouldNotExceedCharLength(50),
+        ],
       },
       errors: [],
     };
@@ -111,25 +121,6 @@ export default {
         const {data} = response.data;
         this.grade.id = data.id;
         this.grade.name = data.name;
-        return this.http.getAll();
-      })
-      .then((response) => {
-        const {data} = response.data;
-        this.rules.name.push((v) => {
-          const index = data.findIndex(
-            (item) =>
-              String(item.name).toLowerCase() == String(v).toLowerCase(),
-          );
-          if (index > -1) {
-            const {id} = data[index];
-            return id != this.grade.id
-              ? this.$t('general.already_exists')
-              : true;
-          } else {
-            return true;
-          }
-        });
-        this.isLoading = false;
       })
       .finally(() => {
         this.isLoading = false;

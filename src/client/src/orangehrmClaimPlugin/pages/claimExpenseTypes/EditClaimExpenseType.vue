@@ -83,6 +83,7 @@ import {
   required,
   shouldNotExceedCharLength,
 } from '@ohrm/core/util/validation/rules';
+import useServerValidation from '@/core/util/composable/useServerValidation';
 
 const initialExpenseTypes = {
   name: '',
@@ -101,13 +102,20 @@ export default {
     },
   },
 
-  setup() {
+  setup(props) {
     const http = new APIService(
       window.appGlobal.baseUrl,
       '/api/v2/claim/expenses/types',
     );
+    const {createUniqueValidator} = useServerValidation(http);
+    const expenseTypeNameUniqueValidation = createUniqueValidator(
+      'ExpenseType',
+      'name',
+      {entityId: props.id},
+    );
     return {
       http,
+      expenseTypeNameUniqueValidation,
     };
   },
 
@@ -118,7 +126,11 @@ export default {
       canEdit: false,
       name: '',
       rules: {
-        name: [required, shouldNotExceedCharLength(100)],
+        name: [
+          required,
+          this.expenseTypeNameUniqueValidation,
+          shouldNotExceedCharLength(100),
+        ],
         description: [shouldNotExceedCharLength(1000)],
       },
     };
@@ -133,28 +145,6 @@ export default {
         this.expenseTypes = {...data};
         this.name = data.name;
         this.canEdit = response.data.meta.canEdit;
-      })
-      .finally(() => {
-        this.isLoading = false;
-      });
-  },
-
-  created() {
-    this.isLoading = true;
-    this.http
-      .getAll({limit: 0})
-      .then((response) => {
-        const {data} = response.data;
-        this.rules.name.push((value) => {
-          const index = data.findIndex(
-            (item) => item.name.toLowerCase() == value.trim().toLowerCase(),
-          );
-          if (index > -1) {
-            const {id} = data[index];
-            return id != this.id ? this.$t('general.already_exists') : true;
-          }
-          return true;
-        });
       })
       .finally(() => {
         this.isLoading = false;

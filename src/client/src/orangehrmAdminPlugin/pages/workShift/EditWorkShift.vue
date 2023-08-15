@@ -107,6 +107,7 @@ import {
   endTimeShouldBeAfterStartTime,
 } from '@ohrm/core/util/validation/rules';
 import {diffInTime} from '@/core/util/helper/datefns';
+import useServerValidation from '@/core/util/composable/useServerValidation';
 import WorkShiftEmployeeAutocomplete from '@/orangehrmAdminPlugin/components/WorkShiftEmployeeAutocomplete';
 
 const workShiftModel = {
@@ -128,13 +129,21 @@ export default {
       default: null,
     },
   },
-  setup() {
+  setup(props) {
     const http = new APIService(
       window.appGlobal.baseUrl,
       '/api/v2/admin/work-shifts',
     );
+    const {createUniqueValidator} = useServerValidation(http);
+    const workShiftUniqueValidation = createUniqueValidator(
+      'WorkShift',
+      'name',
+      {entityId: props.workShiftId},
+    );
+
     return {
       http,
+      workShiftUniqueValidation,
     };
   },
   data() {
@@ -142,7 +151,11 @@ export default {
       isLoading: false,
       workShift: {...workShiftModel},
       rules: {
-        name: [required, shouldNotExceedCharLength(50)],
+        name: [
+          required,
+          this.workShiftUniqueValidation,
+          shouldNotExceedCharLength(50),
+        ],
         fromTime: [required, validTimeFormat],
         endTime: [
           required,
@@ -180,24 +193,6 @@ export default {
             label: `${employee.firstName} ${employee.middleName} ${employee.lastName}`,
             isPastEmployee: employee.terminationId ? true : false,
           };
-        });
-        return this.http.getAll({limit: 0});
-      })
-      .then((response) => {
-        const {data} = response.data;
-        this.rules.name.push((v) => {
-          const index = data.findIndex(
-            (item) =>
-              String(item.name).toLowerCase() == String(v).toLowerCase(),
-          );
-          if (index > -1) {
-            const {id} = data[index];
-            return id != this.workShift.id
-              ? this.$t('general.already_exists')
-              : true;
-          } else {
-            return true;
-          }
         });
       })
       .finally(() => {

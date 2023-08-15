@@ -79,6 +79,7 @@ import {
 import {OxdSwitchInput} from '@ohrm/oxd';
 import {navigate} from '@ohrm/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
+import useServerValidation from '@/core/util/composable/useServerValidation';
 
 const initialClaimEvent = {
   name: '',
@@ -95,8 +96,14 @@ export default {
       window.appGlobal.baseUrl,
       '/api/v2/claim/events',
     );
+    const {createUniqueValidator} = useServerValidation(http);
+    const claimEventNameUniqueValidation = createUniqueValidator(
+      'ClaimEvent',
+      'name',
+    );
     return {
       http,
+      claimEventNameUniqueValidation,
     };
   },
 
@@ -105,28 +112,14 @@ export default {
       isLoading: false,
       claimEvent: {...initialClaimEvent},
       rules: {
-        name: [required, shouldNotExceedCharLength(100)],
+        name: [
+          required,
+          this.claimEventNameUniqueValidation,
+          shouldNotExceedCharLength(100),
+        ],
         description: [shouldNotExceedCharLength(1000)],
       },
     };
-  },
-
-  created() {
-    this.isLoading = true;
-    this.http
-      .getAll({limit: 0})
-      .then((response) => {
-        const {data} = response.data;
-        this.rules.name.push((value) => {
-          const index = data.findIndex(
-            (item) => item.name.toLowerCase() == value.trim().toLowerCase(),
-          );
-          return index === -1 || this.$t('general.already_exists');
-        });
-      })
-      .finally(() => {
-        this.isLoading = false;
-      });
   },
 
   methods: {

@@ -61,6 +61,7 @@ import {
   required,
   shouldNotExceedCharLength,
 } from '@ohrm/core/util/validation/rules';
+import useServerValidation from '@/core/util/composable/useServerValidation';
 
 export default {
   props: {
@@ -70,13 +71,22 @@ export default {
     },
   },
 
-  setup() {
+  setup(props) {
     const http = new APIService(
       window.appGlobal.baseUrl,
       '/api/v2/admin/employment-statuses',
     );
+
+    const {createUniqueValidator} = useServerValidation(http);
+    const employmentStatusValidation = createUniqueValidator(
+      'EmploymentStatus',
+      'name',
+      {entityId: props.employmentStatusId},
+    );
+
     return {
       http,
+      employmentStatusValidation,
     };
   },
 
@@ -88,7 +98,11 @@ export default {
         name: '',
       },
       rules: {
-        name: [required, shouldNotExceedCharLength(50)],
+        name: [
+          required,
+          this.employmentStatusValidation,
+          shouldNotExceedCharLength(50),
+        ],
       },
     };
   },
@@ -100,25 +114,6 @@ export default {
         const {data} = response.data;
         this.employmentStatus.id = data.id;
         this.employmentStatus.name = data.name;
-        // Fetch list data for unique test
-        return this.http.getAll({limit: 0});
-      })
-      .then((response) => {
-        const {data} = response.data;
-        this.rules.name.push((v) => {
-          const index = data.findIndex(
-            (item) =>
-              String(item.name).toLowerCase() == String(v).toLowerCase(),
-          );
-          if (index > -1) {
-            const {id} = data[index];
-            return id != this.employmentStatus.id
-              ? this.$t('general.already_exists')
-              : true;
-          } else {
-            return true;
-          }
-        });
       })
       .finally(() => {
         this.isLoading = false;
