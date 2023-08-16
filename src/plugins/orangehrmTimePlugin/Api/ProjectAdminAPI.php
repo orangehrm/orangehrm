@@ -48,6 +48,8 @@ class ProjectAdminAPI extends Endpoint implements CollectionEndpoint
      * @OA\Get(
      *     path="/api/v2/time/project-admins",
      *     tags={"Time/Project Admins"},
+     *     summary="List Available Employees for Project Admin",
+     *     operationId="list-available-employees-for-project-admin",
      *     @OA\Parameter(
      *         name="includeEmployees",
      *         in="query",

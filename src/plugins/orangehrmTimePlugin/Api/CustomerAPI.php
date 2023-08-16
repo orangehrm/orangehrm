@@ -55,6 +55,8 @@ class CustomerAPI extends Endpoint implements CrudEndpoint
      * @OA\Get(
      *     path="/api/v2/time/customers",
      *     tags={"Time/Customers"},
+     *     summary="List All Customers",
+     *     operationId="list-all-customers",
      *     @OA\Parameter(
      *         name="name",
      *         in="query",
@@ -122,6 +124,8 @@ class CustomerAPI extends Endpoint implements CrudEndpoint
      * @OA\Post(
      *     path="/api/v2/time/customers",
      *     tags={"Time/Customers"},
+     *     summary="Create a Customer",
+     *     operationId="create-a-customer",
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
@@ -177,6 +181,8 @@ class CustomerAPI extends Endpoint implements CrudEndpoint
      * @OA\Delete(
      *     path="/api/v2/time/customers",
      *     tags={"Time/Customers"},
+     *     summary="Delete Customers",
+     *     operationId="delete-customers",
      *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),
      *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse"),
      *     @OA\Response(
@@ -227,6 +233,8 @@ class CustomerAPI extends Endpoint implements CrudEndpoint
      * @OA\Get(
      *     path="/api/v2/time/customers/{id}",
      *     tags={"Time/Customers"},
+     *     summary="Get a Customer",
+     *     operationId="get-a-customer",
      *     @OA\PathParameter(
      *         name="id",
      *         @OA\Schema(type="integer")
@@ -277,6 +285,8 @@ class CustomerAPI extends Endpoint implements CrudEndpoint
      * @OA\Put(
      *     path="/api/v2/time/customers/{id}",
      *     tags={"Time/Customers"},
+     *     summary="Update a Customer",
+     *     operationId="update-a-customer",
      *     @OA\PathParameter(
      *         name="id",
      *         @OA\Schema(type="integer")

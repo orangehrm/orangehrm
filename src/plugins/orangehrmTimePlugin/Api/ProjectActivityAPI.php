@@ -52,6 +52,8 @@ class ProjectActivityAPI extends Endpoint implements CrudEndpoint
      * @OA\Get(
      *     path="/api/v2/time/project/{projectId}/activities",
      *     tags={"Time/Project Activity"},
+     *     summary="List a Project's Activities",
+     *     operationId="list-a-projects-activities",
      *     @OA\PathParameter(
      *         name="projectId",
      *         @OA\Schema(type="integer")
@@ -150,6 +152,8 @@ class ProjectActivityAPI extends Endpoint implements CrudEndpoint
      * @OA\Post(
      *     path="/api/v2/time/project/{projectId}/activities",
      *     tags={"Time/Project Activity"},
+     *     summary="Add an Activity to a Project",
+     *     operationId="add-an-activity-to-a-project",
      *     @OA\PathParameter(
      *         name="projectId",
      *         @OA\Schema(type="integer")
@@ -213,6 +217,8 @@ class ProjectActivityAPI extends Endpoint implements CrudEndpoint
      * @OA\Delete(
      *     path="/api/v2/time/project/{projectId}/activities",
      *     tags={"Time/Project Activity"},
+     *     summary="Delete a Project's Activities",
+     *     operationId="delete-a-projects-activities",
      *     @OA\PathParameter(
      *         name="projectId",
      *         @OA\Schema(type="integer")
@@ -267,6 +273,8 @@ class ProjectActivityAPI extends Endpoint implements CrudEndpoint
      * @OA\Get(
      *     path="/api/v2/time/project/{projectId}/activities/{id}",
      *     tags={"Time/Project Activity"},
+     *     summary="Get a Project's Activity",
+     *     operationId="get-a-projects-activity",
      *     @OA\PathParameter(
      *         name="projectId",
      *         @OA\Schema(type="integer")
@@ -319,6 +327,8 @@ class ProjectActivityAPI extends Endpoint implements CrudEndpoint
      * @OA\Put(
      *     path="/api/v2/time/project/{projectId}/activities/{id}",
      *     tags={"Time/Project Activity"},
+     *     summary="Update a Project's Activity",
+     *     operationId="update-a-projects-activity",
      *     @OA\PathParameter(
      *         name="projectId",
      *         @OA\Schema(type="integer")

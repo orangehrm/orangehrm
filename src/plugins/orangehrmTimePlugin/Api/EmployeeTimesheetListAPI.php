@@ -48,6 +48,8 @@ class EmployeeTimesheetListAPI extends Endpoint implements CollectionEndpoint
      * @OA\Get(
      *     path="/api/v2/time/employees/timesheets/list",
      *     tags={"Time/Employee Timesheet"},
+     *     summary="List All Employee Timesheets",
+     *     operationId="list-all-employee-timesheets",
      *     @OA\Parameter(
      *         name="sortField",
      *         in="query",

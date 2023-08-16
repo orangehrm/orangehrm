@@ -75,6 +75,8 @@ class EmployeeTimesheetAPI extends Endpoint implements CrudEndpoint
      * @OA\Get(
      *     path="/api/v2/time/employees/{empNumber}/timesheets",
      *     tags={"Time/Employee Timesheet"},
+     *     summary="List an Employee's Timesheets",
+     *     operationId="list-an-employees-timesheets",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")
@@ -253,6 +255,8 @@ class EmployeeTimesheetAPI extends Endpoint implements CrudEndpoint
      * @OA\Post(
      *     path="/api/v2/time/employees/{empNumber}/timesheets",
      *     tags={"Time/Employee Timesheet"},
+     *     summary="Create a Timesheet for an Employee",
+     *     operationId="create-a-timesheet-for-an-employee",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")
@@ -343,6 +347,8 @@ class EmployeeTimesheetAPI extends Endpoint implements CrudEndpoint
      * @OA\Put(
      *     path="/api/v2/time/employees/{empNumber}/timesheets/{id}",
      *     tags={"Time/Employee Timesheet"},
+     *     summary="Update an Employee's Timesheet",
+     *     operationId="update-an-employees-timesheet",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")

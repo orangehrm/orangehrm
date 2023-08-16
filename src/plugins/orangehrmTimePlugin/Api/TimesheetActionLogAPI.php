@@ -47,6 +47,8 @@ class TimesheetActionLogAPI extends Endpoint implements CollectionEndpoint
      * @OA\Get(
      *     path="/api/v2/time/timesheets/{timesheetId}/action-logs",
      *     tags={"Time/Timesheet Action Log"},
+     *     summary="Get a Timesheet's Action Logs",
+     *     operationId="get-a-timesheets-action-logs",
      *     @OA\PathParameter(
      *         name="timesheetId",
      *         @OA\Schema(type="integer")

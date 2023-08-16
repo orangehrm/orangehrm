@@ -62,6 +62,8 @@ class TimeConfigPeriodAPI extends Endpoint implements ResourceEndpoint
      * @OA\Get(
      *     path="/api/v2/time/time-sheet-period",
      *     tags={"Time/Timesheet Period"},
+     *     summary="Get the Timesheet Period",
+     *     operationId="get-the-timesheet-period",
      *     @OA\Response(
      *         response="200",
      *         description="Success",
@@ -100,6 +102,8 @@ class TimeConfigPeriodAPI extends Endpoint implements ResourceEndpoint
      * @OA\Put(
      *     path="/api/v2/time/time-sheet-period",
      *     tags={"Time/Timesheet Period"},
+     *     summary="Update the Timesheet Period",
+     *     operationId="update-the-timesheet-period",
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",

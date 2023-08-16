@@ -50,6 +50,8 @@ class DefaultTimesheetAPI extends Endpoint implements ResourceEndpoint
      * @OA\Get(
      *     path="/api/v2/time/timesheets/default",
      *     tags={"Time/Default Timesheet"},
+     *     summary="Get Default Timesheet",
+     *     operationId="get-default-timesheet",
      *     @OA\Parameter(
      *         name="date",
      *         in="query",
