@@ -59,7 +59,7 @@ class MyLeaveRequestAPI extends EmployeeLeaveRequestAPI
     /**
      * @OA\Get(
      *     path="/api/v2/leave/leave-requests/{leaveRequestId}",
-     *     tags={"Leave/My Leave"},
+     *     tags={"Leave/My Leave Request"},
      *     summary="Get My Leave Request",
      *     operationId="get-my-leave-request",
      *     @OA\PathParameter(
@@ -97,7 +97,7 @@ class MyLeaveRequestAPI extends EmployeeLeaveRequestAPI
     /**
      * @OA\Get(
      *     path="/api/v2/leave/leave-requests",
-     *     tags={"Leave/My Leave"},
+     *     tags={"Leave/My Leave Request"},
      *     summary="List My Leave Requests",
      *     operationId="list-my-leave-requests",
      *     @OA\Parameter(
@@ -210,7 +210,7 @@ class MyLeaveRequestAPI extends EmployeeLeaveRequestAPI
     /**
      * @OA\Post(
      *     path="/api/v2/leave/leave-requests",
-     *     tags={"Leave/My Leave"},
+     *     tags={"Leave/My Leave Request"},
      *     summary="Apply for Leave",
      *     operationId="apply-for-leave",
      *     @OA\Parameter(
@@ -346,7 +346,7 @@ class MyLeaveRequestAPI extends EmployeeLeaveRequestAPI
     /**
      * @OA\Put(
      *     path="/api/v2/leave/leave-requests/{leaveRequestId}",
-     *     tags={"Leave/My Leave"},
+     *     tags={"Leave/My Leave Request"},
      *     summary="Update my Leave Request",
      *     operationId="update-my-leave-request",
      *     @OA\PathParameter(

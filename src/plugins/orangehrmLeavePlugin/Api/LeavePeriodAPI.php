@@ -57,7 +57,7 @@ class LeavePeriodAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Get(
      *     path="/api/v2/leave/leave-period",
-     *     tags={"Leave/Configure"},
+     *     tags={"Leave/Leave Period"},
      *     summary="Get Current Leave Period",
      *     operationId="get-current-leave-period",
      *     @OA\Response(
@@ -132,7 +132,7 @@ class LeavePeriodAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Get(
      *     path="/api/v2/leave/leave-periods",
-     *     tags={"Leave/Configure"},
+     *     tags={"Leave/Leave Period"},
      *     summary="List All Leave Periods",
      *     operationId="list-all-leave-periods",
      *     @OA\Response(
@@ -185,7 +185,7 @@ class LeavePeriodAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Put(
      *     path="/api/v2/leave/leave-period",
-     *     tags={"Leave/Configure"},
+     *     tags={"Leave/Leave Period"},
      *     summary="Update Leave Period",
      *     operationId="update-leave-period",
      *     @OA\RequestBody(

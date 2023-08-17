@@ -52,7 +52,7 @@ class LeaveTypeAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Get(
      *     path="/api/v2/leave/leave-types/{id}",
-     *     tags={"Leave/Configure"},
+     *     tags={"Leave/Leave Type"},
      *     summary="Get a Leave Type",
      *     operationId="get-a-leave-type",
      *     @OA\PathParameter(
@@ -105,7 +105,7 @@ class LeaveTypeAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Get(
      *     path="/api/v2/leave/leave-types",
-     *     tags={"Leave/Configure"},
+     *     tags={"Leave/Leave Type"},
      *     summary="List All Leave Types",
      *     operationId="list-all-leave-types",
      *     @OA\Parameter(
@@ -177,7 +177,7 @@ class LeaveTypeAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Post(
      *     path="/api/v2/leave/leave-types",
-     *     tags={"Leave/Configure"},
+     *     tags={"Leave/Leave Type"},
      *     summary="Create a Leave Type",
      *     operationId="create-a-leave-type",
      *     @OA\RequestBody(
@@ -242,7 +242,7 @@ class LeaveTypeAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Put(
      *     path="/api/v2/leave/leave-types/{id}",
-     *     tags={"Leave/Configure"},
+     *     tags={"Leave/Leave Type"},
      *     summary="Update a Leave Type",
      *     operationId="update-a-leave-type",
      *     @OA\PathParameter(
@@ -294,7 +294,7 @@ class LeaveTypeAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Delete(
      *     path="/api/v2/leave/leave-types",
-     *     tags={"Leave/Configure"},
+     *     tags={"Leave/Leave Type"},
      *     summary="Delete Leave Types",
      *     operationId="delete-leave-types",
      *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),

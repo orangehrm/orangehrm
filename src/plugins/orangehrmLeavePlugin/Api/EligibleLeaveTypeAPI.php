@@ -44,7 +44,7 @@ class EligibleLeaveTypeAPI extends Endpoint implements CollectionEndpoint
     /**
      * @OA\Get(
      *     path="/api/v2/leave/leave-types/eligible",
-     *     tags={"Leave/Eligible Leave"},
+     *     tags={"Leave/Leave Type"},
      *     summary="Get My Eligible Leave Types",
      *     operationId="get-my-eligible-leave-types",
      *     @OA\Parameter(

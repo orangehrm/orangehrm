@@ -56,7 +56,7 @@ class EmployeeAllowedSkillAPI extends Endpoint implements CollectionEndpoint
      * @OA\Get(
      *     path="/api/v2/pim/employees/{empNumber}/skills/allowed",
      *     tags={"PIM/Employee Skill"},
-     *     summary="List Alowed Skills for an Employee",
+     *     summary="List Allowed Skills for an Employee",
      *     operationId="list-allowed-skills-for-an-employee",
      *     @OA\PathParameter(
      *         name="empNumber",
