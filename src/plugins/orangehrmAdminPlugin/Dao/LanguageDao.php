@@ -116,7 +116,7 @@ class LanguageDao extends BaseDao
     {
         $q = $this->createQueryBuilder(Language::class, 'l');
         $trimmed = trim($languageName, ' ');
-        $q->Where('l.name = :name');
+        $q->where('l.name = :name');
         $q->setParameter('name', $trimmed);
         $count = $this->count($q);
         if ($count > 0) {

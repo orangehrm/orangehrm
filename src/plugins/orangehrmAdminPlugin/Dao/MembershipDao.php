@@ -114,7 +114,7 @@ class MembershipDao extends BaseDao
     {
         $q = $this->createQueryBuilder(Membership::class, 'm');
         $trimmed = trim($membershipName, ' ');
-        $q->Where('m.name = :name');
+        $q->where('m.name = :name');
         $q->setParameter('name', $trimmed);
         $count = $this->count($q);
         if ($count > 0) {

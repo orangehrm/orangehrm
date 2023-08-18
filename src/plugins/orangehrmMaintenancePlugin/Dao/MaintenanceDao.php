@@ -21,9 +21,6 @@ namespace OrangeHRM\Maintenance\Dao;
 
 use OrangeHRM\Core\Dao\BaseDao;
 
-//use Doctrine_Collection;
-//use Doctrine_Query;
-
 /**
  * Class MaintenanceDao
  */

@@ -117,7 +117,7 @@ class EducationDao extends BaseDao
     {
         $q = $this->createQueryBuilder(Education::class, 'e');
         $trimmed = trim($educationName, ' ');
-        $q->Where('e.name = :name');
+        $q->where('e.name = :name');
         $q->setParameter('name', $trimmed);
         $count = $this->count($q);
         if ($count > 0) {

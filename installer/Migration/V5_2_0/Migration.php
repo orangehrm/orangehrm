@@ -25,7 +25,6 @@ use Doctrine\DBAL\Types\Types;
 use OrangeHRM\Core\Service\ConfigService;
 use OrangeHRM\Installer\Util\Logger;
 use OrangeHRM\Installer\Util\V1\AbstractMigration;
-use OrangeHRM\Installer\Util\V1\LangStringHelper;
 use Symfony\Component\Yaml\Yaml;
 
 class Migration extends AbstractMigration
@@ -71,7 +70,7 @@ class Migration extends AbstractMigration
         );
         $oldGroups = ['admin', 'general', 'leave', 'pim', 'attendance', 'dashboard', 'time'];
         foreach ($oldGroups as $group) {
-            $this->getLangStringHelper()->insertOrUpdateLangStrings(__DIR__, $group);
+            $this->getLangStringHelper()->insertOrUpdateLangStrings($group);
         }
 
         $this->updatePimLeftMenuConfigurators();
@@ -173,23 +172,12 @@ class Migration extends AbstractMigration
         $this->getConfigHelper()->deleteConfigValue('hsp_used_last_updated');
     }
 
-    private function cleanLDAPAddonData(): void
+    /**
+     * @inheritDoc
+     */
+    public function getVersion(): string
     {
-        $this->createQueryBuilder()
-            ->delete('ohrm_data_group')
-            ->andWhere('ohrm_data_group.name = :dataGroupName')
-            ->setParameter('dataGroupName', 'ldap_configuration')
-            ->executeQuery();
-        $this->createQueryBuilder()
-            ->delete('ohrm_screen')
-            ->andWhere('ohrm_screen.name = :screenName')
-            ->setParameter('screenName', 'LDAP Configuration')
-            ->executeQuery();
-        $this->createQueryBuilder()
-            ->delete('ohrm_module')
-            ->andWhere('ohrm_module.name = :moduleName')
-            ->setParameter('moduleName', 'ldapAuthentication')
-            ->executeQuery();
+        return '5.2.0';
     }
 
     /**
@@ -264,37 +252,6 @@ class Migration extends AbstractMigration
             ->executeQuery();
     }
 
-    private function cleanI18nGroups(): void
-    {
-        $qb = $this->createQueryBuilder()->delete('ohrm_i18n_group');
-        $qb->where($qb->expr()->in('ohrm_i18n_group.name', ':groups'))
-            ->setParameter('groups', ['directory', 'branding'], Connection::PARAM_STR_ARRAY)
-            ->executeQuery();
-
-        $qb = $this->createQueryBuilder()
-            ->select('ohrm_i18n_group.id')
-            ->from('ohrm_i18n_group')
-            ->andWhere('ohrm_i18n_group.name = :name')
-            ->setParameter('name', 'help')
-            ->orderBy('ohrm_i18n_group.id', 'DESC');
-        $ids = $qb->executeQuery()->fetchFirstColumn();
-        $helpGroupId = array_pop($ids);
-
-        $qb = $this->createQueryBuilder()
-            ->update('ohrm_i18n_lang_string', 'langString')
-            ->set('langString.group_id', ':groupId')
-            ->setParameter('groupId', $helpGroupId);
-        $qb->andWhere($qb->expr()->in('langString.group_id', ':groupsToBeDeleted'))
-            ->setParameter('groupsToBeDeleted', $ids, Connection::PARAM_INT_ARRAY)
-            ->executeQuery();
-
-        $qb = $this->createQueryBuilder()
-            ->delete('ohrm_i18n_group');
-        $qb->where($qb->expr()->in('ohrm_i18n_group.id', ':groupsToBeDeleted'))
-            ->setParameter('groupsToBeDeleted', $ids, Connection::PARAM_INT_ARRAY)
-            ->executeQuery();
-    }
-
     private function insertLDAPMenuItem(): void
     {
         $adminId = $this->createQueryBuilder()
@@ -347,6 +304,25 @@ class Migration extends AbstractMigration
             ->executeQuery();
     }
 
+    private function cleanLDAPAddonData(): void
+    {
+        $this->createQueryBuilder()
+            ->delete('ohrm_data_group')
+            ->andWhere('ohrm_data_group.name = :dataGroupName')
+            ->setParameter('dataGroupName', 'ldap_configuration')
+            ->executeQuery();
+        $this->createQueryBuilder()
+            ->delete('ohrm_screen')
+            ->andWhere('ohrm_screen.name = :screenName')
+            ->setParameter('screenName', 'LDAP Configuration')
+            ->executeQuery();
+        $this->createQueryBuilder()
+            ->delete('ohrm_module')
+            ->andWhere('ohrm_module.name = :moduleName')
+            ->setParameter('moduleName', 'ldapAuthentication')
+            ->executeQuery();
+    }
+
     private function insertLangStringNotes(): void
     {
         $filepath = $filepath = __DIR__ . '/lang-string/notes.yaml';
@@ -366,11 +342,34 @@ class Migration extends AbstractMigration
         }
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getVersion(): string
+    private function cleanI18nGroups(): void
     {
-        return '5.2.0';
+        $qb = $this->createQueryBuilder()->delete('ohrm_i18n_group');
+        $qb->where($qb->expr()->in('ohrm_i18n_group.name', ':groups'))
+            ->setParameter('groups', ['directory', 'branding'], Connection::PARAM_STR_ARRAY)
+            ->executeQuery();
+
+        $qb = $this->createQueryBuilder()
+            ->select('ohrm_i18n_group.id')
+            ->from('ohrm_i18n_group')
+            ->andWhere('ohrm_i18n_group.name = :name')
+            ->setParameter('name', 'help')
+            ->orderBy('ohrm_i18n_group.id', 'DESC');
+        $ids = $qb->executeQuery()->fetchFirstColumn();
+        $helpGroupId = array_pop($ids);
+
+        $qb = $this->createQueryBuilder()
+            ->update('ohrm_i18n_lang_string', 'langString')
+            ->set('langString.group_id', ':groupId')
+            ->setParameter('groupId', $helpGroupId);
+        $qb->andWhere($qb->expr()->in('langString.group_id', ':groupsToBeDeleted'))
+            ->setParameter('groupsToBeDeleted', $ids, Connection::PARAM_INT_ARRAY)
+            ->executeQuery();
+
+        $qb = $this->createQueryBuilder()
+            ->delete('ohrm_i18n_group');
+        $qb->where($qb->expr()->in('ohrm_i18n_group.id', ':groupsToBeDeleted'))
+            ->setParameter('groupsToBeDeleted', $ids, Connection::PARAM_INT_ARRAY)
+            ->executeQuery();
     }
 }

@@ -114,7 +114,7 @@ class LicenseDao extends BaseDao
     {
         $q = $this->createQueryBuilder(License::class, 'l');
         $trimmed = trim($licenseName, ' ');
-        $q->Where('l.name = :name');
+        $q->where('l.name = :name');
         $q->setParameter('name', $trimmed);
         $count = $this->count($q);
         if ($count > 0) {

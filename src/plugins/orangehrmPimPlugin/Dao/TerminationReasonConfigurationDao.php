@@ -118,7 +118,7 @@ class TerminationReasonConfigurationDao extends BaseDao
     {
         $q = $this->createQueryBuilder(TerminationReason::class, 'tr');
         $trimmed = trim($terminationReasonName, ' ');
-        $q->Where('tr.name = :name');
+        $q->where('tr.name = :name');
         $q->setParameter('name', $trimmed);
         $count = $this->count($q);
         if ($count > 0) {
