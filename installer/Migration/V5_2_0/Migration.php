@@ -25,6 +25,7 @@ use Doctrine\DBAL\Types\Types;
 use OrangeHRM\Core\Service\ConfigService;
 use OrangeHRM\Installer\Util\Logger;
 use OrangeHRM\Installer\Util\V1\AbstractMigration;
+use OrangeHRM\Installer\Util\V1\LangStringHelper;
 use Symfony\Component\Yaml\Yaml;
 
 class Migration extends AbstractMigration
@@ -70,7 +71,7 @@ class Migration extends AbstractMigration
         );
         $oldGroups = ['admin', 'general', 'leave', 'pim', 'attendance', 'dashboard', 'time'];
         foreach ($oldGroups as $group) {
-            $this->getLangStringHelper()->insertOrUpdateLangStrings($group);
+            $this->getLangStringHelper()->insertOrUpdateLangStrings(__DIR__, $group);
         }
 
         $this->updatePimLeftMenuConfigurators();
