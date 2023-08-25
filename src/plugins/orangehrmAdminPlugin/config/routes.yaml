@@ -584,9 +584,9 @@ admin_localization:
   controller: OrangeHRM\Admin\Controller\LocalizationController::handle
   methods: [ GET ]
 
-admin_open_id_provider: # remove this
+admin_open_id_provider:
   path: /admin/openIdProvider
-  controller: OrangeHRM\Core\Controller\Common\ModuleUnderDevelopmentController::handle
+  controller: OrangeHRM\OpenidAuthentication\Controller\SocialMediaAuthenticationController::handle
   methods: [ GET ]
 
 admin_language_package:

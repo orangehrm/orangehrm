@@ -1,0 +1,19 @@
+langStrings:
+  -
+    value: 'Secret'
+    unitId: secret
+  -
+    value: 'Developer Key'
+    unitId: developer_key
+  -
+    value: 'URL'
+    unitId: secret
+  -
+    value: 'Add Provider'
+    unitId: add_provider
+  -
+    value: 'Edit Provider'
+    unitId: edit_provider
+  -
+    value: 'Provider List'
+    unitId: provider_list
