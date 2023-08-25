@@ -39,7 +39,7 @@ class HomePageDao extends BaseDao
         $q = $this->createQueryBuilder(HomePage::class, 'h');
         $q->leftJoin('h.userRole', 'ur');
         $q->andWhere($q->expr()->in('ur.id', ':userRoleIds'))
-                ->setParameter('userRoleIds', $userRoleIds);
+            ->setParameter('userRoleIds', $userRoleIds);
         $q->addOrderBy('h.priority', ListSorter::DESCENDING);
         $q->addOrderBy('h.id', ListSorter::DESCENDING);
 
@@ -62,9 +62,9 @@ class HomePageDao extends BaseDao
         $q->leftJoin('p.module', 'm');
         $q->leftJoin('p.userRole', 'ur');
         $q->andWhere($q->expr()->in('ur.id', ':userRoleIds'))
-                ->setParameter('userRoleIds', $userRoleIds);
+            ->setParameter('userRoleIds', $userRoleIds);
         $q->andWhere('m.name = :moduleName')
-                ->setParameter('moduleName', $moduleName);
+            ->setParameter('moduleName', $moduleName);
         $q->addOrderBy('m.name', ListSorter::DESCENDING);
         $q->addOrderBy('p.priority', ListSorter::DESCENDING);
 

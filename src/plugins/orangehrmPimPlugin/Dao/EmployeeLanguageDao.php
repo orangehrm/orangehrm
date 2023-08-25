@@ -78,7 +78,7 @@ class EmployeeLanguageDao extends BaseDao
             }
         }
         $q->andWhere('el.employee = :empNumber')
-                ->setParameter('empNumber', $empNumber);
+            ->setParameter('empNumber', $empNumber);
 
         return $q->getQuery()->execute();
     }

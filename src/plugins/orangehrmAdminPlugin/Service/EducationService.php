@@ -123,6 +123,7 @@ class EducationService
      * Case-insensitive
      *
      * @param string $educationName Education name that needs to be checked
+     * @return bool
      */
     public function isExistingEducationName(string $educationName): bool
     {

@@ -101,10 +101,10 @@ class EmployeeReportingMethodDao extends BaseDao
     {
         $q = $this->createQueryBuilder(ReportTo::class, 'rt');
         $q->delete()
-                ->andWhere('rt.subordinate = :empNumber')
-                ->setParameter('empNumber', $empNumber)
-                ->andWhere($q->expr()->in('rt.supervisor', ':ids'))
-                ->setParameter('ids', $toDeleteIds);
+            ->andWhere('rt.subordinate = :empNumber')
+            ->setParameter('empNumber', $empNumber)
+            ->andWhere($q->expr()->in('rt.supervisor', ':ids'))
+            ->setParameter('ids', $toDeleteIds);
         return $q->getQuery()->execute();
     }
 
@@ -117,10 +117,10 @@ class EmployeeReportingMethodDao extends BaseDao
     {
         $q = $this->createQueryBuilder(ReportTo::class, 'rt');
         $q->delete()
-                ->andWhere('rt.supervisor = :empNumber')
-                ->setParameter('empNumber', $empNumber)
-                ->andWhere($q->expr()->in('rt.subordinate', ':ids'))
-                ->setParameter('ids', $toDeleteIds);
+            ->andWhere('rt.supervisor = :empNumber')
+            ->setParameter('empNumber', $empNumber)
+            ->andWhere($q->expr()->in('rt.subordinate', ':ids'))
+            ->setParameter('ids', $toDeleteIds);
         return $q->getQuery()->execute();
     }
 
@@ -157,9 +157,9 @@ class EmployeeReportingMethodDao extends BaseDao
     {
         $employeeSupervisor = $this->getRepository(ReportTo::class)->findOneBy(
             [
-                    'supervisor' => $reportToEmployeeId,
-                    'subordinate' => $reportFromEmployeeId,
-                ]
+                'supervisor' => $reportToEmployeeId,
+                'subordinate' => $reportFromEmployeeId,
+            ]
         );
         if ($employeeSupervisor instanceof ReportTo) {
             return $employeeSupervisor;

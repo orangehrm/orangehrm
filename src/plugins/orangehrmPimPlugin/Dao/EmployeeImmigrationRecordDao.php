@@ -65,9 +65,9 @@ class EmployeeImmigrationRecordDao extends BaseDao
     public function getEmployeeImmigrationRecord(int $empNumber, int $recordId): ?EmployeeImmigrationRecord
     {
         $employeeImmigrationRecord = $this->getRepository(EmployeeImmigrationRecord::class)->findOneBy([
-                'employee' => $empNumber,
-                'recordId' => $recordId,
-            ]);
+            'employee' => $empNumber,
+            'recordId' => $recordId,
+        ]);
         if ($employeeImmigrationRecord instanceof EmployeeImmigrationRecord) {
             return $employeeImmigrationRecord;
         }
@@ -83,10 +83,10 @@ class EmployeeImmigrationRecordDao extends BaseDao
     {
         $q = $this->createQueryBuilder(EmployeeImmigrationRecord::class, 'eir');
         $q->delete()
-                ->where('eir.employee = :empNumber')
-                ->setParameter('empNumber', $empNumber);
+            ->where('eir.employee = :empNumber')
+            ->setParameter('empNumber', $empNumber);
         $q->andWhere($q->expr()->in('eir.recordId', ':ids'))
-                ->setParameter('ids', $entriesToDelete);
+            ->setParameter('ids', $entriesToDelete);
         return $q->getQuery()->execute();
     }
 
@@ -98,7 +98,7 @@ class EmployeeImmigrationRecordDao extends BaseDao
     {
         $q = $this->createQueryBuilder(EmployeeImmigrationRecord::class, 'eir');
         $q->andWhere('eir.employee = :empNumber')
-                ->setParameter('empNumber', $empNumber);
+            ->setParameter('empNumber', $empNumber);
         $q->addOrderBy('eir.number', ListSorter::ASCENDING);
 
         return $q->getQuery()->execute();

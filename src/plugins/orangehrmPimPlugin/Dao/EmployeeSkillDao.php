@@ -48,9 +48,9 @@ class EmployeeSkillDao extends BaseDao
     {
         $employeeSkill = $this->getRepository(EmployeeSkill::class)->findOneBy(
             [
-                    'employee' => $empNumber,
-                    'skill' => $skillId,
-                ]
+                'employee' => $empNumber,
+                'skill' => $skillId,
+            ]
         );
         if ($employeeSkill instanceof EmployeeSkill) {
             return $employeeSkill;
@@ -67,10 +67,10 @@ class EmployeeSkillDao extends BaseDao
     {
         $q = $this->createQueryBuilder(EmployeeSkill::class, 'es');
         $q->delete()
-                ->andWhere('es.employee = :empNumber')
-                ->andWhere($q->expr()->in('es.skill', ':ids'))
-                ->setParameter('ids', $toDeleteIds)
-                ->setParameter('empNumber', $empNumber);
+            ->andWhere('es.employee = :empNumber')
+            ->andWhere($q->expr()->in('es.skill', ':ids'))
+            ->setParameter('ids', $toDeleteIds)
+            ->setParameter('empNumber', $empNumber);
         return $q->getQuery()->execute();
     }
 

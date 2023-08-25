@@ -37,9 +37,9 @@ class EmployeeAttachmentDao extends BaseDao
         $q = $this->createQueryBuilder(EmployeeAttachment::class, 'a');
         $q->select($select);
         $q->andWhere('a.employee = :empNumber')
-                ->setParameter('empNumber', $empNumber);
+            ->setParameter('empNumber', $empNumber);
         $q->andWhere('a.screen = :screen')
-                ->setParameter('screen', $screen);
+            ->setParameter('screen', $screen);
         $q->addOrderBy('a.attachId', ListSorter::ASCENDING);
 
         return $q->getQuery()->execute();
@@ -121,11 +121,11 @@ class EmployeeAttachmentDao extends BaseDao
         $q = $this->createQueryBuilder(EmployeeAttachment::class, 'a');
         $q->delete();
         $q->andWhere('a.employee = :empNumber')
-                ->setParameter('empNumber', $empNumber);
+            ->setParameter('empNumber', $empNumber);
         $q->andWhere('a.screen = :screen')
-                ->setParameter('screen', $screen);
+            ->setParameter('screen', $screen);
         $q->andWhere($q->expr()->in('a.attachId', ':ids'))
-                ->setParameter('ids', $toBeDeletedIds);
+            ->setParameter('ids', $toBeDeletedIds);
 
         return $q->getQuery()->execute();
     }

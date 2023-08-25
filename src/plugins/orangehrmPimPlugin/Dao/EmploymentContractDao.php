@@ -32,7 +32,7 @@ class EmploymentContractDao extends BaseDao
     {
         $q = $this->createQueryBuilder(EmpContract::class, 'c');
         $q->andWhere('c.employee = :empNumber')
-                ->setParameter('empNumber', $empNumber);
+            ->setParameter('empNumber', $empNumber);
 
         return $this->fetchOne($q);
     }

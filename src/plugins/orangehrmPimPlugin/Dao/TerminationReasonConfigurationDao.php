@@ -105,8 +105,8 @@ class TerminationReasonConfigurationDao extends BaseDao
     {
         $q = $this->createQueryBuilder(TerminationReason::class, 'tr');
         $q->delete()
-                ->where($q->expr()->in('tr.id', ':ids'))
-                ->setParameter('ids', $toDeleteIds);
+            ->where($q->expr()->in('tr.id', ':ids'))
+            ->setParameter('ids', $toDeleteIds);
         return $q->getQuery()->execute();
     }
 

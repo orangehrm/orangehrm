@@ -26,18 +26,18 @@ class OpenIdProviderDao extends BaseOpenIdDao{
     /**
      *
      * @param OpenidProvider $openIdProvider
-     * @return OpenidProvider 
+     * @return OpenidProvider
      */
     public function saveOpenIdProvider(OpenidProvider $openIdProvider){
             $openIdProvider->save();
             $openIdProvider->refresh();
             return $openIdProvider;
-        
+
     }
     /**
      *
-     * @param bool $isActive 
-     * @return OpenidProvider 
+     * @param bool $isActive
+     * @return OpenidProvider
      */
     public function listOpenIdProviders($isActive =true){
            $query = Doctrine_Query::create()
@@ -50,15 +50,15 @@ class OpenIdProviderDao extends BaseOpenIdDao{
     }
     /**
      *
-     * @param int $id 
-     * @return mix 
+     * @param int $id
+     * @return mix
      */
     public function removeOpenIdProvider($id){
           $query = Doctrine_Query::create()
                 ->update('OpenidProvider')
                 ->set('status','?',0)
                 ->whereIn('id',$id);
-          
+
           return $query->execute();
 
     }
@@ -67,6 +67,6 @@ class OpenIdProviderDao extends BaseOpenIdDao{
      * @return OpenidProvider
      */
     public function getOpenIdProvider($id) {
-            return Doctrine::getTable('OpenidProvider')->find($id);
-    }   
+        return Doctrine::getTable('OpenidProvider')->find($id);
+    }
 }

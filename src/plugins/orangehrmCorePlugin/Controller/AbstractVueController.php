@@ -138,7 +138,6 @@ abstract class AbstractVueController extends AbstractViewController
     }
 
     /**
-     * @param Request $request
      * @return string
      * @throws LoaderError
      * @throws RuntimeError

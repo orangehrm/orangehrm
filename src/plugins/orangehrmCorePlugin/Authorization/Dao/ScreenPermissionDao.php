@@ -48,11 +48,11 @@ class ScreenPermissionDao extends BaseDao
         $q->leftJoin('sp.screen', 's');
         $q->leftJoin('s.module', 'm');
         $q->andWhere('m.name = :moduleName')
-                ->setParameter('moduleName', $module);
+            ->setParameter('moduleName', $module);
         $q->andWhere('s.actionUrl = :actionUrl')
-                ->setParameter('actionUrl', $actionUrl);
+            ->setParameter('actionUrl', $actionUrl);
         $q->andWhere($q->expr()->in('ur.name', ':userRoleNames'))
-                ->setParameter('userRoleNames', $roleNames);
+            ->setParameter('userRoleNames', $roleNames);
 
         return $q->getQuery()->execute();
     }

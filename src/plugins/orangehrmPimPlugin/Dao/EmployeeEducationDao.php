@@ -45,9 +45,9 @@ class EmployeeEducationDao extends BaseDao
     {
         $employeeEducation = $this->getRepository(EmployeeEducation::class)->findOneBy(
             [
-                    'employee' => $empNumber,
-                    'id' => $id,
-                ]
+                'employee' => $empNumber,
+                'id' => $id,
+            ]
         );
         if ($employeeEducation instanceof EmployeeEducation) {
             return $employeeEducation;
@@ -64,10 +64,10 @@ class EmployeeEducationDao extends BaseDao
     {
         $q = $this->createQueryBuilder(EmployeeEducation::class, 'ee');
         $q->delete()
-                ->andWhere('ee.employee = :empNumber')
-                ->setParameter('empNumber', $empNumber)
-                ->andWhere($q->expr()->in('ee.id', ':ids'))
-                ->setParameter('ids', $toDeleteIds);
+            ->andWhere('ee.employee = :empNumber')
+            ->setParameter('empNumber', $empNumber)
+            ->andWhere($q->expr()->in('ee.id', ':ids'))
+            ->setParameter('ids', $toDeleteIds);
         return $q->getQuery()->execute();
     }
 

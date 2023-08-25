@@ -104,7 +104,7 @@ class ReportingMethodConfigurationDao extends BaseDao
         $q = $this->createQueryBuilder(ReportingMethod::class, 'rm');
         $q->delete();
         $q->where($q->expr()->in('rm.id', ':ids'))
-                ->setParameter('ids', $toDeleteIds);
+            ->setParameter('ids', $toDeleteIds);
         return $q->getQuery()->execute();
     }
 

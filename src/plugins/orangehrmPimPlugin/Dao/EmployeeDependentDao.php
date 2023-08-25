@@ -36,7 +36,7 @@ class EmployeeDependentDao extends BaseDao
     {
         $q = $this->createQueryBuilder(EmpDependent::class, 'd');
         $q->andWhere('d.employee = :empNumber')
-                ->setParameter('empNumber', $empNumber);
+            ->setParameter('empNumber', $empNumber);
         $q->addOrderBy('d.name', ListSorter::ASCENDING);
 
         return $q->getQuery()->execute();
@@ -97,9 +97,9 @@ class EmployeeDependentDao extends BaseDao
         $q = $this->createQueryBuilder(EmpDependent::class, 'd');
         $q->delete();
         $q->andWhere('d.employee = :empNumber')
-                ->setParameter('empNumber', $empNumber);
+            ->setParameter('empNumber', $empNumber);
         $q->andWhere($q->expr()->in('d.seqNo', ':ids'))
-                ->setParameter('ids', $entriesToDelete);
+            ->setParameter('ids', $entriesToDelete);
 
         return $q->getQuery()->execute();
     }

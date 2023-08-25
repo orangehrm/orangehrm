@@ -124,8 +124,8 @@ class CustomFieldDao extends BaseDao
     {
         $customField = $this->getRepository(CustomField::class)->findOneBy(
             [
-                    'fieldNum' => $id,
-                ]
+                'fieldNum' => $id,
+            ]
         );
         if ($customField instanceof CustomField) {
             return $customField;
@@ -248,10 +248,10 @@ class CustomFieldDao extends BaseDao
         }
         $q = $this->createQueryBuilder(Employee::class, 'e');
         $q->update()
-                ->set("e. custom{$fieldId}", ':customField')
-                ->where("e.custom{$fieldId} = :dropDownValue")
-                ->setParameter('customField', null)
-                ->setParameter('dropDownValue', $dropDownValue);
+            ->set("e. custom{$fieldId}", ':customField')
+            ->where("e.custom{$fieldId} = :dropDownValue")
+            ->setParameter('customField', null)
+            ->setParameter('dropDownValue', $dropDownValue);
         return $q->getQuery()->execute();
     }
 }

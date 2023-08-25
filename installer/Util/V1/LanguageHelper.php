@@ -48,7 +48,7 @@ class LanguageHelper
     /**
      * @param string $filepath
      * @param string $groupName
-     * @return array
+     * @return LangString[]
      */
     public function readLangStrings(string $filepath, string $groupName): array
     {

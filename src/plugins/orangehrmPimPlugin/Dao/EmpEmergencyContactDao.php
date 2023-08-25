@@ -65,9 +65,9 @@ class EmpEmergencyContactDao extends BaseDao
     public function getEmployeeEmergencyContact(int $empNumber, int $seqNo): ?EmpEmergencyContact
     {
         $empEmergencyContact = $this->getRepository(EmpEmergencyContact::class)->findOneBy([
-                'employee' => $empNumber,
-                'seqNo' => $seqNo,
-            ]);
+            'employee' => $empNumber,
+            'seqNo' => $seqNo,
+        ]);
         if ($empEmergencyContact instanceof EmpEmergencyContact) {
             return $empEmergencyContact;
         }
@@ -84,10 +84,10 @@ class EmpEmergencyContactDao extends BaseDao
     {
         $q = $this->createQueryBuilder(EmpEmergencyContact::class, 'eec');
         $q->delete()
-                ->where('eec.employee = :empNumber')
-                ->setParameter('empNumber', $empNumber);
+            ->where('eec.employee = :empNumber')
+            ->setParameter('empNumber', $empNumber);
         $q->andWhere($q->expr()->in('eec.seqNo', ':ids'))
-                ->setParameter('ids', $entriesToDelete);
+            ->setParameter('ids', $entriesToDelete);
         return $q->getQuery()->execute();
     }
 
@@ -99,7 +99,7 @@ class EmpEmergencyContactDao extends BaseDao
     {
         $q = $this->createQueryBuilder(EmpEmergencyContact::class, 'eec');
         $q->andWhere('eec.employee = :empNumber')
-                ->setParameter('empNumber', $empNumber);
+            ->setParameter('empNumber', $empNumber);
         $q->addOrderBy('eec.name', ListSorter::ASCENDING);
 
         return $q->getQuery()->execute();
