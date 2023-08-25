@@ -50,6 +50,8 @@ class CopyProjectActivityAPI extends Endpoint implements CollectionEndpoint
      * @OA\Get(
      *     path="/api/v2/time/projects/{toProjectId}/activities/copy/{fromProjectId}",
      *     tags={"Time/Copy Project Activity"},
+     *     summary="List Copyable Activities Between Two Projects",
+     *     operationId="list-copyable-activities-between-two-projects",
      *     @OA\PathParameter(
      *         name="toProjectId",
      *         @OA\Schema(type="integer")
@@ -123,6 +125,8 @@ class CopyProjectActivityAPI extends Endpoint implements CollectionEndpoint
      * @OA\Post(
      *     path="/api/v2/time/projects/{toProjectId}/activities/copy/{fromProjectId}",
      *     tags={"Time/Copy Project Activity"},
+     *     summary="Copy Activities From One Project",
+     *     operationId="copy-activities-from-one-project",
      *     @OA\PathParameter(
      *         name="toProjectId",
      *         @OA\Schema(type="integer")

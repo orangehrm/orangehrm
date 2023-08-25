@@ -80,7 +80,9 @@ class EmployeeSupervisorAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Get(
      *     path="/api/v2/pim/employees/{empNumber}/supervisors/{id}",
-     *     tags={"Pim/Employee Supervisor"},
+     *     tags={"PIM/Employee Supervisor"},
+     *     summary="Get an Employee's Supervisor",
+     *     operationId="get-an-employees-supervisor",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")
@@ -145,7 +147,9 @@ class EmployeeSupervisorAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Get(
      *     path="/api/v2/pim/employees/{empNumber}/supervisors",
-     *     tags={"Pim/Employee Supervisor"},
+     *     tags={"PIM/Employee Supervisor"},
+     *     summary="List an Employee's Supervisors",
+     *     operationId="list-an-employees-supervisors-pim",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")
@@ -225,7 +229,9 @@ class EmployeeSupervisorAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Post(
      *     path="/api/v2/pim/employees/{empNumber}/supervisors",
-     *     tags={"Pim/Employee Supervisor"},
+     *     tags={"PIM/Employee Supervisor"},
+     *     summary="Add a Supervisor to an Employee",
+     *     operationId="add-a-supervisor-to-an-employee",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")
@@ -299,7 +305,9 @@ class EmployeeSupervisorAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Delete(
      *     path="/api/v2/pim/employees/{empNumber}/supervisors",
-     *     tags={"Pim/Employee Supervisor"},
+     *     tags={"PIM/Employee Supervisor"},
+     *     summary="Delete an Employee's Supervisors",
+     *     operationId="delete-an-employees-supervisors",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")
@@ -337,7 +345,9 @@ class EmployeeSupervisorAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Put(
      *     path="/api/v2/pim/employees/{empNumber}/supervisors/{id}",
-     *     tags={"Pim/Employee Subordinates"},
+     *     tags={"PIM/Employee Subordinates"},
+     *     summary="Update an Employee's Supervisor",
+     *     operationId="update-an-employees-supervisor",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")

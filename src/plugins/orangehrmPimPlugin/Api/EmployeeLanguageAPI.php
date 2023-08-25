@@ -66,7 +66,9 @@ class EmployeeLanguageAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Get(
      *     path="/api/v2/pim/employees/{empNumber}/languages/{languageId}/fluencies/{fluencyId}",
-     *     tags={"Pim/Employee Language"},
+     *     tags={"PIM/Employee Language"},
+     *     summary="Get an Employee's Language and Fluency",
+     *     operationId="get-an-employees-language-and-fluency",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")
@@ -149,7 +151,9 @@ class EmployeeLanguageAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Get(
      *     path="/api/v2/pim/employees/{empNumber}/languages",
-     *     tags={"Pim/Employee Language"},
+     *     tags={"PIM/Employee Language"},
+     *     summary="List an Employee's Languages",
+     *     operationId="list-an-employees-languages",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")
@@ -221,7 +225,9 @@ class EmployeeLanguageAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Post(
      *     path="/api/v2/pim/employees/{empNumber}/languages",
-     *     tags={"Pim/Employee Language"},
+     *     tags={"PIM/Employee Language"},
+     *     summary="Add a Language to an Employee",
+     *     operationId="add-a-language-to-an-employee",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")
@@ -335,7 +341,9 @@ class EmployeeLanguageAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Put(
      *     path="/api/v2/pim/employees/{empNumber}/languages/{languageId}/fluencies/{fluencyId}",
-     *     tags={"Pim/Employee Language"},
+     *     tags={"PIM/Employee Language"},
+     *     summary="Update an Employee's Language and Fluency",
+     *     operationId="update-an-employees-langauge-and-fluency",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")
@@ -409,7 +417,9 @@ class EmployeeLanguageAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Delete(
      *     path="/api/v2/pim/employees/{empNumber}/languages",
-     *     tags={"Pim/Employee Language"},
+     *     tags={"PIM/Employee Language"},
+     *     summary="Delete an Employee's Languages",
+     *     operationId="delete-an-employees-languages",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")

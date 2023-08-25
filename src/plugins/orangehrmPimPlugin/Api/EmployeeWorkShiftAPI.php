@@ -39,7 +39,9 @@ class EmployeeWorkShiftAPI extends Endpoint implements ResourceEndpoint
     /**
      * @OA\Get(
      *     path="/api/v2/pim/employees/{empNumber}/work-shift",
-     *     tags={"Pim/Employee Work Shift"},
+     *     tags={"PIM/Employee Work Shift"},
+     *     summary="Get an Employee's Work Shift",
+     *     operationId="get-an-employees-work-shift",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")

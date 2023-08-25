@@ -48,7 +48,9 @@ class ValidationProjectActivityNameAPI extends Endpoint implements ResourceEndpo
     /**
      * @OA\Get(
      *     path="/api/v2/time/validation/activity-name/{id}",
-     *     tags={"Time/Validate Project Activity Name"},
+     *     tags={"Time/Validation"},
+     *     summary="Validate Project Activity Name Uniqueness",
+     *     operationId="validate-project-activity-name-uniqueness",
      *     @OA\PathParameter(
      *         name="id",
      *         @OA\Schema(type="integer")

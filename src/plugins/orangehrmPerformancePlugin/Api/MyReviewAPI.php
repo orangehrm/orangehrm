@@ -40,6 +40,8 @@ class MyReviewAPI extends Endpoint implements CrudEndpoint
      * @OA\Get(
      *     path="/api/v2/performance/reviews",
      *     tags={"Performance/Reviews"},
+     *     summary="List My Reviews",
+     *     operationId="list-my-reviews",
      *     @OA\Parameter(
      *         name="sortField",
      *         in="query",

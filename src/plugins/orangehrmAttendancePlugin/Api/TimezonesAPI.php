@@ -46,6 +46,8 @@ class TimezonesAPI extends Endpoint implements CollectionEndpoint
      * @OA\Get(
      *     path="/api/v2/attendance/timezones",
      *     tags={"Attendance/Timezones"},
+     *     summary="List Timezones",
+     *     operationId="list-timezones",
      *     @OA\Parameter(
      *         name="timezoneName",
      *         in="query",

@@ -37,6 +37,8 @@ class TimesheetTimeFormatAPI extends Endpoint implements ResourceEndpoint
      * @OA\Get(
      *     path="/api/v2/time/config/time-format",
      *     tags={"Time/Timesheet Time Format"},
+     *     summary="Get Timesheet Time Format",
+     *     operationId="get-timesheet-time-format",
      *     @OA\Response(
      *         response="200",
      *         description="Success",

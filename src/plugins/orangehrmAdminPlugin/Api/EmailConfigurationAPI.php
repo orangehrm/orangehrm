@@ -92,6 +92,8 @@ class EmailConfigurationAPI extends Endpoint implements ResourceEndpoint
      * @OA\Get(
      *     path="/api/v2/admin/email-configuration",
      *     tags={"Admin/Email Configuration"},
+     *     summary="Get Email Configuration",
+     *     operationId="get-email-configuration",
      *     @OA\Response(
      *         response="200",
      *         description="Success",
@@ -144,6 +146,8 @@ class EmailConfigurationAPI extends Endpoint implements ResourceEndpoint
      * @OA\Put(
      *     path="/api/v2/admin/email-configuration",
      *     tags={"Admin/Email Configuration"},
+     *     summary="Update Email Configuration",
+     *     operationId="update-email-configuration",
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",

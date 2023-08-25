@@ -44,6 +44,8 @@ class ReviewListAPI extends PerformanceReviewAPI
      * @OA\Get(
      *     path="/api/v2/performance/employees/reviews",
      *     tags={"Performance/Reviews"},
+     *     summary="List All Reviews",
+     *     operationId="list-all-reviews",
      *     @OA\Parameter(
      *         name="empNumber",
      *         in="query",

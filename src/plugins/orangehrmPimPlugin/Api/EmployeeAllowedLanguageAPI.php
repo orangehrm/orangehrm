@@ -55,7 +55,9 @@ class EmployeeAllowedLanguageAPI extends Endpoint implements CollectionEndpoint
     /**
      * @OA\Get(
      *     path="/api/v2/pim/employees/{empNumber}/languages/allowed",
-     *     tags={"Pim/Employee Allowed Language"},
+     *     tags={"PIM/Employee Language"},
+     *     summary="List Allowed Languages for an Employee",
+     *     operationId="list-allowed-languages-for-an-employee",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")

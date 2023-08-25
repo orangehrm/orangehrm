@@ -44,6 +44,8 @@ class EmployeeAnniversaryAPI extends Endpoint implements CollectionEndpoint
      * @OA\Get(
      *     path="/api/v2/buzz/anniversaries",
      *     tags={"Buzz/Employee Anniversary"},
+     *     summary="List Upcoming Employee Anniversaries",
+     *     operationId="list-upcoming-employees-anniversaries",
      *     @OA\Parameter(ref="#/components/parameters/sortOrder"),
      *     @OA\Parameter(ref="#/components/parameters/limit"),
      *     @OA\Parameter(ref="#/components/parameters/offset"),

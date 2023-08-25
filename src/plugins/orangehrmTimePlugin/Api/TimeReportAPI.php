@@ -41,6 +41,8 @@ class TimeReportAPI extends ReportAPI
      * @OA\Get(
      *     path="/api/v2/time/reports",
      *     tags={"Time/Timesheet Report"},
+     *     summary="Get Time Reports",
+     *     operationId="get-time-reports",
      *     @OA\Parameter(
      *         name="name",
      *         in="query",

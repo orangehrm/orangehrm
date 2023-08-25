@@ -79,6 +79,8 @@ class BuzzShareAPI extends Endpoint implements CrudEndpoint
      * @OA\Post(
      *     path="/api/v2/buzz/shares",
      *     tags={"Buzz/Shares"},
+     *     summary="Share a Post",
+     *     operationId="share-a-post",
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
@@ -149,6 +151,8 @@ class BuzzShareAPI extends Endpoint implements CrudEndpoint
      * @OA\Delete(
      *     path="/api/v2/buzz/shares/{id}",
      *     tags={"Buzz/Shares"},
+     *     summary="Delete a Share",
+     *     operationId="delete-a-share",
      *     @OA\PathParameter(
      *         name="id",
      *         @OA\Schema(type="integer")
@@ -235,6 +239,8 @@ class BuzzShareAPI extends Endpoint implements CrudEndpoint
      * @OA\Put(
      *     path="/api/v2/buzz/shares/{id}",
      *     tags={"Buzz/Shares"},
+     *     summary="Edit a Share",
+     *     operationId="edit-a-share",
      *     @OA\PathParameter(
      *         name="id",
      *         @OA\Schema(type="integer")

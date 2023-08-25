@@ -113,6 +113,8 @@ class LeaveOverlapAPI extends Endpoint implements CollectionEndpoint
      * @OA\Get(
      *     path="/api/v2/leave/overlap-leaves",
      *     tags={"Leave/Overlap Leave"},
+     *     summary="Get Overlapping Leaves",
+     *     operationId="get-overlapping-leaves",
      *     @OA\Parameter(
      *         name="empNumber",
      *         in="query",

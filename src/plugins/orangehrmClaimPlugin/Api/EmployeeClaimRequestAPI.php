@@ -95,6 +95,8 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
      * @OA\Post(
      *     path="/api/v2/claim/employees/{empNumber}/requests",
      *     tags={"Claim/Requests"},
+     *     summary="List an Employee's Claim Requests",
+     *     operationId="list-an-employees-claim-requests",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")
@@ -249,6 +251,8 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
      * @OA\Get(
      *     path="/api/v2/claim/employees/requests",
      *     tags={"Claim/Requests"},
+     *     summary="List All Claim Requests",
+     *     operationId="list-all-claim-requests",
      *     @OA\Parameter(
      *         name="sortField",
      *         in="query",
@@ -550,6 +554,8 @@ class EmployeeClaimRequestAPI extends Endpoint implements CrudEndpoint
      * @OA\Get(
      *     path="/api/v2/claim/employees/{empNumber}/requests/{id}",
      *     tags={"Claim/Requests"},
+     *     summary="Get an Employee's Claim Request",
+     *     operationId="get-an-employees-claim-request",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")

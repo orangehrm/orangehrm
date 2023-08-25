@@ -44,7 +44,9 @@ class ReviewEmployeeSupervisorAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Get(
      *     path="/api/v2/performance/supervisors",
-     *     tags={"Performance/Reviews"},
+     *     tags={"Performance/Review Configuration"},
+     *     summary="List an Employee's Supervisors",
+     *     operationId="list-an-employees-supervisors",
      *     @OA\Parameter(
      *         name="empNumber",
      *         in="query",

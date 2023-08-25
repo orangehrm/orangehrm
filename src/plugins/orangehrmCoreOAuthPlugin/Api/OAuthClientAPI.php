@@ -57,6 +57,8 @@ class OAuthClientAPI extends Endpoint implements CrudEndpoint
      * @OA\Get(
      *     path="/api/v2/admin/oauth-clients",
      *     tags={"OAuth/OAuth Clients"},
+     *     summary="List All OAuth Clients",
+     *     operationId="list-all-oauth-clients",
      *     @OA\Parameter(
      *         name="sortField",
      *         in="query",
@@ -115,6 +117,8 @@ class OAuthClientAPI extends Endpoint implements CrudEndpoint
      * @OA\Post(
      *     path="/api/v2/admin/oauth-clients",
      *     tags={"OAuth/OAuth Clients"},
+     *     summary="Create an OAuth Client",
+     *     operationId="create-an-oauth-client",
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
@@ -201,6 +205,8 @@ class OAuthClientAPI extends Endpoint implements CrudEndpoint
      * @OA\Delete(
      *     path="/api/v2/admin/oauth-clients",
      *     tags={"OAuth/OAuth Clients"},
+     *     summary="Delete OAuth Clients",
+     *     operationId="delete-oauth-clients",
      *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),
      *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse")
      * )
@@ -240,6 +246,8 @@ class OAuthClientAPI extends Endpoint implements CrudEndpoint
      * @OA\Get(
      *     path="/api/v2/admin/oauth-client/{id}",
      *     tags={"OAuth/OAuth Clients"},
+     *     summary="Get an OAuth Client",
+     *     operationId="get-an-oauth-client",
      *     @OA\PathParameter(
      *         name="id",
      *         @OA\Schema(type="integer")
@@ -289,6 +297,8 @@ class OAuthClientAPI extends Endpoint implements CrudEndpoint
      * @OA\Put(
      *     path="/api/v2/admin/oauth-client/{id}",
      *     tags={"OAuth/OAuth Clients"},
+     *     summary="Update an OAuth Client",
+     *     operationId="update-an-oauth-client",
      *     @OA\PathParameter(
      *         name="id",
      *         @OA\Schema(type="integer")

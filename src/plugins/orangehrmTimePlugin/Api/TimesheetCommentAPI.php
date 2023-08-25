@@ -59,6 +59,8 @@ class TimesheetCommentAPI extends Endpoint implements ResourceEndpoint
      * @OA\Put(
      *     path="/api/v2/time/timesheets/{timesheetId}/entries/comment",
      *     tags={"Time/Timesheet Comment"},
+     *     summary="Update a Timesheet Comment",
+     *     operationId="update-a-timesheet-comment",
      *     @OA\PathParameter(
      *         name="timesheetId",
      *         @OA\Schema(type="integer")
@@ -225,6 +227,8 @@ class TimesheetCommentAPI extends Endpoint implements ResourceEndpoint
      * @OA\Get(
      *     path="/api/v2/time/timesheets/{timesheetId}/entries/{id}/comment",
      *     tags={"Time/Timesheet Comment"},
+     *     summary="Get a Timesheet Comment",
+     *     operationId="get-a-timesheet-comment",
      *     @OA\PathParameter(
      *         name="timesheetId",
      *         @OA\Schema(type="integer")

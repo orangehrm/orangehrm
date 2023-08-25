@@ -46,6 +46,8 @@ class ValidationUserNameAPI extends Endpoint implements ResourceEndpoint
      * @OA\Get(
      *     path="/api/v2/admin/validation/user-name",
      *     tags={"Admin/Users"},
+     *     summary="Validate Username Uniqueness",
+     *     operationId="validate-username-uniqueness",
      *     @OA\Parameter(
      *         name="userName",
      *         in="query",

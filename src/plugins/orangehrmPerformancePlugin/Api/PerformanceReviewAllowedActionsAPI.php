@@ -65,6 +65,8 @@ class PerformanceReviewAllowedActionsAPI extends Endpoint implements CollectionE
      * @OA\Get(
      *     path="/api/v2/performance/reviews/{reviewId}/actions/allowed",
      *     tags={"Performance/Reviews"},
+     *     summary="Get Allowed Actions for Review",
+     *     operationId="get-allowed-actions-for-review",
      *     @OA\PathParameter(
      *         name="reviewId",
      *         @OA\Schema(type="integer")

@@ -55,7 +55,9 @@ class EmployeeAllowedLicenseAPI extends Endpoint implements CollectionEndpoint
     /**
      * @OA\Get(
      *     path="/api/v2/pim/employees/{empNumber}/licenses/allowed",
-     *     tags={"Pim/Employee Allowed License"},
+     *     tags={"PIM/Employee Licenses"},
+     *     summary="List Allowed Licenses for an Employee",
+     *     operationId="list-allowed-licenses-for-an-employee",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")

@@ -41,6 +41,8 @@ class BuzzVideoURLValidationAPI extends Endpoint implements ResourceEndpoint
      * @OA\Get(
      *     path="/api/v2/buzz/validation/links",
      *     tags={"Buzz/Validation"},
+     *     summary="Validate Video Link",
+     *     operationId="validate-video-link",
      *     @OA\PathParameter(
      *         name="link",
      *         in="query",

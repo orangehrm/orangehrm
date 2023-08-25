@@ -87,7 +87,9 @@ class EmployeeCSVImportAPI extends Endpoint implements CollectionEndpoint
     /**
      * @OA\Post(
      *     path="/api/v2/pim/csv-import",
-     *     tags={"Pim/Employee CSV Import"},
+     *     tags={"PIM/Employee CSV Import"},
+     *     summary="Import Employee Records",
+     *     operationId="import-employee-records",
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",

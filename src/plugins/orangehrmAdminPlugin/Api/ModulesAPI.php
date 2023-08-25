@@ -85,6 +85,8 @@ class ModulesAPI extends Endpoint implements CrudEndpoint
      * @OA\Get(
      *     path="/api/v2/admin/modules",
      *     tags={"Admin/Modules"},
+     *     summary="List All Modules",
+     *     operationId="list-all-modules",
      *     @OA\Response(
      *         response="200",
      *         description="Success",
@@ -187,6 +189,8 @@ class ModulesAPI extends Endpoint implements CrudEndpoint
      * @OA\Put(
      *     path="/api/v2/admin/modules",
      *     tags={"Admin/Modules"},
+     *     summary="Update a Module",
+     *     operationId="update-a-module",
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",

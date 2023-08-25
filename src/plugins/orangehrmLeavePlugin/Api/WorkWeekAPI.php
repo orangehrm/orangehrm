@@ -68,7 +68,9 @@ class WorkWeekAPI extends Endpoint implements ResourceEndpoint
     /**
      * @OA\Get(
      *     path="/api/v2/leave/workweek",
-     *     tags={"Leave/Configure"},
+     *     tags={"Leave/Work Week"},
+     *     summary="Get Work Week",
+     *     operationId="get-work-week",
      *     @OA\Parameter(
      *         name="model",
      *         in="query",
@@ -160,7 +162,9 @@ class WorkWeekAPI extends Endpoint implements ResourceEndpoint
     /**
      * @OA\Put(
      *     path="/api/v2/leave/workweek",
-     *     tags={"Leave/Configure"},
+     *     tags={"Leave/Work Week"},
+     *     summary="Update Work Week",
+     *     operationId="update-work-week",
      *     @OA\Parameter(
      *         name="model",
      *         in="query",

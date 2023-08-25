@@ -48,6 +48,8 @@ class CandidateMarkingInterviewFailAPI extends AbstractCandidateActionAPI
      * @OA\Put(
      *     path="/api/v2/recruitment/candidates/{candidateId}/interviews/{interviewId}/fail",
      *     tags={"Recruitment/Candidate Workflow"},
+     *     summary="Mark Candidate Interview as Failed",
+     *     operationId="mark-candidate-interview-as-failed",
      *     @OA\PathParameter(
      *         name="candidateId",
      *         @OA\Schema(type="integer")

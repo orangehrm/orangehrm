@@ -55,7 +55,9 @@ class MyInfoAPI extends Endpoint implements ResourceEndpoint
     /**
      * @OA\Get(
      *     path="/api/v2/pim/myself",
-     *     tags={"Pim/My Self"},
+     *     tags={"PIM/Employee"},
+     *     summary="Get My Details",
+     *     operationId="get-my-details",
      *     @OA\Parameter(
      *         name="model",
      *         in="query",

@@ -57,7 +57,9 @@ class EmployeePictureAPI extends Endpoint implements ResourceEndpoint
     /**
      * @OA\Get(
      *     path="/api/v2/pim/employees/{empNumber}/picture",
-     *     tags={"Pim/Employee Picture"},
+     *     tags={"PIM/Employee Picture"},
+     *     summary="Get an Employee's Picture",
+     *     operationId="get-an-employees-picture",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")
@@ -105,7 +107,9 @@ class EmployeePictureAPI extends Endpoint implements ResourceEndpoint
     /**
      * @OA\Put(
      *     path="/api/v2/pim/employees/{empNumber}/picture",
-     *     tags={"Pim/Employee Picture"},
+     *     tags={"PIM/Employee Picture"},
+     *     summary="Update an Employee's Picture",
+     *     operationId="update-an-employees-picture",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")

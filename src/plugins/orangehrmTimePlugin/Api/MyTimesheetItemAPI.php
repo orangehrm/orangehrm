@@ -28,6 +28,8 @@ class MyTimesheetItemAPI extends EmployeeTimesheetItemAPI
      * @OA\Get(
      *     path="/api/v2/time/timesheets/{timesheetId}/entries",
      *     tags={"Time/My Timesheet"},
+     *     summary="List My Timesheet Entries",
+     *     operationId="list-my-timesheet-entries",
      *     @OA\PathParameter(
      *         name="timesheetId",
      *         @OA\Schema(type="integer")
@@ -40,7 +42,8 @@ class MyTimesheetItemAPI extends EmployeeTimesheetItemAPI
      *                 property="data",
      *                 ref="#/components/schemas/Time-DetailedTimesheetModel",
      *             ),
-     *             @OA\Property(property="meta",
+     *             @OA\Property(
+     *                 property="meta",
      *                 type="object",
      *                 @OA\Property(
      *                     property="timesheet",
@@ -106,6 +109,8 @@ class MyTimesheetItemAPI extends EmployeeTimesheetItemAPI
      * @OA\Put(
      *     path="/api/v2/time/timesheets/{timesheetId}/entries",
      *     tags={"Time/My Timesheet"},
+     *     summary="Update My Timesheet Entries",
+     *     operationId="update-my-timesheet-entries",
      *     @OA\PathParameter(
      *         name="timesheetId",
      *         @OA\Schema(type="integer")
@@ -113,34 +118,41 @@ class MyTimesheetItemAPI extends EmployeeTimesheetItemAPI
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="entries", type="object",
+     *             @OA\Property(
+     *                 property="entries",
+     *                 type="object",
      *                 @OA\Property(property="projectId", type="integer"),
      *                 @OA\Property(property="activityId", type="integer"),
      *                 @OA\Property(property="dates", type="object",
      *                     @OA\AdditionalProperties(
      *                         type="object",
      *                         @OA\Property(property="duration", type="string")
-     *                     )),
-     *                     required={"projectId", "activityId"}
-     *                 )
-     *             ),
-     *             @OA\Property(property="deletedEntries", type="object",
-     *                 @OA\Property(property="projectId", type="integer"),
-     *                 @OA\Property(property="activityId", type="integer"),
-     *             ),
-     *         ),
-     *         @OA\Response(response="200",
-     *             description="Success",
-     *             @OA\JsonContent(
-     *                 @OA\Property(
-     *                     property="data",
-     *                     ref="#/components/schemas/Time-DetailedTimesheetModel"
+     *                     )
      *                 ),
-     *                 @OA\Property(property="meta", type="object")
+     *                 required={"projectId", "activityId"}
      *             )
      *         ),
-     *         @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
-     *     )
+     *         @OA\Property(
+     *             property="deletedEntries",
+     *             type="object",
+     *             @OA\Property(property="projectId", type="integer"),
+     *             @OA\Property(property="activityId", type="integer"),
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Time-DetailedTimesheetModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
+     * )
+     *
      *
      * @inheritDoc
      * @return Timesheet

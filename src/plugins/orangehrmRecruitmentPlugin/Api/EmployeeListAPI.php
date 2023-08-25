@@ -46,6 +46,8 @@ class EmployeeListAPI extends EndPoint implements CollectionEndpoint
      * @OA\Get(
      *     path="/api/v2/recruitment/interviwers",
      *     tags={"Recruitment/Employee List"},
+     *     summary="List Employees Available for Interviewing",
+     *     operationId="list-employees-available-for-interviewing",
      *     @OA\Parameter(
      *         name="sortField",
      *         in="query",

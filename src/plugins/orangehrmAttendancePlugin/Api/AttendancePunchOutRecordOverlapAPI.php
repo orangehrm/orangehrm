@@ -33,7 +33,9 @@ class AttendancePunchOutRecordOverlapAPI extends AttendancePunchInRecordOverlapA
     /**
      * @OA\Get(
      *     path="/api/v2/attendance/punch-out/overlaps",
-     *     tags={"Attendance/Attendance Overlap"},
+     *     tags={"Attendance/Overlap"},
+     *     summary="Check Punch Out Overlap",
+     *     operationId="check-punch-out-overlap",
      *     @OA\Parameter(
      *         name="empNumber",
      *         in="query",

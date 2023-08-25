@@ -72,7 +72,9 @@ class EmployeeImmigrationRecordAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Get(
      *     path="/api/v2/pim/employees/{empNumber}/immigrations",
-     *     tags={"Pim/Employee Immigration"},
+     *     tags={"PIM/Employee Immigration"},
+     *     summary="List an Employee's Immigration Record",
+     *     operationId="list-an-employees-immigration-record",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")
@@ -167,7 +169,9 @@ class EmployeeImmigrationRecordAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Post(
      *     path="/api/v2/pim/employees/{empNumber}/immigrations",
-     *     tags={"Pim/Employee Immigration"},
+     *     tags={"PIM/Employee Immigration"},
+     *     summary="Add an Immigration Record to an Employee",
+     *     operationId="add-an-immigration-record-to-an-employee",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")
@@ -294,7 +298,9 @@ class EmployeeImmigrationRecordAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Delete(
      *     path="/api/v2/pim/employees/{empNumber}/immigrations",
-     *     tags={"Pim/Employee Immigration"},
+     *     tags={"PIM/Employee Immigration"},
+     *     summary="Delete an Employee's Immigration Records",
+     *     operationId="delete-an-employees-immigration-records",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")
@@ -343,7 +349,9 @@ class EmployeeImmigrationRecordAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Get(
      *     path="/api/v2/pim/employees/{empNumber}/immigrations/{id}",
-     *     tags={"Pim/Employee Immigration"},
+     *     tags={"PIM/Employee Immigration"},
+     *     summary="Get an Employee's Immigration Record",
+     *     operationId="get-an-employees-immigration-record",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")
@@ -412,7 +420,9 @@ class EmployeeImmigrationRecordAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Put(
      *     path="/api/v2/pim/employees/{empNumber}/immigrations/{id}",
-     *     tags={"Pim/Employee Immigration"},
+     *     tags={"PIM/Employee Immigration"},
+     *     summary="Update an Employee's Immigration Record",
+     *     operationId="update-an-employees-immigration-record",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")

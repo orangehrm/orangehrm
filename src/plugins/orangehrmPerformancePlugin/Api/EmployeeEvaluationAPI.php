@@ -60,7 +60,9 @@ class EmployeeEvaluationAPI extends SupervisorEvaluationAPI
     /**
      * @OA\Get(
      *     path="/api/v2/performance/reviews/{reviewId}/evaluation/employee",
-     *     tags={"Performance/Review Evaluation"},
+     *     tags={"Performance/Review Evaluation by Employee"},
+     *     summary="Get the Employee's Evaluation in a Review",
+     *     operationId="get-the-employees-evaluation-in-a-review",
      *     @OA\PathParameter(
      *         name="reviewId",
      *         @OA\Schema(type="integer")
@@ -302,7 +304,9 @@ class EmployeeEvaluationAPI extends SupervisorEvaluationAPI
     /**
      * @OA\Put(
      *     path="/api/v2/performance/reviews/{reviewId}/evaluation/employee",
-     *     tags={"Performance/Review Evaluation"},
+     *     tags={"Performance/Review Evaluation by Employee"},
+     *     summary="Update the Employee's Evaluation in a Review",
+     *     operationId="update-the-employees-evaluation-in-a-review",
      *     @OA\PathParameter(
      *         name="reviewId",
      *         @OA\Schema(type="integer")
@@ -321,7 +325,7 @@ class EmployeeEvaluationAPI extends SupervisorEvaluationAPI
      *                 ),
      *             ),
      *             @OA\Property(property="generalComment", type="string"),
-     *             @OA\Property(property="complete", type="string"),
+     *             @OA\Property(property="complete", type="boolean"),
      *             required={"reviewers", "complete"}
      *         )
      *     ),

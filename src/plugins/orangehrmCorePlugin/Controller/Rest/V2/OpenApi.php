@@ -24,7 +24,8 @@ use OpenApi\Annotations as OA;
 /**
  * @OA\OpenApi(
  *     openapi="3.1.0",
- *     @OA\Components(
+ *     security={{"OAuth2" : {}}},
+  *     @OA\Components(
  *         @OA\RequestBody(
  *             request="DeleteRequestBody",
  *             @OA\JsonContent(
@@ -70,6 +71,16 @@ use OpenApi\Annotations as OA;
  *             in="query",
  *             required=false,
  *             @OA\Schema(type="integer", default=0)
+ *         ),
+ *         @OA\SecurityScheme(
+ *             securityScheme="OAuth2",
+ *             type="oauth2",
+ *             @OA\Flow(
+ *                 flow="authorizationCode",
+ *                 authorizationUrl="https://opensource-demo.orangehrmlive.com/web/index.php/oauth2/authorize",
+ *                 tokenUrl="https://opensource-demo.orangehrmlive.com/web/index.php/oauth2/token",
+ *                 scopes={}
+ *             )
  *         )
  *     )
  * )
@@ -82,23 +93,11 @@ use OpenApi\Annotations as OA;
  *     variables={
  *         @OA\ServerVariable(
  *             serverVariable="orangehrm-url",
- *             default="https://opensource-demo.orangehrmlive.com/index.php"
+ *             default="opensource-demo.orangehrmlive.com/web/index.php"
  *         )
  *     }
  * )
  *
- * @OA\SecurityScheme(
- *     securityScheme="Cookie-HTTPS",
- *     type="apiKey",
- *     in="cookie",
- *     name="orangehrm"
- * )
- * @OA\SecurityScheme(
- *     securityScheme="Cookie-HTTP",
- *     type="apiKey",
- *     in="cookie",
- *     name="_orangehrm"
- * )
  */
 final class OpenApi
 {

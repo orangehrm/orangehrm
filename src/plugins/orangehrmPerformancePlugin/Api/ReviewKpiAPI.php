@@ -48,6 +48,8 @@ class ReviewKpiAPI extends Endpoint implements CollectionEndpoint
      * @OA\Get(
      *     path="/api/v2/performance/reviews/{reviewId}/kpis",
      *     tags={"Performance/Review Evaluation"},
+     *     summary="List KPIs for a Review",
+     *     operationId="list-kpis-for-a-review",
      *     @OA\PathParameter(
      *         name="reviewId",
      *         @OA\Schema(type="integer")

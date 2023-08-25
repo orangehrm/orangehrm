@@ -68,6 +68,8 @@ class BuzzCommentAPI extends Endpoint implements CrudEndpoint
      * @OA\Get(
      *     path="/api/v2/buzz/shares/{shareId}/comments/{commentId}",
      *     tags={"Buzz/Comments"},
+     *     summary="Get a Comment on a Post",
+     *     operationId="get-a-comment-on-a-post",
      *     @OA\PathParameter(
      *         name="shareId",
      *         @OA\Schema(type="integer")
@@ -153,6 +155,8 @@ class BuzzCommentAPI extends Endpoint implements CrudEndpoint
      * @OA\Get(
      *     path="/api/v2/buzz/shares/{shareId}/comments",
      *     tags={"Buzz/Comments"},
+     *     summary="List All Comments on a Post",
+     *     operationId="list-all-comments-on-a-post",
      *     @OA\PathParameter(
      *         name="shareId",
      *         @OA\Schema(type="integer")
@@ -233,6 +237,8 @@ class BuzzCommentAPI extends Endpoint implements CrudEndpoint
      * @OA\Post(
      *     path="/api/v2/buzz/shares/{shareId}/comments",
      *     tags={"Buzz/Comments"},
+     *     summary="Comment on a Post",
+     *     operationId="comment-on-a-post",
      *     @OA\PathParameter(
      *         name="shareId",
      *         @OA\Schema(type="integer")
@@ -331,6 +337,8 @@ class BuzzCommentAPI extends Endpoint implements CrudEndpoint
      * @OA\Put(
      *     path="/api/v2/buzz/shares/{shareId}/comments/{commentId}",
      *     tags={"Buzz/Comments"},
+     *     summary="Edit a Comment on a Post",
+     *     operationId="edit-a-comment-on-a-post",
      *     @OA\PathParameter(
      *         name="shareId",
      *         @OA\Schema(type="integer")
@@ -413,6 +421,8 @@ class BuzzCommentAPI extends Endpoint implements CrudEndpoint
      * @OA\Delete(
      *     path="/api/v2/buzz/shares/{shareId}/comments/{commentId}",
      *     tags={"Buzz/Comments"},
+     *     summary="Delete a Comment on a Post",
+     *     operationId="delete-a-comment-on-a-post",
      *     @OA\PathParameter(
      *         name="shareId",
      *         @OA\Schema(type="integer")

@@ -39,7 +39,9 @@ class EmployeeDistributionBySubunitAPI extends Endpoint implements CollectionEnd
     /**
      * @OA\Get(
      *     path="/api/v2/dashboard/employees/subunit",
-     *     tags={"Dashboard"},
+     *     tags={"Dashboard/Widgets"},
+     *     summary="Get Employee Distribution by Sub Unit",
+     *     operationId="get-employee-distribution-by-subunit",
      *     @OA\Response(
      *         response="200",
      *         description="Success",

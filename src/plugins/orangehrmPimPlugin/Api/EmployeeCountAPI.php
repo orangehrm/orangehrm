@@ -53,7 +53,9 @@ class EmployeeCountAPI extends Endpoint implements CollectionEndpoint
     /**
      * @OA\Get(
      *     path="/api/v2/pim/employees/count",
-     *     tags={"Pim/Employee Count"},
+     *     tags={"PIM/Employee Count"},
+     *     summary="Get the Number of Employees",
+     *     operationId="get-the-number-of-employees",
      *     @OA\Parameter(
      *         name="name",
      *         in="query",

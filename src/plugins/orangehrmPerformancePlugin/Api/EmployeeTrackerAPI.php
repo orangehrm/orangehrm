@@ -52,7 +52,9 @@ class EmployeeTrackerAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Get(
      *     path="/api/v2/performance/employees/trackers",
-     *     tags={"Performance/Employee Trackers"},
+     *     tags={"Performance/Trackers"},
+     *     summary="List All Employee Trackers",
+     *     operationId="list-all-employee-trackers",
      *     @OA\Parameter(
      *         name="empNumber",
      *         in="query",
@@ -206,25 +208,27 @@ class EmployeeTrackerAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     *@OA\Get(
-     *     path="/api/v2/performance/employees/trackers/{id}}",
-     *     tags={"Performance/Employee Trackers"},
-     * @OA\PathParameter(
-     *     name="id",
-     *     @OA\Schema(type="integer")
-     * ),
-     * @OA\Response(
-     *     response="200",
-     *     description="Success",
-     *     @OA\JsonContent(
-     *         @OA\Property(
-     *             property="data",
-     *             ref="#/components/schemas/Performance-PerformanceTrackerModel"
-     *         ),
-     *         @OA\Property(property="meta", type="object")
-     *     )
-     * ),
-     * @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
+     * @OA\Get(
+     *     path="/api/v2/performance/employees/trackers/{id}",
+     *     tags={"Performance/Trackers"},
+     *     summary="Get an Employee Tracker",
+     *     operationId="get-an-employee-tracker",
+     *     @OA\PathParameter(
+     *         name="id",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Performance-PerformanceTrackerModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
      * )
      *
      * @inheritDoc

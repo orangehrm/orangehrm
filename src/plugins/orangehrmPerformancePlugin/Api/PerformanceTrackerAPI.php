@@ -54,7 +54,9 @@ class PerformanceTrackerAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Get(
      *     path="/api/v2/performance/config/trackers",
-     *     tags={"Performance/Configure Trackers"},
+     *     tags={"Performance/Tracker Configuration"},
+     *     summary="List All Performance Trackers",
+     *     operationId="list-all-performance-trackers",
      *     @OA\Parameter(
      *         name="empNumber",
      *         in="query",
@@ -131,7 +133,9 @@ class PerformanceTrackerAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Post(
      *     path="/api/v2/performance/config/trackers",
-     *     tags={"Performance/Configure Trackers"},
+     *     tags={"Performance/Tracker Configuration"},
+     *     summary="Create a Performance Tracker",
+     *     operationId="create-a-performance-tracker",
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
@@ -227,7 +231,9 @@ class PerformanceTrackerAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Delete(
      *     path="/api/v2/performance/config/trackers",
-     *     tags={"Performance/Configure Trackers"},
+     *     tags={"Performance/Tracker Configuration"},
+     *     summary="Delete Performance Trackers",
+     *     operationId="delete-performance-trackers",
      *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),
      *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse")
      * )
@@ -260,25 +266,27 @@ class PerformanceTrackerAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     *@OA\Get(
+     * @OA\Get(
      *     path="/api/v2/performance/config/trackers/{id}",
-     *     tags={"Performance/Configure Trackers"},
-     * @OA\PathParameter(
-     *     name="id",
-     *     @OA\Schema(type="integer")
-     * ),
-     * @OA\Response(
-     *     response="200",
-     *     description="Success",
-     *     @OA\JsonContent(
-     *         @OA\Property(
-     *             property="data",
-     *             ref="#/components/schemas/Performance-DetailedPerformanceTrackerModel"
-     *         ),
-     *         @OA\Property(property="meta", type="object")
-     *     )
-     * ),
-     * @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
+     *     tags={"Performance/Tracker Configuration"},
+     *     summary="Get a Performance Tracker",
+     *     operationId="get-a-performance-tracker",
+     *     @OA\PathParameter(
+     *         name="id",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Performance-DetailedPerformanceTrackerModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
      * )
      *
      * @inheritDoc
@@ -307,7 +315,9 @@ class PerformanceTrackerAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Put(
      *     path="/api/v2/performance/config/trackers/{id}",
-     *     tags={"Performance/Configure Trackers"},
+     *     tags={"Performance/Tracker Configuration"},
+     *     summary="Update a Performance Tracker",
+     *     operationId="update-a-performance-tracker",
      *     @OA\PathParameter(
      *         name="id",
      *         @OA\Schema(type="integer")

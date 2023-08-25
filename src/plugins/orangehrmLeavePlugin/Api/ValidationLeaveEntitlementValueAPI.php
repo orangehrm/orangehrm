@@ -47,7 +47,9 @@ class ValidationLeaveEntitlementValueAPI extends Endpoint implements ResourceEnd
     /**
      * @OA\Get(
      *     path="/api/v2/leave/leave-entitlements/{id}/validation/entitlements",
-     *     tags={"Leave/Validate Leave Entitlement"},
+     *     tags={"Leave/Validation"},
+     *     summary="Validate Leave Entitlement",
+     *     operationId="validate-leave-entitlement",
      *     @OA\PathParameter(
      *         name="id",
      *         @OA\Schema(type="integer")

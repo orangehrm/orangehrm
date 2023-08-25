@@ -52,7 +52,9 @@ class EmployeeAttendanceSummaryAPI extends Endpoint implements CollectionEndpoin
     /**
      * @OA\Get(
      *     path="/api/v2/attendance/employees/summary",
-     *     tags={"Attendance/ Employee Attendance Summery"},
+     *     tags={"Attendance/Employee Attendance Summary"},
+     *     summary="Summarize Employee Attendance",
+     *     operationId="summarize-employee-attendance",
      *     @OA\Parameter(
      *         name="date",
      *         in="query",

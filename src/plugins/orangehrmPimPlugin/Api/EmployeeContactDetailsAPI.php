@@ -68,7 +68,9 @@ class EmployeeContactDetailsAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Get(
      *     path="/api/v2/pim/employee/{empNumber}/contact-details",
-     *     tags={"Pim/Employee Contact Details"},
+     *     tags={"PIM/Employee Contact Details"},
+     *     summary="Get an Employee's Contact Details",
+     *     operationId="get-an-employees-contact-details",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")
@@ -150,7 +152,9 @@ class EmployeeContactDetailsAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Put(
      *     path="/api/v2/pim/employee/{empNumber}/contact-details",
-     *     tags={"Pim/Employee Contact Details"},
+     *     tags={"PIM/Employee Contact Details"},
+     *     summary="Update an Employee's Contact Details",
+     *     operationId="update-an-employees-contact-details",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")

@@ -78,7 +78,9 @@ class EmpEmergencyContactAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Get(
      *     path="/api/v2/pim/employees/{empNumber}/emergency-contacts",
-     *     tags={"Pim/Employee Emergency Contact"},
+     *     tags={"PIM/Employee Emergency Contact"},
+     *     summary="List an Employee's Emergency Contacts",
+     *     operationId="list-an-employees-emergency-contacts",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")
@@ -174,7 +176,9 @@ class EmpEmergencyContactAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Post(
      *     path="/api/v2/pim/employees/{empNumber}/emergency-contacts",
-     *     tags={"Pim/Employee Emergency Contact"},
+     *     tags={"PIM/Employee Emergency Contact"},
+     *     summary="Add an Emergnency Contact to an Employee",
+     *     operationId="add-an-emergency-contact-to-an-employee",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")
@@ -286,7 +290,9 @@ class EmpEmergencyContactAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Delete(
      *     path="/api/v2/pim/employees/{empNumber}/emergency-contacts",
-     *     tags={"Pim/Employee Emergency Contact"},
+     *     tags={"PIM/Employee Emergency Contact"},
+     *     summary="Delete an Employee's Emergency Contacts",
+     *     operationId="delete-an-employees-emergency-contacts",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")
@@ -335,7 +341,9 @@ class EmpEmergencyContactAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Get(
      *     path="/api/v2/pim/employees/{empNumber}/emergency-contacts/{id}",
-     *     tags={"Pim/Employee Emergency Contact"},
+     *     tags={"PIM/Employee Emergency Contact"},
+     *     summary="Get an Employee's Emergency Contact",
+     *     operationId="get-an-employees-emergency-contact",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")
@@ -401,7 +409,9 @@ class EmpEmergencyContactAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Put(
      *     path="/api/v2/pim/employees/{empNumber}/emergency-contacts/{id}",
-     *     tags={"Pim/Employee Emergency Contact"},
+     *     tags={"PIM/Employee Emergency Contact"},
+     *     summary="Update an Employee's Emergency Contact",
+     *     operationId="update-an-employees-emergency-contact",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")

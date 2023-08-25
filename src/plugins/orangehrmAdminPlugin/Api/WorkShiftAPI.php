@@ -54,6 +54,8 @@ class WorkShiftAPI extends EndPoint implements CrudEndpoint
      * @OA\Get(
      *     path="/api/v2/admin/work-shifts",
      *     tags={"Admin/Work Shift"},
+     *     summary="List All Work Shifts",
+     *     operationId="list-all-workfshifts",
      *     @OA\Parameter(
      *         name="sortField",
      *         in="query",
@@ -109,6 +111,8 @@ class WorkShiftAPI extends EndPoint implements CrudEndpoint
      * @OA\Get(
      *     path="/api/v2/admin/work-shifts/{id}",
      *     tags={"Admin/Work Shift"},
+     *     summary="Get a Work Shift",
+     *     operationId="get-a-work-shift",
      *     @OA\PathParameter(
      *         name="id",
      *         @OA\Schema(type="integer")
@@ -155,6 +159,8 @@ class WorkShiftAPI extends EndPoint implements CrudEndpoint
      * @OA\Post(
      *     path="/api/v2/admin/work-shifts",
      *     tags={"Admin/Work Shift"},
+     *     summary="Create a Work Shift",
+     *     operationId="create-a-work-shift",
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
@@ -247,6 +253,8 @@ class WorkShiftAPI extends EndPoint implements CrudEndpoint
      * @OA\Delete(
      *     path="/api/v2/admin/work-shifts",
      *     tags={"Admin/Work Shift"},
+     *     summary="Delete Work Shifts",
+     *     operationId="delete-work-shifts",
      *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),
      *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse")
      * )
@@ -275,6 +283,8 @@ class WorkShiftAPI extends EndPoint implements CrudEndpoint
      * @OA\Put(
      *     path="/api/v2/admin/work-shifts/{id}",
      *     tags={"Admin/Work Shift"},
+     *     summary="Update a Work Shift",
+     *     operationId="update-a-work-shift",
      *     @OA\PathParameter(
      *         name="id",
      *         @OA\Schema(type="integer")

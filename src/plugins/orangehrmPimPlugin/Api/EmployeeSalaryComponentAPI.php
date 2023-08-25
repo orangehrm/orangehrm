@@ -77,7 +77,9 @@ class EmployeeSalaryComponentAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Get(
      *     path="/api/v2/pim/employees/{empNumber}/salary-components/{id}",
-     *     tags={"Pim/Employee Salary"},
+     *     tags={"PIM/Employee Salary"},
+     *     summary="Get an Employee's Salary Component",
+     *     operationId="get-an-employees-salary-component",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")
@@ -154,7 +156,9 @@ class EmployeeSalaryComponentAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Get(
      *     path="/api/v2/pim/employees/{empNumber}/salary-components",
-     *     tags={"Pim/Employee Salary"},
+     *     tags={"PIM/Employee Salary"},
+     *     summary="List an Employee's Salary Components",
+     *     operationId="list-an-employees-salary-components",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")
@@ -227,7 +231,9 @@ class EmployeeSalaryComponentAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Post(
      *     path="/api/v2/pim/employees/{empNumber}/salary-components",
-     *     tags={"Pim/Employee Salary"},
+     *     tags={"PIM/Employee Salary"},
+     *     summary="Add a Salary Component to an Employee",
+     *     operationId="add-a-salary-component-to-an-employee",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")
@@ -517,7 +523,9 @@ class EmployeeSalaryComponentAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Put(
      *     path="/api/v2/pim/employees/{empNumber}/salary-components/{id}",
-     *     tags={"Pim/Employee Salary"},
+     *     tags={"PIM/Employee Salary"},
+     *     summary="Update an Employee's Salary Component",
+     *     operationId="update-an-employees-salary-component",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")
@@ -592,7 +600,9 @@ class EmployeeSalaryComponentAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Delete(
      *     path="/api/v2/pim/employees/{empNumber}/salary-components",
-     *     tags={"Pim/Employee Salary"},
+     *     tags={"PIM/Employee Salary"},
+     *     summary="Delete an Employee's Salary Components",
+     *     operationId="delete-an-employees-salary-componenets",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")

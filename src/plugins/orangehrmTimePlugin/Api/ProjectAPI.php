@@ -96,6 +96,8 @@ class ProjectAPI extends Endpoint implements CrudEndpoint
      * @OA\Get(
      *     path="/api/v2/time/projects",
      *     tags={"Time/Project"},
+     *     summary="List All Projects",
+     *     operationId="list-all-projects",
      *     @OA\Parameter(
      *         name="projectId",
      *         in="query",
@@ -331,6 +333,8 @@ class ProjectAPI extends Endpoint implements CrudEndpoint
      * @OA\Post(
      *     path="/api/v2/time/projects",
      *     tags={"Time/Project"},
+     *     summary="Crete a Project",
+     *     operationId="create-a-project",
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
@@ -461,6 +465,8 @@ class ProjectAPI extends Endpoint implements CrudEndpoint
      * @OA\Delete(
      *     path="/api/v2/time/projects",
      *     tags={"Time/Project"},
+     *     summary="Delete Projects",
+     *     operationId="delete-projects",
      *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),
      *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse")
      * )
@@ -498,6 +504,8 @@ class ProjectAPI extends Endpoint implements CrudEndpoint
      * @OA\Get(
      *     path="/api/v2/time/projects/{id}",
      *     tags={"Time/Project"},
+     *     summary="Get a Project",
+     *     operationId="get-a-project",
      *     @OA\PathParameter(
      *         name="id",
      *         @OA\Schema(type="integer")
@@ -561,6 +569,8 @@ class ProjectAPI extends Endpoint implements CrudEndpoint
      * @OA\Put(
      *     path="/api/v2/time/projects/{id}",
      *     tags={"Time/Project"},
+     *     summary="Update a Project",
+     *     operationId="update-a-project",
      *     @OA\PathParameter(
      *         name="id",
      *         @OA\Schema(type="integer")

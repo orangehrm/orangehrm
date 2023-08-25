@@ -48,7 +48,9 @@ class EmployeeJobDetailAPI extends Endpoint implements ResourceEndpoint
     /**
      * @OA\Get(
      *     path="/api/v2/pim/employees/{empNumber}/job-details",
-     *     tags={"Pim/Employee Job Details"},
+     *     tags={"PIM/Employee Job Details"},
+     *     summary="Get an Employee's Job Details",
+     *     operationId="get-an-employees-job-details",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")
@@ -95,7 +97,9 @@ class EmployeeJobDetailAPI extends Endpoint implements ResourceEndpoint
     /**
      * @OA\Put(
      *     path="/api/v2/pim/employees/{empNumber}/job-details",
-     *     tags={"Pim/Employee Job Details"},
+     *     tags={"PIM/Employee Job Details"},
+     *     summary="Update an Employee's Job Details",
+     *     operationId="update-an-employees-job-details",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")

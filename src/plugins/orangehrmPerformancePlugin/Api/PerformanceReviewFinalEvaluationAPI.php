@@ -65,6 +65,8 @@ class PerformanceReviewFinalEvaluationAPI extends Endpoint implements ResourceEn
      * @OA\Put(
      *     path="/api/v2/performance/reviews/{reviewId}/evaluation/final",
      *     tags={"Performance/Review Evaluation"},
+     *     summary="Finalize Performance Review",
+     *     operationId="finalize-performance-review",
      *     @OA\PathParameter(
      *         name="reviewId",
      *         @OA\Schema(type="integer")
@@ -235,25 +237,27 @@ class PerformanceReviewFinalEvaluationAPI extends Endpoint implements ResourceEn
     }
 
     /**
-     *@OA\Get(
+     * @OA\Get(
      *     path="/api/v2/performance/reviews/{reviewId}/evaluation/final",
      *     tags={"Performance/Review Evaluation"},
-     * @OA\PathParameter(
-     *     name="reviewId",
-     *     @OA\Schema(type="integer")
-     * ),
-     * @OA\Response(
-     *     response="200",
-     *     description="Success",
-     *     @OA\JsonContent(
-     *         @OA\Property(
-     *             property="data",
-     *             ref="#/components/schemas/Performance-CompletedPerformanceReviewModel"
-     *         ),
-     *         @OA\Property(property="meta", type="object")
-     *     )
-     * ),
-     * @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
+     *     summary="Get a Finalized Performance Review",
+     *     operationId="get-a-finalized-performance-revew",
+     *     @OA\PathParameter(
+     *         name="reviewId",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Performance-CompletedPerformanceReviewModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
      * )
      *
      * @inheritDoc

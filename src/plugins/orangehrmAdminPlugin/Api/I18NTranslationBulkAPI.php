@@ -64,6 +64,8 @@ class I18NTranslationBulkAPI extends Endpoint implements ResourceEndpoint
      * @OA\Put(
      *     path="/api/v2/admin/i18n/languages/{languageId}/translations/bulk",
      *     tags={"Admin/I18N"},
+     *     summary="Bulk Update I18N Translations",
+     *     operationId="bulk-update-i18n-translations",
      *     @OA\PathParameter(
      *         name="languageId",
      *         @OA\Schema(type="integer")

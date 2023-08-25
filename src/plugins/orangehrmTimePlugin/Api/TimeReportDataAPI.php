@@ -29,6 +29,8 @@ class TimeReportDataAPI extends ReportDataAPI
      * @OA\Get(
      *     path="/api/v2/time/reports/data",
      *     tags={"Time/Timesheet Report"},
+     *     summary="Get Time Report Data",
+     *     operationId="get-time-report-data",
      *     @OA\Parameter(
      *         name="name",
      *         in="query",

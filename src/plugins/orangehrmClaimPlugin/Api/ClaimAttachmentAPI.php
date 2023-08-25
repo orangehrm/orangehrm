@@ -68,6 +68,8 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
      * @OA\Get(
      *     path="/api/v2/claim/requests/{requestId}/attachments",
      *     tags={"Claim/Attachments"},
+     *     summary="List Attachements on a Claim",
+     *     operationId="list-attachments-on-a-claim",
      *     @OA\PathParameter(
      *         name="requestId",
      *         @OA\Schema(type="integer")
@@ -142,6 +144,8 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
      * @OA\Post(
      *     path="/api/v2/claim/requests/{requestId}/attachments",
      *     tags={"Claim/Attachments"},
+     *     summary="Add Attachments to a Claim",
+     *     operationId="add-attachments-to-a-claim",
      *     @OA\PathParameter(
      *         name="requestId",
      *         @OA\Schema(type="integer")
@@ -273,6 +277,8 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
      * @OA\Delete(
      *     path="/api/v2/claim/requests/{requestId}/attachments",
      *     tags={"Claim/Attachments"},
+     *     summary="Remove Attachments from a Claim",
+     *     operationId="remove-attachments-from-a-claim",
      *     @OA\PathParameter(
      *         name="requestId",
      *         @OA\Schema(type="integer")
@@ -338,6 +344,8 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
      * @OA\Get(
      *     path="/api/v2/claim/requests/{requestId}/attachments/{id}",
      *     tags={"Claim/Attachments"},
+     *     summary="View an Attachment on a Claim",
+     *     operationId="view-an-attachment-on-a-claim",
      *     @OA\PathParameter(
      *         name="requestId",
      *         @OA\Schema(type="integer")
@@ -398,6 +406,8 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
      * @OA\Put(
      *     path="/api/v2/claim/requests/{requestId}/attachments/{id}",
      *     tags={"Claim/Attachments"},
+     *     summary="Update an Attachment on a Claim",
+     *     operationId="update-an-attachment-on-a-claim",
      *     @OA\PathParameter(
      *         name="requestId",
      *         @OA\Schema(type="integer")

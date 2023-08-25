@@ -61,6 +61,8 @@ class InterviewAttachmentAPI extends Endpoint implements CrudEndpoint
      * @OA\Get(
      *     path="/api/v2/recruitment/interviews/{interviewId}/attachments",
      *     tags={"Recruitment/Interview Attachments"},
+     *     summary="List All Interview Attachments",
+     *     operationId="list-all-interview-attachments",
      *     @OA\PathParameter(
      *         name="interviewId",
      *         @OA\Schema(type="integer")
@@ -141,6 +143,8 @@ class InterviewAttachmentAPI extends Endpoint implements CrudEndpoint
      * @OA\Post(
      *     path="/api/v2/recruitment/interviews/{interviewId}/attachments",
      *     tags={"Recruitment/Interview Attachments"},
+     *     summary="Add an Attachment to an Interview",
+     *     operationId="add-an-attachment-to-an-interview",
      *     @OA\PathParameter(
      *         name="interviewId",
      *         @OA\Schema(type="integer")
@@ -271,6 +275,8 @@ class InterviewAttachmentAPI extends Endpoint implements CrudEndpoint
      * @OA\Delete(
      *     path="/api/v2/recruitment/interviews/{interviewId}/attachments",
      *     tags={"Recruitment/Interview Attachments"},
+     *     summary="Delete Interview Attachments",
+     *     operationId="delete-interview-attachments",
      *     @OA\PathParameter(
      *         name="interviewId",
      *         @OA\Schema(type="integer")
@@ -318,6 +324,8 @@ class InterviewAttachmentAPI extends Endpoint implements CrudEndpoint
      * * @OA\Get(
      *     path="/api/v2/recruitment/interviews/{interviewId}/attachments/{attachmentId}",
      *     tags={"Recruitment/Interview Attachments"},
+     *     summary="Get an Interview Attachment",
+     *     operationId="get-an-interview-attachment",
      *     @OA\PathParameter(
      *         name="interviewId",
      *         @OA\Schema(type="integer")
@@ -382,6 +390,8 @@ class InterviewAttachmentAPI extends Endpoint implements CrudEndpoint
      * @OA\Put(
      *     path="/api/v2/recruitment/interviews/{interviewId}/attachments/{attachmentId}",
      *     tags={"Recruitment/Interview Attachments"},
+     *     summary="Update an Interview Attachment",
+     *     operationId="update-an-interview-attachment",
      *     @OA\PathParameter(
      *         name="interviewId",
      *         @OA\Schema(type="integer")

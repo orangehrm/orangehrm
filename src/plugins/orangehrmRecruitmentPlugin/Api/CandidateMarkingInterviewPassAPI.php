@@ -48,6 +48,8 @@ class CandidateMarkingInterviewPassAPI extends AbstractCandidateActionAPI
      * @OA\Put(
      *     path="/api/v2/recruitment/candidates/{candidateId}/interviews/{interviewId}/pass",
      *     tags={"Recruitment/Candidate Workflow"},
+     *     summary="Mark Candidate Interview as Passed",
+     *     operationId="mark-candidate-interview-as-passed",
      *     @OA\PathParameter(
      *         name="candidateId",
      *         @OA\Schema(type="integer")

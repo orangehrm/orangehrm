@@ -101,6 +101,8 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
      * @OA\Get(
      *     path="/api/v2/pim/employees/{empNumber}",
      *     tags={"PIM/Employee"},
+     *     summary="Get an Employee",
+     *     operationId="get-an-employee",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")
@@ -187,6 +189,8 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
      * @OA\Get(
      *     path="/api/v2/pim/employees",
      *     tags={"PIM/Employee"},
+     *     summary="List All Employees",
+     *     operationId="list-all-employees",
      *     @OA\Parameter(
      *         name="name",
      *         in="query",
@@ -423,6 +427,8 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
      * @OA\Post(
      *     path="/api/v2/pim/employees",
      *     tags={"PIM/Employee"},
+     *     summary="Create an Employee",
+     *     operationId="create-an-employee",
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
@@ -622,6 +628,8 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
      * @OA\Delete(
      *     path="/api/v2/pim/employees",
      *     tags={"PIM/Employee"},
+     *     summary="Delete Employees",
+     *     operationId="delete-employees",
      *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),
      *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse"),
      *     @OA\Response(

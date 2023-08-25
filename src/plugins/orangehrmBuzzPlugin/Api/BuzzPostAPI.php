@@ -97,7 +97,9 @@ class BuzzPostAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Post(
      *     path="/api/v2/buzz/posts",
-     *     tags={"Buzz/Shares"},
+     *     tags={"Buzz/Post"},
+     *     summary="Post Text, Photos or Video",
+     *     operationId="post-text-photos-or-video",
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
@@ -389,7 +391,9 @@ class BuzzPostAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Get(
      *     path="/api/v2/buzz/posts/{id}",
-     *     tags={"Buzz/Shares"},
+     *     tags={"Buzz/Post"},
+     *     summary="Get a Post",
+     *     operationId="get-a-post",
      *     @OA\PathParameter(
      *         name="id",
      *         @OA\Schema(type="integer")
@@ -457,7 +461,9 @@ class BuzzPostAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Put(
      *     path="/api/v2/buzz/posts/{id}",
-     *     tags={"Buzz/Shares"},
+     *     tags={"Buzz/Post"},
+     *     summary="Edit a Post",
+     *     operationId="edit-a-post",
      *     @OA\PathParameter(
      *         name="id",
      *         @OA\Schema(type="integer")

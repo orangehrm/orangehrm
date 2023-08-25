@@ -68,7 +68,9 @@ class EmployeeAttachmentAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Get(
      *     path="/api/v2/pim/employees/{empNumber}/screen/{screen}/attachments/{id}",
-     *     tags={"Pim/Employee Attachment"},
+     *     tags={"PIM/Employee Attachment"},
+     *     summary="Get an Employee's Attachment on a Screen",
+     *     operationId="get-an-employees-attachment-on-a-screen",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")
@@ -152,7 +154,9 @@ class EmployeeAttachmentAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Get(
      *     path="/api/v2/pim/employees/{empNumber}/screen/{screen}/attachments",
-     *     tags={"Pim/Employee Attachment"},
+     *     tags={"PIM/Employee Attachment"},
+     *     summary="List an Employee's Attachments on a Screen",
+     *     operationId="list-an-employees-attachments-on-a-screen",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")
@@ -216,7 +220,9 @@ class EmployeeAttachmentAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Post(
      *     path="/api/v2/pim/employees/{empNumber}/screen/{screen}/attachments",
-     *     tags={"Pim/Employee Attachment"},
+     *     tags={"PIM/Employee Attachment"},
+     *     summary="Add an Attachment to an Employee on a Screen",
+     *     operationId="add-an-attachment-to-an-employee-on-a-screen",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")
@@ -371,7 +377,9 @@ class EmployeeAttachmentAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Put(
      *     path="/api/v2/pim/employees/{empNumber}/screen/{screen}/attachments/{id}",
-     *     tags={"Pim/Employee Attachment"},
+     *     tags={"PIM/Employee Attachment"},
+     *     summary="Update an Employee's Attachment on a Screen",
+     *     operationId="update-an-employees-attachment-on-a-screen",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")
@@ -466,7 +474,9 @@ class EmployeeAttachmentAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Delete(
      *     path="/api/v2/pim/employees/{empNumber}/screen/{screen}/attachments",
-     *     tags={"Pim/Employee Attachment"},
+     *     tags={"PIM/Employee Attachment"},
+     *     summary="Delete an Employee's Attachments on a Screen",
+     *     operationId="delete-an-employees-attachments-on-a-screen",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")

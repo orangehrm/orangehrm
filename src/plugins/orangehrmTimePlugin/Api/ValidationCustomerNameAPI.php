@@ -45,7 +45,9 @@ class ValidationCustomerNameAPI extends Endpoint implements ResourceEndpoint
     /**
      * @OA\Get(
      *     path="/api/v2/time/validation/customer-name",
-     *     tags={"Time/Validate Customer Name"},
+     *     tags={"Time/Validation"},
+     *     summary="Validate Customer Name Uniqueness",
+     *     operationId="validate-customer-name-uniqueness",
      *     @OA\Parameter(
      *         name="customerId",
      *         in="query",

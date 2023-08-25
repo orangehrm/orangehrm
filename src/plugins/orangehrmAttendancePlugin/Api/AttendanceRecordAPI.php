@@ -66,6 +66,8 @@ class AttendanceRecordAPI extends Endpoint implements ResourceEndpoint
      * @OA\Get(
      *     path="/api/v2/attendance/records/{id}",
      *     tags={"Attendance/Attendance Record"},
+     *     summary="List an Attendance Record",
+     *     operationId="list-an-attendance-record",
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
@@ -120,6 +122,8 @@ class AttendanceRecordAPI extends Endpoint implements ResourceEndpoint
      * @OA\Put(
      *     path="/api/v2/attendance/records/{id}",
      *     tags={"Attendance/Attendance Record"},
+     *     summary="Update an Attendance Record",
+     *     operationId="update-an-attendance-record",
      *     @OA\Parameter(
      *         name="id",
      *         in="path",

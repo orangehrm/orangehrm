@@ -65,7 +65,9 @@ class EmployeeSkillAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Get(
      *     path="/api/v2/pim/employees/{empNumber}/skills/{id}",
-     *     tags={"Pim/Employee Skill"},
+     *     tags={"PIM/Employee Skill"},
+     *     summary="Get an Employee's Skill",
+     *     operationId="get-an-employees-skill",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")
@@ -128,7 +130,9 @@ class EmployeeSkillAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Get(
      *     path="/api/v2/pim/employees/{empNumber}/skills",
-     *     tags={"Pim/Employee Skill"},
+     *     tags={"PIM/Employee Skill"},
+     *     summary="List an Employee's Skills",
+     *     operationId="list-an-employees-skills",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")
@@ -205,7 +209,9 @@ class EmployeeSkillAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Post(
      *     path="/api/v2/pim/employees/{empNumber}/skills",
-     *     tags={"Pim/Employee Skill"},
+     *     tags={"PIM/Employee Skill"},
+     *     summary="Add a Skill to an Employee",
+     *     operationId="add-a-skill-to-an-employee",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")
@@ -297,7 +303,9 @@ class EmployeeSkillAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Put(
      *     path="/api/v2/pim/employees/{empNumber}/skills/{id}",
-     *     tags={"Pim/Employee Skill"},
+     *     tags={"PIM/Employee Skill"},
+     *     summary="Update an Employee's Skill",
+     *     operationId="update-an-employees-skill",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")
@@ -366,7 +374,9 @@ class EmployeeSkillAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Delete(
      *     path="/api/v2/pim/employees/{empNumber}/skills",
-     *     tags={"Pim/Employee Skill"},
+     *     tags={"PIM/Employee Skill"},
+     *     summary="Delete an Employee's Skills",
+     *     operationId="delete-an-employees-skills",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")

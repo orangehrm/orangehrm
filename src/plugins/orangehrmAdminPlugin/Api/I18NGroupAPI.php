@@ -38,6 +38,8 @@ class I18NGroupAPI extends Endpoint implements CollectionEndpoint
      * @OA\Get(
      *     path="/api/v2/admin/i18n/groups",
      *     tags={"Admin/I18N"},
+     *     summary="List All I18N Groups",
+     *     operationId="list-all-i18n-groups",
      *     @OA\Parameter(
      *         name="sortField",
      *         in="query",

@@ -83,6 +83,8 @@ class VacancyAPI extends Endpoint implements CrudEndpoint
      * @OA\Get(
      *     path="/api/v2/recruitment/vacancies/{id}",
      *     tags={"Recruitment/Vacancy"},
+     *     summary="Get a Vacancy",
+     *     operationId="get-a-vacancy",
      *     @OA\PathParameter(
      *         name="id",
      *         @OA\Schema(type="integer")
@@ -131,6 +133,8 @@ class VacancyAPI extends Endpoint implements CrudEndpoint
      * @OA\Get(
      *     path="/api/v2/recruitment/vacancies",
      *     tags={"Recruitment/Vacancy"},
+     *     summary="List All Vacancies",
+     *     operationId="list-all-vacancies",
      *     @OA\Parameter(
      *         name="sortField",
      *         in="query",
@@ -329,6 +333,8 @@ class VacancyAPI extends Endpoint implements CrudEndpoint
      * @OA\Post(
      *     path="/api/v2/recruitment/vacancies",
      *     tags={"Recruitment/Vacancy"},
+     *     summary="Create a Vacancy",
+     *     operationId="create-a-vacancy",
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
@@ -497,6 +503,8 @@ class VacancyAPI extends Endpoint implements CrudEndpoint
      * @OA\Put(
      *     path="/api/v2/recruitment/vacancies/{id}",
      *     tags={"Recruitment/Vacancy"},
+     *     summary="Update a Vacancy",
+     *     operationId="update-a-vacancy",
      *     @OA\PathParameter(
      *         name="id",
      *         @OA\Schema(type="integer")
@@ -562,6 +570,8 @@ class VacancyAPI extends Endpoint implements CrudEndpoint
      * @OA\Delete(
      *     path="/api/v2/recruitment/vacancies",
      *     tags={"Recruitment/Vacancy"},
+     *     summary="Delete Vacancies",
+     *     operationId="delete-vacancies",
      *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),
      *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse")
      * )

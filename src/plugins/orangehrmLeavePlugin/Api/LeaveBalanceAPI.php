@@ -133,6 +133,8 @@ class LeaveBalanceAPI extends Endpoint implements ResourceEndpoint
      * @OA\Get(
      *     path="/api/v2/leave/leave-balance/leave-type/{leaveTypeId}",
      *     tags={"Leave/Leave Balance"},
+     *     summary="Get Leave Balance for a Leave Type",
+     *     operationId="get-leave-balance-for-a-leave-type",
      *     @OA\PathParameter(
      *         name="leaveTypeId",
      *         @OA\Schema(type="integer")

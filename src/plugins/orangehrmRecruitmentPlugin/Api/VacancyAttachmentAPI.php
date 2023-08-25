@@ -78,6 +78,8 @@ class VacancyAttachmentAPI extends Endpoint implements CrudEndpoint
      * @OA\Post(
      *     path="/api/v2/recruitment/vacancy/attachments",
      *     tags={"Recruitment/Vacancy Attachments"},
+     *     summary="Add an Attachment to a Vacancy",
+     *     operationId="add-an-attachment-to-a-vacancy",
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
@@ -227,6 +229,8 @@ class VacancyAttachmentAPI extends Endpoint implements CrudEndpoint
      * @OA\Delete(
      *     path="/api/v2/recruitment/vacancy/attachments",
      *     tags={"Recruitment/Vacancy Attachments"},
+     *     summary="Delete Vacancy Attachments",
+     *     operationId="delete-vacancy-attachments",
      *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),
      *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse")
      * )
@@ -253,6 +257,8 @@ class VacancyAttachmentAPI extends Endpoint implements CrudEndpoint
      * @OA\Get(
      *     path="/api/v2/recruitment/vacancies/{vacancyId}/attachments",
      *     tags={"Recruitment/Vacancy Attachments"},
+     *     summary="Get a Vacancy Attachment",
+     *     operationId="get-a-vacancy-attachment",
      *     @OA\PathParameter(
      *         name="vacancyId",
      *         @OA\Schema(type="integer")
@@ -321,6 +327,8 @@ class VacancyAttachmentAPI extends Endpoint implements CrudEndpoint
      * @OA\Put(
      *     path="/api/v2/recruitment/vacancies/{vacancyId}/attachments/{attachmentId}",
      *     tags={"Recruitment/Vacancy Attachments"},
+     *     summary="Update a Vacancy Attachment",
+     *     operationId="update-a-vacancy-attachment",
      *     @OA\PathParameter(
      *         name="attachmentId",
      *         @OA\Schema(type="integer")

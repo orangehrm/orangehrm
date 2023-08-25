@@ -46,7 +46,9 @@ class TimesheetProjectActivityUniqueValidationAPI extends Endpoint implements Re
     /**
      * @OA\Get(
      *     path="/api/v2/time/validation/{timesheetId}/project-activity",
-     *     tags={"Time/Timesheet Project Activity Unique Validation"},
+     *     tags={"Time/Validation"},
+     *     summary="Validate Project Acitvity Uniqueness in Timesheet",
+     *     operationId="validate-project-activity-uniqueness-in-timesheet",
      *     @OA\PathParameter(
      *         name="timesheetId",
      *         @OA\Schema(type="integer")

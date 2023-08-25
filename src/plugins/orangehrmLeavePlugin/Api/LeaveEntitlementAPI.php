@@ -76,6 +76,8 @@ class LeaveEntitlementAPI extends Endpoint implements CrudEndpoint
      * @OA\Get(
      *     path="/api/v2/leave/leave-entitlements/{id}",
      *     tags={"Leave/Entitlements"},
+     *     summary="Get a Leave Entitlement",
+     *     operationId="get-a-leave-entitlement",
      *     @OA\PathParameter(
      *         name="id",
      *         @OA\Schema(type="integer")
@@ -157,6 +159,8 @@ class LeaveEntitlementAPI extends Endpoint implements CrudEndpoint
      * @OA\Get(
      *     path="/api/v2/leave/leave-entitlements",
      *     tags={"Leave/Entitlements"},
+     *     summary="List All Leave Entitlements",
+     *     operationId="list-all-leave-entitlements",
      *     @OA\Parameter(
      *         name="empNumber",
      *         in="query",
@@ -345,6 +349,8 @@ class LeaveEntitlementAPI extends Endpoint implements CrudEndpoint
      * @OA\Post(
      *     path="/api/v2/leave/leave-entitlements",
      *     tags={"Leave/Entitlements"},
+     *     summary="Assign Leave Entitlements to Employees",
+     *     operationId="assign-leave-entitlements-to-employees",
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
@@ -534,6 +540,8 @@ class LeaveEntitlementAPI extends Endpoint implements CrudEndpoint
      * @OA\Put(
      *     path="/api/v2/leave/leave-entitlements/{id}",
      *     tags={"Leave/Entitlements"},
+     *     summary="Update a Leave Entitlement",
+     *     operationId="update-a-leave-entitlement",
      *     @OA\PathParameter(
      *         name="id",
      *         @OA\Schema(type="integer")
@@ -604,6 +612,8 @@ class LeaveEntitlementAPI extends Endpoint implements CrudEndpoint
      * @OA\Delete(
      *     path="/api/v2/leave/leave-entitlements",
      *     tags={"Leave/Entitlements"},
+     *     summary="Delete Leave Entitlements",
+     *     operationId="delete-leave-entitlements",
      *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),
      *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse")
      * )

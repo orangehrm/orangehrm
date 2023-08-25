@@ -85,6 +85,8 @@ class JobTitleAPI extends Endpoint implements CrudEndpoint
      * @OA\Get(
      *     path="/api/v2/admin/job-titles/{id}",
      *     tags={"Admin/Job Title"},
+     *     summary="Get a Job Title",
+     *     operationId="get-a-job-title",
      *     @OA\PathParameter(
      *         name="id",
      *         @OA\Schema(type="integer")
@@ -130,6 +132,8 @@ class JobTitleAPI extends Endpoint implements CrudEndpoint
      * @OA\Get(
      *     path="/api/v2/admin/job-titles",
      *     tags={"Admin/Job Title"},
+     *     summary="List All Job Titles",
+     *     operationId="list-all-job-titles",
      *     @OA\Parameter(
      *         name="activeOnly",
      *         in="query",
@@ -204,6 +208,8 @@ class JobTitleAPI extends Endpoint implements CrudEndpoint
      * @OA\Post(
      *     path="/api/v2/admin/job-titles",
      *     tags={"Admin/Job Title"},
+     *     summary="Create a Job Title",
+     *     operationId="create-a-job-title",
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
@@ -378,6 +384,8 @@ class JobTitleAPI extends Endpoint implements CrudEndpoint
      * @OA\Put(
      *     path="/api/v2/admin/job-titles/{id}",
      *     tags={"Admin/Job Title"},
+     *     summary="Update a Job Title",
+     *     operationId="update-a-job-title",
      *     @OA\PathParameter(
      *         name="id",
      *         @OA\Schema(type="integer")
@@ -494,6 +502,8 @@ class JobTitleAPI extends Endpoint implements CrudEndpoint
      * @OA\Delete(
      *     path="/api/v2/admin/job-titles",
      *     tags={"Admin/Job Title"},
+     *     summary="Delete Job Titles",
+     *     operationId="delete-job-titles",
      *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),
      *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse")
      * )

@@ -56,7 +56,9 @@ class ClaimExpenseTypeAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Get(
      *     path="/api/v2/claim/expenses/types",
-     *     tags={"Claim/ExpenseTypes"},
+     *     tags={"Claim/Expense Types"},
+     *     summary="List All Expense Types",
+     *     operationId="list-all-expense-types",
      *     @OA\Parameter(
      *         name="sortField",
      *         in="query",
@@ -156,7 +158,9 @@ class ClaimExpenseTypeAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Post(
      *     path="/api/v2/claim/expenses/types",
-     *     tags={"Claim/ExpenseTypes"},
+     *     tags={"Claim/Expense Types"},
+     *     summary="Create an Expense Type",
+     *     operationId="create-an-expense-type",
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
@@ -260,7 +264,9 @@ class ClaimExpenseTypeAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Delete(
      *     path="/api/v2/claim/expenses/types",
-     *     tags={"Claim/ExpenseTypes"},
+     *     tags={"Claim/Expense Types"},
+     *     summary="Delete Expense Types",
+     *     operationId="delete-expense-types",
      *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),
      *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse")
      * )
@@ -289,7 +295,9 @@ class ClaimExpenseTypeAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Get(
      *     path="/api/v2/claim/expenses/types/{id}",
-     *     tags={"Claim/ExpenseTypes"},
+     *     tags={"Claim/Expense Types"},
+     *     summary="Get an Expense Type",
+     *     operationId="get-an-expense-type",
      *     @OA\PathParameter(
      *         name="id",
      *         @OA\Schema(type="integer")
@@ -342,7 +350,9 @@ class ClaimExpenseTypeAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Put(
      *     path="/api/v2/claim/expenses/types/{id}",
-     *     tags={"Claim/ExpenseTypes"},
+     *     tags={"Claim/Expense Types"},
+     *     summary="Update an Expense Type",
+     *     operationId="update-an-expense-type",
      *     @OA\PathParameter(
      *         name="id",
      *         @OA\Schema(type="integer")

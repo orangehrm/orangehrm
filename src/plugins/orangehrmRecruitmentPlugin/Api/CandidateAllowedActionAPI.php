@@ -66,6 +66,8 @@ class CandidateAllowedActionAPI extends Endpoint implements CollectionEndpoint
      * @OA\Get(
      *     path="/api/v2/recruitment/candidates/{candidateId}/actions/allowed",
      *     tags={"Recruitment/Candidate Workflow"},
+     *     summary="Get Allowed Actions for Candidate",
+     *     operationId="get-allowed-actions-for-candidate",
      *     @OA\PathParameter(
      *         name="candidateId",
      *         @OA\Schema(type="integer")

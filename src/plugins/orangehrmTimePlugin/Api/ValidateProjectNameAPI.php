@@ -46,7 +46,9 @@ class ValidateProjectNameAPI extends Endpoint implements ResourceEndpoint
     /**
      * @OA\Get(
      *     path="/api/v2/time/validation/project-name",
-     *     tags={"Time/Validate Project Name"},
+     *     tags={"Time/Validation"},
+     *     summary="Validate Project Name Uniqueness",
+     *     operationId="validate-project-name-uniqueness",
      *     @OA\Parameter(
      *         name="projectId",
      *         in="query",

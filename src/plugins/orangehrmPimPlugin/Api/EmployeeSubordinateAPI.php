@@ -81,7 +81,9 @@ class EmployeeSubordinateAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Get(
      *     path="/api/v2/pim/employees/{empNumber}/subordinates",
-     *     tags={"Pim/Employee Subordinates"},
+     *     tags={"PIM/Employee Subordinates"},
+     *     summary="List an Employee's Subordinates",
+     *     operationId="list-an-employees-subordinates",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")
@@ -161,7 +163,9 @@ class EmployeeSubordinateAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Post(
      *     path="/api/v2/pim/employees/{empNumber}/subordinates",
-     *     tags={"Pim/Employee Subordinates"},
+     *     tags={"PIM/Employee Subordinates"},
+     *     summary="Add a Subordinate to an Employee",
+     *     operationId="add-a-subordinate-to-an-employee",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")
@@ -234,7 +238,9 @@ class EmployeeSubordinateAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Delete(
      *     path="/api/v2/pim/employees/{empNumber}/subordinates",
-     *     tags={"Pim/Employee Subordinates"},
+     *     tags={"PIM/Employee Subordinates"},
+     *     summary="Delete an Employee's Subordinates",
+     *     operationId="delete-an-employees-subordinates",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")
@@ -273,7 +279,9 @@ class EmployeeSubordinateAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Get(
      *     path="/api/v2/pim/employees/{empNumber}/subordinates/{id}",
-     *     tags={"Pim/Employee Subordinates"},
+     *     tags={"PIM/Employee Subordinates"},
+     *     summary="Get an Employee's Subordinate",
+     *     operationId="get-an-employees-subordinate",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")
@@ -354,7 +362,9 @@ class EmployeeSubordinateAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Put(
      *     path="/api/v2/pim/employees/{empNumber}/subordinates/{id}",
-     *     tags={"Pim/Employee Subordinates"},
+     *     tags={"PIM/Employee Subordinates"},
+     *     summary="Update an Employee's Subordinate",
+     *     operationId="update-an-employees-subordinate",
      *     @OA\PathParameter(
      *         name="empNumber",
      *         @OA\Schema(type="integer")

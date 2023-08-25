@@ -70,6 +70,8 @@ class BulkLeaveAPI extends Endpoint implements ResourceEndpoint
      * @OA\Put(
      *     path="/api/v2/leave/leaves/bulk",
      *     tags={"Leave/Employee Bulk Leave"},
+     *     summary="Bulk Approve/Cancel/Reject Leaves",
+     *     operationId="bulk-approve-cancel-reject-leaves",
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",

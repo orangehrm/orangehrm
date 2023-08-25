@@ -52,6 +52,8 @@ class EmployeeLeaveAPI extends Endpoint implements CollectionEndpoint
      * @OA\Get(
      *     path="/api/v2/leave/employees/leaves",
      *     tags={"Leave/Employee Leave"},
+     *     summary="List All Employee Leaves",
+     *     operationId="list-all-employee-leaves",
      *     @OA\Parameter(
      *         name="empNumber",
      *         in="query",

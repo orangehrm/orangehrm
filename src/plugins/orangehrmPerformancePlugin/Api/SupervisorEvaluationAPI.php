@@ -89,7 +89,9 @@ class SupervisorEvaluationAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Get(
      *     path="/api/v2/performance/reviews/{reviewId}/evaluation/supervisor",
-     *     tags={"Performance/Review Evaluation"},
+     *     tags={"Performance/Review Evaluation by Supervisor"},
+     *     summary="Get the Supervisor's Evaluation in a Review",
+     *     operationId="get-the-supervisors-evaluation-in-a-review",
      *     @OA\PathParameter(
      *         name="reviewId",
      *         @OA\Schema(type="integer")
@@ -336,7 +338,9 @@ class SupervisorEvaluationAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Put(
      *     path="/api/v2/performance/reviews/{reviewId}/evaluation/supervisor",
-     *     tags={"Performance/Review Evaluation"},
+     *     tags={"Performance/Review Evaluation by Supervisor"},
+     *     summary="Update the Supervisor's Evaluation in a Review",
+     *     operationId="update-the-supervisors-evaluation-in-a-review",
      *     @OA\PathParameter(
      *         name="reviewId",
      *         @OA\Schema(type="integer")

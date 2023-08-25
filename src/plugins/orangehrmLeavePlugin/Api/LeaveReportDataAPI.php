@@ -29,6 +29,8 @@ class LeaveReportDataAPI extends ReportDataAPI
      * @OA\Get(
      *     path="/api/v2/leave/reports/data",
      *     tags={"Leave/Leave Report"},
+     *     summary="Get Leave Report Data",
+     *     operationId="get-leave-report-data",
      *     @OA\Parameter(
      *         name="name",
      *         in="query",

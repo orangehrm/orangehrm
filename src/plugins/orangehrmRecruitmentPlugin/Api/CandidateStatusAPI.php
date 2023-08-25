@@ -37,6 +37,8 @@ class CandidateStatusAPI extends Endpoint implements CollectionEndpoint
      * @OA\Get(
      *     path="/api/v2/recruitment/candidates/status",
      *     tags={"Recruitment/Candidates"},
+     *     summary="List All Statuses",
+     *     operationId="list-all-statuses",
      *     @OA\Response(
      *         response="200",
      *         description="Success",

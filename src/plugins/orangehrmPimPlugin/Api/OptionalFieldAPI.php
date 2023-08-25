@@ -61,7 +61,9 @@ class OptionalFieldAPI extends Endpoint implements ResourceEndpoint
     /**
      * @OA\Get(
      *     path="/api/v2/pim/optional-field",
-     *     tags={"Pim/Optional Field"},
+     *     tags={"PIM/Optional Field"},
+     *     summary="Get Optional Field Configuration",
+     *     operationId="get-optional-field-configuration",
      *     @OA\Response(
      *         response="200",
      *         description="Success",
@@ -104,7 +106,9 @@ class OptionalFieldAPI extends Endpoint implements ResourceEndpoint
     /**
      * @OA\Put(
      *     path="/api/v2/pim/optional-field",
-     *     tags={"Pim/Optional Field"},
+     *     tags={"PIM/Optional Field"},
+     *     summary="Update Optional Field Configuration",
+     *     operationId="update-optional-field-configuration",
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",

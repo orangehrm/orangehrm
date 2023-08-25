@@ -65,6 +65,8 @@ class ThemeAPI extends Endpoint implements ResourceEndpoint
      * @OA\Get(
      *     path="/api/v2/admin/theme",
      *     tags={"Admin/Theme"},
+     *     summary="Get Theme Details",
+     *     operationId="get-theme-details",
      *     @OA\Response(
      *         response="200",
      *         description="Success",
@@ -108,6 +110,8 @@ class ThemeAPI extends Endpoint implements ResourceEndpoint
      * @OA\Put(
      *     path="/api/v2/admin/theme",
      *     tags={"Admin/Theme"},
+     *     summary="Edit Theme",
+     *     operationId="edit-theme",
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
@@ -361,6 +365,8 @@ class ThemeAPI extends Endpoint implements ResourceEndpoint
      * @OA\Delete(
      *     path="/api/v2/admin/theme",
      *     tags={"Admin/Theme"},
+     *     summary="Reset Theme",
+     *     operationId="reset-theme",
      *     @OA\Parameter(
      *         name="userId",
      *         in="query",

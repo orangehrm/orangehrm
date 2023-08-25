@@ -66,6 +66,8 @@ class ClaimRequestActionAPI extends Endpoint implements ResourceEndpoint
      * @OA\Put(
      *     path="/api/v2/claim/requests/{requestId}/action",
      *     tags={"Claim/Requests"},
+     *     summary="Perform an Action on a Claim Request",
+     *     operationId="perform-an-action-on-a-claim-request",
      *     @OA\PathParameter(
      *         name="requestId",
      *         @OA\Schema(type="integer")
