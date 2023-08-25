@@ -39,7 +39,6 @@ abstract class BaseAdminController extends AbstractVueController implements Capa
 
     /**
      * @inheritDoc
-     * @throws \OrangeHRM\Core\Exception\DaoException
      */
     public function isCapable(Request $request): bool
     {

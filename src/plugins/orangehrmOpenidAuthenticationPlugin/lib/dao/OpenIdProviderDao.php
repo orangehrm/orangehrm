@@ -26,63 +26,47 @@ class OpenIdProviderDao extends BaseOpenIdDao{
     /**
      *
      * @param OpenidProvider $openIdProvider
-     * @return OpenidProvider 
+     * @return OpenidProvider
      */
     public function saveOpenIdProvider(OpenidProvider $openIdProvider){
-        try {
             $openIdProvider->save();
             $openIdProvider->refresh();
             return $openIdProvider;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
-        
+
     }
     /**
      *
-     * @param bool $isActive 
-     * @return OpenidProvider 
+     * @param bool $isActive
+     * @return OpenidProvider
      */
     public function listOpenIdProviders($isActive =true){
-        try {
            $query = Doctrine_Query::create()
                     ->from('OpenidProvider');
             if($isActive){
                 $query->andWhere('status = ?',1);
             }
             return $query->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
 
     }
     /**
      *
-     * @param int $id 
-     * @return mix 
+     * @param int $id
+     * @return mix
      */
     public function removeOpenIdProvider($id){
-        try {
           $query = Doctrine_Query::create()
                 ->update('OpenidProvider')
                 ->set('status','?',0)
                 ->whereIn('id',$id);
-          
+
           return $query->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
-        
+
     }
     /**
      * Get Open Id Provider by ID
      * @return OpenidProvider
      */
     public function getOpenIdProvider($id) {
-        try {
-            return Doctrine::getTable('OpenidProvider')->find($id);
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
-    }   
+        return Doctrine::getTable('OpenidProvider')->find($id);
+    }
 }

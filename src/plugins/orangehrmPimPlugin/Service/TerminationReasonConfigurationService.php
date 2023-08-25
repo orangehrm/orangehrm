@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\Pim\Service;
 
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\TerminationReason;
 use OrangeHRM\Pim\Dao\TerminationReasonConfigurationDao;
 use OrangeHRM\Pim\Dto\TerminationReasonConfigurationSearchFilterParams;
@@ -53,7 +52,6 @@ class TerminationReasonConfigurationService
     /**
      * @param TerminationReason $terminationReason
      * @return TerminationReason
-     * @throws DaoException
      */
     public function saveTerminationReason(TerminationReason $terminationReason): TerminationReason
     {
@@ -63,7 +61,6 @@ class TerminationReasonConfigurationService
     /**
      * @param int $id
      * @return TerminationReason|null
-     * @throws DaoException
      */
     public function getTerminationReasonById(int $id): ?TerminationReason
     {
@@ -73,7 +70,6 @@ class TerminationReasonConfigurationService
     /**
      * @param string $name
      * @return TerminationReason|null
-     * @throws DaoException
      */
     public function getTerminationReasonByName(string $name): ?TerminationReason
     {
@@ -83,7 +79,6 @@ class TerminationReasonConfigurationService
     /**
      * @param TerminationReasonConfigurationSearchFilterParams $terminationReasonConfigurationSearchFilterParams
      * @return array
-     * @throws DaoException
      */
     public function getTerminationReasonList(
         TerminationReasonConfigurationSearchFilterParams $terminationReasonConfigurationSearchFilterParams
@@ -94,7 +89,6 @@ class TerminationReasonConfigurationService
     /**
      * @param TerminationReasonConfigurationSearchFilterParams $terminationReasonConfigurationSearchFilterParams
      * @return int
-     * @throws DaoException
      */
     public function getTerminationReasonCount(TerminationReasonConfigurationSearchFilterParams $terminationReasonConfigurationSearchFilterParams): int
     {
@@ -104,7 +98,6 @@ class TerminationReasonConfigurationService
     /**
      * @param array $toDeleteIds
      * @return int
-     * @throws DaoException
      */
     public function deleteTerminationReasons(array $toDeleteIds): int
     {
@@ -114,7 +107,6 @@ class TerminationReasonConfigurationService
     /**
      * @param string $terminationReasonName
      * @return bool
-     * @throws DaoException
      */
     public function isExistingTerminationReasonName(string $terminationReasonName): bool
     {
@@ -123,7 +115,6 @@ class TerminationReasonConfigurationService
 
     /**
      * @return array
-     * @throws DaoException
      */
     public function getReasonIdsInUse(): array
     {

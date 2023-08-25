@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\Pim\Service;
 
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\EmployeeAttachment;
 use OrangeHRM\Pim\Dao\EmploymentContractDao;
 use OrangeHRM\Pim\Dto\PartialEmployeeAttachment;
@@ -61,7 +60,6 @@ class EmploymentContractService
     /**
      * @param int $empNumber
      * @return PartialEmployeeAttachment|null
-     * @throws DaoException
      */
     public function getContractAttachment(int $empNumber): ?PartialEmployeeAttachment
     {

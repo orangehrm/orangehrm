@@ -22,7 +22,6 @@ namespace OrangeHRM\Core\Authorization\Service;
 use Exception;
 use OrangeHRM\Admin\Traits\Service\UserServiceTrait;
 use OrangeHRM\Core\Authorization\Manager\AbstractUserRoleManager;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Exception\ServiceException;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\ClassHelperTrait;
@@ -42,7 +41,6 @@ class UserRoleManagerService
 
     /**
      * @return string|null
-     * @throws DaoException
      */
     public function getUserRoleManagerClassName(): ?string
     {
@@ -51,7 +49,6 @@ class UserRoleManagerService
 
     /**
      * @return AbstractUserRoleManager|null
-     * @throws DaoException
      * @throws ServiceException
      */
     public function getUserRoleManager(): ?AbstractUserRoleManager

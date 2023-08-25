@@ -21,7 +21,6 @@ namespace OrangeHRM\Entity\Decorator;
 
 use Exception;
 use OrangeHRM\Admin\Service\CountryService;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
@@ -96,7 +95,6 @@ class EmployeeImmigrationRecordDecorator
 
     /**
      * @return string|null
-     * @throws DaoException
      * @throws Exception
      */
     public function getCountryName(): ?string

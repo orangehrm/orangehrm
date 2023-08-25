@@ -22,7 +22,6 @@ namespace OrangeHRM\Core\Controller;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Controller\Exception\VueControllerException;
 use OrangeHRM\Core\Dto\AttributeBag;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Exception\ServiceException;
 use OrangeHRM\Core\Helper\VueControllerHelper;
 use OrangeHRM\Core\Vue\Component;
@@ -139,13 +138,10 @@ abstract class AbstractVueController extends AbstractViewController
     }
 
     /**
-     * @param Request $request
      * @return string
      * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError
-     * @throws DaoException
-     * @throws ServiceException
      */
     public function render(Request $request): string
     {
@@ -169,7 +165,6 @@ abstract class AbstractVueController extends AbstractViewController
     /**
      * @param Request $request
      * @return Response|RedirectResponse
-     * @throws DaoException
      * @throws LoaderError
      * @throws RuntimeError
      * @throws ServiceException

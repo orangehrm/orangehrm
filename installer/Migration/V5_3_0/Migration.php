@@ -27,6 +27,7 @@ use Doctrine\DBAL\Types\Types;
 use OrangeHRM\Core\Service\DateTimeHelperService;
 use OrangeHRM\Installer\Util\Logger;
 use OrangeHRM\Installer\Util\V1\AbstractMigration;
+use OrangeHRM\Installer\Util\V1\LangStringHelper;
 
 class Migration extends AbstractMigration
 {
@@ -49,7 +50,7 @@ class Migration extends AbstractMigration
         $this->getLangStringHelper()->deleteNonCustomizedLangStrings('buzz');
         $oldGroups = ['buzz', 'general', 'dashboard', 'help'];
         foreach ($oldGroups as $group) {
-            $this->getLangStringHelper()->insertOrUpdateLangStrings($group);
+            $this->getLangStringHelper()->insertOrUpdateLangStrings(__DIR__, $group);
         }
         $this->updateLangStringVersion($this->getVersion());
 

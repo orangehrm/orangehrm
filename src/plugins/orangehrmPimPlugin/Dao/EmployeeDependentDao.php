@@ -19,12 +19,10 @@
 
 namespace OrangeHRM\Pim\Dao;
 
-use Exception;
 use InvalidArgumentException;
 use OrangeHRM\Pim\Dto\EmployeeDependentSearchFilterParams;
 use OrangeHRM\ORM\Paginator;
 use OrangeHRM\Core\Dao\BaseDao;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\EmpDependent;
 use OrangeHRM\ORM\ListSorter;
 
@@ -33,41 +31,31 @@ class EmployeeDependentDao extends BaseDao
     /**
      * @param int $empNumber Employee Number
      * @return EmpDependent[] Dependents as array
-     * @throws DaoException
      */
     public function getEmployeeDependents(int $empNumber): array
     {
-        try {
-            $q = $this->createQueryBuilder(EmpDependent::class, 'd');
-            $q->andWhere('d.employee = :empNumber')
-                ->setParameter('empNumber', $empNumber);
-            $q->addOrderBy('d.name', ListSorter::ASCENDING);
+        $q = $this->createQueryBuilder(EmpDependent::class, 'd');
+        $q->andWhere('d.employee = :empNumber')
+            ->setParameter('empNumber', $empNumber);
+        $q->addOrderBy('d.name', ListSorter::ASCENDING);
 
-            return $q->getQuery()->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        return $q->getQuery()->execute();
     }
 
     /**
      * @param int $empNumber
      * @param int $seqNo
      * @return EmpDependent|null
-     * @throws DaoException
      */
     public function getEmployeeDependent(int $empNumber, int $seqNo): ?EmpDependent
     {
-        try {
-            $empDependent = $this->getRepository(EmpDependent::class)->findOneBy(
-                ['employee' => $empNumber, 'seqNo' => $seqNo]
-            );
-            if ($empDependent instanceof EmpDependent) {
-                return $empDependent;
-            }
-            return null;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        $empDependent = $this->getRepository(EmpDependent::class)->findOneBy(
+            ['employee' => $empNumber, 'seqNo' => $seqNo]
+        );
+        if ($empDependent instanceof EmpDependent) {
+            return $empDependent;
         }
+        return null;
     }
 
     /**
@@ -103,22 +91,17 @@ class EmployeeDependentDao extends BaseDao
      * @param int $empNumber
      * @param int[] $entriesToDelete
      * @return int
-     * @throws DaoException
      */
     public function deleteEmployeeDependents(int $empNumber, array $entriesToDelete): int
     {
-        try {
-            $q = $this->createQueryBuilder(EmpDependent::class, 'd');
-            $q->delete();
-            $q->andWhere('d.employee = :empNumber')
-                ->setParameter('empNumber', $empNumber);
-            $q->andWhere($q->expr()->in('d.seqNo', ':ids'))
-                ->setParameter('ids', $entriesToDelete);
+        $q = $this->createQueryBuilder(EmpDependent::class, 'd');
+        $q->delete();
+        $q->andWhere('d.employee = :empNumber')
+            ->setParameter('empNumber', $empNumber);
+        $q->andWhere($q->expr()->in('d.seqNo', ':ids'))
+            ->setParameter('ids', $entriesToDelete);
 
-            return $q->getQuery()->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        return $q->getQuery()->execute();
     }
 
     /**
@@ -126,16 +109,11 @@ class EmployeeDependentDao extends BaseDao
      *
      * @param EmployeeDependentSearchFilterParams $employeeDependentSearchParams
      * @return array
-     * @throws DaoException
      */
     public function searchEmployeeDependent(EmployeeDependentSearchFilterParams $employeeDependentSearchParams): array
     {
-        try {
-            $paginator = $this->getSearchEmployeeDependentPaginator($employeeDependentSearchParams);
-            return $paginator->getQuery()->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        $paginator = $this->getSearchEmployeeDependentPaginator($employeeDependentSearchParams);
+        return $paginator->getQuery()->execute();
     }
 
     /**
@@ -166,15 +144,10 @@ class EmployeeDependentDao extends BaseDao
      *
      * @param EmployeeDependentSearchFilterParams $employeeDependentSearchParams
      * @return int
-     * @throws DaoException
      */
     public function getSearchEmployeeDependentsCount(EmployeeDependentSearchFilterParams $employeeDependentSearchParams): int
     {
-        try {
-            $paginator = $this->getSearchEmployeeDependentPaginator($employeeDependentSearchParams);
-            return $paginator->count();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        $paginator = $this->getSearchEmployeeDependentPaginator($employeeDependentSearchParams);
+        return $paginator->count();
     }
 }

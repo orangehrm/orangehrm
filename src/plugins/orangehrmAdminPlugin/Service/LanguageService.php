@@ -22,7 +22,6 @@ namespace OrangeHRM\Admin\Service;
 
 use OrangeHRM\Admin\Dao\LanguageDao;
 use OrangeHRM\Admin\Dto\LanguageSearchFilterParams;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\Language;
 
 class LanguageService
@@ -59,7 +58,6 @@ class LanguageService
      * Can be used for a new record or updating.
      * @param Language $language
      * @return Language
-     * @throws DaoException
      */
     public function saveLanguage(Language $language): Language
     {
@@ -71,7 +69,6 @@ class LanguageService
      *
      * @param int $id
      * @return Language An instance of Language or NULL
-     * @throws DaoException
      */
     public function getLanguageById(int $id): ?Language
     {
@@ -81,11 +78,10 @@ class LanguageService
     /**
      * Retrieves a language by name
      *
-     * Case insensitive
+     * Case-insensitive
      *
      * @param string $name
      * @return Language An instance of Language or false
-     * @throws DaoException
      */
     public function getLanguageByName(string $name): ?Language
     {
@@ -95,7 +91,6 @@ class LanguageService
     /**
      * @param LanguageSearchFilterParams $languageSearchParamHolder
      * @return int
-     * @throws DaoException
      */
     public function getLanguageCount(LanguageSearchFilterParams $languageSearchParamHolder): int
     {
@@ -106,7 +101,6 @@ class LanguageService
      * Retrieves all languages ordered by name
      * @param LanguageSearchFilterParams $languageSearchParamHolder
      * @return array
-     * @throws DaoException
      */
     public function getLanguageList(LanguageSearchFilterParams $languageSearchParamHolder): array
     {
@@ -117,7 +111,6 @@ class LanguageService
      * Deletes languages
      * @param array $toDeleteIds An array of IDs to be deleted
      * @return int Number of records deleted
-     * @throws DaoException
      */
     public function deleteLanguages(array $toDeleteIds): int
     {
@@ -127,11 +120,10 @@ class LanguageService
     /**
      * Checks whether the given language name exists
      *
-     * Case insensitive
+     * Case-insensitive
      *
      * @param string $languageName Language name that needs to be checked
      * @return bool
-     * @throws DaoException
      */
     public function isExistingLanguageName(string $languageName): bool
     {

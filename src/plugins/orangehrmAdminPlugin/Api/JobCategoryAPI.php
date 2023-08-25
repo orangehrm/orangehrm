@@ -34,7 +34,6 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\JobCategory;
 
 class JobCategoryAPI extends Endpoint implements CrudEndpoint
@@ -286,7 +285,6 @@ class JobCategoryAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @return JobCategory
-     * @throws DaoException
      */
     private function saveJobCategory(): JobCategory
     {
@@ -311,7 +309,6 @@ class JobCategoryAPI extends Endpoint implements CrudEndpoint
      * )
      *
      * @inheritDoc
-     * @throws DaoException
      */
     public function delete(): EndpointResourceResult
     {

@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\Pim\Service;
 
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Traits\CacheTrait;
 use OrangeHRM\Core\Traits\ETagHelperTrait;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
@@ -91,7 +90,6 @@ class EmployeePictureService
     /**
      * @param EmpPicture $employee
      * @return EmpPicture
-     * @throws DaoException
      */
     public function saveEmployeePicture(EmpPicture $employee): EmpPicture
     {
@@ -101,7 +99,6 @@ class EmployeePictureService
     /**
      * @param int $empNumber
      * @return EmpPicture|null
-     * @throws DaoException
      */
     public function getEmpPictureByEmpNumber(int $empNumber): ?EmpPicture
     {
@@ -111,7 +108,6 @@ class EmployeePictureService
     /**
      * @param int $empNumber
      * @return EmpPicture|null
-     * @throws DaoException
      */
     public function getAccessibleEmpPictureByEmpNumber(int $empNumber): ?EmpPicture
     {

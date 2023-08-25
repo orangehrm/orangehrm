@@ -20,7 +20,6 @@
 namespace OrangeHRM\Pim\Service;
 
 use OrangeHRM\Pim\Dto\EmployeeDependentSearchFilterParams;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Exception\ServiceException;
 use OrangeHRM\Entity\EmpDependent;
 use OrangeHRM\Pim\Dao\EmployeeDependentDao;
@@ -55,7 +54,6 @@ class EmployeeDependentService
     /**
      * @param int $empNumber
      * @return EmpDependent[]
-     * @throws DaoException
      */
     public function getEmployeeDependents(int $empNumber): array
     {
@@ -66,7 +64,6 @@ class EmployeeDependentService
      * @param int $empNumber
      * @param int $seqNo
      * @return EmpDependent|null
-     * @throws DaoException
      */
     public function getEmployeeDependent(int $empNumber, int $seqNo): ?EmpDependent
     {
@@ -86,7 +83,6 @@ class EmployeeDependentService
      * @param int $empNumber
      * @param array $entriesToDelete
      * @return int
-     * @throws DaoException
      */
     public function deleteEmployeeDependents(int $empNumber, array $entriesToDelete): int
     {

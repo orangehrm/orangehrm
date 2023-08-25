@@ -23,7 +23,6 @@ use OrangeHRM\Core\Authorization\Dao\DataGroupDao;
 use OrangeHRM\Core\Authorization\Dto\DataGroupPermissionCollection;
 use OrangeHRM\Core\Authorization\Dto\DataGroupPermissionFilterParams;
 use OrangeHRM\Core\Authorization\Dto\ResourcePermission;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\DataGroup;
 use OrangeHRM\Entity\DataGroupPermission;
 use OrangeHRM\Entity\UserRole;
@@ -64,7 +63,6 @@ class DataGroupService
      * @param bool $selfPermission If true, self permissions are returned. If false non-self permissions are returned
      *
      * @return DataGroupPermission[] Collection of DataGroupPermission objects
-     * @throws DaoException
      */
     public function getDataGroupPermission($dataGroups, int $userRoleId, bool $selfPermission = false): array
     {
@@ -75,7 +73,6 @@ class DataGroupService
      * Get All defined data groups in the system
      *
      * @return DataGroup[]
-     * @throws DaoException
      */
     public function getDataGroups(): array
     {
@@ -87,7 +84,6 @@ class DataGroupService
      *
      * @param string $name Data Group name
      * @return DataGroup DataGroup or false if no match.
-     * @throws DaoException
      */
     public function getDataGroup(string $name): ?DataGroup
     {
@@ -98,7 +94,6 @@ class DataGroupService
      * @param string $apiClassName
      * @param string[]|UserRole[] $roles Array of Role names or Array of UserRole objects
      * @return ResourcePermission
-     * @throws DaoException
      */
     public function getApiPermissions(string $apiClassName, array $roles): ResourcePermission
     {
@@ -130,7 +125,6 @@ class DataGroupService
     /**
      * @param DataGroupPermissionFilterParams $dataGroupPermissionFilterParams
      * @return DataGroupPermissionCollection|array<string, ResourcePermission>
-     * @throws DaoException
      */
     public function getDataGroupPermissionCollection(DataGroupPermissionFilterParams $dataGroupPermissionFilterParams): DataGroupPermissionCollection
     {

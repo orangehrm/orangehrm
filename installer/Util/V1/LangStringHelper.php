@@ -17,14 +17,12 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Installer\Migration\V5_2_0;
+namespace OrangeHRM\Installer\Util\V1;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Query\QueryBuilder;
 use OrangeHRM\Installer\Util\V1\Dto\LangString;
-use OrangeHRM\Installer\Util\V1\LanguageHelper;
 
-//TODO:: need to refactor this class
 class LangStringHelper
 {
     private Connection $connection;
@@ -148,13 +146,13 @@ class LangStringHelper
     }
 
     /**
+     * @param string $directoryPath
      * @param string $groupName
-     * @return void
      */
-    public function insertOrUpdateLangStrings(string $groupName)
+    public function insertOrUpdateLangStrings(string $directoryPath, string $groupName)
     {
         $langStringArray = $this->getLangHelper()->readLangStrings(
-            realpath(__DIR__ . "/lang-string/$groupName.yaml"),
+            realpath($directoryPath . "/lang-string/$groupName.yaml"),
             $groupName
         );
         foreach ($langStringArray as $langString) {
@@ -191,7 +189,7 @@ class LangStringHelper
     }
 
     /**
-     * @param string $langStringValue
+     * @param string $langStringUnitId
      * @param int $groupId
      * @return int|null
      */
@@ -212,7 +210,6 @@ class LangStringHelper
 
     /**
      * @param LangString $langString
-     * @return void
      */
     private function saveLangString(LangString $langString): void
     {
@@ -236,11 +233,9 @@ class LangStringHelper
     /**
      * @param int $langStringId
      * @param LangString $langString
-     * @return void
      */
     private function updateLangString(int $langStringId, LangString $langString): void
     {
-        // TODO:: have to look into `version` and `note`
         $this->createQueryBuilder()
             ->update('ohrm_i18n_lang_string')
             ->set('ohrm_i18n_lang_string.unit_id', ':key')

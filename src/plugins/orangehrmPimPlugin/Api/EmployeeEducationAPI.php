@@ -32,7 +32,6 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\EmployeeEducation;
 use OrangeHRM\Pim\Api\Model\EmployeeEducationModel;
 use OrangeHRM\Pim\Dto\EmployeeEducationSearchFilterParams;
@@ -485,7 +484,6 @@ class EmployeeEducationAPI extends Endpoint implements CrudEndpoint
     /**
      * @param EmployeeEducation $employeeEducation
      * @return EmployeeEducation
-     * @throws DaoException
      */
     public function saveEmployeeEducation(EmployeeEducation $employeeEducation): EmployeeEducation
     {

@@ -73,7 +73,7 @@ class AttendanceService
 
     /**
      * Set Attendance Data Access Object
-     * @param AttendanceDao $AttendanceDao
+     * @param AttendanceDao $attendanceDao
      * @return void
      */
     public function setAttendanceDao(AttendanceDao $attendanceDao)
@@ -303,7 +303,6 @@ class AttendanceService
      * @param int $employeeId
      * @param string $state
      * @return array|bool|Doctrine_Record|float|int|mixed|string|null
-     * @throws DaoException
      */
     public function getLatestPunchInRecord(int $employeeId, string $state)
     {
@@ -334,7 +333,6 @@ class AttendanceService
      * @param null $dateFrom
      * @param null $dateTo
      * @return array|Doctrine_Collection
-     * @throws DaoException
      */
     public function getAttendanceRecordsByEmpNumbers($empNumbers, $dateFrom = null, $dateTo = null)
     {

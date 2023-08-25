@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\Pim\Service;
 
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\EmployeeEvent;
@@ -66,7 +65,6 @@ class EmployeeEventService
      *
      * @param EmployeeEvent $employeeEvent
      * @return EmployeeEvent
-     * @throws DaoException
      */
     public function saveEmployeeEvent(EmployeeEvent $employeeEvent): EmployeeEvent
     {
@@ -81,7 +79,6 @@ class EmployeeEventService
      * @param string $event
      * @param string $note
      * @return EmployeeEvent
-     * @throws DaoException
      */
     public function saveEvent(int $empNumber, string $type, string $event, string $note): EmployeeEvent
     {
@@ -100,7 +97,6 @@ class EmployeeEventService
      *
      * @param EmployeeEventSearchFilterParams $employeeEventSearchFilterParams
      * @return EmployeeEvent[]
-     * @throws DaoException
      */
     public function getEmployeeEvents(EmployeeEventSearchFilterParams $employeeEventSearchFilterParams): array
     {
@@ -125,7 +121,6 @@ class EmployeeEventService
     /**
      * @param int $empNumber
      * @return EmployeeEvent
-     * @throws DaoException
      */
     public function saveAddEmployeeEvent(int $empNumber): EmployeeEvent
     {
@@ -140,7 +135,6 @@ class EmployeeEventService
     /**
      * @param int $empNumber
      * @return EmployeeEvent
-     * @throws DaoException
      */
     public function saveUpdateEmployeePersonalDetailsEvent(int $empNumber): EmployeeEvent
     {
@@ -155,7 +149,6 @@ class EmployeeEventService
     /**
      * @param int $empNumber
      * @return EmployeeEvent
-     * @throws DaoException
      */
     public function saveUpdateJobDetailsEvent(int $empNumber): EmployeeEvent
     {

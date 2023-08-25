@@ -19,43 +19,31 @@
 
 namespace OrangeHRM\Admin\Dao;
 
-use Exception;
 use OrangeHRM\Core\Dao\BaseDao;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\EmailConfiguration;
 
 class EmailConfigurationDao extends BaseDao
 {
     /**
      * @return EmailConfiguration|null
-     * @throws DaoException
      */
     public function getEmailConfiguration(): ?EmailConfiguration
     {
-        try {
-            $q = $this->createQueryBuilder(EmailConfiguration::class, 'e');
-            $emailConfig = $this->fetchOne($q);
-            if ($emailConfig instanceof EmailConfiguration) {
-                return $emailConfig;
-            }
-            return null;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        $q = $this->createQueryBuilder(EmailConfiguration::class, 'e');
+        $emailConfig = $this->fetchOne($q);
+        if ($emailConfig instanceof EmailConfiguration) {
+            return $emailConfig;
         }
+        return null;
     }
 
     /**
      * @param EmailConfiguration $emailConfiguration
      * @return EmailConfiguration
-     * @throws DaoException
      */
     public function saveEmailConfiguration(EmailConfiguration $emailConfiguration): EmailConfiguration
     {
-        try {
-            $this->persist($emailConfiguration);
-            return $emailConfiguration;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
+        $this->persist($emailConfiguration);
+        return $emailConfiguration;
     }
 }

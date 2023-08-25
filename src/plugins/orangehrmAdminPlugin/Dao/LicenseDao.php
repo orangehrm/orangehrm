@@ -22,8 +22,6 @@ namespace OrangeHRM\Admin\Dao;
 use OrangeHRM\Admin\Dto\LicenseSearchFilterParams;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\ORM\Paginator;
-use OrangeHRM\Core\Exception\DaoException;
-use Exception;
 use OrangeHRM\Entity\License;
 
 class LicenseDao extends BaseDao
@@ -31,67 +29,47 @@ class LicenseDao extends BaseDao
     /**
      * @param License $license
      * @return License
-     * @throws DaoException
      */
     public function saveLicense(License $license): License
     {
-        try {
-            $this->persist($license);
-            return $license;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        $this->persist($license);
+        return $license;
     }
 
     /**
      * @param $id
      * @return License|null
-     * @throws DaoException
      */
     public function getLicenseById($id): ?License
     {
-        try {
-            $license = $this->getRepository(License::class)->find($id);
-            if ($license instanceof License) {
-                return $license;
-            }
-            return null;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        $license = $this->getRepository(License::class)->find($id);
+        if ($license instanceof License) {
+            return $license;
         }
+        return null;
     }
 
     /**
      * @param $name
      * @return License|null
-     * @throws DaoException
      */
     public function getLicenseByName($name): ?License
     {
-        try {
-            $query = $this->createQueryBuilder(License::class, 'l');
-            $trimmed = trim($name, ' ');
-            $query->andWhere('l.name = :name');
-            $query->setParameter('name', $trimmed);
-            return $query->getQuery()->getOneOrNullResult();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        $query = $this->createQueryBuilder(License::class, 'l');
+        $trimmed = trim($name, ' ');
+        $query->andWhere('l.name = :name');
+        $query->setParameter('name', $trimmed);
+        return $query->getQuery()->getOneOrNullResult();
     }
 
     /**
      * @param LicenseSearchFilterParams $licenseSearchFilterParams
      * @return array
-     * @throws DaoException
      */
     public function getLicenseList(LicenseSearchFilterParams $licenseSearchFilterParams): array
     {
-        try {
-            $paginator = $this->getLicenseListPaginator($licenseSearchFilterParams);
-            return $paginator->getQuery()->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        $paginator = $this->getLicenseListPaginator($licenseSearchFilterParams);
+        return $paginator->getQuery()->execute();
     }
 
     /**
@@ -108,55 +86,40 @@ class LicenseDao extends BaseDao
     /**
      * @param LicenseSearchFilterParams $licenseSearchFilterParams
      * @return int
-     * @throws DaoException
      */
     public function getLicenseCount(LicenseSearchFilterParams $licenseSearchFilterParams): int
     {
-        try {
-            $paginator = $this->getLicenseListPaginator($licenseSearchFilterParams);
-            return $paginator->count();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        $paginator = $this->getLicenseListPaginator($licenseSearchFilterParams);
+        return $paginator->count();
     }
 
     /**
      * @param array $toDeleteIds
      * @return int
-     * @throws DaoException
      */
     public function deleteLicenses(array $toDeleteIds): int
     {
-        try {
-            $q = $this->createQueryBuilder(License::class, 'l');
-            $q->delete()
-                ->where($q->expr()->in('l.id', ':ids'))
-                ->setParameter('ids', $toDeleteIds);
-            return $q->getQuery()->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        $q = $this->createQueryBuilder(License::class, 'l');
+        $q->delete()
+            ->where($q->expr()->in('l.id', ':ids'))
+            ->setParameter('ids', $toDeleteIds);
+        return $q->getQuery()->execute();
     }
 
     /**
      * @param $licenseName
      * @return bool
-     * @throws DaoException
      */
     public function isExistingLicenseName($licenseName): bool
     {
-        try {
-            $q = $this->createQueryBuilder(License::class, 'l');
-            $trimmed = trim($licenseName, ' ');
-            $q->Where('l.name = :name');
-            $q->setParameter('name', $trimmed);
-            $count = $this->count($q);
-            if ($count > 0) {
-                return true;
-            }
-            return false;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        $q = $this->createQueryBuilder(License::class, 'l');
+        $trimmed = trim($licenseName, ' ');
+        $q->where('l.name = :name');
+        $q->setParameter('name', $trimmed);
+        $count = $this->count($q);
+        if ($count > 0) {
+            return true;
         }
+        return false;
     }
 }

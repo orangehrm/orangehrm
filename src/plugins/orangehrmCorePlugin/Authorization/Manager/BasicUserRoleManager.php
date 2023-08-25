@@ -29,7 +29,6 @@ use OrangeHRM\Core\Authorization\Service\DataGroupService;
 use OrangeHRM\Core\Authorization\Service\ScreenPermissionService;
 use OrangeHRM\Core\Authorization\UserRole\AbstractUserRole;
 use OrangeHRM\Core\Exception\CoreServiceException;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\HomePage\HomePageEnablerInterface;
 use OrangeHRM\Core\Service\AccessFlowStateMachineService;
 use OrangeHRM\Core\Service\MenuService;
@@ -605,7 +604,6 @@ class BasicUserRoleManager extends AbstractUserRoleManager
      * @param UserRole $role
      * @param array $requiredPermissions
      * @return bool
-     * @throws DaoException
      */
     protected function areRequiredPermissionsAvailable(UserRole $role, array $requiredPermissions = []): bool
     {

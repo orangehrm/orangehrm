@@ -19,9 +19,7 @@
 
 namespace OrangeHRM\Pim\Dao;
 
-use Exception;
 use OrangeHRM\Core\Dao\BaseDao;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\EmployeeTerminationRecord;
 use OrangeHRM\Entity\TerminationReason;
 use OrangeHRM\ORM\ListSorter;
@@ -31,45 +29,30 @@ class EmployeeTerminationDao extends BaseDao
     /**
      * @param EmployeeTerminationRecord $employeeTerminationRecord
      * @return EmployeeTerminationRecord
-     * @throws DaoException
      */
     public function saveEmployeeTermination(
         EmployeeTerminationRecord $employeeTerminationRecord
     ): EmployeeTerminationRecord {
-        try {
-            $this->persist($employeeTerminationRecord);
-            return $employeeTerminationRecord;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        $this->persist($employeeTerminationRecord);
+        return $employeeTerminationRecord;
     }
 
     /**
      * @param int $id
      * @return EmployeeTerminationRecord|null
-     * @throws DaoException
      */
     public function getEmployeeTermination(int $id): ?EmployeeTerminationRecord
     {
-        try {
-            return $this->getRepository(EmployeeTerminationRecord::class)->find($id);
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        return $this->getRepository(EmployeeTerminationRecord::class)->find($id);
     }
 
     /**
      * @return TerminationReason[]
-     * @throws DaoException
      */
     public function getTerminationReasonList(): array
     {
-        try {
-            $q = $this->createQueryBuilder(TerminationReason::class, 'tr');
-            $q->addOrderBy('tr.name', ListSorter::ASCENDING);
-            return $q->getQuery()->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        $q = $this->createQueryBuilder(TerminationReason::class, 'tr');
+        $q->addOrderBy('tr.name', ListSorter::ASCENDING);
+        return $q->getQuery()->execute();
     }
 }

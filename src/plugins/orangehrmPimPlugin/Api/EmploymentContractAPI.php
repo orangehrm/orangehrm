@@ -31,7 +31,6 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Dto\Base64Attachment;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\EmpContract;
 use OrangeHRM\Entity\EmployeeAttachment;
@@ -189,7 +188,6 @@ class EmploymentContractAPI extends Endpoint implements ResourceEndpoint
     /**
      * @param int $empNumber
      * @return EmpContract
-     * @throws DaoException
      */
     private function updateEmploymentContract(int $empNumber): EmpContract
     {
@@ -223,7 +221,6 @@ class EmploymentContractAPI extends Endpoint implements ResourceEndpoint
     /**
      * @param int $empNumber
      * @throws BadRequestException
-     * @throws DaoException
      */
     private function updateContractAttachment(int $empNumber): void
     {

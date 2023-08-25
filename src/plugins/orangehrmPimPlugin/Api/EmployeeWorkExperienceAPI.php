@@ -30,7 +30,6 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\EmpWorkExperience;
 use OrangeHRM\Pim\Api\Model\EmployeeWorkExperienceModel;
 use OrangeHRM\Pim\Dto\EmployeeWorkExperienceSearchFilterParams;
@@ -385,6 +384,7 @@ class EmployeeWorkExperienceAPI extends Endpoint implements CrudEndpoint
      * )
      *
      * @inheritDoc
+     * @throws Exception
      */
     public function delete(): EndpointResourceResult
     {
@@ -421,7 +421,6 @@ class EmployeeWorkExperienceAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @return EmpWorkExperience
-     * @throws DaoException
      * @throws Exception
      */
     public function saveEmployeeWorkExperience(): EmpWorkExperience

@@ -19,11 +19,9 @@
 
 namespace OrangeHRM\Admin\Dao;
 
-use Exception;
 use OrangeHRM\Admin\Dto\PayGradeCurrencySearchFilterParams;
 use OrangeHRM\Admin\Dto\PayGradeSearchFilterParams;
 use OrangeHRM\Core\Dao\BaseDao;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\CurrencyType;
 use OrangeHRM\Entity\PayGrade;
 use OrangeHRM\Entity\PayGradeCurrency;
@@ -40,11 +38,7 @@ class PayGradeDao extends BaseDao
      */
     public function getPayGradeById(int $payGradeId): ?PayGrade
     {
-        try {
-            return $this->getRepository(PayGrade::class)->find($payGradeId);
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        return $this->getRepository(PayGrade::class)->find($payGradeId);
     }
 
     /**
@@ -52,11 +46,7 @@ class PayGradeDao extends BaseDao
      */
     public function getPayGradeList(PayGradeSearchFilterParams $payGradeSearchFilterParams): array
     {
-        try {
-            return $this->getPayGradesPaginator($payGradeSearchFilterParams)->getQuery()->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        return $this->getPayGradesPaginator($payGradeSearchFilterParams)->getQuery()->execute();
     }
 
     /**
@@ -73,20 +63,15 @@ class PayGradeDao extends BaseDao
     /**
      * @param int $payGradeId
      * @return PayGradeCurrency[]
-     * @throws DaoException
      */
     public function getCurrencyListByPayGradeId(int $payGradeId): array
     {
-        try {
-            $q = $this->createQueryBuilder(PayGradeCurrency::class, 'pgc');
-            $q->leftJoin('pgc.currencyType', 'ct');
-            $q->andWhere('pgc.payGrade = :payGradeId')
-                ->setParameter('payGradeId', $payGradeId);
-            $q->addOrderBy('ct.name', ListSorter::ASCENDING);
-            return $q->getQuery()->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        $q = $this->createQueryBuilder(PayGradeCurrency::class, 'pgc');
+        $q->leftJoin('pgc.currencyType', 'ct');
+        $q->andWhere('pgc.payGrade = :payGradeId')
+            ->setParameter('payGradeId', $payGradeId);
+        $q->addOrderBy('ct.name', ListSorter::ASCENDING);
+        return $q->getQuery()->execute();
     }
 
     /**
@@ -108,209 +93,144 @@ class PayGradeDao extends BaseDao
     /**
      * @param PayGradeCurrencySearchFilterParams $payGradeCurrencySearchFilterParams
      * @return PayGradeCurrency[]
-     * @throws DaoException
      */
     public function getPayGradeCurrencyList(PayGradeCurrencySearchFilterParams $payGradeCurrencySearchFilterParams)
     {
-        try {
-            return $this->getPayGradeCurrencyPaginator($payGradeCurrencySearchFilterParams)->getQuery()->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        return $this->getPayGradeCurrencyPaginator($payGradeCurrencySearchFilterParams)->getQuery()->execute();
     }
 
     /**
      * @param PayGradeCurrencySearchFilterParams $payGradeCurrencySearchFilterParams
-     * @return int|mixed|string
-     * @throws DaoException
+     * @return int
      */
-    public function getPayGradeCurrencyListCount(PayGradeCurrencySearchFilterParams $payGradeCurrencySearchFilterParams)
+    public function getPayGradeCurrencyListCount(PayGradeCurrencySearchFilterParams $payGradeCurrencySearchFilterParams): int
     {
-        try {
-            return $this->getPayGradeCurrencyPaginator($payGradeCurrencySearchFilterParams)->count();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        return $this->getPayGradeCurrencyPaginator($payGradeCurrencySearchFilterParams)->count();
     }
 
     /**
      * @param string $currencyId
      * @param int $payGradeId
      * @return PayGradeCurrency|null
-     * @throws DaoException
      */
     public function getCurrencyByCurrencyIdAndPayGradeId(string $currencyId, int $payGradeId): ?PayGradeCurrency
     {
-        try {
-            $q = $this->createQueryBuilder(PayGradeCurrency::class, 'pgc');
-            $q->andWhere('pgc.payGrade = :payGradeId')
-                ->setParameter('payGradeId', $payGradeId);
-            $q->andWhere('pgc.currencyType = :currencyTypeId')
-                ->setParameter('currencyTypeId', $currencyId);
+        $q = $this->createQueryBuilder(PayGradeCurrency::class, 'pgc');
+        $q->andWhere('pgc.payGrade = :payGradeId')
+            ->setParameter('payGradeId', $payGradeId);
+        $q->andWhere('pgc.currencyType = :currencyTypeId')
+            ->setParameter('currencyTypeId', $currencyId);
 
-            return $this->fetchOne($q);
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        return $this->fetchOne($q);
     }
 
     /**
      * @return PayPeriod[]
-     * @throws DaoException
      */
     public function getPayPeriods(): array
     {
-        try {
-            $q = $this->createQueryBuilder(PayPeriod::class, 'pp');
-            $q->addOrderBy('pp.name', ListSorter::ASCENDING);
-            return $q->getQuery()->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        $q = $this->createQueryBuilder(PayPeriod::class, 'pp');
+        $q->addOrderBy('pp.name', ListSorter::ASCENDING);
+        return $q->getQuery()->execute();
     }
 
     /**
      * @return CurrencyType[]
-     * @throws DaoException
      */
     public function getCurrencies(): array
     {
-        try {
-            $q = $this->createQueryBuilder(CurrencyType::class, 'ct');
-            $q->addOrderBy('ct.name', ListSorter::ASCENDING);
-            return $q->getQuery()->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        $q = $this->createQueryBuilder(CurrencyType::class, 'ct');
+        $q->addOrderBy('ct.name', ListSorter::ASCENDING);
+        return $q->getQuery()->execute();
     }
 
     /**
      * @param string $id
      * @return CurrencyType|null
-     * @throws DaoException
      */
     public function getCurrencyById(string $id): ?CurrencyType
     {
-        try {
-            return $this->getRepository(CurrencyType::class)->find($id);
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        return $this->getRepository(CurrencyType::class)->find($id);
     }
 
     /**
      * @param PayGradeSearchFilterParams $payGradeSearchFilterParams
      * @return int
-     * @throws DaoException
      */
     public function getPayGradesCount(PayGradeSearchFilterParams $payGradeSearchFilterParams): int
     {
-        try {
-            return $this->getPayGradesPaginator($payGradeSearchFilterParams)->count();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
+        return $this->getPayGradesPaginator($payGradeSearchFilterParams)->count();
     }
 
     /**
      * @param PayGrade $payGrade
      * @return PayGrade
-     * @throws DaoException
      */
     public function savePayGrade(PayGrade $payGrade): PayGrade
     {
-        try {
-            $this->persist($payGrade);
-            return $payGrade;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
+        $this->persist($payGrade);
+        return $payGrade;
     }
 
     /**
      * @param PayGradeCurrency $payGradeCurrency
      * @return PayGradeCurrency
-     * @throws DaoException
      */
     public function savePayGradeCurrency(PayGradeCurrency $payGradeCurrency): PayGradeCurrency
     {
-        try {
-            $this->persist($payGradeCurrency);
-            return $payGradeCurrency;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
+        $this->persist($payGradeCurrency);
+        return $payGradeCurrency;
     }
 
     /**
      * @param array $tobeDeletedIds
      * @return int
-     * @throws DaoException
      */
     public function deletePayGrades(array $tobeDeletedIds): int
     {
-        try {
-            $q = $this->createQueryBuilder(PayGrade::class, 'pg');
-            $q->delete()
-                ->where($q->expr()->in('pg.id', ':ids'))
-                ->setParameter('ids', $tobeDeletedIds);
-            return $q->getQuery()->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
+        $q = $this->createQueryBuilder(PayGrade::class, 'pg');
+        $q->delete()
+            ->where($q->expr()->in('pg.id', ':ids'))
+            ->setParameter('ids', $tobeDeletedIds);
+        return $q->getQuery()->execute();
     }
 
     /**
      * @param int $payGradeId
      * @param array $toBeDeletedIds
      * @return int
-     * @throws DaoException
      */
     public function deletePayGradeCurrency(int $payGradeId, array $toBeDeletedIds): int
     {
-        try {
-            $q = $this->createQueryBuilder(PayGradeCurrency::class, 'pgc');
-            $q->delete()
-                ->where($q->expr()->in('pgc.currencyType', ':currencyIds'))
-                ->andWhere('pgc.payGrade = :payGradeId')
-                ->setParameters([
-                    'currencyIds'=> $toBeDeletedIds,
-                    'payGradeId' => $payGradeId,
-                ]);
-            return $q->getQuery()->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
+        $q = $this->createQueryBuilder(PayGradeCurrency::class, 'pgc');
+        $q->delete()
+            ->where($q->expr()->in('pgc.currencyType', ':currencyIds'))
+            ->andWhere('pgc.payGrade = :payGradeId')
+            ->setParameters([
+                'currencyIds'=> $toBeDeletedIds,
+                'payGradeId' => $payGradeId,
+            ]);
+        return $q->getQuery()->execute();
     }
 
     /**
      * @param PayGradeCurrencySearchFilterParams $payGradeCurrencySearchFilterParams
      * @return CurrencyType[]
-     * @throws DaoException
      */
     public function getAllowedPayCurrencies(PayGradeCurrencySearchFilterParams $payGradeCurrencySearchFilterParams): array
     {
-        try {
-            $paginator = $this->getAllowedPayCurrenciesPaginator($payGradeCurrencySearchFilterParams);
-            return $paginator->getQuery()->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        $paginator = $this->getAllowedPayCurrenciesPaginator($payGradeCurrencySearchFilterParams);
+        return $paginator->getQuery()->execute();
     }
 
     /**
      * @param PayGradeCurrencySearchFilterParams $payGradeCurrencySearchFilterParams
      * @return int
-     * @throws DaoException
      */
     public function getAllowedPayCurrenciesCount(PayGradeCurrencySearchFilterParams $payGradeCurrencySearchFilterParams): int
     {
-        try {
-            $paginator = $this->getAllowedPayCurrenciesPaginator($payGradeCurrencySearchFilterParams);
-            return $paginator->count();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        $paginator = $this->getAllowedPayCurrenciesPaginator($payGradeCurrencySearchFilterParams);
+        return $paginator->count();
     }
 
     /**

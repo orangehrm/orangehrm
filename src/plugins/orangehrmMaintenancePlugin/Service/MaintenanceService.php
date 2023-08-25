@@ -20,7 +20,6 @@
 
 namespace OrangeHRM\Maintenance\Service;
 
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Maintenance\AccessStrategy\AccessStrategy;
 use OrangeHRM\Maintenance\Dao\MaintenanceDao;
 use OrangeHRM\ORM\Doctrine;
@@ -114,7 +113,6 @@ class MaintenanceService
      * @param $matchByValues
      * @param $table
      * @return mixed
-     * @throws DaoException
      */
     public function extractDataFromEmpNumber($matchByValues, $table): array
     {

@@ -20,8 +20,8 @@
 namespace OrangeHRM\Admin\Service;
 
 use OrangeHRM\Admin\Dao\OrganizationDao;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\Organization;
+use OrangeHRM\ORM\Exception\TransactionException;
 
 class OrganizationService
 {
@@ -53,7 +53,6 @@ class OrganizationService
      * Get organization general information
      *
      * @return Organization|null
-     * @throws DaoException
      */
     public function getOrganizationGeneralInformation(): ?Organization
     {
@@ -63,7 +62,7 @@ class OrganizationService
     /**
      * @param Organization $organization
      * @return Organization
-     * @throws DaoException
+     * @throws TransactionException
      */
     public function saveOrganizationGeneralInformation(Organization $organization): Organization
     {

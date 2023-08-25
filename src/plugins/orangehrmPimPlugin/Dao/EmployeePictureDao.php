@@ -19,9 +19,7 @@
 
 namespace OrangeHRM\Pim\Dao;
 
-use Exception;
 use OrangeHRM\Core\Dao\BaseDao;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\EmpPicture;
 
 class EmployeePictureDao extends BaseDao
@@ -29,33 +27,23 @@ class EmployeePictureDao extends BaseDao
     /**
      * @param EmpPicture $employee
      * @return EmpPicture
-     * @throws DaoException
      */
     public function saveEmployeePicture(EmpPicture $employee): EmpPicture
     {
-        try {
-            $this->persist($employee);
-            return $employee;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        $this->persist($employee);
+        return $employee;
     }
 
     /**
      * @param int $empNumber
      * @return EmpPicture|null
-     * @throws DaoException
      */
     public function getEmpPictureByEmpNumber(int $empNumber): ?EmpPicture
     {
-        try {
-            $empPicture = $this->getRepository(EmpPicture::class)->find($empNumber);
-            if ($empPicture instanceof EmpPicture) {
-                return $empPicture;
-            }
-            return null;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        $empPicture = $this->getRepository(EmpPicture::class)->find($empNumber);
+        if ($empPicture instanceof EmpPicture) {
+            return $empPicture;
         }
+        return null;
     }
 }

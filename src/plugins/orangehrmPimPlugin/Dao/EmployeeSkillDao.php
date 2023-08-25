@@ -20,9 +20,7 @@
 namespace OrangeHRM\Pim\Dao;
 
 use Doctrine\ORM\Query\Expr;
-use Exception;
 use OrangeHRM\Core\Dao\BaseDao;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\EmployeeSkill;
 use OrangeHRM\Entity\Skill;
 use OrangeHRM\ORM\Paginator;
@@ -34,61 +32,46 @@ class EmployeeSkillDao extends BaseDao
     /**
      * @param EmployeeSkill $employeeSkill
      * @return EmployeeSkill
-     * @throws DaoException
      */
     public function saveEmployeeSkill(EmployeeSkill $employeeSkill): EmployeeSkill
     {
-        try {
-            $this->persist($employeeSkill);
-            return $employeeSkill;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        $this->persist($employeeSkill);
+        return $employeeSkill;
     }
 
     /**
      * @param int $empNumber
      * @param int $skillId
      * @return EmployeeSkill|null
-     * @throws DaoException
      */
     public function getEmployeeSkillById(int $empNumber, int $skillId): ?EmployeeSkill
     {
-        try {
-            $employeeSkill = $this->getRepository(EmployeeSkill::class)->findOneBy(
-                [
-                    'employee' => $empNumber,
-                    'skill' => $skillId,
-                ]
-            );
-            if ($employeeSkill instanceof EmployeeSkill) {
-                return $employeeSkill;
-            }
-            return null;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        $employeeSkill = $this->getRepository(EmployeeSkill::class)->findOneBy(
+            [
+                'employee' => $empNumber,
+                'skill' => $skillId,
+            ]
+        );
+        if ($employeeSkill instanceof EmployeeSkill) {
+            return $employeeSkill;
         }
+        return null;
     }
 
     /**
      * @param int $empNumber
      * @param array $toDeleteIds
      * @return int
-     * @throws DaoException
      */
     public function deleteEmployeeSkills(int $empNumber, array $toDeleteIds): int
     {
-        try {
-            $q = $this->createQueryBuilder(EmployeeSkill::class, 'es');
-            $q->delete()
-                ->andWhere('es.employee = :empNumber')
-                ->andWhere($q->expr()->in('es.skill', ':ids'))
-                ->setParameter('ids', $toDeleteIds)
-                ->setParameter('empNumber', $empNumber);
-            return $q->getQuery()->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
+        $q = $this->createQueryBuilder(EmployeeSkill::class, 'es');
+        $q->delete()
+            ->andWhere('es.employee = :empNumber')
+            ->andWhere($q->expr()->in('es.skill', ':ids'))
+            ->setParameter('ids', $toDeleteIds)
+            ->setParameter('empNumber', $empNumber);
+        return $q->getQuery()->execute();
     }
 
     /**
@@ -96,16 +79,11 @@ class EmployeeSkillDao extends BaseDao
      *
      * @param EmployeeSkillSearchFilterParams $employeeSkillSearchParams
      * @return EmployeeSkill[]
-     * @throws DaoException
      */
     public function searchEmployeeSkill(EmployeeSkillSearchFilterParams $employeeSkillSearchParams): array
     {
-        try {
-            $paginator = $this->getSearchEmployeeSkillPaginator($employeeSkillSearchParams);
-            return $paginator->getQuery()->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        $paginator = $this->getSearchEmployeeSkillPaginator($employeeSkillSearchParams);
+        return $paginator->getQuery()->execute();
     }
 
     /**
@@ -130,46 +108,31 @@ class EmployeeSkillDao extends BaseDao
      *
      * @param EmployeeSkillSearchFilterParams $employeeSkillSearchParams
      * @return int
-     * @throws DaoException
      */
     public function getSearchEmployeeSkillsCount(EmployeeSkillSearchFilterParams $employeeSkillSearchParams): int
     {
-        try {
-            $paginator = $this->getSearchEmployeeSkillPaginator($employeeSkillSearchParams);
-            return $paginator->count();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        $paginator = $this->getSearchEmployeeSkillPaginator($employeeSkillSearchParams);
+        return $paginator->count();
     }
 
     /**
      * @param EmployeeAllowedSkillSearchFilterParams $skillSearchFilterParams
      * @return Skill[]
-     * @throws DaoException
      */
     public function getEmployeeAllowedSkills(EmployeeAllowedSkillSearchFilterParams $skillSearchFilterParams): array
     {
-        try {
-            $paginator = $this->getEmployeeAllowedSkillsPaginator($skillSearchFilterParams);
-            return $paginator->getQuery()->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        $paginator = $this->getEmployeeAllowedSkillsPaginator($skillSearchFilterParams);
+        return $paginator->getQuery()->execute();
     }
 
     /**
      * @param EmployeeAllowedSkillSearchFilterParams $skillSearchFilterParams
      * @return int
-     * @throws DaoException
      */
     public function getEmployeeAllowedSkillsCount(EmployeeAllowedSkillSearchFilterParams $skillSearchFilterParams): int
     {
-        try {
-            $paginator = $this->getEmployeeAllowedSkillsPaginator($skillSearchFilterParams);
-            return $paginator->count();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        $paginator = $this->getEmployeeAllowedSkillsPaginator($skillSearchFilterParams);
+        return $paginator->count();
     }
 
     /**

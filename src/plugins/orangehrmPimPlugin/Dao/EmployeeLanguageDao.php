@@ -20,9 +20,7 @@
 namespace OrangeHRM\Pim\Dao;
 
 use Doctrine\ORM\Query\Expr;
-use Exception;
 use OrangeHRM\Core\Dao\BaseDao;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\EmployeeLanguage;
 use OrangeHRM\Entity\Language;
 use OrangeHRM\ORM\Paginator;
@@ -34,16 +32,11 @@ class EmployeeLanguageDao extends BaseDao
     /**
      * @param EmployeeLanguage $employeeLanguage
      * @return EmployeeLanguage
-     * @throws DaoException
      */
     public function saveEmployeeLanguage(EmployeeLanguage $employeeLanguage): EmployeeLanguage
     {
-        try {
-            $this->persist($employeeLanguage);
-            return $employeeLanguage;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        $this->persist($employeeLanguage);
+        return $employeeLanguage;
     }
 
     /**
@@ -51,70 +44,54 @@ class EmployeeLanguageDao extends BaseDao
      * @param int $languageId
      * @param int $fluencyId
      * @return EmployeeLanguage|null
-     * @throws DaoException
      */
     public function getEmployeeLanguage(int $empNumber, int $languageId, int $fluencyId): ?EmployeeLanguage
     {
-        try {
-            return $this->getRepository(EmployeeLanguage::class)->findOneBy(
-                [
-                    'employee' => $empNumber,
-                    'language' => $languageId,
-                    'fluency' => $fluencyId,
-                ]
-            );
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        return $this->getRepository(EmployeeLanguage::class)->findOneBy(
+            [
+                'employee' => $empNumber,
+                'language' => $languageId,
+                'fluency' => $fluencyId,
+            ]
+        );
     }
 
     /**
      * @param int $empNumber
      * @param array $entriesToDelete
      * @return int
-     * @throws DaoException
      */
     public function deleteEmployeeLanguages(int $empNumber, array $entriesToDelete): int
     {
-        try {
-            $q = $this->createQueryBuilder(EmployeeLanguage::class, 'el');
-            $q->delete();
-            foreach ($entriesToDelete as $key => $langFluency) {
-                if (isset($langFluency['languageId']) && isset($langFluency['fluencyId'])) {
-                    $q->orWhere(
-                        $q->expr()->andX(
-                            $q->expr()->eq('el.language', ':langId' . $key),
-                            $q->expr()->eq('el.fluency', ':fluencyId' . $key)
-                        )
-                    );
-                    $q->setParameter('langId' . $key, $langFluency['languageId'])
-                        ->setParameter('fluencyId' . $key, $langFluency['fluencyId']);
-                }
+        $q = $this->createQueryBuilder(EmployeeLanguage::class, 'el');
+        $q->delete();
+        foreach ($entriesToDelete as $key => $langFluency) {
+            if (isset($langFluency['languageId']) && isset($langFluency['fluencyId'])) {
+                $q->orWhere(
+                    $q->expr()->andX(
+                        $q->expr()->eq('el.language', ':langId' . $key),
+                        $q->expr()->eq('el.fluency', ':fluencyId' . $key)
+                    )
+                );
+                $q->setParameter('langId' . $key, $langFluency['languageId'])
+                    ->setParameter('fluencyId' . $key, $langFluency['fluencyId']);
             }
-            $q->andWhere('el.employee = :empNumber')
-                ->setParameter('empNumber', $empNumber);
-
-            return $q->getQuery()->execute();
-        } catch (Exception $e) {
-            var_dump($e);
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
+        $q->andWhere('el.employee = :empNumber')
+            ->setParameter('empNumber', $empNumber);
+
+        return $q->getQuery()->execute();
     }
 
     /**
      * @param EmployeeLanguagesSearchFilterParams $employeeLanguagesSearchFilterParams
      * @return EmployeeLanguage[]
-     * @throws DaoException
      */
     public function getEmployeeLanguages(
         EmployeeLanguagesSearchFilterParams $employeeLanguagesSearchFilterParams
     ): array {
-        try {
-            $paginator = $this->getEmployeeLanguagesPaginator($employeeLanguagesSearchFilterParams);
-            return $paginator->getQuery()->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        $paginator = $this->getEmployeeLanguagesPaginator($employeeLanguagesSearchFilterParams);
+        return $paginator->getQuery()->execute();
     }
 
     /**
@@ -142,49 +119,34 @@ class EmployeeLanguageDao extends BaseDao
     /**
      * @param EmployeeLanguagesSearchFilterParams $employeeLanguagesSearchFilterParams
      * @return int
-     * @throws DaoException
      */
     public function getEmployeeLanguagesCount(
         EmployeeLanguagesSearchFilterParams $employeeLanguagesSearchFilterParams
     ): int {
-        try {
-            $paginator = $this->getEmployeeLanguagesPaginator($employeeLanguagesSearchFilterParams);
-            return $paginator->count();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        $paginator = $this->getEmployeeLanguagesPaginator($employeeLanguagesSearchFilterParams);
+        return $paginator->count();
     }
 
     /**
      * @param EmployeeAllowedLanguageSearchFilterParams $employeeAllowedLanguageSearchFilterParams
      * @return Language[]
-     * @throws DaoException
      */
     public function getAllowedEmployeeLanguages(
         EmployeeAllowedLanguageSearchFilterParams $employeeAllowedLanguageSearchFilterParams
     ): array {
-        try {
-            $paginator = $this->getAllowedEmployeeLanguagesPaginator($employeeAllowedLanguageSearchFilterParams);
-            return $paginator->getQuery()->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        $paginator = $this->getAllowedEmployeeLanguagesPaginator($employeeAllowedLanguageSearchFilterParams);
+        return $paginator->getQuery()->execute();
     }
 
     /**
      * @param EmployeeAllowedLanguageSearchFilterParams $employeeAllowedLanguageSearchFilterParams
      * @return int
-     * @throws DaoException
      */
     public function getAllowedEmployeeLanguagesCount(
         EmployeeAllowedLanguageSearchFilterParams $employeeAllowedLanguageSearchFilterParams
     ): int {
-        try {
-            $paginator = $this->getAllowedEmployeeLanguagesPaginator($employeeAllowedLanguageSearchFilterParams);
-            return $paginator->count();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        $paginator = $this->getAllowedEmployeeLanguagesPaginator($employeeAllowedLanguageSearchFilterParams);
+        return $paginator->count();
     }
 
     /**

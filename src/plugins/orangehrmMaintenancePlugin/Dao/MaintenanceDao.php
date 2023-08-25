@@ -20,10 +20,6 @@
 namespace OrangeHRM\Maintenance\Dao;
 
 use OrangeHRM\Core\Dao\BaseDao;
-use OrangeHRM\Core\Exception\DaoException;
-
-//use Doctrine_Collection;
-//use Doctrine_Query;
 
 /**
  * Class MaintenanceDao
@@ -31,10 +27,9 @@ use OrangeHRM\Core\Exception\DaoException;
 class MaintenanceDao extends BaseDao
 {
     /**
-     * @param $empNumber
+     * @param $matchByValues
      * @param $table
-     * @return mixed
-     * @throws DaoException
+     * @return array
      */
     public function extractDataFromEmpNumber($matchByValues, $table): array
     {

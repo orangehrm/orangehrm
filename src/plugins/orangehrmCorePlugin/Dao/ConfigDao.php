@@ -19,8 +19,6 @@
 
 namespace OrangeHRM\Core\Dao;
 
-use Exception;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Traits\LoggerTrait;
 use OrangeHRM\Entity\Config;
 
@@ -32,25 +30,18 @@ class ConfigDao extends BaseDao
      * Set $key to given $value
      * @param string $name Key
      * @param string $value Value
-     * @throws DaoException
      */
     public function setValue(string $name, string $value): Config
     {
-        try {
-            $config = $this->getRepository(Config::class)->find($name);
+        $config = $this->getRepository(Config::class)->find($name);
 
-            if (!$config instanceof Config) {
-                $config = new Config();
-            }
-            $config->setName($name);
-            $config->setValue($value);
-            $this->persist($config);
-            return $config;
-        } catch (Exception $e) {
-            $this->getLogger()->error($e->getMessage());
-            $this->getLogger()->error($e->getTraceAsString());
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        if (!$config instanceof Config) {
+            $config = new Config();
         }
+        $config->setName($name);
+        $config->setValue($value);
+        $this->persist($config);
+        return $config;
     }
 
     /**
@@ -60,34 +51,23 @@ class ConfigDao extends BaseDao
      */
     public function getValue(string $name): ?string
     {
-        try {
-            $config = $this->getRepository(Config::class)->find($name);
-            if ($config instanceof Config) {
-                return $config->getValue();
-            }
-            return null;
-        } catch (Exception $e) {
-            $this->getLogger()->error($e->getMessage());
-            $this->getLogger()->error($e->getTraceAsString());
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        $config = $this->getRepository(Config::class)->find($name);
+        if ($config instanceof Config) {
+            return $config->getValue();
         }
+        return null;
     }
 
     /**
      * @return array
-     * @throws DaoException
      */
     public function getAllValues(): array
     {
-        try {
-            $values = [];
-            $configs = $this->getRepository(Config::class)->findAll();
-            foreach ($configs as $config) {
-                $values[$config->getName()] = $config->getValue();
-            }
-            return $values;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        $values = [];
+        $configs = $this->getRepository(Config::class)->findAll();
+        foreach ($configs as $config) {
+            $values[$config->getName()] = $config->getValue();
         }
+        return $values;
     }
 }

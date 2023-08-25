@@ -21,7 +21,6 @@ namespace OrangeHRM\Admin\Service;
 
 use OrangeHRM\Admin\Dao\JobTitleDao;
 use OrangeHRM\Admin\Service\Model\JobTitleModel;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
 use OrangeHRM\Entity\JobSpecificationAttachment;
 use OrangeHRM\Entity\JobTitle;
@@ -60,7 +59,6 @@ class JobTitleService
      *
      * @param bool $activeOnly
      * @return int|JobTitle[]
-     * @throws DaoException
      */
     public function getJobTitleList(bool $activeOnly = true)
     {
@@ -72,7 +70,6 @@ class JobTitleService
      *
      * @param array $toBeDeletedJobTitleIds
      * @return int number of affected rows
-     * @throws DaoException
      */
     public function deleteJobTitle(array $toBeDeletedJobTitleIds): int
     {
@@ -84,7 +81,6 @@ class JobTitleService
      *
      * @param int $jobTitleId
      * @return JobTitle|null
-     * @throws DaoException
      */
     public function getJobTitleById(int $jobTitleId): ?JobTitle
     {
@@ -96,7 +92,6 @@ class JobTitleService
      *
      * @param int $attachId
      * @return JobSpecificationAttachment|null
-     * @throws DaoException
      */
     public function getJobSpecAttachmentById($attachId): ?JobSpecificationAttachment
     {
@@ -106,7 +101,6 @@ class JobTitleService
     /**
      * @param JobTitle $jobTitle
      * @return JobTitle
-     * @throws DaoException
      */
     public function saveJobTitle(JobTitle $jobTitle): JobTitle
     {
@@ -116,7 +110,6 @@ class JobTitleService
     /**
      * @param JobSpecificationAttachment $jobSpecificationAttachment
      * @return JobSpecificationAttachment
-     * @throws DaoException
      */
     public function saveJobSpecificationAttachment(
         JobSpecificationAttachment $jobSpecificationAttachment
@@ -127,7 +120,6 @@ class JobTitleService
     /**
      * @param JobSpecificationAttachment $jobSpecificationAttachment
      * @return JobSpecificationAttachment
-     * @throws DaoException
      */
     public function deleteJobSpecificationAttachment(
         JobSpecificationAttachment $jobSpecificationAttachment

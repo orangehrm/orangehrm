@@ -20,63 +20,46 @@
 namespace OrangeHRM\Admin\Dao;
 
 use OrangeHRM\Admin\Dto\SkillSearchFilterParams;
-use OrangeHRM\Entity\Skill;
-use OrangeHRM\Core\Exception\DaoException;
-use Exception;
-use OrangeHRM\ORM\Paginator;
 use OrangeHRM\Core\Dao\BaseDao;
+use OrangeHRM\Entity\Skill;
+use OrangeHRM\ORM\Paginator;
 
 class SkillDao extends BaseDao
 {
     /**
      * @param Skill $skill
      * @return Skill
-     * @throws DaoException
      */
     public function saveSkill(Skill $skill): Skill
     {
-        try {
-            $this->persist($skill);
-            return $skill;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        $this->persist($skill);
+        return $skill;
     }
 
     /**
      * @param int $id
      * @return object|null|Skill
-     * @throws DaoException
      */
     public function getSkillById(int $id): ?Skill
     {
-        try {
-            $skill = $this->getRepository(Skill::class)->find($id);
-            if ($skill instanceof Skill) {
-                return $skill;
-            }
-            return null;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        $skill = $this->getRepository(Skill::class)->find($id);
+        if ($skill instanceof Skill) {
+            return $skill;
         }
+        return null;
     }
 
     /**
      * @param array $toDeleteIds
      * @return int
-     * @throws DaoException
      */
     public function deleteSkills(array $toDeleteIds): int
     {
-        try {
-            $q = $this->createQueryBuilder(Skill::class, 's');
-            $q->delete()
-                ->where($q->expr()->in('s.id', ':ids'))
-                ->setParameter('ids', $toDeleteIds);
-            return $q->getQuery()->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
+        $q = $this->createQueryBuilder(Skill::class, 's');
+        $q->delete()
+            ->where($q->expr()->in('s.id', ':ids'))
+            ->setParameter('ids', $toDeleteIds);
+        return $q->getQuery()->execute();
     }
 
     /**
@@ -84,16 +67,11 @@ class SkillDao extends BaseDao
      *
      * @param SkillSearchFilterParams $skillSearchParams
      * @return array
-     * @throws DaoException
      */
     public function searchSkill(SkillSearchFilterParams $skillSearchParams): array
     {
-        try {
-            $paginator = $this->getSearchSkillPaginator($skillSearchParams);
-            return $paginator->getQuery()->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        $paginator = $this->getSearchSkillPaginator($skillSearchParams);
+        return $paginator->getQuery()->execute();
     }
 
     /**
@@ -121,15 +99,10 @@ class SkillDao extends BaseDao
      *
      * @param SkillSearchFilterParams $skillSearchParams
      * @return int
-     * @throws DaoException
      */
     public function getSearchSkillsCount(SkillSearchFilterParams $skillSearchParams): int
     {
-        try {
-            $paginator = $this->getSearchSkillPaginator($skillSearchParams);
-            return $paginator->count();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        $paginator = $this->getSearchSkillPaginator($skillSearchParams);
+        return $paginator->count();
     }
 }

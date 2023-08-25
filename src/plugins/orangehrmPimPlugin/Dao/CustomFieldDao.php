@@ -22,7 +22,6 @@ namespace OrangeHRM\Pim\Dao;
 use Exception;
 use InvalidArgumentException;
 use OrangeHRM\Core\Dao\BaseDao;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\CustomField;
 use OrangeHRM\Entity\DisplayField;
 use OrangeHRM\Entity\DisplayFieldGroup;
@@ -120,23 +119,18 @@ class CustomFieldDao extends BaseDao
     /**
      * @param int $id
      * @return CustomField|null
-     * @throws DaoException
      */
     public function getCustomFieldById(int $id): ?CustomField
     {
-        try {
-            $customField = $this->getRepository(CustomField::class)->findOneBy(
-                [
-                    'fieldNum' => $id,
-                ]
-            );
-            if ($customField instanceof CustomField) {
-                return $customField;
-            }
-            return null;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        $customField = $this->getRepository(CustomField::class)->findOneBy(
+            [
+                'fieldNum' => $id,
+            ]
+        );
+        if ($customField instanceof CustomField) {
+            return $customField;
         }
+        return null;
     }
 
     /**
@@ -185,16 +179,11 @@ class CustomFieldDao extends BaseDao
      *
      * @param CustomFieldSearchFilterParams $customFieldSearchParams
      * @return CustomField[]
-     * @throws DaoException
      */
     public function searchCustomField(CustomFieldSearchFilterParams $customFieldSearchParams): array
     {
-        try {
-            $paginator = $this->getSearchCustomFieldPaginator($customFieldSearchParams);
-            return $paginator->getQuery()->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        $paginator = $this->getSearchCustomFieldPaginator($customFieldSearchParams);
+        return $paginator->getQuery()->execute();
     }
 
     /**
@@ -225,59 +214,44 @@ class CustomFieldDao extends BaseDao
      *
      * @param CustomFieldSearchFilterParams $customFieldSearchParams
      * @return int
-     * @throws DaoException
      */
     public function getSearchCustomFieldsCount(
         CustomFieldSearchFilterParams $customFieldSearchParams
     ): int {
-        try {
-            $paginator = $this->getSearchCustomFieldPaginator($customFieldSearchParams);
-            return $paginator->count();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        $paginator = $this->getSearchCustomFieldPaginator($customFieldSearchParams);
+        return $paginator->count();
     }
 
     /**
      * @param int $fieldId
      * @return bool
-     * @throws DaoException
      */
     public function isCustomFieldInUse(int $fieldId): bool
     {
-        try {
-            if (0 >= $fieldId || $fieldId > 10) {
-                return false;
-            }
-            $q = $this->createQueryBuilder(Employee::class, 'e');
-            $q->where($q->expr()->isNotNull("e.custom{$fieldId}"));
-            return count($q->getQuery()->execute()) > 0;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        if (0 >= $fieldId || $fieldId > 10) {
+            return false;
         }
+        $q = $this->createQueryBuilder(Employee::class, 'e');
+        $q->where($q->expr()->isNotNull("e.custom{$fieldId}"));
+        return count($q->getQuery()->execute()) > 0;
     }
 
     /**
      * @param int $fieldId
      * @param string $dropDownValue
      * @return int
-     * @throws DaoException
      */
     public function updateEmployeesIfDropDownValueInUse(int $fieldId, string $dropDownValue): int
     {
-        try {
-            if (0 >= $fieldId || $fieldId > 10) {
-                return 0;
-            }
-            $q = $this->createQueryBuilder(Employee::class, 'e');
-            $q->update()
-                ->set("e. custom{$fieldId}", ':customField')
-                ->where("e.custom{$fieldId} = :dropDownValue")
-                ->setParameter('customField', null)
-                ->setParameter('dropDownValue', $dropDownValue);
-            return $q->getQuery()->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        if (0 >= $fieldId || $fieldId > 10) {
+            return 0;
         }
+        $q = $this->createQueryBuilder(Employee::class, 'e');
+        $q->update()
+            ->set("e. custom{$fieldId}", ':customField')
+            ->where("e.custom{$fieldId} = :dropDownValue")
+            ->setParameter('customField', null)
+            ->setParameter('dropDownValue', $dropDownValue);
+        return $q->getQuery()->execute();
     }
 }

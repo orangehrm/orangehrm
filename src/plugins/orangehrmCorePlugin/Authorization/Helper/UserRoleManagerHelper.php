@@ -24,7 +24,6 @@ use OrangeHRM\Core\Authorization\Dto\DataGroupPermissionFilterParams;
 use OrangeHRM\Core\Authorization\Dto\ResourcePermission;
 use OrangeHRM\Core\Authorization\Manager\AbstractUserRoleManager;
 use OrangeHRM\Core\Authorization\Manager\BasicUserRoleManager;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Framework\Services;
@@ -47,7 +46,6 @@ class UserRoleManagerHelper
      * @param string[]|string $dataGroupNames
      *
      * @return ResourcePermission
-     * @throws DaoException
      */
     public function getEntityIndependentDataGroupPermissions($dataGroupNames): ResourcePermission
     {
