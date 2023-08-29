@@ -1553,7 +1553,8 @@ class LeaveRequestDaoTest extends KernelTestCase
         $q = $this->getEntityManager()
             ->getRepository(LeaveRequest::class)
             ->createQueryBuilder('lr')
-            ->select('lr.id');
+            ->select('lr.id')
+            ->orderBy('lr.id');
         return array_column($q->getQuery()->getScalarResult(), 'id');
     }
 
