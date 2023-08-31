@@ -25,6 +25,7 @@ use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Types\Types;
 use OrangeHRM\Entity\WorkflowStateMachine;
 use OrangeHRM\Installer\Util\V1\AbstractMigration;
+use OrangeHRM\Installer\Util\V1\LangStringHelper;
 
 class Migration extends AbstractMigration
 {
@@ -39,7 +40,7 @@ class Migration extends AbstractMigration
         $groups = ['claim', 'general'];
         $this->getLangStringHelper()->deleteNonCustomizedLangStrings('claim');
         foreach ($groups as $group) {
-            $this->getLangStringHelper()->insertOrUpdateLangStrings($group);
+            $this->getLangStringHelper()->insertOrUpdateLangStrings(__DIR__, $group);
         }
 
         $this->updateLangStringVersion($this->getVersion());
