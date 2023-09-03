@@ -7,7 +7,7 @@ langStrings:
     unitId: developer_key
   -
     value: 'URL'
-    unitId: secret
+    unitId: url
   -
     value: 'Add Provider'
     unitId: add_provider
@@ -17,3 +17,6 @@ langStrings:
   -
     value: 'Provider List'
     unitId: provider_list
+  -
+    value: 'Google'
+    unitId: google

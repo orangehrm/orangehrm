@@ -29,7 +29,12 @@
         <oxd-form-row>
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
-              <oxd-input-field :label="$t('general.type')" required />
+              <oxd-input-field
+                type="select"
+                :label="$t('general.type')"
+                :options="providerTypes"
+                required
+              />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field :label="$t('general.name')" required />
@@ -68,5 +73,11 @@
 <script>
 export default {
   name: 'AddProvider',
+
+  data() {
+    return {
+      providerTypes: [{id: 1, label: this.$t('admin.google')}],
+    };
+  },
 };
 </script>
