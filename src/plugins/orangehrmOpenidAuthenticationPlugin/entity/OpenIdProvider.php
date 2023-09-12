@@ -19,7 +19,105 @@
 
 namespace OrangeHRM\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Table(name="ohrm_openid_provider")
+ * @ORM\Entity
+ */
 class OpenIdProvider
 {
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer", length=10)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private int $id;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="provider_name", type="string", length=40)
+     */
+    private string $providerName;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="provider_url", type="string", length=255)
+     */
+    private string $providerUrl;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="status", type="smallint", length=1)
+     */
+    private int $status;
+
+    /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param int $id
+     */
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getProviderName(): string
+    {
+        return $this->providerName;
+    }
+
+    /**
+     * @param string $providerName
+     */
+    public function setProviderName(string $providerName): void
+    {
+        $this->providerName = $providerName;
+    }
+
+    /**
+     * @return string
+     */
+    public function getProviderUrl(): string
+    {
+        return $this->providerUrl;
+    }
+
+    /**
+     * @param string $providerUrl
+     */
+    public function setProviderUrl(string $providerUrl): void
+    {
+        $this->providerUrl = $providerUrl;
+    }
+
+    /**
+     * @return int
+     */
+    public function getStatus(): int
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param int $status
+     */
+    public function setStatus(int $status): void
+    {
+        $this->status = $status;
+    }
 }
