@@ -18,6 +18,12 @@
  */
  -->
 <template>
+  <div>
+    <oxd-text tag="p" class="orangehrm-social-auth-header">
+      Or Login With
+    </oxd-text>
+    <!-- change -->
+  </div>
   <div class="orangehrm-social-auth">
     <auth-button
       v-for="authenticator in socialAuthenticators"
@@ -93,5 +99,9 @@ export default {
   justify-content: center;
   margin-bottom: 1rem;
   max-width: 80%;
+  &-header {
+    text-align: center;
+    margin-bottom: 1.0rem;
+  }
 }
 </style>
