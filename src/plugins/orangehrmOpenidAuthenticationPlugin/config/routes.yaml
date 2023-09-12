@@ -15,6 +15,7 @@ apiv2_auth_openid_provider:
 ##########################
 #        Screens
 ##########################
+
 add_auth_provider:
   path: admin/addAuthProvider
   controller: OrangeHRM\OpenidAuthentication\Controller\SaveSocialMediaAuthProviderController::handle
