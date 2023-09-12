@@ -96,7 +96,8 @@
                 "./plugins/orangehrmCorporateBrandingPlugin/entity",
                 "./plugins/orangehrmLDAPAuthenticationPlugin/entity",
                 "./plugins/orangehrmBuzzPlugin/entity",
-                "./plugins/orangehrmClaimPlugin/entity"
+                "./plugins/orangehrmClaimPlugin/entity",
+                "./plugins/orangehrmOpenidAuthenticationPlugin/entity"
             ]
         }
     },
@@ -122,7 +123,8 @@
             "OrangeHRM\\Tests\\Buzz\\": "./plugins/orangehrmBuzzPlugin/test",
             "OrangeHRM\\Tests\\Help\\": "./plugins/orangehrmHelpPlugin/test",
             "OrangeHRM\\Tests\\Mobile\\": "./plugins/orangehrmMobilePlugin/test",
-            "OrangeHRM\\Tests\\Claim\\": "./plugins/orangehrmClaimPlugin/test"
+            "OrangeHRM\\Tests\\Claim\\": "./plugins/orangehrmClaimPlugin/test",
+            "OrangeHRM\\Tests\\OpenidAuthentication\\": "./plugins/orangehrmOpenidAuthenticationPlugin/test"
         }
     },
     "scripts": {
