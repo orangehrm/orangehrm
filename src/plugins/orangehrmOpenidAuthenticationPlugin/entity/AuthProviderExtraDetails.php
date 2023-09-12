@@ -122,3 +122,4 @@ class AuthProviderExtraDetails
         $this->clientSecret = $clientSecret;
     }
 }
+
