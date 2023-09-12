@@ -20,6 +20,7 @@
 namespace OrangeHRM\Installer\Migration\V5_6_0;
 
 use Doctrine\DBAL\Schema\ForeignKeyConstraint;
+use Doctrine\DBAL\Types\Types;
 use OrangeHRM\Installer\Util\V1\AbstractMigration;
 
 class Migration extends AbstractMigration
@@ -40,6 +41,61 @@ class Migration extends AbstractMigration
         $this->getSchemaHelper()->addForeignKey('ohrm_i18n_translate', $foreignKeyConstraint);
 
         $this->getDataGroupHelper()->insertApiPermissions(__DIR__ . '/permission/api.yaml');
+
+        if (!$this->getSchemaHelper()->tableExists(['ohrm_openid_provider'])) {
+            $this->getSchemaHelper()->createTable('ohrm_openid_provider')
+                ->addColumn('id', Types::INTEGER, ['Autoincrement' => true, 'Notnull' => true, 'Length' => 10])
+                ->addColumn('provider_name', Types::STRING, ['Notnull' => false, 'Length' => 40])
+                ->addColumn('provider_url', Types::STRING, ['Notnull' => false, 'Length' => 255])
+                ->addColumn('status', Types::SMALLINT, ['Notnull' => false, 'Length' => 1])
+                ->setPrimaryKey(['id'])
+                ->create();
+        }
+
+        if (!$this->getSchemaHelper()->tableExists(['ohrm_auth_provider_extra_details'])) {
+            $this->getSchemaHelper()->createTable('ohrm_auth_provider_extra_details')
+                ->addColumn('id', Types::INTEGER, ['Autoincrement' => true])
+                ->addColumn('provider_id', Types::INTEGER, ['Notnull' => true, 'Length' => 10])
+                ->addColumn('provider_type', Types::INTEGER, ['Notnull' => false])
+                ->addColumn('client_id', Types::TEXT)
+                ->addColumn('client_secret', Types::TEXT)
+                ->addColumn('developer_key', Types::TEXT)
+                ->setPrimaryKey(['id'])
+                ->create();
+            $foreignKeyConstraint = new ForeignKeyConstraint(
+                ['provider_id'],
+                'ohrm_openid_provider',
+                ['id'],
+                'Provider',
+                ['onDelete' => 'CASCADE']
+            );
+            $this->getSchemaHelper()->addForeignKey('ohrm_auth_provider_extra_details', $foreignKeyConstraint);
+        }
+
+        if (!$this->getSchemaHelper()->tableExists(['ohrm_openid_user_identity'])) {
+            $this->getSchemaHelper()->createTable('ohrm_openid_user_identity')
+                ->addColumn('user_id', Types::INTEGER, ['Length' => 10])
+                ->addColumn('provider_id', Types::INTEGER, ['Length' => 10])
+                ->addColumn('user_identity', Types::STRING, ['Notnull' => false, 'Default' => null, 'Length' => 255])
+                ->setPrimaryKey(['user_id'])
+                ->create();
+            $foreignKeyConstraint1 = new ForeignKeyConstraint(
+                ['provider_id'],
+                'ohrm_openid_provider',
+                ['id'],
+                'provideId',
+                ['onDelete' => 'CASCADE']
+            );
+            $this->getSchemaHelper()->addForeignKey('ohrm_openid_user_identity', $foreignKeyConstraint1);
+            $foreignKeyConstraint2 = new ForeignKeyConstraint(
+                ['user_id'],
+                'ohrm_user',
+                ['id'],
+                'providerUserId',
+                ['onDelete' => 'SET NULL']
+            );
+            $this->getSchemaHelper()->addForeignKey('ohrm_claim_request', $foreignKeyConstraint2);
+        }
     }
 
     /**
