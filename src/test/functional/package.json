@@ -1,18 +1,21 @@
 {
+  "name": "functional",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
   "scripts": {
-    "test": "cypress run",
-    "open": "cypress open -e runner=interactive",
-    "format": "prettier . --write",
-    "lint": "eslint . --ext .js,.ts, --max-warnings=0"
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "node": "^20.6.0"
   },
   "devDependencies": {
-    "axios": "^0.25.0",
-    "cypress": "^7.4.0",
-    "eslint": "^7.31.0",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-cypress": "^2.11.3",
-    "eslint-plugin-jest": "^24.3.6",
-    "eslint-plugin-prettier": "^3.4.0",
-    "prettier": "^2.3.2"
+    "@playwright/test": "^1.37.1",
+    "@types/node": "^20.5.9",
+    "eslint": "^8.48.0",
+    "playwright": "^1.37.1"
   }
 }

@@ -99,7 +99,7 @@ jobs:
             -e LDAP_CONFIG_ADMIN_PASSWORD=admin \
             -e LDAP_SKIP_DEFAULT_TREE=yes \
             -v $PWD/ldifs:/ldifs \
-            bitnami/openldap:latest
+            bitnami/openldap:2.6.4
           cat server-config.tpl.yaml > server-config.yaml
 
       - name: Run test
@@ -168,7 +168,7 @@ jobs:
             -e LDAP_CONFIG_ADMIN_PASSWORD=admin \
             -e LDAP_SKIP_DEFAULT_TREE=yes \
             -v $PWD/ldifs:/ldifs \
-            bitnami/openldap:latest
+            bitnami/openldap:2.6.4
           cat server-config.tpl.yaml > server-config.yaml
 
       - name: Run test
