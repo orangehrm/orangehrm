@@ -26,23 +26,23 @@ use OrangeHRM\Entity\Employee;
  * @OA\Schema(
  *     schema="Pim-MyInfoDetailedModel",
  *     type="object",
- *     @OA\Property(property="lastName", type="string"),
- *     @OA\Property(property="firstName", type="string"),
- *     @OA\Property(property="middleName", type="string"),
- *     @OA\Property(property="employeeId", type="string"),
- *     @OA\Property(property="terminationId", type="integer", nullable=true),
+ *     @OA\Property(property="lastName", description="My last name", type="string"),
+ *     @OA\Property(property="firstName", description="My first name", type="string"),
+ *     @OA\Property(property="middleName", description="My middle name", type="string"),
+ *     @OA\Property(property="employeeId", description="My employee ID", type="string"),
+ *     @OA\Property(property="terminationId", description="My termination ID", type="integer", nullable=true),
  *     @OA\Property(
  *         property="jobTitle",
  *         type="object",
- *         @OA\Property(property="id", type="integer"),
- *         @OA\Property(property="title", type="string"),
- *         @OA\Property(property="isDeleted", type="boolean")
+ *         @OA\Property(property="id", description="The numerical ID of my job title", type="integer"),
+ *         @OA\Property(property="title", description="The title of my job", type="string"),
+ *         @OA\Property(property="isDeleted", description="The deleted status of my job title", type="boolean")
  *     ),
  *     @OA\Property(
  *         property="subunit",
  *         type="object",
- *         @OA\Property(property="id", type="integer"),
- *         @OA\Property(property="name", type="string")
+ *         @OA\Property(property="id", description="The numerical ID of my subunit", type="integer"),
+ *         @OA\Property(property="name", description="The name of my subunit", type="string")
  *     )
  * )
  */

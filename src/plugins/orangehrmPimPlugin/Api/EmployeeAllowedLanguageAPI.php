@@ -57,12 +57,15 @@ class EmployeeAllowedLanguageAPI extends Endpoint implements CollectionEndpoint
      *     tags={"PIM/Employee Language"},
      *     summary="List Allowed Languages for an Employee",
      *     operationId="list-allowed-languages-for-an-employee",
+     *     description="This endpoint allows you to list allowed languages for an employee. It can be used before adding language fluency in order to check what language and which fluency in that language is available for adding..",
      *     @OA\PathParameter(
      *         name="empNumber",
+     *         description="Specify the employee number of the desired employee",
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\Parameter(
      *         name="sortField",
+     *         description="Sort the languages by their name",
      *         in="query",
      *         required=false,
      *         @OA\Schema(type="string", enum=EmployeeAllowedLanguageSearchFilterParams::ALLOWED_SORT_FIELDS)
@@ -76,12 +79,13 @@ class EmployeeAllowedLanguageAPI extends Endpoint implements CollectionEndpoint
      *         @OA\JsonContent(
      *             @OA\Property(
      *                 property="data",
-     *                 ref="#/components/schemas/Pim-EmployeeAllowedLanguageModel"
+     *                 type="array",
+     *                 @OA\Items(ref="#/components/schemas/Pim-EmployeeAllowedLanguageModel")
      *             ),
      *             @OA\Property(property="meta",
      *                 type="object",
-     *                 @OA\Property(property="empNumber", type="integer"),
-     *                 @OA\Property(property="total", type="integer")
+     *                 @OA\Property(property="empNumber", description="The given employee number of the employee", type="integer"),
+     *                 @OA\Property(property="total", description="The total number of allowed language records", type="integer")
      *             )
      *         )
      *     ),

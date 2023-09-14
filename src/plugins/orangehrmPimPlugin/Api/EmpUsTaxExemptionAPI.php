@@ -68,8 +68,10 @@ class EmpUsTaxExemptionAPI extends Endpoint implements ResourceEndpoint
      *     tags={"PIM/Employee US Tax Exemption"},
      *     summary="Get an Employee's US Tax Exemption Details",
      *     operationId="get-an-employees-us-tax-expemption-details",
+     *     description="This endpoint allows you to retrieve an employee's US Tax Exemption details.",
      *     @OA\PathParameter(
      *         name="empNumber",
+     *         description="Specify the numerical employee number of the desired employee",
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\Response(
@@ -82,7 +84,7 @@ class EmpUsTaxExemptionAPI extends Endpoint implements ResourceEndpoint
      *             ),
      *             @OA\Property(property="meta",
      *                 type="object",
-     *                 @OA\Property(property="empNumber", type="integer")
+     *                 @OA\Property(property="empNumber", description="The given numerical employee number of the employee", type="integer")
      *             )
      *         )
      *     ),
@@ -140,20 +142,22 @@ class EmpUsTaxExemptionAPI extends Endpoint implements ResourceEndpoint
      *     tags={"PIM/Employee US Tax Exemption"},
      *     summary="Update an Employee's US Tax Exemption Details",
      *     operationId="update-an-employees-us-tax-exemption-details",
+     *     description="This endpoint allows you to update an employee's tax exemption details.",
      *     @OA\PathParameter(
      *         name="empNumber",
+     *         description="Specify the numerical employee number of the desired employee",
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="federalStatus", type="string"),
-     *             @OA\Property(property="federalExemptions", type="integer"),
-     *             @OA\Property(property="taxStateCode", type="string"),
-     *             @OA\Property(property="stateStatus", type="string"),
-     *             @OA\Property(property="stateExemptions", type="integer"),
-     *             @OA\Property(property="unemploymentStateCode", type="string"),
-     *             @OA\Property(property="workStateCode", type="string")
+     *             @OA\Property(property="federalStatus", description="Specify the federal status of the employee", type="string"),
+     *             @OA\Property(property="federalExemptions", description="Specify the federal exemption of the employee", type="integer"),
+     *             @OA\Property(property="taxStateCode", description="Specify the tax state code", type="string"),
+     *             @OA\Property(property="stateStatus", description="Specify the tax state status of the employee", type="string"),
+     *             @OA\Property(property="stateExemptions", description="Specify the tax state exemptions of the employee", type="integer"),
+     *             @OA\Property(property="unemploymentStateCode", description="Specify the unemployment state", type="string"),
+     *             @OA\Property(property="workStateCode", description="Specify the work state", type="string")
      *         )
      *     ),
      *     @OA\Response(response="200",
@@ -163,7 +167,10 @@ class EmpUsTaxExemptionAPI extends Endpoint implements ResourceEndpoint
      *                 property="data",
      *                 ref="#/components/schemas/Pim-EmpUsTaxExemptionModel"
      *             ),
-     *             @OA\Property(property="empNumber", type="integer")
+     *             @OA\Property(property="meta",
+     *                 type="object",
+     *                 @OA\Property(property="empNumber", description="The given numerical employee number of the employee", type="integer")
+     *             )
      *         )
      *     ),
      *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")

@@ -28,10 +28,11 @@ use OrangeHRM\Pim\Service\EmployeeLanguageService;
  * @OA\Schema(
  *     schema="Pim-EmployeeAllowedLanguageModel",
  *     type="object",
- *     @OA\Property(property="id", type="integer"),
- *     @OA\Property(property="name", type="string"),
+ *     @OA\Property(property="id", description="The numerical ID of the language", type="integer"),
+ *     @OA\Property(property="name", description="The name of the language", type="string"),
  *     @OA\Property(
  *         property="allowedFluencyIds",
+ *         description="A list of allowed fluency IDs corresponding  to writing, speaking and reading fluency",
  *         type="array",
  *         @OA\Items(type="integer")
  *     )

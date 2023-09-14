@@ -67,12 +67,15 @@ class EmployeeLicenseAPI extends Endpoint implements CrudEndpoint
      *     tags={"PIM/Employee Licenses"},
      *     summary="Get an Employee's License",
      *     operationId="get-an-employees-license",
+     *     description="This endpoint allows you to get one of an employee's licenses.",
      *     @OA\PathParameter(
      *         name="empNumber",
+     *         description="Specify the employee number of the desired employee",
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\PathParameter(
      *         name="id",
+     *         description="Specify the numerical ID of the desired license",
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\Response(
@@ -85,7 +88,7 @@ class EmployeeLicenseAPI extends Endpoint implements CrudEndpoint
      *             ),
      *             @OA\Property(property="meta",
      *                 type="object",
-     *                 @OA\Property(property="empNumber", type="integer")
+     *                 @OA\Property(property="empNumber", description="The employee number given in the request", type="integer")
      *             )
      *         )
      *     ),
@@ -135,12 +138,15 @@ class EmployeeLicenseAPI extends Endpoint implements CrudEndpoint
      *     tags={"PIM/Employee Licenses"},
      *     summary="List an Employee's Licenses",
      *     operationId="list-an-employees-licenses",
+     *     description="This endpoint allows you to list an employee's licenses.",
      *     @OA\PathParameter(
      *         name="empNumber",
+     *         description="The employee number of the desired employee",
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\Parameter(
      *         name="sortField",
+     *         description="Sort the licenses by the issued date",
      *         in="query",
      *         required=false,
      *         @OA\Schema(type="string", enum=EmployeeLicenseSearchFilterParams::ALLOWED_SORT_FIELDS)
@@ -154,12 +160,13 @@ class EmployeeLicenseAPI extends Endpoint implements CrudEndpoint
      *         @OA\JsonContent(
      *             @OA\Property(
      *                 property="data",
-     *                 ref="#/components/schemas/Pim-EmployeeLicenseModel"
+     *                 type="array",
+     *                 @OA\Items(ref="#/components/schemas/Pim-EmployeeLicenseModel")
      *             ),
      *             @OA\Property(property="meta",
      *                 type="object",
-     *                 @OA\Property(property="total", type="integer"),
-     *                 @OA\Property(property="empNumber", type="integer")
+     *                 @OA\Property(property="total", description="The total number of employee license records", type="integer"),
+     *                 @OA\Property(property="empNumber", description="The employee number given in the request", type="integer")
      *             )
      *         )
      *     ),
@@ -214,21 +221,24 @@ class EmployeeLicenseAPI extends Endpoint implements CrudEndpoint
      *     tags={"PIM/Employee Licenses"},
      *     summary="Add a License to an Employee",
      *     operationId="add-a-license-to-an-employee",
+     *     description="This endpoint allows you to create an employee license.",
      *     @OA\PathParameter(
      *         name="empNumber",
+     *         description="Specify the employee number of the desired employee",
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="licenseId", type="integer"),
+     *             @OA\Property(property="licenseId", description="Specify the numerical ID of the license", type="integer"),
      *             @OA\Property(
      *                 property="licenseNo",
+     *                 description="Specify the license number",
      *                 type="string",
      *                 maxLength=OrangeHRM\Pim\Api\EmployeeLicenseAPI::PARAM_RULE_LICENSE_NO_MAX_LENGTH
      *             ),
-     *             @OA\Property(property="issuedDate", type="string", format="date"),
-     *             @OA\Property(property="expiryDate", type="string", format="date"),
+     *             @OA\Property(property="issuedDate", description="Specify the issued date of the license", type="string", format="date"),
+     *             @OA\Property(property="expiryDate",  description="Specify the expiry date of the license", type="string", format="date"),
      *             required={"licenseNo"}
      *         )
      *     ),
@@ -240,7 +250,7 @@ class EmployeeLicenseAPI extends Endpoint implements CrudEndpoint
      *                 property="data",
      *                 ref="#/components/schemas/Pim-EmployeeLicenseModel"
      *             ),
-     *             @OA\Property(property="empNumber", type="integer")
+     *             @OA\Property(property="empNumber", description="The employee number given in the request", type="integer")
      *         )
      *     )
      * )
@@ -306,25 +316,29 @@ class EmployeeLicenseAPI extends Endpoint implements CrudEndpoint
      *     tags={"PIM/Employee Licenses"},
      *     summary="Update an Employee's License",
      *     operationId="update-an-employees-license",
+     *     description="This endpoint allows you to update an employee's license.",
      *     @OA\PathParameter(
      *         name="empNumber",
+     *         description="Specify the employee number of the desired employee",
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\PathParameter(
      *         name="id",
+     *         description="Specify the numerical ID of the employee license",
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="licenseId", type="integer"),
+     *             @OA\Property(property="licenseId", description="Specify the numerical ID of the license", type="integer"),
      *             @OA\Property(
      *                 property="licenseNo",
+     *                 description="Specify the license number",
      *                 type="string",
      *                 maxLength=OrangeHRM\Pim\Api\EmployeeLicenseAPI::PARAM_RULE_LICENSE_NO_MAX_LENGTH
      *             ),
-     *             @OA\Property(property="issuedDate", type="string", format="date"),
-     *             @OA\Property(property="expiryDate", type="string", format="date"),
+     *             @OA\Property(property="issuedDate", description="Specify the issue date of the license date", type="string", format="date"),
+     *             @OA\Property(property="expiryDate", description="Specify the expiry date of the license", type="string", format="date"),
      *             required={"licenseNo"}
      *         )
      *     ),
@@ -335,7 +349,10 @@ class EmployeeLicenseAPI extends Endpoint implements CrudEndpoint
      *                 property="data",
      *                 ref="#/components/schemas/Pim-EmployeeLicenseModel"
      *             ),
-     *             @OA\Property(property="empNumber", type="integer")
+     *             @OA\Property(property="meta",
+     *                 type="object",
+     *                 @OA\Property(property="empNumber", description="The employee number given in the request", type="integer")
+     *             )
      *         )
      *     ),
      *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
@@ -377,8 +394,10 @@ class EmployeeLicenseAPI extends Endpoint implements CrudEndpoint
      *     tags={"PIM/Employee Licenses"},
      *     summary="Delete an Employee's Licenses",
      *     operationId="delete-an-employees-licenses",
+     *     description="This enpoint allows you to delete an employee's licenses.",
      *     @OA\PathParameter(
      *         name="empNumber",
+     *         description="Specify the employee number of the desired employee",
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),

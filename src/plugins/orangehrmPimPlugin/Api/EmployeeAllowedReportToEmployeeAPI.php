@@ -67,12 +67,15 @@ class EmployeeAllowedReportToEmployeeAPI extends Endpoint implements CollectionE
      *     tags={"PIM/Employee Report To"},
      *     summary="List Available Employees",
      *     operationId="list-available-employees",
+     *     description="List employees that are available to be assigned as supervisors/subordinates to the given employee.",
      *     @OA\PathParameter(
      *         name="empNumber",
+     *         description="Specify the employee number of desired employee",
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\Parameter(
      *         name="nameOrId",
+     *         description="Specify the name or employee ID of the desired employee",
      *         in="query",
      *         required=false,
      *         @OA\Schema(
@@ -82,6 +85,7 @@ class EmployeeAllowedReportToEmployeeAPI extends Endpoint implements CollectionE
      *     ),
      *     @OA\Parameter(
      *         name="sortField",
+     *         description="Sort the employee list by last name, first name, middle name, employee number, employee ID, job title name, employee status name, subunit name or supervisor's first name",
      *         in="query",
      *         required=false,
      *         @OA\Schema(type="string", enum=EmployeeSearchFilterParams::ALLOWED_SORT_FIELDS)
@@ -95,11 +99,12 @@ class EmployeeAllowedReportToEmployeeAPI extends Endpoint implements CollectionE
      *         @OA\JsonContent(
      *             @OA\Property(
      *                 property="data",
-     *                 ref="#/components/schemas/Pim-EmployeeAllowedReportToEmployeeModel"
+     *                 type="array",
+     *                 @OA\Items(ref="#/components/schemas/Pim-EmployeeAllowedReportToEmployeeModel")
      *             ),
      *             @OA\Property(property="meta",
      *                 type="object",
-     *                 @OA\Property(property="total", type="integer")
+     *                 @OA\Property(property="total", description="The total number of available employees", type="integer")
      *             )
      *         )
      *     ),

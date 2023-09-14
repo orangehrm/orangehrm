@@ -26,8 +26,8 @@ use OrangeHRM\Entity\License;
  * @OA\Schema(
  *     schema="Admin-LicenseModel",
  *     type="object",
- *     @OA\Property(property="id", type="integer"),
- *     @OA\Property(property="name", type="string")
+ *     @OA\Property(property="id", description="The numerical ID of the license", type="integer"),
+ *     @OA\Property(property="name", description="The name of the license", type="string")
  * )
  */
 class LicenseModel implements Normalizable

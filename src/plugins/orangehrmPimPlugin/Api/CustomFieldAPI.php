@@ -70,8 +70,10 @@ class CustomFieldAPI extends Endpoint implements CrudEndpoint
      *     tags={"PIM/Custom Field"},
      *     summary="Get a Custom Field",
      *     operationId="get-a-custom-field",
+     *     description="This endpoint lets you retrieve a PIM custom field by providing its numerical ID.",
      *     @OA\PathParameter(
      *         name="id",
+     *         description="Specify the numerical ID of the desired custom field",
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\Response(
@@ -82,7 +84,7 @@ class CustomFieldAPI extends Endpoint implements CrudEndpoint
      *                 property="data",
      *                 ref="#/components/schemas/Pim-CustomFieldModel"
      *             ),
-     *             @OA\Property(property="meta", type="object")
+     *             @OA\Property(property="meta", type="object", additionalProperties=false)
      *         )
      *     ),
      *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
@@ -155,20 +157,10 @@ class CustomFieldAPI extends Endpoint implements CrudEndpoint
      *     tags={"PIM/Custom Field"},
      *     summary="List All Custom Fields",
      *     operationId="list-all-custom-fields",
-     *     @OA\Parameter(
-     *         name="toDate",
-     *         in="query",
-     *         required=true,
-     *         @OA\Schema(type="string", format="date")
-     *     ),
-     *     @OA\Parameter(
-     *         name="fromDate",
-     *         in="query",
-     *         required=true,
-     *         @OA\Schema(type="string", format="date")
-     *     ),
+     *     description="This endpoint lists all custom PIM fields.",
      *     @OA\Parameter(
      *         name="sortField",
+     *         description="Sort the custom field list by its name, type or PIM screen",
      *         in="query",
      *         required=false,
      *         @OA\Schema(type="string", enum=CustomFieldSearchFilterParams::ALLOWED_SORT_FIELDS)
@@ -182,11 +174,13 @@ class CustomFieldAPI extends Endpoint implements CrudEndpoint
      *         @OA\JsonContent(
      *             @OA\Property(
      *                 property="data",
-     *                 ref="#/components/schemas/Pim-CustomFieldModel"
+     *                 type="array",
+     *                 @OA\Items(ref="#/components/schemas/Pim-CustomFieldModel")
      *             ),
-     *             @OA\Property(property="meta",
+     *             @OA\Property(
+     *                 property="meta",
      *                 type="object",
-     *                 @OA\Property(property="total", type="integer")
+     *                 @OA\Property(property="total", description="The total number of custom fields", type="integer")
      *             )
      *         )
      *     ),
@@ -233,28 +227,33 @@ class CustomFieldAPI extends Endpoint implements CrudEndpoint
      *     tags={"PIM/Custom Field"},
      *     summary="Create a Custom Field",
      *     operationId="create-a-custom-field",
+     *     description="This endpoint allows you to create a new custom PIM field. You can create up to a maximum of 10 fields.",
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
      *             @OA\Property(
      *                 property="fieldName",
+     *                 description="Specify the name of the custom field",
      *                 type="string",
      *                 maxLength=OrangeHRM\Pim\Api\CustomFieldAPI::PARAM_RULE_NAME_MAX_LENGTH
      *             ),
      *             @OA\Property(
      *                 property="fieldType",
+     *                 description="Specify whether the field is a text/number field or a dropdown field",
      *                 type="integer",
      *                 enum=OrangeHRM\Entity\CustomField::FIELD_TYPES,
      *                 maxLength=OrangeHRM\Pim\Api\CustomFieldAPI::PARAM_RULE_TYPE_MAX_LENGTH
      *             ),
      *             @OA\Property(
      *                 property="screen",
+     *                 description="Specify which PIM screen this field should be displayed",
      *                 type="string",
      *                 enum=OrangeHRM\Entity\CustomField::SCREENS,
      *                 maxLength=OrangeHRM\Pim\Api\CustomFieldAPI::PARAM_RULE_SCREEN_MAX_LENGTH
      *             ),
      *             @OA\Property(
      *                 property="extraData",
+     *                 description="Specify a comma separated list of options for the dropdown type custom fields",
      *                 type="string",
      *                 maxLength=OrangeHRM\Pim\Api\CustomFieldAPI::PARAM_RULE_EXTRA_DATA_MAX_LENGTH
      *             ),
@@ -267,7 +266,7 @@ class CustomFieldAPI extends Endpoint implements CrudEndpoint
      *                 property="data",
      *                 ref="#/components/schemas/Pim-CustomFieldModel"
      *             ),
-     *             @OA\Property(property="meta", type="object")
+     *             @OA\Property(property="meta", type="object", additionalProperties=false)
      *         )
      *     ),
      *     @OA\Response(
@@ -363,8 +362,10 @@ class CustomFieldAPI extends Endpoint implements CrudEndpoint
      *     tags={"PIM/Custom Field"},
      *     summary="Update a Custom Field",
      *     operationId="update-a-custom-field",
+     *     description="This endpoint allows you to update a custom PIM field.",
      *     @OA\PathParameter(
      *         name="id",
+     *         description="Specify the numerical ID of the desired custom field",
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\RequestBody(
@@ -372,23 +373,27 @@ class CustomFieldAPI extends Endpoint implements CrudEndpoint
      *             type="object",
      *             @OA\Property(
      *                 property="fieldName",
+     *                 description="Specify the name of the custom field",
      *                 type="string",
      *                 maxLength=OrangeHRM\Pim\Api\CustomFieldAPI::PARAM_RULE_NAME_MAX_LENGTH
      *             ),
      *             @OA\Property(
      *                 property="fieldType",
+     *                 description="Specify whether the field is a text/number field or a dropdown field",
      *                 type="integer",
      *                 enum=OrangeHRM\Entity\CustomField::FIELD_TYPES,
      *                 maxLength=OrangeHRM\Pim\Api\CustomFieldAPI::PARAM_RULE_TYPE_MAX_LENGTH
      *             ),
      *             @OA\Property(
      *                 property="screen",
+     *                 description="Specify which PIM screen this field should be displayed",
      *                 type="string",
      *                 enum=OrangeHRM\Entity\CustomField::SCREENS,
      *                 maxLength=OrangeHRM\Pim\Api\CustomFieldAPI::PARAM_RULE_SCREEN_MAX_LENGTH
      *             ),
      *             @OA\Property(
      *                 property="extraData",
+     *                 description="Specify a comma separated list of options for the dropdown type custom fields",
      *                 type="string",
      *                 maxLength=OrangeHRM\Pim\Api\CustomFieldAPI::PARAM_RULE_EXTRA_DATA_MAX_LENGTH
      *             )
@@ -399,9 +404,9 @@ class CustomFieldAPI extends Endpoint implements CrudEndpoint
      *         @OA\JsonContent(
      *             @OA\Property(
      *                 property="data",
-     *                 ref="#/components/schemas/Leave-HolidayModel"
+     *                 ref="#/components/schemas/Pim-CustomFieldModel"
      *             ),
-     *             @OA\Property(property="meta", type="object")
+     *             @OA\Property(property="meta", type="object", additionalProperties=false)
      *         )
      *     ),
      *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound"),
@@ -459,6 +464,7 @@ class CustomFieldAPI extends Endpoint implements CrudEndpoint
      *     tags={"PIM/Custom Field"},
      *     summary="Delete Custom Fields",
      *     operationId="delete-custom-fields",
+     *     description="This endpoint allows you to delete PIM custom fields.",
      *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),
      *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse")
      * )

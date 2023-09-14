@@ -26,17 +26,17 @@ use OrangeHRM\Entity\Employee;
  * @OA\Schema(
  *     schema="Pim-EmployeeContactDetailsModel",
  *     type="object",
- *     @OA\Property(property="street1", type="string"),
- *     @OA\Property(property="street2", type="string"),
- *     @OA\Property(property="city", type="string"),
- *     @OA\Property(property="province", type="string"),
- *     @OA\Property(property="zipCode", type="string"),
- *     @OA\Property(property="countryCode", type="string"),
- *     @OA\Property(property="homeTelephone", type="string"),
- *     @OA\Property(property="workTelephone", type="string"),
- *     @OA\Property(property="mobile", type="string"),
- *     @OA\Property(property="workEmail", type="string"),
- *     @OA\Property(property="otherEmail", type="string")
+ *     @OA\Property(property="street1", description="The employee's street address", type="string"),
+ *     @OA\Property(property="street2", description="Additional information on the street address", type="string"),
+ *     @OA\Property(property="city", description="The employee's city", type="string"),
+ *     @OA\Property(property="province", description="The employee's state/province", type="string"),
+ *     @OA\Property(property="zipCode", description="The employee's zipcode", type="string"),
+ *     @OA\Property(property="countryCode", description="The employee's country code", type="string"),
+ *     @OA\Property(property="homeTelephone", description="The employee's home telephone number", type="string"),
+ *     @OA\Property(property="workTelephone", description="The employee's work telephone number", type="string"),
+ *     @OA\Property(property="mobile", description="The employee's mobile phone number", type="string"),
+ *     @OA\Property(property="workEmail", description="The employee's work email", type="string"),
+ *     @OA\Property(property="otherEmail", description="The employee's other email", type="string")
  * )
  */
 class EmployeeContactDetailsModel implements Normalizable

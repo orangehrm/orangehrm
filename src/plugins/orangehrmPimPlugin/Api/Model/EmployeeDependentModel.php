@@ -26,11 +26,11 @@ use OrangeHRM\Entity\EmpDependent;
  * @OA\Schema(
  *     schema="Pim-EmployeeDependentModel",
  *     type="object",
- *     @OA\Property(property="id", type="integer"),
- *     @OA\Property(property="name", type="string"),
- *     @OA\Property(property="relationshipType", type="string"),
- *     @OA\Property(property="relationship", type="string"),
- *     @OA\Property(property="dateOfBirth", type="string", format="date")
+ *     @OA\Property(property="id", description="The numerical ID of the dependent", type="integer"),
+ *     @OA\Property(property="name", description="The name of the dependent", type="string"),
+ *     @OA\Property(property="relationshipType", description="The relationship type between the employee and the dependent (child or other)", type="string"),
+ *     @OA\Property(property="relationship", description="Additional details of the relationship", type="string"),
+ *     @OA\Property(property="dateOfBirth", description="The date of birth of the dependent", type="string", format="date")
  * )
  */
 class EmployeeDependentModel implements Normalizable

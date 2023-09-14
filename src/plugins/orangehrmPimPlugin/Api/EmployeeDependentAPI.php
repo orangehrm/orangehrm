@@ -72,12 +72,15 @@ class EmployeeDependentAPI extends Endpoint implements CrudEndpoint
      *     tags={"PIM/Employee Dependent"},
      *     summary="Get an Employee's Dependent",
      *     operationId="get-an-employees-dependent",
+     *     description="This endpoint allows you to get one of an employee's dependents.",
      *     @OA\PathParameter(
      *         name="empNumber",
+     *         description="Specify the employee number of the desired employee",
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\PathParameter(
      *         name="id",
+     *         description="Specify the numerical ID of the desired dependent",
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\Response(
@@ -88,9 +91,10 @@ class EmployeeDependentAPI extends Endpoint implements CrudEndpoint
      *                 property="data",
      *                 ref="#/components/schemas/Pim-EmployeeDependentModel"
      *             ),
-     *             @OA\Property(property="meta",
+     *             @OA\Property(
+     *                 property="meta",
      *                 type="object",
-     *                 @OA\Property(property="empNumber", type="integer")
+     *                 @OA\Property(property="empNumber", description="The employee number given in the request", type="integer")
      *             )
      *         )
      *     ),
@@ -143,24 +147,29 @@ class EmployeeDependentAPI extends Endpoint implements CrudEndpoint
      *     tags={"PIM/Employee Dependent"},
      *     summary="List an Employee's Dependents",
      *     operationId="list-an-employees-dependents",
+     *     description="This endpoint allows you to list all the dependents for a particular employee.",
      *     @OA\PathParameter(
      *         name="empNumber",
+     *         description="Specify the employee number of the desired employee",
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\Parameter(
      *         name="name",
+     *         description="Specify the name of the dependent",
      *         in="query",
      *         required=false,
      *         @OA\Schema(type="string")
      *     ),
      *     @OA\Parameter(
      *         name="relationshipType",
+     *         description="Specify the relationship type between the employee and the dependent",
      *         in="query",
      *         required=false,
-     *         @OA\Schema(type="string", example={"child"})
+     *         @OA\Schema(type="string", example={"child", "other"})
      *     ),
      *     @OA\Parameter(
      *         name="sortField",
+     *         description="Sort the dependents by name or relationship type.",
      *         in="query",
      *         required=false,
      *         @OA\Schema(type="string", enum=EmployeeDependentSearchFilterParams::ALLOWED_SORT_FIELDS)
@@ -176,10 +185,11 @@ class EmployeeDependentAPI extends Endpoint implements CrudEndpoint
      *                 property="data",
      *                 ref="#/components/schemas/Pim-EmployeeDependentModel"
      *             ),
-     *             @OA\Property(property="meta",
+     *             @OA\Property(
+     *                 property="meta",
      *                 type="object",
-     *                 @OA\Property(property="total", type="integer"),
-     *                 @OA\Property(property="empNumber", type="integer")
+     *                 @OA\Property(property="total", description="The total number of dependents", type="integer"),
+     *                 @OA\Property(property="empNumber", description="The employee number given in the request", type="integer")
      *             )
      *         )
      *     ),
@@ -252,8 +262,10 @@ class EmployeeDependentAPI extends Endpoint implements CrudEndpoint
      *     tags={"PIM/Employee Dependent"},
      *     summary="Add a Dependent to an Employee",
      *     operationId="add-a-dependent-to-an-employee",
+     *     description="This endpoint allows you to add a dependent to an employee.",
      *     @OA\PathParameter(
      *         name="empNumber",
+     *         description="Specify the employee number of the desired employee",
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\RequestBody(
@@ -261,16 +273,23 @@ class EmployeeDependentAPI extends Endpoint implements CrudEndpoint
      *             type="object",
      *             @OA\Property(
      *                 property="name",
+     *                 description="Specify the name of the dependent",
      *                 type="string",
      *                 maxLength=OrangeHRM\Pim\Api\EmployeeDependentAPI::PARAM_RULE_NAME_MAX_LENGTH
      *             ),
      *             @OA\Property(
      *                 property="relationshipType",
+     *                 description="Specify the relationship type",
+     *                 type="string",
+     *                 enum={OrangeHRM\Entity\EmpDependent::RELATIONSHIP_TYPE_CHILD, OrangeHRM\Entity\EmpDependent::RELATIONSHIP_TYPE_OTHER}
+     *             ),
+     *             @OA\Property(
+     *                 property="relationship",
+     *                 description="Specify additional details of the relationship",
      *                 type="string",
      *                 maxLength=OrangeHRM\Pim\Api\EmployeeDependentAPI::PARAM_RULE_RELATIONSHIP_MAX_LENGTH
      *             ),
-     *             @OA\Property(property="relationship", type="string"),
-     *             @OA\Property(property="dateOfBirth", type="string", format="date"),
+     *             @OA\Property(property="dateOfBirth", description="Specify the date of birth of the dependent", type="string", format="date"),
      *             required={"name", "relationshipType"}
      *         )
      *     ),
@@ -282,7 +301,11 @@ class EmployeeDependentAPI extends Endpoint implements CrudEndpoint
      *                 property="data",
      *                 ref="#/components/schemas/Pim-EmployeeDependentModel"
      *             ),
-     *             @OA\Property(property="empNumber", type="integer")
+     *             @OA\Property(
+     *                 property="meta",
+     *                 type="object",
+     *                 @OA\Property(property="empNumber", description="The employee number given in the request", type="integer")
+     *             )
      *         )
      *     )
      * )
@@ -394,12 +417,15 @@ class EmployeeDependentAPI extends Endpoint implements CrudEndpoint
      *     tags={"PIM/Employee Dependent"},
      *     summary="Update an Employee's Dependent",
      *     operationId="update-an-employees-dependent",
+     *     description="This endpoint allows you to update an employee's dependent.",
      *     @OA\PathParameter(
      *         name="empNumber",
+     *         description="Specify the employee number of the desired employee",
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\PathParameter(
      *         name="id",
+     *         description="Specify the numerical ID of the desired dependent",
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\RequestBody(
@@ -407,16 +433,23 @@ class EmployeeDependentAPI extends Endpoint implements CrudEndpoint
      *             type="object",
      *             @OA\Property(
      *                 property="name",
+     *                 description="Specify the name of the dependent",
      *                 type="string",
      *                 maxLength=OrangeHRM\Pim\Api\EmployeeDependentAPI::PARAM_RULE_NAME_MAX_LENGTH
      *             ),
      *             @OA\Property(
      *                 property="relationshipType",
+     *                 description="Specify the relationship type",
+     *                 type="string",
+     *                 enum={OrangeHRM\Entity\EmpDependent::RELATIONSHIP_TYPE_CHILD, OrangeHRM\Entity\EmpDependent::RELATIONSHIP_TYPE_OTHER}
+     *             ),
+     *             @OA\Property(
+     *                 property="relationship",
+     *                 description="Specify additional details of the relationship",
      *                 type="string",
      *                 maxLength=OrangeHRM\Pim\Api\EmployeeDependentAPI::PARAM_RULE_RELATIONSHIP_MAX_LENGTH
      *             ),
-     *             @OA\Property(property="relationship", type="string"),
-     *             @OA\Property(property="dateOfBirth", type="string", format="date"),
+     *             @OA\Property(property="dateOfBirth", description="Specify the date of birth of the dependent", type="string", format="date"),
      *         )
      *     ),
      *     @OA\Response(response="200",
@@ -426,7 +459,11 @@ class EmployeeDependentAPI extends Endpoint implements CrudEndpoint
      *                 property="data",
      *                 ref="#/components/schemas/Pim-EmployeeDependentModel"
      *             ),
-     *             @OA\Property(property="empNumber", type="integer")
+     *             @OA\Property(
+     *                 property="meta",
+     *                 type="object",
+     *                 @OA\Property(property="empNumber", description="The employee number given in the request", type="integer")
+     *             )
      *         )
      *     ),
      *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
@@ -473,8 +510,10 @@ class EmployeeDependentAPI extends Endpoint implements CrudEndpoint
      *     tags={"PIM/Employee Dependent"},
      *     summary="Delete an Employee's Dependents",
      *     operationId="delete-an-employees-dependents",
+     *     description="This endpoint allows you to delete an employee's dependents",
      *     @OA\PathParameter(
      *         name="empNumber",
+     *         description="Specify the employee number of the desired employee",
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),

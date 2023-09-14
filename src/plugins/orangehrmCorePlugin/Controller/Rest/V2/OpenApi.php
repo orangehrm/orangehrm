@@ -28,7 +28,12 @@ use OpenApi\Annotations as OA;
  *         @OA\RequestBody(
  *             request="DeleteRequestBody",
  *             @OA\JsonContent(
- *                 @OA\Property(property="ids", type="array", @OA\Items(type="integer")),
+ *                 @OA\Property(
+ *                     property="ids",
+ *                     description="Array containing IDs to be deleted",
+ *                     type="array",
+ *                     @OA\Items(type="integer")
+ *                 ),
  *                 required={"ids"}
  *             )
  *         ),
@@ -36,8 +41,13 @@ use OpenApi\Annotations as OA;
  *             response="DeleteResponse",
  *             description="Success",
  *             @OA\JsonContent(
- *                 @OA\Property(property="data", type="array", @OA\Items(type="integer")),
- *                 @OA\Property(property="meta", type="object")
+ *                 @OA\Property(
+ *                     property="data",
+ *                     type="array",
+ *                     description="The given list of numerical IDs",
+ *                     @OA\Items(type="integer")
+ *                 ),
+ *                 @OA\Property(property="meta", type="object", additionalProperties=false)
  *             )
  *         ),
  *         @OA\Response(
@@ -55,18 +65,21 @@ use OpenApi\Annotations as OA;
  *         ),
  *         @OA\Parameter(
  *             name="sortOrder",
+ *             description="Specify whether to sort in ascending or descending order",
  *             in="query",
  *             required=false,
  *             @OA\Schema(type="string", enum={"ASC", "DESC"})
  *         ),
  *         @OA\Parameter(
  *             name="limit",
+ *             description="Limit the number of responses from the endpoint",
  *             in="query",
  *             required=false,
  *             @OA\Schema(type="integer", default=50)
  *         ),
  *         @OA\Parameter(
  *             name="offset",
+ *             description="Specify the starting point of the collection",
  *             in="query",
  *             required=false,
  *             @OA\Schema(type="integer", default=0)

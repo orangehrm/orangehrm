@@ -26,12 +26,12 @@ use OrangeHRM\Entity\EmployeeSkill;
  * @OA\Schema(
  *     schema="Pim-EmployeeSkillModel",
  *     type="object",
- *     @OA\Property(property="yearsOfExperience", type="number"),
- *     @OA\Property(property="comments", type="string"),
+ *     @OA\Property(property="yearsOfExperience", description="The employee's years of experience in the skill", type="number"),
+ *     @OA\Property(property="comments", description="The employee's comment regarding the skill", type="string"),
  *     @OA\Property(property="skill", type="object",
- *         @OA\Property(property="id", type="integer"),
- *         @OA\Property(property="name", type="string"),
- *         @OA\Property(property="description", type="string")
+ *         @OA\Property(property="id", description="The numerical ID of the skill", type="integer"),
+ *         @OA\Property(property="name", description="The name of the skill",  type="string"),
+ *         @OA\Property(property="description", description="The description of the skill", type="string")
  *     )
  * )
  */

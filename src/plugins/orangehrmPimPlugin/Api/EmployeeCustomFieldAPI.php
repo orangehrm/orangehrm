@@ -71,12 +71,15 @@ class EmployeeCustomFieldAPI extends Endpoint implements ResourceEndpoint
      *     tags={"PIM/Employee Custom Field"},
      *     summary="List an Employee's Custom Fields",
      *     operationId="list-an-employees-custom-fields",
+     *     description="This endpoint allows you to list the custom field values for a particular employee.",
      *     @OA\PathParameter(
      *         name="empNumber",
+     *         description="Specify the employee number of the desired employee.",
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\Parameter(
      *         name="screen",
+     *         description="Specify the name of the desired PIM screen",
      *         in="query",
      *         required=false,
      *         @OA\Schema(type="integer", enum=OrangeHRM\Entity\CustomField::SCREENS)
@@ -87,13 +90,19 @@ class EmployeeCustomFieldAPI extends Endpoint implements ResourceEndpoint
      *         @OA\JsonContent(
      *             @OA\Property(
      *                 property="data",
+     *                 description="An object contaning the values of each custom field",
      *                 type="object",
      *                 additionalProperties=true
      *             ),
      *             @OA\Property(property="meta",
      *                 type="object",
-     *                 @OA\Property(property="empNumber", type="integer"),
-     *                 @OA\Property(property="fields", type="array", @OA\Items(ref="#/components/schemas/Pim-CustomFieldModel"))
+     *                 @OA\Property(property="empNumber", description="The employee number given in the request", type="integer"),
+     *                 @OA\Property(
+     *                     property="fields",
+     *                     description="An array containg the details of each custom field",
+     *                     type="array",
+     *                     @OA\Items(ref="#/components/schemas/Pim-CustomFieldModel")
+     *                 )
      *             )
      *         )
      *     ),
@@ -209,13 +218,16 @@ class EmployeeCustomFieldAPI extends Endpoint implements ResourceEndpoint
      *     tags={"PIM/Employee Custom Field"},
      *     summary="Update an Employee's Custom Fields",
      *     operationId="update-an-employees-custom-fields",
+     *     description="This endpoint allows you to update the custom field values for a particular employee.",
      *     @OA\PathParameter(
      *         name="empNumber",
+     *         description="Specify the employee number of the desired employee",
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
+     *             description="An object in the format of 'customField':'value'. Note that the custom fields are labelled custom1 to custom10",
      *             additionalProperties=true,
      *             example={
      *                 "custom1" : "Field1",
@@ -223,18 +235,26 @@ class EmployeeCustomFieldAPI extends Endpoint implements ResourceEndpoint
      *             }
      *         )
      *     ),
-     *     @OA\Response(response="200",
+     *     @OA\Response(
+     *         response="200",
      *         description="Success",
      *         @OA\JsonContent(
      *             @OA\Property(
      *                 property="data",
+     *                 description="An object containing the values of each custom field",
      *                 type="object",
      *                 additionalProperties=true
      *             ),
-     *             @OA\Property(property="meta",
+     *             @OA\Property(
+     *                 property="meta",
      *                 type="object",
-     *                 @OA\Property(property="empNumber", type="integer"),
-     *                 @OA\Property(property="fields", type="array", @OA\Items(ref="#/components/schemas/Pim-CustomFieldModel"))
+     *                 @OA\Property(property="empNumber", description="The employee number given in the request", type="integer"),
+     *                 @OA\Property(
+     *                     property="fields",
+     *                     description="An array containg the details of each custom field",
+     *                     type="array",
+     *                     @OA\Items(ref="#/components/schemas/Pim-CustomFieldModel")
+     *                 )
      *             )
      *         )
      *     ),

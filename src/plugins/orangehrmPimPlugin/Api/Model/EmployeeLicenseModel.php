@@ -26,12 +26,12 @@ use OrangeHRM\Entity\EmployeeLicense;
  * @OA\Schema(
  *     schema="Pim-EmployeeLicenseModel",
  *     type="object",
- *     @OA\Property(property="licenseNo", type="string"),
- *     @OA\Property(property="issuedDate", type="string", format="date"),
- *     @OA\Property(property="expiryDate", type="string", format="date"),
+ *     @OA\Property(property="licenseNo", description="The employee's license number", type="string"),
+ *     @OA\Property(property="issuedDate", description="The issue date of the employee's license", type="string", format="date"),
+ *     @OA\Property(property="expiryDate", description="The expiry date of the employee's license", type="string", format="date"),
  *     @OA\Property(property="license", type="object",
- *         @OA\Property(property="id", type="integer"),
- *         @OA\Property(property="name", type="string")
+ *         @OA\Property(property="id", description="The numerical ID of the license", type="integer"),
+ *         @OA\Property(property="name", description="The name of the license", type="string")
  *     )
  * )
  */

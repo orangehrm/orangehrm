@@ -57,8 +57,10 @@ class MyInfoAPI extends Endpoint implements ResourceEndpoint
      *     tags={"PIM/Employee"},
      *     summary="Get My Details",
      *     operationId="get-my-details",
+     *     description="This endpoint allows you to get employee details for the currently logged in employee. In other words, get the details of the employee making this request.",
      *     @OA\Parameter(
      *         name="model",
+     *         description="Specify whether the model should be default, my info or detailed.",
      *         in="query",
      *         required=false,
      *         @OA\Schema(

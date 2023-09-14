@@ -102,12 +102,15 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
      *     tags={"PIM/Employee"},
      *     summary="Get an Employee",
      *     operationId="get-an-employee",
+     *     description="This endpoint allows you to retrieve details for a specific employee.",
      *     @OA\PathParameter(
      *         name="empNumber",
+     *         description="Specify the numerical employee number of the desired employee",
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\Parameter(
      *         name="model",
+     *         description="Specify whether the result should be default or detailed",
      *         in="query",
      *         required=false,
      *         @OA\Schema(
@@ -127,7 +130,7 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
      *                     @OA\Schema(ref="#/components/schemas/Pim-EmployeeDetailedModel"),
      *                 }
      *             ),
-     *             @OA\Property(property="meta", type="object")
+     *             @OA\Property(property="meta", type="object", additionalProperties=false)
      *         )
      *     ),
      *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
@@ -190,50 +193,59 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
      *     tags={"PIM/Employee"},
      *     summary="List All Employees",
      *     operationId="list-all-employees",
+     *     description="This endpoint allows you to get a list of employees.",
      *     @OA\Parameter(
      *         name="name",
+     *         description="Specify an employee name",
      *         in="query",
      *         required=false,
      *         @OA\Schema(type="string", maxLength=OrangeHRM\Pim\Api\EmployeeAPI::PARAM_RULE_FILTER_NAME_MAX_LENGTH)
      *     ),
      *     @OA\Parameter(
      *         name="nameOrId",
+     *         description="Specify an employee name or employee ID",
      *         in="query",
      *         required=false,
      *         @OA\Schema(type="string", maxLength=OrangeHRM\Pim\Api\EmployeeAPI::PARAM_RULE_FILTER_NAME_OR_ID_MAX_LENGTH)
      *     ),
      *     @OA\Parameter(
      *         name="employeeId",
+     *         description="Specify an employee ID",
      *         in="query",
      *         required=false,
      *         @OA\Schema(type="integer", maxLength=OrangeHRM\Pim\Api\EmployeeAPI::PARAM_RULE_EMPLOYEE_ID_MAX_LENGTH)
      *     ),
      *     @OA\Parameter(
      *         name="jobTitleId",
+     *         description="Specify a job title ID",
      *         in="query",
      *         required=false,
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\Parameter(
      *         name="subunitId",
+     *         description="Specify a subunit ID",
      *         in="query",
      *         required=false,
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\Parameter(
      *         name="empStatusId",
+     *         description="Specify an employee status ID",
      *         in="query",
      *         required=false,
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\Parameter(
      *         name="includeEmployees",
+     *         description="Specify whether to search current employees, past employees or all employees",
      *         in="query",
      *         required=false,
-     *         @OA\Schema(type="integer", enum={OrangeHRM\Pim\Dto\EmployeeSearchFilterParams::INCLUDE_EMPLOYEES_MAP})
+     *         @OA\Schema(type="integer", enum=OrangeHRM\Pim\Dto\EmployeeSearchFilterParams::INCLUDE_EMPLOYEES_MAP)
      *     ),
      *     @OA\Parameter(
      *         name="model",
+     *         description="Specify whether the result should be default or detailed",
      *         in="query",
      *         required=false,
      *         @OA\Schema(
@@ -244,6 +256,7 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
      *     ),
      *     @OA\Parameter(
      *         name="sortField",
+     *         description="Sort the employee list by last name, first name, middle name, employee number, employee ID, job title name, employee status name, subunit name or supervisor's first name",
      *         in="query",
      *         required=false,
      *         @OA\Schema(type="string", enum=EmployeeSearchFilterParams::ALLOWED_SORT_FIELDS)
@@ -257,14 +270,17 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
      *         @OA\JsonContent(
      *             @OA\Property(
      *                 property="data",
-     *                 oneOf={
-     *                     @OA\Schema(ref="#/components/schemas/Pim-EmployeeModel"),
-     *                     @OA\Schema(ref="#/components/schemas/Pim-EmployeeDetailedModel"),
-     *                 }
+     *                 type="array",
+     *                 @OA\Items(
+     *                     oneOf={
+     *                         @OA\Schema(ref="#/components/schemas/Pim-EmployeeModel"),
+     *                         @OA\Schema(ref="#/components/schemas/Pim-EmployeeDetailedModel"),
+     *                     }
+     *                 )
      *             ),
      *             @OA\Property(property="meta",
      *                 type="object",
-     *                 @OA\Property(property="total", type="integer")
+     *                 @OA\Property(property="total", description="The total number of employees", type="integer")
      *             )
      *         )
      *     ),
@@ -428,32 +444,37 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
      *     tags={"PIM/Employee"},
      *     summary="Create an Employee",
      *     operationId="create-an-employee",
+     *     description="This endpoint allows you to create an employee.",
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="empNumber", type="integer"),
      *             @OA\Property(
      *                 property="lastName",
+     *                 description="Specify the employee's last name",
      *                 type="string",
      *                 maxLength=OrangeHRM\Pim\Api\EmployeeAPI::PARAM_RULE_LAST_NAME_MAX_LENGTH
      *             ),
      *             @OA\Property(
      *                 property="firstName",
+     *                 description="Specify the employee's first name",
      *                 type="string",
      *                 maxLength=OrangeHRM\Pim\Api\EmployeeAPI::PARAM_RULE_FIRST_NAME_MAX_LENGTH
      *             ),
      *             @OA\Property(
      *                 property="middleName",
+     *                 description="Specify the employee's middle name",
      *                 type="string",
      *                 maxLength=OrangeHRM\Pim\Api\EmployeeAPI::PARAM_RULE_MIDDLE_NAME_MAX_LENGTH
      *             ),
      *             @OA\Property(
      *                 property="employeeId",
+     *                 description="Specify the employeee's ID",
      *                 type="string",
      *                 maxLength=OrangeHRM\Pim\Api\EmployeeAPI::PARAM_RULE_EMPLOYEE_ID_MAX_LENGTH
      *             ),
      *             @OA\Property(
      *                 property="empPicture",
+     *                 description="Upload a profile picture for the employee",
      *                 ref="#/components/schemas/Base64Attachment",
      *             ),
      *             required={"firstName", "lastName"}
@@ -467,7 +488,7 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
      *                 property="data",
      *                 ref="#/components/schemas/Pim-EmployeeModel"
      *             ),
-     *             @OA\Property(property="meta", type="object")
+     *             @OA\Property(property="meta", type="object", additionalProperties=false)
      *         )
      *     ),
      *     @OA\Response(
@@ -629,6 +650,7 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
      *     tags={"PIM/Employee"},
      *     summary="Delete Employees",
      *     operationId="delete-employees",
+     *     description="This endpoint allows you to delete employee's from the system. Note that this is different from terminating employees.",
      *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),
      *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse"),
      *     @OA\Response(

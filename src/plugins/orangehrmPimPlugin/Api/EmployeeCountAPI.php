@@ -55,14 +55,17 @@ class EmployeeCountAPI extends Endpoint implements CollectionEndpoint
      *     tags={"PIM/Employee Count"},
      *     summary="Get the Number of Employees",
      *     operationId="get-the-number-of-employees",
+     *     description="This endpoint allows you to get the total number of employees. You can also filter the employees by certain fields and obtain a filtered count.",
      *     @OA\Parameter(
      *         name="name",
+     *         description="Specify the name of an employee",
      *         in="query",
      *         required=false,
      *         @OA\Schema(type="string", maxLength=OrangeHRM\Pim\Api\EmployeeAPI::PARAM_RULE_FILTER_NAME_MAX_LENGTH)
      *     ),
      *     @OA\Parameter(
      *         name="nameOrId",
+     *         description="Specify the name or employee ID of an employee",
      *         in="query",
      *         required=false,
      *         @OA\Schema(
@@ -72,6 +75,7 @@ class EmployeeCountAPI extends Endpoint implements CollectionEndpoint
      *     ),
      *     @OA\Parameter(
      *         name="employeeId",
+     *         description="Specify the employee ID of an employee",
      *         in="query",
      *         required=false,
      *         @OA\Schema(
@@ -81,30 +85,35 @@ class EmployeeCountAPI extends Endpoint implements CollectionEndpoint
      *     ),
      *     @OA\Parameter(
      *         name="jobTitleId",
+     *         description="Specify the numerical ID of a job title",
      *         in="query",
      *         required=false,
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\Parameter(
      *         name="subunitId",
+     *         description="Specify the numerical ID of a subunit",
      *         in="query",
      *         required=false,
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\Parameter(
      *         name="empStatusId",
+     *         description="Specify the numerical ID of an employee status",
      *         in="query",
      *         required=false,
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\Parameter(
      *         name="locationId",
+     *         description="Specify the numerical ID of a location",
      *         in="query",
      *         required=false,
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\Parameter(
      *         name="includeEmployees",
+     *         description="Specify whether to search current employees, past employees or all employees",
      *         in="query",
      *         required=false,
      *         @OA\Schema(type="string", enum=OrangeHRM\Pim\Dto\EmployeeSearchFilterParams::INCLUDE_EMPLOYEES_MAP)
@@ -115,12 +124,20 @@ class EmployeeCountAPI extends Endpoint implements CollectionEndpoint
      *         @OA\JsonContent(
      *             @OA\Property(
      *                 property="data",
-     *                 ref="#/components/schemas/Pim-EmployeeAttachmentModel"
-     *             ),
-     *             @OA\Property(property="meta",
      *                 type="object",
-     *                 @OA\Property(property="empNumber", type="integer"),
-     *                 @OA\Property(property="screen", type="string", example="personal")
+     *                 @OA\Property(property="count", description="The count of employees based on the filters", type="integer"),
+     *             ),
+     *             @OA\Property(
+     *                 property="meta",
+     *                 type="object",
+     *                 @OA\Property(property="name", description="The name given in the request", type="string"),
+     *                 @OA\Property(property="nameOrId", description="The name/employee ID given in the request", type="string"),
+     *                 @OA\Property(property="employeeId", description="The employee ID given in the request", type="string"),
+     *                 @OA\Property(property="includeEmployees", description="The value of includeEmployees given in the request", type="string"),
+     *                 @OA\Property(property="empStatusId", description="The numerical ID of the employee status given in the request", type="integer"),
+     *                 @OA\Property(property="jobTitleId", description="The numerical ID of the job title given in the request", type="integer"),
+     *                 @OA\Property(property="subunitIds", description="The numerical ID of the subunit given in the request", type="integer"),
+     *                 @OA\Property(property="locationId", description="The numerical ID of the location given in the request", type="integer")
      *             )
      *         )
      *     ),

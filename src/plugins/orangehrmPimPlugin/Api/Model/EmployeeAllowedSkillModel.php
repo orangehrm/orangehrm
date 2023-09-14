@@ -26,8 +26,8 @@ use OrangeHRM\Entity\Skill;
  * @OA\Schema(
  *     schema="Pim-EmployeeAllowedSkillModel",
  *     type="object",
- *     @OA\Property(property="id", type="integer"),
- *     @OA\Property(property="name", type="string")
+ *     @OA\Property(property="id", description="The numerical ID of the skill", type="integer"),
+ *     @OA\Property(property="name", description="The name of the skill", type="string")
  * )
  */
 class EmployeeAllowedSkillModel implements Normalizable

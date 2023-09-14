@@ -57,9 +57,18 @@ class EmployeeAllowedLicenseAPI extends Endpoint implements CollectionEndpoint
      *     tags={"PIM/Employee Licenses"},
      *     summary="List Allowed Licenses for an Employee",
      *     operationId="list-allowed-licenses-for-an-employee",
+     *     description="This endpoint allows you to get allowed licenses for an employee. It can be used before adding licenses to an employee in order to get a list of the records available for adding.",
      *     @OA\PathParameter(
      *         name="empNumber",
+     *         description="Specify the employee number of the desired employee",
      *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         name="sortField",
+     *         description="Sort the licenses by their name",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string", enum=EmployeeAllowedLicenseSearchFilterParams::ALLOWED_SORT_FIELDS)
      *     ),
      *     @OA\Parameter(ref="#/components/parameters/sortOrder"),
      *     @OA\Parameter(ref="#/components/parameters/limit"),
@@ -68,10 +77,15 @@ class EmployeeAllowedLicenseAPI extends Endpoint implements CollectionEndpoint
      *         response="200",
      *         description="Success",
      *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="array",
+     *                 @OA\Items(ref="#/components/schemas/Admin-LicenseModel")
+     *             ),
      *             @OA\Property(property="meta",
      *                 type="object",
-     *                 @OA\Property(property="empNumber", type="integer"),
-     *                 @OA\Property(property="total", type="integer")
+     *                 @OA\Property(property="empNumber", description="The employee number given in the request", type="integer"),
+     *                 @OA\Property(property="total", description="The total number of allowed license records", type="integer")
      *             )
      *         )
      *     ),
