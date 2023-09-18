@@ -1,0 +1,5 @@
+node_modules
+CYPRESS_OLD
+/test-results/
+/playwright-report/
+/playwright/.cache/
