@@ -1,16 +1,15 @@
 import { PlaywrightTestConfig } from '@playwright/test';
 
-
 const config: PlaywrightTestConfig = {
   projects: [
     {
       name: 'desktop-chromium',
-      use: {         
-      headless: false,
-      viewport: { width: 1280, height: 720 },
-      screenshot: 'only-on-failure',
-      video: 'retain-on-failure',
-    },
+      use: {
+        headless: false,
+        viewport: { width: 1280, height: 720 },
+        screenshot: 'only-on-failure',
+        video: 'retain-on-failure',
+      },
     },
   ],
   reporter: 'html',

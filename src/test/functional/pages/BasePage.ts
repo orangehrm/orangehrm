@@ -1,5 +1,6 @@
-import { Page, Browser, chromium } from "@playwright/test";
-import { userTestData } from "../data";
+import { Browser, chromium, Page } from '@playwright/test';
+
+import { userTestData } from '../data';
 
 export class BasePage {
   private browser: Browser;
@@ -21,6 +22,12 @@ export class BasePage {
   async navigateToMainPage(): Promise<void> {
     const navigationPromise = this.page.waitForNavigation();
     await this.page.goto(userTestData.host);
+    await navigationPromise;
+  }
+
+  async navigateToPIMPage(): Promise<void> {
+    const navigationPromise = this.page.waitForNavigation();
+    await this.page.goto(userTestData.pimPage);
     await navigationPromise;
   }
 }
