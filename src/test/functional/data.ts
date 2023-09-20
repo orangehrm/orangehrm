@@ -1,6 +1,9 @@
-export const userTestData = {
+  export const normalUserTestData = {
     password: "QAtpx123#",
-    userName: "Normal User",
-    adminName: "Admin User",
-    host: "http://localhost:8888/web/index.php/auth/login",
+    userName: "Normal User"
+  };
+  
+  export const adminUserTestData = {
+    password: "QAtpx123#",
+    userName: "Admin User"
   };
