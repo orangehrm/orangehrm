@@ -1,16 +1,20 @@
 import { PlaywrightTestConfig } from '@playwright/test';
 
+// Define your custom configuration properties
+interface CustomConfig extends PlaywrightTestConfig {
+  baseUrl: string;
+}
 
-const config: PlaywrightTestConfig = {
+const config: CustomConfig = {
   projects: [
     {
       name: 'desktop-chromium',
-      use: {         
-      headless: false,
-      viewport: { width: 1280, height: 720 },
-      screenshot: 'only-on-failure',
-      video: 'retain-on-failure',
-    },
+      use: {
+        headless: false,
+        viewport: { width: 1280, height: 720 },
+        screenshot: 'only-on-failure',
+        video: 'retain-on-failure',
+      },
     },
   ],
   reporter: 'html',
@@ -30,6 +34,7 @@ const config: PlaywrightTestConfig = {
       maxDiffPixelRatio: 0.1,
     },
   },
+  baseUrl: 'http://localhost:8888/web/index.php/auth/login'
 };
 
 export default config;

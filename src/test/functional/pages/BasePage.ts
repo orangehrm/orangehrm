@@ -1,5 +1,5 @@
 import { Page, Browser, chromium } from "@playwright/test";
-import { userTestData } from "../data";
+import config from "../../playwright.config";
 
 export class BasePage {
   private browser: Browser;
@@ -20,7 +20,7 @@ export class BasePage {
 
   async navigateToMainPage(): Promise<void> {
     const navigationPromise = this.page.waitForNavigation();
-    await this.page.goto(userTestData.host);
+    await this.page.goto(config.baseUrl);
     await navigationPromise;
   }
 }

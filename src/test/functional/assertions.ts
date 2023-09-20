@@ -1,3 +1,4 @@
 export const loginPageAssertion = {
-    userName: "Jakub Stawowczyk"
+    adminName: "Admin User",
+    userName: "Normal User"
 }
