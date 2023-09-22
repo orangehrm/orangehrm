@@ -1,6 +1,12 @@
 import { Locator, Page } from 'playwright';
 
-export class PimPage {
+import { newEmployeeData } from '../data';
+
+import { BasePage } from './BasePage';
+import { PersonalDetailsPage } from './PersonalDetailsPage';
+
+const randomNumber = (Math.random() * 1000).toString().substring(0, 3);
+export class PimPage extends BasePage {
   readonly page: Page;
   readonly addButton: Locator;
   readonly nameInput: Locator;
@@ -13,15 +19,20 @@ export class PimPage {
   readonly passwordConfirmed: Locator;
   readonly saveButton: Locator;
   readonly cancelButton: Locator;
+  readonly personalDetailsPage: Page;
 
   constructor(page: Page) {
+    super(page);
     this.page = page;
     this.addButton = page.getByRole('button', { name: 'Add' });
     this.nameInput = page.getByPlaceholder('First Name');
     this.middleNameInput = page.getByPlaceholder('Middle Name');
     this.lastNameInput = page.getByPlaceholder('Last Name');
     this.employeeId = page.locator('form').getByRole('textbox').nth(4);
-    this.createLoginDetailsCheckbox = page.locator('form span');
+    this.createLoginDetailsCheckbox = page
+      .locator('div')
+      .filter({ hasText: /^Create Login Details$/ })
+      .locator('span');
     this.username = page.locator(
       'div:nth-child(4) > .oxd-grid-2 > div > .oxd-input-group > div:nth-child(2) > .oxd-input',
     );
@@ -31,17 +42,23 @@ export class PimPage {
     this.cancelButton = page.getByRole('button', { name: 'Cancel' });
   }
 
-  public async addEmployee(): Promise<void> {
+  public async addEmployeeWithLoginCredentails(): Promise<void> {
     await this.addButton.click();
-    await this.nameInput.type('name input 1');
-    await this.middleNameInput.type('middle');
-    await this.lastNameInput.type('last name');
-    await this.employeeId.fill('123456');
-    await this.createLoginDetailsCheckbox.click();
-    await this.username.fill('username003');
-    await this.password.fill('Test02!');
-    await this.passwordConfirmed.fill('Test02!');
-    // await this.cancelButton.click();
-    // await this.saveButton.click();
+    await this.nameInput.type(newEmployeeData.nameInput + ' ' + randomNumber);
+    await this.middleNameInput.type(newEmployeeData.middleNameInput);
+    await this.lastNameInput.type(newEmployeeData.lastNameInput);
+    await this.employeeId.fill('' + randomNumber);
+    // await this.createLoginDetailsCheckbox.click();
+    // await this.username.fill(newEmployeeData.username + ' ' + randomNumber);
+    // await this.password.fill(newEmployeeData.password);
+    // await this.passwordConfirmed.fill(newEmployeeData.password);
+    await this.saveButton.click();
+  }
+
+  public async fillNewEmployeePersonalDetails(): Promise<void> {
+    const personalDetailsPage = new PersonalDetailsPage(this.page);
+    await personalDetailsPage.personalDetailsPageIsOpened();
+    await personalDetailsPage.fillPersonalDetails();
+    // await await this.saveButton.click();
   }
 }
