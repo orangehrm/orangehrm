@@ -1,11 +1,10 @@
-// buzzPage.spec.ts
 import { LoginPage } from "../pages/LoginPage";
 import { BuzzPage } from "../pages/BuzzPage";
 import { test, expect } from "@playwright/test";
 import { adminUserTestData } from "../data";
 import { buzzPageAssertions } from "../assertions";
 
-test.describe("Login Page", () => {
+test.describe("Buzz Page", () => {
   let loginPage: LoginPage;
   let buzzPage: BuzzPage;
 
@@ -18,7 +17,7 @@ test.describe("Login Page", () => {
   });
 
   test("Test Case 1: Share file and Delete file", async ({ page }) => {
-    await buzzPage.navigateToSubPage('span:has-text("Buzz")');
+    await buzzPage.navigateToSubPage(buzzPage.buzzPageButton);
     await buzzPage.sharePhotos();
     await page.reload();
     await expect(buzzPage.photoImg.first()).toBeAttached();

@@ -1,4 +1,5 @@
 import { Page, Browser, chromium, Locator } from "@playwright/test";
+
 import config from "../../playwright.config";
 
 export class BasePage {
@@ -20,12 +21,14 @@ export class BasePage {
   }
 
   async navigateToMainPage(): Promise<void> {
-    const navigationPromise = this.page.waitForNavigation();
     await this.page.goto(config.baseUrl);
-    await navigationPromise;
+    await this.page.waitForURL(config.baseUrl);
   }
 
-  async navigateToSubPage(locator: string): Promise<void> {
-    await this.page.locator(locator).click();
+  async navigateToSubPage(locator: Locator): Promise<void> {
+    if (typeof locator === "string") {
+      locator = this.page.locator(locator);
+    }
+    await locator.click();
   }
 }
