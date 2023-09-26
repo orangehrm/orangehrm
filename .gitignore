@@ -6,6 +6,8 @@ src/config/
 src/log/
 web/dist/
 src/vendor
+src/node_modules
+yarn.lock
 apidoc
 logInsatall.log
 .phpunit.result.cache
