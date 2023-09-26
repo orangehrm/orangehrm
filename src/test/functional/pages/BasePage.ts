@@ -1,5 +1,4 @@
 import { Page, Browser, chromium, Locator } from "@playwright/test";
-
 import config from "../../playwright.config";
 
 export class BasePage {
