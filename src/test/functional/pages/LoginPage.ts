@@ -10,8 +10,8 @@ export class LoginPage extends BasePage {
     
   constructor(page: Page) {
     super(page)
-    this.userNameInput = page.locator('[placeholder="Username"]');
-    this.passwordInput = page.locator('[placeholder="Password"]');
+    this.userNameInput = page.getByPlaceholder("Username");
+    this.passwordInput = page.getByPlaceholder("Password");
     this.loginButton = page.locator('button:has-text("Login")');
     this.userNameAfterLogin = page.locator(".oxd-userdropdown-name");
   }

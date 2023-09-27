@@ -14,15 +14,15 @@ export class BuzzPage extends BasePage {
   
     constructor(page: Page) {
       super(page)
-      this.sharePhotosButton = page.locator('button:has-text("Share Photos")');
+      this.sharePhotosButton = page.getByText("Share Photos");
       this.fileInput = page.locator('input[type="file"]');
       this.submitPhoto = page.locator('button.oxd-button--main:has-text("Share")');
       this.threeDotsIcon = page.locator('i.oxd-icon.bi-three-dots');
-      this.deletePostParagraph = page.locator('p:has-text("Delete Post")');
-      this.editPostParagraph = page.locator('p:has-text("Edit Post")');
-      this.confirmDeleteButton = page.locator('button:has-text("Yes, Delete")');
+      this.deletePostParagraph = page.getByText("Delete Post");
+      this.editPostParagraph = page.getByText("Edit Post");
+      this.confirmDeleteButton = page.getByText("Yes, Delete");
       this.photoImg = page.locator('.orangehrm-buzz-photos-item img')
-      this.noPostParagraph = page.locator('p:has-text("No Posts Available")')
+      this.noPostParagraph = page.getByText("No Posts Available")
       this.buzzPageButton = page.locator('span:has-text("Buzz")')
     }
     
@@ -48,7 +48,6 @@ export class BuzzPage extends BasePage {
       await this.editPostParagraph.click();
       await this.page.locator('.orangehrm-buzz-post-modal-header-text .oxd-buzz-post .oxd-buzz-post-input').type('post edited')
       await this.page.locator('.oxd-icon-button.orangehrm-photo-input-remove i.bi-x').click()
-      await this.page.locator('.orangehrm-buzz-post-modal-actions button').click()
-      
+      await this.page.locator('.orangehrm-buzz-post-modal-actions button').click()  
   }
 }

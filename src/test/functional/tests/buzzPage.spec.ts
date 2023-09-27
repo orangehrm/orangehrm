@@ -27,13 +27,14 @@ test.describe("Buzz Page", () => {
     await expect(buzzPage.noPostParagraph.first()).toHaveText(buzzPageAssertions.noPostAvailable);
   });
 
-  test.only("Test Case 1: Edit Post", async ({ page }) => {
+  test("Test Case 2: Edit Post", async ({ page }) => {
     const filePath = '../test/functional/files/file1.png';
     await buzzPage.navigateToSubPage(buzzPage.buzzPageButton);
     await buzzPage.sharePhotos(filePath);
     await page.reload();
     await expect(buzzPage.photoImg.first()).toBeAttached();
     await buzzPage.editPost()
-    await expect(page.locator('p:has-text("post edited")')).toBeAttached();
+    await expect(page.getByText("post edited")).toBeAttached();
+    await buzzPage.deletePhotos();
   });
 });
