@@ -1,6 +1,6 @@
-import { Page, Browser, chromium, Locator } from "@playwright/test";
+import { Browser, chromium, Page } from '@playwright/test';
 
-import config from "../../playwright.config";
+import config from '../../playwright.config';
 
 export class BasePage {
   private browser: Browser | null = null;
@@ -25,10 +25,7 @@ export class BasePage {
     await this.page.waitForURL(config.baseUrl);
   }
 
-  async navigateToSubPage(locator: Locator): Promise<void> {
-    if (typeof locator === "string") {
-      locator = this.page.locator(locator);
-    }
-    await locator.click();
+  public async navigateToSubPage(pageName: string): Promise<void> {
+    await this.page.getByRole('link', { name: pageName }).click();
   }
 }
