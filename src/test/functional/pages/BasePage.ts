@@ -1,14 +1,13 @@
-import { Browser, chromium, Page } from '@playwright/test';
+import { Page, Browser, chromium, Locator } from "@playwright/test";
 
-import { userTestData } from '../data';
+import config from "../../playwright.config";
 
 export class BasePage {
-  private browser: Browser;
+  private browser: Browser | null = null;
   protected page: Page;
 
   constructor(page: Page) {
     this.page = page;
-    this.browser = this.browser;
   }
 
   async initialize(): Promise<void> {
@@ -16,18 +15,20 @@ export class BasePage {
   }
 
   async close(): Promise<void> {
-    await this.page.close();
+    if (this.browser) {
+      await this.browser.close();
+    }
   }
 
   async navigateToMainPage(): Promise<void> {
-    const navigationPromise = this.page.waitForNavigation();
-    await this.page.goto(userTestData.host);
-    await navigationPromise;
+    await this.page.goto(config.baseUrl);
+    await this.page.waitForURL(config.baseUrl);
   }
 
-  async navigateToPIMPage(): Promise<void> {
-    const navigationPromise = this.page.waitForNavigation();
-    await this.page.goto(userTestData.pimPage);
-    await navigationPromise;
+  async navigateToSubPage(locator: Locator): Promise<void> {
+    if (typeof locator === "string") {
+      locator = this.page.locator(locator);
+    }
+    await locator.click();
   }
 }
