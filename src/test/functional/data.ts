@@ -14,8 +14,8 @@ export const adminUserTestDataNOTlocalhost = {
 };
 
 export const newEmployeeData = {
-  firstname: 'FirstName',
-  middleName: 'MiddleName',
-  lastName: 'lastName',
+  newEmployeeName: 'FirstName',
+  newEmployeeMiddleName: 'MiddleName',
+  newEmployeeLastName: 'lastName',
   password: 'Password123',
 };

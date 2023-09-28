@@ -10,6 +10,7 @@ const config: CustomConfig = {
     {
       name: 'desktop-chromium',
       use: {
+        browserName: 'chromium',
         headless: false,
         viewport: { width: 1280, height: 720 },
         screenshot: 'only-on-failure',
@@ -34,7 +35,7 @@ const config: CustomConfig = {
       maxDiffPixelRatio: 0.1,
     },
   },
-  baseUrl: 'http://localhost:8888/web/index.php/auth/login'
+  baseUrl: 'http://localhost:8888/',
 };
 
 export default config;

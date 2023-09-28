@@ -30,28 +30,26 @@ export class PimPage extends BasePage {
     this.nameInput = page.getByPlaceholder('First Name');
     this.middleNameInput = page.getByPlaceholder('Middle Name');
     this.lastNameInput = page.getByPlaceholder('Last Name');
-    this.employeeId = page.locator('form').getByRole('textbox').nth(4);
+    this.employeeId = page.locator('input:below(:text("Employee Id"))').first();
     this.createLoginDetailsCheckbox = page
       .locator('div')
-      .filter({ hasText: /^Create Login Details$/ })
+      .filter({ hasText: 'Create Login Details' })
       .locator('span');
-    this.username = page.locator(
-      'div:nth-child(4) > .oxd-grid-2 > div > .oxd-input-group > div:nth-child(2) > .oxd-input',
-    );
+    this.username = page.locator('input:below(:text("username"))').first();
     this.password = page.locator('input[type="password"]').first();
     this.passwordConfirmed = page.locator('input[type="password"]').nth(1);
     this.saveButton = page.getByRole('button', { name: 'Save' });
     this.cancelButton = page.getByRole('button', { name: 'Cancel' });
   }
 
-  public async addEmployeeWithLoginCredentails(): Promise<void> {
+  public async addEmployeeWithLoginCredentials(): Promise<void> {
     await this.addButton.click();
-    await this.nameInput.fill(newEmployeeData.firstname + ' ' + randomNumber);
-    await this.middleNameInput.fill(newEmployeeData.middleName);
-    await this.lastNameInput.fill(newEmployeeData.lastName);
+    await this.nameInput.fill(newEmployeeData.newEmployeeName + ' ' + randomNumber);
+    await this.middleNameInput.fill(newEmployeeData.newEmployeeMiddleName);
+    await this.lastNameInput.fill(newEmployeeData.newEmployeeLastName);
     await this.employeeId.fill('' + randomNumber);
     await this.createLoginDetailsCheckbox.click();
-    await this.username.fill(newEmployeeData.firstname + ' ' + randomNumber);
+    await this.username.fill(newEmployeeData.newEmployeeName + ' ' + randomNumber);
     await this.password.fill(newEmployeeData.password);
     await this.passwordConfirmed.fill(newEmployeeData.password);
     await this.saveButton.click();
@@ -59,7 +57,7 @@ export class PimPage extends BasePage {
 
   public async fillNewEmployeePersonalDetails(): Promise<void> {
     const personalDetailsPage = new PersonalDetailsPage(this.page);
-    await personalDetailsPage.personalDetailsPageIsOpened();
+    await personalDetailsPage.verifyIfPersonalDetailsPageIsOpened();
     await personalDetailsPage.fillPersonalDetails();
     await this.saveButton.click();
     await this.page.getByText('Success').isVisible();
