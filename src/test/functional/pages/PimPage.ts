@@ -32,11 +32,9 @@ export class PimPage extends BasePage {
     this.lastNameInput = page.getByPlaceholder('Last Name');
     this.employeeId = page.locator('input:below(:text("Employee Id"))').first();
     this.createLoginDetailsCheckbox = page
-      .locator('div')
-      .filter({ hasText: 'Create Login Details' })
-      .locator('span');
-    this.username = page.locator('input:below(:text("username"))').first();
-    this.password = page.locator('input[type="password"]').first();
+      .locator('input:below(:text("Create Login Details"))')
+      .first();
+    this.username = page.locator('div:has-text(“Username”) + div').first();
     this.passwordConfirmed = page.locator('input[type="password"]').nth(1);
     this.saveButton = page.getByRole('button', { name: 'Save' });
     this.cancelButton = page.getByRole('button', { name: 'Cancel' });
