@@ -8,6 +8,7 @@ import { PersonalDetailsPage } from './PersonalDetailsPage';
 const randomNumber = (Math.random() * 1000).toString().substring(0, 3);
 export class PimPage extends BasePage {
   readonly page: Page;
+  readonly pimPageButton: Locator;
   readonly addButton: Locator;
   readonly nameInput: Locator;
   readonly middleNameInput: Locator;
@@ -24,6 +25,7 @@ export class PimPage extends BasePage {
   constructor(page: Page) {
     super(page);
     this.page = page;
+    this.pimPageButton = page.getByRole('link', { name: 'PIM' });
     this.addButton = page.getByRole('button', { name: 'Add' });
     this.nameInput = page.getByPlaceholder('First Name');
     this.middleNameInput = page.getByPlaceholder('Middle Name');
@@ -44,14 +46,14 @@ export class PimPage extends BasePage {
 
   public async addEmployeeWithLoginCredentails(): Promise<void> {
     await this.addButton.click();
-    await this.nameInput.type(newEmployeeData.nameInput + ' ' + randomNumber);
-    await this.middleNameInput.type(newEmployeeData.middleNameInput);
-    await this.lastNameInput.type(newEmployeeData.lastNameInput);
+    await this.nameInput.fill(newEmployeeData.firstname + ' ' + randomNumber);
+    await this.middleNameInput.fill(newEmployeeData.middleName);
+    await this.lastNameInput.fill(newEmployeeData.lastName);
     await this.employeeId.fill('' + randomNumber);
-    // await this.createLoginDetailsCheckbox.click();
-    // await this.username.fill(newEmployeeData.username + ' ' + randomNumber);
-    // await this.password.fill(newEmployeeData.password);
-    // await this.passwordConfirmed.fill(newEmployeeData.password);
+    await this.createLoginDetailsCheckbox.click();
+    await this.username.fill(newEmployeeData.firstname + ' ' + randomNumber);
+    await this.password.fill(newEmployeeData.password);
+    await this.passwordConfirmed.fill(newEmployeeData.password);
     await this.saveButton.click();
   }
 
@@ -59,6 +61,7 @@ export class PimPage extends BasePage {
     const personalDetailsPage = new PersonalDetailsPage(this.page);
     await personalDetailsPage.personalDetailsPageIsOpened();
     await personalDetailsPage.fillPersonalDetails();
-    // await await this.saveButton.click();
+    await this.saveButton.click();
+    await this.page.getByText('Success').isVisible();
   }
 }
