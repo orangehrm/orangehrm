@@ -11,6 +11,9 @@ export class BuzzPage extends BasePage {
     readonly noPostParagraph: Locator
     readonly buzzPageButton: Locator
     readonly editPostParagraph: Locator
+    readonly textFieldInPostEdit: Locator
+    readonly removePictureButton: Locator
+    readonly confirmEditedPost: Locator
   
     constructor(page: Page) {
       super(page)
@@ -24,6 +27,9 @@ export class BuzzPage extends BasePage {
       this.photoImg = page.locator('.orangehrm-buzz-photos-item img')
       this.noPostParagraph = page.getByText("No Posts Available")
       this.buzzPageButton = page.locator('span:has-text("Buzz")')
+      this.textFieldInPostEdit = page.locator('.orangehrm-buzz-post-modal-header-text .oxd-buzz-post .oxd-buzz-post-input')
+      this.removePictureButton = page.locator('.oxd-icon-button.orangehrm-photo-input-remove i.bi-x')
+      this.confirmEditedPost = page.locator('.orangehrm-buzz-post-modal-actions button')
     }
     
     async sharePhotos(filePath:string): Promise<void> {
@@ -43,11 +49,11 @@ export class BuzzPage extends BasePage {
         await this.confirmDeleteButton.click();
     }
 
-    async editPost(): Promise<void> {
+    async editPost(postEdited:string): Promise<void> {
       await this.threeDotsIcon.first().click()
       await this.editPostParagraph.click();
-      await this.page.locator('.orangehrm-buzz-post-modal-header-text .oxd-buzz-post .oxd-buzz-post-input').type('post edited')
-      await this.page.locator('.oxd-icon-button.orangehrm-photo-input-remove i.bi-x').click()
-      await this.page.locator('.orangehrm-buzz-post-modal-actions button').click()  
+      await this.textFieldInPostEdit.type(postEdited)
+      await this.removePictureButton.click()
+      await this.confirmEditedPost.click()  
   }
 }

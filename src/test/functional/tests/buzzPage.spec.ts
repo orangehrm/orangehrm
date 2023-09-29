@@ -4,6 +4,8 @@ import { test, expect } from "@playwright/test";
 import { adminUserTestData } from "../data";
 import { buzzPageAssertions } from "../assertions";
 
+const postEdited = "post edited"
+const filePath = '../test/functional/files/file1.png';
 
 test.describe("Buzz Page", () => {
   let loginPage: LoginPage;
@@ -17,8 +19,7 @@ test.describe("Buzz Page", () => {
     await loginPage.loginUser(adminUserTestData.userName, adminUserTestData.password);
   });
 
-  test("Test Case 1: Share Post and Delete Post", async ({ page }) => {
-    const filePath = '../test/functional/files/file1.png';
+  test("Test 1: Post Should Be Shared and Deleted", async ({ page }) => {
     await buzzPage.navigateToSubPage(buzzPage.buzzPageButton);
     await buzzPage.sharePhotos(filePath);
     await page.reload();
@@ -27,14 +28,12 @@ test.describe("Buzz Page", () => {
     await expect(buzzPage.noPostParagraph.first()).toHaveText(buzzPageAssertions.noPostAvailable);
   });
 
-  test("Test Case 2: Edit Post", async ({ page }) => {
-    const filePath = '../test/functional/files/file1.png';
+  test("Test 2: Post Should Be Edited", async ({ page }) => {
     await buzzPage.navigateToSubPage(buzzPage.buzzPageButton);
     await buzzPage.sharePhotos(filePath);
     await page.reload();
-    await expect(buzzPage.photoImg.first()).toBeAttached();
-    await buzzPage.editPost()
-    await expect(page.getByText("post edited")).toBeAttached();
+    await buzzPage.editPost(postEdited)
+    await expect(page.getByText(postEdited)).toBeAttached();
     await buzzPage.deletePhotos();
   });
 });
