@@ -1,67 +1,66 @@
 import { expect } from '@playwright/test';
 import { Locator, Page } from 'playwright';
 
-import { randomNumber } from '../utils/utils';
+import { newEmployeeData } from '../data';
 
-const nationality = 'Algerian',
-  nickname = 'NicknameTest',
-  maritalStatus = 'Married',
-  gender = 'Female',
-  smoker = 'Yes';
+import { BasePage } from './BasePage';
 
-export class PersonalDetailsPage {
+export class PersonalDetailsPage extends BasePage {
   readonly page: Page;
   readonly pageHeader: Locator;
-  readonly selectDropdown: Locator;
+  readonly dropdown: Locator;
+  readonly saveButton: Locator;
 
   constructor(page: Page) {
+    super(page);
     this.page = page;
     this.pageHeader = page.getByRole('heading', { name: 'Personal Details' });
-    this.selectDropdown = page.getByText('-- Select --');
+    this.dropdown = page.locator('.oxd-select-text');
+    this.saveButton = page.locator('form').filter({ hasText: 'Save' }).getByRole('button').first();
   }
 
-  public async verifyIfPersonalDetailsPageIsOpened(): Promise<void> {
+  public async assertIfPersonalDetailsPageIsOpened(): Promise<void> {
     await expect(this.pageHeader).toBeVisible();
   }
 
-  public async fillPersonalDetails(): Promise<void> {
-    await this.fillTextboxField('Nickname', 3, nickname);
-    await this.fillTextboxField('Other Id', 1, randomNumber);
-    await this.fillTextboxField("Driver's License Number", 2, randomNumber);
-    await this.fillDatePicker('License Expiry Date', '2020-02-02');
-    await this.fillDatePicker('Date of Birth', '2000-01-01');
-    await this.selectDropdown.nth(1).click();
-    await this.chooseOptionFromDropdown(maritalStatus);
-    await this.clickCheckbox(gender, 'span');
-    await this.selectDropdown.first().click();
-    await this.chooseOptionFromDropdown(nationality);
-    await this.clickCheckbox(smoker, 'i');
+  public async fillNewEmployeePersonalDetails(): Promise<void> {
+    await this.getTextboxByTextLabel('Nickname').fill(newEmployeeData.nickname);
+    await this.getTextboxByTextLabel('Other Id').fill(newEmployeeData.otherId);
+    await this.getTextboxByTextLabel("Driver's License Number").fill(
+      newEmployeeData.driverLicenseNumber,
+    );
+    await this.getDatePickerByLabel('License Expiry Date').fill(newEmployeeData.licenseExpiryDate);
+    await this.getDatePickerByLabel('Date of Birth').fill(newEmployeeData.dateOfBirth);
+    await this.dropdown.nth(1).click();
+    await this.getDropdownByRole(newEmployeeData.maritalStatus).click();
+    await this.getCheckbox(newEmployeeData.gender, 'span').click();
+    await this.dropdown.first().click();
+    await this.getDropdownByRole(newEmployeeData.nationality).click();
+    await this.getCheckbox(newEmployeeData.smoker, 'i').click();
   }
 
-  async fillDatePicker(text: string, date: string): Promise<void> {
-    await this.page
+  public async savePersonalDetails(): Promise<void> {
+    await this.saveButton.click();
+  }
+
+  protected getDatePickerByLabel(label: string): Locator {
+    return this.page
       .locator('form div')
       .filter({
-        hasText: text,
+        hasText: label,
       })
-      .getByPlaceholder('yyyy-mm-dd')
-      .fill(date);
+      .getByPlaceholder('yyyy-mm-dd');
   }
 
-  async fillTextboxField(label: string, nth: number, text: string): Promise<void> {
-    await this.page
-      .locator('form div')
-      .filter({ hasText: label })
-      .getByRole('textbox')
-      .nth(nth)
-      .fill(text);
+  protected getTextboxByTextLabel(label: string): Locator {
+    return this.page.getByText(label, { exact: true }).locator('xpath=../..').getByRole('textbox');
   }
 
-  async chooseOptionFromDropdown(option: string): Promise<void> {
-    await this.page.getByRole('option', { name: option }).click();
+  protected getDropdownByRole(option: string): Locator {
+    return this.page.getByRole('option', { name: option });
   }
 
-  async clickCheckbox(label: string, locator: string): Promise<void> {
-    await this.page.locator('label').filter({ hasText: label }).locator(locator).click();
+  protected getCheckbox(label: string, locator: string): Locator {
+    return this.page.locator('label').filter({ hasText: label }).locator(locator);
   }
 }

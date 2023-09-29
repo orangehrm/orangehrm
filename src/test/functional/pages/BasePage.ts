@@ -25,7 +25,22 @@ export class BasePage {
     await this.page.waitForURL(config.baseUrl);
   }
 
-  public async navigateToSubPage(pageName: string): Promise<void> {
-    await this.page.getByRole('link', { name: pageName }).click();
+  public async navigateToSubPage(pageTab: string): Promise<void> {
+    await this.page.getByRole('link', { name: pageTab }).click();
   }
+}
+
+export enum SubPage {
+  ADMIN = 'Admin',
+  PIM = 'PIM',
+  LEAVE = 'Leave',
+  TIME = 'Time',
+  RECRUITMENT = 'Recruitment',
+  MY_INFO = 'My Info',
+  PERFORMANCE = 'Performance',
+  DASHBOARD = 'Dashboard',
+  DIRECTORY = 'Directory',
+  MAINTENANCE = 'Maintenance',
+  CLAIM = 'Claim',
+  BUZZ = 'BUZZ',
 }

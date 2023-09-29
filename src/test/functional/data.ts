@@ -8,14 +8,18 @@ export const adminUserTestData = {
   userName: 'Admin User',
 };
 
-export const adminUserTestDataNOTlocalhost = {
-  userName: 'Admin',
-  password: 'admin123',
-};
-
 export const newEmployeeData = {
-  newEmployeeName: 'FirstName',
-  newEmployeeMiddleName: 'MiddleName',
-  newEmployeeLastName: 'lastName',
+  newEmployeeName: 'FirstNameTest',
+  newEmployeeMiddleName: 'MiddleNameTest',
+  newEmployeeLastName: 'lastNameTest',
   password: 'Password123',
+  nationality: 'Algerian',
+  nickname: 'NicknameTest',
+  otherId: '98765',
+  driverLicenseNumber: '4567',
+  maritalStatus: 'Married',
+  gender: 'Female',
+  smoker: 'Yes',
+  licenseExpiryDate: '2020-02-02',
+  dateOfBirth: '2000-01-01',
 };
