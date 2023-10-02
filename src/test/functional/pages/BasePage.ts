@@ -34,7 +34,6 @@ export class BasePage {
   }
 
   protected getTextboxByTextLabel(label: string): Locator {
-    console.log('działam ' + label);
     return this.page.getByText(label, { exact: true }).locator('xpath=../..').getByRole('textbox');
   }
 
@@ -47,18 +46,26 @@ export class BasePage {
       .getByPlaceholder('yyyy-mm-dd');
   }
 
-  protected async chooseOptionFromDropdown(label: string, option: string): Promise<void> {
-    await this.page
-      .getByText(label, { exact: true })
-      .locator('xpath=../..')
-      .getByText('-- Select --')
-      .click();
-
-    await this.page.getByRole('option', { name: option });
-  }
-
   protected getRadiobuttonByLabel(label: string): Locator {
     return this.page.getByText(label, { exact: true }).locator('span');
+  }
+
+  protected getDropdownByLabel(label: string): Locator {
+    return this.page
+      .getByText(label, { exact: true })
+      .locator('xpath=../..')
+      .getByText('-- Select --');
+  }
+
+  protected async chooseOptionFromDropdown(option: string): Promise<void> {
+    await this.page.getByRole('option', { name: option }).click();
+  }
+
+  protected getSaveButtonByHeadingSection(heading: string): Locator {
+    return this.page
+      .getByRole('heading', { name: heading })
+      .locator('xpath=..')
+      .getByRole('button', { name: 'Save' });
   }
 }
 

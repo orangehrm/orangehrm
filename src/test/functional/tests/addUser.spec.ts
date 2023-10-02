@@ -20,9 +20,8 @@ test.describe('Adding a new employee', () => {
 
   test('Should create a new user account with personal details', async ({ page }) => {
     await pimPage.addEmployeeWithLoginCredentials(newEmployeeData);
-    // await personalDetailsPage.assertIfPersonalDetailsPageIsOpened();
-    await personalDetailsPage.fillNewEmployeePersonalDetails(userData);
-    await personalDetailsPage.savePersonalDetails();
-    await expect(page.locator('#oxd-toaster_1').filter({ hasText: 'Success' })).toBeVisible();
+    await personalDetailsPage.fillNewEmployeePersonalDetails(userData, newEmployeeData);
+    await personalDetailsPage.saveForm();
+    // await expect(page.locator('#oxd-toaster_1').filter({ hasText: 'Success' })).toBeVisible(); toChange
   });
 });

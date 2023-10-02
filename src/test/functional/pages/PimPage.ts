@@ -1,13 +1,20 @@
 import { Locator, Page } from 'playwright';
 
 import { NewEmployeeData } from '../data';
+import { randomTxt } from '../utils/helper';
 
 import { BasePage } from './BasePage';
 
 export class PimPage extends BasePage {
-  readonly personalDetailsPage: Page;
   readonly addButton: Locator;
-  readonly createLoginDetailsCheckbox: Locator;
+  public readonly firstNameInput: Locator = this.getTextboxByPlaceholder('First Name');
+  public readonly middleNameInput: Locator = this.getTextboxByPlaceholder('Middle Name');
+  public readonly lastNameInput: Locator = this.getTextboxByPlaceholder('Last Name');
+  public readonly employeeId: Locator = this.getTextboxByTextLabel('Employee Id');
+  public readonly createLoginDetailsCheckbox: Locator;
+  public readonly usernameInput: Locator = this.getTextboxByTextLabel('Username');
+  public readonly passwordInput: Locator = this.getTextboxByTextLabel('Password');
+  public readonly confirmPasswordInput: Locator = this.getTextboxByTextLabel('Confirm Password');
   readonly saveButton: Locator;
 
   constructor(page: Page) {
@@ -22,14 +29,14 @@ export class PimPage extends BasePage {
 
   public async addEmployeeWithLoginCredentials(newEmployeeData: NewEmployeeData): Promise<void> {
     await this.addButton.click();
-    await this.getTextboxByPlaceholder('First Name').fill(newEmployeeData.firstName);
-    await this.getTextboxByPlaceholder('Middle Name').fill(newEmployeeData.middleName);
-    await this.getTextboxByPlaceholder('Last Name').fill(newEmployeeData.lastName);
-    await this.getTextboxByTextLabel('Employee Id').fill(newEmployeeData.employeeId);
+    await this.firstNameInput.fill(newEmployeeData.firstName + randomTxt);
+    await this.middleNameInput.fill(newEmployeeData.middleName);
+    await this.lastNameInput.fill(newEmployeeData.lastName);
+    await this.employeeId.fill(randomTxt);
     await this.createLoginDetailsCheckbox.click();
-    await this.getTextboxByTextLabel('Username').fill(newEmployeeData.loginDetail.username);
-    await this.getTextboxByTextLabel('Password').fill(newEmployeeData.loginDetail.password);
-    await this.getTextboxByTextLabel('Confirm Password').fill(newEmployeeData.loginDetail.password);
+    await this.usernameInput.fill(newEmployeeData.loginDetail.username + randomTxt);
+    await this.passwordInput.fill(newEmployeeData.loginDetail.password);
+    await this.confirmPasswordInput.fill(newEmployeeData.loginDetail.password);
     await this.saveButton.click();
   }
 }
