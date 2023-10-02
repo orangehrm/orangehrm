@@ -57,8 +57,8 @@ export class BasePage {
       .getByText('-- Select --');
   }
 
-  protected async chooseOptionFromDropdown(option: string): Promise<void> {
-    await this.page.getByRole('option', { name: option }).click();
+  protected chooseDropdownOptionByText(option: string): Locator {
+    return this.page.getByRole('option', { name: option });
   }
 
   protected getSaveButtonByHeadingSection(heading: string): Locator {

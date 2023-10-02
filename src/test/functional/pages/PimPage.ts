@@ -39,4 +39,13 @@ export class PimPage extends BasePage {
     await this.confirmPasswordInput.fill(newEmployeeData.loginDetail.password);
     await this.saveButton.click();
   }
+
+  public async navigateToPimTab(tab: PIMTAB): Promise<void> {
+    await this.page.getByRole('link', { name: tab }).click();
+  }
+}
+
+export enum PIMTAB {
+  PERSONAL_DETAILS = 'Personal Details',
+  CONTACT_DETAILS = 'Contact Details',
 }

@@ -60,7 +60,7 @@ export const userData: UserData = {
     sinNumber: '678',
     driverLicenseNumber: '4567',
     licenseExpiryDate: '2020-02-02',
-    nationality: 'Algerian',
+    nationality: 'Afghan',
     maritalStatus: 'Married',
     dateOfBirth: '2000-01-01',
     militaryService: 'military',

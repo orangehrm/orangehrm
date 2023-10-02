@@ -4,7 +4,7 @@ import { adminUserTestData, newEmployeeData, userData } from '../data';
 import { SubPage } from '../pages/BasePage';
 import { LoginPage } from '../pages/LoginPage';
 import { PersonalDetailsPage } from '../pages/PersonalDetailsPage';
-import { PimPage } from '../pages/PimPage';
+import { PimPage, PIMTAB } from '../pages/PimPage';
 
 let loginPage: LoginPage, pimPage: PimPage, personalDetailsPage: PersonalDetailsPage;
 test.describe('Adding a new employee', () => {
@@ -12,16 +12,18 @@ test.describe('Adding a new employee', () => {
     loginPage = new LoginPage(page);
     pimPage = new PimPage(page);
     personalDetailsPage = new PersonalDetailsPage(page);
-    await page.goto('https://opensource-demo.orangehrmlive.com/');
-    await loginPage.loginUser('Admin', 'admin123');
-    // await loginPage.loginUser(adminUserTestData.userName, adminUserTestData.password);
+    // await page.goto('https://opensource-demo.orangehrmlive.com/');
+    // await loginPage.loginUser('Admin', 'admin123');
+    await loginPage.loginUser(adminUserTestData.userName, adminUserTestData.password);
     await loginPage.navigateToSubPage(SubPage.PIM);
   });
 
-  test('Should create a new user account with personal details', async ({ page }) => {
+  test('Should create a new user account with personal details', async () => {
     await pimPage.addEmployeeWithLoginCredentials(newEmployeeData);
-    await personalDetailsPage.fillNewEmployeePersonalDetails(userData, newEmployeeData);
+    await personalDetailsPage.fillNewEmployeePersonalDetails(userData);
     await personalDetailsPage.saveForm();
-    // await expect(page.locator('#oxd-toaster_1').filter({ hasText: 'Success' })).toBeVisible(); toChange
+    await pimPage.navigateToPimTab(PIMTAB.CONTACT_DETAILS);
+    await pimPage.navigateToPimTab(PIMTAB.PERSONAL_DETAILS);
+    await expect(personalDetailsPage.otherId).toHaveText(userData.personalDetails.otherId);
   });
 });

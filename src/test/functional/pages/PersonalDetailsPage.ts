@@ -1,6 +1,6 @@
 import { Locator, Page } from 'playwright';
 
-import { newEmployeeData, NewEmployeeData, UserData } from '../data';
+import { UserData } from '../data';
 
 import { BasePage } from './BasePage';
 
@@ -17,21 +17,15 @@ export class PersonalDetailsPage extends BasePage {
   public readonly maritalStatusDropdown: Locator = this.getDropdownByLabel('Marital Status');
   public readonly genderMaleRadiobutton: Locator = this.getRadiobuttonByLabel('Male');
   public readonly militaryServiceInput: Locator = this.getTextboxByTextLabel('Military Service');
-  readonly smokerCheckbox: Locator;
   readonly saveButton: Locator = this.getSaveButtonByHeadingSection('Personal Details');
 
   constructor(page: Page) {
     super(page);
     this.pageHeader = page.getByRole('heading', { name: 'Personal Details' });
-    this.smokerCheckbox = page.locator('xpath=//span[contains(@class,"oxd-checkbox-input")]');
   }
-  public async fillNewEmployeePersonalDetails(
-    userData: UserData,
-    newEmployeeData: NewEmployeeData,
-  ): Promise<void> {
-    await this.page.getByRole('heading', {
-      name: newEmployeeData.firstName + ' ' + newEmployeeData.lastName,
-    });
+
+  public async fillNewEmployeePersonalDetails(userData: UserData): Promise<void> {
+    await this.nickname.waitFor({ state: 'visible' });
     await this.nickname.fill(userData.personalDetails.nickname);
     await this.otherId.fill(userData.personalDetails.otherId);
     await this.driversLicense.fill(userData.personalDetails.driverLicenseNumber);
@@ -40,12 +34,14 @@ export class PersonalDetailsPage extends BasePage {
     await this.sinNumber.fill(userData.personalDetails.sinNumber);
     await this.dateOfBirthDatepicker.fill(userData.personalDetails.dateOfBirth);
     await this.nationalityDropdown.click();
-    await this.chooseOptionFromDropdown(userData.personalDetails.nationality);
+    await this.chooseDropdownOptionByText(userData.personalDetails.nationality);
     await this.maritalStatusDropdown.click();
-    await this.chooseOptionFromDropdown(userData.personalDetails.maritalStatus);
-    await this.genderMaleRadiobutton.click();
+    await this.chooseDropdownOptionByText(userData.personalDetails.maritalStatus);
     await this.militaryServiceInput.fill(userData.personalDetails.militaryService);
-    await this.smokerCheckbox.click();
+    await this.genderMaleRadiobutton.click();
+    await this.page.waitForTimeout(3000);
+    await this.saveForm();
+    await this.page.waitForTimeout(3000);
   }
 
   public async saveForm(): Promise<void> {
