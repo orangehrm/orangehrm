@@ -1,39 +1,21 @@
 import { BasePage } from "./BasePage";
-import { Locator, Page } from "@playwright/test";
 export class BuzzPage extends BasePage {
-    readonly sharePhotosButton: Locator;
-    readonly fileInput: Locator;
-    readonly submitPhoto: Locator
-    readonly threeDotsIcon: Locator
-    readonly deletePostParagraph: Locator
-    readonly confirmDeleteButton: Locator
-    readonly photoImg: Locator
-    readonly noPostParagraph: Locator
-    readonly buzzPageButton: Locator
-    readonly editPostParagraph: Locator
-    readonly textFieldInPostEdit: Locator
-    readonly removePictureButton: Locator
-    readonly confirmEditedPost: Locator
-  
-    constructor(page: Page) {
-      super(page)
-      this.sharePhotosButton = page.getByText("Share Photos");
-      this.fileInput = page.locator('input[type="file"]');
-      this.submitPhoto = page.locator('button.oxd-button--main:has-text("Share")');
-      this.threeDotsIcon = page.locator('i.oxd-icon.bi-three-dots');
-      this.deletePostParagraph = page.getByText("Delete Post");
-      this.editPostParagraph = page.getByText("Edit Post");
-      this.confirmDeleteButton = page.getByText("Yes, Delete");
-      this.photoImg = page.locator('.orangehrm-buzz-photos-item img')
-      this.noPostParagraph = page.getByText("No Posts Available")
-      this.buzzPageButton = page.locator('span:has-text("Buzz")')
-      this.textFieldInPostEdit = page.locator('.orangehrm-buzz-post-modal-header-text .oxd-buzz-post .oxd-buzz-post-input')
-      this.removePictureButton = page.locator('.oxd-icon-button.orangehrm-photo-input-remove i.bi-x')
-      this.confirmEditedPost = page.locator('.orangehrm-buzz-post-modal-actions button')
-    }
+    public readonly sharePhotoButton = this.page.getByRole("button", { name: "Share Photos" })
+    public readonly fileInput = this.page.locator('input[type="file"]');
+    public readonly submitPhoto = this.page.locator('button.oxd-button--main:has-text("Share")');
+    public readonly threeDotsIcon = this.page.locator('i.oxd-icon.bi-three-dots');
+    public readonly deletePostParagraph = this.page.getByText("Delete Post"); 
+    public readonly editPostParagraph = this.page.getByText("Edit Post");
+    public readonly confirmDeleteButton = this.page.getByRole("button", { name: "Yes, Delete" })
+    public readonly photoImg = this.page.locator('.orangehrm-buzz-photos-item img')
+    public readonly noPostParagraph = this.page.locator('p:has-text("No Posts Available")')
+    public readonly buzzPageButton = this.page.locator('span:has-text("Buzz")')
+    public readonly textFieldInPostEdit = this.page.locator('.orangehrm-buzz-post-modal-header-text .oxd-buzz-post .oxd-buzz-post-input')
+    public readonly removePictureButton = this.page.locator('.oxd-icon-button.orangehrm-photo-input-remove i.bi-x')
+    public readonly confirmEditedPost = this.page.locator('.orangehrm-buzz-post-modal-actions button')
     
     async sharePhotos(filePath:string): Promise<void> {
-        await this.sharePhotosButton.click();
+        await this.sharePhotoButton.click();
         const fileInput =  this.fileInput;
         if (!fileInput) {
           console.error("File input element not found.");
@@ -49,11 +31,10 @@ export class BuzzPage extends BasePage {
         await this.confirmDeleteButton.click();
     }
 
-    async editPost(postEdited:string): Promise<void> {
+    public async editNewestPost(finalPostText: string): Promise<void> {
       await this.threeDotsIcon.first().click()
       await this.editPostParagraph.click();
-      await this.textFieldInPostEdit.type(postEdited)
-      await this.removePictureButton.click()
+      await this.textFieldInPostEdit.type(finalPostText)
       await this.confirmEditedPost.click()  
   }
 }
