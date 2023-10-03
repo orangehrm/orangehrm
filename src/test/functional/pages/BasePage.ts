@@ -37,7 +37,11 @@ export class BasePage {
     return this.page.getByText(label, { exact: true }).locator('xpath=../..').getByRole('textbox');
   }
 
-  protected getDatePickerByLabel(label: string): Locator {
+  protected getToggleByTextLabel(label: string): Locator {
+    return this.page.getByText(label, { exact: true }).locator('xpath=../..').locator('span');
+  }
+
+  protected getDatePickerByTextLabel(label: string): Locator {
     return this.page
       .locator('form div')
       .filter({
@@ -46,11 +50,11 @@ export class BasePage {
       .getByPlaceholder('yyyy-mm-dd');
   }
 
-  protected getRadiobuttonByLabel(label: string): Locator {
-    return this.page.getByText(label, { exact: true }).locator('span');
+  protected getRadiobuttonByTextLabel(label: string): Locator {
+    return this.page.getByText(label, { exact: true }).locator('xpath=../..');
   }
 
-  protected getDropdownByLabel(label: string): Locator {
+  protected getDropdownByTextLabel(label: string): Locator {
     return this.page
       .getByText(label, { exact: true })
       .locator('xpath=../..')

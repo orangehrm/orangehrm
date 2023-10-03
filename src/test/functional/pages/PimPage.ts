@@ -1,4 +1,4 @@
-import { Locator, Page } from 'playwright';
+import { Page } from 'playwright';
 
 import { NewEmployeeData } from '../data';
 import { randomTxt } from '../utils/helper';
@@ -6,25 +6,19 @@ import { randomTxt } from '../utils/helper';
 import { BasePage } from './BasePage';
 
 export class PimPage extends BasePage {
-  readonly addButton: Locator;
-  public readonly firstNameInput: Locator = this.getTextboxByPlaceholder('First Name');
-  public readonly middleNameInput: Locator = this.getTextboxByPlaceholder('Middle Name');
-  public readonly lastNameInput: Locator = this.getTextboxByPlaceholder('Last Name');
-  public readonly employeeId: Locator = this.getTextboxByTextLabel('Employee Id');
-  public readonly createLoginDetailsCheckbox: Locator;
-  public readonly usernameInput: Locator = this.getTextboxByTextLabel('Username');
-  public readonly passwordInput: Locator = this.getTextboxByTextLabel('Password');
-  public readonly confirmPasswordInput: Locator = this.getTextboxByTextLabel('Confirm Password');
-  readonly saveButton: Locator;
+  readonly addButton = this.page.getByRole('button', { name: 'Add' });
+  public readonly firstNameInput = this.getTextboxByPlaceholder('First Name');
+  public readonly middleNameInput = this.getTextboxByPlaceholder('Middle Name');
+  public readonly lastNameInput = this.getTextboxByPlaceholder('Last Name');
+  public readonly employeeId = this.getTextboxByTextLabel('Employee Id');
+  public readonly createLoginDetailsCheckbox = this.getToggleByTextLabel('Create Login Details');
+  public readonly usernameInput = this.getTextboxByTextLabel('Username');
+  public readonly passwordInput = this.getTextboxByTextLabel('Password');
+  public readonly confirmPasswordInput = this.getTextboxByTextLabel('Confirm Password');
+  readonly saveButton = this.page.getByRole('button', { name: 'Save' });
 
   constructor(page: Page) {
     super(page);
-    this.addButton = page.getByRole('button', { name: 'Add' });
-    this.createLoginDetailsCheckbox = page
-      .locator('div')
-      .filter({ hasText: /^Create Login Details$/ })
-      .locator('span');
-    this.saveButton = page.getByRole('button', { name: 'Save' });
   }
 
   public async addEmployeeWithLoginCredentials(newEmployeeData: NewEmployeeData): Promise<void> {

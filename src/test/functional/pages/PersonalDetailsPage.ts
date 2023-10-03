@@ -1,27 +1,25 @@
-import { Locator, Page } from 'playwright';
+import { Page } from 'playwright';
 
 import { UserData } from '../data';
 
 import { BasePage } from './BasePage';
 
 export class PersonalDetailsPage extends BasePage {
-  readonly pageHeader: Locator;
-  public readonly nickname: Locator = this.getTextboxByTextLabel('Nickname');
-  public readonly otherId: Locator = this.getTextboxByTextLabel('Other Id');
-  public readonly driversLicense: Locator = this.getTextboxByTextLabel("Driver's License Number");
-  public readonly licenseExpiryDate: Locator = this.getDatePickerByLabel('License Expiry Date');
-  public readonly ssnNumber: Locator = this.getTextboxByTextLabel('SSN Number');
-  public readonly sinNumber: Locator = this.getTextboxByTextLabel('SIN Number');
-  public readonly dateOfBirthDatepicker: Locator = this.getDatePickerByLabel('Date of Birth');
-  public readonly nationalityDropdown: Locator = this.getDropdownByLabel('Nationality');
-  public readonly maritalStatusDropdown: Locator = this.getDropdownByLabel('Marital Status');
-  public readonly genderMaleRadiobutton: Locator = this.getRadiobuttonByLabel('Male');
-  public readonly militaryServiceInput: Locator = this.getTextboxByTextLabel('Military Service');
-  readonly saveButton: Locator = this.getSaveButtonByHeadingSection('Personal Details');
+  public readonly nickname = this.getTextboxByTextLabel('Nickname');
+  public readonly otherId = this.getTextboxByTextLabel('Other Id');
+  public readonly driversLicense = this.getTextboxByTextLabel("Driver's License Number");
+  public readonly licenseExpiryDate = this.getDatePickerByTextLabel('License Expiry Date');
+  public readonly ssnNumber = this.getTextboxByTextLabel('SSN Number');
+  public readonly sinNumber = this.getTextboxByTextLabel('SIN Number');
+  public readonly dateOfBirthDatepicker = this.getDatePickerByTextLabel('Date of Birth');
+  public readonly nationalityDropdown = this.getDropdownByTextLabel('Nationality');
+  public readonly maritalStatusDropdown = this.getDropdownByTextLabel('Marital Status');
+  public readonly genderRadioButton = this.getRadiobuttonByTextLabel('Gender');
+  public readonly militaryServiceInput = this.getTextboxByTextLabel('Military Service');
+  public readonly saveButton = this.getSaveButtonByHeadingSection('Personal Details');
 
   constructor(page: Page) {
     super(page);
-    this.pageHeader = page.getByRole('heading', { name: 'Personal Details' });
   }
 
   public async fillNewEmployeePersonalDetails(userData: UserData): Promise<void> {
@@ -38,10 +36,14 @@ export class PersonalDetailsPage extends BasePage {
     await this.maritalStatusDropdown.click();
     await this.chooseDropdownOptionByText(userData.personalDetails.maritalStatus);
     await this.militaryServiceInput.fill(userData.personalDetails.militaryService);
-    await this.genderMaleRadiobutton.click();
-    await this.page.waitForTimeout(3000);
+    await this.genderRadioButton
+      .getByRole('radio', {
+        name: userData.personalDetails.gender,
+        exact: true,
+      })
+      .setChecked(true, { force: true });
+
     await this.saveForm();
-    await this.page.waitForTimeout(3000);
   }
 
   public async saveForm(): Promise<void> {

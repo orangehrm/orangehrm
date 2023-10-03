@@ -12,7 +12,9 @@ test.describe('Adding a new employee', () => {
     loginPage = new LoginPage(page);
     pimPage = new PimPage(page);
     personalDetailsPage = new PersonalDetailsPage(page);
-    await loginPage.loginUser(adminUserTestData.userName, adminUserTestData.password);
+    await page.goto('https://opensource-demo.orangehrmlive.com/');
+    await loginPage.loginUser('Admin', 'admin123');
+    // await loginPage.loginUser(adminUserTestData.userName, adminUserTestData.password);
     await loginPage.navigateToSubPage(SubPage.PIM);
   });
 
@@ -22,7 +24,14 @@ test.describe('Adding a new employee', () => {
     await personalDetailsPage.saveForm();
     await pimPage.navigateToPimTab(PIMTAB.CONTACT_DETAILS);
     await pimPage.navigateToPimTab(PIMTAB.PERSONAL_DETAILS);
-    await page.waitForTimeout(2000);
-    await expect(personalDetailsPage.nickname).toHaveValue('NicknameTest');
+    await expect.soft(personalDetailsPage.nickname).toHaveValue('NicknameTest');
+    await expect
+      .soft(
+        personalDetailsPage.genderRadioButton.getByRole('radio', {
+          name: userData.personalDetails.gender,
+          exact: true,
+        }),
+      )
+      .toBeChecked();
   });
 });
