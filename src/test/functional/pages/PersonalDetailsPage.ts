@@ -25,7 +25,7 @@ export class PersonalDetailsPage extends BasePage {
   }
 
   public async fillNewEmployeePersonalDetails(userData: UserData): Promise<void> {
-    await this.nickname.waitFor({ state: 'visible' });
+    await this.nickname.click();
     await this.nickname.fill(userData.personalDetails.nickname);
     await this.otherId.fill(userData.personalDetails.otherId);
     await this.driversLicense.fill(userData.personalDetails.driverLicenseNumber);
@@ -45,6 +45,6 @@ export class PersonalDetailsPage extends BasePage {
   }
 
   public async saveForm(): Promise<void> {
-    await this.saveButton.click;
+    await this.saveButton.click();
   }
 }
