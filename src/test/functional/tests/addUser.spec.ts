@@ -12,9 +12,9 @@ test.describe('Adding a new employee', () => {
     loginPage = new LoginPage(page);
     pimPage = new PimPage(page);
     personalDetailsPage = new PersonalDetailsPage(page);
-    await page.goto('https://opensource-demo.orangehrmlive.com/');
-    await loginPage.loginUser('Admin', 'admin123');
-    // await loginPage.loginUser(adminUserTestData.userName, adminUserTestData.password);
+    // await page.goto('https://opensource-demo.orangehrmlive.com/');
+    // await loginPage.loginUser('Admin', 'admin123');
+    await loginPage.loginUser(adminUserTestData.userName, adminUserTestData.password);
     await loginPage.navigateToSubPage(SubPage.PIM);
   });
 
