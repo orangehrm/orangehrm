@@ -30,30 +30,11 @@ export const newEmployeeData: NewEmployeeData = {
   },
 };
 
-export interface UserData {
-  personalDetails: {
-    firstName: string;
-    middleName: string;
-    lastName: string;
-    nickname: string;
-    otherId: string;
-    ssnNumber: string;
-    sinNumber: string;
-    driverLicenseNumber: string;
-    licenseExpiryDate: string;
-    nationality: string;
-    maritalStatus: string;
-    dateOfBirth: string;
-    gender: string;
-    militaryService: string;
-  };
-}
-
 export const userData: UserData = {
   personalDetails: {
-    firstName: 'FirstNameTest',
-    middleName: 'MiddleNameTest',
-    lastName: 'LastNameTest',
+    firstName: newEmployeeData.firstName,
+    middleName: newEmployeeData.middleName,
+    lastName: newEmployeeData.lastName,
     nickname: 'NicknameTest',
     otherId: '1234',
     ssnNumber: '456',
@@ -67,3 +48,24 @@ export const userData: UserData = {
     militaryService: 'military',
   },
 };
+
+export interface UserData {
+  personalDetails: UserDataPersonalDetails;
+}
+
+export interface UserDataPersonalDetails {
+  firstName: string;
+  middleName: string;
+  lastName: string;
+  nickname: string;
+  otherId: string;
+  ssnNumber: string;
+  sinNumber: string;
+  driverLicenseNumber: string;
+  licenseExpiryDate: string;
+  nationality: string;
+  maritalStatus: string;
+  dateOfBirth: string;
+  gender: string;
+  militaryService: string;
+}
