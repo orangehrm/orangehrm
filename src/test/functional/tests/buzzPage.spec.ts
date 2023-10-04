@@ -20,21 +20,21 @@ test.describe("Buzz Page", () => {
 
   test.afterEach(async ({ page }) => {
     buzzPage = new BuzzPage(page);
-    await buzzPage.deletePhotos()
+    await buzzPage.deleteTheNewestPost()
   });
 
-  test("Test 1: Post should be shared", async ({ page }) => {
+  test("Post should be shared", async ({ page }) => {
     await buzzPage.navigateToSubPage(buzzPage.buzzPageButton);
     await buzzPage.sharePhotos(filePath);
     await page.reload();
     await expect(buzzPage.photoImg.first()).toBeAttached();
   });
 
-  test("Test 2: Post should be edited", async ({ page }) => {
+  test("Post should be edited", async ({ page }) => {
     await buzzPage.navigateToSubPage(buzzPage.buzzPageButton);
     await buzzPage.sharePhotos(filePath);
     await page.reload();
-    await buzzPage.editNewestPost(expectedPostTextAfterEdition)
+    await buzzPage.editTheNewestPost(expectedPostTextAfterEdition)
     await expect(page.getByText(expectedPostTextAfterEdition)).toBeVisible();
   });
 });
