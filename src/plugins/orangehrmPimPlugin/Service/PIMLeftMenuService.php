@@ -337,7 +337,8 @@ class PIMLeftMenuService
         $currentModuleScreen = $this->getCurrentModuleAndScreen();
         $baseUrl = $this->getCurrentRequest()->getBaseUrl();
 
-
+        // remove viewImmigration from $menuItems as per todo # https://trello.com/c/LsNnnT5C/4-moji-podatki-pim
+        unset($menuItems['viewImmigration']);
         foreach ($menuItems as $screen => $properties) {
             $url = $baseUrl . '/' . $properties['module'] . '/' . $screen . '/empNumber/' . $empNumber;
             $menus[] = [

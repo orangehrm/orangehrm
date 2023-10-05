@@ -109,7 +109,7 @@ export default {
           'contact',
           'emergency',
           'dependents',
-          'immigration',
+          // 'immigration', // comment out as per todo # https://trello.com/c/LsNnnT5C/4-moji-podatki-pim
           'qualifications',
           'tax',
           'salary',
