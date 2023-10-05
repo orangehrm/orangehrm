@@ -1,31 +1,19 @@
 import { BasePage } from "./BasePage";
-import { Locator, Page } from "@playwright/test";
 export class BuzzPage extends BasePage {
-    readonly sharePhotosButton: Locator;
-    readonly fileInput: Locator;
-    readonly submitPhoto: Locator
-    readonly threeDotsIcon: Locator
-    readonly deletePostParagraph: Locator
-    readonly confirmDeleteButton: Locator
-    readonly photoImg: Locator
-    readonly noPostParagraph: Locator
-    readonly buzzPageButton: Locator
-  
-    constructor(page: Page) {
-      super(page)
-      this.sharePhotosButton = page.locator('button:has-text("Share Photos")');
-      this.fileInput = page.locator('input[type="file"]');
-      this.submitPhoto = page.locator('button.oxd-button--main:has-text("Share")');
-      this.threeDotsIcon = page.locator('i.oxd-icon.bi-three-dots');
-      this.deletePostParagraph = page.locator('p:has-text("Delete Post")');
-      this.confirmDeleteButton = page.locator('button:has-text("Yes, Delete")');
-      this.photoImg = page.locator('.orangehrm-buzz-photos-item img')
-      this.noPostParagraph = page.locator('p:has-text("No Posts Available")')
-      this.buzzPageButton = page.locator('span:has-text("Buzz")')
-    }
-
-    async sharePhotos(): Promise<void> {
-    const filePath = '../test/functional/files/file1.png';
+    protected readonly sharePhotosButton = this.page.getByRole("button", { name: "Share Photos" })
+    protected readonly fileInput = this.page.locator('input[type="file"]');
+    protected readonly submitPhoto = this.page.getByRole("button", { name: 'Share', exact: true })
+    protected readonly threeDotsIcon = this.page.locator('i.oxd-icon.bi-three-dots');
+    protected readonly deletePostParagraph = this.page.getByText("Delete Post"); 
+    protected readonly editPostParagraph = this.page.getByText("Edit Post");
+    protected readonly confirmDeleteButton = this.page.getByRole("button", { name: "Yes, Delete" })
+    public readonly photoImg = this.page.locator('.orangehrm-buzz-photos-item img')
+    public readonly buzzPageButton = this.page.locator('span:has-text("Buzz")')
+    protected readonly textFieldInPostEdit = this.page.locator('.orangehrm-buzz-post-modal-header-text .oxd-buzz-post .oxd-buzz-post-input')
+    protected readonly removePictureButton = this.page.locator('.oxd-icon-button.orangehrm-photo-input-remove i.bi-x')
+    protected readonly confirmEditedPost = this.page.locator('.orangehrm-buzz-post-modal-actions button')
+    
+    async sharePost(filePath:string): Promise<void> {
         await this.sharePhotosButton.click();
         const fileInput =  this.fileInput;
         if (!fileInput) {
@@ -36,9 +24,16 @@ export class BuzzPage extends BasePage {
         await this.submitPhoto.click();
     }
 
-    async deletePhotos(): Promise<void> {
+   async deleteTheNewestPost(): Promise<void> {
         await this.threeDotsIcon.first().click()
         await this.deletePostParagraph.click();
         await this.confirmDeleteButton.click();
     }
+
+   async editTheNewestPost(finalPostText: string): Promise<void> {
+      await this.threeDotsIcon.first().click()
+      await this.editPostParagraph.click();
+      await this.textFieldInPostEdit.type(finalPostText)
+      await this.confirmEditedPost.click()  
+  }
 }
