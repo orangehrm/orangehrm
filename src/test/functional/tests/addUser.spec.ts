@@ -27,8 +27,7 @@ test.describe('Adding a new employee', () => {
     await expect.soft(personalDetailsPage.nickname).toHaveValue('NicknameTest');
     await expect
       .soft(
-        personalDetailsPage.genderRadioButton.getByRole('radio', {
-          name: userData.personalDetails.gender,
+        personalDetailsPage.genderRadioButtons.getByText(userData.personalDetails.gender, {
           exact: true,
         }),
       )

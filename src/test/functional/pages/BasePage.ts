@@ -64,7 +64,7 @@ export class BasePage {
   protected chooseDropdownOptionByText(option: string): Locator {
     return this.page.getByRole('option', { name: option });
   }
-
+  
   protected getSaveButtonByHeadingSection(heading: string): Locator {
     return this.page
       .getByRole('heading', { name: heading })

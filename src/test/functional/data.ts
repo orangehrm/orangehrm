@@ -44,7 +44,7 @@ export const userData: UserData = {
     nationality: 'Afghan',
     maritalStatus: 'Married',
     dateOfBirth: '2000-01-01',
-    gender: 'Male',
+    gender: 'Female',
     militaryService: 'military',
   },
 };

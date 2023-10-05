@@ -6,7 +6,7 @@ import { randomTxt } from '../utils/helper';
 import { BasePage } from './BasePage';
 
 export class PimPage extends BasePage {
-  readonly addButton = this.page.getByRole('button', { name: 'Add' });
+  public readonly addButton = this.page.getByRole('button', { name: 'Add' });
   public readonly firstNameInput = this.getTextboxByPlaceholder('First Name');
   public readonly middleNameInput = this.getTextboxByPlaceholder('Middle Name');
   public readonly lastNameInput = this.getTextboxByPlaceholder('Last Name');

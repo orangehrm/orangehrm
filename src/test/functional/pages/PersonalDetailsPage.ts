@@ -14,7 +14,7 @@ export class PersonalDetailsPage extends BasePage {
   public readonly dateOfBirthDatepicker = this.getDatePickerByTextLabel('Date of Birth');
   public readonly nationalityDropdown = this.getDropdownByTextLabel('Nationality');
   public readonly maritalStatusDropdown = this.getDropdownByTextLabel('Marital Status');
-  public readonly genderRadioButton = this.getRadiobuttonByTextLabel('Gender');
+  public readonly genderRadioButtons = this.getRadiobuttonByTextLabel('Gender');
   public readonly militaryServiceInput = this.getTextboxByTextLabel('Military Service');
   public readonly saveButton = this.getSaveButtonByHeadingSection('Personal Details');
 
@@ -36,13 +36,10 @@ export class PersonalDetailsPage extends BasePage {
     await this.maritalStatusDropdown.click();
     await this.chooseDropdownOptionByText(userData.personalDetails.maritalStatus);
     await this.militaryServiceInput.fill(userData.personalDetails.militaryService);
-    await this.genderRadioButton
-      .getByRole('radio', {
-        name: userData.personalDetails.gender,
-        exact: true,
-      })
+    await this.genderRadioButtons.setChecked(true, { force: true });
+    await this.genderRadioButtons
+      .getByText(userData.personalDetails.gender, { exact: true })
       .setChecked(true, { force: true });
-
     await this.saveForm();
   }
 
