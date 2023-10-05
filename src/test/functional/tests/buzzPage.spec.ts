@@ -25,14 +25,14 @@ test.describe("Buzz Page", () => {
 
   test("Post should be shared", async ({ page }) => {
     await buzzPage.navigateToSubPage(buzzPage.buzzPageButton);
-    await buzzPage.sharePhotos(filePath);
+    await buzzPage.sharePost(filePath);
     await page.reload();
     await expect(buzzPage.photoImg.first()).toBeAttached();
   });
 
   test("Post should be edited", async ({ page }) => {
     await buzzPage.navigateToSubPage(buzzPage.buzzPageButton);
-    await buzzPage.sharePhotos(filePath);
+    await buzzPage.sharePost(filePath);
     await page.reload();
     await buzzPage.editTheNewestPost(expectedPostTextAfterEdition)
     await expect(page.getByText(expectedPostTextAfterEdition)).toBeVisible();
