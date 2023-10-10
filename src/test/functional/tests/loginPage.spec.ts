@@ -13,12 +13,12 @@ test.describe("Login Page", () => {
   test("Admin User Should Be Logged In", async ({ page }) => {
     await loginPage.navigateToMainPage()
     await loginPage.loginUser(adminUserTestData.userName, adminUserTestData.password)
-    await expect(loginPage.userNameAfterLogin).toHaveText(loginPageAssertion.adminName);
+    await expect(loginPage.chooseDropdownOptionByText('Admin User')).toHaveText(loginPageAssertion.adminName);
   });
 
   test("Regular User Should Be Logged In", async ({ page }) => {
     await loginPage.navigateToMainPage()
     await loginPage.loginUser(normalUserTestData.userName, normalUserTestData.password)
-    await expect(loginPage.userNameAfterLogin).toHaveText(loginPageAssertion.userName);
+    await expect(loginPage.chooseDropdownOptionByText('Normal User')).toHaveText(loginPageAssertion.userName);
   });
 });
