@@ -14,8 +14,12 @@ const config: CustomConfig = {
         viewport: { width: 1280, height: 720 },
         screenshot: 'only-on-failure',
         video: 'retain-on-failure',
+        actionTimeout: 20000,
+        navigationTimeout: 30000
+        
       },
     },
+    
   ],
   reporter: 'html',
   outputDir: 'test-results',
@@ -34,7 +38,9 @@ const config: CustomConfig = {
       maxDiffPixelRatio: 0.1,
     },
   },
-  baseUrl: 'http://localhost:8888/web/index.php/auth/login'
+  baseUrl: 'http://localhost:8888/web/index.php/auth/login',
+
+  // Set default navigation timeout and default timeout
 };
 
 export default config;

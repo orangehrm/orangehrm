@@ -1,4 +1,5 @@
 import { BasePage } from "./BasePage";
+
 export class BuzzPage extends BasePage {
     protected readonly sharePhotosButton = this.page.getByRole("button", { name: "Share Photos" })
     protected readonly fileInput = this.page.locator('input[type="file"]');
@@ -12,7 +13,18 @@ export class BuzzPage extends BasePage {
     protected readonly textFieldInPostEdit = this.page.locator('.orangehrm-buzz-post-modal-header-text .oxd-buzz-post .oxd-buzz-post-input')
     protected readonly removePictureButton = this.page.locator('.oxd-icon-button.orangehrm-photo-input-remove i.bi-x')
     protected readonly confirmEditedPost = this.page.locator('.orangehrm-buzz-post-modal-actions button')
-    
+    protected readonly shareVideoButton = this.page.locator(".oxd-glass-button-icon--videoglass")
+    protected readonly pasteUrlTextarea = this.page.getByPlaceholder("Paste Video URL")
+    protected readonly sharePhotoButton = this.page.locator('.oxd-button')
+    protected readonly shareVideoParagraph = this.page.getByRole('dialog').getByPlaceholder('What\'s on your mind?')
+    public readonly heart = this.page.locator('.orangehrm-heart-icon')
+    public readonly mostLikedTab = this.page.getByRole("button", { name: " Most Liked Posts " })
+    public readonly mostCommentedTab = this.page.getByRole("button", { name: " Most Commented Posts " })
+    public readonly bodyTextPost = this.page.locator('.orangehrm-buzz-post-body-text')
+    public readonly commentPost = this.page.locator('.bi-chat-text-fill')
+    public readonly commentInput = this.page.getByPlaceholder('Write your comment...')
+
+
     async sharePost(filePath:string): Promise<void> {
         await this.sharePhotosButton.click();
         const fileInput =  this.fileInput;
@@ -24,7 +36,26 @@ export class BuzzPage extends BasePage {
         await this.submitPhoto.click();
     }
 
-   async deleteTheNewestPost(): Promise<void> {
+    async shareVideo(title:string, videoUrl:string): Promise<void> {
+      const generateIt = (request: any) => {
+        return request.url().startsWith('https://jnn-pa.googleapis.com') && request.url().endsWith('/GenerateIT');
+      };
+      await this.page.waitForLoadState('networkidle', { timeout: 5000 })
+      await this.shareVideoButton.click();
+      await this.shareVideoParagraph.type(title)
+      await this.pasteUrlTextarea.type(videoUrl)
+      await this.page.waitForRequest(generateIt)
+      await this.submitPhoto.click()
+      await this.page.waitForRequest(generateIt)
+  }
+
+   async deleteTheNewestPost(video: boolean | null): Promise<void> {
+        if (video === true) {
+          const generateIt = (request: any) => {
+            return request.url().startsWith('https://jnn-pa.googleapis.com') && request.url().endsWith('/GenerateIT');
+          };
+          await this.page.waitForRequest(generateIt, { timeout: 5000 });
+        }
         await this.threeDotsIcon.first().click()
         await this.deletePostParagraph.click();
         await this.confirmDeleteButton.click();
