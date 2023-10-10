@@ -2,6 +2,7 @@ import { LoginPage } from "../pages/LoginPage";
 import { BuzzPage } from "../pages/BuzzPage";
 import { test, expect } from "@playwright/test";
 import { adminUserTestData } from "../data";
+import { generateRandomString } from "../utils/helper"
 
 const expectedPostTextAfterEdition = "post edited"
 const filePath = '../test/functional/files/file1.png';
@@ -33,24 +34,26 @@ test.describe("Share, edit and delete post", () => {
   });
 
   test("Post should be shared", async ({ page }) => {
+    const randomTitle = generateRandomString()
     await buzzPage.navigateToSubPage(buzzPage.buzzPageButton);
-    await buzzPage.sharePost(filePath);
+    await buzzPage.sharePost(filePath, randomTitle);
     await page.reload();
-    await expect(buzzPage.photoImg.first()).toBeVisible();
+    await expect(buzzPage.bodyTextPost.first()).toHaveText(randomTitle);
   });
 
   test("Post should be edited", async ({ page }) => {
+    const randomTitle = generateRandomString()
     await buzzPage.navigateToSubPage(buzzPage.buzzPageButton);
-    await buzzPage.sharePost(filePath);
+    await buzzPage.sharePost(filePath, randomTitle);
     await page.reload();
     await buzzPage.editTheNewestPost(expectedPostTextAfterEdition)
-    await expect(page.getByText(expectedPostTextAfterEdition)).toBeVisible();
+    await expect(buzzPage.bodyTextPost.first()).toHaveText(expectedPostTextAfterEdition);
   });
 
   test("Video should be shared", async ({ page }) => {
     await buzzPage.navigateToSubPage(buzzPage.buzzPageButton);
     await buzzPage.shareVideo(videoTitle, videoUrl);
-    await expect(page.getByText(videoTitle)).toBeVisible();
+    await expect(buzzPage.bodyTextPost.first()).toHaveText(videoTitle);
   });
 });
 

@@ -25,8 +25,9 @@ export class BuzzPage extends BasePage {
     public readonly commentInput = this.page.getByPlaceholder('Write your comment...')
 
 
-    async sharePost(filePath:string): Promise<void> {
+    async sharePost(filePath:string, title:string): Promise<void> {
         await this.sharePhotosButton.click();
+        await this.shareVideoParagraph.type(title)
         const fileInput =  this.fileInput;
         if (!fileInput) {
           console.error("File input element not found.");
@@ -64,7 +65,8 @@ export class BuzzPage extends BasePage {
    async editTheNewestPost(finalPostText: string): Promise<void> {
       await this.threeDotsIcon.first().click()
       await this.editPostParagraph.click();
-      await this.textFieldInPostEdit.type(finalPostText)
+      await this.textFieldInPostEdit.clear()
+      await this.textFieldInPostEdit.fill(finalPostText)
       await this.confirmEditedPost.click()  
   }
 }
