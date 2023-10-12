@@ -1,9 +1,9 @@
-import { BasePage } from "./BasePage";
+import { BasePage } from './BasePage';
 
 export class LoginPage extends BasePage {
 
-  protected readonly userNameInput = this.page.getByPlaceholder("Username");
-  protected readonly passwordInput = this.page.getByPlaceholder("Password");
+  protected readonly userNameInput = this.page.getByPlaceholder('Username');
+  protected readonly passwordInput = this.page.getByPlaceholder('Password');
   protected readonly loginButton = this.page.getByRole('button', { name: 'Login' });
 
   public chooseDropdownOptionByText(option: string) {

@@ -1,5 +1,5 @@
-import { Page, Browser, chromium, Locator } from "@playwright/test";
-import config from "../../playwright.config";
+import { Page, Browser, chromium, Locator } from '@playwright/test';
+import config from '../../playwright.config';
 
 export class BasePage {
   private browser: Browser | null = null;
@@ -24,10 +24,65 @@ export class BasePage {
     await this.page.waitForURL(config.baseUrl);
   }
 
-  async navigateToSubPage(locator: Locator): Promise<void> {
-    if (typeof locator === "string") {
-      locator = this.page.locator(locator);
-    }
-    await locator.click();
+  public async navigateToSubPage(subPage: SubPage): Promise<void> {
+    await this.page.getByRole('link', { name: subPage }).click();
+  }
+
+  protected getTextboxByPlaceholder(placeholder: string): Locator {
+    return this.page.getByPlaceholder(placeholder);
+  }
+
+  protected getTextboxByTextLabel(label: string): Locator {
+    return this.page.getByText(label, { exact: true }).locator('xpath=../..').getByRole('textbox');
+  }
+
+  protected getToggleByTextLabel(label: string): Locator {
+    return this.page.getByText(label, { exact: true }).locator('xpath=../..').locator('span');
+  }
+
+  protected getDatePickerByTextLabel(label: string): Locator {
+    return this.page
+      .locator('form div')
+      .filter({
+        hasText: label,
+      })
+      .getByPlaceholder('yyyy-mm-dd');
+  }
+
+  protected getRadiobuttonByTextLabel(label: string): Locator {
+    return this.page.getByText(label, { exact: true }).locator('xpath=../..');
+  }
+
+  protected getDropdownByTextLabel(label: string): Locator {
+    return this.page
+      .getByText(label, { exact: true })
+      .locator('xpath=../..')
+      .getByText('-- Select --');
+  }
+
+  protected chooseDropdownOptionByText(option: string): Locator {
+    return this.page.getByRole('option', { name: option });
+  }
+  
+  protected getSaveButtonByHeadingSection(heading: string): Locator {
+    return this.page
+      .getByRole('heading', { name: heading })
+      .locator('xpath=..')
+      .getByRole('button', { name: 'Save' });
   }
 }
+
+  export enum SubPage {
+    ADMIN = 'Admin',
+    PIM = 'PIM',
+    LEAVE = 'Leave',
+    TIME = 'Time',
+    RECRUITMENT = 'Recruitment',
+    MY_INFO = 'My Info',
+    PERFORMANCE = 'Performance',
+    DASHBOARD = 'Dashboard',
+    DIRECTORY = 'Directory',
+    MAINTENANCE = 'Maintenance',
+    CLAIM = 'Claim',
+    BUZZ = 'BUZZ',
+  }
