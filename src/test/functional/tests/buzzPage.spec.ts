@@ -11,6 +11,7 @@ const videoTitle = "Video is shared";
 const mostLiked = "Most Liked";
 const mostCommented = "Most commented";
 const newComment = "New comment";
+const simplePostMessage = "This is new post message"
 
 const videoUrl = "https://www.youtube.com/watch?v=7jMlFXouPk8";
 const videoUrl2 = "https://www.youtube.com/watch?v=HhtpBDmBY9w";
@@ -104,4 +105,46 @@ test.describe("Most liked and most commented post", () => {
     await expect(buzzPage.textPostBody.first()).toHaveText(mostCommented);
     await expect(buzzPage.videoBody).toHaveCount(3);
   });
+});
+
+test.describe("User should be able to write and share post", () => {
+  let loginPage: LoginPage;
+  let buzzPage: BuzzPage;
+
+  test.beforeEach(async ({ page }) => {
+    loginPage = new LoginPage(page);
+    buzzPage = new BuzzPage(page);
+    await loginPage.initialize();
+    await loginPage.navigateToMainPage();
+    await loginPage.loginUser(
+      adminUserTestData.userName,
+      adminUserTestData.password
+    );
+    await buzzPage.navigateToSubPage(SubPage.BUZZ);
+  }); 
+
+  test.afterEach(async ({ page }) => {
+    buzzPage = new BuzzPage(page);
+    const lvideo = await buzzPage.threeDotsIcon.count()
+    for (let i = 0; i < lvideo; i++) {
+      await buzzPage.deleteTheNewestPost(false);
+    }
+  })
+
+  test.only("User shoud be able to write simple post", async ({ page }) => {
+    await buzzPage.sendSimplePost(simplePostMessage)
+    console.log(simplePostMessage)
+    await page.reload();
+    await expect(buzzPage.textPostBody.first()).toHaveText(simplePostMessage);
+  });
+
+  test.only("User should be able to share post of other", async ({ page }) => {
+    const randomTitle = generateRandomString();
+    await buzzPage.sharePost(filePath, randomTitle);
+    await page.reload();
+    await buzzPage.resharePostOfOther()
+    await expect(buzzPage.picturePostBody).toHaveCount(2);
+    await expect(buzzPage.resharedTtileText).toHaveText(randomTitle)
+  });
+
 });

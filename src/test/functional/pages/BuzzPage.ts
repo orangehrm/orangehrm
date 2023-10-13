@@ -3,7 +3,7 @@ import { BasePage } from './BasePage';
 export class BuzzPage extends BasePage {
     protected readonly sharePhotosButton = this.page.getByRole('button', { name: 'Share Photos' })
     protected readonly fileInputButton = this.page.locator('input[type="file"]');
-    protected readonly sharingSubmitButton = this.page.getByRole('button', { name: 'Share', exact: true })
+    public readonly sharingSubmitButton = this.page.getByRole('button', { name: 'Share', exact: true })
     public readonly threeDotsIcon = this.page.getByRole('button', { name: '' });
     protected readonly deletePostParagraphButton = this.page.getByText('Delete Post'); 
     protected readonly editPostParagraphButton = this.page.getByText('Edit Post');
@@ -21,6 +21,12 @@ export class BuzzPage extends BasePage {
     public readonly commentInput = this.page.getByPlaceholder('Write your comment...')
     public readonly photoBody = this.page.locator('.orangehrm-buzz-photos')
     public readonly videoBody = this.page.locator('.orangehrm-buzz-video')
+    protected readonly simplePostMessageInput = this.page.getByPlaceholder('What\'s on your mind?')
+    protected readonly submitSimplePostButton = this.page.getByRole('button', { name: 'Post', exact: true })
+    public readonly postBody = this.page.locator('.orangehrm-buzz-post-body')
+    public readonly picturePostBody = this.page.locator('.orangehrm-buzz-post-body-picture') // to improve
+    public readonly resharePostButton = this.page.locator('.bi-share-fill') // to improve
+    public readonly resharedTtileText = this.page.locator('.orangehrm-buzz-post-body-original-text') // to improve
 
 
     async sharePost(filePath:string, title:string): Promise<void> {
@@ -55,6 +61,9 @@ export class BuzzPage extends BasePage {
           };
           await this.page.waitForRequest(generateIt, { timeout: 7000 });
         }
+        else {
+          await this.page.waitForTimeout(1500)
+        }
         await this.threeDotsIcon.first().click()
         await this.deletePostParagraphButton.click();
         await this.confirmDeleteButton.click();
@@ -66,5 +75,15 @@ export class BuzzPage extends BasePage {
       await this.inpostEditTextField.clear()
       await this.inpostEditTextField.fill(finalPostText)
       await this.confirmEditedPostButton.click()  
+  }
+
+  async sendSimplePost(simplePostMessage:string): Promise<void> {
+    await this.simplePostMessageInput.type(simplePostMessage)
+    await this.submitSimplePostButton.click()
+ }
+
+  async resharePostOfOther(): Promise<void> {
+    await this.resharePostButton.last().click()
+    await this.sharingSubmitButton.click()
   }
 }
