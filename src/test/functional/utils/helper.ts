@@ -5,6 +5,6 @@ export const generateRandomString = () => {
       return charset.charAt(randomIndex);
     }).join('');
   
-    return "TestE2E" + randomString;
+    return 'TestE2E' + randomString;
   };
   

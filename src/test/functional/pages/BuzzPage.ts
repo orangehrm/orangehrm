@@ -24,9 +24,19 @@ export class BuzzPage extends BasePage {
     protected readonly simplePostMessageInput = this.page.getByPlaceholder('What\'s on your mind?')
     protected readonly submitSimplePostButton = this.page.getByRole('button', { name: 'Post', exact: true })
     public readonly postBody = this.page.locator('.orangehrm-buzz-post-body')
-    public readonly picturePostBody = this.page.locator('.orangehrm-buzz-post-body-picture') // to improve
-    public readonly resharePostButton = this.page.locator('.bi-share-fill') // to improve
+    public readonly resharePostButton = this.page.locator('.bi-share-fill')
     public readonly resharedTtileText = this.page.locator('.orangehrm-buzz-post-body-original-text') // to improve
+
+
+    public async locateElementWithDynamicTextAndPhoto(randomTitle: string) {
+      const element = this.postBody.locator(`:has(:text('${randomTitle}')):has(.orangehrm-buzz-photos) .oxd-text.oxd-text--p.orangehrm-buzz-post-body-text`)
+      return element;
+    }
+
+    public async locateElementWithDynamicText(randomTitle: string) {
+      const element = this.postBody.locator(`:has(:text('${randomTitle}'))`)
+      return element;
+    }
 
 
     async sharePost(filePath:string, title:string): Promise<void> {
@@ -38,7 +48,7 @@ export class BuzzPage extends BasePage {
           return;
         }
         await fileInput.setInputFiles(filePath);
-        await this.sharingSubmitButton.click();
+        await this.sharingSubmitButton.click({force:true});
     }
 
     async shareVideo(title:string, videoUrl:string): Promise<void> {
@@ -64,7 +74,7 @@ export class BuzzPage extends BasePage {
         else {
           await this.page.waitForTimeout(1500)
         }
-        await this.threeDotsIcon.first().click()
+        await this.threeDotsIcon.first().click({force:true})
         await this.deletePostParagraphButton.click();
         await this.confirmDeleteButton.click();
     }
@@ -82,8 +92,9 @@ export class BuzzPage extends BasePage {
     await this.submitSimplePostButton.click()
  }
 
-  async resharePostOfOther(): Promise<void> {
+  async resharePostOfOther(title:string): Promise<void> {
     await this.resharePostButton.last().click()
+    await this.shareVideoParagraph.type(title)
     await this.sharingSubmitButton.click()
   }
 }
