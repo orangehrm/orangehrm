@@ -1,24 +1,28 @@
-import { LoginPage } from "../pages/LoginPage";
-import { test, expect } from "@playwright/test";
-import { normalUserTestData, adminUserTestData } from "../data";
-import { loginPageAssertion } from "../assertions";
+import { LoginPage } from '../pages/LoginPage';
+import { test, expect } from '@playwright/test';
+import { normalUserTestData, adminUserTestData } from '../data';
 
-test.describe("Login Page", () => {
+
+const adminName = 'Admin User'
+const userName = 'Normal User'
+
+
+test.describe('Login Page', () => {
   let loginPage: LoginPage;
   test.beforeEach(async ({ page }) => {
     loginPage = new LoginPage(page);
     await loginPage.initialize();
   });
 
-  test("Admin User Should Be Logged In", async ({ page }) => {
+  test('Admin User Should Be Logged In', async ({ page }) => {
     await loginPage.navigateToMainPage()
     await loginPage.loginUser(adminUserTestData.userName, adminUserTestData.password)
-    await expect(loginPage.userNameAfterLogin).toHaveText(loginPageAssertion.adminName);
+    await expect(loginPage.chooseDropdownOptionByText('Admin User')).toHaveText(adminName);
   });
 
-  test("Regular User Should Be Logged In", async ({ page }) => {
+  test('Regular User Should Be Logged In', async ({ page }) => {
     await loginPage.navigateToMainPage()
     await loginPage.loginUser(normalUserTestData.userName, normalUserTestData.password)
-    await expect(loginPage.userNameAfterLogin).toHaveText(loginPageAssertion.userName);
+    await expect(loginPage.chooseDropdownOptionByText('Normal User')).toHaveText(userName);
   });
 });
