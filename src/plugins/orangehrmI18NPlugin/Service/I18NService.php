@@ -261,6 +261,7 @@ class I18NService
      */
     public function getETagByLangCode(string $langCode): string
     {
+        $langCode = 'en_US';
         $cacheKey = $this->generateETagCacheKey($langCode);
         /** @var CacheItem $cacheItem */
         $cacheItem = $this->getCache()->getItem($cacheKey);
