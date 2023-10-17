@@ -1,0 +1,75 @@
+FROM php:8.1-apache-bullseye
+
+CMD ["apache2-foreground"]
+WORKDIR /var/www/html
+
+ENV OHRM_VERSION 5.5
+ENV OHRM_MD5 113e76fa9dd42a03f2b6a397fa2ffbc8
+
+RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
+RUN cd /tmp && curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer
+RUN set -ex; \
+	savedAptMark="$(apt-mark showmanual)"; \
+	apt-get update; \
+	apt-get install -y --no-install-recommends \
+		libfreetype6-dev \
+		libjpeg-dev \
+		libpng-dev \
+		libzip-dev \
+		libldap2-dev \
+		libicu-dev \
+		unzip \
+	; \
+	\
+	cd .. && rm -r html && mkdir html;
+
+RUN set -ex; \
+	docker-php-ext-configure gd --with-freetype --with-jpeg; \
+	docker-php-ext-configure ldap \
+	    --with-libdir=lib/$(uname -m)-linux-gnu/ \
+	; \
+	\
+	docker-php-ext-install -j "$(nproc)" \
+		gd \
+		opcache \
+		intl \
+		pdo_mysql \
+		zip \
+		ldap \
+	; \
+	\
+	rm -rf /var/cache/apt/archives; \
+	rm -rf /var/lib/apt/lists/*
+
+RUN { \
+		echo 'opcache.memory_consumption=128'; \
+		echo 'opcache.interned_strings_buffer=8'; \
+		echo 'opcache.max_accelerated_files=4000'; \
+		echo 'opcache.revalidate_freq=60'; \
+		echo 'opcache.fast_shutdown=1'; \
+		echo 'opcache.enable_cli=1'; \
+	} > /usr/local/etc/php/conf.d/opcache-recommended.ini; \
+	\
+	if command -v a2enmod; then \
+		a2enmod rewrite; \
+	fi;
+
+# Node and Yarn
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash \
+	&& . $HOME/.nvm/nvm.sh \
+	&& nvm install 18 \
+	&& nvm use 18 \
+	&& npm install -g yarn;
+
+COPY . /var/www/html/
+RUN set -ex; \
+	chown www-data:www-data /var/www/html; \
+	chown -R www-data:www-data /var/www/html/src/cache /var/www/html/src/log /var/www/html/src/config /var/www/html/lib/confs; \
+	chmod -R 775 /var/www/html/src/cache /var/www/html/src/log /var/www/html/src/config;
+RUN cd /var/www/html/src && composer install && composer dump-autoload
+
+# Build the frontends
+RUN cd /var/www/html/src/client && . $HOME/.nvm/nvm.sh  && nvm use 18 && yarn install && yarn build
+RUN cd /var/www/html/installer/client && . $HOME/.nvm/nvm.sh  && nvm use 18 && yarn install && yarn build
+
+RUN cd /var/www/html
