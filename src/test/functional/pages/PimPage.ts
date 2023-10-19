@@ -20,6 +20,11 @@ export class PimPage extends BasePage {
       return element;
     }
 
+    public async locateEditIconByRandomEmployeeName(randomNewEmpoyeeName: string) {
+      const element = `.oxd-table-card:has(:text("${randomNewEmpoyeeName}")) .oxd-icon.bi-pencil-fill`;
+      return element;
+    }
+
 public async addEmployee(firstRandomName:string) {
   await this.addEmployeeButton.click()
   await this.firstNameInput.type(firstRandomName)
@@ -27,4 +32,11 @@ public async addEmployee(firstRandomName:string) {
   await this.lastNameInput.type(newEmployeeTestData.lastName)
   await this.saveUserButton.click()
   }
+
+  public async editEmployee(randomEditedEmployeeName:string) {
+    await this.page.waitForLoadState('load')
+    await this.firstNameInput.clear()
+    await this.firstNameInput.type(randomEditedEmployeeName)
+    await this.saveUserButton.click()
+    }
 }
