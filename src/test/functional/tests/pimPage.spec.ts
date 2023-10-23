@@ -26,7 +26,7 @@ test.describe.only('Admin user should be able to manage on pim page', () => {
       await pimPage.navigateToSubPage(SubPage.PIM);
     });
 
-    test.only('Admin user ahould add employee', async ({ page }) => {
+    test('Admin user ahould add employee', async ({ page }) => {
       await pimPage.addEmployee(newEmployeeTestData.firstName + randomNewEmployeeName);
       await pimPage.navigateToSubPage(SubPage.PIM);
       const element = await pimPage.getLocatorByRandomNewEmplyeeName(randomNewEmployeeName)
@@ -34,7 +34,7 @@ test.describe.only('Admin user should be able to manage on pim page', () => {
       await expect(page.locator(element)).toBeVisible();
     });
  
-    test.only('Admin user ahould edit previousely created employee with random name', async ({ page }) => {
+    test('Admin user ahould edit previousely created employee with random name', async ({ page }) => {
       await pimPage.addEmployee(newEmployeeTestData.firstName + randomNewEmployeeNameForEditing);
       await pimPage.navigateToSubPage(SubPage.PIM);
       const element = await pimPage.getEditIconByRandomEmployeeName(randomNewEmployeeNameForEditing)
@@ -46,7 +46,7 @@ test.describe.only('Admin user should be able to manage on pim page', () => {
       await expect(page.locator(employeeEditedName)).toBeVisible();
     });
 
-    test.only('Admin user should delete employee//Clean all data after tests..', async ({ page }) => {
+    test('Admin user should delete employee//Clean all data after tests..', async ({ page }) => {
       const pimPage = new PimPage(page);
       const trashBinGotByName = await pimPage.getTrashBinByRandomEmployeeName(randomNewEmployeeName);
       const trashBinGotByEditedName = await pimPage.getTrashBinByRandomEmployeeName(randomEditedEmployeeName);
