@@ -11,19 +11,16 @@ export class PimPage extends BasePage {
     public readonly confirmDeleteButton = this.page.getByRole('button', { name: 'Yes, Delete' })
 
     public async getLocatorByRandomNewEmplyeeName(randomNewEmpoyeeName: string) {
-      const element = `.oxd-table-cell:has(:text("${randomNewEmpoyeeName}"))`;
-      return element;7
+      return`.oxd-table-cell:has(:text("${randomNewEmpoyeeName}"))`;
     }
 
     public async getTrashBinByRandomEmployeeName(randomNewEmpoyeeName: string) {
-      const element = `.oxd-table-card:has(:text("${randomNewEmpoyeeName}")) .oxd-icon.bi-trash`;
-      return element;
+      return `.oxd-table-card:has(:text("${randomNewEmpoyeeName}")) .oxd-icon.bi-trash`;
     }
 
     public async getEditIconByRandomEmployeeName(randomNewEmpoyeeName: string) {
-      const element = `.oxd-table-card:has(:text("${randomNewEmpoyeeName}")) .oxd-icon.bi-pencil-fill`;
-      return element;
-    }     
+      return `.oxd-table-card:has(:text("${randomNewEmpoyeeName}")) .oxd-icon.bi-pencil-fill`;
+    }
 
 public async addEmployee(firstRandomName:string) {
   await this.addEmployeeButton.click()
