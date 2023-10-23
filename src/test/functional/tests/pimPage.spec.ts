@@ -7,7 +7,7 @@ import { generateRandomString } from '../utils/helper';
 import { newEmployeeTestData } from '../data';
 
 
-test.describe.only('Admin user should be able to manage on pim page', () => {
+test.describe('Admin user should be able to manage on pim page', () => {
     let loginPage: LoginPage;
     let pimPage: PimPage;
     const randomNewEmployeeName = generateRandomString(3);
