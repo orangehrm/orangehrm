@@ -26,34 +26,36 @@ test.describe.only('Admin user should be able to manage on pim page', () => {
       await pimPage.navigateToSubPage(SubPage.PIM);
     });
 
-    test('Admin user ahould add employee', async ({ page }) => {
+    test.only('Admin user ahould add employee', async ({ page }) => {
       await pimPage.addEmployee(newEmployeeTestData.firstName + randomNewEmployeeName);
       await pimPage.navigateToSubPage(SubPage.PIM);
-      const element = await pimPage.randomNewEmplyeeNameText(randomNewEmployeeName)
+      const element = await pimPage.getLocatorByRandomNewEmplyeeName(randomNewEmployeeName)
       await page.waitForLoadState()
       await expect(page.locator(element)).toBeVisible();
     });
  
-    test('Admin user ahould edit previousely created employee with random name', async ({ page }) => {
+    test.only('Admin user ahould edit previousely created employee with random name', async ({ page }) => {
       await pimPage.addEmployee(newEmployeeTestData.firstName + randomNewEmployeeNameForEditing);
       await pimPage.navigateToSubPage(SubPage.PIM);
-      const element = await pimPage.locateEditIconByRandomEmployeeName(randomNewEmployeeNameForEditing)
+      const element = await pimPage.getEditIconByRandomEmployeeName(randomNewEmployeeNameForEditing)
       await page.locator(element).click();
       await pimPage.editEmployee(randomEditedEmployeeName)
       await pimPage.navigateToSubPage(SubPage.PIM);
-      const editedElement = await pimPage.randomNewEmplyeeNameText(randomEditedEmployeeName)
+      const employeeEditedName = await pimPage.getLocatorByRandomNewEmplyeeName(randomEditedEmployeeName)
       await page.waitForLoadState()
-      await expect(page.locator(editedElement)).toBeVisible();
+      await expect(page.locator(employeeEditedName)).toBeVisible();
     });
 
-    test('Admin user should delete employees', async ({ page }) => {
+    test.only('Admin user should delete employee//Clean all data after tests..', async ({ page }) => {
       const pimPage = new PimPage(page);
-      const element = await pimPage.locateTrashBinByRandomEmployeeName(randomNewEmployeeName);
-      const elementEdited = await pimPage.locateTrashBinByRandomEmployeeName(randomEditedEmployeeName);
-      await page.locator(element).click();
+      const trashBinGotByName = await pimPage.getTrashBinByRandomEmployeeName(randomNewEmployeeName);
+      const trashBinGotByEditedName = await pimPage.getTrashBinByRandomEmployeeName(randomEditedEmployeeName);
+      await page.locator(trashBinGotByName).click();
       await pimPage.confirmDeleteButton.click();
-      await page.locator(elementEdited).click();
+      await page.locator(trashBinGotByEditedName).click();
       await pimPage.confirmDeleteButton.click();
+      await expect(page.locator(trashBinGotByEditedName)).not.toBeAttached()
+      await expect(page.locator(trashBinGotByName)).not.toBeAttached()
     });
 });
 

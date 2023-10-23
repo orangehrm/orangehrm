@@ -144,6 +144,6 @@ test.describe('User should be able to write and share post', () => {
     await buzzPage.resharePostOfOther(randomTitleForSharedPost)
     const element = await buzzPage.locateElementWithDynamicText(randomTitleForSharedPost)
     await expect(element).toBeVisible();
-    await expect(buzzPage.resharedTtileText).toHaveText(randomTitle)
+    await expect(buzzPage.resharedTitleText).toHaveText(randomTitle)
   });
 });

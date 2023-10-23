@@ -25,7 +25,7 @@ export class BuzzPage extends BasePage {
     protected readonly submitSimplePostButton = this.page.getByRole('button', { name: 'Post', exact: true })
     public readonly postBody = this.page.locator('.orangehrm-buzz-post-body')
     public readonly resharePostButton = this.page.locator('.bi-share-fill')
-    public readonly resharedTtileText = this.page.locator('.orangehrm-buzz-post-body-original-text')
+    public readonly resharedTitleText = this.page.locator('.orangehrm-buzz-post-body-original-text')
 
 
     public async locateElementWithDynamicTextAndPhoto(randomTitle: string) {
