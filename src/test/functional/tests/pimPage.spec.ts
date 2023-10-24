@@ -13,7 +13,7 @@ async function tableCellsGotByName(page:Page) {
   return [adminUserCell, normalUserCell]
 }
 
-test.describe('Admin user should be able to manage on pim page', () => {
+test.describe.only('Admin user should be able to manage on pim page', () => {
     let loginPage: LoginPage;
     let pimPage: PimPage;
     const randomNewEmployeeName = generateRandomString(3);
@@ -38,11 +38,11 @@ test.describe('Admin user should be able to manage on pim page', () => {
       await pimPage.addEmployee(newEmployeeTestData.firstName + randomNewEmployeeName);
       await pimPage.navigateToSubPage(SubPage.PIM);
       const element = await pimPage.getLocatorByRandomNewEmplyeeName(randomNewEmployeeName)
-      await page.waitForLoadState()
+      await page.waitForLoadState('networkidle')
       await expect(page.locator(element)).toBeVisible();
     });
  
-    test('Admin user ahould edit previousely created employee with random name', async ({ page }) => {
+    test('Admin user should edit previousely created employee with random name', async ({ page }) => {
       await pimPage.addEmployee(newEmployeeTestData.firstName + randomNewEmployeeNameForEditing);
       await pimPage.navigateToSubPage(SubPage.PIM);
       const element = await pimPage.getEditIconByRandomEmployeeName(randomNewEmployeeNameForEditing)
@@ -50,7 +50,7 @@ test.describe('Admin user should be able to manage on pim page', () => {
       await pimPage.editEmployee(randomEditedEmployeeName)
       await pimPage.navigateToSubPage(SubPage.PIM);
       const employeeEditedName = await pimPage.getLocatorByRandomNewEmplyeeName(randomEditedEmployeeName)
-      await page.waitForLoadState()
+      await page.waitForLoadState('networkidle')
       await expect(page.locator(employeeEditedName)).toBeVisible();
     });
 
@@ -65,8 +65,48 @@ test.describe('Admin user should be able to manage on pim page', () => {
       await page.locator(checkIconGetByName2).click()
       await pimPage.multiplyDelete.click()
       await pimPage.confirmDeleteButton.click();
-      await expect(page.locator(checkIconGetByName1)).not.toBeAttached() // tu jest zle
-      await expect(page.locator(checkIconGetByName2)).not.toBeAttached() //tu jest zle
+      await expect(page.locator(checkIconGetByName1)).toHaveCount(0)
+      await expect(page.locator(checkIconGetByName2)).toHaveCount(0)
+    })
+
+    test('User should search for employee by name', async ({ page }) => {
+      const tableCells = await tableCellsGotByName(page);
+      await pimPage.searchEmployeeByName(adminUserTestData.userName)
+      await page.waitForLoadState('networkidle')
+      await expect(page.locator(tableCells[0])).toBeVisible();
+      await expect(page.locator(tableCells[1])).not.toBeVisible()
+    })
+
+    test('User should reset search that was done by name', async ({ page }) => {
+      await pimPage.searchEmployeeByName(adminUserTestData.userName)
+      const tableCells = await tableCellsGotByName(page);
+      await page.waitForLoadState('networkidle')
+      await expect.soft(page.locator(tableCells[0])).toBeVisible();
+      await expect.soft(page.locator(tableCells[1])).not.toBeVisible()
+      await pimPage.resetButton.click()
+      await page.waitForLoadState('networkidle')
+      await expect(page.locator(tableCells[0])).toBeVisible();
+      await expect(page.locator(tableCells[1])).toBeVisible()
+    })
+
+    test('User should search for employee by id', async ({ page }) => {
+      const tableCells = await tableCellsGotByName(page);
+      await pimPage.searchEmployeeById(adminUserTestData.id)
+      await page.waitForLoadState('networkidle')
+      await expect(page.locator(tableCells[0])).toBeVisible();
+      await expect(page.locator(tableCells[1])).not.toBeVisible()
+    })
+
+    test('User should reset search that was done by id', async ({ page }) => {
+      await pimPage.searchEmployeeById(adminUserTestData.id)
+      const tableCells = await tableCellsGotByName(page);
+      await page.waitForLoadState('networkidle')
+      await expect.soft(page.locator(tableCells[0])).toBeVisible();
+      await expect.soft(page.locator(tableCells[1])).not.toBeVisible()
+      await pimPage.resetButton.click()
+      await page.waitForLoadState('networkidle')
+      await expect(page.locator(tableCells[0])).toBeVisible();
+      await expect(page.locator(tableCells[1])).toBeVisible()
     })
 
     test('Admin user should delete employee//Clean all data after tests..', async ({ page }) => {
@@ -77,47 +117,9 @@ test.describe('Admin user should be able to manage on pim page', () => {
       await pimPage.confirmDeleteButton.click();
       await page.locator(trashBinGotByEditedName).click();
       await pimPage.confirmDeleteButton.click();
-      await expect(page.locator(trashBinGotByEditedName)).not.toBeAttached()
-      await expect(page.locator(trashBinGotByName)).not.toBeAttached()
+      await expect(page.locator(trashBinGotByEditedName)).toHaveCount(0)
+      await expect(page.locator(trashBinGotByName)).toHaveCount(0)
     });
-
-    test.only('User should search for employee by name', async ({ page }) => {
-      const tableCells = await tableCellsGotByName(page);
-      await pimPage.searchEmployeeByName(adminUserTestData.userName)
-      await page.waitForLoadState()
-      await expect(page.locator(tableCells[0])).toBeVisible();
-      await expect(page.locator(tableCells[1])).not.toBeVisible()
-    })
-
-    test.only('User should reset search that was done by name', async ({ page }) => {
-      await pimPage.searchEmployeeByName(adminUserTestData.userName)
-      const tableCells = await tableCellsGotByName(page);
-      await page.waitForLoadState()
-      await expect.soft(page.locator(tableCells[0])).toBeVisible();
-      await expect.soft(page.locator(tableCells[1])).not.toBeVisible()
-      await pimPage.resetButton.click()
-      await expect(page.locator(tableCells[0])).toBeVisible();
-      await expect(page.locator(tableCells[1])).toBeVisible()
-    })
-
-    test.only('User should search for employee by id', async ({ page }) => {
-      await pimPage.searchEmployeeById(adminUserTestData.id)
-      const tableCells = await tableCellsGotByName(page);
-      await page.waitForLoadState()
-      await expect(page.locator(tableCells[0])).toBeVisible();
-      await expect(page.locator(tableCells[1])).not.toBeVisible()
-    })
-
-    test.only('User should reset search that was done by id', async ({ page }) => {
-      await pimPage.searchEmployeeById(adminUserTestData.id)
-      const tableCells = await tableCellsGotByName(page);
-      await page.waitForLoadState()
-      await expect(page.locator(tableCells[0])).toBeVisible();
-      await expect(page.locator(tableCells[1])).not.toBeVisible()
-      await pimPage.resetButton.click()
-      await expect(page.locator(tableCells[0])).toBeVisible();
-      await expect(page.locator(tableCells[1])).toBeVisible()
-    })
 });
 
 
