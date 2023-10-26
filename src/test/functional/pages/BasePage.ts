@@ -36,7 +36,7 @@ export class BasePage {
     return this.page.getByText(label, { exact: true }).locator('xpath=../..').getByRole('textbox');
   }
 
-  protected getToggleByTextLabel(label: string): Locator {
+  public getToggleByTextLabel(label: string): Locator {
     return this.page.getByText(label, { exact: true }).locator('xpath=../..').locator('span');
   }
 
@@ -64,11 +64,11 @@ export class BasePage {
     return this.page.getByRole('option', { name: option });
   }
   
-  protected getSaveButtonByHeadingSection(heading: string): Locator {
+  public getSaveButtonByHeadingSection(heading: string): Locator {
     return this.page
       .getByRole('heading', { name: heading })
       .locator('xpath=..')
-      .getByRole('button', { name: 'Save' });
+      .getByRole('button', { name: 'Save' })
   }
 }
 
@@ -85,4 +85,12 @@ export class BasePage {
     MAINTENANCE = 'Maintenance',
     CLAIM = 'Claim',
     BUZZ = 'BUZZ',
+    ADD_EMPLOYEE = 'Add Employee'
+  }
+
+  export enum Labels {
+    USERNAME = 'Username',
+    PASSWORD = 'Password',
+    CONFIRM_PASSWORD = 'Confirm Password',
+    LOGIN_DETAILS = 'Create Login Details'
   }
