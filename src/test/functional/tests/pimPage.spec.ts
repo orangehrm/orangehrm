@@ -41,7 +41,7 @@ test.describe("Admin user should be able to manage on pim page", () => {
     await pimPage.navigateToSubPage(SubPage.PIM);
   });
 
-  test.only("Admin user should add employee", async ({ page }) => {
+  test("Admin user should add employee", async ({ page }) => {
     await pimPage.addEmployee(
       newEmployeeTestData.firstName + randomNewEmployeeName
     );
@@ -52,7 +52,7 @@ test.describe("Admin user should be able to manage on pim page", () => {
     ).toBeVisible();
   });
 
-  test.only("Admin user should edit previousely created employee with random name", async ({
+  test("Admin user should edit previousely created employee with random name", async ({
     page,
   }) => {
     await pimPage.addEmployee(
@@ -91,47 +91,47 @@ test.describe("Admin user should be able to manage on pim page", () => {
     await expect(pimPage.getCheckIconByRandomEmployeeName(randomNameForMultipluDelete2)).toHaveCount(0);
   });
 
-  // test('User should search for employee by name', async ({ page }) => {
-  //   const tableCells = await tableCellsGotByName(page);
-  //   await pimPage.searchEmployeeByName(adminUserTestData.userName)
-  //   await page.waitForLoadState('networkidle')
-  //   await expect(page.locator(tableCells[0])).toBeVisible();
-  //   await expect(page.locator(tableCells[1])).not.toBeVisible()
-  // })
+  test('User should search for employee by name', async ({ page }) => {
+    const tableCells = await tableCellsGotByName(page);
+    await pimPage.searchEmployeeByName(adminUserTestData.userName)
+    await page.waitForLoadState('networkidle')
+    await expect((tableCells[0])).toBeVisible();
+    await expect((tableCells[1])).not.toBeVisible()
+  })
 
-  // test('User should reset search that was done by name', async ({ page }) => {
-  //   await pimPage.searchEmployeeByName(adminUserTestData.userName)
-  //   const tableCells = await tableCellsGotByName(page);
-  //   await page.waitForLoadState('networkidle')
-  //   await expect.soft(page.locator(tableCells[0])).toBeVisible();
-  //   await expect.soft(page.locator(tableCells[1])).not.toBeVisible()
-  //   await pimPage.resetButton.click()
-  //   await page.waitForLoadState('networkidle')
-  //   await expect(page.locator(tableCells[0])).toBeVisible();
-  //   await expect(page.locator(tableCells[1])).toBeVisible()
-  // })
+  test('User should reset search that was done by name', async ({ page }) => {
+    await pimPage.searchEmployeeByName(adminUserTestData.userName)
+    const tableCells = await tableCellsGotByName(page);
+    await page.waitForLoadState('networkidle')
+    await expect.soft((tableCells[0])).toBeVisible();
+    await expect.soft((tableCells[1])).not.toBeVisible()
+    await pimPage.resetButton.click()
+    await page.waitForLoadState('networkidle')
+    await expect((tableCells[0])).toBeVisible();
+    await expect((tableCells[1])).toBeVisible()
+  })
 
-  // test('User should search for employee by id', async ({ page }) => {
-  //   const tableCells = await tableCellsGotByName(page);
-  //   await pimPage.searchEmployeeById(adminUserTestData.id)
-  //   await page.waitForLoadState('networkidle')
-  //   await expect(page.locator(tableCells[0])).toBeVisible();
-  //   await expect(page.locator(tableCells[1])).not.toBeVisible()
-  // })
+  test('User should search for employee by id', async ({ page }) => {
+    const tableCells = await tableCellsGotByName(page);
+    await pimPage.searchEmployeeById(adminUserTestData.id)
+    await page.waitForLoadState('networkidle')
+    await expect((tableCells[0])).toBeVisible();
+    await expect((tableCells[1])).not.toBeVisible()
+  })
 
-  // test('User should reset search that was done by id', async ({ page }) => {
-  //   await pimPage.searchEmployeeById(adminUserTestData.id)
-  //   const tableCells = await tableCellsGotByName(page);
-  //   await page.waitForLoadState('networkidle')
-  //   await expect.soft(page.locator(tableCells[0])).toBeVisible();
-  //   await expect.soft(page.locator(tableCells[1])).not.toBeVisible()
-  //   await pimPage.resetButton.click()
-  //   await page.waitForLoadState('networkidle')
-  //   await expect(page.locator(tableCells[0])).toBeVisible();
-  //   await expect(page.locator(tableCells[1])).toBeVisible()
-  // })
+  test('User should reset search that was done by id', async ({ page }) => {
+    await pimPage.searchEmployeeById(adminUserTestData.id)
+    const tableCells = await tableCellsGotByName(page);
+    await page.waitForLoadState('networkidle')
+    await expect.soft((tableCells[0])).toBeVisible();
+    await expect.soft((tableCells[1])).not.toBeVisible()
+    await pimPage.resetButton.click()
+    await page.waitForLoadState('networkidle')
+    await expect((tableCells[0])).toBeVisible();
+    await expect((tableCells[1])).toBeVisible()
+  })
 
-  test.only("Admin user should delete employee//Clean all data after tests..", async ({
+  test("Admin user should delete employee//Clean all data after tests..", async ({
     page,
   }) => {
     const pimPage = new PimPage(page);
@@ -151,18 +151,36 @@ test.describe("Admin user should be able to manage on pim page", () => {
     ).toHaveCount(0);
   });
 
-  // test('Admin user should add employee from sub page: Add employee', async ({ page }) => {
-  //   const randomNewEmployeeName = generateRandomString(3);
-  //   await pimPage.addEmployee(newEmployeeTestData.firstName + randomNewEmployeeName, true);
-  //   await pimPage.navigateToSubPage(SubPage.PIM);
-  //   const element = await pimPage.getLocatorByRandomNewEmplyeeName(randomNewEmployeeName)
-  //   await page.waitForLoadState('networkidle')
-  //   await expect(page.locator(element)).toBeVisible();
-  // });
+  test('Admin user should add employee from sub page: Add employee', async ({ page }) => {
+    const randomNewEmployeeName = generateRandomString(3);
+    const firstName = newEmployeeTestData.firstName + randomNewEmployeeName
+    await pimPage.addEmployee(firstName, true);
+    await pimPage.navigateToSubPage(SubPage.PIM);
+    await page.waitForLoadState('networkidle')
+    await expect((pimPage.getLocatorByRandomNewEmplyeeName(randomNewEmployeeName))).toBeVisible();
+  });
 
-  // test.only('Admin user should add employee from sub page Add employee with loging details', async ({ page }) => {
-  //   const randomNewEmployeeName = generateRandomString(3);
-  //   await pimPage.addEmployeeWIthLoginDetails(newEmployeeTestData.firstName + randomNewEmployeeName, true);
-  //   await page.waitForTimeout(5000)
-  // });
+  test('Admin user should add employee from sub page "Add employee" with loging details', async ({ page }) => {
+    const randomNewEmployeeName = generateRandomString(3);
+    const firstName = newEmployeeTestData.firstName + randomNewEmployeeName
+    const fullName = newEmployeeTestData.firstName + randomNewEmployeeName + ' ' + newEmployeeTestData.lastName
+    const messagestUrl = 'http://localhost:8888/web/index.php/core/i18n/messages'
+    await pimPage.addEmployeeWithLoginDetails(firstName, true);
+    await page.waitForRequest(messagestUrl)
+    await pimPage.logOut()
+    await pimPage.loginUser(firstName, adminUserTestData.password )
+    await expect(loginPage.chooseDropdownOptionByText(randomNewEmployeeName)).toHaveText(fullName);
+  });
+
+  test('Admin user should add employee with loging details', async ({ page }) => {
+    const randomNewEmployeeName = generateRandomString(3);
+    const firstName = newEmployeeTestData.firstName + randomNewEmployeeName
+    const fullName = newEmployeeTestData.firstName + randomNewEmployeeName + ' ' + newEmployeeTestData.lastName
+    const messagestUrl = 'http://localhost:8888/web/index.php/core/i18n/messages'
+    await pimPage.addEmployeeWithLoginDetails(firstName);
+    await page.waitForRequest(messagestUrl)
+    await pimPage.logOut()
+    await pimPage.loginUser(firstName, adminUserTestData.password )
+    await expect(loginPage.chooseDropdownOptionByText(randomNewEmployeeName)).toHaveText(fullName);
+  })
 });

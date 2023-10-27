@@ -40,6 +40,10 @@ export class BasePage {
     return this.page.getByText(label, { exact: true }).locator('xpath=../..').locator('span');
   }
 
+  public chooseDropdownOptionByText(option: string) {
+    return this.page.getByRole('banner').getByText(option)
+  }
+
   protected getDatePickerByTextLabel(label: string): Locator {
     return this.page
       .locator('form div')
@@ -59,10 +63,6 @@ export class BasePage {
       .locator('xpath=../..')
       .getByText('-- Select --');
   }
-
-  protected chooseDropdownOptionByText(option: string): Locator {
-    return this.page.getByRole('option', { name: option });
-  }
   
   public getSaveButtonByHeadingSection(heading: string): Locator {
     return this.page
@@ -70,6 +70,43 @@ export class BasePage {
       .locator('xpath=..')
       .getByRole('button', { name: 'Save' })
   }
+
+  protected getSpanByText(text: string): Locator {
+    return this.page
+    .locator('span')
+    .filter({hasText: text})
+  }
+
+  protected getMenuItemByText(text: string): Locator {
+    return this.page
+    .getByRole('menuitem')
+    .filter({ hasText: text })
+  }
+
+  protected getUsernameInput(): Locator {  
+    return this.page.getByPlaceholder('Username');
+  }
+
+  protected getPasswordInput(): Locator {  
+    return this.page.getByPlaceholder('Password');
+  }
+  
+  protected getLoginButton(): Locator {
+    return this.page.getByRole('button', { name: 'Login' });
+  }
+
+  async loginUser(mail: string, password: string): Promise<void> {
+    await this.getUsernameInput().type(mail);
+    await this.getPasswordInput().type( password);
+    await this.getLoginButton().click();
+}
+
+public async logOut(){
+  await this.getSpanByText('Admin User').click()
+  await this.getMenuItemByText('Logout').click()
+}
+
+
 }
 
   export enum SubPage {

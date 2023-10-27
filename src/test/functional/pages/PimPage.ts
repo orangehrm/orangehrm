@@ -1,5 +1,5 @@
 import { BasePage, SubPage, Labels } from "./BasePage";
-import { newEmployeeTestData } from "../data";
+import { adminUserTestData, newEmployeeTestData } from "../data";
 import { Locator } from "@playwright/test";
 
 export class PimPage extends BasePage {
@@ -33,19 +33,24 @@ export class PimPage extends BasePage {
     name: "Reset",
   });
 
-  // public getLocatorByRandomNewEmplyeeName(randomNewEmpoyeeName: string):Locator {
-  //   return this.page.locator(`.oxd-table-cell:has(:text("${randomNewEmpoyeeName}"))`);
-  // } this also work, let's keep it in codebase for poor times
+  public getLocatorByRandomNewEmplyeeName(randomNewEmpoyeeName: string):Locator {
+    return this.page.locator(`.oxd-table-cell:has(:text("${randomNewEmpoyeeName}"))`);
+  } 
+  
+  
 
-  public getLocatorByRandomNewEmplyeeName(
-    randomNewEmployeeName: string
-  ): Locator {
-    return this.page.getByText(randomNewEmployeeName).locator("xpath=..");
-  }
+  // public getLocatorByRandomNewEmplyeeName(
+  //   randomNewEmployeeName: string
+  // ): Locator {
+  //   return this.page.getByText(randomNewEmployeeName)
+  // }
+  // let's keep it in codebase for poor times
+
 
   // public getTrashBinByRandomEmployeeName(randomNewEmployeeName: string):Locator {
   //   return this.page.locator(`.oxd-table-card:has(:text("${randomNewEmployeeName}")) .oxd-icon.bi-trash`);
-  // } this also work, let's keep it in codebase for poor times
+  // } 
+  // this also works, let's keep it in codebase for poor times
 
   public getTrashBinByRandomEmployeeName(
     randomNewEmployeeName: string
@@ -59,7 +64,8 @@ export class PimPage extends BasePage {
 
   // public  getEditIconByRandomEmployeeName(randomNewEmpoyeeName: string): Locator {
   //   return this.page.locator( `.oxd-table-card:has(:text("${randomNewEmpoyeeName}")) .oxd-icon.bi-pencil-fill`);
-  // } this also work, let's keep it in codebase for poor times
+  // } 
+  //this also works, let's keep it in codebase for poor times
 
   public getEditIconByRandomEmployeeName(randomNewEmployeeName: string): Locator {
     return this.page
@@ -71,7 +77,8 @@ export class PimPage extends BasePage {
 
   // public  getCheckIconByRandomEmployeeName(randomNewEmpoyeeName: string):Locator {
   //   return this.page.locator(`.oxd-table-card:has(:text("${randomNewEmpoyeeName}")) .oxd-checkbox-input-icon`);
-  // } this also work, let's keep it in codebase for poor times
+  // } 
+  // this also works, let's keep it in codebase for poor times
 
   public getCheckIconByRandomEmployeeName(
     randomNewEmployeeName: string
@@ -102,7 +109,7 @@ export class PimPage extends BasePage {
     await this.saveUserButton.click();
   }
 
-  public async addEmployeeWIthLoginDetails(
+  public async addEmployeeWithLoginDetails(
     firstRandomName: string,
     bySubtub?: boolean | null
   ) {
@@ -116,8 +123,8 @@ export class PimPage extends BasePage {
     await this.lastNameInput.type(newEmployeeTestData.lastName);
     await this.getToggleByTextLabel(Labels.LOGIN_DETAILS).click();
     await this.getInputByLabelText(Labels.USERNAME).type(firstRandomName);
-    await this.getInputByLabelText(Labels.PASSWORD).type("QAtpx123#");
-    await this.getInputByLabelText(Labels.CONFIRM_PASSWORD).type("QAtpx123#");
+    await this.getInputByLabelText(Labels.PASSWORD).type(adminUserTestData.password);
+    await this.getInputByLabelText(Labels.CONFIRM_PASSWORD).type(adminUserTestData.password);
     await this.getSaveButtonByHeadingSection(SubPage.ADD_EMPLOYEE).click();
   }
 
