@@ -66,13 +66,6 @@ class AuthProviderExtraDetails
     private string $clientSecret;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="developer_key", type="string")
-     */
-    private string $developerKey;
-
-    /**
      * @return int
      */
     public function getId(): int
@@ -150,21 +143,5 @@ class AuthProviderExtraDetails
     public function setClientSecret(string $clientSecret): void
     {
         $this->clientSecret = $clientSecret;
-    }
-
-    /**
-     * @return string
-     */
-    public function getDeveloperKey(): string
-    {
-        return $this->developerKey;
-    }
-
-    /**
-     * @param string $developerKey
-     */
-    public function setDeveloperKey(string $developerKey): void
-    {
-        $this->developerKey = $developerKey;
     }
 }

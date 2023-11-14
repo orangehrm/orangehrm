@@ -28,4 +28,4 @@ OpenIdUserIdentity:
   3: {user_id: 4, provider_id: 2, user_identity: '8901' }
 
 AuthProviderExtraDetails:
-  0: { id: 1, provider_id: 1, provider_type: 1, client_id: '445659888050.google.com', client_secret: 'GOCSPX-Np3pLf0CvBpDPqXEK', developer_key: 'AIzaSyB8B2oKXEcPZjjns-uRwXrFo2W2Gd0' }
+  0: { id: 1, provider_id: 1, provider_type: 1, client_id: '445659888050.google.com', client_secret: 'GOCSPX-Np3pLf0CvBpDPqXEK' }

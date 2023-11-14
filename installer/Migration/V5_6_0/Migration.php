@@ -96,6 +96,8 @@ class Migration extends AbstractMigration
             );
             $this->getSchemaHelper()->addForeignKey('ohrm_claim_request', $foreignKeyConstraint2);
         }
+
+        $this->modifyAuthProviderTables();
     }
 
     /**
