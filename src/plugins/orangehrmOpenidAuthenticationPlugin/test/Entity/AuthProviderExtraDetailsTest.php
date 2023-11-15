@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\Tests\OpenidAuthentication\Entity;
 
-
 use OrangeHRM\Config\Config;
 use OrangeHRM\Entity\AuthProviderExtraDetails;
 use OrangeHRM\Entity\OpenIdProvider;

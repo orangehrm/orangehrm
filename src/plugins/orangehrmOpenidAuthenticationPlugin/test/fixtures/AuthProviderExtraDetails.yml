@@ -16,7 +16,7 @@ User:
   - { "id": 4, "user_role_id": 2, "emp_number": 4, "user_name": "Sherin","user_password": "Sherin","deleted": "0","status": "1","date_entered": "2021-09-15 17:47:59","created_by": "1" }
 
 OpenIdProvider:
-  0: {id: 1, provider_name: 'Google', provider_url: 'https://google.com/o/8/', status: 1 }
+  0: {id: 1, provider_name: 'Google', provider_url: 'https://accounts.google.com', status: 1 }
   1: {id: 2, provider_name: 'Yahoo !', provider_url: 'http://me.yahoo.com', status: 1 }
   2: {id: 3, provider_name: 'Old Provider', provider_url: 'https://old.url', status: 0 }
   3: {id: 4, provider_name: 'Google+', provider_url: 'https://google.com/o/8/', status: 1 }
@@ -28,4 +28,4 @@ OpenIdUserIdentity:
   3: {user_id: 4, provider_id: 2, user_identity: '8901' }
 
 AuthProviderExtraDetails:
-  0: { id: 1, provider_id: 1, provider_type: 1, client_id: '445659888050.google.com', client_secret: 'GOCSPX-Np3pLf0CvBpDPqXEK' }
+  0: { id: 1, provider_id: 1, provider_type: 1, client_id: '445659888050-a0n4aisrubg8l4gsb35si9gni9l6t0hn.apps.googleusercontent.com', client_secret: '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' }

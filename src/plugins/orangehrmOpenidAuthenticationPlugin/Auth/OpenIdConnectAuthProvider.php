@@ -17,36 +17,9 @@
  * Boston, MA  02110-1301, USA
  */
 
-/**
- * Description of OpenIdProviderHeaderListConfigurationFactory
- *
- * @author orangehrm
- */
-class OpenIdProviderHeaderListConfigurationFactory extends ohrmListConfigurationFactory {
+namespace OrangeHRM\OpenidAuthentication\Auth;
 
-    protected function init() {
+class OpenIdConnectAuthProvider
+{
 
-        $header1 = new ListHeader();
-//        $header2 = new ListHeader();
-
-        $header1->populateFromArray(array(
-            'name' => 'Provider Name',
-            'elementType' => 'link',
-            'width' => '100%',
-            'elementProperty' => array(
-                'labelGetter' => 'getProviderName',
-                'urlPattern' => 'javascript:'),
-        ));
-//        $header2->populateFromArray(array(
-//            'name' => 'URL',
-//            'elementType' => 'label',
-//            'elementProperty' => array( 'getter' => 'getProviderUrl' ),
-//        ));
-
-        $this->headers = array($header1);
-    }
-
-    public function getClassName() {
-        return 'OpenIdProvider';
-    }
 }
