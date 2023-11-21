@@ -17,39 +17,44 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\OpenidAuthentication\Auth;
+namespace OrangeHRM\OpenidAuthentication\Controller;
 
-use Jumbojett\OpenIDConnectClientException;
+use OrangeHRM\Core\Controller\AbstractVueController;
+use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Framework\Services;
+use OrangeHRM\OpenidAuthentication\Auth\OpenIdConnectAuthProvider;
 use OrangeHRM\OpenidAuthentication\Service\SocialMediaAuthenticationService;
 
-class OpenIdConnectAuthProvider
+class OpenIdConnectLoginController extends AbstractVueController
 {
-    public const SCOPE = 'email';
-    public const REDIRECT_URL = '';
-    private SocialMediaAuthenticationService $socialMediaAuthenticationService;
+    /**
+     * @var SocialMediaAuthenticationService|null
+     */
+    protected ?SocialMediaAuthenticationService $socialMediaAuthenticationService = null;
 
     /**
      * @return SocialMediaAuthenticationService
      */
     public function getSocialMediaAuthenticationService(): SocialMediaAuthenticationService
     {
-        return $this->socialMediaAuthenticationService = new SocialMediaAuthenticationService();
+        if (!$this->socialMediaAuthenticationService instanceof SocialMediaAuthenticationService){
+            $this->socialMediaAuthenticationService = new SocialMediaAuthenticationService();
+        }
+        return $this->socialMediaAuthenticationService;
     }
 
-    /**
-     * @throws OpenIDConnectClientException
-     */
-    public function authenticate(int $providerId): bool
+    public function handle(Request $request)
     {
-        $provider = $this->getSocialMediaAuthenticationService()->getAuthProviderDao()
-            ->getAuthProviderDetailsByProviderId($providerId);
+        $response = $this->getResponse();
+        $providerId = $request->request->get('provideId');
 
-        $oidcClient = $this->getSocialMediaAuthenticationService()->initiateAuthentication(
-            $provider,
-            self::SCOPE,
-            self::REDIRECT_URL
-        );
-        //if callback success proceed login
-        return $this->getSocialMediaAuthenticationService()->handleCallback($oidcClient);
+        /** @var OpenIdConnectAuthProvider $authProvider */
+        $authProvider = $this->getContainer()->get(Services::OPENID_CONNECT_PROVIDER);
+        $success = $authProvider->authenticate($providerId);
+
+        if (!$success) {
+            //show error
+        }
+        return $response;
     }
 }

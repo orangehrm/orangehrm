@@ -1,0 +1,17 @@
+##########################
+#        Screens
+##########################
+add_auth_provider:
+  path: admin/addAuthProvider
+  controller: OrangeHRM\OpenidAuthentication\Controller\SaveSocialMediaAuthProviderController::handle
+  methods: [ GET ]
+
+edit_auth_provider:
+  path: admin/editAuthProvider
+  controller: OrangeHRM\OpenidAuthentication\Controller\EditSocialMediaAuthProviderController::handle
+  methods: [ GET ]
+
+auth_oidc_login:
+  path: /auth/oidcLogin
+  controller: OrangeHRM\OpenidAuthentication\Controller\OpenIdConnectLoginController::handle
+  methods: [ POST ]

@@ -441,4 +441,13 @@ final class Services
      * @see \OrangeHRM\OAuth\Service\OAuthService
      */
     public const OAUTH_SERVICE = 'oauth.oauth_service';
+
+    ///////////////////////////////////////////////////////////////
+    /// OpenId Authentication plugin services
+    ///////////////////////////////////////////////////////////////
+
+    /**
+     * @see \OrangeHRM\OpenidAuthentication\Auth\OpenIdConnectAuthProvider
+     */
+    public const OPENID_CONNECT_PROVIDER = 'oidc.openid_connect_provider';
 }

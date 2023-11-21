@@ -38,8 +38,8 @@ class SocialMediaAuthenticationService
 
     /**
      * @param AuthProviderExtraDetails $provider
-     * @param string                   $scope
-     * @param string                   $redirectUrl
+     * @param string $scope
+     * @param string $redirectUrl
      *
      * @return OpenIDConnectClient
      */
@@ -58,9 +58,11 @@ class SocialMediaAuthenticationService
     }
 
     /**
+     * @param OpenIDConnectClient $oidcClient
+     * @return bool
      * @throws OpenIDConnectClientException
      */
-    public function handleCallback(OpenIDConnectClient $oidcClient)
+    public function handleCallback(OpenIDConnectClient $oidcClient): bool
     {
         try {
             $oidcClient->authenticate();
@@ -70,5 +72,7 @@ class SocialMediaAuthenticationService
         } catch (OpenIDConnectClientException $e) {
             throw $e;
         }
+        //return true if success
+        return true;
     }
 }
