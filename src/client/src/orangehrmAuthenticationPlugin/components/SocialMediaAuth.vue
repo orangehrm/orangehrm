@@ -22,7 +22,6 @@
     <oxd-text tag="p" class="orangehrm-social-auth-header">
       Or Login With
     </oxd-text>
-    <!-- change -->
   </div>
   <div class="orangehrm-social-auth">
     <auth-button
@@ -31,6 +30,7 @@
       :url="authenticator.url"
       :color="authenticator.color"
       :label="authenticator.label"
+      @click.prevent="onClickAction(authenticator.id)"
     ></auth-button>
   </div>
 </template>
@@ -38,6 +38,7 @@
 <script>
 import {computed} from 'vue';
 import {CHART_COLORS} from '@ohrm/oxd';
+import {APIService} from '@/core/util/services/api.service';
 import AuthButton from '@/orangehrmAuthenticationPlugin/components/AuthButton.vue';
 
 export default {
@@ -55,6 +56,7 @@ export default {
   },
 
   setup(props) {
+    const http = new APIService(window.appGlobal.baseUrl, '');
     function* getColor() {
       let index = 0;
       const colors = [
@@ -84,7 +86,20 @@ export default {
 
     return {
       socialAuthenticators,
+      http,
     };
+  },
+
+  methods: {
+    onClickAction(id) {
+      this.http.request({
+        method: 'POST',
+        url: '/auth/oidcLogin',
+        data: {
+          providerId: id,
+        },
+      });
+    },
   },
 };
 </script>
@@ -94,14 +109,17 @@ export default {
   gap: 5px;
   margin: 0 auto;
   display: flex;
+  flex-direction: column;
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
   margin-bottom: 1rem;
   max-width: 80%;
   &-header {
+    font-size: 0.8rem;
     text-align: center;
-    margin-bottom: 1.0rem;
+    margin-bottom: 1rem;
+    margin-top: 1rem;
   }
 }
 </style>

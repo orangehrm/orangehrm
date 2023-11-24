@@ -45,9 +45,6 @@ export default {
           href: props.url,
           title: props.label,
           class: 'orangehrm-auth-button',
-          style: {
-            backgroundColor: props.color,
-          },
         },
         h(
           OxdText,
@@ -55,7 +52,7 @@ export default {
             tag: 'p',
             class: 'orangehrm-auth-button-text',
           },
-          () => props.label.charAt(0),
+          () => props.label,
         ),
       );
   },
@@ -64,11 +61,13 @@ export default {
 
 <style lang="scss" scoped>
 .orangehrm-auth-button {
-  width: 28px;
-  height: 28px;
+  width: 170px;
+  height: 30px;
   display: flex;
   flex-shrink: 0;
-  border-radius: 100%;
+  border: 1px solid;
+  border-radius: 20px;
+  border-color: $oxd-primary-one-color;
   align-items: center;
   text-decoration: none;
   justify-content: center;
@@ -76,7 +75,7 @@ export default {
     line-height: 1;
     font-size: 14px;
     font-weight: 800;
-    color: $oxd-white-color;
+    color: $oxd-primary-one-color;
   }
 }
 </style>
