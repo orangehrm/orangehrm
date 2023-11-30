@@ -450,4 +450,9 @@ final class Services
      * @see \OrangeHRM\OpenidAuthentication\Auth\OpenIdConnectAuthProvider
      */
     public const OPENID_CONNECT_PROVIDER = 'oidc.openid_connect_provider';
+
+    /**
+     * @see \OrangeHRM\OpenidAuthentication\Service\SocialMediaAuthenticationService
+     */
+    public const SOCIAL_MEDIA_AUTH_SERVICE = 'oidc.social_media_auth_service';
 }

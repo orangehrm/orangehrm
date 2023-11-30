@@ -45,13 +45,6 @@ class AuthProviderExtraDetails
     private OpenIdProvider $openIdProvider;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="provider_type", type="integer")
-     */
-    private int $providerType;
-
-    /**
      * @var string
      *
      * @ORM\Column(name="client_id", type="string")
@@ -95,22 +88,6 @@ class AuthProviderExtraDetails
     public function setOpenIdProvider(OpenIdProvider $openIdProvider): void
     {
         $this->openIdProvider = $openIdProvider;
-    }
-
-    /**
-     * @return int
-     */
-    public function getProviderType(): int
-    {
-        return $this->providerType;
-    }
-
-    /**
-     * @param int $providerType
-     */
-    public function setProviderType(int $providerType): void
-    {
-        $this->providerType = $providerType;
     }
 
     /**

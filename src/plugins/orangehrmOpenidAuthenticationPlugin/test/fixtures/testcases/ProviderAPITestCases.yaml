@@ -1,0 +1,129 @@
+GetAll:
+  'Get all openId connect providers - Admin User':
+    userId: 1
+    services:
+      oidc.social_media_auth_service: \OrangeHRM\OpenidAuthentication\Service\SocialMediaAuthenticationService
+    query:
+      limit: 2
+    data: [
+      {
+        id: '1',
+        providerName: 'Google',
+        providerUrl: 'https://accounts.google.com',
+        status: '1',
+        clientId: '445659888050-a0n4aisrubg8l4gsb35si9gni9l6t0hn.apps.googleusercontent.com',
+        clientSecret: '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'
+      },
+      {
+        id: '2',
+        providerName: 'Github',
+        providerUrl: 'https://github.com/',
+        status: '1',
+        clientId: 'ba60e45e8180569fcf',
+        clientSecret: '0f0CC6f2182cc5083a84083baf5f43c60952'
+      },
+    ]
+    meta:
+      total: 4
+
+  'Get all openId connect providers filter by name - Admin User':
+    userId: 1
+    services:
+      oidc.social_media_auth_service: \OrangeHRM\OpenidAuthentication\Service\SocialMediaAuthenticationService
+    query:
+      name: 'Google'
+    data: [
+      {
+        id: '1',
+        providerName: 'Google',
+        providerUrl: 'https://accounts.google.com',
+        status: '1',
+        clientId: '445659888050-a0n4aisrubg8l4gsb35si9gni9l6t0hn.apps.googleusercontent.com',
+        clientSecret: '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'
+      }
+    ]
+    meta:
+      total: 1
+
+GetOne:
+  'Get one Provider by Id':
+    userId: 1
+    services:
+      oidc.social_media_auth_service: \OrangeHRM\OpenidAuthentication\Service\SocialMediaAuthenticationService
+    attributes:
+      id: 1
+    data: {
+        id: '1',
+        providerName: 'Google',
+        providerUrl: 'https://accounts.google.com',
+        status: '1',
+        clientId: '445659888050-a0n4aisrubg8l4gsb35si9gni9l6t0hn.apps.googleusercontent.com',
+        clientSecret: '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'
+    }
+
+  'Get one Provider by Id - not available id':
+    userId: 1
+    services:
+      oidc.social_media_auth_service: \OrangeHRM\OpenidAuthentication\Service\SocialMediaAuthenticationService
+    attributes:
+      id: 100
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException'
+      message: 'Record Not Found'
+
+Delete:
+  'Delete Provider - Admin User':
+    userId: 1
+    services:
+      oidc.social_media_auth_service: \OrangeHRM\OpenidAuthentication\Service\SocialMediaAuthenticationService
+    body:
+      ids: [ 1 ]
+    data: [ 1 ]
+
+  'Delete Multiple Provider - Admin User':
+    userId: 1
+    services:
+      oidc.social_media_auth_service: \OrangeHRM\OpenidAuthentication\Service\SocialMediaAuthenticationService
+    body:
+      ids: [ 1, 2, 3 ]
+    data: [ 1, 2, 3 ]
+
+Update:
+  'Update Existing Provider - Admin User':
+    userId: 1
+    services:
+      oidc.social_media_auth_service: \OrangeHRM\OpenidAuthentication\Service\SocialMediaAuthenticationService
+    attributes:
+      id: 1
+    body:
+      name: 'Azure AD'
+      url: 'https://azure.auth.com'
+      status: '1'
+      clientId: '6f2182cc5083a84083b'
+      clientSecret: 'a0n4aisrubg8l4gsb35si9gni9l6t0h'
+    data:
+      id: 1
+      providerName: 'Azure AD'
+      providerUrl: 'https://azure.auth.com'
+      status: '1'
+      clientId: '6f2182cc5083a84083b'
+      clientSecret: 'a0n4aisrubg8l4gsb35si9gni9l6t0h'
+
+Create:
+  'Create Auth Provider':
+    userId: 1
+    services:
+      oidc.social_media_auth_service: \OrangeHRM\OpenidAuthentication\Service\SocialMediaAuthenticationService
+    body:
+      name: 'Azure'
+      url: 'https://azure.auth.com'
+      status: '1'
+      clientId: '6f2182cc5083a84083b'
+      clientSecret: 'a0n4aisrubg8l4gsb35si9gni9l6t0h'
+    data:
+      id: 5
+      providerName: 'Azure'
+      providerUrl: 'https://azure.auth.com'
+      status: 1
+      clientId: '6f2182cc5083a84083b'
+      clientSecret: 'a0n4aisrubg8l4gsb35si9gni9l6t0h'

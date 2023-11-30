@@ -41,13 +41,11 @@ class AuthProviderExtraDetailsTest extends EntityTestCase
     {
         $authProviderExtraDetails = new AuthProviderExtraDetails();
         $authProviderExtraDetails->setOpenIdProvider($this->getReference(OpenIdProvider::class, 1));
-        $authProviderExtraDetails->setProviderType(1);
         $authProviderExtraDetails->setClientId('123.google.com');
         $authProviderExtraDetails->setClientSecret('Np3pLf0CvBpDPqXEK');
 
-        $this->assertEquals(1, $authProviderExtraDetails->getProviderType());
         $this->assertEquals('Google', $authProviderExtraDetails->getOpenIdProvider()->getProviderName());
-        $this->assertEquals('https://google.com/o/8/', $authProviderExtraDetails->getOpenIdProvider()->getProviderUrl());
+        $this->assertEquals('https://accounts.google.com', $authProviderExtraDetails->getOpenIdProvider()->getProviderUrl());
         $this->assertEquals('123.google.com', $authProviderExtraDetails->getClientId());
         $this->assertEquals('Np3pLf0CvBpDPqXEK', $authProviderExtraDetails->getClientSecret());
     }
