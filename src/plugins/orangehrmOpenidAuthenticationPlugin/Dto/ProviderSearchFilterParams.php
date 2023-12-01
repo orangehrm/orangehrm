@@ -28,12 +28,7 @@ class ProviderSearchFilterParams extends FilterParams
     protected ?string $name;
     protected ?bool $status;
     protected ?int $id;
-
-    public function __construct()
-    {
-//        $this->setSortField('provider.name');
-    }
-
+    
     /**
      * @return string|null
      */

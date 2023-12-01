@@ -35,44 +35,4 @@ class SocialMediaAuthenticationService
     {
         return $this->authProviderDao ??= new AuthProviderDao();
     }
-
-    /**
-     * @param AuthProviderExtraDetails $provider
-     * @param string $scope
-     * @param string $redirectUrl
-     *
-     * @return OpenIDConnectClient
-     */
-    public function initiateAuthentication(AuthProviderExtraDetails $provider, string $scope, string $redirectUrl): OpenIDConnectClient
-    {
-        $oidcClient = new OpenIDConnectClient(
-            $provider->getOpenIdProvider()->getProviderUrl(),
-            $provider->getClientId(),
-            $provider->getClientSecret()
-        );
-
-        $oidcClient->addScope([$scope]);
-        $oidcClient->setRedirectURL($redirectUrl);
-
-        return $oidcClient;
-    }
-
-    /**
-     * @param OpenIDConnectClient $oidcClient
-     * @return bool
-     * @throws OpenIDConnectClientException
-     */
-    public function handleCallback(OpenIDConnectClient $oidcClient): bool
-    {
-        try {
-            $oidcClient->authenticate();
-            $userInfo = $oidcClient->getVerifiedClaims();
-            $email = $oidcClient->requestUserInfo('email');
-            // complete the authentication process
-        } catch (OpenIDConnectClientException $e) {
-            throw $e;
-        }
-        //return true if success
-        return true;
-    }
 }
