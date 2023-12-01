@@ -25,27 +25,37 @@
         {{ $t('admin.edit_provider') }}
       </oxd-text>
       <oxd-divider />
-      <oxd-form :loading="isLoading">
+      <oxd-form :loading="isLoading" @submit-valid="onSave">
         <oxd-form-row>
-          <oxd-grid :cols="3" class="orangehrm-full-width-grid">
+          <oxd-grid :cols="2" class="orangehrm-full-width-grid">
             <oxd-grid-item>
-              <oxd-input-field :label="$t('general.type')" required />
+              <oxd-input-field
+                v-model="authProvider.name"
+                :rules="rules.name"
+                :label="$t('general.name')"
+                required
+              />
             </oxd-grid-item>
             <oxd-grid-item>
-              <oxd-input-field :label="$t('general.name')" required />
+              <oxd-input-field
+                v-model="authProvider.url"
+                :label="$t('admin.url')"
+                required
+              />
             </oxd-grid-item>
             <oxd-grid-item>
-              <oxd-input-field :label="$t('admin.url')" required />
-            </oxd-grid-item>
-
-            <oxd-grid-item>
-              <oxd-input-field :label="$t('admin.client_id')" />
-            </oxd-grid-item>
-            <oxd-grid-item>
-              <oxd-input-field :label="$t('admin.secret')" />
+              <oxd-input-field
+                v-model="authProvider.clientId"
+                :label="$t('admin.client_id')"
+                required
+              />
             </oxd-grid-item>
             <oxd-grid-item>
-              <oxd-input-field :label="$t('admin.developer_key')" />
+              <oxd-input-field
+                v-model="authProvider.clientSecret"
+                :label="$t('admin.secret')"
+                required
+              />
             </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
@@ -66,7 +76,78 @@
 </template>
 
 <script>
+import {navigate} from '@ohrm/core/util/helper/navigation';
+import {APIService} from '@/core/util/services/api.service';
+import {
+  required,
+  shouldNotExceedCharLength,
+} from '@ohrm/core/util/validation/rules';
+
 export default {
   name: 'EditProvider',
+  props: {
+    id: {
+      type: Number,
+      required: true,
+    },
+  },
+
+  setup() {
+    const http = new APIService(
+      window.appGlobal.baseUrl,
+      '/api/v2/auth/providers',
+    );
+
+    return {
+      http,
+    };
+  },
+
+  data() {
+    return {
+      isLoading: false,
+      authProvider: {
+        name: '',
+        url: '',
+        clientId: '',
+        clientSecret: '',
+      },
+      rules: {
+        name: [required, shouldNotExceedCharLength(40)],
+      },
+    };
+  },
+
+  beforeMount() {
+    this.isLoading = true;
+    this.http
+      .get(this.id)
+      .then((response) => {
+        const {data} = response.data;
+        this.authProvider.name = data.providerName;
+        this.authProvider.url = data.providerUrl;
+        this.authProvider.clientId = data.clientId;
+        this.authProvider.clientSecret = data.clientSecret;
+      })
+      .finally(() => {
+        this.isLoading = false;
+      });
+  },
+  methods: {
+    onCancel() {
+      navigate('/admin/addAuthProvider');
+    },
+    onSave() {
+      this.isLoading = true;
+      this.http
+        .update(this.id, {
+          ...this.authProvider,
+        })
+        .then(() => {
+          this.isLoading = false;
+          return this.$toast.updateSuccess();
+        });
+    },
+  },
 };
 </script>

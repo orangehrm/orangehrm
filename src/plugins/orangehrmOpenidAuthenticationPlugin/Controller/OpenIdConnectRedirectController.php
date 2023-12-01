@@ -19,21 +19,37 @@
 
 namespace OrangeHRM\OpenidAuthentication\Controller;
 
+use Jumbojett\OpenIDConnectClient;
+use OrangeHRM\Core\Authorization\Service\HomePageService;
 use OrangeHRM\Core\Controller\AbstractVueController;
-use OrangeHRM\Core\Vue\Component;
-use OrangeHRM\Core\Vue\Prop;
+use OrangeHRM\Core\Controller\PublicControllerInterface;
+use OrangeHRM\Framework\Http\RedirectResponse;
 use OrangeHRM\Framework\Http\Request;
 
-class EditSocialMediaAuthProviderController extends AbstractVueController
+class OpenIdConnectRedirectController extends AbstractVueController implements PublicControllerInterface
 {
-    public function preRender(Request $request): void
+    /**
+     * @var HomePageService|null
+     */
+    protected ?HomePageService $homePageService = null;
+
+    /**
+     * @return HomePageService
+     */
+    public function getHomePageService(): HomePageService
     {
-        if ($request->attributes->has('id')) {
-            $component = new Component('edit-auth-provider');
-            $component->addProp(new Prop('id', Prop::TYPE_NUMBER, $request->attributes->getInt('id')));
-        } else {
-            $component = new Component('edit-auth-provider');
+        if (!$this->homePageService instanceof HomePageService) {
+            $this->homePageService = new HomePageService();
         }
-        $this->setComponent($component);
+        return $this->homePageService;
+    }
+
+    public function handle(Request $request): RedirectResponse
+    {
+        $response = $this->getResponse();
+        var_dump($response);
+
+        $homePagePath = $this->getHomePageService()->getHomePagePath();
+        return $this->redirect($homePagePath);
     }
 }

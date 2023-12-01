@@ -71,7 +71,7 @@ export default {
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      '/api/v2/admin/providers',
+      '/api/v2/auth/providers',
     );
     const {
       showPaginator,
@@ -99,7 +99,7 @@ export default {
     return {
       headers: [
         {
-          name: 'name',
+          name: 'providerName',
           slot: 'title',
           title: this.$t('general.name'),
           style: {'flex-basis': '80%'},
@@ -136,7 +136,7 @@ export default {
       navigate('/admin/addAuthProvider');
     },
     onClickEdit(item) {
-      navigate('/admin/saveAuthProvider/{id}', {id: item.id});
+      navigate('/admin/editAuthProvider/{id}', {id: item.id});
     },
     onClickDeleteSelected() {
       const ids = [];
