@@ -72,6 +72,7 @@ class Migration extends AbstractMigration
             $this->getSchemaHelper()->addForeignKey('ohrm_auth_provider_extra_details', $foreignKeyConstraint);
         }
 
+        //TODO - check 4X usage
         if (!$this->getSchemaHelper()->tableExists(['ohrm_openid_user_identity'])) {
             $this->getSchemaHelper()->createTable('ohrm_openid_user_identity')
                 ->addColumn('user_id', Types::INTEGER, ['Length' => 10])
@@ -108,6 +109,7 @@ class Migration extends AbstractMigration
         return '5.6.0';
     }
 
+    //TODO - check provider url for google
     private function modifyAuthProviderTables(): void
     {
         $this->getSchemaHelper()->dropColumn('ohrm_auth_provider_extra_details', 'developer_key');
