@@ -11,16 +11,14 @@ GetAll:
         providerName: 'Google',
         providerUrl: 'https://accounts.google.com',
         status: '1',
-        clientId: '445659888050-a0n4aisrubg8l4gsb35si9gni9l6t0hn.apps.googleusercontent.com',
-        clientSecret: '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'
+        clientId: '445659888050-a0n4aisrubg8l4gsb35si9gni9l6t0hn.apps.googleusercontent.com'
       },
       {
         id: '2',
         providerName: 'Github',
         providerUrl: 'https://github.com/',
         status: '1',
-        clientId: 'ba60e45e8180569fcf',
-        clientSecret: '0f0CC6f2182cc5083a84083baf5f43c60952'
+        clientId: 'ba60e45e8180569fcf'
       },
     ]
     meta:
@@ -38,12 +36,18 @@ GetAll:
         providerName: 'Google',
         providerUrl: 'https://accounts.google.com',
         status: '1',
-        clientId: '445659888050-a0n4aisrubg8l4gsb35si9gni9l6t0hn.apps.googleusercontent.com',
-        clientSecret: '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'
+        clientId: '445659888050-a0n4aisrubg8l4gsb35si9gni9l6t0hn.apps.googleusercontent.com'
+      },
+      {
+        id: '4',
+        providerName: 'Google+',
+        providerUrl: 'https://google.com/o/8/',
+        status: '0',
+        clientId: 'Px2_hj2d1SBNp3pLf0CvBpDPqXEK'
       }
     ]
     meta:
-      total: 1
+      total: 2
 
 GetOne:
   'Get one Provider by Id':
@@ -57,8 +61,7 @@ GetOne:
         providerName: 'Google',
         providerUrl: 'https://accounts.google.com',
         status: '1',
-        clientId: '445659888050-a0n4aisrubg8l4gsb35si9gni9l6t0hn.apps.googleusercontent.com',
-        clientSecret: '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'
+        clientId: '445659888050-a0n4aisrubg8l4gsb35si9gni9l6t0hn.apps.googleusercontent.com'
     }
 
   'Get one Provider by Id - not available id':
@@ -100,14 +103,45 @@ Update:
       url: 'https://azure.auth.com'
       status: '1'
       clientId: '6f2182cc5083a84083b'
-      clientSecret: 'a0n4aisrubg8l4gsb35si9gni9l6t0h'
+      clientSecret: '0f0cc6f83baf5f43c609ec9752'
     data:
       id: 1
       providerName: 'Azure AD'
       providerUrl: 'https://azure.auth.com'
       status: '1'
       clientId: '6f2182cc5083a84083b'
-      clientSecret: 'a0n4aisrubg8l4gsb35si9gni9l6t0h'
+
+  'Update Existing Provider - Invalid Id':
+    userId: 1
+    services:
+      oidc.social_media_auth_service: \OrangeHRM\OpenidAuthentication\Service\SocialMediaAuthenticationService
+    attributes:
+      id: 100
+    body:
+      name: 'Azure AD'
+      url: 'https://azure.auth.com'
+      status: '1'
+      clientId: '6f2182cc5083a84083b'
+      clientSecret: '0f0cc6f83baf5f43c609ec9752'
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: 'Invalid Parameter'
+
+  'Update Existing Provider - Without Name Id':
+    userId: 1
+    services:
+      oidc.social_media_auth_service: \OrangeHRM\OpenidAuthentication\Service\SocialMediaAuthenticationService
+    attributes:
+      id: 1
+    body:
+      name: null
+      url: 'https://azure.auth.com'
+      status: '1'
+      clientId: '6f2182cc5083a84083b'
+      clientSecret: '0f0cc6f83baf5f43c609ec9752'
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: 'Invalid Parameter'
 
 Create:
   'Create Auth Provider':
@@ -117,13 +151,12 @@ Create:
     body:
       name: 'Azure'
       url: 'https://azure.auth.com'
-      status: '1'
+      status: true
       clientId: '6f2182cc5083a84083b'
-      clientSecret: 'a0n4aisrubg8l4gsb35si9gni9l6t0h'
+      clientSecret: '0f0cc6f2182cc5083a84083baf5f43c609ec9752'
     data:
       id: 5
       providerName: 'Azure'
       providerUrl: 'https://azure.auth.com'
       status: 1
       clientId: '6f2182cc5083a84083b'
-      clientSecret: 'a0n4aisrubg8l4gsb35si9gni9l6t0h'

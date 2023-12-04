@@ -28,7 +28,7 @@ class ProviderSearchFilterParams extends FilterParams
     protected ?string $name;
     protected ?bool $status;
     protected ?int $id;
-    
+
     /**
      * @return string|null
      */

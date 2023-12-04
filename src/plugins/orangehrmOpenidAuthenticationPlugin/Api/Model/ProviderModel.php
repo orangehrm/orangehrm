@@ -23,7 +23,6 @@ namespace OrangeHRM\OpenidAuthentication\Api\Model;
 use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\AuthProviderExtraDetails;
-use OrangeHRM\Entity\OpenIdProvider;
 
 /**
  * @OA\Schema(
@@ -45,14 +44,10 @@ use OrangeHRM\Entity\OpenIdProvider;
  *         property="status",
  *         type="integer",
  *     ),
- *      @OA\Property(
- *          property="clientId",
- *          type="string",
- *      ),
- *      @OA\Property(
- *          property="clientSecret",
- *          type="string",
- *      )
+ *     @OA\Property(
+ *         property="clientId",
+ *         type="string",
+ *     )
  * )
  */
 class ProviderModel implements Normalizable
@@ -69,8 +64,6 @@ class ProviderModel implements Normalizable
                 ['getOpenIdProvider', 'getProviderUrl'],
                 ['getOpenIdProvider', 'getStatus'],
                 'clientId',
-                'clientId',
-                'clientSecret'
             ]
         );
         $this->setAttributeNames(
@@ -80,7 +73,6 @@ class ProviderModel implements Normalizable
                 'providerUrl',
                 'status',
                 'clientId',
-                'clientSecret'
             ]
         );
     }

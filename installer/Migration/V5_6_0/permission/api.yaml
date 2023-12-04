@@ -19,8 +19,8 @@ apiv2_core_validate_uniqueness:
 #        Auth
 ##########################
 
-apiv2_auth_provider:
-  description: 'Social Media Authentication - Providers'
+apiv2_auth_openid_provider:
+  description: 'OpenID Connect Authentication Providers'
   api: OrangeHRM\OpenidAuthentication\Api\ProviderAPI
   module: auth
   allowed:

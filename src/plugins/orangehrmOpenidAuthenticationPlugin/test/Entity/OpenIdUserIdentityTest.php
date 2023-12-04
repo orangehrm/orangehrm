@@ -32,7 +32,6 @@ use OrangeHRM\Tests\Util\TestDataService;
  */
 class OpenIdUserIdentityTest extends EntityTestCase
 {
-
     protected function setUp(): void
     {
         $fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmOpenidAuthenticationPlugin/test/fixtures/OpenIdUserIdentity.yml';

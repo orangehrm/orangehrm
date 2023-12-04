@@ -72,18 +72,13 @@ class AuthProviderDao extends BaseDao
         $this->setSortingAndPaginationParams($qb, $providerSearchFilterParams);
         $qb->leftJoin('providerDetails.openIdProvider', 'provider');
 
-        if (!is_null($providerSearchFilterParams->getId())) {
-            var_dump($providerSearchFilterParams->getId());
-            $qb->andWhere('provider.id = :id');
-            $qb->setParameter('id', $providerSearchFilterParams->getId());
-        }
         if (!is_null($providerSearchFilterParams->getStatus())) {
             $qb->andWhere('provider.status = :status');
             $qb->setParameter('status', $providerSearchFilterParams->getStatus());
         }
         if (!is_null($providerSearchFilterParams->getName())) {
             $qb->andWhere($qb->expr()->like('provider.providerName', ':name'));
-            $qb->setParameter('name', $providerSearchFilterParams->getName());
+            $qb->setParameter('name', '%' . $providerSearchFilterParams->getName() . '%');
         }
 
         return $this->getPaginator($qb);
@@ -99,7 +94,7 @@ class AuthProviderDao extends BaseDao
     }
 
     /**
-     * @param array $ids
+     * @param int[] $ids
      * @return int
      */
     public function deleteProviders(array $ids): int
@@ -109,7 +104,7 @@ class AuthProviderDao extends BaseDao
             ->set('openIdProvider.status', ':status')
             ->where($q->expr()->in('openIdProvider.id', ':ids'))
             ->setParameter('ids', $ids)
-            ->setParameter('status', 0);
+            ->setParameter('status', false);
         return $q->getQuery()->execute();
     }
 

@@ -19,9 +19,6 @@
 
 namespace OrangeHRM\OpenidAuthentication\Service;
 
-use Jumbojett\OpenIDConnectClient;
-use Jumbojett\OpenIDConnectClientException;
-use OrangeHRM\Entity\AuthProviderExtraDetails;
 use OrangeHRM\OpenidAuthentication\Dao\AuthProviderDao;
 
 class SocialMediaAuthenticationService

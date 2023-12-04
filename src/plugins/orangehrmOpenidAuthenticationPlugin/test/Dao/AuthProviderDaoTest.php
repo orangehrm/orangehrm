@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\OpenidAuthentication\test\Dao;
+namespace OrangeHRM\Tests\OpenidAuthentication\Dao;
 
 use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;

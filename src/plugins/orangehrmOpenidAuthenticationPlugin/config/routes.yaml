@@ -1,12 +1,12 @@
-apiv2_auth_providers:
-  path: /api/v2/auth/providers
+apiv2_auth_openid_providers:
+  path: /api/v2/auth/openid-providers
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
   methods: [ POST, GET, DELETE ]
   defaults:
     _api: OrangeHRM\OpenidAuthentication\Api\ProviderAPI
 
-apiv2_auth_provider:
-  path: /api/v2/auth/providers/{id}
+apiv2_auth_openid_provider:
+  path: /api/v2/auth/openid-providers/{id}
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
   methods: [ GET, PUT ]
   defaults:

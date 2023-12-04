@@ -25,7 +25,7 @@ use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
 use OrangeHRM\Tests\Util\Integration\TestCaseParams;
 
 /**
- * @group OpenidAuthentication
+ * @group OpenIDAuth
  * @group APIv2
  */
 class ProviderAPITest extends EndpointIntegrationTestCase

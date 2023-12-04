@@ -26,7 +26,6 @@ use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
-use OrangeHRM\Core\Api\V2\Exception\ForbiddenException;
 use OrangeHRM\Core\Api\V2\Exception\InvalidParamException;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\ParameterBag;
@@ -54,12 +53,15 @@ class ProviderAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_URL = 'url';
     public const CLIENT_ID = 'clientId';
     public const CLIENT_SECRET = 'clientSecret';
-    public const NAME_MAX_LENGTH = 40;
+    public const PARAM_RULE_NAME_MAX_LENGTH = 40;
+    public const PARAM_RULE_PROVIDER_URL_MAX_LENGTH = 2000;
+    public const PARAM_RULE_CLIENT_ID_MAX_LENGTH = 255;
+    public const PARAM_RULE_CLIENT_SECRET_MAX_LENGTH = 255;
 
     /**
      * @OA\Get(
-     *     path="/api/v2/auth/providers",
-     *     tags={"OpenIDConnect/Providers"},
+     *     path="/api/v2/auth/openid-providers",
+     *     tags={"OpenIDConnect/openid-providers"},
      *     summary="List All OpenID Providers",
      *     operationId="list-all-openid-providers",
      *     @OA\Parameter(
@@ -115,7 +117,7 @@ class ProviderAPI extends Endpoint implements CrudEndpoint
             $this->getRequestParams()->getIntOrNull(RequestParams::PARAM_TYPE_QUERY, CommonParams::PARAMETER_ID)
         );
 
-        $provider = $this->getSocialMediaAuthenticationService()->getAuthProviderDao()->getAuthProviders(
+        $providers = $this->getSocialMediaAuthenticationService()->getAuthProviderDao()->getAuthProviders(
             $providerSearchFilterParams
         );
 
@@ -125,7 +127,7 @@ class ProviderAPI extends Endpoint implements CrudEndpoint
 
         return new EndpointCollectionResult(
             ProviderModel::class,
-            $provider,
+            $providers,
             new ParameterBag([CommonParams::PARAMETER_TOTAL => $count])
         );
     }
@@ -158,8 +160,8 @@ class ProviderAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @OA\Post(
-     *     path="/api/v2/auth/providers",
-     *     tags={"OpenIDConnect/Providers"},
+     *     path="/api/v2/auth/openid-providers",
+     *     tags={"OpenIDConnect/openid-providers"},
      *     summary="Create OpenID Provider",
      *     operationId="create-openid-provider",
      *     @OA\RequestBody(
@@ -167,10 +169,10 @@ class ProviderAPI extends Endpoint implements CrudEndpoint
      *             type="object",
      *             @OA\Property(property="name", type="string"),
      *             @OA\Property(property="url", type="string"),
-     *             @OA\Property(property="status", type="integer"),
+     *             @OA\Property(property="status", type="boolean"),
      *             @OA\Property(property="clientId", type="string"),
      *             @OA\Property(property="clientSecret", type="string"),
-     *             required={"name", "status"}
+     *             required={"name", "url", "status", "clientId", "clientSecret"}
      *         )
      *     ),
      *     @OA\Response(response="200",
@@ -204,15 +206,15 @@ class ProviderAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     * @param OpenIdProvider|null $openIdProvider
+     * @param OpenIdProvider $openIdProvider
      */
-    private function saveProvider(?OpenIdProvider $openIdProvider): void
+    private function saveProvider(OpenIdProvider $openIdProvider): void
     {
         $openIdProvider->setProviderName(
-            $this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_NAME)
+            $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_NAME)
         );
         $openIdProvider->setProviderUrl(
-            $this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_URL)
+            $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_URL)
         );
         $openIdProvider->setStatus(
             $this->getRequestParams()->getBoolean(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_STATUS, true)
@@ -222,10 +224,10 @@ class ProviderAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     * @param OpenIdProvider|null $openIdProvider
+     * @param OpenIdProvider $openIdProvider
      * @return AuthProviderExtraDetails
      */
-    private function saveProviderExtraDetails(?OpenIdProvider $openIdProvider): AuthProviderExtraDetails
+    private function saveProviderExtraDetails(OpenIdProvider $openIdProvider): AuthProviderExtraDetails
     {
         $authProviderExtraDetails = $this->getSocialMediaAuthenticationService()->getAuthProviderDao()
             ->getAuthProviderDetailsByProviderId($openIdProvider->getId());
@@ -240,10 +242,10 @@ class ProviderAPI extends Endpoint implements CrudEndpoint
             $openIdProvider
         );
         $authProviderExtraDetails->setClientId(
-            $this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_BODY, self::CLIENT_ID)
+            $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::CLIENT_ID)
         );
         $authProviderExtraDetails->setClientSecret(
-            $this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_BODY, self::CLIENT_SECRET)
+            $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::CLIENT_SECRET)
         );
 
         return $this->getSocialMediaAuthenticationService()->getAuthProviderDao()->saveAuthProviderExtraDetails(
@@ -264,25 +266,27 @@ class ProviderAPI extends Endpoint implements CrudEndpoint
                 new ParamRule(
                     self::PARAMETER_URL,
                     new Rule(Rules::STRING_TYPE),
-                    new Rule(Rules::URL)
+                    new Rule(Rules::LENGTH, [null , self::PARAM_RULE_PROVIDER_URL_MAX_LENGTH])
                 ),
                 true
             ),
-            $this->getValidationDecorator()->notRequiredParamRule(
+            $this->getValidationDecorator()->requiredParamRule(
                 new ParamRule(
                     self::CLIENT_ID,
-                    new Rule(Rules::STRING_TYPE)
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_CLIENT_ID_MAX_LENGTH])
                 )
             ),
-            $this->getValidationDecorator()->notRequiredParamRule(
+            $this->getValidationDecorator()->requiredParamRule(
                 new ParamRule(
                     self::CLIENT_SECRET,
-                    new Rule(Rules::STRING_TYPE)
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_CLIENT_SECRET_MAX_LENGTH])
                 )
             ),
             new ParamRule(
                 self::PARAMETER_STATUS,
-                new Rule(Rules::INT_VAL)
+                new Rule(Rules::BOOL_VAL)
             )
         );
     }
@@ -306,17 +310,17 @@ class ProviderAPI extends Endpoint implements CrudEndpoint
         return new ParamRule(
             self::PARAMETER_NAME,
             new Rule(Rules::STRING_TYPE),
-            new Rule(Rules::LENGTH, [null, self::NAME_MAX_LENGTH]),
+            new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NAME_MAX_LENGTH]),
             new Rule(Rules::ENTITY_UNIQUE_PROPERTY, [OpenIdProvider::class, 'providerName', $entityProperties])
         );
     }
 
     /**
      * @OA\Delete(
-     *     path="/api/v2/auth/providers",
-     *      tags={"OpenIDConnect/Providers"},
-     *      summary="Update OpenID Providers",
-     *      operationId="update-openid-provider",
+     *     path="/api/v2/auth/openid-providers",
+     *     tags={"OpenIDConnect/openid-providers"},
+     *     summary="Update OpenID Providers",
+     *     operationId="update-openid-provider",
      *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),
      *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse")
      * )
@@ -344,26 +348,26 @@ class ProviderAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @OA\Get(
-     *      path="/api/v2/auth/providers/{id}",
-     *      tags={"OpenIDConnect/Providers"},
-     *      summary="List a OpenID Provider",
-     *      operationId="list-a-openid-provider",
-     *      @OA\PathParameter(
-     *          name="id",
-     *          @OA\Schema(type="integer")
-     *      ),
-     *      @OA\Response(
-     *          response="200",
-     *          description="Success",
-     *          @OA\JsonContent(
-     *              @OA\Property(
-     *                  property="data",
-     *                  ref="#/components/schemas/OpenIdConnect-ProviderModel"
-     *              )
-     *          )
-     *      ),
-     *      @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
-     *  )
+     *     path="/api/v2/auth/openid-providers/{id}",
+     *     tags={"OpenIDConnect/openid-providers"},
+     *     summary="Get an OpenID Provider",
+     *     operationId="list-a-openid-provider",
+     *     @OA\PathParameter(
+     *         name="id",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/OpenIdConnect-ProviderModel"
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
+     * )
      *
      * @inheritDoc
      * @throws InvalidParamException
@@ -395,36 +399,37 @@ class ProviderAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @OA\Put(
-     *      path="/api/v2/auth/providers/{id}",
-     *      tags={"OpenIDConnect/Providers"},
-     *      summary="Update a OpenID Provider",
-     *      operationId="update-a-openid-provider",
-     *      @OA\PathParameter(
-     *          name="id",
-     *          @OA\Schema(type="integer")
-     *      ),
-     *      @OA\RequestBody(
-     *          @OA\JsonContent(
-     *              @OA\Property(property="name", type="string"),
-     *              @OA\Property(property="url", type="string"),
-     *              @OA\Property(property="status", type="integer"),
-     *              @OA\Property(property="clientId", type="string"),
-     *              @OA\Property(property="clientSecret", type="string")
-     *          )
-     *      ),
-     *      @OA\Response(
-     *          response="200",
-     *          description="Success",
-     *          @OA\JsonContent(
-     *              @OA\Property(
-     *                  property="data",
-     *                  ref="#/components/schemas/OpenIdConnect-ProviderModel"
-     *              ),
-     *              @OA\Property(property="meta", type="object")
-     *          )
-     *      ),
-     *      @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
-     *  )
+     *     path="/api/v2/auth/openid-providers/{id}",
+     *     tags={"OpenIDConnect/openid-providers"},
+     *     summary="Update a OpenID Provider",
+     *     operationId="update-a-openid-provider",
+     *     @OA\PathParameter(
+     *         name="id",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             @OA\Property(property="name", type="string"),
+     *             @OA\Property(property="url", type="string"),
+     *             @OA\Property(property="status", type="integer"),
+     *             @OA\Property(property="clientId", type="string"),
+     *             @OA\Property(property="clientSecret", type="string"),
+     *             required={"name", "url", "status", "clientId", "clientSecret"}
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/OpenIdConnect-ProviderModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
+     * )
      *
      * @inheritDoc
      * @throws InvalidParamException
@@ -437,7 +442,7 @@ class ProviderAPI extends Endpoint implements CrudEndpoint
             $openIdProvider = $this->getSocialMediaAuthenticationService()->getAuthProviderDao()
                 ->getAuthProviderById($id);
 
-            if (!$openIdProvider instanceof OpenIdProvider){
+            if (!$openIdProvider instanceof OpenIdProvider) {
                 throw $this->getInvalidParamException(CommonParams::PARAMETER_ID);
             }
 
@@ -474,24 +479,26 @@ class ProviderAPI extends Endpoint implements CrudEndpoint
             $this->getValidationDecorator()->notRequiredParamRule(
                 $this->getNameRule(true),
             ),
-            $this->getValidationDecorator()->notRequiredParamRule(
+            $this->getValidationDecorator()->requiredParamRule(
                 new ParamRule(
                     self::PARAMETER_URL,
                     new Rule(Rules::STRING_TYPE),
-                    new Rule(Rules::URL)
+                    new Rule(Rules::LENGTH, [null , self::PARAM_RULE_PROVIDER_URL_MAX_LENGTH])
                 ),
                 true
             ),
-            $this->getValidationDecorator()->notRequiredParamRule(
+            $this->getValidationDecorator()->requiredParamRule(
                 new ParamRule(
                     self::CLIENT_ID,
-                    new Rule(Rules::STRING_TYPE)
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_CLIENT_ID_MAX_LENGTH])
                 )
             ),
-            $this->getValidationDecorator()->notRequiredParamRule(
+            $this->getValidationDecorator()->requiredParamRule(
                 new ParamRule(
                     self::CLIENT_SECRET,
-                    new Rule(Rules::STRING_TYPE)
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_CLIENT_SECRET_MAX_LENGTH])
                 )
             ),
             new ParamRule(
