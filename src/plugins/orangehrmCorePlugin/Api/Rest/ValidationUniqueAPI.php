@@ -63,7 +63,8 @@ class ValidationUniqueAPI extends Endpoint implements ResourceEndpoint
         'LeaveType' => ['attributeName' => ['name']],
         'Employee' => ['attributeName' => ['employeeId']],
         'TerminationReason' => ['attributeName' => ['name']],
-        'Vacancy' => ['attributeName' => ['name']]
+        'Vacancy' => ['attributeName' => ['name']],
+        'OpenIdProvider' => ['attributeName' => ['providerName']]
     ];
 
     private ?ValidationUniqueDao $validationUniqueDao = null;

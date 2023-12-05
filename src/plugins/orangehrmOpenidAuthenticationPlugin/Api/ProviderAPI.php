@@ -266,7 +266,7 @@ class ProviderAPI extends Endpoint implements CrudEndpoint
             $this->getValidationDecorator()->requiredParamRule(
                 $this->getNameRule(false),
             ),
-            $this->getValidationDecorator()->notRequiredParamRule(
+            $this->getValidationDecorator()->requiredParamRule(
                 new ParamRule(
                     self::PARAMETER_URL,
                     new Rule(Rules::STRING_TYPE),
@@ -303,6 +303,7 @@ class ProviderAPI extends Endpoint implements CrudEndpoint
     protected function getNameRule(bool $update): ParamRule
     {
         $entityProperties = new EntityUniquePropertyOption();
+        $ignoreValues = ['getStatus' => false];
         if ($update) {
             $ignoreValues['getId'] = $this->getRequestParams()->getInt(
                 RequestParams::PARAM_TYPE_ATTRIBUTE,

@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\OpenidAuthentication\Controller;
 
-use Jumbojett\OpenIDConnectClient;
 use OrangeHRM\Core\Authorization\Service\HomePageService;
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Controller\PublicControllerInterface;

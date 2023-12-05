@@ -58,23 +58,4 @@ class SocialMediaAuthenticationServiceTest extends TestCase
         $this->assertEquals('email', $scopes[0]);
         $this->assertEquals('https://accounts.google.com/auth', $oidcClient->getRedirectURL());
     }
-
-    public function testHandleCallback(): void
-    {
-//        $scope  = 'email';
-//        $redirectUrl = 'https://accounts.google.com/auth';
-//        $provider = $this->socialMediaAuthenticationService->getAuthProviderDao()->getAuthProviderDetailsByProviderId(1);
-//        $oidcClient = $this->socialMediaAuthenticationService->initiateAuthentication($provider, $scope, $redirectUrl);
-//
-//        $email = $this->socialMediaAuthenticationService->handleCallback($oidcClient);
-//        dump($email);
-
-        $oidcMock = $this->createMock(OpenIDConnectClient::class);
-
-        // Configure the mock to return true for authenticate and a dummy email for requestUserInfo
-        $oidcMock->expects($this->once())
-            ->method('authenticate')
-            ->willReturn(true);
-
-    }
 }

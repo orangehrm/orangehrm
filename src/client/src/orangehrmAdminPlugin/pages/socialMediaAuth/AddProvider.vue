@@ -107,7 +107,7 @@ export default {
     const {createUniqueValidator} = useServerValidation(http);
     const providerNameUniqueValidation = createUniqueValidator(
       'OpenIdProvider',
-      'name',
+      'providerName',
     );
     return {
       http,
@@ -119,7 +119,11 @@ export default {
       isLoading: false,
       authProvider: {...initialAuthProvider},
       rules: {
-        name: [required, shouldNotExceedCharLength(40)],
+        name: [
+          required,
+          this.providerNameUniqueValidation,
+          shouldNotExceedCharLength(40),
+        ],
         clientId: [required, shouldNotExceedCharLength(255)],
         clientSecret: [required, shouldNotExceedCharLength(255)],
         url: [required, validURL],

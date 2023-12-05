@@ -25,8 +25,6 @@ use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Controller\PublicControllerInterface;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Framework\Services;
-use OrangeHRM\OpenidAuthentication\Auth\OpenIdConnectAuthProvider;
 use OrangeHRM\OpenidAuthentication\Service\SocialMediaAuthenticationService;
 
 class OpenIdConnectLoginController extends AbstractVueController implements PublicControllerInterface
@@ -34,7 +32,7 @@ class OpenIdConnectLoginController extends AbstractVueController implements Publ
     use AuthUserTrait;
 
     public const SCOPE = 'email';
-    public const REDIRECT_URL = '/auth/oidcLogin';
+    public const REDIRECT_URL = '';
 
     /**
      * @var SocialMediaAuthenticationService|null
@@ -62,7 +60,7 @@ class OpenIdConnectLoginController extends AbstractVueController implements Publ
      */
     public function getSocialMediaAuthenticationService(): SocialMediaAuthenticationService
     {
-        if (!$this->socialMediaAuthenticationService instanceof SocialMediaAuthenticationService){
+        if (!$this->socialMediaAuthenticationService instanceof SocialMediaAuthenticationService) {
             $this->socialMediaAuthenticationService = new SocialMediaAuthenticationService();
         }
         return $this->socialMediaAuthenticationService;
@@ -86,9 +84,6 @@ class OpenIdConnectLoginController extends AbstractVueController implements Publ
 
         $email = $this->getSocialMediaAuthenticationService()->handleCallback($oidcClient);
 
-        /** @var OpenIdConnectAuthProvider $authProvider */
-        $authProvider = $this->getContainer()->get(Services::OPENID_CONNECT_PROVIDER);
-        $success = $authProvider->authenticate($email);
 
         if ($success) {
             if ($this->getAuthUser()->isAuthenticated()) {

@@ -80,6 +80,5 @@ class SocialMediaAuthenticationService
     private function authenticateUser(UserCredential $userCredential): void
     {
 //        $username = $userCredential->getUsername();
-
     }
 }
