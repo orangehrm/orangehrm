@@ -54,6 +54,7 @@
               <oxd-input-field
                 v-model="authProvider.clientSecret"
                 :label="$t('admin.secret')"
+                :placeholder="secretPlaceholder"
                 required
               />
             </oxd-grid-item>
@@ -106,6 +107,7 @@ export default {
   data() {
     return {
       isLoading: false,
+      secretPlaceholder: '',
       authProvider: {
         name: '',
         url: '',
@@ -127,7 +129,7 @@ export default {
         this.authProvider.name = data.providerName;
         this.authProvider.url = data.providerUrl;
         this.authProvider.clientId = data.clientId;
-        this.authProvider.clientSecret = data.clientSecret;
+        this.secretPlaceholder = data.clientId ? '******' : '';
       })
       .finally(() => {
         this.isLoading = false;
@@ -141,7 +143,13 @@ export default {
       this.isLoading = true;
       this.http
         .update(this.id, {
-          ...this.authProvider,
+          name: this.authProvider.name,
+          url: this.authProvider.url,
+          clientId: this.authProvider.clientId,
+          clientSecret:
+            this.authProvider.clientSecret === ''
+              ? null
+              : this.authProvider.clientSecret,
         })
         .then(() => {
           this.isLoading = false;

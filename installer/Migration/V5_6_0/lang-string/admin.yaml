@@ -17,3 +17,6 @@ langStrings:
   -
     value: 'Provider List'
     unitId: provider_list
+  -
+    value: 'Should be a Valid URL'
+    unitId: should_be_a_valid_url

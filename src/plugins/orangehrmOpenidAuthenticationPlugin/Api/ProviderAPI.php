@@ -244,9 +244,13 @@ class ProviderAPI extends Endpoint implements CrudEndpoint
         $authProviderExtraDetails->setClientId(
             $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::CLIENT_ID)
         );
-        $authProviderExtraDetails->setClientSecret(
-            $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::CLIENT_SECRET)
-        );
+
+        $clientSecret = $this->getRequestParams()
+            ->getStringOrNull(RequestParams::PARAM_TYPE_BODY, self::CLIENT_SECRET);
+
+        if (!is_null($clientSecret)) {
+            $authProviderExtraDetails->setClientSecret($clientSecret);
+        }
 
         return $this->getSocialMediaAuthenticationService()->getAuthProviderDao()->saveAuthProviderExtraDetails(
             $authProviderExtraDetails
@@ -494,7 +498,7 @@ class ProviderAPI extends Endpoint implements CrudEndpoint
                     new Rule(Rules::LENGTH, [null, self::PARAM_RULE_CLIENT_ID_MAX_LENGTH])
                 )
             ),
-            $this->getValidationDecorator()->requiredParamRule(
+            $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::CLIENT_SECRET,
                     new Rule(Rules::STRING_TYPE),

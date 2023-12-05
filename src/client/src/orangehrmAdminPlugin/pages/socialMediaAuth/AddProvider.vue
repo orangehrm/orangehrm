@@ -39,6 +39,7 @@
             <oxd-grid-item>
               <oxd-input-field
                 v-model="authProvider.url"
+                :rules="rules.url"
                 :label="$t('admin.url')"
                 required
               />
@@ -46,6 +47,7 @@
             <oxd-grid-item>
               <oxd-input-field
                 v-model="authProvider.clientId"
+                :rules="rules.clientId"
                 :label="$t('admin.client_id')"
                 required
               />
@@ -53,6 +55,7 @@
             <oxd-grid-item>
               <oxd-input-field
                 v-model="authProvider.clientSecret"
+                :rules="rules.clientSecret"
                 :label="$t('admin.secret')"
                 required
               />
@@ -117,9 +120,9 @@ export default {
       authProvider: {...initialAuthProvider},
       rules: {
         name: [required, shouldNotExceedCharLength(40)],
-        url: {
-          validURL,
-        },
+        clientId: [required, shouldNotExceedCharLength(255)],
+        clientSecret: [required, shouldNotExceedCharLength(255)],
+        url: [required, validURL],
       },
     };
   },
