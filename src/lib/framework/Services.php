@@ -441,4 +441,13 @@ final class Services
      * @see \OrangeHRM\OAuth\Service\OAuthService
      */
     public const OAUTH_SERVICE = 'oauth.oauth_service';
+
+    ///////////////////////////////////////////////////////////////
+    /// OpenId Authentication plugin services
+    ///////////////////////////////////////////////////////////////
+
+    /**
+     * @see \OrangeHRM\OpenidAuthentication\Service\SocialMediaAuthenticationService
+     */
+    public const SOCIAL_MEDIA_AUTH_SERVICE = 'oidc.social_media_auth_service';
 }

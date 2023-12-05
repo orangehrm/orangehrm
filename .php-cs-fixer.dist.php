@@ -14,7 +14,6 @@ $finder = PhpCsFixer\Finder::create()
     // TODO:: Remove bellow excluded dirs, files
     ->exclude('devTools/load')
     ->exclude('lib')
-    ->exclude('src/plugins/orangehrmOpenidAuthenticationPlugin')
     ->exclude('src/plugins/orangehrmRESTPlugin');
 
 $config = new PhpCsFixer\Config();

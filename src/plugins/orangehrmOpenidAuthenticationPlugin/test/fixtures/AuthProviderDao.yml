@@ -1,0 +1,9 @@
+OpenIdProvider:
+  0: {id: 1, provider_name: 'Google', provider_url: 'https://accounts.google.com', status: 1 }
+  1: {id: 2, provider_name: 'Github', provider_url: 'https://github.com/', status: 1 }
+  2: {id: 3, provider_name: 'Old Provider', provider_url: 'https://old.url/openidauth/openIdCredentials', status: 1 }
+  3: {id: 4, provider_name: 'Google+', provider_url: 'https://google.com/o/8/', status: 0 }
+
+AuthProviderExtraDetails:
+  0: { id: 1, provider_id: 1, client_id: '445659888050-a0n4aisrubg8l4gsb35si9gni9l6t0hn.apps.googleusercontent.com', client_secret: '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' }
+  1: { id: 2, provider_id: 2, client_id: 'ba60e45e8180569fcf', client_secret: '0f0CC6f2182cc5083a84083baf5f43c60952' }

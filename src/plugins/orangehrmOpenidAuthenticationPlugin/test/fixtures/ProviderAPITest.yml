@@ -1,0 +1,37 @@
+Config:
+  - { name: 'authorize_user_role_manager_class', value: 'BasicUserRoleManager' }
+
+Employee:
+  0: { empNumber: 1, firstName: 'Kayla', lastName: 'Abbey', joinedDate: '2021-10-25' }
+  1: { empNumber: 2, firstName: 'Ashley', lastName: 'Abel', middleName: 'Aldis',  joinedDate: '2016-10-28' }
+  2: { empNumber: 3, firstName: 'Tyler', lastName: 'Abraham',  joinedDate: '2020-01-05' }
+  3: { empNumber: 4, firstName: 'Landon', lastName: 'Abrahams', joinedDate: '2016-12-31' }
+
+UserRole:
+  - { id: 1, name: Admin, display_name: Admin, is_assignable: 1, is_predefined: 1 }
+  - { id: 2, name: ESS, display_name: ESS, is_assignable: 1, is_predefined: 1 }
+  - { id: 3, name: Supervisor, display_name: Supervisor, is_assignable: 0, is_predefined: 1 }
+
+User:
+  - { "id": 1, "user_role_id": 1, "emp_number": 4, "user_name": "admin","user_password": "admin","deleted": "0","status": "1","date_modified": "2022-09-15 16:51:16","modified_user_id": "1" }
+  - { "id": 2, "user_role_id": 2, "emp_number": 1, "user_name": "Adalwin","user_password": "Adalwin","deleted": "0","status": "1","date_entered": "2022-09-15 16:47:14","created_by": "1" }
+  - { "id": 3, "user_role_id": 2, "emp_number": 2, "user_name": "Ashley","user_password": "Ashley","deleted": "0","status": "1","date_entered": "2022-09-15 16:47:14","created_by": "1" }
+  - { "id": 4, "user_role_id": 2, "emp_number": 3, "user_name": "Tyler","user_password": "Tyler","deleted": "0","status": "1","date_entered": "2022-09-15 16:47:14","created_by": "1" }
+
+OpenIdProvider:
+  0: {id: 1, provider_name: 'Google', provider_url: 'https://accounts.google.com', status: 1 }
+  1: {id: 2, provider_name: 'Github', provider_url: 'https://github.com/', status: 1 }
+  2: {id: 3, provider_name: 'Old Provider', provider_url: 'https://old.url/openidauth/openIdCredentials', status: 1 }
+  3: {id: 4, provider_name: 'Google+', provider_url: 'https://google.com/o/8/', status: 0 }
+
+OpenIdUserIdentity:
+  0: {user_id: 1, provider_id: 1, user_identity: 'some long unique string' }
+  1: {user_id: 2, provider_id: 1, user_identity: '1234' }
+  2: {user_id: 3, provider_id: 2, user_identity: '4567' }
+  3: {user_id: 4, provider_id: 2, user_identity: '8901' }
+
+AuthProviderExtraDetails:
+  0: { id: 1, provider_id: 1, client_id: '445659888050-a0n4aisrubg8l4gsb35si9gni9l6t0hn.apps.googleusercontent.com', client_secret: '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' }
+  1: { id: 2, provider_id: 2, client_id: 'ba60e45e8180569fcf', client_secret: '0f0CC6f2182cc5083a84083baf5f43c60952' }
+  2: { id: 3, provider_id: 3, client_id: 'c5083a84083baf5f43c6095', client_secret: 'XftzhWXTtkv0Y0wYG8McJ88t3a8Q7WMw' }
+  3: { id: 4, provider_id: 4, client_id: 'Px2_hj2d1SBNp3pLf0CvBpDPqXEK', client_secret: '82cc5083a84083baf5f43c' }
