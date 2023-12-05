@@ -95,7 +95,7 @@ export default {
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      '/api/v2/auth/providers',
+      '/api/v2/auth/openid-providers',
     );
 
     return {

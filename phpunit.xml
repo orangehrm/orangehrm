@@ -81,5 +81,8 @@
     <testsuite name="Mobile">
       <directory>src/plugins/orangehrmMobilePlugin/test</directory>
     </testsuite>
+    <testsuite name="OpenId">
+      <directory>src/plugins/orangehrmOpenidAuthenticationPlugin/test</directory>
+    </testsuite>
   </testsuites>
 </phpunit>

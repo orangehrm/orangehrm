@@ -133,10 +133,4 @@ class Migration extends AbstractMigration
         }
         return $this->langStringHelper;
     }
-
-    private function modifyAuthProviderTables(): void
-    {
-        $this->getSchemaHelper()->dropColumn('ohrm_auth_provider_extra_details', 'developer_key');
-        $this->getSchemaHelper()->dropColumn('ohrm_auth_provider_extra_details', 'provider_type');
-    }
 }

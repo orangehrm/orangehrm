@@ -1,12 +1,12 @@
 langStrings:
   -
-    value: 'Secret'
+    value: 'Client Secret'
     unitId: secret
   -
     value: 'Developer Key'
     unitId: developer_key
   -
-    value: 'URL'
+    value: 'Provider URL'
     unitId: url
   -
     value: 'Add Provider'
@@ -17,6 +17,3 @@ langStrings:
   -
     value: 'Provider List'
     unitId: provider_list
-  -
-    value: 'Google'
-    unitId: google
