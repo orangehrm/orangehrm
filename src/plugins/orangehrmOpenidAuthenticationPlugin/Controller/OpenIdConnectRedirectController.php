@@ -43,10 +43,10 @@ class OpenIdConnectRedirectController extends AbstractVueController implements P
         return $this->homePageService;
     }
 
+    //TODO
     public function handle(Request $request): RedirectResponse
     {
         $response = $this->getResponse();
-        var_dump($response);
 
         $homePagePath = $this->getHomePageService()->getHomePagePath();
         return $this->redirect($homePagePath);

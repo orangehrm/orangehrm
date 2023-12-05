@@ -19,13 +19,12 @@
 
 namespace OrangeHRM\Tests\OpenidAuthentication\Service;
 
-use Jumbojett\OpenIDConnectClient;
 use OrangeHRM\OpenidAuthentication\Dao\AuthProviderDao;
 use OrangeHRM\OpenidAuthentication\Service\SocialMediaAuthenticationService;
 use OrangeHRM\Tests\Util\TestCase;
 
 /**
- * @group OpenidAuthentication
+ * @group OpenIDAuth
  * @group Service
  */
 class SocialMediaAuthenticationServiceTest extends TestCase

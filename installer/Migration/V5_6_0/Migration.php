@@ -20,6 +20,7 @@
 namespace OrangeHRM\Installer\Migration\V5_6_0;
 
 use Doctrine\DBAL\Schema\ForeignKeyConstraint;
+use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Types\Types;
 use OrangeHRM\Installer\Util\V1\AbstractMigration;
 use OrangeHRM\Installer\Util\V1\LangStringHelper;
@@ -117,11 +118,14 @@ class Migration extends AbstractMigration
         return '5.6.0';
     }
 
-    //TODO - check provider url for google
     private function modifyAuthProviderTables(): void
     {
-        $this->getSchemaHelper()->dropColumn('ohrm_auth_provider_extra_details', 'developer_key');
-        $this->getSchemaHelper()->dropColumn('ohrm_auth_provider_extra_details', 'provider_type');
+        $this->getSchemaHelper()->addOrChangeColumns('ohrm_openid_provider', [
+            'provider_url' => [
+                'Type' => Type::getType(Types::STRING),
+                'Length' => 2000
+            ],
+        ]);
     }
 
     private function getLangStringHelper(): LangStringHelper

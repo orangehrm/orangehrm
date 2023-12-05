@@ -68,8 +68,6 @@
         <exclude name="src/test/**"/>
         <exclude name="src/plugins/**/test/**"/>
 
-        <exclude name="src/plugins/orangehrmAuthenticationPlugin/lib/**"/>
-        <exclude name="src/plugins/orangehrmCoreOAuthPlugin/lib/**"/>
         <exclude name="src/plugins/orangehrmRESTPlugin/**"/>
 
         <!-- 5.x related -->

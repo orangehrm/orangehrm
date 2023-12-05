@@ -51,6 +51,13 @@
           row-decorator="oxd-table-decorator-card"
         />
       </div>
+      <div class="orangehrm-bottom-container">
+        <oxd-pagination
+          v-if="showPaginator"
+          v-model:current="currentPage"
+          :length="pages"
+        />
+      </div>
     </div>
 
     <delete-confirmation ref="deleteDialog"></delete-confirmation>

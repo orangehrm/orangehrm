@@ -70,6 +70,7 @@
             type="button"
             display-type="ghost"
             :label="$t('general.cancel')"
+            @click="onCancel"
           />
           <submit-button />
         </oxd-form-actions>

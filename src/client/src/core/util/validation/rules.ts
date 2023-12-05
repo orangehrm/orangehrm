@@ -704,7 +704,7 @@ export const digitsOnlyWithTwoDecimalPoints = function (
 export const validURL = function (value: string): boolean | string {
   return (
     !value ||
-    /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/.test(value) ||
+    /^(https?|http):\/\/[^\s/$.?#].[^\s]*$/.test(value) ||
     translate('admin.should_be_a_valid_url')
   );
 };

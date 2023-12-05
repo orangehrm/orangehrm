@@ -20,7 +20,7 @@
 <template>
   <div>
     <oxd-text tag="p" class="orangehrm-social-auth-header">
-      Or Login With
+      {{ $t('general.or_login_with') }}
     </oxd-text>
   </div>
   <div class="orangehrm-social-auth">
@@ -55,6 +55,7 @@ export default {
     },
   },
 
+  // TODO
   setup(props) {
     const http = new APIService(window.appGlobal.baseUrl, '');
     function* getColor() {
@@ -90,6 +91,7 @@ export default {
     };
   },
 
+  // TODO:: URL
   methods: {
     onClickAction(id) {
       this.http.request({

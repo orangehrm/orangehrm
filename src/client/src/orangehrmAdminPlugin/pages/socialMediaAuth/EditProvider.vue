@@ -68,6 +68,7 @@
             type="button"
             display-type="ghost"
             :label="$t('general.cancel')"
+            @click="onCancel"
           />
           <submit-button />
         </oxd-form-actions>
@@ -137,7 +138,7 @@ export default {
   },
   methods: {
     onCancel() {
-      navigate('/admin/addAuthProvider');
+      navigate('/admin/openIdProvider');
     },
     onSave() {
       this.isLoading = true;
@@ -154,6 +155,9 @@ export default {
         .then(() => {
           this.isLoading = false;
           return this.$toast.updateSuccess();
+        })
+        .then(() => {
+          this.onCancel();
         });
     },
   },
