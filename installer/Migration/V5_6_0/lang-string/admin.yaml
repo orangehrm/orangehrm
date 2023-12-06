@@ -3,9 +3,6 @@ langStrings:
     value: 'Client Secret'
     unitId: secret
   -
-    value: 'Developer Key'
-    unitId: developer_key
-  -
     value: 'Provider URL'
     unitId: url
   -

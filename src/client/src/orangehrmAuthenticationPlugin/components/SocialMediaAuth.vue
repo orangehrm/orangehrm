@@ -37,7 +37,6 @@
 
 <script>
 import {computed} from 'vue';
-import {CHART_COLORS} from '@ohrm/oxd';
 import {APIService} from '@/core/util/services/api.service';
 import AuthButton from '@/orangehrmAuthenticationPlugin/components/AuthButton.vue';
 
@@ -58,30 +57,10 @@ export default {
   // TODO
   setup(props) {
     const http = new APIService(window.appGlobal.baseUrl, '');
-    function* getColor() {
-      let index = 0;
-      const colors = [
-        CHART_COLORS.COLOR_HEAT_WAVE,
-        CHART_COLORS.COLOR_CHROME_YELLOW,
-        CHART_COLORS.COLOR_YELLOW_GREEN,
-        CHART_COLORS.COLOR_MOUNTAIN_MEADOW,
-        CHART_COLORS.COLOR_PACIFIC_BLUE,
-        CHART_COLORS.COLOR_BLEU_DE_FRANCE,
-        CHART_COLORS.COLOR_MAJORELLE_BLUE,
-        CHART_COLORS.COLOR_MEDIUM_ORCHID,
-        CHART_COLORS.COLOR_FANDANGO_PINK,
-      ];
-      while (true) {
-        yield colors[index];
-        index = index >= colors.length - 1 ? 0 : index + 1;
-      }
-    }
 
     const socialAuthenticators = computed(() => {
-      const colorGenerator = getColor();
       return props.authenticators.map((authenticator) => ({
         ...authenticator,
-        color: colorGenerator.next().value,
       }));
     });
 
@@ -96,7 +75,7 @@ export default {
     onClickAction(id) {
       this.http.request({
         method: 'POST',
-        url: '/auth/oidcLogin',
+        url: '/openidauth/openIdCredentials',
         data: {
           providerId: id,
         },
