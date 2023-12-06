@@ -127,4 +127,16 @@ class AuthProviderDao extends BaseDao
         $this->persist($authProviderExtraDetails);
         return $authProviderExtraDetails;
     }
+
+    /**
+     * @return array
+     */
+    public function getAuthProvidersForLoginPage(): array
+    {
+        $q = $this->createQueryBuilder(OpenIdProvider::class, 'authProvider');
+        $q->andWhere('authProvider.status = :status');
+        $q->setParameter('status', true);
+
+        return $q->getQuery()->execute();
+    }
 }

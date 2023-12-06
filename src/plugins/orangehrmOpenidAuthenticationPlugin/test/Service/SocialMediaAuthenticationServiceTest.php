@@ -19,9 +19,11 @@
 
 namespace OrangeHRM\Tests\OpenidAuthentication\Service;
 
+use OrangeHRM\Config\Config;
 use OrangeHRM\OpenidAuthentication\Dao\AuthProviderDao;
 use OrangeHRM\OpenidAuthentication\Service\SocialMediaAuthenticationService;
 use OrangeHRM\Tests\Util\TestCase;
+use OrangeHRM\Tests\Util\TestDataService;
 
 /**
  * @group OpenIDAuth
@@ -34,6 +36,8 @@ class SocialMediaAuthenticationServiceTest extends TestCase
     protected function setUp(): void
     {
         $this->socialMediaAuthenticationService = new SocialMediaAuthenticationService();
+        $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmOpenidAuthenticationPlugin/test/fixtures/AuthProviderExtraDetails.yml';
+        TestDataService::populate($this->fixture);
     }
 
     public function testGetAuthProviderDao(): void
@@ -41,5 +45,20 @@ class SocialMediaAuthenticationServiceTest extends TestCase
         $this->assertTrue(
             $this->socialMediaAuthenticationService->getAuthProviderDao() instanceof AuthProviderDao
         );
+    }
+
+    public function testInitiateAuthentication(): void
+    {
+        $provider = $this->socialMediaAuthenticationService->getAuthProviderDao()->getAuthProviderDetailsByProviderId(1);
+        $scope = 'email';
+        $redirectUrl = 'https://accounts.google.com/auth';
+
+        $oidcClient = $this->socialMediaAuthenticationService->initiateAuthentication($provider, $scope, $redirectUrl);
+        $this->assertEquals('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', $oidcClient->getClientSecret());
+        $this->assertEquals('445659888050-a0n4aisrubg8l4gsb35si9gni9l6t0hn.apps.googleusercontent.com', $oidcClient->getClientID());
+        $scopes = $oidcClient->getScopes();
+        $this->assertIsArray($scopes);
+        $this->assertEquals('email', $scopes[0]);
+        $this->assertEquals('https://accounts.google.com/auth', $oidcClient->getRedirectURL());
     }
 }

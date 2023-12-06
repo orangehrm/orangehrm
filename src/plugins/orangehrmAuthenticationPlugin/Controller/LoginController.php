@@ -31,6 +31,7 @@ use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\CorporateBranding\Traits\ThemeServiceTrait;
 use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\OpenidAuthentication\Service\SocialMediaAuthenticationService;
 
 class LoginController extends AbstractVueController implements PublicControllerInterface
 {
@@ -45,6 +46,11 @@ class LoginController extends AbstractVueController implements PublicControllerI
     protected ?HomePageService $homePageService = null;
 
     /**
+     * @var SocialMediaAuthenticationService|null
+     */
+    protected ?SocialMediaAuthenticationService $socialMediaAuthenticationService = null;
+
+    /**
      * @return HomePageService
      */
     public function getHomePageService(): HomePageService
@@ -53,6 +59,17 @@ class LoginController extends AbstractVueController implements PublicControllerI
             $this->homePageService = new HomePageService();
         }
         return $this->homePageService;
+    }
+
+    /**
+     * @return SocialMediaAuthenticationService
+     */
+    public function getSocialMediaAuthenticationService(): SocialMediaAuthenticationService
+    {
+        if (!$this->socialMediaAuthenticationService instanceof SocialMediaAuthenticationService) {
+            $this->socialMediaAuthenticationService = new SocialMediaAuthenticationService();
+        }
+        return $this->socialMediaAuthenticationService;
     }
 
     /**
@@ -90,8 +107,15 @@ class LoginController extends AbstractVueController implements PublicControllerI
         );
         $component->addProp(new Prop('is-demo-mode', Prop::TYPE_BOOLEAN, Config::PRODUCT_MODE === Config::MODE_DEMO));
 
-        // TODO: Get authenticators
-        $component->addProp(new Prop('authenticators', Prop::TYPE_ARRAY, []));
+        $providersArray = $this->getProvidersList();
+        $providers = array_map(function ($provider) {
+            return [
+                'id' => $provider->getId(),
+                'label' => $provider->getProviderName(),
+            ];
+        }, $providersArray);
+
+        $component->addProp(new Prop('authenticators', Prop::TYPE_ARRAY, $providers));
         $this->setComponent($component);
         $this->setTemplate('no_header.html.twig');
     }
@@ -106,5 +130,13 @@ class LoginController extends AbstractVueController implements PublicControllerI
             return $this->redirect($homePagePath);
         }
         return parent::handle($request);
+    }
+
+    /**
+     * @return array
+     */
+    public function getProvidersList(): array
+    {
+        return $this->getSocialMediaAuthenticationService()->getAuthProviderDao()->getAuthProvidersForLoginPage();
     }
 }

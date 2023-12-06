@@ -84,7 +84,6 @@ import {navigate} from '@ohrm/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
 import {
   required,
-  validURL,
   shouldNotExceedCharLength,
 } from '@ohrm/core/util/validation/rules';
 import useServerValidation from '@/core/util/composable/useServerValidation';
@@ -127,7 +126,7 @@ export default {
         ],
         clientId: [required, shouldNotExceedCharLength(255)],
         clientSecret: [required, shouldNotExceedCharLength(255)],
-        url: [required, validURL],
+        url: required,
       },
     };
   },

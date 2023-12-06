@@ -134,4 +134,13 @@ class AuthProviderDaoTest extends KernelTestCase
         $this->assertInstanceOf(AuthProviderExtraDetails::class, $result);
         $this->assertEquals('Google Auth', $result->getOpenIdProvider()->getProviderName());
     }
+
+    public function testGetAuthProvidersForLoginPage(): void
+    {
+        $authProviderDao = new AuthProviderDao();
+        $result = $authProviderDao->getAuthProvidersForLoginPage();
+
+        $this->assertIsArray($result);
+        $this->assertEquals('Google', $result[0]->getProviderName());
+    }
 }

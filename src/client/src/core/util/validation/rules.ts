@@ -700,11 +700,3 @@ export const digitsOnlyWithTwoDecimalPoints = function (
     translate('claim.should_be_a_valid_number')
   );
 };
-
-export const validURL = function (value: string): boolean | string {
-  return (
-    !value ||
-    /^(https?|http):\/\/[^\s/$.?#].[^\s]*$/.test(value) ||
-    translate('admin.should_be_a_valid_url')
-  );
-};
