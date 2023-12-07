@@ -42,7 +42,7 @@ use OrangeHRM\Entity\AuthProviderExtraDetails;
  *     ),
  *     @OA\Property(
  *         property="status",
- *         type="integer",
+ *         type="boolean",
  *     ),
  *     @OA\Property(
  *         property="clientId",

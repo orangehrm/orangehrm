@@ -51,11 +51,11 @@ class OpenIdProvider
     private string $providerUrl;
 
     /**
-     * @var int
+     * @var bool
      *
-     * @ORM\Column(name="status", type="smallint", length=1)
+     * @ORM\Column(name="status", type="boolean", options={"default" : 1})
      */
-    private int $status;
+    private bool $status = true;
 
     /**
      * @return int
@@ -106,17 +106,17 @@ class OpenIdProvider
     }
 
     /**
-     * @return int
+     * @return bool
      */
-    public function getStatus(): int
+    public function getStatus(): bool
     {
         return $this->status;
     }
 
     /**
-     * @param int $status
+     * @param bool $status
      */
-    public function setStatus(int $status): void
+    public function setStatus(bool $status): void
     {
         $this->status = $status;
     }

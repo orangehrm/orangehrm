@@ -20,7 +20,7 @@ admin_add_auth_provider:
   controller: OrangeHRM\OpenidAuthentication\Controller\SaveSocialMediaAuthProviderController::handle
   methods: [ GET ]
 
-edit_auth_provider:
+admin_edit_auth_provider:
   path: admin/editAuthProvider/{id}
   controller: OrangeHRM\OpenidAuthentication\Controller\EditSocialMediaAuthProviderController::handle
   methods: [ GET ]

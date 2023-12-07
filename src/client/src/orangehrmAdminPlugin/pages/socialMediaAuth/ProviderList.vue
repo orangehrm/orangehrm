@@ -76,10 +76,6 @@ export default {
   },
 
   setup() {
-    const httpWithStatus = new APIService(
-      window.appGlobal.baseUrl,
-      '/api/v2/auth/openid-providers?status=true',
-    );
     const http = new APIService(
       window.appGlobal.baseUrl,
       '/api/v2/auth/openid-providers',
@@ -93,10 +89,9 @@ export default {
       response,
       isLoading,
       execQuery,
-    } = usePaginate(httpWithStatus);
+    } = usePaginate(http);
     return {
       http,
-      httpWithStatus,
       showPaginator,
       currentPage,
       isLoading,

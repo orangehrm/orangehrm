@@ -125,6 +125,12 @@ class Migration extends AbstractMigration
                 'Type' => Type::getType(Types::STRING),
                 'Length' => 2000
             ],
+            'status' => [
+                'Type' => Type::getType(Types::BOOLEAN),
+                'Notnull' => true,
+                'Default' => true,
+                'CustomSchemaOptions' => ['collation' => null, 'charset' => null]
+            ],
         ]);
     }
 

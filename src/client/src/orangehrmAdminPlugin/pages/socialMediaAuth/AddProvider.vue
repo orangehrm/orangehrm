@@ -56,7 +56,7 @@
               <oxd-input-field
                 v-model="authProvider.clientSecret"
                 :rules="rules.clientSecret"
-                :label="$t('admin.secret')"
+                :label="$t('admin.client_secret')"
                 required
               />
             </oxd-grid-item>
@@ -93,7 +93,6 @@ const initialAuthProvider = {
   url: '',
   clientId: '',
   clientSecret: '',
-  status: 1,
 };
 
 export default {
@@ -126,7 +125,7 @@ export default {
         ],
         clientId: [required, shouldNotExceedCharLength(255)],
         clientSecret: [required, shouldNotExceedCharLength(255)],
-        url: required,
+        url: [required, shouldNotExceedCharLength(2000)],
       },
     };
   },

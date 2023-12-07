@@ -129,7 +129,7 @@ class AuthProviderDao extends BaseDao
     }
 
     /**
-     * @return array
+     * @return OpenIdProvider[]
      */
     public function getAuthProvidersForLoginPage(): array
     {

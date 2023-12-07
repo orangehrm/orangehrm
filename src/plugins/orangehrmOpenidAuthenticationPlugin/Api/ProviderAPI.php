@@ -111,7 +111,8 @@ class ProviderAPI extends Endpoint implements CrudEndpoint
             $this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_NAME)
         );
         $providerSearchFilterParams->setStatus(
-            $this->getRequestParams()->getBooleanOrNull(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_STATUS)
+            $this->getRequestParams()
+                ->getBooleanOrNull(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_STATUS, true)
         );
         $providerSearchFilterParams->setId(
             $this->getRequestParams()->getIntOrNull(RequestParams::PARAM_TYPE_QUERY, CommonParams::PARAMETER_ID)
@@ -144,9 +145,11 @@ class ProviderAPI extends Endpoint implements CrudEndpoint
                     new Rule(Rules::STRING_TYPE),
                 )
             ),
-            new ParamRule(
-                self::PARAMETER_STATUS,
-                new Rule(Rules::BOOL_VAL)
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_STATUS,
+                    new Rule(Rules::BOOL_TYPE)
+                )
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
@@ -172,7 +175,7 @@ class ProviderAPI extends Endpoint implements CrudEndpoint
      *             @OA\Property(property="status", type="boolean"),
      *             @OA\Property(property="clientId", type="string"),
      *             @OA\Property(property="clientSecret", type="string"),
-     *             required={"name", "url", "status", "clientId", "clientSecret"}
+     *             required={"name", "url", "clientId", "clientSecret"}
      *         )
      *     ),
      *     @OA\Response(response="200",
@@ -217,7 +220,8 @@ class ProviderAPI extends Endpoint implements CrudEndpoint
             $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_URL)
         );
         $openIdProvider->setStatus(
-            $this->getRequestParams()->getBoolean(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_STATUS, true)
+            $this->getRequestParams()
+                ->getBooleanOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_STATUS, true)
         );
 
         $this->getSocialMediaAuthenticationService()->getAuthProviderDao()->saveProvider($openIdProvider);
@@ -288,10 +292,12 @@ class ProviderAPI extends Endpoint implements CrudEndpoint
                     new Rule(Rules::LENGTH, [null, self::PARAM_RULE_CLIENT_SECRET_MAX_LENGTH])
                 )
             ),
-            new ParamRule(
-                self::PARAMETER_STATUS,
-                new Rule(Rules::BOOL_VAL)
-            )
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_STATUS,
+                    new Rule(Rules::BOOL_TYPE)
+                )
+            ),
         );
     }
 
@@ -416,10 +422,10 @@ class ProviderAPI extends Endpoint implements CrudEndpoint
      *         @OA\JsonContent(
      *             @OA\Property(property="name", type="string"),
      *             @OA\Property(property="url", type="string"),
-     *             @OA\Property(property="status", type="integer"),
+     *             @OA\Property(property="status", type="boolean"),
      *             @OA\Property(property="clientId", type="string"),
      *             @OA\Property(property="clientSecret", type="string"),
-     *             required={"name", "url", "status", "clientId", "clientSecret"}
+     *             required={"name", "url", "clientId", "clientSecret"}
      *         )
      *     ),
      *     @OA\Response(
@@ -506,9 +512,11 @@ class ProviderAPI extends Endpoint implements CrudEndpoint
                     new Rule(Rules::LENGTH, [null, self::PARAM_RULE_CLIENT_SECRET_MAX_LENGTH])
                 )
             ),
-            new ParamRule(
-                self::PARAMETER_STATUS,
-                new Rule(Rules::BOOL_VAL)
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_STATUS,
+                    new Rule(Rules::BOOL_TYPE)
+                )
             ),
         );
     }

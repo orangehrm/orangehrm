@@ -31,7 +31,7 @@ use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\CorporateBranding\Traits\ThemeServiceTrait;
 use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\OpenidAuthentication\Service\SocialMediaAuthenticationService;
+use OrangeHRM\OpenidAuthentication\Traits\Service\SocialMediaAuthenticationServiceTrait;
 
 class LoginController extends AbstractVueController implements PublicControllerInterface
 {
@@ -39,16 +39,12 @@ class LoginController extends AbstractVueController implements PublicControllerI
     use EventDispatcherTrait;
     use ThemeServiceTrait;
     use CsrfTokenManagerTrait;
+    use SocialMediaAuthenticationServiceTrait;
 
     /**
      * @var HomePageService|null
      */
     protected ?HomePageService $homePageService = null;
-
-    /**
-     * @var SocialMediaAuthenticationService|null
-     */
-    protected ?SocialMediaAuthenticationService $socialMediaAuthenticationService = null;
 
     /**
      * @return HomePageService
@@ -59,17 +55,6 @@ class LoginController extends AbstractVueController implements PublicControllerI
             $this->homePageService = new HomePageService();
         }
         return $this->homePageService;
-    }
-
-    /**
-     * @return SocialMediaAuthenticationService
-     */
-    public function getSocialMediaAuthenticationService(): SocialMediaAuthenticationService
-    {
-        if (!$this->socialMediaAuthenticationService instanceof SocialMediaAuthenticationService) {
-            $this->socialMediaAuthenticationService = new SocialMediaAuthenticationService();
-        }
-        return $this->socialMediaAuthenticationService;
     }
 
     /**

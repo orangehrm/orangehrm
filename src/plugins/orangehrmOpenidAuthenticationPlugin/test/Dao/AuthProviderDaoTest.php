@@ -45,7 +45,7 @@ class AuthProviderDaoTest extends KernelTestCase
         $provider = $authProviderDao->getAuthProviderById(1);
         $this->assertEquals('Google', $provider->getProviderName());
         $this->assertEquals('https://accounts.google.com', $provider->getProviderUrl());
-        $this->assertEquals('1', $provider->getStatus());
+        $this->assertTrue($provider->getStatus());
         $this->assertInstanceOf(OpenIdProvider::class, $provider);
     }
 
@@ -99,7 +99,7 @@ class AuthProviderDaoTest extends KernelTestCase
         $id = [1];
         $authProviderDao->deleteProviders($id);
         $provider = $this->getRepository(OpenIdProvider::class)->find(1);
-        $this->assertEquals('0', $provider->getStatus());
+        $this->assertFalse($provider->getStatus());
     }
 
     public function testSaveProvider(): void

@@ -25,19 +25,15 @@ use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Controller\PublicControllerInterface;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\OpenidAuthentication\Service\SocialMediaAuthenticationService;
+use OrangeHRM\OpenidAuthentication\Traits\Service\SocialMediaAuthenticationServiceTrait;
 
 class OpenIdConnectLoginController extends AbstractVueController implements PublicControllerInterface
 {
     use AuthUserTrait;
+    use SocialMediaAuthenticationServiceTrait;
 
     public const SCOPE = 'email';
     public const REDIRECT_URL = '';
-
-    /**
-     * @var SocialMediaAuthenticationService|null
-     */
-    protected ?SocialMediaAuthenticationService $socialMediaAuthenticationService = null;
 
     /**
      * @var HomePageService|null
@@ -53,17 +49,6 @@ class OpenIdConnectLoginController extends AbstractVueController implements Publ
             $this->homePageService = new HomePageService();
         }
         return $this->homePageService;
-    }
-
-    /**
-     * @return SocialMediaAuthenticationService
-     */
-    public function getSocialMediaAuthenticationService(): SocialMediaAuthenticationService
-    {
-        if (!$this->socialMediaAuthenticationService instanceof SocialMediaAuthenticationService) {
-            $this->socialMediaAuthenticationService = new SocialMediaAuthenticationService();
-        }
-        return $this->socialMediaAuthenticationService;
     }
 
     /**

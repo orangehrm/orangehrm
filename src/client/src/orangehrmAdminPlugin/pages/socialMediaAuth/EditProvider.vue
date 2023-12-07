@@ -53,7 +53,7 @@
             <oxd-grid-item>
               <oxd-input-field
                 v-model="authProvider.clientSecret"
-                :label="$t('admin.secret')"
+                :label="$t('admin.client_secret')"
                 :placeholder="secretPlaceholder"
                 required
               />
@@ -84,6 +84,7 @@ import {
   required,
   shouldNotExceedCharLength,
 } from '@ohrm/core/util/validation/rules';
+import useServerValidation from '@/core/util/composable/useServerValidation';
 
 export default {
   name: 'EditProvider',
@@ -94,14 +95,21 @@ export default {
     },
   },
 
-  setup() {
+  setup(props) {
     const http = new APIService(
       window.appGlobal.baseUrl,
       '/api/v2/auth/openid-providers',
     );
+    const {createUniqueValidator} = useServerValidation(http);
+    const providerNameUniqueValidation = createUniqueValidator(
+      'OpenIdProvider',
+      'providerName',
+      {entityId: props.id},
+    );
 
     return {
       http,
+      providerNameUniqueValidation,
     };
   },
 
@@ -116,7 +124,11 @@ export default {
         clientSecret: '',
       },
       rules: {
-        name: [required, shouldNotExceedCharLength(40)],
+        name: [
+          required,
+          this.providerNameUniqueValidation,
+          shouldNotExceedCharLength(40),
+        ],
       },
     };
   },
