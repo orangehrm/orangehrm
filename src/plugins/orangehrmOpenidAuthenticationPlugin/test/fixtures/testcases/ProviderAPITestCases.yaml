@@ -10,19 +10,19 @@ GetAll:
         id: '1',
         providerName: 'Google',
         providerUrl: 'https://accounts.google.com',
-        status: '1',
+        status: true,
         clientId: '445659888050-a0n4aisrubg8l4gsb35si9gni9l6t0hn.apps.googleusercontent.com'
       },
       {
         id: '2',
         providerName: 'Github',
         providerUrl: 'https://github.com/',
-        status: '1',
+        status: true,
         clientId: 'ba60e45e8180569fcf'
       },
     ]
     meta:
-      total: 4
+      total: 3
 
   'Get all openId connect providers filter by name - Admin User':
     userId: 1
@@ -35,19 +35,48 @@ GetAll:
         id: '1',
         providerName: 'Google',
         providerUrl: 'https://accounts.google.com',
-        status: '1',
+        status: true,
         clientId: '445659888050-a0n4aisrubg8l4gsb35si9gni9l6t0hn.apps.googleusercontent.com'
-      },
+      }
+    ]
+    meta:
+      total: 1
+
+  'Get all openId connect providers filter by partial name - Admin User':
+    userId: 1
+    services:
+      oidc.social_media_auth_service: \OrangeHRM\OpenidAuthentication\Service\SocialMediaAuthenticationService
+    query:
+      name: 'Goo'
+    data: [
+      {
+        id: '1',
+        providerName: 'Google',
+        providerUrl: 'https://accounts.google.com',
+        status: true,
+        clientId: '445659888050-a0n4aisrubg8l4gsb35si9gni9l6t0hn.apps.googleusercontent.com'
+      }
+    ]
+    meta:
+      total: 1
+
+  'Get all openId connect providers filter by status - Admin User':
+    userId: 1
+    services:
+      oidc.social_media_auth_service: \OrangeHRM\OpenidAuthentication\Service\SocialMediaAuthenticationService
+    query:
+      status: false
+    data: [
       {
         id: '4',
         providerName: 'Google+',
         providerUrl: 'https://google.com/o/8/',
-        status: '0',
+        status: false,
         clientId: 'Px2_hj2d1SBNp3pLf0CvBpDPqXEK'
       }
     ]
     meta:
-      total: 2
+      total: 1
 
 GetOne:
   'Get one Provider by Id':
@@ -60,7 +89,7 @@ GetOne:
         id: '1',
         providerName: 'Google',
         providerUrl: 'https://accounts.google.com',
-        status: '1',
+        status: true,
         clientId: '445659888050-a0n4aisrubg8l4gsb35si9gni9l6t0hn.apps.googleusercontent.com'
     }
 
@@ -101,14 +130,13 @@ Update:
     body:
       name: 'Azure AD'
       url: 'https://azure.auth.com'
-      status: '1'
       clientId: '6f2182cc5083a84083b'
       clientSecret: '0f0cc6f83baf5f43c609ec9752'
     data:
       id: 1
       providerName: 'Azure AD'
       providerUrl: 'https://azure.auth.com'
-      status: '1'
+      status: true
       clientId: '6f2182cc5083a84083b'
 
   'Update Existing Provider - Invalid Id':
@@ -120,7 +148,7 @@ Update:
     body:
       name: 'Azure AD'
       url: 'https://azure.auth.com'
-      status: '1'
+      status: true
       clientId: '6f2182cc5083a84083b'
       clientSecret: '0f0cc6f83baf5f43c609ec9752'
     exception:
@@ -136,7 +164,7 @@ Update:
     body:
       name: null
       url: 'https://azure.auth.com'
-      status: '1'
+      status: true
       clientId: '6f2182cc5083a84083b'
       clientSecret: '0f0cc6f83baf5f43c609ec9752'
     exception:
@@ -151,12 +179,11 @@ Create:
     body:
       name: 'Azure'
       url: 'https://azure.auth.com'
-      status: true
       clientId: '6f2182cc5083a84083b'
       clientSecret: '0f0cc6f2182cc5083a84083baf5f43c609ec9752'
     data:
       id: 5
       providerName: 'Azure'
       providerUrl: 'https://azure.auth.com'
-      status: 1
+      status: true
       clientId: '6f2182cc5083a84083b'

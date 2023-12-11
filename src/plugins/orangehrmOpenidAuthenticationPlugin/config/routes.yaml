@@ -15,17 +15,23 @@ apiv2_auth_openid_provider:
 ##########################
 #        Screens
 ##########################
-add_auth_provider:
+admin_add_auth_provider:
   path: admin/addAuthProvider
   controller: OrangeHRM\OpenidAuthentication\Controller\SaveSocialMediaAuthProviderController::handle
   methods: [ GET ]
 
-edit_auth_provider:
-  path: admin/editAuthProvider
+admin_edit_auth_provider:
+  path: admin/editAuthProvider/{id}
   controller: OrangeHRM\OpenidAuthentication\Controller\EditSocialMediaAuthProviderController::handle
   methods: [ GET ]
 
+#add this url to maintain 4X backword compatibility
 auth_oidc_login:
-  path: /auth/oidcLogin
+  path: /openidauth/openIdCredentials
   controller: OrangeHRM\OpenidAuthentication\Controller\OpenIdConnectLoginController::handle
   methods: [ POST ]
+
+auth_oidc_login_redirect:
+  path: /openidauth/openIdCredentials/redirect
+  controller: OrangeHRM\OpenidAuthentication\Controller\OpenIdConnectRedirectController::handle
+  methods: [ GET ]

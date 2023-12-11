@@ -20,16 +20,25 @@
 namespace OrangeHRM\Installer\Migration\V5_6_0;
 
 use Doctrine\DBAL\Schema\ForeignKeyConstraint;
+use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Types\Types;
 use OrangeHRM\Installer\Util\V1\AbstractMigration;
+use OrangeHRM\Installer\Util\V1\LangStringHelper;
 
 class Migration extends AbstractMigration
 {
+    protected ?LangStringHelper $langStringHelper = null;
+
     /**
      * @inheritDoc
      */
     public function up(): void
     {
+        $groups = ['admin'];
+        foreach ($groups as $group) {
+            $this->getLangStringHelper()->insertOrUpdateLangStrings(__DIR__, $group);
+        }
+
         $this->getSchemaHelper()->dropForeignKeys('ohrm_i18n_translate', ['langStringId']);
         $foreignKeyConstraint = new ForeignKeyConstraint(
             ['lang_string_id'],
@@ -109,10 +118,29 @@ class Migration extends AbstractMigration
         return '5.6.0';
     }
 
-    //TODO - check provider url for google
     private function modifyAuthProviderTables(): void
     {
-        $this->getSchemaHelper()->dropColumn('ohrm_auth_provider_extra_details', 'developer_key');
-        $this->getSchemaHelper()->dropColumn('ohrm_auth_provider_extra_details', 'provider_type');
+        $this->getSchemaHelper()->addOrChangeColumns('ohrm_openid_provider', [
+            'provider_url' => [
+                'Type' => Type::getType(Types::STRING),
+                'Length' => 2000
+            ],
+            'status' => [
+                'Type' => Type::getType(Types::BOOLEAN),
+                'Notnull' => true,
+                'Default' => true,
+                'CustomSchemaOptions' => ['collation' => null, 'charset' => null]
+            ],
+        ]);
+    }
+
+    private function getLangStringHelper(): LangStringHelper
+    {
+        if (is_null($this->langStringHelper)) {
+            $this->langStringHelper = new LangStringHelper(
+                $this->getConnection()
+            );
+        }
+        return $this->langStringHelper;
     }
 }

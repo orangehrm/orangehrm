@@ -24,6 +24,7 @@ use Doctrine\DBAL\Schema\Index;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Types\Types;
 use OrangeHRM\Installer\Util\V1\AbstractMigration;
+use OrangeHRM\Installer\Util\V1\LangStringHelper;
 
 class Migration extends AbstractMigration
 {
@@ -36,7 +37,7 @@ class Migration extends AbstractMigration
     {
         $groups = ['admin', 'auth', 'general'];
         foreach ($groups as $group) {
-            $this->getLangStringHelper()->insertOrUpdateLangStrings($group);
+            $this->getLangStringHelper()->insertOrUpdateLangStrings(__DIR__, $group);
         }
 
         $this->updateLangStringVersion($this->getVersion());

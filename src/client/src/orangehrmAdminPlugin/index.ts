@@ -66,6 +66,9 @@ import CorporateBranding from './pages/corporateBranding/CorporateBranding.vue';
 import LanguagePackages from '@/orangehrmAdminPlugin/pages/languagePackage/LanguagePackage.vue';
 import EditLanguagePackage from '@/orangehrmAdminPlugin/pages/languageTranslation/languageTranslation.vue';
 import LdapConfiguration from './pages/ldap/LdapConfiguration.vue';
+import ProviderList from './pages/socialMediaAuth/ProviderList.vue';
+import AddProvider from './pages/socialMediaAuth/AddProvider.vue';
+import EditProvider from './pages/socialMediaAuth/EditProvider.vue';
 
 export default {
   'job-title-list': JobTitle,
@@ -118,4 +121,7 @@ export default {
   'language-package-list': LanguagePackages,
   'language-translation-edit': EditLanguagePackage,
   'ldap-configuration': LdapConfiguration,
+  'auth-provider-list': ProviderList,
+  'add-auth-provider': AddProvider,
+  'edit-auth-provider': EditProvider,
 };

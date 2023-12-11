@@ -1,0 +1,13 @@
+langStrings:
+  -
+    value: 'Provider URL'
+    unitId: url
+  -
+    value: 'Add Provider'
+    unitId: add_provider
+  -
+    value: 'Edit Provider'
+    unitId: edit_provider
+  -
+    value: 'Provider List'
+    unitId: provider_list

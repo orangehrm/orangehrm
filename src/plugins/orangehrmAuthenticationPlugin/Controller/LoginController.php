@@ -31,6 +31,7 @@ use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\CorporateBranding\Traits\ThemeServiceTrait;
 use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\OpenidAuthentication\Traits\Service\SocialMediaAuthenticationServiceTrait;
 
 class LoginController extends AbstractVueController implements PublicControllerInterface
 {
@@ -38,6 +39,7 @@ class LoginController extends AbstractVueController implements PublicControllerI
     use EventDispatcherTrait;
     use ThemeServiceTrait;
     use CsrfTokenManagerTrait;
+    use SocialMediaAuthenticationServiceTrait;
 
     /**
      * @var HomePageService|null
@@ -89,6 +91,16 @@ class LoginController extends AbstractVueController implements PublicControllerI
             new Prop('show-social-media', Prop::TYPE_BOOLEAN, $this->getThemeService()->showSocialMediaImages())
         );
         $component->addProp(new Prop('is-demo-mode', Prop::TYPE_BOOLEAN, Config::PRODUCT_MODE === Config::MODE_DEMO));
+
+        $providersArray = $this->getProvidersList();
+        $providers = array_map(function ($provider) {
+            return [
+                'id' => $provider->getId(),
+                'label' => $provider->getProviderName(),
+            ];
+        }, $providersArray);
+
+        $component->addProp(new Prop('authenticators', Prop::TYPE_ARRAY, $providers));
         $this->setComponent($component);
         $this->setTemplate('no_header.html.twig');
     }
@@ -103,5 +115,13 @@ class LoginController extends AbstractVueController implements PublicControllerI
             return $this->redirect($homePagePath);
         }
         return parent::handle($request);
+    }
+
+    /**
+     * @return array
+     */
+    public function getProvidersList(): array
+    {
+        return $this->getSocialMediaAuthenticationService()->getAuthProviderDao()->getAuthProvidersForLoginPage();
     }
 }

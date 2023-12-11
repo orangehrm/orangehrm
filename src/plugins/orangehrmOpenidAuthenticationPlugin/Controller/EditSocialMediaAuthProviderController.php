@@ -17,20 +17,23 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Core\Controller\Common;
+namespace OrangeHRM\OpenidAuthentication\Controller;
 
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Vue\Component;
+use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Framework\Http\Request;
 
-class ModuleUnderDevelopmentController extends AbstractVueController
+class EditSocialMediaAuthProviderController extends AbstractVueController
 {
-    /**
-     * @inheritDoc
-     */
     public function preRender(Request $request): void
     {
-        $component = new Component('module-under-development');
+        if ($request->attributes->has('id')) {
+            $component = new Component('edit-auth-provider');
+            $component->addProp(new Prop('id', Prop::TYPE_NUMBER, $request->attributes->getInt('id')));
+        } else {
+            $component = new Component('edit-auth-provider');
+        }
         $this->setComponent($component);
     }
 }
