@@ -25,11 +25,11 @@ admin_edit_auth_provider:
   controller: OrangeHRM\OpenidAuthentication\Controller\EditSocialMediaAuthProviderController::handle
   methods: [ GET ]
 
-#add this url to maintain 4X backword compatibility
+#add this url to maintain 4X backward compatibility
 auth_oidc_login:
-  path: /openidauth/openIdCredentials
+  path: /openidauth/openIdCredentials/{providerId}
   controller: OrangeHRM\OpenidAuthentication\Controller\OpenIdConnectLoginController::handle
-  methods: [ POST ]
+  methods: [ GET ]
 
 auth_oidc_login_redirect:
   path: /openidauth/openIdCredentials/redirect

@@ -25,6 +25,7 @@ use OrangeHRM\Core\Controller\PublicControllerInterface;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\OpenidAuthentication\Traits\Service\SocialMediaAuthenticationServiceTrait;
+use OrangeHRM\Framework\Http\RedirectResponse;
 
 class OpenIdConnectLoginController extends AbstractVueController implements PublicControllerInterface
 {
@@ -32,7 +33,7 @@ class OpenIdConnectLoginController extends AbstractVueController implements Publ
     use SocialMediaAuthenticationServiceTrait;
 
     public const SCOPE = 'email';
-    public const REDIRECT_URL = '';
+    public const REDIRECT_URL = 'https://734d-2402-d000-a500-40f9-f1e8-1109-5f81-bcf4.ngrok-free.app/orangehrm5/web/index.php/openidauth/openIdCredentials/redirect';
 
     /**
      * @var HomePageService|null
@@ -56,7 +57,7 @@ class OpenIdConnectLoginController extends AbstractVueController implements Publ
     public function handle(Request $request)
     {
         $response = $this->getResponse();
-        $providerId = $request->request->get('providerId');
+        $providerId = $request->attributes->get('providerId');
         $provider = $this->getSocialMediaAuthenticationService()->getAuthProviderDao()
             ->getAuthProviderDetailsByProviderId($providerId);
 
@@ -66,18 +67,20 @@ class OpenIdConnectLoginController extends AbstractVueController implements Publ
             self::REDIRECT_URL
         );
 
-        $email = $this->getSocialMediaAuthenticationService()->handleCallback($oidcClient);
+        $oidcClient->authenticate();
+//        $url = $this->getSocialMediaAuthenticationService()->handleCallback($oidcClient);
 
-
-        if ($success) {
-            if ($this->getAuthUser()->isAuthenticated()) {
-                $homePagePath = $this->getHomePageService()->getHomePagePath();
-                return $this->redirect($homePagePath);
-            }
-            return parent::handle($request);
-        } else {
-            //handle error
-        }
+//        if ($success) {
+//            if ($this->getAuthUser()->isAuthenticated()) {
+//                $homePagePath = $this->getHomePageService()->getHomePagePath();
+//                return $this->redirect($homePagePath);
+//            }
+//            return parent::handle($request);
+//        } else {
+//            //handle error
+//        }
+        return new RedirectResponse($oidcClient->getGeneratedAuthUrl());
+//        $response->setContent(json_encode(['redirectUrl' => $url]));
         return $response;
     }
 }

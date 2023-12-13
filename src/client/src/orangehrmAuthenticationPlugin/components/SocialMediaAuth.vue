@@ -38,6 +38,7 @@
 import {computed} from 'vue';
 import {APIService} from '@/core/util/services/api.service';
 import AuthButton from '@/orangehrmAuthenticationPlugin/components/AuthButton.vue';
+import {navigate} from '@ohrm/core/util/helper/navigation';
 
 export default {
   name: 'SocialMediaAuth',
@@ -72,13 +73,7 @@ export default {
   // TODO:: URL
   methods: {
     onClickAction(id) {
-      this.http.request({
-        method: 'POST',
-        url: '/openidauth/openIdCredentials',
-        data: {
-          providerId: id,
-        },
-      });
+      navigate('/openidauth/openIdCredentials/{providerId}', {providerId: id});
     },
   },
 };
