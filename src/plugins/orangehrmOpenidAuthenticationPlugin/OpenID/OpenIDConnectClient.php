@@ -18,6 +18,7 @@
  */
 
 namespace OrangeHRM\OpenidAuthentication\OpenID;
+
 class OpenIDConnectClient extends \Jumbojett\OpenIDConnectClient
 {
     protected ?string $generatedAuthUrl = null;
@@ -27,7 +28,7 @@ class OpenIDConnectClient extends \Jumbojett\OpenIDConnectClient
         $this->generatedAuthUrl = $url;
     }
 
-    public function getGeneratedAuthUrl():string
+    public function getGeneratedAuthUrl(): string
     {
         return $this->generatedAuthUrl;
     }

@@ -23,9 +23,14 @@ use OrangeHRM\Core\Authorization\Service\HomePageService;
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Controller\PublicControllerInterface;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
-use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\OpenidAuthentication\Traits\Service\SocialMediaAuthenticationServiceTrait;
 use OrangeHRM\Framework\Http\RedirectResponse;
+use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Framework\Http\Session\MemorySessionStorage;
+use OrangeHRM\Framework\Http\Session\Session;
+use OrangeHRM\Framework\ServiceContainer;
+use OrangeHRM\Framework\Services;
+use OrangeHRM\OpenidAuthentication\OpenID\OpenIDConnectClient;
+use OrangeHRM\OpenidAuthentication\Traits\Service\SocialMediaAuthenticationServiceTrait;
 
 class OpenIdConnectLoginController extends AbstractVueController implements PublicControllerInterface
 {
@@ -33,7 +38,8 @@ class OpenIdConnectLoginController extends AbstractVueController implements Publ
     use SocialMediaAuthenticationServiceTrait;
 
     public const SCOPE = 'email';
-    public const REDIRECT_URL = 'https://734d-2402-d000-a500-40f9-f1e8-1109-5f81-bcf4.ngrok-free.app/orangehrm5/web/index.php/openidauth/openIdCredentials/redirect';
+    public const REDIRECT_URL = 'https://734d-2402-d000-a500-40f9-f1e8-1109-5f81-bcf4.ngrok-free.app/orangehrm5/web/index.php/openidauth/openIdCredentials';
+    private bool $isAuthenticated = false;
 
     /**
      * @var HomePageService|null
@@ -54,33 +60,45 @@ class OpenIdConnectLoginController extends AbstractVueController implements Publ
     /**
      * @throws OpenIDConnectClientException
      */
-    public function handle(Request $request)
+    public function handle(Request $request): RedirectResponse
     {
         $response = $this->getResponse();
         $providerId = $request->attributes->get('providerId');
-        $provider = $this->getSocialMediaAuthenticationService()->getAuthProviderDao()
-            ->getAuthProviderDetailsByProviderId($providerId);
+        $oidcClient = new OpenIDConnectClient();
 
-        $oidcClient = $this->getSocialMediaAuthenticationService()->initiateAuthentication(
-            $provider,
-            self::SCOPE,
-            self::REDIRECT_URL
-        );
+        if ($providerId > 0) {
+            $this->setSession($providerId);
+            $provider = $this->getSocialMediaAuthenticationService()->getAuthProviderDao()
+                ->getAuthProviderDetailsByProviderId($providerId);
 
-        $oidcClient->authenticate();
-//        $url = $this->getSocialMediaAuthenticationService()->handleCallback($oidcClient);
+            $oidcClient = $this->getSocialMediaAuthenticationService()->initiateAuthentication(
+                $provider,
+                self::SCOPE,
+                self::REDIRECT_URL
+            );
 
-//        if ($success) {
-//            if ($this->getAuthUser()->isAuthenticated()) {
-//                $homePagePath = $this->getHomePageService()->getHomePagePath();
-//                return $this->redirect($homePagePath);
-//            }
-//            return parent::handle($request);
-//        } else {
-//            //handle error
-//        }
+            $this->isAuthenticated = $oidcClient->authenticate();
+        }
+
+        if ($this->isAuthenticated) {
+            $provider = $this->getSocialMediaAuthenticationService()->getAuthProviderDao()
+                ->getAuthProviderDetailsByProviderId(1);
+
+            $oidcClient->setProviderURL($provider->getOpenIdProvider()->getProviderUrl());
+
+            $email = $oidcClient->requestUserInfo('email');
+        }
+
         return new RedirectResponse($oidcClient->getGeneratedAuthUrl());
-//        $response->setContent(json_encode(['redirectUrl' => $url]));
-        return $response;
+    }
+
+    private function setSession($providerId)
+    {
+        $sessionStorage = new MemorySessionStorage();
+        ServiceContainer::getContainer()->set(Services::SESSION_STORAGE, $sessionStorage);
+        $session = new Session($sessionStorage);
+        $session->start();
+        ServiceContainer::getContainer()->set(Services::SESSION, $session);
+        $session->set('providerId', $providerId);
     }
 }
