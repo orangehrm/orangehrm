@@ -72,6 +72,7 @@ export default {
   justify-content: center;
   &-text {
     @include truncate(1, 1, #fff);
+    width: 50%;
     line-height: 1;
     font-size: 14px;
     font-weight: 800;
