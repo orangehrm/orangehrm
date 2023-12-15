@@ -73,16 +73,21 @@ export default {
     });
 
     const getBackgroundUrl = (label) => {
-      if (label.toLowerCase().includes('google')) {
-        return `${window.appGlobal.publicPath}/images/google.png`;
-      } else if (label.toLowerCase().includes('microsoft')) {
-        return `${window.appGlobal.publicPath}/images/microsoft.png`;
-      } else if (label.toLowerCase().includes('okta')) {
-        return `${window.appGlobal.publicPath}/images/okta.png`;
-      } else if (label.toLowerCase().includes('keycloak')) {
-        return `${window.appGlobal.publicPath}/images/keycloak.png`;
-      } else {
-        return `${window.appGlobal.publicPath}/images/default.png`;
+      const lowercasedLabel = label.toLowerCase();
+
+      switch (true) {
+        case lowercasedLabel.includes('google'):
+          return `${window.appGlobal.publicPath}/images/google.svg`;
+        case lowercasedLabel.includes('microsoft'):
+          return `${window.appGlobal.publicPath}/images/microsoft.svg`;
+        case lowercasedLabel.includes('okta'):
+          return `${window.appGlobal.publicPath}/images/okta.svg`;
+        case lowercasedLabel.includes('keycloak'):
+          return `${window.appGlobal.publicPath}/images/keycloak.svg`;
+        case lowercasedLabel.includes('auth0'):
+          return `${window.appGlobal.publicPath}/images/auth0.svg`;
+        default:
+          return `${window.appGlobal.publicPath}/images/default.svg`;
       }
     };
 
