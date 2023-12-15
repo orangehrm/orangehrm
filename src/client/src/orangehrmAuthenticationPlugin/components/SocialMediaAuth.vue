@@ -29,6 +29,13 @@
       :url="authenticator.url"
       :color="authenticator.color"
       :label="authenticator.label"
+      :style="{
+        background:
+          'url(' + authenticator.backgroundUrl + ') no-repeat left center',
+        'background-size': 'contain',
+        'text-align': 'center',
+        padding: '1px',
+      }"
       @click.prevent="onClickAction(authenticator.id)"
     ></auth-button>
   </div>
@@ -61,8 +68,23 @@ export default {
     const socialAuthenticators = computed(() => {
       return props.authenticators.map((authenticator) => ({
         ...authenticator,
+        backgroundUrl: getBackgroundUrl(authenticator.label),
       }));
     });
+
+    const getBackgroundUrl = (label) => {
+      if (label.toLowerCase().includes('google')) {
+        return `${window.appGlobal.publicPath}/images/google.png`;
+      } else if (label.toLowerCase().includes('microsoft')) {
+        return `${window.appGlobal.publicPath}/images/microsoft.png`;
+      } else if (label.toLowerCase().includes('okta')) {
+        return `${window.appGlobal.publicPath}/images/okta.png`;
+      } else if (label.toLowerCase().includes('keycloak')) {
+        return `${window.appGlobal.publicPath}/images/keycloak.png`;
+      } else {
+        return `${window.appGlobal.publicPath}/images/default.png`;
+      }
+    };
 
     return {
       socialAuthenticators,
