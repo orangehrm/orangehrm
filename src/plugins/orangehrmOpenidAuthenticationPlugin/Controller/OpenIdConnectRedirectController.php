@@ -23,16 +23,15 @@ use Jumbojett\OpenIDConnectClientException;
 use OrangeHRM\Core\Authorization\Service\HomePageService;
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Controller\PublicControllerInterface;
+use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Framework\Http\RedirectResponse;
 use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\OpenidAuthentication\OpenID\OpenIDConnectClient;
 use OrangeHRM\OpenidAuthentication\Traits\Service\SocialMediaAuthenticationServiceTrait;
 
 class OpenIdConnectRedirectController extends AbstractVueController implements PublicControllerInterface
 {
+    use AuthUserTrait;
     use SocialMediaAuthenticationServiceTrait;
-    public const SCOPE = 'email';
-    public const REDIRECT_URL = 'https://734d-2402-d000-a500-40f9-f1e8-1109-5f81-bcf4.ngrok-free.app/orangehrm5/web/index.php/openidauth/openIdCredentials';
 
     /**
      * @var HomePageService|null
@@ -58,14 +57,17 @@ class OpenIdConnectRedirectController extends AbstractVueController implements P
      */
     public function handle(Request $request): RedirectResponse
     {
+        //TODO
         $provider = $this->getSocialMediaAuthenticationService()->getAuthProviderDao()
             ->getAuthProviderDetailsByProviderId(1);
 
-        $oidcClient = new OpenIDConnectClient();
-        $oidcClient->setProviderURL($provider->getOpenIdProvider()->getProviderUrl());
+        $oidcClient = $this->getSocialMediaAuthenticationService()->initiateAuthentication(
+            $provider,
+            $this->getSocialMediaAuthenticationService()->getScope(),
+            $this->getSocialMediaAuthenticationService()->getRedirectURL()
+        );
 
-        $email = $oidcClient->requestUserInfo('email');
-        var_dump($email);
+        $oidcClient->authenticate();
 
         $homePagePath = $this->getHomePageService()->getHomePagePath();
         return $this->redirect($homePagePath);

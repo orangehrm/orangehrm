@@ -18,17 +18,12 @@
 
 namespace OrangeHRM\OpenidAuthentication\Controller;
 
-use Jumbojett\OpenIDConnectClientException;
 use OrangeHRM\Core\Authorization\Service\HomePageService;
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Controller\PublicControllerInterface;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Framework\Http\RedirectResponse;
 use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Framework\Http\Session\MemorySessionStorage;
-use OrangeHRM\Framework\Http\Session\Session;
-use OrangeHRM\Framework\ServiceContainer;
-use OrangeHRM\Framework\Services;
 use OrangeHRM\OpenidAuthentication\OpenID\OpenIDConnectClient;
 use OrangeHRM\OpenidAuthentication\Traits\Service\SocialMediaAuthenticationServiceTrait;
 
@@ -36,10 +31,6 @@ class OpenIdConnectLoginController extends AbstractVueController implements Publ
 {
     use AuthUserTrait;
     use SocialMediaAuthenticationServiceTrait;
-
-    public const SCOPE = 'email';
-    public const REDIRECT_URL = 'https://734d-2402-d000-a500-40f9-f1e8-1109-5f81-bcf4.ngrok-free.app/orangehrm5/web/index.php/openidauth/openIdCredentials';
-    private bool $isAuthenticated = false;
 
     /**
      * @var HomePageService|null
@@ -58,7 +49,8 @@ class OpenIdConnectLoginController extends AbstractVueController implements Publ
     }
 
     /**
-     * @throws OpenIDConnectClientException
+     * @param Request $request
+     * @return RedirectResponse
      */
     public function handle(Request $request): RedirectResponse
     {
@@ -66,39 +58,15 @@ class OpenIdConnectLoginController extends AbstractVueController implements Publ
         $providerId = $request->attributes->get('providerId');
         $oidcClient = new OpenIDConnectClient();
 
-        if ($providerId > 0) {
-            $this->setSession($providerId);
-            $provider = $this->getSocialMediaAuthenticationService()->getAuthProviderDao()
-                ->getAuthProviderDetailsByProviderId($providerId);
+        $provider = $this->getSocialMediaAuthenticationService()->getAuthProviderDao()
+            ->getAuthProviderDetailsByProviderId($providerId);
 
-            $oidcClient = $this->getSocialMediaAuthenticationService()->initiateAuthentication(
-                $provider,
-                self::SCOPE,
-                self::REDIRECT_URL
-            );
-
-            $this->isAuthenticated = $oidcClient->authenticate();
-        }
-
-        if ($this->isAuthenticated) {
-            $provider = $this->getSocialMediaAuthenticationService()->getAuthProviderDao()
-                ->getAuthProviderDetailsByProviderId(1);
-
-            $oidcClient->setProviderURL($provider->getOpenIdProvider()->getProviderUrl());
-
-            $email = $oidcClient->requestUserInfo('email');
-        }
+        $oidcClient = $this->getSocialMediaAuthenticationService()->initiateAuthentication(
+            $provider,
+            $this->getSocialMediaAuthenticationService()->getScope(),
+            $this->getSocialMediaAuthenticationService()->getRedirectURL()
+        );
 
         return new RedirectResponse($oidcClient->getGeneratedAuthUrl());
-    }
-
-    private function setSession($providerId)
-    {
-        $sessionStorage = new MemorySessionStorage();
-        ServiceContainer::getContainer()->set(Services::SESSION_STORAGE, $sessionStorage);
-        $session = new Session($sessionStorage);
-        $session->start();
-        ServiceContainer::getContainer()->set(Services::SESSION, $session);
-        $session->set('providerId', $providerId);
     }
 }

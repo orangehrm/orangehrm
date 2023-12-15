@@ -18,8 +18,6 @@
 
 namespace OrangeHRM\OpenidAuthentication\Service;
 
-use Jumbojett\OpenIDConnectClientException;
-use OrangeHRM\Authentication\Dto\UserCredential;
 use OrangeHRM\Entity\AuthProviderExtraDetails;
 use OrangeHRM\OpenidAuthentication\Dao\AuthProviderDao;
 use OrangeHRM\OpenidAuthentication\OpenID\OpenIDConnectClient;
@@ -62,33 +60,19 @@ class SocialMediaAuthenticationService
         return $oidcClient;
     }
 
-//    TODO - remove if not need
     /**
-     * @param OpenIDConnectClient $oidcClient
-     * @throws OpenIDConnectClientException
+     * @return string
      */
-    public function handleCallback(OpenIDConnectClient $oidcClient): string
+    public function getRedirectURL(): string
     {
-//        ob_start();
-//
-//        $oidcClient->authenticate();
-//        $output = ob_get_contents();
-//        dump($output);
-//        dump('here1');
-//        ob_end_flush();
-//        try {
-//            $isAuthenticated = $oidcClient->authenticate();
-//            if ($isAuthenticated) {
-//                $credentials = new UserCredential($oidcClient->requestUserInfo('email'));
-//                $this->authenticateUser($credentials);
-//            }
-//        } catch (OpenIDConnectClientException $e) {
-//            throw $e;
-//        }
+        return self::REDIRECT_URL;
     }
 
-    private function authenticateUser(UserCredential $userCredential): void
+    /**
+     * @return string
+     */
+    public function getScope(): string
     {
-//        $username = $userCredential->getUsername();
+        return self::SCOPE;
     }
 }

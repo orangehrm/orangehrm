@@ -19,8 +19,12 @@
 
 namespace OrangeHRM\OpenidAuthentication\OpenID;
 
+use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
+
 class OpenIDConnectClient extends \Jumbojett\OpenIDConnectClient
 {
+    use AuthUserTrait;
+
     protected ?string $generatedAuthUrl = null;
 
     public function redirect($url)
@@ -31,5 +35,24 @@ class OpenIDConnectClient extends \Jumbojett\OpenIDConnectClient
     public function getGeneratedAuthUrl(): string
     {
         return $this->generatedAuthUrl;
+    }
+
+    public function commitSession()
+    {
+    }
+
+    protected function setSessionKey($key, $value)
+    {
+        $this->getAuthUser()->setAttribute($key, $value);
+    }
+
+    protected function getSessionKey($key)
+    {
+        $this->getAuthUser()->getAttribute($key);
+    }
+
+    protected function unsetSessionKey($key)
+    {
+        $this->getAuthUser()->removeAttribute($key);
     }
 }
