@@ -60,16 +60,18 @@ export default {
 
 <style lang="scss" scoped>
 .orangehrm-auth-button {
-  width: 10rem;
-  height: 2rem;
+  width: 14rem;
+  height: 2.5rem;
   display: flex;
   flex-shrink: 0;
   border: 1px solid;
-  border-radius: 1.2rem;
+  border-radius: 1.5rem;
   border-color: $oxd-primary-one-color;
   align-items: center;
   text-decoration: none;
   justify-content: center;
+  cursor: pointer;
+  margin-bottom: 0.5rem;
   &-text {
     @include truncate(1, 1, #fff);
     width: 50%;
