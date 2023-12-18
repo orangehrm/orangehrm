@@ -18,19 +18,20 @@
 
 namespace OrangeHRM\OpenidAuthentication\Controller;
 
+use Jumbojett\OpenIDConnectClientException;
 use OrangeHRM\Core\Authorization\Service\HomePageService;
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Controller\PublicControllerInterface;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Framework\Http\RedirectResponse;
 use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\OpenidAuthentication\OpenID\OpenIDConnectClient;
 use OrangeHRM\OpenidAuthentication\Traits\Service\SocialMediaAuthenticationServiceTrait;
 
 class OpenIdConnectLoginController extends AbstractVueController implements PublicControllerInterface
 {
     use AuthUserTrait;
     use SocialMediaAuthenticationServiceTrait;
+    private bool $isAuthenticated = false;
 
     /**
      * @var HomePageService|null
@@ -49,14 +50,11 @@ class OpenIdConnectLoginController extends AbstractVueController implements Publ
     }
 
     /**
-     * @param Request $request
-     * @return RedirectResponse
+     * @throws OpenIDConnectClientException
      */
     public function handle(Request $request): RedirectResponse
     {
-        $response = $this->getResponse();
         $providerId = $request->attributes->get('providerId');
-        $oidcClient = new OpenIDConnectClient();
 
         $provider = $this->getSocialMediaAuthenticationService()->getAuthProviderDao()
             ->getAuthProviderDetailsByProviderId($providerId);
@@ -66,6 +64,10 @@ class OpenIdConnectLoginController extends AbstractVueController implements Publ
             $this->getSocialMediaAuthenticationService()->getScope(),
             $this->getSocialMediaAuthenticationService()->getRedirectURL()
         );
+
+//        TODO
+        $this->getAuthUser()->setAttribute('openid.provider_id', 1);
+        $this->isAuthenticated = $oidcClient->authenticate();
 
         return new RedirectResponse($oidcClient->getGeneratedAuthUrl());
     }
