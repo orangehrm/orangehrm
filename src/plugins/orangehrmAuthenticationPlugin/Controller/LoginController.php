@@ -96,6 +96,7 @@ class LoginController extends AbstractVueController implements PublicControllerI
             return [
                 'id' => $provider->getId(),
                 'label' => $provider->getProviderName(),
+                'url' => $provider->getProviderUrl(),
             ];
         }, $providersArray);
 

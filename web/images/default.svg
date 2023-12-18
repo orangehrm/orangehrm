@@ -2,7 +2,7 @@
   <!-- Circle background -->
   <circle cx="100" cy="100" r="98" fill="white" />
 
-  <!-- Content from the provided SVG code, centered in the circle with a larger size -->
+
   <svg fill="var(-oxd-primary-one-color, #000000)" xmlns="http://www.w3.org/2000/svg" width="120px" height="120px" viewBox="0 0 52 52" enable-background="new 0 0 52 52" xml:space="preserve" x="40" y="40">
     <g>
       <path id="middle-icon" d="M10,18.1v0.4C10,18.4,10,18.3,10,18.1C10,18.1,10,18.1,10,18.1z"/>
@@ -14,8 +14,5 @@
   </svg>
 
   <script>
-    // Example: Change the middle icon path data
-    const newPathData = "M20,30L30,20L40,30"; // Replace this with your desired path data
-    document.getElementById("middle-icon").setAttribute("d", newPathData);
   </script>
 </svg>

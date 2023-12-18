@@ -19,6 +19,8 @@
 namespace OrangeHRM\OpenidAuthentication\Service;
 
 use OrangeHRM\Entity\AuthProviderExtraDetails;
+use OrangeHRM\Framework\Routing\UrlGenerator;
+use OrangeHRM\Framework\Services;
 use OrangeHRM\OpenidAuthentication\Dao\AuthProviderDao;
 use OrangeHRM\OpenidAuthentication\OpenID\OpenIDConnectClient;
 use OrangeHRM\OpenidAuthentication\Traits\Service\SocialMediaAuthenticationServiceTrait;
@@ -29,7 +31,6 @@ class SocialMediaAuthenticationService
     private AuthProviderDao $authProviderDao;
 
     public const SCOPE = 'email';
-    public const REDIRECT_URL = 'https://734d-2402-d000-a500-40f9-f1e8-1109-5f81-bcf4.ngrok-free.app/openidauth/openIdCredentials';
 
     /**
      * @return AuthProviderDao
@@ -65,7 +66,9 @@ class SocialMediaAuthenticationService
      */
     public function getRedirectURL(): string
     {
-        return self::REDIRECT_URL;
+        /** @var UrlGenerator $urlGenerator */
+        $urlGenerator = $this->getContainer()->get(Services::URL_GENERATOR);
+        return  $urlGenerator->generate('auth_oidc_login_redirect', [], UrlGenerator::ABSOLUTE_URL);
     }
 
     /**

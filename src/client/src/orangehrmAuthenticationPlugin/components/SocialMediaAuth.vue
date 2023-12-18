@@ -26,7 +26,6 @@
     <auth-button
       v-for="authenticator in socialAuthenticators"
       :key="authenticator.id"
-      :url="authenticator.url"
       :color="authenticator.color"
       :label="authenticator.label"
       :style="{
@@ -61,19 +60,18 @@ export default {
     },
   },
 
-  // TODO
   setup(props) {
     const http = new APIService(window.appGlobal.baseUrl, '');
 
     const socialAuthenticators = computed(() => {
       return props.authenticators.map((authenticator) => ({
         ...authenticator,
-        backgroundUrl: getBackgroundUrl(authenticator.label),
+        backgroundUrl: getBackgroundUrl(authenticator.url),
       }));
     });
 
-    const getBackgroundUrl = (label) => {
-      const lowercasedLabel = label.toLowerCase();
+    const getBackgroundUrl = (url) => {
+      const lowercasedLabel = url.toLowerCase();
 
       switch (true) {
         case lowercasedLabel.includes('google'):
