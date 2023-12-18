@@ -19,6 +19,8 @@
 namespace OrangeHRM\OpenidAuthentication\Controller;
 
 use Jumbojett\OpenIDConnectClientException;
+use OrangeHRM\Authentication\Auth\User as AuthUser;
+use OrangeHRM\Core\Api\V2\Exception\BadRequestException;
 use OrangeHRM\Core\Authorization\Service\HomePageService;
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Controller\PublicControllerInterface;
@@ -31,7 +33,6 @@ class OpenIdConnectLoginController extends AbstractVueController implements Publ
 {
     use AuthUserTrait;
     use SocialMediaAuthenticationServiceTrait;
-    private bool $isAuthenticated = false;
 
     /**
      * @var HomePageService|null
@@ -43,14 +44,11 @@ class OpenIdConnectLoginController extends AbstractVueController implements Publ
      */
     public function getHomePageService(): HomePageService
     {
-        if (!$this->homePageService instanceof HomePageService) {
-            $this->homePageService = new HomePageService();
-        }
-        return $this->homePageService;
+        return $this->homePageService ??= new HomePageService();
     }
 
     /**
-     * @throws OpenIDConnectClientException
+     * @throws OpenIDConnectClientException|BadRequestException
      */
     public function handle(Request $request): RedirectResponse
     {
@@ -58,6 +56,9 @@ class OpenIdConnectLoginController extends AbstractVueController implements Publ
 
         $provider = $this->getSocialMediaAuthenticationService()->getAuthProviderDao()
             ->getAuthProviderDetailsByProviderId($providerId);
+        if ($provider === null) {
+            throw new BadRequestException();
+        }
 
         $oidcClient = $this->getSocialMediaAuthenticationService()->initiateAuthentication(
             $provider,
@@ -65,10 +66,11 @@ class OpenIdConnectLoginController extends AbstractVueController implements Publ
             $this->getSocialMediaAuthenticationService()->getRedirectURL()
         );
 
-//        TODO
-        $this->getAuthUser()->setAttribute('openid.provider_id', 1);
-        $this->isAuthenticated = $oidcClient->authenticate();
+        $this->getAuthUser()->setAttribute(AuthUser::PROVIDER_ID, $provider->getId());
+        $oidcClient->authenticate();
 
-        return new RedirectResponse($oidcClient->getGeneratedAuthUrl());
+        //redirect to consent always
+        $authUrl = $oidcClient->getGeneratedAuthUrl() . '&prompt=consent';
+        return new RedirectResponse($authUrl);
     }
 }

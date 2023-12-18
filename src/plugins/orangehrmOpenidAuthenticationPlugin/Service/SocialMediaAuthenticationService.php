@@ -18,7 +18,16 @@
 
 namespace OrangeHRM\OpenidAuthentication\Service;
 
+use OrangeHRM\Admin\Dao\UserDao;
+use OrangeHRM\Admin\Dto\UserSearchFilterParams;
+use OrangeHRM\Authentication\Dto\UserCredential;
+use OrangeHRM\Authentication\Exception\AuthenticationException;
+use OrangeHRM\Authentication\Service\AuthenticationService;
+use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Entity\AuthProviderExtraDetails;
+use OrangeHRM\Entity\OpenIdProvider;
+use OrangeHRM\Entity\OpenIdUserIdentity;
+use OrangeHRM\Entity\User;
 use OrangeHRM\Framework\Routing\UrlGenerator;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\OpenidAuthentication\Dao\AuthProviderDao;
@@ -28,7 +37,11 @@ use OrangeHRM\OpenidAuthentication\Traits\Service\SocialMediaAuthenticationServi
 class SocialMediaAuthenticationService
 {
     use SocialMediaAuthenticationServiceTrait;
+    use AuthUserTrait;
+
+    private AuthenticationService $authenticationService;
     private AuthProviderDao $authProviderDao;
+    private UserDao $userDao;
 
     public const SCOPE = 'email';
 
@@ -38,6 +51,22 @@ class SocialMediaAuthenticationService
     public function getAuthProviderDao(): AuthProviderDao
     {
         return $this->authProviderDao ??= new AuthProviderDao();
+    }
+
+    /**
+     * @return UserDao
+     */
+    public function getUserDao(): UserDao
+    {
+        return $this->userDao ??= new UserDao();
+    }
+
+    /**
+     * @return AuthenticationService
+     */
+    private function getAuthenticationService(): AuthenticationService
+    {
+        return $this->authenticationService ??= new AuthenticationService();
     }
 
     /**
@@ -68,7 +97,9 @@ class SocialMediaAuthenticationService
     {
         /** @var UrlGenerator $urlGenerator */
         $urlGenerator = $this->getContainer()->get(Services::URL_GENERATOR);
-        return  $urlGenerator->generate('auth_oidc_login_redirect', [], UrlGenerator::ABSOLUTE_URL);
+        //TODO
+        $url = $urlGenerator->generate('auth_oidc_login_redirect', [], UrlGenerator::ABSOLUTE_URL);
+        return str_replace('http', 'https', $url);
     }
 
     /**
@@ -77,5 +108,40 @@ class SocialMediaAuthenticationService
     public function getScope(): string
     {
         return self::SCOPE;
+    }
+
+    /**
+     * @param UserCredential $userCredential
+     * @return array
+     */
+    public function getOIDCUser(UserCredential $userCredential): array
+    {
+        $userSearchFilterParams = new UserSearchFilterParams();
+        $userSearchFilterParams->setUsername($userCredential->getUsername());
+
+        return $this->getUserDao()->searchSystemUsers($userSearchFilterParams);
+    }
+
+    /**
+     * @param User $user
+     * @param OpenIdProvider $provider
+     *
+     * @return void
+     */
+    public function setOIDCUserIdentity(User $user, OpenIdProvider $provider): void
+    {
+        $openIdUserIdentity = new OpenIdUserIdentity();
+        $openIdUserIdentity->setUser($user);
+        $openIdUserIdentity->setOpenIdProvider($provider);
+
+        $this->getAuthProviderDao()->saveUserIdentity($openIdUserIdentity);
+    }
+
+    /**
+     * @throws AuthenticationException
+     */
+    public function handleCallback(User $user): bool
+    {
+        return $this->getAuthenticationService()->setCredentialsForUser($user);
     }
 }

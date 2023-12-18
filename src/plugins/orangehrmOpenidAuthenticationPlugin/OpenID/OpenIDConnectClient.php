@@ -48,7 +48,7 @@ class OpenIDConnectClient extends \Jumbojett\OpenIDConnectClient
 
     protected function getSessionKey($key)
     {
-        $this->getAuthUser()->getAttribute($key);
+        return $this->getAuthUser()->getAttribute($key);
     }
 
     protected function unsetSessionKey($key)
