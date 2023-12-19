@@ -80,7 +80,6 @@ class Migration extends AbstractMigration
             $this->getSchemaHelper()->addForeignKey('ohrm_auth_provider_extra_details', $foreignKeyConstraint);
         }
 
-        //TODO - check 4X usage
         if (!$this->getSchemaHelper()->tableExists(['ohrm_openid_user_identity'])) {
             $this->getSchemaHelper()->createTable('ohrm_openid_user_identity')
                 ->addColumn('user_id', Types::INTEGER, ['Length' => 10])

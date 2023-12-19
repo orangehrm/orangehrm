@@ -97,9 +97,7 @@ class SocialMediaAuthenticationService
     {
         /** @var UrlGenerator $urlGenerator */
         $urlGenerator = $this->getContainer()->get(Services::URL_GENERATOR);
-        //TODO
-        $url = $urlGenerator->generate('auth_oidc_login_redirect', [], UrlGenerator::ABSOLUTE_URL);
-        return str_replace('http', 'https', $url);
+        return $urlGenerator->generate('auth_oidc_login_redirect', [], UrlGenerator::ABSOLUTE_URL);
     }
 
     /**
@@ -125,22 +123,20 @@ class SocialMediaAuthenticationService
     /**
      * @param User $user
      * @param OpenIdProvider $provider
-     *
-     * @return void
      */
-    public function setOIDCUserIdentity(User $user, OpenIdProvider $provider): void
+    public function setOIDCUserIdentity(User $user, OpenIdProvider $provider): OpenIdUserIdentity
     {
         $openIdUserIdentity = new OpenIdUserIdentity();
         $openIdUserIdentity->setUser($user);
         $openIdUserIdentity->setOpenIdProvider($provider);
 
-        $this->getAuthProviderDao()->saveUserIdentity($openIdUserIdentity);
+        return $this->getAuthProviderDao()->saveUserIdentity($openIdUserIdentity);
     }
 
     /**
      * @throws AuthenticationException
      */
-    public function handleCallback(User $user): bool
+    public function handleOIDCAuthentication(User $user): bool
     {
         return $this->getAuthenticationService()->setCredentialsForUser($user);
     }

@@ -21,6 +21,7 @@ namespace OrangeHRM\OpenidAuthentication\Controller;
 use Exception;
 use Jumbojett\OpenIDConnectClientException;
 use OrangeHRM\Authentication\Auth\User as AuthUser;
+use OrangeHRM\Authentication\Controller\Traits\SessionHandlingTrait;
 use OrangeHRM\Authentication\Dto\UserCredential;
 use OrangeHRM\Authentication\Exception\AuthenticationException;
 use OrangeHRM\Authentication\Service\LoginService;
@@ -31,7 +32,6 @@ use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Entity\User;
 use OrangeHRM\Framework\Http\RedirectResponse;
 use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Framework\Http\Session\Session;
 use OrangeHRM\Framework\Routing\UrlGenerator;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\OpenidAuthentication\Traits\Service\SocialMediaAuthenticationServiceTrait;
@@ -39,6 +39,7 @@ use OrangeHRM\OpenidAuthentication\Traits\Service\SocialMediaAuthenticationServi
 class OpenIdConnectRedirectController extends AbstractVueController implements PublicControllerInterface
 {
     use AuthUserTrait;
+    use SessionHandlingTrait;
     use SocialMediaAuthenticationServiceTrait;
 
     /**
@@ -132,29 +133,15 @@ class OpenIdConnectRedirectController extends AbstractVueController implements P
             return new RedirectResponse($loginUrl);
         }
 
-        $success = $this->getSocialMediaAuthenticationService()->handleCallback($user);
+        $success = $this->getSocialMediaAuthenticationService()->handleOIDCAuthentication($user);
 
         if ($success) {
             $this->getSocialMediaAuthenticationService()->setOIDCUserIdentity($user, $authProvider);
-//            $this->getAuthUser()->setIsAuthenticated($success);
+            $this->getAuthUser()->setIsAuthenticated($success);
             $this->getLoginService()->addLogin($userCredentials);
         }
 
-        //TODO:: move to separate trait
-        /** @var Session $session */
-        $session = $this->getContainer()->get(Services::SESSION);
-        //Recreate the session
-        $session->migrate(true);
-
-        if ($this->getAuthUser()->hasAttribute(AuthUser::SESSION_TIMEOUT_REDIRECT_URL)) {
-            $redirectUrl = $this->getAuthUser()->getAttribute(AuthUser::SESSION_TIMEOUT_REDIRECT_URL);
-            $this->getAuthUser()->removeAttribute(AuthUser::SESSION_TIMEOUT_REDIRECT_URL);
-            $logoutUrl = $urlGenerator->generate('auth_logout', [], UrlGenerator::ABSOLUTE_URL);
-
-            if ($redirectUrl !== $loginUrl || $redirectUrl !== $logoutUrl) {
-                return new RedirectResponse($redirectUrl);
-            }
-        }
+        $this->handleSessionTimeoutRedirect($urlGenerator, $loginUrl);
 
         $homePagePath = $this->getHomePageService()->getHomePagePath();
         return $this->redirect($homePagePath);
