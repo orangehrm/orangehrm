@@ -26,7 +26,6 @@
     <auth-button
       v-for="authenticator in socialAuthenticators"
       :key="authenticator.id"
-      :color="authenticator.color"
       :label="authenticator.label"
       :style="{
         background:

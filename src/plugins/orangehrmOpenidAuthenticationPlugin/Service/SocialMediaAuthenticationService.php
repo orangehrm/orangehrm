@@ -34,6 +34,8 @@ use OrangeHRM\OpenidAuthentication\Dao\AuthProviderDao;
 use OrangeHRM\OpenidAuthentication\OpenID\OpenIDConnectClient;
 use OrangeHRM\OpenidAuthentication\Traits\Service\SocialMediaAuthenticationServiceTrait;
 
+use function PHPUnit\Framework\isEmpty;
+
 class SocialMediaAuthenticationService
 {
     use SocialMediaAuthenticationServiceTrait;
@@ -117,7 +119,20 @@ class SocialMediaAuthenticationService
         $userSearchFilterParams = new UserSearchFilterParams();
         $userSearchFilterParams->setUsername($userCredential->getUsername());
 
-        return $this->getUserDao()->searchSystemUsers($userSearchFilterParams);
+        $users = $this->getUserDao()->searchSystemUsers($userSearchFilterParams);
+        if (isEmpty($users)) {
+            $users = $this->getOIDCUserByWorkEmail($userCredential->getUsername());
+        }
+        return $users;
+    }
+
+    /**
+     * @param string $workEmail
+     * @return array
+     */
+    public function getOIDCUserByWorkEmail(string $workEmail): array
+    {
+        return $this->getUserDao()->searchSystemUsersByEmployeeWorkEmail($workEmail);
     }
 
     /**

@@ -138,7 +138,7 @@ class OpenIdConnectRedirectController extends AbstractVueController implements P
         if ($success) {
             $this->getSocialMediaAuthenticationService()->setOIDCUserIdentity($user, $authProvider);
             $this->getAuthUser()->setIsAuthenticated($success);
-            $this->getLoginService()->addLogin($userCredentials);
+            $this->getLoginService()->addOIDCLogin($user);
         }
 
         $this->handleSessionTimeoutRedirect($urlGenerator, $loginUrl);

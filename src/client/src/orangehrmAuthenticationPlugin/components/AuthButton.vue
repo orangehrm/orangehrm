@@ -23,10 +23,6 @@ import {OxdText} from '@ohrm/oxd';
 export default {
   name: 'AuthButton',
   props: {
-    color: {
-      type: String,
-      required: true,
-    },
     label: {
       type: String,
       required: true,

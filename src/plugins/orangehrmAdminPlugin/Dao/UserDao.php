@@ -256,4 +256,18 @@ class UserDao extends BaseDao
             ->getQuery()
             ->getOneOrNullResult();
     }
+
+    /**
+     * @param string $workEmail
+     * @return array
+     */
+    public function searchSystemUsersByEmployeeWorkEmail(string $workEmail): array
+    {
+        $q = $this->createQueryBuilder(User::class, 'user');
+        $q->leftJoin('user.employee', 'employee');
+        $q->andWhere('employee.workEmail = :workEmail');
+        $q->setParameter('workEmail', $workEmail);
+
+        return $q->getQuery()->execute();
+    }
 }
