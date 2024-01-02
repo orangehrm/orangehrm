@@ -31,7 +31,7 @@ OpenIdUserIdentity:
   3: {user_id: 4, provider_id: 2, user_identity: '8901' }
 
 AuthProviderExtraDetails:
-  0: { id: 1, provider_id: 1, client_id: '445659888050-a0n4aisrubg8l4gsb35si9gni9l6t0hn.apps.googleusercontent.com', client_secret: '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' }
+  0: { id: 1, provider_id: 1, client_id: '4456598880504gsb35si9gni9l6t0hn.apps.googleusercontent.com', client_secret: 'GOCSPXPx2_-hj2d1BpDSBNp3pLf0CvPqXEK' }
   1: { id: 2, provider_id: 2, client_id: 'ba60e45e8180569fcf', client_secret: '0f0CC6f2182cc5083a84083baf5f43c60952' }
   2: { id: 3, provider_id: 3, client_id: 'c5083a84083baf5f43c6095', client_secret: 'XftzhWXTtkv0Y0wYG8McJ88t3a8Q7WMw' }
   3: { id: 4, provider_id: 4, client_id: 'Px2_hj2d1SBNp3pLf0CvBpDPqXEK', client_secret: '82cc5083a84083baf5f43c' }
