@@ -18,11 +18,14 @@
 
 namespace OrangeHRM\Installer\Migration\V5_6_0;
 
+use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Schema\ForeignKeyConstraint;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Types\Types;
 use OrangeHRM\Installer\Util\V1\AbstractMigration;
 use OrangeHRM\Installer\Util\V1\LangStringHelper;
+
+use function PHPUnit\Framework\isEmpty;
 
 class Migration extends AbstractMigration
 {
@@ -106,6 +109,8 @@ class Migration extends AbstractMigration
         }
 
         $this->modifyAuthProviderTables();
+        $this->removeOpenIdProviders();
+        $this->changeGoogleProviderURL();
     }
 
     /**
@@ -140,5 +145,33 @@ class Migration extends AbstractMigration
             );
         }
         return $this->langStringHelper;
+    }
+    private function removeOpenIdProviders(): void
+    {
+        $q1 = $this->createQueryBuilder();
+        $q1->select('extraDetails.provider_id')
+            ->from('ohrm_auth_provider_extra_details', 'extraDetails')
+            ->where($q1->expr()->neq('extraDetails.provider_type', ':providerType'))
+            ->setParameter('providerType', '1');
+        $ids = $q1->executeQuery()->fetchAllAssociative();
+        $ids = array_column($ids, 'provider_id');
+
+        if (!isEmpty($ids)) {
+            $q2 = $this->createQueryBuilder();
+            $q2->delete()
+                ->from('ohrm_openid_provider', 'provider')
+                ->where('provider.id IN (:ids)')
+                ->setParameter('ids', $ids, Connection::PARAM_INT_ARRAY);
+            $q2->executeQuery();
+        }
+    }
+
+    private function changeGoogleProviderURL(): void
+    {
+        $qb = $this->createQueryBuilder();
+        $qb->update('ohrm_openid_provider', 'provider')
+            ->set('provider.provider_url', ':providerUrl')
+            ->setParameter('providerUrl', 'https://accounts.google.com');
+        $qb->executeQuery();
     }
 }
