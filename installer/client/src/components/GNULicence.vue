@@ -4,17 +4,16 @@
  * all the essential functionalities required for any enterprise.
  * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
  *
- * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
- * the GNU General Public License as published by the Free Software Foundation; either
- * version 2 of the License, or (at your option) any later version.
+ * OrangeHRM is free software: you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation, either
+ * version 3 of the License, or (at your option) any later version.
  *
  * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
  * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  * See the GNU General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License along with this program;
- * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
- * Boston, MA  02110-1301, USA
+ * You should have received a copy of the GNU General Public License along with OrangeHRM.
+ * If not, see <https://www.gnu.org/licenses/>.
  */
  -->
 <template>
@@ -23,7 +22,7 @@
     value='GNU GENERAL PUBLIC LICENSE
 Version 2, June 1991
 
-Copyright &copy; 1989, 1991 Free Software Foundation, Inc.  
+Copyright &copy; 1989, 1991 Free Software Foundation, Inc.
 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 
 Everyone is permitted to copy and distribute verbatim copies
@@ -131,7 +130,7 @@ If the program is interactive, make it output a short notice like this when it s
 Gnomovision version 69, Copyright &copy; year name of author
 Gnomovision comes with ABSOLUTELY NO WARRANTY; for details
 type `show w&apos;.  This is free software, and you are welcome
-to redistribute it under certain conditions; type `show c&apos; 
+to redistribute it under certain conditions; type `show c&apos;
 for details.
 The hypothetical commands `show w&apos; and `show c&apos; should show the appropriate parts of the General Public License. Of course, the commands you use may be called something other than `show w&apos; and `show c&apos;; they could even be mouse-clicks or menu items--whatever suits your program.
 
@@ -139,7 +138,7 @@ You should also get your employer (if you work as a programmer) or your school, 
 
 Yoyodyne, Inc., hereby disclaims all copyright
 interest in the program `Gnomovision&apos;
-(which makes passes at compilers) written 
+(which makes passes at compilers) written
 by James Hacker.
 
 signature of Ty Coon, 1 April 1989
