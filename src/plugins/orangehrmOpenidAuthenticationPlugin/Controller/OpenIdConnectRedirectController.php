@@ -19,7 +19,6 @@
 namespace OrangeHRM\OpenidAuthentication\Controller;
 
 use Exception;
-use Jumbojett\OpenIDConnectClientException;
 use OrangeHRM\Authentication\Auth\User as AuthUser;
 use OrangeHRM\Authentication\Controller\Traits\SessionHandlingTrait;
 use OrangeHRM\Authentication\Dto\UserCredential;
@@ -29,17 +28,21 @@ use OrangeHRM\Core\Authorization\Service\HomePageService;
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Controller\PublicControllerInterface;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
+use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Entity\User;
 use OrangeHRM\Framework\Http\RedirectResponse;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\Routing\UrlGenerator;
 use OrangeHRM\Framework\Services;
+use OrangeHRM\I18N\Traits\Service\I18NHelperTrait;
 use OrangeHRM\OpenidAuthentication\Traits\Service\SocialMediaAuthenticationServiceTrait;
 
 class OpenIdConnectRedirectController extends AbstractVueController implements PublicControllerInterface
 {
     use AuthUserTrait;
+    use I18NHelperTrait;
     use SessionHandlingTrait;
+    use EntityManagerHelperTrait;
     use SocialMediaAuthenticationServiceTrait;
 
     /**
@@ -72,78 +75,103 @@ class OpenIdConnectRedirectController extends AbstractVueController implements P
     }
 
     /**
-     * @throws OpenIDConnectClientException
      * @throws Exception
      */
     public function handle(Request $request): RedirectResponse
     {
-        $providerId = $this->getAuthUser()->getAttribute(AuthUser::PROVIDER_ID);
-        $authProvider = $this->getSocialMediaAuthenticationService()->getAuthProviderDao()
-            ->getAuthProviderById($providerId);
-        $authProviderExtraDetails = $this->getSocialMediaAuthenticationService()->getAuthProviderDao()
-            ->getAuthProviderDetailsByProviderId($providerId);
-
-        $oidcClient = $this->getSocialMediaAuthenticationService()->initiateAuthentication(
-            $authProviderExtraDetails,
-            $this->getSocialMediaAuthenticationService()->getScope(),
-            $this->getSocialMediaAuthenticationService()->getRedirectURL()
-        );
-
-        $oidcClient->authenticate();
-
-        $userCredentials = new UserCredential();
-        $userCredentials->setUsername($oidcClient->requestUserInfo('email'));
-        $user = $this->getSocialMediaAuthenticationService()->getOIDCUser($userCredentials);
-
+        $this->beginTransaction();
         /** @var UrlGenerator $urlGenerator */
         $urlGenerator = $this->getContainer()->get(Services::URL_GENERATOR);
         $loginUrl = $urlGenerator->generate('auth_login', [], UrlGenerator::ABSOLUTE_URL);
 
-        if (empty($user)) {
-            $this->getAuthUser()->addFlash(
-                AuthUser::FLASH_LOGIN_ERROR,
-                [
-                    'error' => AuthenticationException::UNEXPECT_ERROR,
-                    'message' => 'No User Found',
-                ]
+        try {
+            $providerId = $this->getAuthUser()->getAttribute(AuthUser::PROVIDER_ID);
+            $authProvider = $this->getSocialMediaAuthenticationService()->getAuthProviderDao()
+                ->getAuthProviderById($providerId);
+            $authProviderExtraDetails = $this->getSocialMediaAuthenticationService()->getAuthProviderDao()
+                ->getAuthProviderDetailsByProviderId($providerId);
+
+            $oidcClient = $this->getSocialMediaAuthenticationService()->initiateAuthentication(
+                $authProviderExtraDetails,
+                $this->getSocialMediaAuthenticationService()->getScope(),
+                $this->getSocialMediaAuthenticationService()->getRedirectURL()
             );
+
+            $oidcClient->authenticate();
+
+            $userCredentials = new UserCredential();
+            $userCredentials->setUsername($oidcClient->requestUserInfo('email'));
+            $user = $this->getSocialMediaAuthenticationService()->getOIDCUser($userCredentials);
+
+
+            if (empty($user)) {
+                $this->getAuthUser()->addFlash(
+                    AuthUser::FLASH_LOGIN_ERROR,
+                    [
+                        'error' => AuthenticationException::UNEXPECT_ERROR,
+                        'message' => $this->getI18NHelper()->transBySource('No User Found'),
+                    ]
+                );
+                return new RedirectResponse($loginUrl);
+            }
+
+            if (sizeof($user) != 1) {
+                $this->getAuthUser()->addFlash(
+                    AuthUser::FLASH_LOGIN_ERROR,
+                    [
+                        'error' => AuthenticationException::UNEXPECT_ERROR,
+                        'message' => $this->getI18NHelper()->transBySource('Unexpected Error!'),
+                    ]
+                );
+                return new RedirectResponse($loginUrl);
+            }
+
+            $user = reset($user);
+            if (!($user instanceof User)) {
+                $this->getAuthUser()->addFlash(
+                    AuthUser::FLASH_LOGIN_ERROR,
+                    [
+                        'error' => AuthenticationException::UNEXPECT_ERROR,
+                        'message' => $this->getI18NHelper()->transBySource('Unexpected Error!'),
+                    ]
+                );
+                return new RedirectResponse($loginUrl);
+            }
+
+            if (!$user->getStatus()) {
+                $this->getAuthUser()->addFlash(
+                    AuthUser::FLASH_LOGIN_ERROR,
+                    [
+                        'error' => AuthenticationException::USER_DISABLED,
+                        'message' => $this->getI18NHelper()->transBySource('User Disabled'),
+                    ]
+                );
+            }
+
+            $success = $this->getSocialMediaAuthenticationService()->handleOIDCAuthentication($user);
+
+            if ($success) {
+                $this->getSocialMediaAuthenticationService()->setOIDCUserIdentity($user, $authProvider);
+                $this->getAuthUser()->setIsAuthenticated($success);
+                $this->getLoginService()->addOIDCLogin($user);
+            }
+
+            $this->handleSessionTimeoutRedirect($urlGenerator, $loginUrl);
+
+            $homePagePath = $this->getHomePageService()->getHomePagePath();
+            return $this->redirect($homePagePath);
+        } catch (AuthenticationException | Exception $e) {
+            $this->rollBackTransaction();
+            if ($e instanceof AuthenticationException) {
+                $this->getAuthUser()->addFlash(
+                    AuthUser::FLASH_LOGIN_ERROR,
+                    [
+                        'error' => AuthenticationException::EMPLOYEE_TERMINATED,
+                        'message' => $this->getI18NHelper()->transBySource('Employee Terminated'),
+                    ]
+                );
+            }
             return new RedirectResponse($loginUrl);
         }
-
-        if (sizeof($user) != 1) {
-            $this->getAuthUser()->addFlash(
-                AuthUser::FLASH_LOGIN_ERROR,
-                [
-                    'error' => AuthenticationException::UNEXPECT_ERROR,
-                    'message' => 'Unexpected error occurred',
-                ]
-            );
-            return new RedirectResponse($loginUrl);
-        }
-
-        $user = reset($user);
-        if (!($user instanceof User)) {
-            $this->getAuthUser()->addFlash(
-                AuthUser::FLASH_LOGIN_ERROR,
-                [
-                    'error' => AuthenticationException::UNEXPECT_ERROR,
-                    'message' => 'Unexpected error occurred',
-                ]
-            );
-            return new RedirectResponse($loginUrl);
-        }
-
-        $success = $this->getSocialMediaAuthenticationService()->handleOIDCAuthentication($user);
-
-        if ($success) {
-            $this->getSocialMediaAuthenticationService()->setOIDCUserIdentity($user, $authProvider);
-            $this->getAuthUser()->setIsAuthenticated($success);
-            $this->getLoginService()->addOIDCLogin($user);
-        }
-
-        $this->handleSessionTimeoutRedirect($urlGenerator, $loginUrl);
-
-        $homePagePath = $this->getHomePageService()->getHomePagePath();
-        return $this->redirect($homePagePath);
     }
 }

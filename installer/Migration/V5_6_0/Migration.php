@@ -18,14 +18,11 @@
 
 namespace OrangeHRM\Installer\Migration\V5_6_0;
 
-use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Schema\ForeignKeyConstraint;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Types\Types;
 use OrangeHRM\Installer\Util\V1\AbstractMigration;
 use OrangeHRM\Installer\Util\V1\LangStringHelper;
-
-use function PHPUnit\Framework\isEmpty;
 
 class Migration extends AbstractMigration
 {
@@ -153,8 +150,8 @@ class Migration extends AbstractMigration
         $providers = $q1->executeQuery();
 
         foreach ($providers->fetchAllAssociative() as $provider) {
-            if ($provider['provider_type'] = 2) {
-                  $this->changeGoogleProviderURL($provider['provider_id']);
+            if ($provider['provider_type'] === 2) {
+                $this->changeGoogleProviderURL($provider['provider_id']);
             } else {
                 $this->createQueryBuilder()
                     ->delete()

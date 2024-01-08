@@ -11,3 +11,12 @@ langStrings:
   -
     value: 'Provider List'
     unitId: provider_list
+  -
+    value: 'No User Found'
+    unitId: no_user_found
+  -
+    value: 'User Disabled'
+    unitId: user_disabled
+  -
+    value: 'Employee Terminated'
+    unitId: employee_terminated
