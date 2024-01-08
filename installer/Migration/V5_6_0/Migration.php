@@ -110,7 +110,6 @@ class Migration extends AbstractMigration
 
         $this->modifyAuthProviderTables();
         $this->removeOpenIdProviders();
-        $this->changeGoogleProviderURL();
     }
 
     /**
@@ -149,28 +148,31 @@ class Migration extends AbstractMigration
     private function removeOpenIdProviders(): void
     {
         $q1 = $this->createQueryBuilder();
-        $q1->select('extraDetails.provider_id')
-            ->from('ohrm_auth_provider_extra_details', 'extraDetails')
-            ->where($q1->expr()->neq('extraDetails.provider_type', ':providerType'))
-            ->setParameter('providerType', '1');
-        $ids = $q1->executeQuery()->fetchAllAssociative();
-        $ids = array_column($ids, 'provider_id');
+        $q1->select(['extraDetails.provider_id, extraDetails.provider_type'])
+            ->from('ohrm_auth_provider_extra_details', 'extraDetails');
+        $providers = $q1->executeQuery();
 
-        if (!isEmpty($ids)) {
-            $q2 = $this->createQueryBuilder();
-            $q2->delete()
-                ->from('ohrm_openid_provider', 'provider')
-                ->where('provider.id IN (:ids)')
-                ->setParameter('ids', $ids, Connection::PARAM_INT_ARRAY);
-            $q2->executeQuery();
+        foreach ($providers->fetchAllAssociative() as $provider) {
+            if ($provider['provider_type'] = 2) {
+                  $this->changeGoogleProviderURL($provider['provider_id']);
+            } else {
+                $this->createQueryBuilder()
+                    ->delete()
+                    ->from('ohrm_openid_provider', 'provider')
+                    ->where('provider.id = :id')
+                    ->setParameter('id', $provider['provider_id'])
+                    ->executeStatement();
+            }
         }
     }
 
-    private function changeGoogleProviderURL(): void
+    private function changeGoogleProviderURL($providerId)
     {
         $qb = $this->createQueryBuilder();
         $qb->update('ohrm_openid_provider', 'provider')
             ->set('provider.provider_url', ':providerUrl')
+            ->where('provider.id = :id')
+            ->setParameter('id', $providerId)
             ->setParameter('providerUrl', 'https://accounts.google.com');
         $qb->executeQuery();
     }
