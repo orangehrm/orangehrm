@@ -156,7 +156,10 @@ class OpenIdConnectRedirectController extends AbstractVueController implements P
                 $this->getLoginService()->addOIDCLogin($user);
             }
 
-            $this->handleSessionTimeoutRedirect($urlGenerator, $loginUrl);
+            $redirectUrl = $this->handleSessionTimeoutRedirect();
+            if ($redirectUrl) {
+                return new RedirectResponse($redirectUrl);
+            }
 
             $homePagePath = $this->getHomePageService()->getHomePagePath();
             return $this->redirect($homePagePath);

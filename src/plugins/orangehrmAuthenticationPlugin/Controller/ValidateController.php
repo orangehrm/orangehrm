@@ -122,7 +122,10 @@ class ValidateController extends AbstractController implements PublicControllerI
             return new RedirectResponse($loginUrl);
         }
 
-        $this->handleSessionTimeoutRedirect($urlGenerator, $loginUrl);
+        $redirectUrl = $this->handleSessionTimeoutRedirect();
+        if ($redirectUrl) {
+            return new RedirectResponse($redirectUrl);
+        }
 
         $homePagePath = $this->getHomePageService()->getHomePagePath();
         return $this->redirect($homePagePath);

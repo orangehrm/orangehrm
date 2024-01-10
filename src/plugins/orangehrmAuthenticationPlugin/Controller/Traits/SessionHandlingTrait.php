@@ -21,7 +21,6 @@ namespace OrangeHRM\Authentication\Controller\Traits;
 use OrangeHRM\Authentication\Auth\User as AuthUser;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
-use OrangeHRM\Framework\Http\RedirectResponse;
 use OrangeHRM\Framework\Http\Session\Session;
 use OrangeHRM\Framework\Routing\UrlGenerator;
 use OrangeHRM\Framework\Services;
@@ -32,13 +31,14 @@ trait SessionHandlingTrait
     use ServiceContainerTrait;
 
     /**
-     * @param UrlGenerator $urlGenerator
-     * @param string       $loginUrl
-     *
-     * @return RedirectResponse
+     * @return string
      */
-    public function handleSessionTimeoutRedirect(UrlGenerator $urlGenerator, string $loginUrl): RedirectResponse
+    public function handleSessionTimeoutRedirect(): string
     {
+        /** @var UrlGenerator $urlGenerator */
+        $urlGenerator = $this->getContainer()->get(Services::URL_GENERATOR);
+        $loginUrl = $urlGenerator->generate('auth_login', [], UrlGenerator::ABSOLUTE_URL);
+
         /** @var Session $session */
         $session = $this->getContainer()->get(Services::SESSION);
         //Recreate the session
@@ -50,9 +50,9 @@ trait SessionHandlingTrait
             $logoutUrl = $urlGenerator->generate('auth_logout', [], UrlGenerator::ABSOLUTE_URL);
 
             if ($redirectUrl !== $loginUrl || $redirectUrl !== $logoutUrl) {
-                return new RedirectResponse($redirectUrl);
+                return $redirectUrl;
             }
         }
-        return new RedirectResponse($loginUrl);
+        return $loginUrl;
     }
 }
