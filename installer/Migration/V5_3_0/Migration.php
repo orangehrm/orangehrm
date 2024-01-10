@@ -32,6 +32,14 @@ class Migration extends AbstractMigration
 {
     protected ?LangStringHelper $langStringHelper = null;
     private DateTimeZone $utcTimeZone;
+    public const CONFLICTING_FOREIGN_KEY_TABLES = [
+        'ohrm_buzz_comment',
+        'ohrm_buzz_like_on_comment',
+        'ohrm_buzz_like_on_share',
+        'ohrm_buzz_photo',
+        'ohrm_buzz_post',
+        'ohrm_buzz_share',
+    ];
 
     /**
      * @inheritDoc
@@ -156,7 +164,8 @@ class Migration extends AbstractMigration
             'ALTER TABLE ohrm_buzz_comment CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci'
         );
 
-        $this->getSchemaHelper()->disableConstraints();
+        $conflictingConstraints = $this->getConflictingForeignKeys();
+        $this->removeConflictingForeignKeys($conflictingConstraints);
         $this->getSchemaHelper()->addOrChangeColumns('ohrm_buzz_comment', [
             'employee_number' => [
                 'Notnull' => true,
@@ -322,7 +331,45 @@ class Migration extends AbstractMigration
                 'Default' => null,
             ],
         ]);
-        $this->getSchemaHelper()->enableConstraints();
+        $this->recreateRemovedForeignKeys($conflictingConstraints);
+    }
+
+    /**
+     * @return array
+     */
+    private function getConflictingForeignKeys(): array
+    {
+        $foreignKeyArray = [];
+        foreach (self::CONFLICTING_FOREIGN_KEY_TABLES as $table) {
+            $tableDetails = $this->getSchemaManager()->listTableDetails($table);
+            $foreignKeys = $tableDetails->getForeignKeys();
+            foreach ($foreignKeys as $constraintName => $constraint) {
+                if (in_array($constraint->getForeignTableName(), ['hs_hr_employee'])) {
+                    $foreignKeyArray[$constraintName] = ['constraint' => $constraint, 'localTable' => $table];
+                }
+            }
+        }
+        return $foreignKeyArray;
+    }
+
+    /**
+     * @param array $conflictingConstraints
+     */
+    private function removeConflictingForeignKeys(array $conflictingConstraints): void
+    {
+        foreach ($conflictingConstraints as $constraintName => $conflictingConstraint) {
+            $this->getSchemaHelper()->dropForeignKeys($conflictingConstraint['localTable'], [$constraintName]);
+        }
+    }
+
+    /**
+     * @param array $conflictingConstraints
+     */
+    private function recreateRemovedForeignKeys(array $conflictingConstraints): void
+    {
+        foreach ($conflictingConstraints as $conflictingConstraint) {
+            $this->getSchemaHelper()->addForeignKey($conflictingConstraint['localTable'], $conflictingConstraint['constraint']);
+        }
     }
 
     private function changeBuzzTablesDateTimeColumnsAsNotNull(): void
