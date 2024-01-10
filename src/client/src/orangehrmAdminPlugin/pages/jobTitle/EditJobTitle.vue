@@ -135,7 +135,11 @@ export default {
     const jobTitleUniqueValidation = createUniqueValidator(
       'JobTitle',
       'jobTitleName',
-      {entityId: props.jobTitleId},
+      {
+        entityId: props.jobTitleId,
+        matchByField: 'isDeleted',
+        matchByValue: 'false',
+      },
     );
 
     return {

@@ -125,6 +125,10 @@ export default {
     const jobTitleUniqueValidation = createUniqueValidator(
       'JobTitle',
       'jobTitleName',
+      {
+        matchByField: 'isDeleted',
+        matchByValue: 'false',
+      },
     );
 
     return {
