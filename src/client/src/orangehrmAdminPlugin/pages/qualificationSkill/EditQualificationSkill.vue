@@ -92,11 +92,9 @@ export default {
       '/api/v2/admin/skills',
     );
     const {createUniqueValidator} = useServerValidation(http);
-    const skillUniqueValidation = createUniqueValidator(
-      'Skill',
-      'name',
-      props.qualificationSkillId,
-    );
+    const skillUniqueValidation = createUniqueValidator('Skill', 'name', {
+      entityId: props.qualificationSkillId,
+    });
 
     return {
       http,
