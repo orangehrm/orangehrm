@@ -110,7 +110,7 @@ class SocialMediaAuthenticationService
 
     /**
      * @param UserCredential $userCredential
-     * @return array
+     * @return User[]
      */
     public function getOIDCUser(UserCredential $userCredential): array
     {
@@ -123,6 +123,8 @@ class SocialMediaAuthenticationService
     /**
      * @param User $user
      * @param OpenIdProvider $provider
+     *
+     * @return OpenIdUserIdentity
      */
     public function setOIDCUserIdentity(User $user, OpenIdProvider $provider): OpenIdUserIdentity
     {
@@ -134,6 +136,9 @@ class SocialMediaAuthenticationService
     }
 
     /**
+     * @param User $user
+     *
+     * @return bool
      * @throws AuthenticationException
      */
     public function handleOIDCAuthentication(User $user): bool

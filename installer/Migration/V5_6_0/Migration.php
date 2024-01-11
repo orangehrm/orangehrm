@@ -142,6 +142,7 @@ class Migration extends AbstractMigration
         }
         return $this->langStringHelper;
     }
+
     private function removeOpenIdProviders(): void
     {
         $q1 = $this->createQueryBuilder();

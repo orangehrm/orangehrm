@@ -68,10 +68,7 @@ class OpenIdConnectRedirectController extends AbstractVueController implements P
      */
     public function getLoginService(): LoginService
     {
-        if (is_null($this->loginService)) {
-            $this->loginService = new LoginService();
-        }
-        return $this->loginService;
+        return $this->loginService ??= new LoginService();
     }
 
     /**

@@ -29,7 +29,7 @@
       :label="authenticator.label"
       :style="{
         background:
-          'url(' + authenticator.backgroundUrl + ') no-repeat left center',
+          'url(' + authenticator.backgroundImage + ') no-repeat left center',
         'background-size': 'contain',
         'text-align': 'center',
         padding: '1px',
@@ -65,11 +65,11 @@ export default {
     const socialAuthenticators = computed(() => {
       return props.authenticators.map((authenticator) => ({
         ...authenticator,
-        backgroundUrl: getBackgroundUrl(authenticator.url),
+        backgroundImage: getBackgroundImage(authenticator.url),
       }));
     });
 
-    const getBackgroundUrl = (url) => {
+    const getBackgroundImage = (url) => {
       const lowercasedLabel = url.toLowerCase();
 
       switch (true) {
@@ -94,7 +94,6 @@ export default {
     };
   },
 
-  // TODO:: URL
   methods: {
     onClickAction(id) {
       navigate('/openidauth/openIdCredentials/{providerId}', {providerId: id});

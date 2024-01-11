@@ -48,7 +48,11 @@ class OpenIdConnectLoginController extends AbstractVueController implements Publ
     }
 
     /**
-     * @throws OpenIDConnectClientException|BadRequestException
+     * @param Request $request
+     *
+     * @return RedirectResponse
+     * @throws BadRequestException
+     * @throws OpenIDConnectClientException
      */
     public function handle(Request $request): RedirectResponse
     {
