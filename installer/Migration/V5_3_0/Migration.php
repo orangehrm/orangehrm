@@ -18,6 +18,7 @@
 
 namespace OrangeHRM\Installer\Migration\V5_3_0;
 
+use Exception;
 use DateTime;
 use DateTimeZone;
 use Doctrine\DBAL\Connection;
@@ -165,7 +166,7 @@ class Migration extends AbstractMigration
         );
 
         $conflictingConstraints = $this->getConflictingForeignKeys();
-        $this->removeConflictingForeignKeys($conflictingConstraints);
+        $droppedConstraintNames = $this->removeConflictingForeignKeys($conflictingConstraints);
         $this->getSchemaHelper()->addOrChangeColumns('ohrm_buzz_comment', [
             'employee_number' => [
                 'Notnull' => true,
@@ -331,7 +332,7 @@ class Migration extends AbstractMigration
                 'Default' => null,
             ],
         ]);
-        $this->recreateRemovedForeignKeys($conflictingConstraints);
+        $this->recreateRemovedForeignKeys($conflictingConstraints, $droppedConstraintNames);
     }
 
     /**
@@ -344,7 +345,7 @@ class Migration extends AbstractMigration
             $tableDetails = $this->getSchemaManager()->listTableDetails($table);
             $foreignKeys = $tableDetails->getForeignKeys();
             foreach ($foreignKeys as $constraintName => $constraint) {
-                if (in_array($constraint->getForeignTableName(), ['hs_hr_employee'])) {
+                if ($constraint->getForeignTableName() == 'hs_hr_employee') {
                     $foreignKeyArray[$constraintName] = ['constraint' => $constraint, 'localTable' => $table];
                 }
             }
@@ -354,21 +355,32 @@ class Migration extends AbstractMigration
 
     /**
      * @param array $conflictingConstraints
+     * @return String[]
      */
-    private function removeConflictingForeignKeys(array $conflictingConstraints): void
+    private function removeConflictingForeignKeys(array $conflictingConstraints): array
     {
+        $droppedConstraintNames = [];
         foreach ($conflictingConstraints as $constraintName => $conflictingConstraint) {
-            $this->getSchemaHelper()->dropForeignKeys($conflictingConstraint['localTable'], [$constraintName]);
+            try {
+                $this->getSchemaHelper()->dropForeignKeys($conflictingConstraint['localTable'], [$constraintName]);
+                $droppedConstraintNames[] = $constraintName;
+            } catch (Exception $exception) {
+                Logger::getLogger()->error($exception->getMessage());
+            }
         }
+        return $droppedConstraintNames;
     }
 
     /**
      * @param array $conflictingConstraints
+     * @param String[] $droppedConstraintNames
      */
-    private function recreateRemovedForeignKeys(array $conflictingConstraints): void
+    private function recreateRemovedForeignKeys(array $conflictingConstraints, array $droppedConstraintNames): void
     {
-        foreach ($conflictingConstraints as $conflictingConstraint) {
-            $this->getSchemaHelper()->addForeignKey($conflictingConstraint['localTable'], $conflictingConstraint['constraint']);
+        foreach ($conflictingConstraints as $constraintName =>  $conflictingConstraint) {
+            if (in_array($constraintName, $droppedConstraintNames)) {
+                $this->getSchemaHelper()->addForeignKey($conflictingConstraint['localTable'], $conflictingConstraint['constraint']);
+            }
         }
     }
 
