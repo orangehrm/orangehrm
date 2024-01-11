@@ -150,15 +150,15 @@ class Migration extends AbstractMigration
         $providers = $q1->executeQuery();
 
         foreach ($providers->fetchAllAssociative() as $provider) {
-            if ($provider['provider_type'] === 2) {
+            $providerType = $provider['provider_type'];
+            if ($providerType == 2) {
                 $this->changeGoogleProviderURL($provider['provider_id']);
             } else {
-                $this->createQueryBuilder()
-                    ->delete()
-                    ->from('ohrm_openid_provider', 'provider')
-                    ->where('provider.id = :id')
-                    ->setParameter('id', $provider['provider_id'])
-                    ->executeStatement();
+                $qb = $this->createQueryBuilder()
+                    ->delete('ohrm_openid_provider')
+                    ->andWhere('ohrm_openid_provider.id = :id')
+                    ->setParameter('id', $provider['provider_id']);
+                $qb->executeQuery();
             }
         }
     }
@@ -168,9 +168,9 @@ class Migration extends AbstractMigration
         $qb = $this->createQueryBuilder();
         $qb->update('ohrm_openid_provider', 'provider')
             ->set('provider.provider_url', ':providerUrl')
-            ->where('provider.id = :id')
-            ->setParameter('id', $providerId)
-            ->setParameter('providerUrl', 'https://accounts.google.com');
+            ->setParameter('providerUrl', 'https://accounts.google.com')
+            ->andWhere('provider.id = :id')
+            ->setParameter('id', $providerId);
         $qb->executeQuery();
     }
 }
