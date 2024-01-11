@@ -99,6 +99,10 @@ export default {
     const claimEventNameUniqueValidation = createUniqueValidator(
       'ClaimEvent',
       'name',
+      {
+        matchByField: 'isDeleted',
+        matchByValue: 'false',
+      },
     );
     return {
       http,

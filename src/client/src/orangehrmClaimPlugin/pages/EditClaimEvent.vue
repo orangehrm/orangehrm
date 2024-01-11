@@ -110,7 +110,7 @@ export default {
     const claimEventNameUniqueValidation = createUniqueValidator(
       'ClaimEvent',
       'name',
-      {entityId: props.id},
+      {entityId: props.id, matchByField: 'isDeleted', matchByValue: 'false'},
     );
     return {
       http,

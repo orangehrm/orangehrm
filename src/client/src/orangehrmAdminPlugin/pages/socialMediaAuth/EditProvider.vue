@@ -103,7 +103,7 @@ export default {
     const providerNameUniqueValidation = createUniqueValidator(
       'OpenIdProvider',
       'providerName',
-      {entityId: props.id},
+      {entityId: props.id, matchByField: 'status', matchByValue: 1},
     );
 
     return {

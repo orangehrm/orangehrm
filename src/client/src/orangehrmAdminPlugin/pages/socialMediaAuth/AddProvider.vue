@@ -107,6 +107,10 @@ export default {
     const providerNameUniqueValidation = createUniqueValidator(
       'OpenIdProvider',
       'providerName',
+      {
+        matchByField: 'status',
+        matchByValue: 1,
+      },
     );
     return {
       http,

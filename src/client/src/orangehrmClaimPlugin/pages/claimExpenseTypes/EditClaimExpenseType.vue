@@ -110,7 +110,7 @@ export default {
     const expenseTypeNameUniqueValidation = createUniqueValidator(
       'ExpenseType',
       'name',
-      {entityId: props.id},
+      {entityId: props.id, matchByField: 'isDeleted', matchByValue: 'false'},
     );
     return {
       http,

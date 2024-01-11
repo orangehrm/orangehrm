@@ -99,6 +99,10 @@ export default {
     const expenseTypeNameUniqueValidation = createUniqueValidator(
       'ExpenseType',
       'name',
+      {
+        matchByField: 'isDeleted',
+        matchByValue: 'false',
+      },
     );
     return {
       http,
