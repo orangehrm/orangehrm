@@ -46,7 +46,7 @@ class ValidationUniqueAPI extends Endpoint implements ResourceEndpoint
         'EmailSubscriber' => ['attributeName' => ['email'], 'matchByField' => ['emailNotification']],
         'EmploymentStatus' => ['attributeName' => ['name']],
         'JobCategory' => ['attributeName' => ['name']],
-        'JobTitle' => ['attributeName' => ['jobTitleName']],
+        'JobTitle' => ['attributeName' => ['jobTitleName'], 'matchByField' => ['isDeleted']],
         'Location' => ['attributeName' => ['name']],
         'Nationality' => ['attributeName' => ['name']],
         'PayGrade' => ['attributeName' => ['name']],
