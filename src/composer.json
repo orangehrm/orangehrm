@@ -5,7 +5,7 @@
         "orangehrm"
     ],
     "type": "project",
-    "license": "GPL-2.0-only",
+    "license": "GPL-3.0-or-later",
     "require": {
         "php": "^7.4|^8.0",
         "ext-pdo": "*",
