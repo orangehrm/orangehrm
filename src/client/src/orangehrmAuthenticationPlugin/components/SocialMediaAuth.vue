@@ -70,18 +70,18 @@ export default {
     });
 
     const getBackgroundImage = (url) => {
-      const lowercasedLabel = url.toLowerCase();
+      const lowercasedUrl = url.toLowerCase();
 
       switch (true) {
-        case lowercasedLabel.includes('google'):
+        case lowercasedUrl.includes('google'):
           return `${window.appGlobal.publicPath}/images/google.svg`;
-        case lowercasedLabel.includes('microsoft'):
+        case lowercasedUrl.includes('microsoft'):
           return `${window.appGlobal.publicPath}/images/microsoft.svg`;
-        case lowercasedLabel.includes('okta'):
+        case lowercasedUrl.includes('okta'):
           return `${window.appGlobal.publicPath}/images/okta.svg`;
-        case lowercasedLabel.includes('keycloak'):
+        case lowercasedUrl.includes('keycloak'):
           return `${window.appGlobal.publicPath}/images/keycloak.svg`;
-        case lowercasedLabel.includes('auth0'):
+        case lowercasedUrl.includes('auth0'):
           return `${window.appGlobal.publicPath}/images/auth0.svg`;
         default:
           return `${window.appGlobal.publicPath}/images/default.svg`;

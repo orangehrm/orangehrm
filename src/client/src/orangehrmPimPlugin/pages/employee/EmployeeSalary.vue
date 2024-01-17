@@ -170,7 +170,7 @@ export default {
           title: this.$t('pim.salary_component'),
           style: {flex: 1},
         },
-        {name: 'amount', title: this.$t('claim.amount'), style: {flex: 1}},
+        {name: 'amount', title: this.$t('general.amount'), style: {flex: 1}},
         {
           name: 'currency',
           title: this.$t('general.currency'),

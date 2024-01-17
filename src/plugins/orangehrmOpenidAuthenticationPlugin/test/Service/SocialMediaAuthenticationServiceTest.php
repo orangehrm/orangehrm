@@ -93,19 +93,19 @@ class SocialMediaAuthenticationServiceTest extends KernelTestCase
         $this->assertIsString($scope);
     }
 
-    public function testGetOIDCUser(): void
+    public function testGetUserForAuthenticate(): void
     {
         $userCredential = new UserCredential();
         $userCredential->setUsername('admin@orangehrm.us.com');
 
-        $users = $this->socialMediaAuthenticationService->getOIDCUser($userCredential);
-        $this->assertIsArray($users);
-        $this->assertEquals('1', $users[0]->getId());
+        $user = $this->socialMediaAuthenticationService->getUserForAuthenticate($userCredential);
+        $this->assertTrue($user instanceof \OrangeHRM\Entity\User);
+        $this->assertEquals('1', $user->getId());
 
         $userCredential->setUsername('manul@orangehrm.us.com');
-        $users = $this->socialMediaAuthenticationService->getOIDCUser($userCredential);
-        $this->assertEquals('2', $users[0]->getId());
-        $this->assertFalse($users[0]->isDeleted());
+        $user = $this->socialMediaAuthenticationService->getUserForAuthenticate($userCredential);
+        $this->assertEquals('2', $user->getId());
+        $this->assertFalse($user->isDeleted());
     }
 
     public function testSetOIDCUserIdentity(): void
@@ -113,10 +113,10 @@ class SocialMediaAuthenticationServiceTest extends KernelTestCase
         $userCredential = new UserCredential();
         $userCredential->setUsername('manul@orangehrm.us.com');
 
-        $users = $this->socialMediaAuthenticationService->getOIDCUser($userCredential);
+        $user = $this->socialMediaAuthenticationService->getUserForAuthenticate($userCredential);
         $provider = $this->socialMediaAuthenticationService->getAuthProviderDao()->getAuthProviderById(1);
 
-        $userIdentity = $this->socialMediaAuthenticationService->setOIDCUserIdentity($users[0], $provider);
+        $userIdentity = $this->socialMediaAuthenticationService->setOIDCUserIdentity($user, $provider);
         $this->assertEquals('2', $userIdentity->getUser()->getId());
         $this->assertEquals('Google', $userIdentity->getOpenIdProvider()->getProviderName());
     }
@@ -139,8 +139,8 @@ class SocialMediaAuthenticationServiceTest extends KernelTestCase
         $userCredential = new UserCredential();
         $userCredential->setUsername('manul@orangehrm.us.com');
 
-        $users = $this->socialMediaAuthenticationService->getOIDCUser($userCredential);
-        $success = $this->socialMediaAuthenticationService->handleOIDCAuthentication($users[0]);
+        $user = $this->socialMediaAuthenticationService->getUserForAuthenticate($userCredential);
+        $success = $this->socialMediaAuthenticationService->handleOIDCAuthentication($user);
 
         $this->assertIsBool($success);
         $this->assertTrue($success);

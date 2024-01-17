@@ -15,8 +15,5 @@ langStrings:
     value: 'No User Found'
     unitId: no_user_found
   -
-    value: 'User Disabled'
-    unitId: user_disabled
-  -
-    value: 'Employee Terminated'
-    unitId: employee_terminated
+    value: 'Multiple User Returned'
+    unitId: multiple_user_returned

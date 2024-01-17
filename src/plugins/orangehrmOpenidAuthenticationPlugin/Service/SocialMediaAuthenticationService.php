@@ -25,6 +25,7 @@ use OrangeHRM\Authentication\Exception\AuthenticationException;
 use OrangeHRM\Authentication\Service\AuthenticationService;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Entity\AuthProviderExtraDetails;
+use OrangeHRM\Entity\EmployeeTerminationRecord;
 use OrangeHRM\Entity\OpenIdProvider;
 use OrangeHRM\Entity\OpenIdUserIdentity;
 use OrangeHRM\Entity\User;
@@ -113,12 +114,45 @@ class SocialMediaAuthenticationService
      * @param UserCredential $userCredential
      * @return User[]
      */
-    public function getOIDCUser(UserCredential $userCredential): array
+    private function getSystemUsers(UserCredential $userCredential): array
     {
         $userSearchFilterParams = new UserSearchFilterParams();
         $userSearchFilterParams->setUsername($userCredential->getUsername());
 
         return $this->getUserDao()->searchSystemUsers($userSearchFilterParams);
+    }
+
+    /**
+     * @param UserCredential $userCredentials
+     *
+     * @return User
+     * @throws AuthenticationException
+     */
+    public function getUserForAuthenticate(UserCredential $userCredentials): User
+    {
+        $users = $this->getSystemUsers($userCredentials);
+        if (empty($users)) {
+            throw AuthenticationException::noUserFound();
+        }
+
+        if (sizeof($users) != 1) {
+            throw AuthenticationException::multipleUserReturned();
+        }
+
+        $user = reset($users);
+
+        if (!$user instanceof User || $user->isDeleted()) {
+            throw AuthenticationException::noUserFound();
+        } else {
+            if (!$user->getStatus()) {
+                throw AuthenticationException::userDisabled();
+            } elseif ($user->getEmpNumber() === null) {
+                throw AuthenticationException::employeeNotAssigned();
+            } elseif ($user->getEmployee()->getEmployeeTerminationRecord() instanceof EmployeeTerminationRecord) {
+                throw AuthenticationException::employeeTerminated();
+            }
+            return $user;
+        }
     }
 
     /**

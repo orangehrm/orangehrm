@@ -21,6 +21,7 @@ namespace OrangeHRM\Installer\Migration\V5_6_0;
 use Doctrine\DBAL\Schema\ForeignKeyConstraint;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Types\Types;
+use OrangeHRM\Installer\Util\Logger;
 use OrangeHRM\Installer\Util\V1\AbstractMigration;
 use OrangeHRM\Installer\Util\V1\LangStringHelper;
 
@@ -37,6 +38,16 @@ class Migration extends AbstractMigration
         foreach ($groups as $group) {
             $this->getLangStringHelper()->insertOrUpdateLangStrings(__DIR__, $group);
         }
+
+        $this->getLangHelper()->deleteLangStringByUnitId(
+            'amount',
+            $this->getLangHelper()->getGroupIdByName('claim')
+        );
+
+        $this->getLangHelper()->deleteLangStringByUnitId(
+            'amount',
+            $this->getLangHelper()->getGroupIdByName('pim')
+        );
 
         $this->getSchemaHelper()->dropForeignKeys('ohrm_i18n_translate', ['langStringId']);
         $foreignKeyConstraint = new ForeignKeyConstraint(
@@ -145,16 +156,18 @@ class Migration extends AbstractMigration
 
     private function removeOpenIdProviders(): void
     {
-        $q1 = $this->createQueryBuilder();
-        $q1->select(['extraDetails.provider_id, extraDetails.provider_type'])
+        $q = $this->createQueryBuilder();
+        $q->select(['extraDetails.provider_id, extraDetails.provider_type'])
             ->from('ohrm_auth_provider_extra_details', 'extraDetails');
-        $providers = $q1->executeQuery();
+        $providers = $q->executeQuery();
 
         foreach ($providers->fetchAllAssociative() as $provider) {
             $providerType = $provider['provider_type'];
+            $providerName = $provider['provider_name'];
             if ($providerType == 2) {
                 $this->changeGoogleProviderURL($provider['provider_id']);
             } else {
+                Logger::getLogger()->info("Deleting: `$providerName` ` from `ohrm_openid_provider`");
                 $qb = $this->createQueryBuilder()
                     ->delete('ohrm_openid_provider')
                     ->andWhere('ohrm_openid_provider.id = :id')
@@ -164,7 +177,7 @@ class Migration extends AbstractMigration
         }
     }
 
-    private function changeGoogleProviderURL($providerId)
+    private function changeGoogleProviderURL(int $providerId): void
     {
         $qb = $this->createQueryBuilder();
         $qb->update('ohrm_openid_provider', 'provider')

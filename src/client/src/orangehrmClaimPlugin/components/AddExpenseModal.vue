@@ -52,7 +52,7 @@
           <oxd-grid-item>
             <oxd-input-field
               v-model="expense.amount"
-              :label="$t('claim.amount')"
+              :label="$t('general.amount')"
               :rules="rules.amount"
               required
             />

@@ -32,6 +32,8 @@ class AuthenticationException extends Exception
     public const UNEXPECT_ERROR = 'unexpected_error';
     public const PASSWORD_NOT_STRONG = 'password_not_strong';
     public const INVALID_RESET_CODE = 'invalid_password_reset_code';
+    public const NO_USER_FOUND = 'no_user_found';
+    public const MULTIPLE_USER_RETURNED = 'multiple_user_returned';
 
     /**
      * @var string
@@ -97,5 +99,21 @@ class AuthenticationException extends Exception
     public static function invalidCsrfToken(): self
     {
         return new self(self::INVALID_CSRF_TOKEN, 'CSRF token validation failed');
+    }
+
+    /**
+     * @return static
+     */
+    public static function noUserFound(): self
+    {
+        return new self(self::NO_USER_FOUND, 'No User Found');
+    }
+
+    /**
+     * @return static
+     */
+    public static function multipleUserReturned(): self
+    {
+        return new self(self::MULTIPLE_USER_RETURNED, 'Multiple User Returned');
     }
 }

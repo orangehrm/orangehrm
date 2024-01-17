@@ -26,31 +26,49 @@ class OpenIDConnectClient extends \Jumbojett\OpenIDConnectClient
 
     protected ?string $generatedAuthUrl = null;
 
-    public function redirect($url)
+    /**
+     * @inheritDoc
+     */
+    public function redirect(string $url)
     {
         $this->generatedAuthUrl = $url;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getGeneratedAuthUrl(): string
     {
         return $this->generatedAuthUrl;
     }
 
-    public function commitSession()
+    /**
+     * @inheritDoc
+     */
+    public function commitSession(): void
     {
     }
 
-    protected function setSessionKey($key, $value)
+    /**
+     * @inheritDoc
+     */
+    protected function setSessionKey(string $key, $value)
     {
         $this->getAuthUser()->setAttribute($key, $value);
     }
 
-    protected function getSessionKey($key)
+    /**
+     * @inheritDoc
+     */
+    protected function getSessionKey(string $key)
     {
         return $this->getAuthUser()->getAttribute($key);
     }
 
-    protected function unsetSessionKey($key)
+    /**
+     * @inheritDoc
+     */
+    protected function unsetSessionKey(string $key)
     {
         $this->getAuthUser()->removeAttribute($key);
     }

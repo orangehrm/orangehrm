@@ -183,7 +183,7 @@ export default {
         {
           name: 'amount',
           style: {flex: 1},
-          title: this.$t('claim.amount'),
+          title: this.$t('general.amount'),
         },
       ],
       checkedItems: [],
@@ -222,7 +222,7 @@ export default {
 
       computedHeaders[3] = {
         name: 'amount',
-        title: `${this.$t('claim.amount')} (${this.currency.name})`,
+        title: `${this.$t('general.amount')} (${this.currency.name})`,
         style: {flex: 1},
       };
       if (Object.keys(headerActions.cellConfig).length > 0) {

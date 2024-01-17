@@ -33,7 +33,7 @@ trait SessionHandlingTrait
     /**
      * @return string
      */
-    public function handleSessionTimeoutRedirect(): string
+    public function handleSessionTimeoutRedirect(): ?string
     {
         /** @var UrlGenerator $urlGenerator */
         $urlGenerator = $this->getContainer()->get(Services::URL_GENERATOR);
@@ -53,6 +53,6 @@ trait SessionHandlingTrait
                 return $redirectUrl;
             }
         }
-        return $loginUrl;
+        return null;
     }
 }

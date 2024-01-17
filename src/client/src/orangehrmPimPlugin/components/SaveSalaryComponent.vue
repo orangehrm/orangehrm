@@ -64,7 +64,7 @@
           <oxd-grid-item>
             <oxd-input-field
               v-model="salaryComponent.salaryAmount"
-              :label="$t('claim.amount')"
+              :label="$t('general.amount')"
               :rules="rules.salaryAmount"
               required
             />
@@ -141,7 +141,7 @@
           <oxd-grid-item>
             <oxd-input-field
               v-model="directDeposit.directDepositAmount"
-              :label="$t('claim.amount')"
+              :label="$t('general.amount')"
               :rules="rules.directDepositAmount"
               required
             />
