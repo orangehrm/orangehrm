@@ -31,6 +31,7 @@ use OrangeHRM\Entity\User;
 use OrangeHRM\Framework\Routing\UrlGenerator;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\OpenidAuthentication\Dao\AuthProviderDao;
+use OrangeHRM\OpenidAuthentication\Dto\ProviderSearchFilterParams;
 use OrangeHRM\OpenidAuthentication\OpenID\OpenIDConnectClient;
 use OrangeHRM\OpenidAuthentication\Traits\Service\SocialMediaAuthenticationServiceTrait;
 
@@ -144,5 +145,18 @@ class SocialMediaAuthenticationService
     public function handleOIDCAuthentication(User $user): bool
     {
         return $this->getAuthenticationService()->setCredentialsForUser($user);
+    }
+
+    /**
+     * @return bool
+     */
+    public function isSocialMediaAuthEnable(): bool
+    {
+        $providerSearchFilterParams = new ProviderSearchFilterParams();
+        $providerSearchFilterParams->setName(null);
+        $providerSearchFilterParams->setStatus(true);
+
+        $count = $this->getAuthProviderDao()->getAuthProviderCount($providerSearchFilterParams);
+        return $count > 0;
     }
 }

@@ -7,12 +7,12 @@ New & Changed Features for OrangeHRM ver 5.6
         - Allowing OrangeHRM Opensource 5x users to create and manage alternative login using different OpenID Connect providers such as Google.
     - Supported Environments
         - PHP - 7.4 to 8.3
-        - MariaDB - 5.5 to 10.11
+        - MariaDB - 5.5 to 11.2
         - MySQL - 5.5 to 8.0
 
     Bug Fixes
     ---------
-    - 
+    - https://github.com/orangehrm/orangehrm/issues/1731
 
 New & Changed Features for OrangeHRM ver 5.5
     New Feature

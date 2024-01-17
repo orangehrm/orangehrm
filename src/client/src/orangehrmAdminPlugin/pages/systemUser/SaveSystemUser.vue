@@ -72,6 +72,7 @@
         <password-input
           v-model:password="user.password"
           v-model:passwordConfirm="user.passwordConfirm"
+          :is-password-required="isPasswordRequired"
         />
 
         <oxd-divider />
@@ -116,6 +117,13 @@ export default {
   components: {
     'employee-autocomplete': EmployeeAutocomplete,
     'password-input': PasswordInput,
+  },
+
+  props: {
+    isPasswordRequired: {
+      type: Boolean,
+      default: true,
+    },
   },
 
   setup() {

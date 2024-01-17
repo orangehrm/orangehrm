@@ -103,6 +103,7 @@
               <password-input
                 v-model:password="user.password"
                 v-model:passwordConfirm="user.passwordConfirm"
+                :is-password-required="isPasswordRequired"
               />
             </template>
           </div>
@@ -175,6 +176,10 @@ export default {
     allowedImageTypes: {
       type: Array,
       required: true,
+    },
+    isPasswordRequired: {
+      type: Boolean,
+      default: true,
     },
   },
 

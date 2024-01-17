@@ -19,9 +19,11 @@
 namespace OrangeHRM\Tests\Admin\Api;
 
 use OrangeHRM\Admin\Api\UserAPI;
+use OrangeHRM\Entity\OpenIdProvider;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
 use OrangeHRM\Tests\Util\Integration\TestCaseParams;
+use OrangeHRM\Tests\Util\TestDataService;
 
 /**
  * @group Admin
@@ -29,6 +31,11 @@ use OrangeHRM\Tests\Util\Integration\TestCaseParams;
  */
 class UserAPITest extends EndpointIntegrationTestCase
 {
+    protected function setUp(): void
+    {
+        TestDataService::truncateSpecificTables([OpenIdProvider::class]);
+    }
+
     /**
      * @dataProvider dataProviderForTestGetAll
      */

@@ -38,12 +38,14 @@ use OrangeHRM\Core\Api\V2\Validator\Rules\EntityUniquePropertyOption;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\User;
+use OrangeHRM\OpenidAuthentication\Traits\Service\SocialMediaAuthenticationServiceTrait;
 
 class UserAPI extends Endpoint implements CrudEndpoint
 {
     use UserServiceTrait;
     use DateTimeHelperTrait;
     use AuthUserTrait;
+    use SocialMediaAuthenticationServiceTrait;
 
     public const PARAMETER_USERNAME = 'username';
     public const PARAMETER_PASSWORD = 'password';
@@ -344,6 +346,10 @@ class UserAPI extends Endpoint implements CrudEndpoint
                     self::PARAMETER_CHANGE_PASSWORD
                 )
             ];
+        }
+
+        if ($this->getSocialMediaAuthenticationService()->isSocialMediaAuthEnable()) {
+            $passwordConstructor = [false];
         }
 
         return [

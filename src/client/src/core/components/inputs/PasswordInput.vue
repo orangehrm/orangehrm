@@ -30,7 +30,7 @@
         <oxd-input-field
           type="password"
           autocomplete="off"
-          :required="true"
+          :required="isPasswordRequired"
           :model-value="password"
           :rules="rules.password"
           :label="$t('general.password')"
@@ -46,7 +46,7 @@
           ref="passwordConfirm"
           type="password"
           autocomplete="off"
-          :required="true"
+          :required="isPasswordRequired"
           :model-value="passwordConfirm"
           :rules="rules.passwordConfirm"
           :label="$t('general.confirm_password')"
@@ -81,6 +81,10 @@ export default {
       type: String,
       required: true,
     },
+    isPasswordRequired: {
+      type: Boolean,
+      default: true,
+    },
   },
   emits: ['update:password', 'update:passwordConfirm'],
   setup() {
@@ -96,12 +100,12 @@ export default {
     return {
       rules: {
         password: [
-          required,
+          (v) => (this.isPasswordRequired ? required(v) : true),
           shouldNotExceedCharLength(64),
           promiseDebounce(this.validatePassword, 500),
         ],
         passwordConfirm: [
-          required,
+          (v) => (this.isPasswordRequired ? required(v) : true),
           shouldNotExceedCharLength(64),
           (v) =>
             (!!v && v === this.password) ||
