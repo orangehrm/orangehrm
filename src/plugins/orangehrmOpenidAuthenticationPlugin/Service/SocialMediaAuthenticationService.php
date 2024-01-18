@@ -23,6 +23,7 @@ use OrangeHRM\Admin\Dto\UserSearchFilterParams;
 use OrangeHRM\Authentication\Dto\UserCredential;
 use OrangeHRM\Authentication\Exception\AuthenticationException;
 use OrangeHRM\Authentication\Service\AuthenticationService;
+use OrangeHRM\Authentication\Traits\Service\AuthenticationServiceTrait;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Utility\EncryptionHelperTrait;
 use OrangeHRM\Entity\AuthProviderExtraDetails;
@@ -40,6 +41,7 @@ use OrangeHRM\OpenidAuthentication\Traits\Service\SocialMediaAuthenticationServi
 class SocialMediaAuthenticationService
 {
     use SocialMediaAuthenticationServiceTrait;
+    use AuthenticationServiceTrait;
     use EncryptionHelperTrait;
     use AuthUserTrait;
 
@@ -63,14 +65,6 @@ class SocialMediaAuthenticationService
     public function getUserDao(): UserDao
     {
         return $this->userDao ??= new UserDao();
-    }
-
-    /**
-     * @return AuthenticationService
-     */
-    private function getAuthenticationService(): AuthenticationService
-    {
-        return $this->authenticationService ??= new AuthenticationService();
     }
 
     /**
