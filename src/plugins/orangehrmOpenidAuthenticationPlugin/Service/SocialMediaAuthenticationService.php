@@ -24,6 +24,7 @@ use OrangeHRM\Authentication\Dto\UserCredential;
 use OrangeHRM\Authentication\Exception\AuthenticationException;
 use OrangeHRM\Authentication\Service\AuthenticationService;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
+use OrangeHRM\Core\Utility\EncryptionHelperTrait;
 use OrangeHRM\Entity\AuthProviderExtraDetails;
 use OrangeHRM\Entity\EmployeeTerminationRecord;
 use OrangeHRM\Entity\OpenIdProvider;
@@ -39,6 +40,7 @@ use OrangeHRM\OpenidAuthentication\Traits\Service\SocialMediaAuthenticationServi
 class SocialMediaAuthenticationService
 {
     use SocialMediaAuthenticationServiceTrait;
+    use EncryptionHelperTrait;
     use AuthUserTrait;
 
     private AuthenticationService $authenticationService;
@@ -83,7 +85,9 @@ class SocialMediaAuthenticationService
         $oidcClient = new OpenIDConnectClient(
             $provider->getOpenIdProvider()->getProviderUrl(),
             $provider->getClientId(),
-            $provider->getClientSecret()
+            self::encryptionEnabled()
+                ? self::getCryptographer()->decrypt($provider->getClientSecret())
+                : $provider->getClientSecret(),
         );
 
         $oidcClient->addScope([$scope]);

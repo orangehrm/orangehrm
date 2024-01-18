@@ -105,11 +105,16 @@ export default {
           promiseDebounce(this.validatePassword, 500),
         ],
         passwordConfirm: [
-          (v) => (this.isPasswordRequired ? required(v) : true),
-          shouldNotExceedCharLength(64),
-          (v) =>
-            (!!v && v === this.password) ||
-            this.$t('general.passwords_do_not_match'),
+          (v) => {
+            if (this.isPasswordRequired || this.password.length > 0) {
+              return (
+                (!!v && v === this.password) ||
+                this.$t('general.passwords_do_not_match')
+              );
+            } else {
+              return true;
+            }
+          },
         ],
       },
     };
