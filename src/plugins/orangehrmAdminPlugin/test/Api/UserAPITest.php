@@ -21,6 +21,7 @@ namespace OrangeHRM\Tests\Admin\Api;
 use OrangeHRM\Admin\Api\UserAPI;
 use OrangeHRM\Entity\OpenIdProvider;
 use OrangeHRM\Framework\Services;
+use OrangeHRM\ORM\Doctrine;
 use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
 use OrangeHRM\Tests\Util\Integration\TestCaseParams;
 use OrangeHRM\Tests\Util\TestDataService;
@@ -104,5 +105,15 @@ class UserAPITest extends EndpointIntegrationTestCase
     public function dataProviderForTestUpdate(): array
     {
         return $this->getTestCases('UserAPITestCases.yaml', 'Update');
+    }
+
+    public static function enableSocialMediaAuthPreHook(): void
+    {
+        $provider = Doctrine::getEntityManager()->getRepository(OpenIdProvider::class)->findOneBy(
+            ['id' => 1]
+        );
+        $provider->setStatus(1);
+        Doctrine::getEntityManager()->persist($provider);
+        Doctrine::getEntityManager()->flush();
     }
 }

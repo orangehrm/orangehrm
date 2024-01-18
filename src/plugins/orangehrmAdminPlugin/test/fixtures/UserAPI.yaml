@@ -73,3 +73,9 @@ User:
   - { "id": 7, "user_role_id": 1, "emp_number": 3, "user_name": "Duval","user_password": "Duval","deleted": 0,"status": "1","date_entered": "2022-10-04 16:48:40","created_by": "1" }
   - { "id": 8, "user_role_id": 2, "emp_number": 3, "user_name": "Alice","user_password": "Alice","deleted": 0,"status": "0","date_entered": "2022-11-04 16:48:40","created_by": "1" }
   - { "id": 9, "user_role_id": 2, "emp_number": 17, "user_name": "Mathews","user_password": "Mathews","deleted": 1,"status": "0","date_entered": "2022-11-05 16:48:40","created_by": "1" }
+
+OpenIdProvider:
+  0: {id: 1, provider_name: 'Google', provider_url: 'https://accounts.google.com', status: 0 }
+
+AuthProviderExtraDetails:
+  0: { id: 1, provider_id: 1, client_id: '445659888050-al6t0hn.apps.googleusercontent.com', client_secret: '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' }

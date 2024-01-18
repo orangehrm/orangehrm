@@ -39,6 +39,8 @@ class Migration extends AbstractMigration
             $this->getLangStringHelper()->insertOrUpdateLangStrings(__DIR__, $group);
         }
 
+        $this->deleteLangStringTranslationByLangStringUnitId('amount');
+
         $this->getLangHelper()->deleteLangStringByUnitId(
             'amount',
             $this->getLangHelper()->getGroupIdByName('claim')
@@ -186,5 +188,22 @@ class Migration extends AbstractMigration
             ->andWhere('provider.id = :id')
             ->setParameter('id', $providerId);
         $qb->executeQuery();
+    }
+
+    private function deleteLangStringTranslationByLangStringUnitId(string $unitId): void
+    {
+        $id = $this->getConnection()->createQueryBuilder()
+            ->select('id')
+            ->from('ohrm_i18n_lang_string', 'langString')
+            ->andWhere('langString.unit_id = :unitId')
+            ->setParameter('unitId', $unitId)
+            ->executeQuery()
+            ->fetchOne();
+
+        $this->createQueryBuilder()
+            ->delete('ohrm_i18n_translate')
+            ->andWhere('ohrm_i18n_translate.lang_string_id = :id')
+            ->setParameter('id', $id)
+            ->executeQuery();
     }
 }
