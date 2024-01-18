@@ -41,6 +41,9 @@
     >
       <employees-on-leave-widget></employees-on-leave-widget>
     </oxd-grid-item>
+    <oxd-grid-item class="orangehrm-dashboard-widget">
+      <holiday-list-widget></holiday-list-widget>
+    </oxd-grid-item>
     <oxd-grid-item
       v-if="$can.read('dashboard_subunit_widget')"
       class="orangehrm-dashboard-widget"
@@ -65,6 +68,7 @@ import MyActionSummaryWidget from '@/orangehrmDashboardPlugin/components/MyActio
 import EmployeeLocationWidget from '@/orangehrmDashboardPlugin/components/EmployeeLocationWidget.vue';
 import EmployeesOnLeaveWidget from '@/orangehrmDashboardPlugin/components/EmployeesOnLeaveWidget.vue';
 import EmployeeAttendanceWidget from '@/orangehrmDashboardPlugin/components/EmployeeAttendanceWidget.vue';
+import HolidayListWidget from '@/orangehrmDashboardPlugin/components/HolidayListWidget.vue';
 
 export default {
   components: {
@@ -75,6 +79,7 @@ export default {
     'employee-location-widget': EmployeeLocationWidget,
     'employees-on-leave-widget': EmployeesOnLeaveWidget,
     'employee-attendance-widget': EmployeeAttendanceWidget,
+    'holiday-list-widget': HolidayListWidget,
   },
   mounted() {
     const http = new APIService(window.appGlobal.baseUrl, 'events/push');
