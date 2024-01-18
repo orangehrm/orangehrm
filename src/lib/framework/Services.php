@@ -183,7 +183,7 @@ final class Services
     /**
      * @see \OrangeHRM\Authentication\Service\AuthenticationService
      */
-    public const AUTHENTICATION_SERVICE = 'oidc.authentication_service';
+    public const AUTHENTICATION_SERVICE = 'auth.authentication_service';
 
     ///////////////////////////////////////////////////////////////
     /// Admin plugin services

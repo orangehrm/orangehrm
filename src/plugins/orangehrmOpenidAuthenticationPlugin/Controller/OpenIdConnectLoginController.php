@@ -70,7 +70,7 @@ class OpenIdConnectLoginController extends AbstractVueController implements Publ
             $this->getSocialMediaAuthenticationService()->getRedirectURL()
         );
 
-        $this->getAuthUser()->setAttribute(AuthUser::PROVIDER_ID, $provider->getId());
+        $this->getAuthUser()->setAttribute(AuthUser::OPENID_PROVIDER_ID, $provider->getId());
         $oidcClient->authenticate();
 
         //redirect to consent always

@@ -83,7 +83,7 @@ class OpenIdConnectRedirectController extends AbstractVueController implements P
         $loginUrl = $urlGenerator->generate('auth_login', [], UrlGenerator::ABSOLUTE_URL);
 
         try {
-            $providerId = $this->getAuthUser()->getAttribute(AuthUser::PROVIDER_ID);
+            $providerId = $this->getAuthUser()->getAttribute(AuthUser::OPENID_PROVIDER_ID);
             $authProvider = $this->getSocialMediaAuthenticationService()->getAuthProviderDao()
                 ->getAuthProviderById($providerId);
             $authProviderExtraDetails = $this->getSocialMediaAuthenticationService()->getAuthProviderDao()

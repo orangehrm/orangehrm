@@ -34,22 +34,19 @@ class Migration extends AbstractMigration
      */
     public function up(): void
     {
-        $groups = ['admin'];
-        foreach ($groups as $group) {
-            $this->getLangStringHelper()->insertOrUpdateLangStrings(__DIR__, $group);
-        }
-
-        $this->deleteLangStringTranslationByLangStringUnitId('amount');
+        $this->deleteLangStringTranslationByLangStringUnitId('amount', $this->getLangHelper()->getGroupIdByName('claim'));
 
         $this->getLangHelper()->deleteLangStringByUnitId(
             'amount',
             $this->getLangHelper()->getGroupIdByName('claim')
         );
 
-        $this->getLangHelper()->deleteLangStringByUnitId(
-            'amount',
-            $this->getLangHelper()->getGroupIdByName('pim')
-        );
+        $groups = ['admin', 'general'];
+        foreach ($groups as $group) {
+            $this->getLangStringHelper()->insertOrUpdateLangStrings(__DIR__, $group);
+        }
+
+        $this->updateLangStringVersion($this->getVersion());
 
         $this->getSchemaHelper()->dropForeignKeys('ohrm_i18n_translate', ['langStringId']);
         $foreignKeyConstraint = new ForeignKeyConstraint(
@@ -130,6 +127,16 @@ class Migration extends AbstractMigration
         return '5.6.0';
     }
 
+    private function updateLangStringVersion(string $version): void
+    {
+        $qb = $this->createQueryBuilder()
+            ->update('ohrm_i18n_lang_string', 'lang_string')
+            ->set('lang_string.version', ':version')
+            ->setParameter('version', $version);
+        $qb->andWhere($qb->expr()->isNull('lang_string.version'))
+            ->executeStatement();
+    }
+
     private function modifyAuthProviderTables(): void
     {
         $this->getSchemaHelper()->addOrChangeColumns('ohrm_openid_provider', [
@@ -165,11 +172,11 @@ class Migration extends AbstractMigration
 
         foreach ($providers->fetchAllAssociative() as $provider) {
             $providerType = $provider['provider_type'];
-            $providerName = $provider['provider_name'];
             if ($providerType == 2) {
                 $this->changeGoogleProviderURL($provider['provider_id']);
             } else {
-                Logger::getLogger()->info("Deleting: `$providerName` ` from `ohrm_openid_provider`");
+                $serializedProvider = serialize($provider);
+                Logger::getLogger()->info("Deleting: `$serializedProvider` ` from `ohrm_openid_provider`");
                 $qb = $this->createQueryBuilder()
                     ->delete('ohrm_openid_provider')
                     ->andWhere('ohrm_openid_provider.id = :id')
@@ -190,13 +197,15 @@ class Migration extends AbstractMigration
         $qb->executeQuery();
     }
 
-    private function deleteLangStringTranslationByLangStringUnitId(string $unitId): void
+    private function deleteLangStringTranslationByLangStringUnitId(string $unitId, int $groupId): void
     {
         $id = $this->getConnection()->createQueryBuilder()
             ->select('id')
             ->from('ohrm_i18n_lang_string', 'langString')
             ->andWhere('langString.unit_id = :unitId')
             ->setParameter('unitId', $unitId)
+            ->andWhere('langString.group_id = :groupId')
+            ->setParameter('groupId', $groupId)
             ->executeQuery()
             ->fetchOne();
 

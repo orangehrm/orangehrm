@@ -20,6 +20,7 @@ namespace OrangeHRM\Tests\OpenidAuthentication\Service;
 
 use OrangeHRM\Authentication\Auth\User;
 use OrangeHRM\Authentication\Dto\UserCredential;
+use OrangeHRM\Authentication\Service\AuthenticationService;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Service\ConfigService;
 use OrangeHRM\Framework\Http\Session\Session;
@@ -132,7 +133,8 @@ class SocialMediaAuthenticationServiceTest extends KernelTestCase
         $this->createKernelWithMockServices(
             [
                 Services::AUTH_USER => User::getInstance(),
-                Services::SESSION => $session
+                Services::SESSION => $session,
+                Services::AUTHENTICATION_SERVICE => new AuthenticationService(),
             ]
         );
 

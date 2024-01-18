@@ -133,14 +133,14 @@ class SocialMediaAuthenticationService
             throw AuthenticationException::noUserFound();
         }
 
-        if (sizeof($users) != 1) {
+        if (sizeof($users) > 1) {
             throw AuthenticationException::multipleUserReturned();
         }
 
-        $user = reset($users);
+        $user = $users[0];
 
         if (!$user instanceof User || $user->isDeleted()) {
-            throw AuthenticationException::noUserFound();
+            throw AuthenticationException::invalidCredentials();
         } else {
             if (!$user->getStatus()) {
                 throw AuthenticationException::userDisabled();
