@@ -29,28 +29,25 @@
     :title="$t('dashboard.up_coming_holidays')"
   >
     <div v-for="leave in leaveList" :key="leave" class="orangehrm-leave-card">
-      <div class="orangehrm-leave-card-profile-image">
-        <img
-          alt="profile picture"
-          class="employee-image"
-          :src="`../pim/viewPhoto/empNumber/${leave.empNumber}`"
-        />
+      <div
+        style="
+          padding: 0.5rem;
+          border-radius: 0.75rem;
+          width: 100%;
+          border: 1px solid #e8eaef;
+          display: flex;
+          justify-content: start;
+        "
+      >
+        <div class="orangehrm-leave-card-emp-name" style="color: #64728c">
+          {{ leave.date }} -
+        </div>
+        <div class="orangehrm-leave-card-details">
+          <oxd-text tag="p" class="orangehrm-leave-card-emp-name">
+            {{ leave.name }}
+          </oxd-text>
+        </div>
       </div>
-      <div class="orangehrm-leave-card-details">
-        <oxd-text tag="p" class="orangehrm-leave-card-emp-name">
-          {{ leave.empName }}
-        </oxd-text>
-        <oxd-text
-          v-if="leave.leaveType"
-          tag="p"
-          class="orangehrm-leave-card-leave-details"
-        >
-          {{ leave.leaveType }}
-        </oxd-text>
-      </div>
-      <oxd-text tag="p" class="orangehrm-leave-card-emp-id">
-        {{ leave.employeeId }}
-      </oxd-text>
     </div>
   </base-widget>
 </template>
@@ -71,7 +68,7 @@ export default {
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      '/api/v2/dashboard/holidays',
+      '/api/v2/leave/holidays',
     );
     const {$tEmpName} = useEmployeeNameTranslate();
 
@@ -103,35 +100,18 @@ export default {
 
   beforeMount() {
     this.isLoading = true;
+    const currentDate = freshDate();
+    const sixMonthsLater = new Date(currentDate);
+    sixMonthsLater.setMonth(sixMonthsLater.getMonth() + 12);
     this.http
       .getAll({
-        date: formatDate(freshDate(), 'yyyy-MM-dd'),
+        limit: 10,
+        fromDate: formatDate(currentDate, 'yyyy-MM-dd'),
+        toDate: formatDate(sixMonthsLater, 'yyyy-MM-dd'),
       })
       .then((response) => {
-        const {data, meta} = response.data;
-        this.leaveList = data.map((item) => {
-          const {employee, leaveType, duration} = item;
-          let _leaveType = leaveType?.name;
-          if (_leaveType && duration === 'half_day_morning') {
-            _leaveType += ` (${this.$t('leave.half_day_morning')})`;
-          }
-          if (_leaveType && duration === 'half_day_afternoon') {
-            _leaveType += ` (${this.$t('leave.half_day_evening')})`;
-          }
-          if (_leaveType && duration === 'specify_time') {
-            _leaveType += ` (${item.startTime} - ${item.endTime})`;
-          }
-          return {
-            leaveType: _leaveType,
-            empNumber: employee.empNumber,
-            employeeId: employee.employeeId,
-            empName: this.tEmpName(employee, {
-              includeMiddle: false,
-              excludePastEmpTag: false,
-            }),
-          };
-        });
-        this.leavePeriod = meta?.leavePeriodDefined;
+        const {data} = response.data;
+        this.leaveList = data;
       })
       .finally(() => {
         this.isLoading = false;
