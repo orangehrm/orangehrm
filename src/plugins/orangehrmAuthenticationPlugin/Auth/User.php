@@ -39,7 +39,6 @@ class User
     public const FLASH_LOGIN_ERROR = 'flash.login_error';
     public const FLASH_PASSWORD_ENFORCE_ERROR = 'flash.password_enforce_error';
     public const FLASH_VERIFY_ERROR = 'flash.admin_access.verify_error';
-    public const FLASH_SEND_EMAIL_FLAG = 'flash.send_email_flag';
 
     /**
      * @var null|self

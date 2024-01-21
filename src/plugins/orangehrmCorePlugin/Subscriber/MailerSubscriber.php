@@ -18,9 +18,9 @@
 
 namespace OrangeHRM\Core\Subscriber;
 
-use OrangeHRM\Authentication\Auth\User as AuthUser;
 use OrangeHRM\Core\Service\EmailQueueService;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
+use OrangeHRM\Core\Traits\CacheTrait;
 use OrangeHRM\Core\Traits\LoggerTrait;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Framework\Event\AbstractEventSubscriber;
@@ -32,6 +32,7 @@ class MailerSubscriber extends AbstractEventSubscriber
     use LoggerTrait;
     use AuthUserTrait;
     use EntityManagerHelperTrait;
+    use CacheTrait;
 
     /**
      * @inheritDoc
@@ -50,8 +51,9 @@ class MailerSubscriber extends AbstractEventSubscriber
      */
     public function onTerminateEvent(TerminateEvent $event): void
     {
-        if ($this->getAuthUser()->hasFlash(AuthUser::FLASH_SEND_EMAIL_FLAG)) {
-            $this->getAuthUser()->getFlash(AuthUser::FLASH_SEND_EMAIL_FLAG);
+        $cacheItem = $this->getCache()->getItem('core.send_email');
+
+        if ($cacheItem->isHit() && $cacheItem->get()) {
             $timeStart = microtime(true);
             $this->getLogger()->info("MailerSubscriber >> Start: $timeStart");
 
@@ -62,6 +64,9 @@ class MailerSubscriber extends AbstractEventSubscriber
             $executionTime = ($timeEnd - $timeStart);
             $this->getLogger()->info("MailerSubscriber >> End: $timeEnd");
             $this->getLogger()->info("MailerSubscriber >> Execution time: $executionTime");
+
+            $cacheItem->set(false);
+            $this->getCache()->save($cacheItem);
         }
     }
 }
