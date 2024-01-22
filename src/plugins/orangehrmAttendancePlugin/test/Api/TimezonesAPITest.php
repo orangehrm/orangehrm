@@ -49,7 +49,7 @@ class TimezonesAPITest extends EndpointIntegrationTestCase
                 "label" => "+07:00",
                 "offset" => "7.0"
             ];
-            $testCase->setResultData($modifiedTimeZone);
+            $testCase->setResultData([$modifiedTimeZone]);
             return $testCases;
         } else {
             return $this->getTestCases('TimezonesAPITestCases.yaml', 'GetAll');
