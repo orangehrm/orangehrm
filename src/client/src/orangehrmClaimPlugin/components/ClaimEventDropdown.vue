@@ -34,7 +34,7 @@ export default {
     const options = ref([]);
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/claim/events',
+      '/api/v2/claim/events',
     );
     onBeforeMount(() => {
       http.getAll({limit: 0, status: true}).then(({data}) => {

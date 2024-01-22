@@ -26,6 +26,8 @@ use OrangeHRM\Installer\Framework\HttpKernel;
 use OrangeHRM\Installer\Util\AppSetupUtility;
 use OrangeHRM\Installer\Util\StateContainer;
 use Symfony\Component\Yaml\Yaml;
+use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Installer\Controller\Installer\Api\InstallerDataRegistrationAPI;
 
 $pathToAutoload = realpath(__DIR__ . '/../src/vendor/autoload.php');
 
@@ -148,5 +150,9 @@ $appSetupUtility->writeConfFile();
 if ($enableDataEncryption) {
     $appSetupUtility->writeKeyFile();
 }
+
+$request = new Request();
+$request->setMethod(Request::METHOD_POST);
+(new InstallerDataRegistrationAPI())->handle($request);
 
 echo "Done\n";

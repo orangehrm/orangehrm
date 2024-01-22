@@ -438,8 +438,8 @@ class AppSetupUtility
             $dbInfo[StateContainer::DB_HOST],
             $dbInfo[StateContainer::DB_PORT],
             $dbInfo[StateContainer::DB_NAME],
-            $dbInfo[StateContainer::DB_USER],
-            $dbInfo[StateContainer::DB_PASSWORD]
+            $dbInfo[StateContainer::ORANGEHRM_DB_USER] ?? $dbInfo[StateContainer::DB_USER],
+            $dbInfo[StateContainer::ORANGEHRM_DB_PASSWORD] ?? $dbInfo[StateContainer::DB_PASSWORD],
         ];
 
         $fs = new Filesystem();

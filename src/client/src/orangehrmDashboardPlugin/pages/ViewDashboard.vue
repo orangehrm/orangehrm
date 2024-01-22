@@ -76,7 +76,7 @@ export default {
     'employee-attendance-widget': EmployeeAttendanceWidget,
   },
   mounted() {
-    const http = new APIService(window.appGlobal.baseUrl, 'events/push');
+    const http = new APIService(window.appGlobal.baseUrl, '/events/push');
     http.create();
   },
 };
