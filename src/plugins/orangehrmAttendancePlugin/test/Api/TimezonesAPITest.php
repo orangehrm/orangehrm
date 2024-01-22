@@ -40,7 +40,12 @@ class TimezonesAPITest extends EndpointIntegrationTestCase
 
     public function dataProviderForTestGetAll(): array
     {
-        return $this->getTestCases('TimezonesAPITestCases.yaml', 'GetAll');
+        $phpVersion = phpversion();
+        if (version_compare($phpVersion, '7.4.29', '>=')) {
+            return $this->getTestCases('TimezonesAPITestCasesForSpecificVersion.yaml', 'GetAll');
+        } else {
+            return $this->getTestCases('TimezonesAPITestCases.yaml', 'GetAll');
+        }
     }
 
     public function testDelete(): void
