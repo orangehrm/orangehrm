@@ -35,7 +35,7 @@ export default {
     const options = ref([]);
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/claim/expenses/types',
+      '/api/v2/claim/expenses/types',
     );
     onBeforeMount(() => {
       http.getAll({limit: 0, status: true}).then(({data}) => {

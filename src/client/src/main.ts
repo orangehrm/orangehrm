@@ -48,7 +48,7 @@ const baseUrl = window.appGlobal.baseUrl;
 
 const {i18n, init} = createI18n({
   baseUrl: baseUrl,
-  resourceUrl: 'core/i18n/messages',
+  resourceUrl: '/core/i18n/messages',
 });
 
 app.use(acl);

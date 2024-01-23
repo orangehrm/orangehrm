@@ -128,7 +128,7 @@ export default {
   setup(props) {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      `api/v2/claim/requests/${props.requestId}/expenses`,
+      `/api/v2/claim/requests/${props.requestId}/expenses`,
     );
 
     const {userDateFormat} = useDateFormat();
