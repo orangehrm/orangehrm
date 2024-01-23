@@ -18,33 +18,38 @@ jobs:
       fail-fast: false
       matrix:
         database:
-          - "mysql:5.5"
-          - "mysql:5.6"
-          - "mysql:5.7"
-          - "mysql:8.0"
-          - "mariadb:5.5"
-          - "mariadb:10.0"
-          - "mariadb:10.1"
-          - "mariadb:10.2"
-          - "mariadb:10.3"
-          - "mariadb:10.4"
-          - "mariadb:10.5"
-          - "mariadb:10.6"
-          - "mariadb:10.7"
-          - "mariadb:10.8"
-          - "mariadb:10.9"
-          - "mariadb:10.10"
-          - "mariadb:10.11"
+          - { image: "mysql:5.5", admin: "mysqladmin" }
+          - { image: "mysql:5.6", admin: "mysqladmin" }
+          - { image: "mysql:5.7", admin: "mysqladmin" }
+          - { image: "mysql:8.0", admin: "mysqladmin" }
+          - { image: "mysql:8.1", admin: "mysqladmin" }
+          - { image: "mysql:8.2", admin: "mysqladmin" }
+          - { image: "mariadb:5.5", admin: "mysqladmin" }
+          - { image: "mariadb:10.0", admin: "mysqladmin" }
+          - { image: "mariadb:10.1", admin: "mysqladmin" }
+          - { image: "mariadb:10.2", admin: "mysqladmin" }
+          - { image: "mariadb:10.3", admin: "mysqladmin" }
+          - { image: "mariadb:10.4", admin: "mysqladmin" }
+          - { image: "mariadb:10.5", admin: "mysqladmin" }
+          - { image: "mariadb:10.6", admin: "mysqladmin" }
+          - { image: "mariadb:10.7", admin: "mysqladmin" }
+          - { image: "mariadb:10.8", admin: "mysqladmin" }
+          - { image: "mariadb:10.9", admin: "mysqladmin" }
+          - { image: "mariadb:10.10", admin: "mysqladmin" }
+          - { image: "mariadb:10.11", admin: "mysqladmin" }
+          - { image: "mariadb:11.0", admin: "mariadb-admin" }
+          - { image: "mariadb:11.1", admin: "mariadb-admin" }
+          - { image: "mariadb:11.2", admin: "mariadb-admin" }
 
     services:
       mysql:
-        image: ${{ matrix.database }}
+        image: ${{ matrix.database.image }}
         env:
           MYSQL_ROOT_PASSWORD: root
         ports:
           - 3306:3306
         options: >-
-          --health-cmd "mysqladmin ping"
+          --health-cmd "${{ matrix.database.admin }} ping"
           --health-interval 10s
           --health-timeout 5s
           --health-retries 3
@@ -82,7 +87,7 @@ jobs:
           php7.4 devTools/core/console.php i:create-test-db -p root --dump-options="--column-statistics=0"
 
       - name: Config sql_mode
-        if: ${{ matrix.database == 'mysql:5.7' || matrix.database == 'mysql:8.0' }}
+        if: ${{ matrix.database.image == 'mysql:5.7' || matrix.database.image == 'mysql:8.0'  || matrix.database.image == '8.1'  || matrix.database.image == '8.2' }}
         run: docker exec database bash -c "mysql -uroot -proot -e \"SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));\""
 
       - name: Configure LDAP server
@@ -116,7 +121,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: ["php7.4", "php8.0", "php8.1", "php8.2"]
+        php: ["php7.4", "php8.0", "php8.1", "php8.2", "php8.3"]
 
     services:
       mysql:
