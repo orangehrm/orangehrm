@@ -22,6 +22,7 @@ use Exception;
 use OrangeHRM\Authentication\Auth\User as AuthUser;
 use OrangeHRM\Authentication\Exception\SessionExpiredException;
 use OrangeHRM\Authentication\Exception\UnauthorizedException;
+use OrangeHRM\Core\Controller\AbstractModuleController;
 use OrangeHRM\Core\Controller\AbstractViewController;
 use OrangeHRM\Core\Controller\PublicControllerInterface;
 use OrangeHRM\Core\Controller\Rest\V2\AbstractRestController;
@@ -80,7 +81,10 @@ class AuthenticationSubscriber extends AbstractEventSubscriber
             return;
         }
 
-        if ($this->getControllerInstance($event) instanceof AbstractViewController) {
+        if (
+            $this->getControllerInstance($event) instanceof AbstractViewController ||
+            $this->getControllerInstance($event) instanceof AbstractModuleController
+        ) {
             /** @var UrlHelper $urlHelper */
             $urlHelper = $this->getContainer()->get(Services::URL_HELPER);
             $requestUri = $event->getRequest()->getRequestUri();
