@@ -26,12 +26,12 @@ use OrangeHRM\Entity\Employee;
  * @OA\Schema(
  *     schema="Pim-EmployeeModel",
  *     type="object",
- *     @OA\Property(property="empNumber", type="integer"),
- *     @OA\Property(property="lastName", type="string"),
- *     @OA\Property(property="firstName", type="string"),
- *     @OA\Property(property="middleName", type="string"),
- *     @OA\Property(property="employeeId", type="string"),
- *     @OA\Property(property="terminationId", type="integer"),
+ *     @OA\Property(property="empNumber", description="The employee number of the employee", type="integer"),
+ *     @OA\Property(property="lastName", description="The last name of the employee", type="string"),
+ *     @OA\Property(property="firstName", description="The first name of the employee", type="string"),
+ *     @OA\Property(property="middleName", description="The middle name of the employee", type="string"),
+ *     @OA\Property(property="employeeId", description="The employee ID of the employee", type="string"),
+ *     @OA\Property(property="terminationId", description="The numerical ID of the employee's termination record", type="integer"),
  * )
  */
 class EmployeeModel implements Normalizable

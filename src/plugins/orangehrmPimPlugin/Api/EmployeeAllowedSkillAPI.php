@@ -57,18 +57,15 @@ class EmployeeAllowedSkillAPI extends Endpoint implements CollectionEndpoint
      *     tags={"PIM/Employee Skill"},
      *     summary="List Allowed Skills for an Employee",
      *     operationId="list-allowed-skills-for-an-employee",
+     *     description="This endpoint allows you to list the skills that are available for an employee. This can be used when adding skills to an employee to determine which skills are available for adding.",
      *     @OA\PathParameter(
      *         name="empNumber",
+     *         description="Specify the employee number of the desired employee",
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\Parameter(
-     *         name="nameOrId",
-     *         in="query",
-     *         required=false,
-     *         @OA\Schema(type="string")
-     *     ),
-     *     @OA\Parameter(
      *         name="sortField",
+     *         description="Sort the skills by name",
      *         in="query",
      *         required=false,
      *         @OA\Schema(type="string", enum=EmployeeAllowedSkillSearchFilterParams::ALLOWED_SORT_FIELDS)
@@ -82,11 +79,12 @@ class EmployeeAllowedSkillAPI extends Endpoint implements CollectionEndpoint
      *         @OA\JsonContent(
      *             @OA\Property(
      *                 property="data",
-     *                 ref="#/components/schemas/Pim-EmployeeAllowedSkillModel"
+     *                 type="array",
+     *                 @OA\Items(ref="#/components/schemas/Pim-EmployeeAllowedSkillModel")
      *             ),
      *             @OA\Property(property="meta",
      *                 type="object",
-     *                 @OA\Property(property="total", type="integer")
+     *                 @OA\Property(property="total", description="The total number of available skills", type="integer")
      *             )
      *         )
      *     ),

@@ -26,12 +26,12 @@ use OrangeHRM\Entity\EmpEmergencyContact;
  * @OA\Schema(
  *     schema="Pim-EmpEmergencyContactModel",
  *     type="object",
- *     @OA\Property(property="id", type="integer"),
- *     @OA\Property(property="name", type="string"),
- *     @OA\Property(property="relationship", type="string"),
- *     @OA\Property(property="homePhone", type="string"),
- *     @OA\Property(property="officePhone", type="string"),
- *     @OA\Property(property="mobilePhone", type="string")
+ *     @OA\Property(property="id", description="The numerical ID of the emergency contact", type="integer"),
+ *     @OA\Property(property="name", description="The name of the emergency contact", type="string"),
+ *     @OA\Property(property="relationship", description="The relationship between the employee and the emergency contact", type="string"),
+ *     @OA\Property(property="homePhone", description="The contact's home phone number", type="string"),
+ *     @OA\Property(property="officePhone", description="The contact's office phone number", type="string"),
+ *     @OA\Property(property="mobilePhone", description="The contact's mobile phone number", type="string")
  * )
  */
 class EmpEmergencyContactModel implements Normalizable

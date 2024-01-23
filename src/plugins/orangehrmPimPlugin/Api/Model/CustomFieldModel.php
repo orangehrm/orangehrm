@@ -26,11 +26,11 @@ use OrangeHRM\Entity\CustomField;
  * @OA\Schema(
  *     schema="Pim-CustomFieldModel",
  *     type="object",
- *     @OA\Property(property="id", type="integer"),
- *     @OA\Property(property="fieldName", type="string"),
- *     @OA\Property(property="fieldType", type="string"),
- *     @OA\Property(property="extraData", type="string"),
- *     @OA\Property(property="screen", type="string")
+ *     @OA\Property(property="id", description="The numerical ID of the custom field", type="integer"),
+ *     @OA\Property(property="fieldName", description="The name of the field", type="string"),
+ *     @OA\Property(property="fieldType", description="The type of the field (text/number or dropdown)", type="string"),
+ *     @OA\Property(property="extraData", description="The options for dropdown type fields", type="string"),
+ *     @OA\Property(property="screen", description="The PIM screen this field is displayed", type="string")
  * )
  */
 class CustomFieldModel implements Normalizable

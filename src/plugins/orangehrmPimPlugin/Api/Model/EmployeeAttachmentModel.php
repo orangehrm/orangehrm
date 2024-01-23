@@ -26,15 +26,15 @@ use OrangeHRM\Pim\Dto\PartialEmployeeAttachment;
  * @OA\Schema(
  *     schema="Pim-EmployeeAttachmentModel",
  *     type="object",
- *     @OA\Property(property="id", type="integer"),
- *     @OA\Property(property="description", type="string"),
- *     @OA\Property(property="filename", type="string"),
- *     @OA\Property(property="size", type="integer"),
- *     @OA\Property(property="fileType", type="string"),
- *     @OA\Property(property="attachedBy", type="integer"),
- *     @OA\Property(property="attachedByName", type="string"),
- *     @OA\Property(property="attachedTime", type="string", format="time"),
- *     @OA\Property(property="attachedDate", type="string", format="date")
+ *     @OA\Property(property="id", description="The numerical ID of the attachment", type="integer"),
+ *     @OA\Property(property="description", description="The description of the attachment", type="string"),
+ *     @OA\Property(property="filename", description="The file name of the attachment", type="string"),
+ *     @OA\Property(property="size", description="The size of the attachment", type="integer"),
+ *     @OA\Property(property="fileType", description="The type of the attachment", type="string"),
+ *     @OA\Property(property="attachedBy", description="The employee number of attachment uploader", type="integer"),
+ *     @OA\Property(property="attachedByName", description="The name of the attachment uploader", type="string"),
+ *     @OA\Property(property="attachedTime", description="The time the attachment was uploaded", type="string", format="time"),
+ *     @OA\Property(property="attachedDate", description="The date the attachment was uplaoded", type="string", format="date")
  * )
  */
 class EmployeeAttachmentModel implements Normalizable

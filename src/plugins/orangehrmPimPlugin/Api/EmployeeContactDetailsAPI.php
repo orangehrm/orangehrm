@@ -70,8 +70,10 @@ class EmployeeContactDetailsAPI extends Endpoint implements CrudEndpoint
      *     tags={"PIM/Employee Contact Details"},
      *     summary="Get an Employee's Contact Details",
      *     operationId="get-an-employees-contact-details",
+     *     description="This endpoint allows you to retrieve an employee's contact details.",
      *     @OA\PathParameter(
      *         name="empNumber",
+     *         description="Specify the employee number of the desired employee",
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\Response(response="200",
@@ -81,7 +83,7 @@ class EmployeeContactDetailsAPI extends Endpoint implements CrudEndpoint
      *                 property="data",
      *                 ref="#/components/schemas/Pim-EmployeeContactDetailsModel"
      *             ),
-     *             @OA\Property(property="meta", type="object")
+     *             @OA\Property(property="meta", type="object", additionalProperties=false)
      *         )
      *     ),
      *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
@@ -154,8 +156,10 @@ class EmployeeContactDetailsAPI extends Endpoint implements CrudEndpoint
      *     tags={"PIM/Employee Contact Details"},
      *     summary="Update an Employee's Contact Details",
      *     operationId="update-an-employees-contact-details",
+     *     description="This endpoint allows you to update an employee's contact details. Note that the work email field should be updated in order to send out notifications regarding Leaves.",
      *     @OA\PathParameter(
      *         name="empNumber",
+     *         description="Specify the employee number of the desired employee",
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\RequestBody(
@@ -163,56 +167,67 @@ class EmployeeContactDetailsAPI extends Endpoint implements CrudEndpoint
      *             type="object",
      *             @OA\Property(
      *                 property="street1",
+     *                 description="Specify the employee's street address",
      *                 type="string",
      *                 maxLength=OrangeHRM\Pim\Api\EmployeeContactDetailsAPI::PARAM_RULE_STREET_1_MAX_LENGTH
      *             ),
      *             @OA\Property(
      *                 property="street2",
+     *                 description="Specify additional details of the street address",
      *                 type="string",
      *                 maxLength=OrangeHRM\Pim\Api\EmployeeContactDetailsAPI::PARAM_RULE_STREET_2_MAX_LENGTH
      *             ),
      *             @OA\Property(
      *                 property="city",
+     *                 description="Specify the employee's city",
      *                 type="string",
      *                 maxLength=OrangeHRM\Pim\Api\EmployeeContactDetailsAPI::PARAM_RULE_CITY_MAX_LENGTH
      *             ),
      *             @OA\Property(
      *                 property="province",
+     *                 description="Specify the employee's state/province",
      *                 type="string",
      *                 maxLength=OrangeHRM\Pim\Api\EmployeeContactDetailsAPI::PARAM_RULE_PROVINCE_MAX_LENGTH
      *             ),
      *             @OA\Property(
      *                 property="zipCode",
+     *                 description="Specify the employee's zipcode",
      *                 type="string",
      *                 maxLength=OrangeHRM\Pim\Api\EmployeeContactDetailsAPI::PARAM_RULE_ZIP_CODE_MAX_LENGTH
      *             ),
      *             @OA\Property(
      *                 property="countryCode",
+     *                 description="Specify the employee's country code",
      *                 type="string",
      *                 maxLength=OrangeHRM\Pim\Api\EmployeeContactDetailsAPI::PARAM_RULE_COUNTRY_MAX_LENGTH
      *             ),
      *             @OA\Property(
      *                 property="homeTelephone",
+     *                 description="Specify the employee's home telephone number",
      *                 type="string",
      *                 maxLength=OrangeHRM\Pim\Api\EmployeeContactDetailsAPI::PARAM_RULE_HOME_TELEPHONE_MAX_LENGTH
      *             ),
      *             @OA\Property(
      *                 property="workTelephone",
+     *                 description="Specify the employee's work telephone number",
      *                 type="string",
      *                 maxLength=OrangeHRM\Pim\Api\EmployeeContactDetailsAPI::PARAM_RULE_WORK_TELEPHONE_MAX_LENGTH
      *             ),
      *             @OA\Property(
      *                 property="mobile",
+     *                 description="Specify the employee's mobile phone number",
      *                 type="string",
      *                 maxLength=OrangeHRM\Pim\Api\EmployeeContactDetailsAPI::PARAM_RULE_MOBILE_MAX_LENGTH
      *             ),
      *             @OA\Property(
      *                 property="workEmail",
+     *                 description="Specify the employee's work email",
      *                 type="string",
      *                 maxLength=OrangeHRM\Pim\Api\EmployeeContactDetailsAPI::PARAM_RULE_WORK_EMAIL_MAX_LENGTH
      *             ),
      *             @OA\Property(
      *                 property="otherEmail",
+     *                 description="Specify the employee's other email",
      *                 type="string",
      *                 maxLength=OrangeHRM\Pim\Api\EmployeeContactDetailsAPI::PARAM_RULE_OTHER_EMAIL_MAX_LENGTH
      *             ),
@@ -225,7 +240,7 @@ class EmployeeContactDetailsAPI extends Endpoint implements CrudEndpoint
      *                 property="data",
      *                 ref="#/components/schemas/Pim-EmployeeContactDetailsModel"
      *             ),
-     *             @OA\Property(property="meta", type="object")
+     *             @OA\Property(property="meta", type="object", additionalProperties=false)
      *         )
      *     ),
      *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")

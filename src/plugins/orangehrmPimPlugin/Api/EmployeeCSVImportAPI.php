@@ -88,6 +88,7 @@ class EmployeeCSVImportAPI extends Endpoint implements CollectionEndpoint
      *     tags={"PIM/Employee CSV Import"},
      *     summary="Import Employee Records",
      *     operationId="import-employee-records",
+     *     description="This endpoint allows you to import employee records via a CSV file (in Base64 format).",
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
@@ -99,12 +100,13 @@ class EmployeeCSVImportAPI extends Endpoint implements CollectionEndpoint
      *         response="200",
      *         description="Success",
      *         @OA\JsonContent(
+     *             @OA\Property(property="data", type="array", @OA\Items()),
      *             @OA\Property(property="meta",
      *                 type="object",
-     *                 @OA\Property(property="failed", type="integer"),
-     *                 @OA\Property(property="failedRows", type="array", @OA\Items(type="integer")),
-     *                 @OA\Property(property="success", type="integer"),
-     *                 @OA\Property(property="total", type="integer"),
+     *                 @OA\Property(property="failed", description="The total number of rows that failed to import", type="integer"),
+     *                 @OA\Property(property="failedRows", description="The list of rows that failed to import", type="array", @OA\Items(type="integer")),
+     *                 @OA\Property(property="success", description="The total number of rows that successfully imported", type="integer"),
+     *                 @OA\Property(property="total", description="The total number of rows in the CSV", type="integer"),
      *             )
      *         )
      *     )

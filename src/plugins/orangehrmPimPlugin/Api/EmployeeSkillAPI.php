@@ -67,12 +67,15 @@ class EmployeeSkillAPI extends Endpoint implements CrudEndpoint
      *     tags={"PIM/Employee Skill"},
      *     summary="Get an Employee's Skill",
      *     operationId="get-an-employees-skill",
+     *     description="This endpoint allows you to get one of an employee's skills.",
      *     @OA\PathParameter(
      *         name="empNumber",
+     *         description="Specify the employee number of the desired employee",
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\PathParameter(
      *         name="id",
+     *         description="Specify the numerical ID of the desired employee skill",
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\Response(
@@ -83,9 +86,10 @@ class EmployeeSkillAPI extends Endpoint implements CrudEndpoint
      *                 property="data",
      *                 ref="#/components/schemas/Pim-EmployeeSkillModel"
      *             ),
-     *             @OA\Property(property="meta",
+     *             @OA\Property(
+     *                 property="meta",
      *                 type="object",
-     *                 @OA\Property(property="empNumber", type="integer")
+     *                 @OA\Property(property="empNumber", description="The employee number given in the request", type="integer")
      *             )
      *         )
      *     ),
@@ -132,12 +136,15 @@ class EmployeeSkillAPI extends Endpoint implements CrudEndpoint
      *     tags={"PIM/Employee Skill"},
      *     summary="List an Employee's Skills",
      *     operationId="list-an-employees-skills",
+     *     description="This endpoint allows you to list an employee's skills.",
      *     @OA\PathParameter(
      *         name="empNumber",
+     *         description="Specify the employee number of the desired employee",
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\Parameter(
      *         name="sortField",
+     *         description="Sort the employee's skill by name",
      *         in="query",
      *         required=false,
      *         @OA\Schema(type="string", enum=EmployeeSkillSearchFilterParams::ALLOWED_SORT_FIELDS)
@@ -151,12 +158,14 @@ class EmployeeSkillAPI extends Endpoint implements CrudEndpoint
      *         @OA\JsonContent(
      *             @OA\Property(
      *                 property="data",
-     *                 ref="#/components/schemas/Pim-EmployeeSkillModel"
+     *                 type="array",
+     *                 @OA\Items(ref="#/components/schemas/Pim-EmployeeSkillModel")
      *             ),
-     *             @OA\Property(property="meta",
+     *             @OA\Property(
+     *                 property="meta",
      *                 type="object",
-     *                 @OA\Property(property="total", type="integer"),
-     *                 @OA\Property(property="empNumber", type="integer")
+     *                 @OA\Property(property="total", description="The total number of employee skills", type="integer"),
+     *                 @OA\Property(property="empNumber", description="The employee number given in the request", type="integer")
      *             )
      *         )
      *     ),
@@ -211,8 +220,10 @@ class EmployeeSkillAPI extends Endpoint implements CrudEndpoint
      *     tags={"PIM/Employee Skill"},
      *     summary="Add a Skill to an Employee",
      *     operationId="add-a-skill-to-an-employee",
+     *     description="This endpoint allows you to create a skill for a particular employee.",
      *     @OA\PathParameter(
      *         name="empNumber",
+     *         description="Specify the employee number of the desired employee.",
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\RequestBody(
@@ -220,15 +231,17 @@ class EmployeeSkillAPI extends Endpoint implements CrudEndpoint
      *             type="object",
      *             @OA\Property(
      *                 property="yearsOfExperience",
+     *                 description="Specify the years of experience in the skill",
      *                 type="integer",
      *                 maxLength=OrangeHRM\Pim\Api\EmployeeSkillAPI::PARAM_RULE_YEARS_OF_EXP_MAX_LENGTH
      *             ),
      *             @OA\Property(
      *                 property="comments",
+     *                 description="Specify the comment regarding the skill",
      *                 type="string",
      *                 maxLength=OrangeHRM\Pim\Api\EmployeeSkillAPI::PARAM_RULE_COMMENTS_MAX_LENGTH
      *             ),
-     *             @OA\Property(property="skillId", type="integer"),
+     *             @OA\Property(property="skillId", description="Specify the numerical ID of the skill", type="integer"),
      *             required={"skillId"}
      *         )
      *     ),
@@ -240,7 +253,7 @@ class EmployeeSkillAPI extends Endpoint implements CrudEndpoint
      *                 property="data",
      *                 ref="#/components/schemas/Pim-EmployeeSkillModel"
      *             ),
-     *             @OA\Property(property="empNumber", type="integer")
+     *             @OA\Property(property="empNumber", description="The employee number given in the request", type="integer")
      *         )
      *     )
      * )
@@ -305,12 +318,15 @@ class EmployeeSkillAPI extends Endpoint implements CrudEndpoint
      *     tags={"PIM/Employee Skill"},
      *     summary="Update an Employee's Skill",
      *     operationId="update-an-employees-skill",
+     *     description="This endpoint allows you to update an employee's skill.",
      *     @OA\PathParameter(
      *         name="empNumber",
+     *         description="Specify the employee number for the desired employee",
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\PathParameter(
      *         name="id",
+     *         description="Specify the numerical ID of the desired employee skill",
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\RequestBody(
@@ -318,11 +334,13 @@ class EmployeeSkillAPI extends Endpoint implements CrudEndpoint
      *             type="object",
      *             @OA\Property(
      *                 property="yearsOfExperience",
+     *                 description="Specify the years of experience in the skill",
      *                 type="integer",
      *                 maxLength=OrangeHRM\Pim\Api\EmployeeSkillAPI::PARAM_RULE_YEARS_OF_EXP_MAX_LENGTH
      *             ),
      *             @OA\Property(
      *                 property="comments",
+     *                 description="Specify the comment regarding the skill",
      *                 type="string",
      *                 maxLength=OrangeHRM\Pim\Api\EmployeeSkillAPI::PARAM_RULE_COMMENTS_MAX_LENGTH
      *             ),
@@ -376,8 +394,10 @@ class EmployeeSkillAPI extends Endpoint implements CrudEndpoint
      *     tags={"PIM/Employee Skill"},
      *     summary="Delete an Employee's Skills",
      *     operationId="delete-an-employees-skills",
+     *     description="This endpoint allows you to delete an employee's skills.",
      *     @OA\PathParameter(
      *         name="empNumber",
+     *         description="Specify the employee number of the desired employee",
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),

@@ -27,18 +27,18 @@ use OrangeHRM\Entity\EmployeeLanguage;
  *     schema="Pim-EmployeeLanguageModel",
  *     type="object",
  *     @OA\Property(property="language", type="object",
- *         @OA\Property(property="id", type="integer"),
- *         @OA\Property(property="name", type="string")
+ *         @OA\Property(property="id", description="The numerical ID of the language", type="integer"),
+ *         @OA\Property(property="name", description="The name of the language", type="string")
  *     ),
  *     @OA\Property(property="fluency", type="object",
- *         @OA\Property(property="id", type="integer"),
- *         @OA\Property(property="name", type="string")
+ *         @OA\Property(property="id", description="The numerical ID of the fluency", type="integer"),
+ *         @OA\Property(property="name", description="The name of the fluency", type="string")
  *     ),
  *     @OA\Property(property="competency", type="object",
- *         @OA\Property(property="id", type="integer"),
- *         @OA\Property(property="name", type="string")
+ *         @OA\Property(property="id", description="The numerical ID of the competency", type="integer"),
+ *         @OA\Property(property="name", description="The name of the competency", type="string")
  *     ),
- *     @OA\Property(property="comment", type="string")
+ *     @OA\Property(property="comment", description="The comment regarding the language and fluency", type="string")
  * )
  */
 class EmployeeLanguageModel implements Normalizable

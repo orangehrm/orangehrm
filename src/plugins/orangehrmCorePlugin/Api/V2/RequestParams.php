@@ -191,10 +191,10 @@ class RequestParams
      * @OA\Schema(
      *     schema="Base64Attachment",
      *     type="object",
-     *     @OA\Property(property="name", type="string"),
-     *     @OA\Property(property="type", type="string"),
-     *     @OA\Property(property="base64", type="string", format="base64"),
-     *     @OA\Property(property="size", type="integer"),
+     *     @OA\Property(property="name", description="Specify the name of the attachment", type="string"),
+     *     @OA\Property(property="type", description="Specify the type of the attachment", type="string"),
+     *     @OA\Property(property="base64", description="Specify the attachment in Base64 format", type="string", format="base64"),
+     *     @OA\Property(property="size", description="Specify the size of the attachment", type="integer"),
      * )
      *
      * @param string $type

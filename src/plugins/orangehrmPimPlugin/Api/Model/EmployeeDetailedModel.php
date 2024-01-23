@@ -26,40 +26,41 @@ use OrangeHRM\Entity\Employee;
  * @OA\Schema(
  *     schema="Pim-EmployeeDetailedModel",
  *     type="object",
- *     @OA\Property(property="empNumber", type="string"),
- *     @OA\Property(property="lastName", type="string"),
- *     @OA\Property(property="firstName", type="string"),
- *     @OA\Property(property="middleName", type="string"),
- *     @OA\Property(property="employeeId", type="string"),
- *     @OA\Property(property="terminationId", type="integer", nullable=true),
+ *     @OA\Property(property="empNumber", description="The employee number of the employee", type="string"),
+ *     @OA\Property(property="lastName", description="The last name of the employee", type="string"),
+ *     @OA\Property(property="firstName", description="The first name of the employee", type="string"),
+ *     @OA\Property(property="middleName", description="The middle name of the employee", type="string"),
+ *     @OA\Property(property="employeeId", description="The employee ID of the employee", type="string"),
+ *     @OA\Property(property="terminationId", description="The numerical ID of the employee's termination record", type="integer", nullable=true),
  *     @OA\Property(
  *         property="jobTitle",
  *         type="object",
- *         @OA\Property(property="id", type="integer"),
- *         @OA\Property(property="title", type="string"),
- *         @OA\Property(property="isDeleted", type="boolean")
+ *         @OA\Property(property="id", description="The numerical ID  of the job title", type="integer"),
+ *         @OA\Property(property="title", description="The title of the job", type="string"),
+ *         @OA\Property(property="isDeleted", description="The deleted status of the job title", type="boolean")
  *     ),
  *     @OA\Property(
  *         property="subunit",
  *         type="object",
- *         @OA\Property(property="id", type="integer"),
- *         @OA\Property(property="name", type="string")
+ *         @OA\Property(property="id", description="The numerical ID of the subunit", type="integer"),
+ *         @OA\Property(property="name", description="The name of the subunit", type="string")
  *     ),
  *     @OA\Property(
  *         property="empStatus",
  *         type="object",
- *         @OA\Property(property="id", type="integer"),
- *         @OA\Property(property="name", type="string")
+ *         @OA\Property(property="id", description="The numerical ID of the employee status", type="integer"),
+ *         @OA\Property(property="name", description="The name of the employee status", type="string")
  *     ),
  *     @OA\Property(
  *         property="supervisors",
  *         type="array",
+ *         description="A list of the employee's supervisors",
  *         @OA\Items(
  *             type="object",
- *             @OA\Property(property="empNumber", type="string"),
- *             @OA\Property(property="lastName", type="string"),
- *             @OA\Property(property="firstName", type="string"),
- *             @OA\Property(property="middleName", type="string")
+ *             @OA\Property(property="empNumber", description="The employee number of the employee's supervisor", type="string"),
+ *             @OA\Property(property="lastName", description="The last name of the employee's supervisor", type="string"),
+ *             @OA\Property(property="firstName", description="The first name of the employee's supervisor", type="string"),
+ *             @OA\Property(property="middleName", description="The middle name of the employee's supervisor", type="string")
  *         )
  *     )
  * )
