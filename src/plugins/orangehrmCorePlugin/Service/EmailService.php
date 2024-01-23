@@ -19,7 +19,6 @@
 namespace OrangeHRM\Core\Service;
 
 use OrangeHRM\Admin\Service\EmailConfigurationService;
-use OrangeHRM\Authentication\Auth\User as AuthUser;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Dao\EmailDao;
 use OrangeHRM\Core\Exception\CoreServiceException;
@@ -28,6 +27,7 @@ use OrangeHRM\Core\Mail\AbstractRecipient;
 use OrangeHRM\Core\Mail\MailProcessor;
 use OrangeHRM\Core\Mail\TemplateHelper;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
+use OrangeHRM\Core\Traits\CacheTrait;
 use OrangeHRM\Core\Traits\ClassHelperTrait;
 use OrangeHRM\Core\Traits\LoggerTrait;
 use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
@@ -44,6 +44,7 @@ class EmailService
     use ConfigServiceTrait;
     use ClassHelperTrait;
     use AuthUserTrait;
+    use CacheTrait;
 
     public const SMTP_SECURITY_NONE = 'none';
     public const SMTP_SECURITY_TLS = 'tls';
@@ -504,7 +505,15 @@ class EmailService
         Event $eventData
     ): void {
         if ($this->isConfigSet()) {
-            $this->getAuthUser()->addFlash(AuthUser::FLASH_SEND_EMAIL_FLAG, true);
+            $cacheItem = $this->getCache()->getItem('core.send_email');
+            if (!$cacheItem->isHit()) {
+                $cacheItem->expiresAfter(600);
+                $cacheItem->set(true);
+                $this->getCache()->save($cacheItem);
+            } elseif (!$cacheItem->get()) {
+                $cacheItem->set(true);
+                $this->getCache()->save($cacheItem);
+            }
             foreach ($recipientRoles as $role) {
                 $this->queueEmailNotification($emailName, $role, $performerRole, $eventData);
             }
