@@ -29,6 +29,7 @@ use OrangeHRM\Core\Traits\EventDispatcherTrait;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\CorporateBranding\Traits\ThemeServiceTrait;
+use OrangeHRM\Entity\OpenIdProvider;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\OpenidAuthentication\Traits\Service\SocialMediaAuthenticationServiceTrait;
 
@@ -96,6 +97,7 @@ class LoginController extends AbstractVueController implements PublicControllerI
             return [
                 'id' => $provider->getId(),
                 'label' => $provider->getProviderName(),
+                'url' => $provider->getProviderUrl(), //use only for select icon
             ];
         }, $providersArray);
 
@@ -117,7 +119,7 @@ class LoginController extends AbstractVueController implements PublicControllerI
     }
 
     /**
-     * @return array
+     * @return OpenIdProvider[]
      */
     public function getProvidersList(): array
     {

@@ -330,7 +330,7 @@ export default {
         },
         {
           name: 'amount',
-          title: this.$t('claim.amount'),
+          title: this.$t('general.amount'),
           slot: 'title',
           sortField: 'claimRequest.amount',
           style: {flex: 3},

@@ -11,7 +11,7 @@ GetAll:
         providerName: 'Google',
         providerUrl: 'https://accounts.google.com',
         status: true,
-        clientId: '445659888050-a0n4aisrubg8l4gsb35si9gni9l6t0hn.apps.googleusercontent.com'
+        clientId: '4456598880504gsb35si9gni9l6t0hn.apps.googleusercontent.com'
       },
       {
         id: '2',
@@ -36,7 +36,7 @@ GetAll:
         providerName: 'Google',
         providerUrl: 'https://accounts.google.com',
         status: true,
-        clientId: '445659888050-a0n4aisrubg8l4gsb35si9gni9l6t0hn.apps.googleusercontent.com'
+        clientId: '4456598880504gsb35si9gni9l6t0hn.apps.googleusercontent.com'
       }
     ]
     meta:
@@ -54,7 +54,7 @@ GetAll:
         providerName: 'Google',
         providerUrl: 'https://accounts.google.com',
         status: true,
-        clientId: '445659888050-a0n4aisrubg8l4gsb35si9gni9l6t0hn.apps.googleusercontent.com'
+        clientId: '4456598880504gsb35si9gni9l6t0hn.apps.googleusercontent.com'
       }
     ]
     meta:
@@ -90,7 +90,7 @@ GetOne:
         providerName: 'Google',
         providerUrl: 'https://accounts.google.com',
         status: true,
-        clientId: '445659888050-a0n4aisrubg8l4gsb35si9gni9l6t0hn.apps.googleusercontent.com'
+        clientId: '4456598880504gsb35si9gni9l6t0hn.apps.googleusercontent.com'
     }
 
   'Get one Provider by Id - not available id':

@@ -118,4 +118,36 @@ class LoginLogServiceTest extends KernelTestCase
         $this->assertEquals(0, $result->getUserRolePredefined());
         $this->assertEquals('2022-07-04 10:56', $result->getLoginTime()->format('Y-m-d H:i'));
     }
+
+    public function testAddOIDCLogin(): void
+    {
+        $userRole = new UserRole();
+        $userRole->setId(1);
+        $userRole->setName('Admin');
+
+        $employee = new Employee();
+        $employee->setEmpNumber(1);
+
+        $user = new User();
+        $user->setId(1);
+        $user->setUserRole($userRole);
+        $user->setUserName('manul@orangehrm.us.com');
+        $user->setEmployee($employee);
+
+        $dateTimeHelper = $this->getMockBuilder(DateTimeHelperService::class)
+            ->onlyMethods(['getNow'])
+            ->getMock();
+        $dateTimeHelper->expects($this->atLeastOnce())
+            ->method('getNow')
+            ->willReturn(new DateTime('2024-01-17 10:56:56'));
+        $this->getContainer()->set(Services::DATETIME_HELPER_SERVICE, $dateTimeHelper);
+
+        $result = $this->loginService->addOIDCLogin($user);
+        $this->assertEquals(1, $result->getUserId());
+        $this->assertEquals('manul@orangehrm.us.com', $result->getUserName());
+        $this->assertEquals('Admin', $result->getUserRoleName());
+        $this->assertEquals(0, $result->getUserRolePredefined());
+        $this->assertEquals('2024-01-17 10:56', $result->getLoginTime()->format('Y-m-d H:i'));
+        $this->assertTrue($result instanceof LoginLog);
+    }
 }

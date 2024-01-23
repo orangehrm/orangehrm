@@ -1,3 +1,19 @@
+New & Changed Features for OrangeHRM ver 5.6
+    New Features/Changes
+    -----------
+    - Social Media Authentication
+        - Allowing OrangeHRM Starter users to create and manage alternative logins using different OpenID Connect providers such as Google.
+    - License Upgrade to GPLv3
+        - Product License upgrade to GNU General Public License v3.0
+    - Supported Environments
+        - PHP - 7.4 to 8.3
+        - MariaDB - 5.5 to 11.2
+        - MySQL - 5.5 to 8.2
+
+    Bug Fixes
+    ---------
+    - https://github.com/orangehrm/orangehrm/issues/1731
+
 New & Changed Features for OrangeHRM ver 5.5
     New Feature
     -----------

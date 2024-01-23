@@ -16,24 +16,21 @@
  * If not, see <https://www.gnu.org/licenses/>.
  */
 
-return [
-    'phpversion' => [
-        'min' => '7.4',
-        'max' => '8.3',
-        'excludeRange' => [],
-    ],
+namespace OrangeHRM\Authentication\Traits\Service;
 
-    'mysqlversion' => [
-        'min' => '5.5',
-        'max' => '8.2',
-        'excludeRange' => [],
-    ],
+use OrangeHRM\Authentication\Service\AuthenticationService;
+use OrangeHRM\Core\Traits\ServiceContainerTrait;
+use OrangeHRM\Framework\Services;
 
-    'mariadbversion' => [
-        'min' => '5.5',
-        'max' => '11.2',
-        'excludeRange' => [],
-    ],
+trait AuthenticationServiceTrait
+{
+    use ServiceContainerTrait;
 
-    'webserver' => ['Apache', 'nginx', 'IIS'],
-];
+    /**
+     * @return AuthenticationService
+     */
+    private function getAuthenticationService(): AuthenticationService
+    {
+        return $this->getContainer()->get(Services::AUTHENTICATION_SERVICE);
+    }
+}

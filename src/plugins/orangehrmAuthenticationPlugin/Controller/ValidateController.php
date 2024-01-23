@@ -20,6 +20,7 @@ namespace OrangeHRM\Authentication\Controller;
 
 use OrangeHRM\Authentication\Auth\AuthProviderChain;
 use OrangeHRM\Authentication\Auth\User as AuthUser;
+use OrangeHRM\Authentication\Controller\Traits\SessionHandlingTrait;
 use OrangeHRM\Authentication\Dto\AuthParams;
 use OrangeHRM\Authentication\Dto\UserCredential;
 use OrangeHRM\Authentication\Exception\AuthenticationException;
@@ -33,7 +34,6 @@ use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Framework\Http\RedirectResponse;
 use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Framework\Http\Session\Session;
 use OrangeHRM\Framework\Routing\UrlGenerator;
 use OrangeHRM\Framework\Services;
 use Throwable;
@@ -43,6 +43,7 @@ class ValidateController extends AbstractController implements PublicControllerI
     use AuthUserTrait;
     use ServiceContainerTrait;
     use CsrfTokenManagerTrait;
+    use SessionHandlingTrait;
 
     public const PARAMETER_USERNAME = 'username';
     public const PARAMETER_PASSWORD = 'password';
@@ -121,19 +122,9 @@ class ValidateController extends AbstractController implements PublicControllerI
             return new RedirectResponse($loginUrl);
         }
 
-        /** @var Session $session */
-        $session = $this->getContainer()->get(Services::SESSION);
-        //Recreate the session
-        $session->migrate(true);
-
-        if ($this->getAuthUser()->hasAttribute(AuthUser::SESSION_TIMEOUT_REDIRECT_URL)) {
-            $redirectUrl = $this->getAuthUser()->getAttribute(AuthUser::SESSION_TIMEOUT_REDIRECT_URL);
-            $this->getAuthUser()->removeAttribute(AuthUser::SESSION_TIMEOUT_REDIRECT_URL);
-            $logoutUrl = $urlGenerator->generate('auth_logout', [], UrlGenerator::ABSOLUTE_URL);
-
-            if ($redirectUrl !== $loginUrl || $redirectUrl !== $logoutUrl) {
-                return new RedirectResponse($redirectUrl);
-            }
+        $redirectUrl = $this->handleSessionTimeoutRedirect();
+        if ($redirectUrl) {
+            return new RedirectResponse($redirectUrl);
         }
 
         $homePagePath = $this->getHomePageService()->getHomePagePath();

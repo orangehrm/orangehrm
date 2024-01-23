@@ -35,6 +35,7 @@ class User
     public const USER_ROLE_ID = 'user.user_role_id';
     public const USER_ROLE_NAME = 'user.user_role_name';
     public const USER_EMPLOYEE_NUMBER = 'user.user_employee_number';
+    public const OPENID_PROVIDER_ID = 'openid.provider_id';
 
     public const FLASH_LOGIN_ERROR = 'flash.login_error';
     public const FLASH_PASSWORD_ENFORCE_ERROR = 'flash.password_enforce_error';

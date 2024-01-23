@@ -11,3 +11,9 @@ langStrings:
   -
     value: 'Provider List'
     unitId: provider_list
+  -
+    value: 'No User Found'
+    unitId: no_user_found
+  -
+    value: 'Multiple User Returned'
+    unitId: multiple_user_returned

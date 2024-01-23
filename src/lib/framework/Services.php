@@ -180,6 +180,11 @@ final class Services
      */
     public const PASSWORD_STRENGTH_SERVICE = 'auth.password_strength_service';
 
+    /**
+     * @see \OrangeHRM\Authentication\Service\AuthenticationService
+     */
+    public const AUTHENTICATION_SERVICE = 'auth.authentication_service';
+
     ///////////////////////////////////////////////////////////////
     /// Admin plugin services
     ///////////////////////////////////////////////////////////////

@@ -25,9 +25,11 @@ use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\EmpPicture;
 use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\OpenidAuthentication\Traits\Service\SocialMediaAuthenticationServiceTrait;
 
 class SaveEmployeeController extends AbstractVueController
 {
+    use SocialMediaAuthenticationServiceTrait;
     protected ?IDGeneratorService $idGeneratorService = null;
 
     /**
@@ -47,6 +49,9 @@ class SaveEmployeeController extends AbstractVueController
         $employeeId = $this->getIdGeneratorService()->getNextID(Employee::class, false);
         $component->addProp(new Prop('emp-id', Prop::TYPE_NUMBER, $employeeId));
         $component->addProp(new Prop('allowed-image-types', Prop::TYPE_ARRAY, EmpPicture::ALLOWED_IMAGE_TYPES));
+
+        $isPasswordRequired = !$this->getSocialMediaAuthenticationService()->isSocialMediaAuthEnable();
+        $component->addProp(new Prop('is-password-required', Prop::TYPE_BOOLEAN, $isPasswordRequired));
         $this->setComponent($component);
     }
 }

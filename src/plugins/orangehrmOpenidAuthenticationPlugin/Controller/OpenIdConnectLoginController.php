@@ -19,10 +19,13 @@
 namespace OrangeHRM\OpenidAuthentication\Controller;
 
 use Jumbojett\OpenIDConnectClientException;
+use OrangeHRM\Authentication\Auth\User as AuthUser;
+use OrangeHRM\Core\Api\V2\Exception\BadRequestException;
 use OrangeHRM\Core\Authorization\Service\HomePageService;
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Controller\PublicControllerInterface;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
+use OrangeHRM\Framework\Http\RedirectResponse;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\OpenidAuthentication\Traits\Service\SocialMediaAuthenticationServiceTrait;
 
@@ -30,9 +33,6 @@ class OpenIdConnectLoginController extends AbstractVueController implements Publ
 {
     use AuthUserTrait;
     use SocialMediaAuthenticationServiceTrait;
-
-    public const SCOPE = 'email';
-    public const REDIRECT_URL = '';
 
     /**
      * @var HomePageService|null
@@ -44,40 +44,37 @@ class OpenIdConnectLoginController extends AbstractVueController implements Publ
      */
     public function getHomePageService(): HomePageService
     {
-        if (!$this->homePageService instanceof HomePageService) {
-            $this->homePageService = new HomePageService();
-        }
-        return $this->homePageService;
+        return $this->homePageService ??= new HomePageService();
     }
 
     /**
+     * @param Request $request
+     *
+     * @return RedirectResponse
+     * @throws BadRequestException
      * @throws OpenIDConnectClientException
      */
-    public function handle(Request $request)
+    public function handle(Request $request): RedirectResponse
     {
-        $response = $this->getResponse();
-        $providerId = $request->request->get('providerId');
+        $providerId = $request->attributes->get('providerId');
+
         $provider = $this->getSocialMediaAuthenticationService()->getAuthProviderDao()
             ->getAuthProviderDetailsByProviderId($providerId);
+        if ($provider === null) {
+            throw new BadRequestException();
+        }
 
         $oidcClient = $this->getSocialMediaAuthenticationService()->initiateAuthentication(
             $provider,
-            self::SCOPE,
-            self::REDIRECT_URL
+            $this->getSocialMediaAuthenticationService()->getScope(),
+            $this->getSocialMediaAuthenticationService()->getRedirectURL()
         );
 
-        $email = $this->getSocialMediaAuthenticationService()->handleCallback($oidcClient);
+        $this->getAuthUser()->setAttribute(AuthUser::OPENID_PROVIDER_ID, $provider->getId());
+        $oidcClient->authenticate();
 
-
-        if ($success) {
-            if ($this->getAuthUser()->isAuthenticated()) {
-                $homePagePath = $this->getHomePageService()->getHomePagePath();
-                return $this->redirect($homePagePath);
-            }
-            return parent::handle($request);
-        } else {
-            //handle error
-        }
-        return $response;
+        //redirect to consent always
+        $authUrl = $oidcClient->getGeneratedAuthUrl() . '&prompt=consent';
+        return new RedirectResponse($authUrl);
     }
 }

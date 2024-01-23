@@ -18,15 +18,38 @@
 
 namespace OrangeHRM\OpenidAuthentication\Service;
 
-use Jumbojett\OpenIDConnectClient;
-use Jumbojett\OpenIDConnectClientException;
+use OrangeHRM\Admin\Dao\UserDao;
+use OrangeHRM\Admin\Dto\UserSearchFilterParams;
 use OrangeHRM\Authentication\Dto\UserCredential;
+use OrangeHRM\Authentication\Exception\AuthenticationException;
+use OrangeHRM\Authentication\Service\AuthenticationService;
+use OrangeHRM\Authentication\Traits\Service\AuthenticationServiceTrait;
+use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
+use OrangeHRM\Core\Utility\EncryptionHelperTrait;
 use OrangeHRM\Entity\AuthProviderExtraDetails;
+use OrangeHRM\Entity\EmployeeTerminationRecord;
+use OrangeHRM\Entity\OpenIdProvider;
+use OrangeHRM\Entity\OpenIdUserIdentity;
+use OrangeHRM\Entity\User;
+use OrangeHRM\Framework\Routing\UrlGenerator;
+use OrangeHRM\Framework\Services;
 use OrangeHRM\OpenidAuthentication\Dao\AuthProviderDao;
+use OrangeHRM\OpenidAuthentication\Dto\ProviderSearchFilterParams;
+use OrangeHRM\OpenidAuthentication\OpenID\OpenIDConnectClient;
+use OrangeHRM\OpenidAuthentication\Traits\Service\SocialMediaAuthenticationServiceTrait;
 
 class SocialMediaAuthenticationService
 {
+    use SocialMediaAuthenticationServiceTrait;
+    use AuthenticationServiceTrait;
+    use EncryptionHelperTrait;
+    use AuthUserTrait;
+
+    private AuthenticationService $authenticationService;
     private AuthProviderDao $authProviderDao;
+    private UserDao $userDao;
+
+    public const SCOPE = 'email';
 
     /**
      * @return AuthProviderDao
@@ -34,6 +57,14 @@ class SocialMediaAuthenticationService
     public function getAuthProviderDao(): AuthProviderDao
     {
         return $this->authProviderDao ??= new AuthProviderDao();
+    }
+
+    /**
+     * @return UserDao
+     */
+    public function getUserDao(): UserDao
+    {
+        return $this->userDao ??= new UserDao();
     }
 
     /**
@@ -48,7 +79,9 @@ class SocialMediaAuthenticationService
         $oidcClient = new OpenIDConnectClient(
             $provider->getOpenIdProvider()->getProviderUrl(),
             $provider->getClientId(),
-            $provider->getClientSecret()
+            self::encryptionEnabled()
+                ? self::getCryptographer()->decrypt($provider->getClientSecret())
+                : $provider->getClientSecret(),
         );
 
         $oidcClient->addScope([$scope]);
@@ -58,26 +91,104 @@ class SocialMediaAuthenticationService
     }
 
     /**
-     * @param OpenIDConnectClient $oidcClient
-     * @throws OpenIDConnectClientException
+     * @return string
      */
-    public function handleCallback(OpenIDConnectClient $oidcClient): void
+    public function getRedirectURL(): string
     {
-        $oidcClient->authenticate();
+        /** @var UrlGenerator $urlGenerator */
+        $urlGenerator = $this->getContainer()->get(Services::URL_GENERATOR);
+        return $urlGenerator->generate('auth_oidc_login_redirect', [], UrlGenerator::ABSOLUTE_URL);
+    }
 
-        try {
-            $isAuthenticated = $oidcClient->authenticate();
-            if ($isAuthenticated) {
-                $credentials = new UserCredential($oidcClient->requestUserInfo('email'));
-                $this->authenticateUser($credentials);
+    /**
+     * @return string
+     */
+    public function getScope(): string
+    {
+        return self::SCOPE;
+    }
+
+    /**
+     * @param UserCredential $userCredential
+     * @return User[]
+     */
+    private function getSystemUsers(UserCredential $userCredential): array
+    {
+        $userSearchFilterParams = new UserSearchFilterParams();
+        $userSearchFilterParams->setUsername($userCredential->getUsername());
+
+        return $this->getUserDao()->searchSystemUsers($userSearchFilterParams);
+    }
+
+    /**
+     * @param UserCredential $userCredentials
+     *
+     * @return User
+     * @throws AuthenticationException
+     */
+    public function getUserForAuthenticate(UserCredential $userCredentials): User
+    {
+        $users = $this->getSystemUsers($userCredentials);
+        if (empty($users)) {
+            throw AuthenticationException::noUserFound();
+        }
+
+        if (sizeof($users) > 1) {
+            throw AuthenticationException::multipleUserReturned();
+        }
+
+        $user = $users[0];
+
+        if (!$user instanceof User || $user->isDeleted()) {
+            throw AuthenticationException::invalidCredentials();
+        } else {
+            if (!$user->getStatus()) {
+                throw AuthenticationException::userDisabled();
+            } elseif ($user->getEmpNumber() === null) {
+                throw AuthenticationException::employeeNotAssigned();
+            } elseif ($user->getEmployee()->getEmployeeTerminationRecord() instanceof EmployeeTerminationRecord) {
+                throw AuthenticationException::employeeTerminated();
             }
-        } catch (OpenIDConnectClientException $e) {
-            throw $e;
+            return $user;
         }
     }
 
-    private function authenticateUser(UserCredential $userCredential): void
+    /**
+     * @param User $user
+     * @param OpenIdProvider $provider
+     *
+     * @return OpenIdUserIdentity
+     */
+    public function setOIDCUserIdentity(User $user, OpenIdProvider $provider): OpenIdUserIdentity
     {
-//        $username = $userCredential->getUsername();
+        $openIdUserIdentity = new OpenIdUserIdentity();
+        $openIdUserIdentity->setUser($user);
+        $openIdUserIdentity->setOpenIdProvider($provider);
+
+        return $this->getAuthProviderDao()->saveUserIdentity($openIdUserIdentity);
+    }
+
+    /**
+     * @param User $user
+     *
+     * @return bool
+     * @throws AuthenticationException
+     */
+    public function handleOIDCAuthentication(User $user): bool
+    {
+        return $this->getAuthenticationService()->setCredentialsForUser($user);
+    }
+
+    /**
+     * @return bool
+     */
+    public function isSocialMediaAuthEnable(): bool
+    {
+        $providerSearchFilterParams = new ProviderSearchFilterParams();
+        $providerSearchFilterParams->setName(null);
+        $providerSearchFilterParams->setStatus(true);
+
+        $count = $this->getAuthProviderDao()->getAuthProviderCount($providerSearchFilterParams);
+        return $count > 0;
     }
 }

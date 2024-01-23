@@ -35,6 +35,7 @@ use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Api\V2\Validator\Rules\EntityUniquePropertyOption;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
+use OrangeHRM\Core\Utility\EncryptionHelperTrait;
 use OrangeHRM\Entity\AuthProviderExtraDetails;
 use OrangeHRM\Entity\OpenIdProvider;
 use OrangeHRM\OpenidAuthentication\Api\Model\ProviderModel;
@@ -44,6 +45,7 @@ use OrangeHRM\ORM\Exception\TransactionException;
 
 class ProviderAPI extends Endpoint implements CrudEndpoint
 {
+    use EncryptionHelperTrait;
     use EntityManagerHelperTrait;
     use SocialMediaAuthenticationServiceTrait;
 
@@ -252,6 +254,9 @@ class ProviderAPI extends Endpoint implements CrudEndpoint
             ->getStringOrNull(RequestParams::PARAM_TYPE_BODY, self::CLIENT_SECRET);
 
         if (!is_null($clientSecret)) {
+            if (self::encryptionEnabled()) {
+                $clientSecret = self::getCryptographer()->encrypt($clientSecret);
+            }
             $authProviderExtraDetails->setClientSecret($clientSecret);
         }
 
@@ -308,20 +313,25 @@ class ProviderAPI extends Endpoint implements CrudEndpoint
     protected function getNameRule(bool $update): ParamRule
     {
         $entityProperties = new EntityUniquePropertyOption();
-        $ignoreValues = ['getStatus' => false];
+        $entityProperties->setIgnoreValues(['getStatus' => false]);
+        $uniquePropertyParams = [OpenIdProvider::class, 'providerName', $entityProperties];
         if ($update) {
-            $ignoreValues['getId'] = $this->getRequestParams()->getInt(
-                RequestParams::PARAM_TYPE_ATTRIBUTE,
-                CommonParams::PARAMETER_ID
+            $entityProperties->setIgnoreValues(
+                [
+                    'getId' => $this->getRequestParams()->getInt(
+                        RequestParams::PARAM_TYPE_ATTRIBUTE,
+                        CommonParams::PARAMETER_ID
+                    ),
+                    'getStatus' => false,
+                ]
             );
-            $entityProperties->setIgnoreValues($ignoreValues);
         }
 
         return new ParamRule(
             self::PARAMETER_NAME,
             new Rule(Rules::STRING_TYPE),
             new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NAME_MAX_LENGTH]),
-            new Rule(Rules::ENTITY_UNIQUE_PROPERTY, [OpenIdProvider::class, 'providerName', $entityProperties])
+            new Rule(Rules::ENTITY_UNIQUE_PROPERTY, $uniquePropertyParams)
         );
     }
 

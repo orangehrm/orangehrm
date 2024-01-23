@@ -18,17 +18,24 @@
 
 namespace OrangeHRM\Tests\OpenidAuthentication\Service;
 
+use OrangeHRM\Authentication\Auth\User;
+use OrangeHRM\Authentication\Dto\UserCredential;
+use OrangeHRM\Authentication\Service\AuthenticationService;
 use OrangeHRM\Config\Config;
+use OrangeHRM\Core\Service\ConfigService;
+use OrangeHRM\Framework\Http\Session\Session;
+use OrangeHRM\Framework\Routing\UrlGenerator;
+use OrangeHRM\Framework\Services;
 use OrangeHRM\OpenidAuthentication\Dao\AuthProviderDao;
 use OrangeHRM\OpenidAuthentication\Service\SocialMediaAuthenticationService;
-use OrangeHRM\Tests\Util\TestCase;
+use OrangeHRM\Tests\Util\KernelTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 
 /**
  * @group OpenIDAuth
  * @group Service
  */
-class SocialMediaAuthenticationServiceTest extends TestCase
+class SocialMediaAuthenticationServiceTest extends KernelTestCase
 {
     private SocialMediaAuthenticationService $socialMediaAuthenticationService;
 
@@ -59,5 +66,85 @@ class SocialMediaAuthenticationServiceTest extends TestCase
         $this->assertIsArray($scopes);
         $this->assertEquals('email', $scopes[0]);
         $this->assertEquals('https://accounts.google.com/auth', $oidcClient->getRedirectURL());
+    }
+
+    public function testGetRedirectURL(): void
+    {
+        $urlGenerator = $this->getMockBuilder(UrlGenerator::class)
+            ->onlyMethods(['generate'])
+            ->disableOriginalConstructor()
+            ->getMock();
+        $urlGenerator->expects($this->once())
+            ->method('generate')
+            ->willReturn(
+                'https://orangehrm.com/orangehrm5/web/index.php/openidauth/openIdCredentials'
+            );
+        $this->createKernelWithMockServices(
+            [Services::URL_GENERATOR => $urlGenerator, Services::CONFIG_SERVICE => new ConfigService()]
+        );
+
+        $url = $this->socialMediaAuthenticationService->getRedirectURL();
+        $this->assertEquals('https://orangehrm.com/orangehrm5/web/index.php/openidauth/openIdCredentials', $url);
+    }
+
+    public function testGetScope(): void
+    {
+        $scope = $this->socialMediaAuthenticationService->getScope();
+        $this->assertEquals('email', $scope);
+        $this->assertIsString($scope);
+    }
+
+    public function testGetUserForAuthenticate(): void
+    {
+        $userCredential = new UserCredential();
+        $userCredential->setUsername('admin@orangehrm.us.com');
+
+        $user = $this->socialMediaAuthenticationService->getUserForAuthenticate($userCredential);
+        $this->assertTrue($user instanceof \OrangeHRM\Entity\User);
+        $this->assertEquals('1', $user->getId());
+
+        $userCredential->setUsername('manul@orangehrm.us.com');
+        $user = $this->socialMediaAuthenticationService->getUserForAuthenticate($userCredential);
+        $this->assertEquals('2', $user->getId());
+        $this->assertFalse($user->isDeleted());
+    }
+
+    public function testSetOIDCUserIdentity(): void
+    {
+        $userCredential = new UserCredential();
+        $userCredential->setUsername('manul@orangehrm.us.com');
+
+        $user = $this->socialMediaAuthenticationService->getUserForAuthenticate($userCredential);
+        $provider = $this->socialMediaAuthenticationService->getAuthProviderDao()->getAuthProviderById(1);
+
+        $userIdentity = $this->socialMediaAuthenticationService->setOIDCUserIdentity($user, $provider);
+        $this->assertEquals('2', $userIdentity->getUser()->getId());
+        $this->assertEquals('Google', $userIdentity->getOpenIdProvider()->getProviderName());
+    }
+
+    public function testHandleOIDCAuthentication(): void
+    {
+        $session = $this->getMockBuilder(Session::class)
+            ->onlyMethods(['set'])
+            ->getMock();
+        $session->expects($this->exactly(4))
+            ->method('set');
+
+        $this->createKernelWithMockServices(
+            [
+                Services::AUTH_USER => User::getInstance(),
+                Services::SESSION => $session,
+                Services::AUTHENTICATION_SERVICE => new AuthenticationService(),
+            ]
+        );
+
+        $userCredential = new UserCredential();
+        $userCredential->setUsername('manul@orangehrm.us.com');
+
+        $user = $this->socialMediaAuthenticationService->getUserForAuthenticate($userCredential);
+        $success = $this->socialMediaAuthenticationService->handleOIDCAuthentication($user);
+
+        $this->assertIsBool($success);
+        $this->assertTrue($success);
     }
 }

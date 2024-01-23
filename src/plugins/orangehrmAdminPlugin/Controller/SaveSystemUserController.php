@@ -22,17 +22,23 @@ use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\OpenidAuthentication\Traits\Service\SocialMediaAuthenticationServiceTrait;
 
 class SaveSystemUserController extends AbstractVueController
 {
+    use SocialMediaAuthenticationServiceTrait;
+
     public function preRender(Request $request): void
     {
+        $isPasswordRequired = !$this->getSocialMediaAuthenticationService()->isSocialMediaAuthEnable();
+
         if ($request->attributes->has('id')) {
             $component = new Component('system-user-edit');
             $component->addProp(new Prop('system-user-id', Prop::TYPE_NUMBER, $request->attributes->getInt('id')));
         } else {
             $component = new Component('system-user-save');
         }
+        $component->addProp(new Prop('is-password-required', Prop::TYPE_BOOLEAN, $isPasswordRequired));
         $this->setComponent($component);
     }
 }

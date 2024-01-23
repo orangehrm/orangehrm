@@ -21,6 +21,7 @@ namespace OrangeHRM\Installer\Migration\V5_6_0;
 use Doctrine\DBAL\Schema\ForeignKeyConstraint;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Types\Types;
+use OrangeHRM\Installer\Util\Logger;
 use OrangeHRM\Installer\Util\V1\AbstractMigration;
 use OrangeHRM\Installer\Util\V1\LangStringHelper;
 
@@ -33,10 +34,19 @@ class Migration extends AbstractMigration
      */
     public function up(): void
     {
-        $groups = ['admin'];
+        $this->deleteLangStringTranslationByLangStringUnitId('amount', $this->getLangHelper()->getGroupIdByName('claim'));
+
+        $this->getLangHelper()->deleteLangStringByUnitId(
+            'amount',
+            $this->getLangHelper()->getGroupIdByName('claim')
+        );
+
+        $groups = ['admin', 'general'];
         foreach ($groups as $group) {
             $this->getLangStringHelper()->insertOrUpdateLangStrings(__DIR__, $group);
         }
+
+        $this->updateLangStringVersion($this->getVersion());
 
         $this->getSchemaHelper()->dropForeignKeys('ohrm_i18n_translate', ['langStringId']);
         $foreignKeyConstraint = new ForeignKeyConstraint(
@@ -80,7 +90,6 @@ class Migration extends AbstractMigration
             $this->getSchemaHelper()->addForeignKey('ohrm_auth_provider_extra_details', $foreignKeyConstraint);
         }
 
-        //TODO - check 4X usage
         if (!$this->getSchemaHelper()->tableExists(['ohrm_openid_user_identity'])) {
             $this->getSchemaHelper()->createTable('ohrm_openid_user_identity')
                 ->addColumn('user_id', Types::INTEGER, ['Length' => 10])
@@ -107,6 +116,7 @@ class Migration extends AbstractMigration
         }
 
         $this->modifyAuthProviderTables();
+        $this->removeOpenIdProviders();
     }
 
     /**
@@ -115,6 +125,16 @@ class Migration extends AbstractMigration
     public function getVersion(): string
     {
         return '5.6.0';
+    }
+
+    private function updateLangStringVersion(string $version): void
+    {
+        $qb = $this->createQueryBuilder()
+            ->update('ohrm_i18n_lang_string', 'lang_string')
+            ->set('lang_string.version', ':version')
+            ->setParameter('version', $version);
+        $qb->andWhere($qb->expr()->isNull('lang_string.version'))
+            ->executeStatement();
     }
 
     private function modifyAuthProviderTables(): void
@@ -141,5 +161,58 @@ class Migration extends AbstractMigration
             );
         }
         return $this->langStringHelper;
+    }
+
+    private function removeOpenIdProviders(): void
+    {
+        $q = $this->createQueryBuilder();
+        $q->select(['extraDetails.provider_id, extraDetails.provider_type'])
+            ->from('ohrm_auth_provider_extra_details', 'extraDetails');
+        $providers = $q->executeQuery();
+
+        foreach ($providers->fetchAllAssociative() as $provider) {
+            $providerType = $provider['provider_type'];
+            if ($providerType == 2) {
+                $this->changeGoogleProviderURL($provider['provider_id']);
+            } else {
+                $serializedProvider = serialize($provider);
+                Logger::getLogger()->info("Deleting: `$serializedProvider` ` from `ohrm_openid_provider`");
+                $qb = $this->createQueryBuilder()
+                    ->delete('ohrm_openid_provider')
+                    ->andWhere('ohrm_openid_provider.id = :id')
+                    ->setParameter('id', $provider['provider_id']);
+                $qb->executeQuery();
+            }
+        }
+    }
+
+    private function changeGoogleProviderURL(int $providerId): void
+    {
+        $qb = $this->createQueryBuilder();
+        $qb->update('ohrm_openid_provider', 'provider')
+            ->set('provider.provider_url', ':providerUrl')
+            ->setParameter('providerUrl', 'https://accounts.google.com')
+            ->andWhere('provider.id = :id')
+            ->setParameter('id', $providerId);
+        $qb->executeQuery();
+    }
+
+    private function deleteLangStringTranslationByLangStringUnitId(string $unitId, int $groupId): void
+    {
+        $id = $this->getConnection()->createQueryBuilder()
+            ->select('id')
+            ->from('ohrm_i18n_lang_string', 'langString')
+            ->andWhere('langString.unit_id = :unitId')
+            ->setParameter('unitId', $unitId)
+            ->andWhere('langString.group_id = :groupId')
+            ->setParameter('groupId', $groupId)
+            ->executeQuery()
+            ->fetchOne();
+
+        $this->createQueryBuilder()
+            ->delete('ohrm_i18n_translate')
+            ->andWhere('ohrm_i18n_translate.lang_string_id = :id')
+            ->setParameter('id', $id)
+            ->executeQuery();
     }
 }

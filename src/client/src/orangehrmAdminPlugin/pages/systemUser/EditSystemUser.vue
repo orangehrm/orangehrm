@@ -85,6 +85,7 @@
           v-if="user.changePassword"
           v-model:password="user.password"
           v-model:passwordConfirm="user.passwordConfirm"
+          :is-password-required="isPasswordRequired"
         />
 
         <oxd-divider />
@@ -136,6 +137,10 @@ export default {
     systemUserId: {
       type: Number,
       required: true,
+    },
+    isPasswordRequired: {
+      type: Boolean,
+      default: true,
     },
   },
 

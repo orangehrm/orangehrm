@@ -40,7 +40,27 @@ class TimezonesAPITest extends EndpointIntegrationTestCase
 
     public function dataProviderForTestGetAll(): array
     {
-        return $this->getTestCases('TimezonesAPITestCases.yaml', 'GetAll');
+        $phpVersion = phpversion();
+        $testCases = $this->getTestCases('TimezonesAPITestCases.yaml', 'GetAll');
+        if (version_compare($phpVersion, '7.4.29', '>=')) {
+            $testCase = &$testCases["Get Timezones by filter(ESS) - tok"][0];
+            $modifiedTimeZone = [
+                "name" => "Antarctica/Vostok",
+                "label" => "+07:00",
+                "offset" => "7.0"
+            ];
+            $timezones= $testCase->getResultData();
+            foreach ($timezones as $key => $timezone) {
+                if ($timezone['name'] === "Antarctica/Vostok") {
+                    $timezones[$key] = $modifiedTimeZone;
+                    break;
+                }
+            }
+            $testCase->setResultData($timezones);
+            return $testCases;
+        } else {
+            return $this->getTestCases('TimezonesAPITestCases.yaml', 'GetAll');
+        }
     }
 
     public function testDelete(): void

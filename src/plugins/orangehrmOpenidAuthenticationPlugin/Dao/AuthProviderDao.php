@@ -21,6 +21,7 @@ namespace OrangeHRM\OpenidAuthentication\Dao;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Entity\AuthProviderExtraDetails;
 use OrangeHRM\Entity\OpenIdProvider;
+use OrangeHRM\Entity\OpenIdUserIdentity;
 use OrangeHRM\OpenidAuthentication\Dto\ProviderSearchFilterParams;
 use OrangeHRM\ORM\Paginator;
 
@@ -137,5 +138,15 @@ class AuthProviderDao extends BaseDao
         $q->setParameter('status', true);
 
         return $q->getQuery()->execute();
+    }
+
+    /**
+     * @param OpenIdUserIdentity $openIdUserIdentity
+     * @return OpenIdUserIdentity
+     */
+    public function saveUserIdentity(OpenIdUserIdentity $openIdUserIdentity): OpenIdUserIdentity
+    {
+        $this->persist($openIdUserIdentity);
+        return $openIdUserIdentity;
     }
 }

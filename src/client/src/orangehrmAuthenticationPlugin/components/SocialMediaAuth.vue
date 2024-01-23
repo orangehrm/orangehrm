@@ -26,9 +26,14 @@
     <auth-button
       v-for="authenticator in socialAuthenticators"
       :key="authenticator.id"
-      :url="authenticator.url"
-      :color="authenticator.color"
       :label="authenticator.label"
+      :style="{
+        background:
+          'url(' + authenticator.backgroundImage + ') no-repeat left center',
+        'background-size': 'contain',
+        'text-align': 'center',
+        padding: '1px',
+      }"
       @click.prevent="onClickAction(authenticator.id)"
     ></auth-button>
   </div>
@@ -38,6 +43,7 @@
 import {computed} from 'vue';
 import {APIService} from '@/core/util/services/api.service';
 import AuthButton from '@/orangehrmAuthenticationPlugin/components/AuthButton.vue';
+import {navigate} from '@ohrm/core/util/helper/navigation';
 
 export default {
   name: 'SocialMediaAuth',
@@ -53,15 +59,34 @@ export default {
     },
   },
 
-  // TODO
   setup(props) {
     const http = new APIService(window.appGlobal.baseUrl, '');
 
     const socialAuthenticators = computed(() => {
       return props.authenticators.map((authenticator) => ({
         ...authenticator,
+        backgroundImage: getBackgroundImage(authenticator.url),
       }));
     });
+
+    const getBackgroundImage = (url) => {
+      const lowercasedUrl = url.toLowerCase();
+
+      switch (true) {
+        case lowercasedUrl.includes('google'):
+          return `${window.appGlobal.publicPath}/images/google.svg`;
+        case lowercasedUrl.includes('microsoft'):
+          return `${window.appGlobal.publicPath}/images/microsoft.svg`;
+        case lowercasedUrl.includes('okta'):
+          return `${window.appGlobal.publicPath}/images/okta.svg`;
+        case lowercasedUrl.includes('keycloak'):
+          return `${window.appGlobal.publicPath}/images/keycloak.svg`;
+        case lowercasedUrl.includes('auth0'):
+          return `${window.appGlobal.publicPath}/images/auth0.svg`;
+        default:
+          return `${window.appGlobal.publicPath}/images/default.svg`;
+      }
+    };
 
     return {
       socialAuthenticators,
@@ -69,16 +94,9 @@ export default {
     };
   },
 
-  // TODO:: URL
   methods: {
     onClickAction(id) {
-      this.http.request({
-        method: 'POST',
-        url: '/openidauth/openIdCredentials',
-        data: {
-          providerId: id,
-        },
-      });
+      navigate('/openidauth/openIdCredentials/{providerId}', {providerId: id});
     },
   },
 };
@@ -89,7 +107,6 @@ export default {
   gap: 5px;
   margin: 0 auto;
   display: flex;
-  flex-direction: column;
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;

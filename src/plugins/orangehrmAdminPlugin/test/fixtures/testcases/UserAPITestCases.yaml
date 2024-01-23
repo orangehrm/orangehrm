@@ -484,6 +484,7 @@ Create:
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      oidc.social_media_auth_service: \OrangeHRM\OpenidAuthentication\Service\SocialMediaAuthenticationService
       auth.password_strength_service: \OrangeHRM\Authentication\Service\PasswordStrengthService
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
@@ -524,6 +525,7 @@ Create:
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      oidc.social_media_auth_service: \OrangeHRM\OpenidAuthentication\Service\SocialMediaAuthenticationService
       auth.password_strength_service: \OrangeHRM\Authentication\Service\PasswordStrengthService
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
@@ -564,6 +566,7 @@ Create:
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      oidc.social_media_auth_service: \OrangeHRM\OpenidAuthentication\Service\SocialMediaAuthenticationService
       auth.password_strength_service: \OrangeHRM\Authentication\Service\PasswordStrengthService
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
@@ -602,6 +605,7 @@ Create:
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      oidc.social_media_auth_service: \OrangeHRM\OpenidAuthentication\Service\SocialMediaAuthenticationService
       auth.password_strength_service: \OrangeHRM\Authentication\Service\PasswordStrengthService
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
@@ -621,6 +625,7 @@ Create:
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      oidc.social_media_auth_service: \OrangeHRM\OpenidAuthentication\Service\SocialMediaAuthenticationService
       auth.password_strength_service: \OrangeHRM\Authentication\Service\PasswordStrengthService
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
@@ -642,6 +647,7 @@ Create:
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      oidc.social_media_auth_service: \OrangeHRM\OpenidAuthentication\Service\SocialMediaAuthenticationService
       auth.password_strength_service: \OrangeHRM\Authentication\Service\PasswordStrengthService
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
@@ -673,6 +679,48 @@ Create:
     }
     meta: [ ]
 
+  'create an user - OIDC Enabled':
+    userId: 1
+    now:
+      datetime: '2022-10-04'
+    services:
+      core.class_helper: \OrangeHRM\Core\Helper\ClassHelper
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      oidc.social_media_auth_service: \OrangeHRM\OpenidAuthentication\Service\SocialMediaAuthenticationService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    hooks:
+      preAssertValidTestCase: [ '\OrangeHRM\Tests\Admin\Api\UserAPITest', 'enableSocialMediaAuthPreHook' ]
+    body: {
+      "username": "Jacqueline",
+      "password": "",
+      "status": true,
+      "userRoleId": 2,
+      "empNumber": 16
+    }
+    data: {
+      "id": 10,
+      "userName": "Jacqueline",
+      "deleted": false,
+      "status": true,
+      "employee": {
+        "empNumber": 16,
+        "employeeId": "",
+        "firstName": "Jacqueline",
+        "middleName": "",
+        "lastName": "White",
+        "terminationId": null
+      },
+      "userRole": {
+        "id": 2,
+        "name": "ESS",
+        "displayName": "ESS"
+      }
+    }
+    meta: [ ]
+
 Update:
   'update an user':
     userId: 1
@@ -683,6 +731,7 @@ Update:
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      oidc.social_media_auth_service: \OrangeHRM\OpenidAuthentication\Service\SocialMediaAuthenticationService
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     attributes:
@@ -725,6 +774,7 @@ Update:
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      oidc.social_media_auth_service: \OrangeHRM\OpenidAuthentication\Service\SocialMediaAuthenticationService
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     attributes:
@@ -765,6 +815,7 @@ Update:
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      oidc.social_media_auth_service: \OrangeHRM\OpenidAuthentication\Service\SocialMediaAuthenticationService
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     attributes:
@@ -788,6 +839,7 @@ Update:
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      oidc.social_media_auth_service: \OrangeHRM\OpenidAuthentication\Service\SocialMediaAuthenticationService
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     attributes:
@@ -828,7 +880,7 @@ Update:
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
-      auth.password_strength_service: \OrangeHRM\Authentication\Service\PasswordStrengthService
+      oidc.social_media_auth_service: \OrangeHRM\OpenidAuthentication\Service\SocialMediaAuthenticationService
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     attributes:
@@ -852,6 +904,7 @@ Update:
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      oidc.social_media_auth_service: \OrangeHRM\OpenidAuthentication\Service\SocialMediaAuthenticationService
       auth.password_strength_service: \OrangeHRM\Authentication\Service\PasswordStrengthService
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
