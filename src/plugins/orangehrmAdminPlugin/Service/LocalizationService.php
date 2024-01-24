@@ -261,7 +261,7 @@ class LocalizationService
                     $target = $xml->createElement('target');
 
                     $source->appendChild(new \DOMText(htmlspecialchars($translation['source'])));
-                    $target->appendChild(new \DOMText(htmlspecialchars($translation['target'])));
+                    $target->appendChild(new \DOMText(htmlspecialchars($translation['target'] ?? '')));
 
                     $segment->appendChild($source);
                     $segment->appendChild($target);
