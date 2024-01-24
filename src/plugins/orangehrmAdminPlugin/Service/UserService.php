@@ -80,7 +80,11 @@ class UserService
             return $user;
         }
         if (!is_null($user->getDecorator()->getNonHashedPassword())) {
-            $user->setUserPassword($this->hashPassword($user->getDecorator()->getNonHashedPassword()));
+            $user->setUserPassword(
+                $user->getDecorator()->getNonHashedPassword() !==  "" ?
+                    $this->hashPassword($user->getDecorator()->getNonHashedPassword()) :
+                    null
+            );
             $user->getDecorator()->setNonHashedPassword(null);
         }
 
