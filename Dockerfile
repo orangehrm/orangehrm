@@ -1,7 +1,7 @@
 FROM php:8.1-apache-bullseye
 
-ENV OHRM_VERSION 5.5
-ENV OHRM_MD5 113e76fa9dd42a03f2b6a397fa2ffbc8
+ENV OHRM_VERSION 5.6
+ENV OHRM_MD5 b8a08b3a3ee3bf9bf9b3225e36d10267
 
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 
