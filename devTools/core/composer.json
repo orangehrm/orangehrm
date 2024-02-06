@@ -5,14 +5,14 @@
         "php": "^7.4|^8.0",
         "ext-ctype": "*",
         "ext-iconv": "*",
-        "composer/package-versions-deprecated": "1.11.99.2",
-        "symfony/framework-bundle": "^5.4",
-        "symfony/maker-bundle": "^1.36",
-        "symfony/proxy-manager-bridge": "^5.4",
-        "symfony/runtime": "^5.4",
-        "symfony/yaml": "^5.4",
-        "friendsofphp/php-cs-fixer": "^3.4",
-        "symfony/process": "^5.4"
+        "composer/package-versions-deprecated": "^1.11.99.5",
+        "symfony/framework-bundle": "^5.4.35",
+        "symfony/maker-bundle": "^1.43",
+        "symfony/proxy-manager-bridge": "^5.4.21",
+        "symfony/runtime": "^5.4.35",
+        "symfony/yaml": "^5.4.35",
+        "friendsofphp/php-cs-fixer": "^3.49",
+        "symfony/process": "^5.4.35"
     },
     "autoload-dev": {
         "psr-4": {
