@@ -96,7 +96,7 @@ class PayGradeAPI extends Endpoint implements CrudEndpoint
         return  new EndpointCollectionResult(
             PayGradeModel::class,
             $payGrades,
-            new ParameterBag([CommonParams::PARAMETER_TOTAL=>$count])
+            new ParameterBag([CommonParams::PARAMETER_TOTAL => $count])
         );
     }
 

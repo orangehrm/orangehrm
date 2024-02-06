@@ -30,17 +30,17 @@ class DownloadFormatTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->jsonDownloadFormat=new JsonDownloadFormat();
+        $this->jsonDownloadFormat = new JsonDownloadFormat();
         $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmMaintenancePlugin/test/fixtures/EmployeeDownloadFormat.yml';
         TestDataService::populate($this->fixture);
     }
 
     public function testDownloadFileName(): void
     {
-        $fileName=$this->jsonDownloadFormat->getDownloadFileName(1);
+        $fileName = $this->jsonDownloadFormat->getDownloadFileName(1);
         $this->assertEquals('Kayla T Abbey.json', $fileName);
 
-        $fileName=$this->jsonDownloadFormat->getDownloadFileName(2);
+        $fileName = $this->jsonDownloadFormat->getDownloadFileName(2);
         $this->assertEquals('Ashley£$ ST Abel (Past Employee).json', $fileName);
     }
 }

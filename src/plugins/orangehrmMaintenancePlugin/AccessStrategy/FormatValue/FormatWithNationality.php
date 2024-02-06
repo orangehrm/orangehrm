@@ -32,7 +32,7 @@ class FormatWithNationality implements ValueFormatter
      */
     public function getFormattedValue($entityValue): ?string
     {
-        $nationality=$this->getNationalityService()->getNationalityById($entityValue);
+        $nationality = $this->getNationalityService()->getNationalityById($entityValue);
         if ($nationality instanceof Nationality) {
             return $nationality->getName();
         }

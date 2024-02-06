@@ -52,7 +52,7 @@ class I18NLangStringFixture extends AbstractFixture
             $results[] = $result;
         }
 
-        return ['I18NGroup'=> $groupResults,'I18NLangString' => $results];
+        return ['I18NGroup' => $groupResults,'I18NLangString' => $results];
     }
 
     /**

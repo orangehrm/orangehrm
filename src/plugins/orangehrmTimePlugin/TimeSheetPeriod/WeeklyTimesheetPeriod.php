@@ -40,7 +40,7 @@ class WeeklyTimesheetPeriod extends TimesheetPeriod
 
         $diff = $this->startDate - $day;
         if ($diff > 0) {
-            $diff-=7;
+            $diff -= 7;
         }
 
         $sign = ($diff < 0) ? "" : "+";

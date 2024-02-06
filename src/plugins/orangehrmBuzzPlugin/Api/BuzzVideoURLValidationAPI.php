@@ -109,7 +109,7 @@ class BuzzVideoURLValidationAPI extends Endpoint implements ResourceEndpoint
             self::PARAMETER_VIDEO_LINK,
             new Rule(Rules::REQUIRED),
             new Rule(Rules::STRING_TYPE),
-        //TODO - length validation
+            //TODO - length validation
         );
     }
 

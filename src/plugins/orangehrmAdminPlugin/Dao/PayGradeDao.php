@@ -206,7 +206,7 @@ class PayGradeDao extends BaseDao
             ->where($q->expr()->in('pgc.currencyType', ':currencyIds'))
             ->andWhere('pgc.payGrade = :payGradeId')
             ->setParameters([
-                'currencyIds'=> $toBeDeletedIds,
+                'currencyIds' => $toBeDeletedIds,
                 'payGradeId' => $payGradeId,
             ]);
         return $q->getQuery()->execute();

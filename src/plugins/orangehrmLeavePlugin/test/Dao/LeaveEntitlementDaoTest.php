@@ -596,7 +596,7 @@ class LeaveEntitlementDaoTest extends KernelTestCase
         $leaveEntitlement->setCreatedBy($this->getEntityReference(User::class, 1));
 
         $this->createKernelWithMockServices([
-                                                Services::LEAVE_CONFIG_SERVICE =>new LeaveConfigurationService(),
+                                                Services::LEAVE_CONFIG_SERVICE => new LeaveConfigurationService(),
                                             ]);
         $result = $this->dao->bulkAssignLeaveEntitlements($empList, $leaveEntitlement);
 

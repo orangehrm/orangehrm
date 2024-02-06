@@ -96,14 +96,14 @@ class EmpUsTaxExemption
      *
      * @ORM\Column(name="tax_unemp_state", type="string", length=13, nullable=true)
      */
-    private ?string $unemploymentState= null;
+    private ?string $unemploymentState = null;
 
     /**
      * @var string|null
      *
      * @ORM\Column(name="tax_work_state", type="string", length=13, nullable=true)
      */
-    private ?string $workState= null;
+    private ?string $workState = null;
 
     /**
      * @return Employee

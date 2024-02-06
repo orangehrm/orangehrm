@@ -79,7 +79,7 @@ class MailTransport extends AbstractTransport
             $dsn = 'sendmail://default?command='.urlencode($host);
             $this->mailTransport = Transport::fromDsn($dsn);
         } elseif ($scheme == self::SCHEME_SMTP || $scheme == self::SCHEME_SECURE_SMTP) {
-            $this->scheme =$scheme;
+            $this->scheme = $scheme;
             $this->host = $host;
             $this->port = $port;
         }

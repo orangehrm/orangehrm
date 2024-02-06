@@ -89,7 +89,7 @@ class VacancyListRestControllerTest extends KernelTestCase
             Services::NORMALIZER_SERVICE => new NormalizerService(),
         ]);
         $controller = new VacancyListRestController();
-        $httpRequest = $this->getHttpRequest(['limit'=> 2]);
+        $httpRequest = $this->getHttpRequest(['limit' => 2]);
         $request = new Request($httpRequest);
         $response = $controller->handleGetRequest($request);
         $iteratableResponse = json_decode($response->formatData(), false);
@@ -106,7 +106,7 @@ class VacancyListRestControllerTest extends KernelTestCase
             Services::NORMALIZER_SERVICE => new NormalizerService(),
         ]);
         $controller = new VacancyListRestController();
-        $httpRequest = $this->getHttpRequest(['offset'=> 2]);
+        $httpRequest = $this->getHttpRequest(['offset' => 2]);
         $request = new Request($httpRequest);
         $response = $controller->handleGetRequest($request);
         $iteratableResponse = json_decode($response->formatData(), false);
