@@ -250,7 +250,7 @@ class AttendanceRecordAPI extends Endpoint implements ResourceEndpoint
                 $punchOutOffset,
                 $punchOutTimezoneName,
                 $punchOutNote
-                ) = $this->getRequestBodyParams();
+            ) = $this->getRequestBodyParams();
 
             $recordId = $attendanceRecord->getId();
             $attendanceRecordOwnedEmpNumber = $attendanceRecord->getEmployee()->getEmpNumber();

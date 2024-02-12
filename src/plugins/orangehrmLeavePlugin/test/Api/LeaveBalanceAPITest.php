@@ -2001,7 +2001,7 @@ class LeaveBalanceAPITest extends EndpointTestCase
         );
 
         $this->assertInvalidParamException(
-        // invalid leave type id
+            // invalid leave type id
             fn () => $this->validate(
                 [LeaveCommonParams::PARAMETER_LEAVE_TYPE_ID => 100],
                 $rules
@@ -2010,7 +2010,7 @@ class LeaveBalanceAPITest extends EndpointTestCase
         );
 
         $this->assertInvalidParamException(
-        // inaccessible employee number
+            // inaccessible employee number
             fn () => $this->validate(
                 [
                     CommonParams::PARAMETER_EMP_NUMBER => 3,
@@ -2028,7 +2028,7 @@ class LeaveBalanceAPITest extends EndpointTestCase
         $api = new LeaveBalanceAPI($this->getRequest($queryParams));
         $rules = $api->getValidationRuleForGetOne();
         $this->assertInvalidParamException(
-        // if defined only from date, to date also need to define
+            // if defined only from date, to date also need to define
             fn () => $this->validate($queryParams, $rules),
             [
                 LeaveCommonParams::PARAMETER_TO_DATE,
@@ -2044,7 +2044,7 @@ class LeaveBalanceAPITest extends EndpointTestCase
         $api = new LeaveBalanceAPI($this->getRequest($queryParams));
         $rules = $api->getValidationRuleForGetOne();
         $this->assertInvalidParamException(
-        // if defined only from date, to date also need to define
+            // if defined only from date, to date also need to define
             fn () => $this->validate($queryParams, $rules),
             [LeaveCommonParams::PARAMETER_FROM_DATE]
         );
@@ -2057,7 +2057,7 @@ class LeaveBalanceAPITest extends EndpointTestCase
         $api = new LeaveBalanceAPI($this->getRequest($queryParams));
         $rules = $api->getValidationRuleForGetOne();
         $this->assertInvalidParamException(
-        // from date < to date
+            // from date < to date
             fn () => $this->validate($queryParams, $rules),
             [LeaveCommonParams::PARAMETER_FROM_DATE, LeaveCommonParams::PARAMETER_DURATION]
         );

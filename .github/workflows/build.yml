@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-20.04
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Validate composer.json and composer.lock
         run: |
@@ -64,13 +64,13 @@ jobs:
           echo "Product Mode: $(php ./product_mode.php)" >> build
 
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: orangehrm-${{ env.git_short_hash }}
           path: build/${{ env.file_path }}
 
       - name: Upload product mode
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ env.product_mode }}-mode
           path: build/build

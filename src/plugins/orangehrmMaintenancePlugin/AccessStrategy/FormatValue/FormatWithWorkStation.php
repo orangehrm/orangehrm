@@ -32,7 +32,7 @@ class FormatWithWorkStation implements ValueFormatter
      */
     public function getFormattedValue($entityValue): ?string
     {
-        $subUnit=$this->getCompanyStructureService()->getSubunitById($entityValue);
+        $subUnit = $this->getCompanyStructureService()->getSubunitById($entityValue);
         if ($subUnit instanceof Subunit) {
             return $subUnit->getName();
         }

@@ -19,6 +19,7 @@
 namespace OrangeHRM\Tests\OAuth\Repository;
 
 use DateTime;
+use Error;
 use DateTimeImmutable;
 use League\OAuth2\Server\CryptTrait;
 use League\OAuth2\Server\Entities\ScopeEntityInterface;
@@ -116,7 +117,9 @@ class AccessTokenRepositoryTest extends KernelTestCase
     {
         $clientEntity = ClientEntity::createFromEntity($this->getEntityReference(OAuthClient::class, 1));
         $token = $this->accessTokenRepository->getNewToken($clientEntity, [], 100);
-        $this->expectErrorMessage(
+        //https://github.com/sebastianbergmann/phpunit/issues/5062
+        $this->expectException(Error::class);
+        $this->expectExceptionMessage(
             'Typed property OrangeHRM\OAuth\Dto\Entity\AccessTokenEntity::$expiryDateTime must not be accessed before initialization'
         );
         $token->getExpiryDateTime();
@@ -126,7 +129,9 @@ class AccessTokenRepositoryTest extends KernelTestCase
     {
         $clientEntity = ClientEntity::createFromEntity($this->getEntityReference(OAuthClient::class, 1));
         $token = $this->accessTokenRepository->getNewToken($clientEntity, [], 100);
-        $this->expectErrorMessage(
+        //https://github.com/sebastianbergmann/phpunit/issues/5062
+        $this->expectException(Error::class);
+        $this->expectExceptionMessage(
             'Typed property OrangeHRM\OAuth\Dto\Entity\AccessTokenEntity::$identifier must not be accessed before initialization'
         );
         $token->getIdentifier();

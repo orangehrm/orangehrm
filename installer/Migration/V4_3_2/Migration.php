@@ -63,7 +63,7 @@ class Migration extends AbstractMigration
 
         $this->getSchemaHelper()->dropColumn('ohrm_email_configuration', 'sendmail_path');
 
-        $this->getSchemaHelper()->addColumn('ohrm_marketplace_addon', 'type', Types::STRING, ['Notnull'=> false,'Default' => 'free']);
+        $this->getSchemaHelper()->addColumn('ohrm_marketplace_addon', 'type', Types::STRING, ['Notnull' => false,'Default' => 'free']);
     }
 
     /**

@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-22.04
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Install node dependencies
         run: cd src/client && yarn install
 
@@ -39,7 +39,7 @@ jobs:
 
       - name: Fail if files changed
         if: ${{ steps.git-status.outputs.status }}
-        uses: actions/github-script@v3
+        uses: actions/github-script@v4
         with:
           script: |
             core.setFailed('Files changed with lint fix')
@@ -54,14 +54,14 @@ jobs:
         run: php devTools/core/console.php generate-open-api-doc --throw
 
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: ${{ failure() }}
         with:
           name: diff-${{ github.sha }}
           path: ${{ github.sha }}.diff
 
       - name: Upload API doc
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: API-doc-${{ github.sha }}
           path: |

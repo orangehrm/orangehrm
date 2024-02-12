@@ -97,10 +97,10 @@ class LeaveTypeAPITest extends EndpointTestCase
         $result = $api->getOne();
         $this->assertEquals(
             [
-                "id"=> 1,
-                "name"=> "Casual",
-                "deleted"=> false,
-                "situational"=> false
+                "id" => 1,
+                "name" => "Casual",
+                "deleted" => false,
+                "situational" => false
             ],
             $result->normalize()
         );
@@ -182,10 +182,10 @@ class LeaveTypeAPITest extends EndpointTestCase
         $result = $api->update();
         $this->assertEquals(
             [
-                "id"=> 1,
-                "name"=> "Casual New",
-                "deleted"=> false,
-                "situational"=> false,
+                "id" => 1,
+                "name" => "Casual New",
+                "deleted" => false,
+                "situational" => false,
             ],
             $result->normalize()
         );
@@ -320,10 +320,10 @@ class LeaveTypeAPITest extends EndpointTestCase
         $result = $api->create();
         $this->assertEquals(
             [
-                "id"=> 1,
-                "name"=> "Casual",
-                "deleted"=> false,
-                "situational"=> false
+                "id" => 1,
+                "name" => "Casual",
+                "deleted" => false,
+                "situational" => false
             ],
             $result->normalize()
         );
@@ -397,16 +397,16 @@ class LeaveTypeAPITest extends EndpointTestCase
         $this->assertEquals(
             [
                 [
-                    "id"=> 1,
-                    "name"=> "Casual",
-                    "deleted"=> false,
-                    "situational"=> false,
+                    "id" => 1,
+                    "name" => "Casual",
+                    "deleted" => false,
+                    "situational" => false,
                 ],
                 [
-                    "id"=> 2,
-                    "name"=> "Medical",
-                    "deleted"=> false,
-                    "situational"=> false,
+                    "id" => 2,
+                    "name" => "Medical",
+                    "deleted" => false,
+                    "situational" => false,
                 ]
             ],
             $result->normalize()

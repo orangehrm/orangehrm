@@ -361,7 +361,7 @@ class PasswordStrengthService
         $enforcedPasswordLog = $this->getEnforcePasswordDao()->getEnforcedPasswordLogByResetCode($resetCode);
         if ($enforcedPasswordLog instanceof EnforcePasswordRequest) {
             if ($enforcedPasswordLog->isExpired()) {
-                $this->getLogger()->warning('Enforce password reset code already used', ['resetCode'=>$resetCode]);
+                $this->getLogger()->warning('Enforce password reset code already used', ['resetCode' => $resetCode]);
                 return false;
             }
             if ($this->isResetCodeTimeOut($enforcedPasswordLog)) {
@@ -369,12 +369,12 @@ class PasswordStrengthService
                     $enforcedPasswordLog->getUser()->getId(),
                     true
                 );
-                $this->getLogger()->warning('Enforce password reset code expired', ['resetCode'=>$resetCode]);
+                $this->getLogger()->warning('Enforce password reset code expired', ['resetCode' => $resetCode]);
                 return false;
             }
             return true;
         }
-        $this->getLogger()->warning('Invalid reset code', ['resetCode'=>$resetCode]);
+        $this->getLogger()->warning('Invalid reset code', ['resetCode' => $resetCode]);
         return false;
     }
 
@@ -432,7 +432,7 @@ class PasswordStrengthService
                 $user->setDateModified($this->getDateTimeHelper()->getNow());
                 $user->setModifiedUserId($user->getId());
                 $this->getUserService()->saveSystemUser($user);
-                $success= $this->getEnforcePasswordDao()->updateEnforcedPasswordValid($user->getId(), true);
+                $success = $this->getEnforcePasswordDao()->updateEnforcedPasswordValid($user->getId(), true);
             }
             $this->commitTransaction();
             return $success;

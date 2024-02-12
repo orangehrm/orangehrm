@@ -32,7 +32,7 @@ class FormatWithLicenseId implements ValueFormatter
      */
     public function getFormattedValue($entityValue): ?string
     {
-        $license=$this->getLicenseService()->getLicenseById($entityValue);
+        $license = $this->getLicenseService()->getLicenseById($entityValue);
         if ($license instanceof License) {
             return $license->getName();
         }

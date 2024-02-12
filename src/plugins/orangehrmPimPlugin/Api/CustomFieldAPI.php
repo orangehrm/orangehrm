@@ -439,7 +439,7 @@ class CustomFieldAPI extends Endpoint implements CrudEndpoint
             $this->getCustomFieldService()->deleteRelatedEmployeeCustomFieldsExtraData($id, $extraData);
         }
         if ($type == $customField->getType() || !$this->getCustomFieldService()->getCustomFieldDao(
-            )->isCustomFieldInUse($id)) {
+        )->isCustomFieldInUse($id)) {
             $this->saveCustomField($customField);
         } else {
             throw $this->getBadRequestException();
@@ -476,7 +476,7 @@ class CustomFieldAPI extends Endpoint implements CrudEndpoint
     {
         $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
 
-        if (count(array_intersect($ids, $this->getCustomFieldService()->getAllFieldsInUse()))==0) {
+        if (count(array_intersect($ids, $this->getCustomFieldService()->getAllFieldsInUse())) == 0) {
             $this->getCustomFieldService()->getCustomFieldDao()->deleteCustomFields($ids);
         } else {
             throw $this->getBadRequestException();

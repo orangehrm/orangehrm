@@ -135,9 +135,9 @@ class PayGradeCurrencyAPITest extends EndpointTestCase
         }
         $this->payGradeCurrencyApi = new PayGradeCurrencyAPI(
             $this->getRequest(
-                $params['query']?? [],
+                $params['query'] ?? [],
                 [],
-                $params['attribute']?? []
+                $params['attribute'] ?? []
             )
         );
         $payGradeCurrencies = $this->payGradeCurrencyApi->getAll();
@@ -179,8 +179,8 @@ class PayGradeCurrencyAPITest extends EndpointTestCase
         $this->paygradeCurrencyApi = new PayGradeCurrencyAPI(
             $this->getRequest(
                 [],
-                $params['body']?? [],
-                $params['attribute']?? []
+                $params['body'] ?? [],
+                $params['attribute'] ?? []
             )
         );
         $paygradeCurrency = $this->paygradeCurrencyApi->create();
