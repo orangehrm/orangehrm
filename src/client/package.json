@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@ohrm/oxd": "2.0.1",
-    "axios": "^1.2.2",
+    "axios": "^1.6.7",
     "core-js": "^3.27.1",
     "date-fns": "^2.22.1",
     "hammerjs": "^2.0.8",
