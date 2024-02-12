@@ -33,7 +33,7 @@ class FormatWithCountryCode implements ValueFormatter
      */
     public function getFormattedValue($entityValue): ?string
     {
-        $country=$this->getContainer()->get(Services::COUNTRY_SERVICE)->getCountryByCountryCode($entityValue);
+        $country = $this->getContainer()->get(Services::COUNTRY_SERVICE)->getCountryByCountryCode($entityValue);
         if ($country instanceof Country) {
             return $country->getName();
         }

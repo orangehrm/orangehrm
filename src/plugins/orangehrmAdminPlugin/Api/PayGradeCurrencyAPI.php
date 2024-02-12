@@ -170,7 +170,7 @@ class PayGradeCurrencyAPI extends Endpoint implements CrudEndpoint
             $payGradeCurrencies,
             new ParameterBag([
                 self::PARAMETER_PAY_GRADE_ID => $payGradeId,
-                CommonParams::PARAMETER_TOTAL=> $count
+                CommonParams::PARAMETER_TOTAL => $count
             ])
         );
     }

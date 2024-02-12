@@ -552,7 +552,7 @@ class FIFOEntitlementConsumptionStrategyTest extends TestCase
         // Apply, $allowNoEntitlements = false
         $results = $this->strategy->handleLeaveCreate($empNumber, $leaveType, $leaveDates);
 
-        $expected = ['current' => ['2012-09-11' => [6=>1], '2012-09-12' => [6=>1]], 'change' => []];
+        $expected = ['current' => ['2012-09-11' => [6 => 1], '2012-09-12' => [6 => 1]], 'change' => []];
         $this->assertEquals($expected, $results);
     }
 
@@ -598,7 +598,7 @@ class FIFOEntitlementConsumptionStrategyTest extends TestCase
 
         // Apply, $allowNoEntitlements = false
         $results = $this->strategy->handleLeaveCreate($empNumber, $leaveType, $leaveDates);
-        $expected = ['current' => ['2012-09-11' => [6=>1], '2012-09-12' => [6=>1]], 'change' => []];
+        $expected = ['current' => ['2012-09-11' => [6 => 1], '2012-09-12' => [6 => 1]], 'change' => []];
         $this->assertEquals($expected, $results);
     }
 

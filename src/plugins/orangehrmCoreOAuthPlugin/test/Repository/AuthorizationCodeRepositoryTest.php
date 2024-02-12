@@ -19,6 +19,7 @@
 namespace OrangeHRM\Tests\OAuth\Repository;
 
 use DateTime;
+use Error;
 use DateTimeImmutable;
 use League\OAuth2\Server\Exception\UniqueTokenIdentifierConstraintViolationException;
 use OrangeHRM\Config\Config;
@@ -54,7 +55,9 @@ class AuthorizationCodeRepositoryTest extends KernelTestCase
         $this->assertNull($authCodeEntity->getRedirectUri());
         $this->assertNull($authCodeEntity->getUserIdentifier());
 
-        $this->expectErrorMessage(
+        //https://github.com/sebastianbergmann/phpunit/issues/5062
+        $this->expectException(Error::class);
+        $this->expectExceptionMessage(
             'Typed property OrangeHRM\OAuth\Dto\Entity\AuthCodeEntity::$identifier must not be accessed before initialization'
         );
         $this->assertNull($authCodeEntity->getIdentifier());

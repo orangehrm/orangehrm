@@ -39,16 +39,16 @@ class EmployeeEducationModelTest extends KernelTestCase
     public function testToArray()
     {
         $resultArray = [
-            "id"=> 1,
-            "institute"=> "UoP",
-            "major"=> "CE",
-            "year"=> 2020,
-            "score"=> "First Class",
-            "startDate"=> '2017-01-01',
-            "endDate"=> '2020-12-31',
-            "education"=> [
-                "id"=> 1,
-                "name"=> "BSc"
+            "id" => 1,
+            "institute" => "UoP",
+            "major" => "CE",
+            "year" => 2020,
+            "score" => "First Class",
+            "startDate" => '2017-01-01',
+            "endDate" => '2020-12-31',
+            "education" => [
+                "id" => 1,
+                "name" => "BSc"
             ]
         ];
 

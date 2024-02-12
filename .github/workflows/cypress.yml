@@ -8,12 +8,12 @@ jobs:
 
     steps:
       - name: Checkout Environment
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: orangehrm/orangehrm-os-dev-environment
 
       - name: Checkout OrangeHRM
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           path: html
 
@@ -33,7 +33,7 @@ jobs:
 
       - name: Cache docker image
         id: cache-docker-images
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: image-cache
           key: images-${{ env.git_hash }}
@@ -63,7 +63,7 @@ jobs:
         id: yarn-cache-dir-path
         run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
 
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         id: yarn-cache
         with:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
@@ -101,14 +101,14 @@ jobs:
           yarn test
 
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: ${{ always() }}
         with:
           name: videos-${{ github.sha }}
           path: html/src/test/functional/cypress/videos
 
       - name: Upload logs
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: ${{ always() }}
         with:
           name: logs-${{ github.sha }}

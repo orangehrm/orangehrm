@@ -319,7 +319,7 @@ class ProjectDao extends BaseDao
         }
 
         if ($projectReportSearchFilterParams->getIncludeApproveTimesheet(
-            ) === ProjectReportSearchFilterParams::INCLUDE_TIMESHEET_ONLY_APPROVED) {
+        ) === ProjectReportSearchFilterParams::INCLUDE_TIMESHEET_ONLY_APPROVED) {
             $q->andWhere('timesheet.state = :state');
             $q->setParameter('state', ProjectReportSearchFilterParams::TIMESHEET_STATE_APPROVED);
         }
@@ -351,7 +351,7 @@ class ProjectDao extends BaseDao
         }
 
         if ($projectReportSearchFilterParams->getIncludeApproveTimesheet(
-            ) === ProjectReportSearchFilterParams::INCLUDE_TIMESHEET_ONLY_APPROVED) {
+        ) === ProjectReportSearchFilterParams::INCLUDE_TIMESHEET_ONLY_APPROVED) {
             $q->andWhere('timesheet.state = :state');
             $q->setParameter('state', ProjectReportSearchFilterParams::TIMESHEET_STATE_APPROVED);
         }

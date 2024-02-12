@@ -359,7 +359,7 @@ class PerformanceTrackerAPI extends Endpoint implements CrudEndpoint
             ->getPerformanceTrackerDao()
             ->getPerformanceTracker($id);
         $this->throwRecordNotFoundExceptionIfNotExist($performanceTracker, PerformanceTracker::class);
-        $trackerOwnerEditable =$this->getPerformanceTrackerService()
+        $trackerOwnerEditable = $this->getPerformanceTrackerService()
             ->getPerformanceTrackerDao()->isTrackerOwnerEditable($performanceTracker->getId());
         $this->setPerformanceTrackerParams($performanceTracker, $trackerOwnerEditable);
         $performanceTracker->setModifiedDate($this->getDateTimeHelper()->getNow());

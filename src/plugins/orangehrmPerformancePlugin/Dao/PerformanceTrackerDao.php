@@ -243,10 +243,10 @@ class PerformanceTrackerDao extends BaseDao
         }
 
         if ($employeeTrackerSearchFilterParams->getIncludeEmployees(
-            ) === EmployeeTrackerSearchFilterParams::INCLUDE_EMPLOYEES_ONLY_CURRENT) {
+        ) === EmployeeTrackerSearchFilterParams::INCLUDE_EMPLOYEES_ONLY_CURRENT) {
             $qb->andWhere($qb->expr()->isNull('employee.employeeTerminationRecord'));
         } elseif ($employeeTrackerSearchFilterParams->getIncludeEmployees(
-            ) === EmployeeTrackerSearchFilterParams::INCLUDE_EMPLOYEES_ONLY_PAST) {
+        ) === EmployeeTrackerSearchFilterParams::INCLUDE_EMPLOYEES_ONLY_PAST) {
             $qb->andWhere($qb->expr()->isNotNull('employee.employeeTerminationRecord'));
         }
 

@@ -204,7 +204,7 @@ class ReportGeneratorService
             $combinedDisplayFields,
             $listedDisplayFields,
             $displayFieldGroups
-            ) = $this->getReportDataQueryBuilder($filterParams);
+        ) = $this->getReportDataQueryBuilder($filterParams);
 
         $results = $queryBuilderWrapper->getQueryBuilder()->getQuery()->execute();
         // Normalize DTO objects

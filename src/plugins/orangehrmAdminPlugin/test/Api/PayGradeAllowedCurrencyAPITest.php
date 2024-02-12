@@ -88,9 +88,9 @@ class PayGradeAllowedCurrencyAPITest extends EndpointTestCase
         }
         $this->payGradeAllowedCurrencyAPI = new PayGradeAllowedCurrencyAPI(
             $this->getRequest(
-                $params['query']?? [],
+                $params['query'] ?? [],
                 [],
-                $params['attribute']?? []
+                $params['attribute'] ?? []
             )
         );
         $payGradeCurrencies = $this->payGradeAllowedCurrencyAPI->getAll();

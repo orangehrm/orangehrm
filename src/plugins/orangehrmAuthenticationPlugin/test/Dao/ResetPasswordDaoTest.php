@@ -47,20 +47,20 @@ class ResetPasswordDaoTest extends KernelTestCase
         ) . '/orangehrmAuthenticationPlugin/test/fixtures/ResetPasswordService.yml';
         TestDataService::populate($this->fixture);
         $this->createKernelWithMockServices([
-          Services::DATETIME_HELPER_SERVICE=>new DateTimeHelperService()
+          Services::DATETIME_HELPER_SERVICE => new DateTimeHelperService()
         ]);
     }
 
     public function testSaveResetPassword(): void
     {
-        $resetPassword=$this->getRepository(ResetPasswordRequest::class)->find('1');
-        $resetPassword=$this->resetPasswordDao->saveResetPasswordRequest($resetPassword);
+        $resetPassword = $this->getRepository(ResetPasswordRequest::class)->find('1');
+        $resetPassword = $this->resetPasswordDao->saveResetPasswordRequest($resetPassword);
         $this->assertEquals('haran@orangehrm.live.com', $resetPassword->getResetEmail());
         $this->assertEquals('YWRtaW4jU0VQQVJBVE9SI-xpEY5IF4lNPp8bfWQzz2Q', $resetPassword->getResetCode());
     }
     public function testGetResetPasswordLogByResetCode(): void
     {
-        $resetCode=$this->resetPasswordDao->getResetPasswordLogByResetCode('YWRtaW4jU0VQQVJBVE9SI-xpEY5IF4lNPp8bfWQzz2Q');
+        $resetCode = $this->resetPasswordDao->getResetPasswordLogByResetCode('YWRtaW4jU0VQQVJBVE9SI-xpEY5IF4lNPp8bfWQzz2Q');
         $this->assertEquals('haran@orangehrm.live.com', $resetCode->getResetEmail());
     }
 

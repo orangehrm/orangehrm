@@ -86,7 +86,7 @@ class DetailedPerformanceTrackerModel implements Normalizable
             'trackerName' => $this->performanceTracker->getTrackerName(),
             'addedDate' => $this->performanceTracker->getDecorator()->getAddedDate(),
             'modifiedDate' => $this->performanceTracker->getDecorator()->getModifiedDate(),
-            'status' =>$this->performanceTracker->getStatus(),
+            'status' => $this->performanceTracker->getStatus(),
             'employee' => [
                 'empNumber' => $this->performanceTracker->getEmployee()->getEmpNumber(),
                 'lastName' => $this->performanceTracker->getEmployee()->getLastName(),
@@ -96,7 +96,7 @@ class DetailedPerformanceTrackerModel implements Normalizable
                 'terminationId' => $terminationRecord instanceof EmployeeTerminationRecord ? $terminationRecord->getId() : null,
             ],
             'reviewers' => $reviewers,
-            'ownerEditable' =>$trackerOwnerEditable,
+            'ownerEditable' => $trackerOwnerEditable,
         ];
     }
 }
