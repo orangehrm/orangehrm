@@ -83,7 +83,7 @@ class CustomFieldServiceTest extends TestCase
             ->method('isCustomFieldInUse')
             ->will($this->returnCallback(function () {
                 $args = func_get_args();
-                if ($args[0] ==1 || $args[0] ==5) {
+                if ($args[0] == 1 || $args[0] == 5) {
                     return true;
                 } else {
                     return false;

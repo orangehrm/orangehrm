@@ -487,7 +487,7 @@ class TimesheetDao extends BaseDao
         }
 
         if ($filterParams->getIncludeTimesheets(
-            ) === EmployeeReportsSearchFilterParams::INCLUDE_TIMESHEETS_APPROVED_ONLY) {
+        ) === EmployeeReportsSearchFilterParams::INCLUDE_TIMESHEETS_APPROVED_ONLY) {
             $q->andWhere('timesheet.state = :state');
             $q->setParameter('state', EmployeeReportsSearchFilterParams::TIMESHEET_APPROVED_STATE);
         }

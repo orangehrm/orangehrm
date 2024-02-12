@@ -100,7 +100,7 @@ class PayGradeAllowedCurrencyAPI extends Endpoint implements CollectionEndpoint
             $allowedCurrencies,
             new ParameterBag([
                 PayGradeCurrencySearchFilterParams::PARAMETER_PAY_GRADE_ID => $payGradeId,
-                CommonParams::PARAMETER_TOTAL=> $count,
+                CommonParams::PARAMETER_TOTAL => $count,
             ])
         );
     }

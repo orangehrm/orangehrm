@@ -89,7 +89,8 @@ class LeaveEntitlementServiceTest extends KernelTestCase
             ]
         );
 
-        $this->expectError();
+        //https://github.com/sebastianbergmann/phpunit/issues/5062
+        $this->expectException(Error::class);
         $this->service->getLeaveEntitlementStrategy();
     }
 

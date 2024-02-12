@@ -31,15 +31,15 @@ class MaintenanceDaoTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->dao=new MaintenanceDao();
-        $this->fixture=Config::get(Config::PLUGINS_DIR).'/orangehrmMaintenancePlugin/test/fixtures/EmployeeDao.yml';
+        $this->dao = new MaintenanceDao();
+        $this->fixture = Config::get(Config::PLUGINS_DIR).'/orangehrmMaintenancePlugin/test/fixtures/EmployeeDao.yml';
         TestDataService::populate($this->fixture);
     }
 
 
     public function testExtractDataFromEmpNumber(): void
     {
-        $result=$this->dao->extractDataFromEmpNumber(["empNumber"=>"1"], "Employee");
+        $result = $this->dao->extractDataFromEmpNumber(["empNumber" => "1"], "Employee");
         $this->assertEquals('Kayla', $result[0]->getFirstName());
     }
 }

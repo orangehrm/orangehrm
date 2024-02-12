@@ -314,7 +314,7 @@ class EmployeeLeaveEntitlementAPITest extends EndpointTestCase
         );
 
         $this->assertInvalidParamException(
-        // invalid leave type id
+            // invalid leave type id
             fn () => $this->validate(
                 [
                     CommonParams::PARAMETER_EMP_NUMBER => 2,
@@ -326,7 +326,7 @@ class EmployeeLeaveEntitlementAPITest extends EndpointTestCase
         );
 
         $this->assertInvalidParamException(
-        // inaccessible employee number
+            // inaccessible employee number
             fn () => $this->validate(
                 [
                     CommonParams::PARAMETER_EMP_NUMBER => 3,
@@ -346,7 +346,7 @@ class EmployeeLeaveEntitlementAPITest extends EndpointTestCase
         $api = new EmployeeLeaveEntitlementAPI($this->getRequest($queryParams));
         $rules = $api->getValidationRuleForGetOne();
         $this->assertInvalidParamException(
-        // from date < to date
+            // from date < to date
             fn () => $this->validate($queryParams, $rules),
             [LeaveCommonParams::PARAMETER_FROM_DATE]
         );
@@ -360,7 +360,7 @@ class EmployeeLeaveEntitlementAPITest extends EndpointTestCase
         $api = new EmployeeLeaveEntitlementAPI($this->getRequest($queryParams));
         $rules = $api->getValidationRuleForGetOne();
         $this->assertInvalidParamException(
-        // from date != to date
+            // from date != to date
             fn () => $this->validate($queryParams, $rules),
             [LeaveCommonParams::PARAMETER_FROM_DATE]
         );
@@ -373,7 +373,7 @@ class EmployeeLeaveEntitlementAPITest extends EndpointTestCase
         $api = new EmployeeLeaveEntitlementAPI($this->getRequest($queryParams));
         $rules = $api->getValidationRuleForGetOne();
         $this->assertInvalidParamException(
-        // if defined only from date, to date also need to define
+            // if defined only from date, to date also need to define
             fn () => $this->validate($queryParams, $rules),
             [LeaveCommonParams::PARAMETER_FROM_DATE, LeaveCommonParams::PARAMETER_TO_DATE]
         );
@@ -386,7 +386,7 @@ class EmployeeLeaveEntitlementAPITest extends EndpointTestCase
         $api = new EmployeeLeaveEntitlementAPI($this->getRequest($queryParams));
         $rules = $api->getValidationRuleForGetOne();
         $this->assertInvalidParamException(
-        // if defined only to date, from date also need to define
+            // if defined only to date, from date also need to define
             fn () => $this->validate($queryParams, $rules),
             [LeaveCommonParams::PARAMETER_FROM_DATE]
         );
@@ -544,7 +544,7 @@ class EmployeeLeaveEntitlementAPITest extends EndpointTestCase
         );
 
         $this->assertInvalidParamException(
-        // invalid leave type id
+            // invalid leave type id
             fn () => $this->validate(
                 [LeaveCommonParams::PARAMETER_LEAVE_TYPE_ID => 100],
                 $rules
@@ -553,7 +553,7 @@ class EmployeeLeaveEntitlementAPITest extends EndpointTestCase
         );
 
         $this->assertInvalidParamException(
-        // unexpected param
+            // unexpected param
             fn () => $this->validate(
                 [
                     CommonParams::PARAMETER_EMP_NUMBER => 2,
@@ -577,7 +577,7 @@ class EmployeeLeaveEntitlementAPITest extends EndpointTestCase
         );
 
         $this->assertInvalidParamException(
-        // invalid param
+            // invalid param
             fn () => $this->validate(
                 [
                     LeaveCommonParams::PARAMETER_LEAVE_TYPE_ID => 50,
@@ -602,7 +602,7 @@ class EmployeeLeaveEntitlementAPITest extends EndpointTestCase
         $api = new EmployeeLeaveEntitlementAPI($this->getRequest($queryParams));
         $rules = $api->getValidationRuleForGetAll();
         $this->assertInvalidParamException(
-        // from date < to date
+            // from date < to date
             fn () => $this->validate($queryParams, $rules),
             [LeaveCommonParams::PARAMETER_FROM_DATE]
         );
@@ -615,7 +615,7 @@ class EmployeeLeaveEntitlementAPITest extends EndpointTestCase
         $api = new EmployeeLeaveEntitlementAPI($this->getRequest($queryParams));
         $rules = $api->getValidationRuleForGetAll();
         $this->assertInvalidParamException(
-        // from date != to date
+            // from date != to date
             fn () => $this->validate($queryParams, $rules),
             [LeaveCommonParams::PARAMETER_FROM_DATE]
         );
@@ -627,7 +627,7 @@ class EmployeeLeaveEntitlementAPITest extends EndpointTestCase
         $api = new EmployeeLeaveEntitlementAPI($this->getRequest($queryParams));
         $rules = $api->getValidationRuleForGetAll();
         $this->assertInvalidParamException(
-        // if defined only from date, to date also need to define
+            // if defined only from date, to date also need to define
             fn () => $this->validate($queryParams, $rules),
             [LeaveCommonParams::PARAMETER_FROM_DATE, LeaveCommonParams::PARAMETER_TO_DATE]
         );
@@ -639,7 +639,7 @@ class EmployeeLeaveEntitlementAPITest extends EndpointTestCase
         $api = new EmployeeLeaveEntitlementAPI($this->getRequest($queryParams));
         $rules = $api->getValidationRuleForGetAll();
         $this->assertInvalidParamException(
-        // if defined only to date, from date also need to define
+            // if defined only to date, from date also need to define
             fn () => $this->validate($queryParams, $rules),
             [LeaveCommonParams::PARAMETER_FROM_DATE]
         );
