@@ -23,6 +23,10 @@ import axios, {
 } from 'axios';
 import {ComponentInternalInstance, getCurrentInstance} from 'vue';
 
+type ErrorResponse = {
+  error: {message: string};
+};
+
 export class APIService {
   private _http: AxiosInstance;
   private _baseUrl: string;
@@ -106,7 +110,7 @@ export class APIService {
       (response: AxiosResponse): AxiosResponse => {
         return response;
       },
-      (error: AxiosError): Promise<AxiosError> => {
+      (error: AxiosError<ErrorResponse>): Promise<AxiosError> => {
         if (error.response?.status === 401) {
           return Promise.reject();
         }
