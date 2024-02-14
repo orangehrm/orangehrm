@@ -72,12 +72,12 @@
 
 <script>
 import {navigate} from '@/core/util/helper/navigation.ts';
-import RadioInput from '@ohrm/oxd/core/components/Input/RadioInput';
 import DatabaseConfigDialog from '@/components/DatabaseConfigDialog.vue';
+import {OxdRadioInput} from '@ohrm/oxd';
 export default {
   name: 'WelcomeScreen',
   components: {
-    'oxd-radio-input': RadioInput,
+    'oxd-radio-input': OxdRadioInput,
     'database-config-dialog': DatabaseConfigDialog,
   },
   props: {

@@ -56,14 +56,13 @@
 </template>
 
 <script>
-import Icon from '@ohrm/oxd/core/components/Icon/Icon.vue';
-import Spinner from '@ohrm/oxd/core/components/Loader/Spinner.vue';
+import {OxdIcon, OxdSpinner} from '@ohrm/oxd';
 
 export default {
   name: 'InstallerTasks',
   components: {
-    'oxd-icon': Icon,
-    'oxd-loading-spinner': Spinner,
+    'oxd-icon': OxdIcon,
+    'oxd-loading-spinner': OxdSpinner,
   },
   props: {
     tasks: {

@@ -45,12 +45,12 @@
 </template>
 
 <script>
-import Icon from '@ohrm/oxd/core/components/Icon/Icon.vue';
+import {OxdIcon} from '@ohrm/oxd';
 
 export default {
   name: 'InstallerSteps',
   components: {
-    'oxd-icon': Icon,
+    'oxd-icon': OxdIcon,
   },
   props: {
     steps: {

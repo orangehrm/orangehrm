@@ -179,13 +179,13 @@ import {
 } from '@/core/util/validation/rules';
 import {APIService} from '@/core/util/services/api.service';
 import {navigate} from '@/core/util/helper/navigation.ts';
-import RadioInput from '@ohrm/oxd/core/components/Input/RadioInput';
 import tooltipDirective from '@/core/util/directives/tooltip';
+import {OxdRadioInput} from '@ohrm/oxd';
 
 export default {
   name: 'DatabaseConfigScreen',
   components: {
-    'oxd-radio-input': RadioInput,
+    'oxd-radio-input': OxdRadioInput,
   },
   directives: {
     tooltip: tooltipDirective,
@@ -290,8 +290,6 @@ export default {
 </script>
 <style src="./installer-page.scss" lang="scss" scoped></style>
 <style lang="scss" scoped>
-@import '@ohrm/oxd/styles/_mixins.scss';
-
 ::v-deep(.oxd-checkbox-wrapper span) {
   flex-shrink: 0;
 }
