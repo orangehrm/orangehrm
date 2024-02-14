@@ -94,9 +94,9 @@ jobs:
         run: |
           docker exec os_dev_php80 bash -c 'php src/test/functional/tools/prepare.php'
           cd html/src/test/functional
-          sed -i 's~http://php80/orangehrm/web/index.php~http://php80/web/index.php~g' cypress.json
-          sed -i 's~false~true~g' cypress.json
-          sed -i 's~6000~10000~g' cypress.json
+          sed -i 's~http://php80/orangehrm/web/index.php~http://php80/web/index.php~g' cypress.config.js
+          sed -i 's~false~true~g' cypress.config.js
+          sed -i 's~6000~10000~g' cypress.config.js
           yarn install
           yarn test
 
