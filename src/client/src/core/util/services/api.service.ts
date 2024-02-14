@@ -19,8 +19,9 @@ import axios, {
   AxiosError,
   AxiosInstance,
   AxiosRequestConfig,
+  AxiosRequestHeaders,
   AxiosResponse,
-  RawAxiosRequestHeaders,
+  InternalAxiosRequestConfig,
 } from 'axios';
 import {WebStorage} from '../helper/storage';
 import {ComponentInternalInstance, getCurrentInstance} from 'vue';
@@ -159,16 +160,16 @@ export class APIService {
       };
       // Additional interceptors for caching
       this._http.interceptors.request.use(
-        (config: AxiosRequestConfig) => {
+        (config: InternalAxiosRequestConfig) => {
           if (config.url) {
             const url = config.url;
             const cachedEtag = this._cacheStorage.getItem(url);
             if (cachedEtag) {
-              config.headers = {
-                ...(config.headers as RawAxiosRequestHeaders),
-                // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/If-None-Match
-                'If-None-Match': cachedEtag,
-              };
+              // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/If-None-Match
+              (config.headers as AxiosRequestHeaders).set(
+                'If-None-Match',
+                cachedEtag,
+              );
             }
           }
           return config;
