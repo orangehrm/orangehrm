@@ -6,18 +6,13 @@ module.exports = defineConfig({
   css: {
     loaderOptions: {
       sass: {
-        additionalData: `@import "@/styles/_variables.scss";`,
+        additionalData: `@import "@/styles";`,
       },
     },
     extract: true,
   },
   transpileDependencies: true,
   configureWebpack: {
-    resolve: {
-      alias: {
-        assets: '@ohrm/oxd/assets',
-      },
-    },
     plugins: [new DumpBuildTimestampPlugin()],
   },
   chainWebpack: (config) => {

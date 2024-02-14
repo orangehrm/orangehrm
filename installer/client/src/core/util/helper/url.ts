@@ -75,5 +75,6 @@ export const urlFor = function (
   params: {[key: string]: string | number} = {},
   query: {[key: string]: string | number | boolean | string[]} = {},
 ): string {
+  // @ts-expect-error: appGlobal is not in window object by default
   return window.appGlobal.baseUrl + prepare(endpoint, params, query);
 };

@@ -52,13 +52,13 @@
 
 <script>
 import InstallerSteps from '@/components/InstallerSteps.vue';
-import Icon from '@ohrm/oxd/core/components/Icon/Icon.vue';
+import {OxdIcon} from '@ohrm/oxd';
 
 export default {
   name: 'InstallerLayout',
   components: {
     'installer-steps': InstallerSteps,
-    'oxd-icon': Icon,
+    'oxd-icon': OxdIcon,
   },
   props: {
     steps: {

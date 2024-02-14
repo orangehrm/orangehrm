@@ -74,16 +74,16 @@
 import {onBeforeMount, ref, computed} from 'vue';
 import {APIService} from '@/core/util/services/api.service';
 import InstallerTasks from '@/components/InstallerTasks.vue';
-import ProgressBar from '@ohrm/oxd/core/components/Progressbar/Progressbar.vue';
 import useBeforeUnload from '@/core/util/composable/useBeforeUnload';
 import useInstaller from '@/core/util/composable/useInstaller';
 import {navigate} from '@/core/util/helper/navigation.ts';
 import useProgress from '@/core/util/composable/useProgress';
+import {OxdProgressbar} from '@ohrm/oxd';
 
 export default {
   name: 'InstallScreen',
   components: {
-    'oxd-progress': ProgressBar,
+    'oxd-progress': OxdProgressbar,
     'installer-tasks': InstallerTasks,
   },
   setup() {

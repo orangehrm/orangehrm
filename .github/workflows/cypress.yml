@@ -42,7 +42,7 @@ jobs:
         if: steps.cache-docker-images.outputs.cache-hit != 'true'
         run: |
           set -ex
-          docker-compose -f docker-compose.yml -f docker-compose-build.yml build nginx php-8.0
+          docker compose build nginx php-8.0
           docker images
           mkdir image-cache
           docker save --output image-cache/images.tar orangehrm/os-dev:nginx orangehrm/os-dev:php80
@@ -56,7 +56,7 @@ jobs:
 
       - name: Start docker containers
         run: |
-          docker-compose up -d php-8.0 mysql55
+          docker compose up -d php-8.0 mysql55
           docker ps
 
       - name: Get yarn cache directory path

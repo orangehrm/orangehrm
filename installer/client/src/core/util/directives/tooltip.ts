@@ -16,13 +16,13 @@
  */
 
 import {Directive, DirectiveBinding, h, render} from 'vue';
-import Icon from '@ohrm/oxd/core/components/Icon/Icon.vue';
+import {OxdIcon} from '@ohrm/oxd';
 
 const tooltipDirective: Directive = {
   beforeMount(el: HTMLElement, binding: DirectiveBinding<string>) {
     if (!el || el.children.length === 0) return;
     const {value} = binding;
-    const node = h(Icon, {
+    const node = h(OxdIcon, {
       name: 'info-circle-fill',
       title: value,
       style: {
