@@ -169,6 +169,9 @@ class PimCsvDataImport extends CsvDataImport
             $employee->setOtherEmail($otherEmail);
         }
 
+        $joinedDate = $data[22];
+        $employee->setJoinedDate($this->getDateTimeIfValid($joinedDate));
+
         $this->getEmployeeService()->saveEmployee($employee);
         return true;
     }
