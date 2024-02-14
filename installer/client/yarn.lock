@@ -1375,6 +1375,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@babel/runtime@npm:^7.21.0":
+  version: 7.23.9
+  resolution: "@babel/runtime@npm:7.23.9"
+  dependencies:
+    regenerator-runtime: "npm:^0.14.0"
+  checksum: 10/9a520fe1bf72249f7dd60ff726434251858de15cccfca7aa831bd19d0d3fb17702e116ead82724659b8da3844977e5e13de2bae01eb8a798f2823a669f122be6
+  languageName: node
+  linkType: hard
+
 "@babel/template@npm:^7.0.0, @babel/template@npm:^7.18.10":
   version: 7.18.10
   resolution: "@babel/template@npm:7.18.10"
@@ -1591,6 +1600,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@kurkle/color@npm:^0.3.0":
+  version: 0.3.2
+  resolution: "@kurkle/color@npm:0.3.2"
+  checksum: 10/079c4b7688061070f1d570cee4cf0e7c4085867b940688ff80356a56825a5ace7077257c9ec5863eb344a8eae78379388ab57cdf9d75c491389fad56f411cd43
+  languageName: node
+  linkType: hard
+
 "@leichtgewicht/ip-codec@npm:^2.0.1":
   version: 2.0.4
   resolution: "@leichtgewicht/ip-codec@npm:2.0.4"
@@ -1654,19 +1670,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ohrm/oxd@npm:1.0.9-alpha.2":
-  version: 1.0.9-alpha.2
-  resolution: "@ohrm/oxd@npm:1.0.9-alpha.2"
+"@ohrm/oxd@npm:2.0.1":
+  version: 2.0.1
+  resolution: "@ohrm/oxd@npm:2.0.1"
   dependencies:
     "@revolist/vue3-datagrid": "npm:^3.2.17"
-    bootstrap-icons: "npm:^1.3.0"
-    chart.js: "npm:^3.9.1"
-    core-js: "npm:^3.26.1"
-    date-fns: "npm:^2.22.1"
+    chart.js: "npm:^4.1.2"
+    date-fns: "npm:^2.29.3"
     mitt: "npm:^3.0.0"
     nanoid: "npm:^4.0.0"
-    vue: "npm:^3.2.45"
-  checksum: 10/0a7b8a1b9c1ecd243257dbec0bb1fe6ccfe4025e61a1aae73c7de1cb344b82532f9eaf07289de7355d0e3b5972c9a748bb2d027b21cf3ca66a9c2b98a2156430
+  peerDependencies:
+    vue: 3.x
+  checksum: 10/851d05de95cdd6a98ee35ec7e2210c54de5adec1ca2e76cd2708b93971db19bf2194d1c4e04cb2b4bd2c79ccd6afbd1d543aab43433378affef7610ba849cb4d
   languageName: node
   linkType: hard
 
@@ -3315,13 +3330,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bootstrap-icons@npm:^1.3.0":
-  version: 1.10.2
-  resolution: "bootstrap-icons@npm:1.10.2"
-  checksum: 10/4d5c73abb9a3bfe10301118d704362d60d935bfef6ec34bd0b3e607b5da7ac44c6364d573786e08c96422a58903bddf8459fdd6d3d3c71c3439bddc44764e4e4
-  languageName: node
-  linkType: hard
-
 "brace-expansion@npm:^1.1.7":
   version: 1.1.11
   resolution: "brace-expansion@npm:1.1.11"
@@ -3540,10 +3548,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chart.js@npm:^3.9.1":
-  version: 3.9.1
-  resolution: "chart.js@npm:3.9.1"
-  checksum: 10/62ee137b296181d8d12e428cb83a02351768039ff672b8ff775534f844777e9c91a3213fc8c6c46b59175a47f23d1547178fdd64ff9afc37c2c1703b2cede93e
+"chart.js@npm:^4.1.2":
+  version: 4.4.1
+  resolution: "chart.js@npm:4.4.1"
+  dependencies:
+    "@kurkle/color": "npm:^0.3.0"
+  checksum: 10/bb58247349ed04b6a38c4c4b45d953d87dab40ecd70dd796da302cbcebf866dfc1ecf7bd32d95ecb44b89dccf9a4cfc6ff84f74ba69b024be9b5bd19b2930fbc
   languageName: node
   linkType: hard
 
@@ -3892,7 +3902,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"core-js@npm:^3.26.1, core-js@npm:^3.27.1":
+"core-js@npm:^3.27.1":
   version: 3.27.1
   resolution: "core-js@npm:3.27.1"
   checksum: 10/149788f3be16103768ab3850bfec4d2d2e656656fd2a81aa0b7c5b45b2cc9eaad1a55523ea82459dc24f09b1b4c1926e5254bf80ef819a8c83404cba9cdb0f59
@@ -4142,10 +4152,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"date-fns@npm:^2.22.1":
-  version: 2.29.3
-  resolution: "date-fns@npm:2.29.3"
-  checksum: 10/05b6ce6093ed2a09aafe89bb7a6d51ff72971341d7db1e531299d117df305c4a9f408bcdd533687622ae820ba9ea8859437b12074d7043b76325c7828e5d41fc
+"date-fns@npm:^2.29.3":
+  version: 2.30.0
+  resolution: "date-fns@npm:2.30.0"
+  dependencies:
+    "@babel/runtime": "npm:^7.21.0"
+  checksum: 10/70b3e8ea7aaaaeaa2cd80bd889622a4bcb5d8028b4de9162cbcda359db06e16ff6e9309e54eead5341e71031818497f19aaf9839c87d1aba1e27bb4796e758a9
   languageName: node
   linkType: hard
 
@@ -7016,7 +7028,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "orangehrm-installer@workspace:."
   dependencies:
-    "@ohrm/oxd": "npm:1.0.9-alpha.2"
+    "@ohrm/oxd": "npm:2.0.1"
     "@typescript-eslint/eslint-plugin": "npm:^5.4.0"
     "@typescript-eslint/parser": "npm:^5.4.0"
     "@vue/cli-plugin-babel": "npm:~5.0.8"
@@ -7893,6 +7905,13 @@ __metadata:
   version: 0.13.11
   resolution: "regenerator-runtime@npm:0.13.11"
   checksum: 10/d493e9e118abef5b099c78170834f18540c4933cedf9bfabc32d3af94abfb59a7907bd7950259cbab0a929ebca7db77301e8024e5121e6482a82f78283dfd20c
+  languageName: node
+  linkType: hard
+
+"regenerator-runtime@npm:^0.14.0":
+  version: 0.14.1
+  resolution: "regenerator-runtime@npm:0.14.1"
+  checksum: 10/5db3161abb311eef8c45bcf6565f4f378f785900ed3945acf740a9888c792f75b98ecb77f0775f3bf95502ff423529d23e94f41d80c8256e8fa05ed4b07cf471
   languageName: node
   linkType: hard
 

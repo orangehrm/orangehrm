@@ -48,16 +48,14 @@
 </template>
 
 <script>
-import DialogWithClose from '@ohrm/oxd/core/components/Dialog/Dialog.vue';
-import ClassicTable from '@ohrm/oxd/core/components/Table/ClassicTable.vue';
-import CheckBoxInput from '@ohrm/oxd/core/components/Input/CheckboxInput.vue';
+import {OxdCheckboxInput, OxdClassicTable, OxdDialog} from '@ohrm/oxd';
 
 export default {
   name: 'DatabaseConfigDialog',
   components: {
-    'oxd-dialog': DialogWithClose,
-    'oxd-check-box': CheckBoxInput,
-    'oxd-classic-table': ClassicTable,
+    'oxd-dialog': OxdDialog,
+    'oxd-check-box': OxdCheckboxInput,
+    'oxd-classic-table': OxdClassicTable,
   },
   emits: ['closeModel'],
   data() {

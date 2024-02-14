@@ -245,12 +245,12 @@ The GNU General Public License does not permit incorporating your program into p
 </template>
 
 <script>
-import Textarea from '@ohrm/oxd/core/components/Textarea/Textarea.vue';
+import {OxdTextarea} from '@ohrm/oxd';
 
 export default {
   name: 'GNULicence',
   components: {
-    'oxd-textarea': Textarea,
+    'oxd-textarea': OxdTextarea,
   },
 };
 </script>

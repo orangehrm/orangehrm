@@ -138,12 +138,12 @@ import {
 import {navigate} from '@/core/util/helper/navigation';
 import {checkPassword} from '@/core/util/helper/password';
 import {APIService} from '@/core/util/services/api.service';
-import Icon from '@ohrm/oxd/core/components/Icon/Icon.vue';
+import {OxdIcon} from '@ohrm/oxd';
 
 export default {
   name: 'AdminUserCreation',
   components: {
-    'oxd-icon': Icon,
+    'oxd-icon': OxdIcon,
   },
   setup() {
     const http = new APIService(
