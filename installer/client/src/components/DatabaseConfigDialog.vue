@@ -116,6 +116,7 @@ export default {
   }
   &-table {
     margin-bottom: 2em;
+    display: table;
     table-layout: fixed;
   }
 }
