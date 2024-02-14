@@ -186,14 +186,13 @@ Cypress.Commands.add(
       },
     });
 
-    cy.wrap(element, {log: false})
-      .click('center', {log: false})
-      .then(($el) => {
-        cy.wrap($el.closest(OXD_ELEMENTS.selectWrapper), {log: false})
-          .find(OXD_ELEMENTS.option, {log: false})
-          .contains(value, {log: false})
-          .click('center', {log: false});
-      });
+    cy.wrap(element, {log: false}).click('center', {log: false});
+    cy.wrap(element, {log: false}).then(($el) => {
+      cy.wrap($el.closest(OXD_ELEMENTS.selectWrapper), {log: false})
+        .find(OXD_ELEMENTS.option, {log: false})
+        .contains(value, {log: false})
+        .click('center', {log: false});
+    });
 
     cy.on('fail', (err) => {
       log.error(err);
