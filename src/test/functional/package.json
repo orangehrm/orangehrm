@@ -7,13 +7,13 @@
   },
   "devDependencies": {
     "axios": "^0.25.0",
-    "cypress": "^7.4.0",
-    "eslint": "^7.31.0",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-cypress": "^2.11.3",
-    "eslint-plugin-jest": "^24.3.6",
-    "eslint-plugin-prettier": "^3.4.0",
-    "prettier": "^2.3.2"
+    "cypress": "^7.7.0",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.10.0",
+    "eslint-plugin-cypress": "^2.15.1",
+    "eslint-plugin-jest": "^24.7.0",
+    "eslint-plugin-prettier": "^3.4.1",
+    "prettier": "^2.8.8"
   },
   "packageManager": "yarn@4.1.0"
 }

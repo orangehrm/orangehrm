@@ -666,7 +666,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cypress@npm:^7.4.0":
+"cypress@npm:^7.7.0":
   version: 7.7.0
   resolution: "cypress@npm:7.7.0"
   dependencies:
@@ -835,31 +835,31 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-config-prettier@npm:^8.3.0":
-  version: 8.3.0
-  resolution: "eslint-config-prettier@npm:8.3.0"
+"eslint-config-prettier@npm:^8.10.0":
+  version: 8.10.0
+  resolution: "eslint-config-prettier@npm:8.10.0"
   peerDependencies:
     eslint: ">=7.0.0"
   bin:
     eslint-config-prettier: bin/cli.js
-  checksum: 10c0/0d6bd272a05045f2815f0aba4592633a7226713d716d1a4c21126bbdbde27c98e7a6e2a8227e03fae343b40caf8c06a87e7ce87e69851279cf10334b6f36f7bc
+  checksum: 10c0/19f8c497d9bdc111a17a61b25ded97217be3755bbc4714477dfe535ed539dddcaf42ef5cf8bb97908b058260cf89a3d7c565cb0be31096cbcd39f4c2fa5fe43c
   languageName: node
   linkType: hard
 
-"eslint-plugin-cypress@npm:^2.11.3":
-  version: 2.11.3
-  resolution: "eslint-plugin-cypress@npm:2.11.3"
+"eslint-plugin-cypress@npm:^2.15.1":
+  version: 2.15.1
+  resolution: "eslint-plugin-cypress@npm:2.15.1"
   dependencies:
-    globals: "npm:^11.12.0"
+    globals: "npm:^13.20.0"
   peerDependencies:
     eslint: ">= 3.2.1"
-  checksum: 10c0/dc0e28aa900e8b3d3d77bc2fa33184820f4b8b0723434c3bfbafdf44c1e6fbed8c1531ce7cb93557776d209fd69e2a535484e83906e328a615e7a5eecb59692a
+  checksum: 10c0/f404adf415ef6b986d3480397a26eb73976a9156bbf786f2d22b8df28bbf0e50d4b3c699caefd230f0de9d6e8850596ab1bcc471b173aede05373d2a5ae3c624
   languageName: node
   linkType: hard
 
-"eslint-plugin-jest@npm:^24.3.6":
-  version: 24.3.6
-  resolution: "eslint-plugin-jest@npm:24.3.6"
+"eslint-plugin-jest@npm:^24.7.0":
+  version: 24.7.0
+  resolution: "eslint-plugin-jest@npm:24.7.0"
   dependencies:
     "@typescript-eslint/experimental-utils": "npm:^4.0.1"
   peerDependencies:
@@ -868,13 +868,13 @@ __metadata:
   peerDependenciesMeta:
     "@typescript-eslint/eslint-plugin":
       optional: true
-  checksum: 10c0/31a6b4ca99a8e4d656c1e5e1aa90d5f6ed1329e2700de54aad8c53dd8beb562f7cedbd57ae286de138576e3da8f238c7ff8b718c7273f43ff5bada76bde210be
+  checksum: 10c0/e93d92d83b3ee3c1b1252d696668a1c8e3bb4cfefc1acc506103636c2a35cd7d62ebb8eca6a75755b404b23e9506a0a742ad9493cdf1e3ab50e86b69fe2fbda8
   languageName: node
   linkType: hard
 
-"eslint-plugin-prettier@npm:^3.4.0":
-  version: 3.4.0
-  resolution: "eslint-plugin-prettier@npm:3.4.0"
+"eslint-plugin-prettier@npm:^3.4.1":
+  version: 3.4.1
+  resolution: "eslint-plugin-prettier@npm:3.4.1"
   dependencies:
     prettier-linter-helpers: "npm:^1.0.0"
   peerDependencies:
@@ -883,7 +883,7 @@ __metadata:
   peerDependenciesMeta:
     eslint-config-prettier:
       optional: true
-  checksum: 10c0/dbc9f319cf251b0f9251318b152cc8f1cbc1740bf67ac4d45447f48b03eb56eb7b9661c2c30a97b3d53a23e7de86de85ff47e54ae2293d41675f668df2bcc79c
+  checksum: 10c0/b2599dd22b5b0d2e3baffc94ba55a33ed525d642125d657fbc8511a2458146bdcc2bc810418713bb0049e37765def92b51213a4467984f4c758807bea224d0c5
   languageName: node
   linkType: hard
 
@@ -931,9 +931,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint@npm:^7.31.0":
-  version: 7.31.0
-  resolution: "eslint@npm:7.31.0"
+"eslint@npm:^7.32.0":
+  version: 7.32.0
+  resolution: "eslint@npm:7.32.0"
   dependencies:
     "@babel/code-frame": "npm:7.12.11"
     "@eslint/eslintrc": "npm:^0.4.3"
@@ -977,7 +977,7 @@ __metadata:
     v8-compile-cache: "npm:^2.0.3"
   bin:
     eslint: bin/eslint.js
-  checksum: 10c0/9465bc788a991e7a7ae7957bc772b8cc337dbe7112d2d3628f4dd472c412f577b51df04fa1152be986bfdc25b6906f7d152587bdc766617a978a09c43ec7932f
+  checksum: 10c0/84409f7767556179cb11529f1215f335c7dfccf90419df6147f949f14c347a960c7b569e80ed84011a0b6d10da1ef5046edbbb9b11c3e59aa6696d5217092e93
   languageName: node
   linkType: hard
 
@@ -1328,10 +1328,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"globals@npm:^11.12.0":
-  version: 11.12.0
-  resolution: "globals@npm:11.12.0"
-  checksum: 10c0/758f9f258e7b19226bd8d4af5d3b0dcf7038780fb23d82e6f98932c44e239f884847f1766e8fa9cc5635ccb3204f7fa7314d4408dd4002a5e8ea827b4018f0a1
+"globals@npm:^13.20.0":
+  version: 13.24.0
+  resolution: "globals@npm:13.24.0"
+  dependencies:
+    type-fest: "npm:^0.20.2"
+  checksum: 10c0/d3c11aeea898eb83d5ec7a99508600fbe8f83d2cf00cbb77f873dbf2bcb39428eff1b538e4915c993d8a3b3473fa71eeebfe22c9bb3a3003d1e26b1f2c8a42cd
   languageName: node
   linkType: hard
 
@@ -1984,12 +1986,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prettier@npm:^2.3.2":
-  version: 2.3.2
-  resolution: "prettier@npm:2.3.2"
+"prettier@npm:^2.8.8":
+  version: 2.8.8
+  resolution: "prettier@npm:2.8.8"
   bin:
     prettier: bin-prettier.js
-  checksum: 10c0/40f159f05808966ff4c57e147651cf038adb7f5af3fbca8d999b87ccbaeff7d73cf9038a45f667a8c18cbb049c1a980a752fa8987dfd3dcdd66e932e366f40be
+  checksum: 10c0/463ea8f9a0946cd5b828d8cf27bd8b567345cf02f56562d5ecde198b91f47a76b7ac9eae0facd247ace70e927143af6135e8cf411986b8cb8478784a4d6d724a
   languageName: node
   linkType: hard
 
@@ -2129,13 +2131,13 @@ __metadata:
   resolution: "root-workspace-0b6124@workspace:."
   dependencies:
     axios: "npm:^0.25.0"
-    cypress: "npm:^7.4.0"
-    eslint: "npm:^7.31.0"
-    eslint-config-prettier: "npm:^8.3.0"
-    eslint-plugin-cypress: "npm:^2.11.3"
-    eslint-plugin-jest: "npm:^24.3.6"
-    eslint-plugin-prettier: "npm:^3.4.0"
-    prettier: "npm:^2.3.2"
+    cypress: "npm:^7.7.0"
+    eslint: "npm:^7.32.0"
+    eslint-config-prettier: "npm:^8.10.0"
+    eslint-plugin-cypress: "npm:^2.15.1"
+    eslint-plugin-jest: "npm:^24.7.0"
+    eslint-plugin-prettier: "npm:^3.4.1"
+    prettier: "npm:^2.8.8"
   languageName: unknown
   linkType: soft
 
