@@ -32,7 +32,7 @@ class FormatWithActivity implements ValueFormatter
      */
     public function getFormattedValue($entityValue): ?string
     {
-        $activity=$this->getTimesheetService()->getActivityByActivityId($entityValue);
+        $activity = $this->getTimesheetService()->getActivityByActivityId($entityValue);
         if ($activity instanceof ProjectActivity) {
             return $activity->getName();
         }
