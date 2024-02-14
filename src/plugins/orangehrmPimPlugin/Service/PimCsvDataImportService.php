@@ -45,7 +45,8 @@ class PimCsvDataImportService
         "mobile",
         "work_telephone",
         "work_email",
-        "other_email"
+        "other_email",
+        "joined_date"
     ];
 
     /**
