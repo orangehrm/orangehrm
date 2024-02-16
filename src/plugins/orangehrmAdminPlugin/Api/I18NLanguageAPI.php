@@ -35,6 +35,7 @@ use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\I18NLanguage;
+use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 
 class I18NLanguageAPI extends Endpoint implements CrudEndpoint
 {
@@ -138,11 +139,22 @@ class I18NLanguageAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Delete(
+     *     path="/api/v2/admin/i18n/languages",
+     *     tags={"Admin/I18N"},
+     *     summary="Delete an I18N Language",
+     *     operationId="delete-an-i18n-language",
+     *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),
+     *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse")
+     * )
+     *
      * @inheritDoc
      */
     public function delete(): EndpointResult
     {
-        throw $this->getNotImplementedException();
+        $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
+        $this->getLocalizationService()->getLocalizationDao()->deleteI18NLanguage($ids);
+        return new EndpointResourceResult(ArrayModel::class, $ids);
     }
 
     /**
@@ -150,7 +162,9 @@ class I18NLanguageAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForDelete(): ParamRuleCollection
     {
-        throw $this->getNotImplementedException();
+        return new ParamRuleCollection(
+            new ParamRule(CommonParams::PARAMETER_IDS),
+        );
     }
 
     /**

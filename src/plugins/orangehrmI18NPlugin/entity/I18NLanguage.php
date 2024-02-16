@@ -30,6 +30,8 @@ class I18NLanguage
 {
     use DateTimeHelperTrait;
 
+    public const ENABLED = 0;
+
     /**
      * @var int
      *
