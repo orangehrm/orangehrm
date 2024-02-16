@@ -94,9 +94,9 @@ jobs:
         run: |
           docker exec os_dev_php80 bash -c 'php src/test/functional/tools/prepare.php'
           cd html/src/test/functional
-          sed -i 's~http://php80/orangehrm/web/index.php~http://php80/web/index.php~g' cypress.config.js
-          sed -i 's~false~true~g' cypress.config.js
-          sed -i 's~6000~10000~g' cypress.config.js
+          export CYPRESS_BASE_URL=http://php80/web/index.php
+          export CYPRESS_VIDEO=true
+          export CYPRESS_DEFAULT_COMMAND_TIMEOUT=10000
           yarn install
           yarn test
 
