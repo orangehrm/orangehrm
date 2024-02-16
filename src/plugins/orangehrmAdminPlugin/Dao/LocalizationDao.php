@@ -276,8 +276,8 @@ class LocalizationDao extends BaseDao
     {
         $q = $this->createQueryBuilder(I18NLanguage::class, 'ln');
         $q->update()
-            ->set('ln.enabled', ':isEnabled')
-            ->setParameter('isEnabled', I18NLanguage::ENABLED)
+            ->set('ln.added', ':isAdded')
+            ->setParameter('isAdded', I18NLanguage::ADDED)
             ->where($q->expr()->in('ln.id', ':ids'))
             ->setParameter('ids', $toBeDeletedI18NLanguageIds);
         return $q->getQuery()->execute();
