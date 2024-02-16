@@ -2,6 +2,10 @@
 node_modules
 /dist
 
+*.log
+cypress/screenshots
+cypress/fixtures/admin.json
+cypress.config.js
 
 # local env files
 .env.local
