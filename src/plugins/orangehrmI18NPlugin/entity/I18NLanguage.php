@@ -30,7 +30,8 @@ class I18NLanguage
 {
     use DateTimeHelperTrait;
 
-    public const ADDED = 0;
+    public const REMOVED = 0;
+    public const ADDED = 1;
 
     /**
      * @var int

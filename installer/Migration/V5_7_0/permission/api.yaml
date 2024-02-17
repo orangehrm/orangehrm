@@ -1,0 +1,15 @@
+##########################
+#        Admin
+##########################
+
+apiv2_admin_delete_i18n_languages:
+  description: 'Admin - Delete I18NLanguages'
+  api: OrangeHRM\Admin\Api\I18NLanguageAPI
+  module: admin
+  allowed:
+    read: true
+    create: false
+    update: true
+    delete: true
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: true, delete: true } }

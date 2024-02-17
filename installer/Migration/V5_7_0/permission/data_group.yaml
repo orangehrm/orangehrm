@@ -1,0 +1,9 @@
+ohrm_i18n_language:
+  description: 'Admin - I18NLanguage'
+  allowed:
+    read: true
+    create: false
+    update: true
+    delete: true
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: true, delete: true, self: false } }

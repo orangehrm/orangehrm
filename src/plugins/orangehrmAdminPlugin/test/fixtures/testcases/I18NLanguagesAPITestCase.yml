@@ -52,3 +52,44 @@ Update:
         id: 1
         name: 'Chinese (Simplified, China) - 中文（简体，中国）'
         code: 'zh_Hans_CN'
+
+Delete:
+  'with no ids':
+    userId: 1
+    services:
+      admin.localization_service: OrangeHRM\Admin\Service\LocalizationService
+    body:
+      ids: [ ]
+    data: [ ]
+
+  'with one id':
+    userId: 1
+    services:
+      admin.localization_service: OrangeHRM\Admin\Service\LocalizationService
+    body:
+      ids: [ 2 ]
+    data: [ 2 ]
+
+  'with multiple ids':
+    userId: 1
+    services:
+      admin.localization_service: OrangeHRM\Admin\Service\LocalizationService
+    body:
+      ids: [ 1, 2 ]
+    data: [ 1, 2 ]
+
+  'without int array':
+    userId: 1
+    services:
+      admin.localization_service: OrangeHRM\Admin\Service\LocalizationService
+    body:
+      ids: 1
+    invalidOnly: [ 'ids' ]
+
+  'with invalid ids':
+    userId: 1
+    services:
+      admin.localization_service: OrangeHRM\Admin\Service\LocalizationService
+    body:
+      ids: [ 1, "a" ]
+    invalidOnly: [ 'ids' ]

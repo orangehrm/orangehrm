@@ -175,4 +175,11 @@ class LocalizationDaoTest extends TestCase
         $count = $this->i18NDao->getI18NGroupCount($i18NGroupSearchFilterParams);
         $this->assertEquals('2', $count);
     }
+
+    public function testDeleteI18NLanguage(): void
+    {
+        $toBedeletedIds = [1, 2];
+        $result = $this->i18NDao->deleteI18NLanguage($toBedeletedIds);
+        $this->assertEquals($result, 2);
+    }
 }

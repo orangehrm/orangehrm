@@ -163,7 +163,10 @@ class I18NLanguageAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForDelete(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(CommonParams::PARAMETER_IDS),
+            new ParamRule(
+                CommonParams::PARAMETER_IDS,
+                new Rule(Rules::INT_ARRAY)
+            ),
         );
     }
 
