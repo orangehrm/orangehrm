@@ -38,6 +38,39 @@ GetAll:
     meta:
       total: 3
 
+GetOne:
+  'with nonexistent language id':
+    userId: 1
+    services:
+      admin.localization_service: OrangeHRM\Admin\Service\LocalizationService
+    attributes:
+      id: 1000
+    exception:
+      class: \OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException
+      message: 'Record Not Found'
+
+  'with deleted language id':
+    userId: 1
+    services:
+      admin.localization_service: OrangeHRM\Admin\Service\LocalizationService
+    attributes:
+      id: 7
+    exception:
+      class: \OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException
+      message: 'Record Not Found'
+
+  'with valid id':
+    userId: 1
+    services:
+      admin.localization_service: OrangeHRM\Admin\Service\LocalizationService
+    attributes:
+      id: 4
+    data:
+        id: 4
+        name: 'English (United States)'
+        code: 'en_US'
+    meta:
+      editable: false
 
 Update:
   'Update language as added':
