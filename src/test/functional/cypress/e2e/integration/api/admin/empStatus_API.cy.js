@@ -26,7 +26,6 @@ describe('Admin - Employment Status API ', function () {
 
   beforeEach(function () {
     cy.fixture('chars').as('strings');
-    Cypress.Cookies.preserveOnce('orangehrm', '_orangehrm');
   });
 
   describe('POST /emp-status', function () {
@@ -43,10 +42,19 @@ describe('Admin - Employment Status API ', function () {
   describe('With `emp-statuses` snapshot', function () {
     before(function () {
       cy.task('db:reset');
+      cy.fixture('user').then(({admin}) => {
+        cy.apiLogin(admin);
+      });
       cy.request('POST', empStatusAPI, {
         name: this.strings.chars50.text,
       }).then(function () {
         cy.task('db:snapshot', {name: 'emp-statuses'});
+      });
+    });
+
+    beforeEach(function () {
+      cy.fixture('user').then(({admin}) => {
+        cy.apiLogin(admin);
       });
     });
 
