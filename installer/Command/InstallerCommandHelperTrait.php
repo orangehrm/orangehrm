@@ -21,7 +21,7 @@ namespace OrangeHRM\Installer\Command;
 use OrangeHRM\Authentication\Dto\UserCredential;
 use OrangeHRM\Authentication\Utility\PasswordStrengthValidation;
 use OrangeHRM\Installer\Exception\InvalidArgumentException;
-use OrangeHRM\Installer\Util\Service\PasswordStrengthService;
+use OrangeHRM\Installer\Util\Service\InstallerPasswordStrengthService;
 use OrangeHRM\Installer\Util\SystemCheck;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\ConsoleSectionOutput;
@@ -220,7 +220,7 @@ trait InstallerCommandHelperTrait
     private function validatePassword(string $value): string
     {
         $passwordStrengthValidation = new PasswordStrengthValidation();
-        $passwordStrengthService = new PasswordStrengthService();
+        $passwordStrengthService = new InstallerPasswordStrengthService();
 
         $credential = new UserCredential('', $value);
 
