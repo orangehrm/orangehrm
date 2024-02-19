@@ -18,7 +18,10 @@
 
 namespace OrangeHRM\Installer\Command;
 
+use OrangeHRM\Authentication\Dto\UserCredential;
+use OrangeHRM\Authentication\Utility\PasswordStrengthValidation;
 use OrangeHRM\Installer\Exception\InvalidArgumentException;
+use OrangeHRM\Installer\Util\Service\PasswordStrengthService;
 use OrangeHRM\Installer\Util\SystemCheck;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\ConsoleSectionOutput;
@@ -207,5 +210,27 @@ trait InstallerCommandHelperTrait
             return $text;
         }
         throw InvalidArgumentException::shouldNotExceedCharacters($length);
+    }
+
+    /**
+     * @param string $value
+     * @return string
+     * @throws InvalidArgumentException
+     */
+    private function validatePassword(string $value): string
+    {
+        $passwordStrengthValidation = new PasswordStrengthValidation();
+        $passwordStrengthService = new PasswordStrengthService();
+
+        $credential = new UserCredential('', $value);
+
+        $passwordStrength = $passwordStrengthValidation->checkPasswordStrength($credential);
+        $messages = $passwordStrengthService->checkPasswordPolicies($credential, $passwordStrength);
+
+        if (count($messages) > 0) {
+            throw new InvalidArgumentException($messages[0]);
+        }
+
+        return $value;
     }
 }
