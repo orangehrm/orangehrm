@@ -61,13 +61,14 @@ describe('Admin - Job Category', function () {
     it('Job Category form validations', function () {
       cy.loginTo(this.user, '/admin/saveJobCategory');
       cy.getOXD('form').within(() => {
-        cy.getOXDInput('Name')
-          .type(this.strings.chars200.text)
-          .isInvalid('Should not exceed 50 characters');
-        cy.getOXDInput('Name').setValue('').isInvalid('Required');
-        cy.getOXDInput('Name')
-          .type('Craft Workers')
-          .isInvalid('Already exists');
+        cy.getOXDInput('Name').then(($input) => {
+          cy.wrap($input).type(this.strings.chars200.text);
+          cy.wrap($input).isInvalid('Should not exceed 50 characters');
+          cy.wrap($input).setValue('');
+          cy.wrap($input).isInvalid('Required');
+          cy.wrap($input).type('Craft Workers');
+          cy.wrap($input).isInvalid('Already exists');
+        });
       });
     });
     it('add a job category and click cancel', function () {
@@ -85,7 +86,10 @@ describe('Admin - Job Category', function () {
     it('Edit job category', function () {
       cy.loginTo(this.user, '/admin/saveJobCategory/1');
       cy.getOXD('form').within(() => {
-        cy.getOXDInput('Name').clear().type(this.strings.chars50.text);
+        cy.getOXDInput('Name').then(($input) => {
+          cy.wrap($input).clear();
+          cy.wrap($input).type(this.strings.chars50.text);
+        });
         cy.getOXD('button').contains('Save').click();
       });
       cy.wait('@updateJobCategories');

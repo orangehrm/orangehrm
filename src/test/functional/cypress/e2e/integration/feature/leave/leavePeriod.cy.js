@@ -15,7 +15,7 @@
  * If not, see <https://www.gnu.org/licenses/>.
  */
 
-import user from '../../../fixtures/user.json';
+import user from '../../../../fixtures/user.json';
 
 describe('Leave - Leave Period', function () {
   beforeEach(function () {
