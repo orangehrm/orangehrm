@@ -27,8 +27,6 @@ use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
-use OrangeHRM\Core\Api\V2\Exception\InvalidParamException;
-use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
@@ -178,20 +176,22 @@ class I18NLanguageAPI extends Endpoint implements CrudEndpoint
      *     tags={"Admin/I18N"},
      *     summary="Get an I18N Language",
      *     operationId="get-an-i18n-language",
-     *     @OA\PathParameter(
-     *         name="id",
-     *         @OA\Schema(type="integer")
+     *     @OA\Parameter(
+     *         name="activeOnly",
+     *         in="query",
+     *         required=true,
+     *         @OA\Schema(type="boolean")
      *     ),
      *     @OA\Response(response="200",
-     *          description="Success",
-     *          @OA\JsonContent(
-     *              @OA\Property(
-     *                  property="data",
-     *                  ref="#/components/schemas/Admin-I18NLanguageModel"
-     *              ),
-     *              @OA\Property(property="meta", type="object")
-     *          )
-     *      ),
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Admin-I18NLanguageModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
      *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
      * )
      *
@@ -201,9 +201,7 @@ class I18NLanguageAPI extends Endpoint implements CrudEndpoint
     {
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $language = $this->getLocalizationService()->getLocalizationDao()->getLanguageById($id);
-        if (!$language instanceof I18NLanguage) {
-            throw new RecordNotFoundException();
-        }
+        $this->throwRecordNotFoundExceptionIfNotExist($language, I18NLanguage::class);
 
         return new EndpointResourceResult(I18NLanguageModel::class, $language);
     }
@@ -214,7 +212,10 @@ class I18NLanguageAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForGetOne(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(CommonParams::PARAMETER_ID),
+            new ParamRule(
+                CommonParams::PARAMETER_ID,
+                new Rule(Rules::POSITIVE)
+            ),
         );
     }
 

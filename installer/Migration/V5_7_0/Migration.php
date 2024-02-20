@@ -1,22 +1,19 @@
 <?php
 /**
- * OrangeHRM Enterprise is a closed sourced comprehensive Human Resource Management (HRM)
- * System that captures all the essential functionalities required for any enterprise.
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
  * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
  *
- * OrangeHRM Inc is the owner of the patent, copyright, trade secrets, trademarks and any
- * other intellectual property rights which subsist in the Licensed Materials. OrangeHRM Inc
- * is the owner of the media / downloaded OrangeHRM Enterprise software files on which the
- * Licensed Materials are received. Title to the Licensed Materials and media shall remain
- * vested in OrangeHRM Inc. For the avoidance of doubt title and all intellectual property
- * rights to any design, new software, new protocol, new interface, enhancement, update,
- * derivative works, revised screen text or any other items that OrangeHRM Inc creates for
- * Customer shall remain vested in OrangeHRM Inc. Any rights not expressly granted herein are
- * reserved to OrangeHRM Inc.
+ * OrangeHRM is free software: you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation, either
+ * version 3 of the License, or (at your option) any later version.
  *
- * Please refer http://www.orangehrm.com/Files/OrangeHRM_Commercial_License.pdf
- * for the license which includes terms and conditions on using this software.
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
  *
+ * You should have received a copy of the GNU General Public License along with OrangeHRM.
+ * If not, see <https://www.gnu.org/licenses/>.
  */
 
 namespace OrangeHRM\Installer\Migration\V5_7_0;
@@ -30,8 +27,23 @@ class Migration extends AbstractMigration
      */
     public function up(): void
     {
-        $this->getDataGroupHelper()->insertApiPermissions(__DIR__ . '/permission/api.yaml');
-        $this->getDataGroupHelper()->insertDataGroupPermissions(__DIR__ . '/permission/data_group.yaml');
+        $localizationDataGroupId = $this->getDataGroupHelper()->getDataGroupIdByName(
+            'apiv2_admin_localization_languages'
+        );
+        $this->createQueryBuilder()->update('ohrm_data_group')
+            ->andWhere('id', ':id')
+            ->set('can_delete', ':value')
+            ->setParameter('id', $localizationDataGroupId)
+            ->setParameter('value', 1)
+            ->executeQuery();
+        $this->createQueryBuilder()->update('ohrm_user_role_data_group')
+            ->andWhere('data_group_id', ':dataGroupId')
+            ->andWhere('user_role_id', ':userRoleId')
+            ->set('can_delete', ':value')
+            ->setParameter('dataGroupId', $localizationDataGroupId)
+            ->setParameter('userRoleId', $this->getDataGroupHelper()->getUserRoleIdByName('Admin'))
+            ->setParameter('value', 1)
+            ->executeQuery();
     }
 
     /**
