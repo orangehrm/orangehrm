@@ -176,11 +176,9 @@ class I18NLanguageAPI extends Endpoint implements CrudEndpoint
      *     tags={"Admin/I18N"},
      *     summary="Get an I18N Language",
      *     operationId="get-an-i18n-language",
-     *     @OA\Parameter(
-     *         name="activeOnly",
-     *         in="query",
-     *         required=true,
-     *         @OA\Schema(type="boolean")
+     *     @OA\PathParameter(
+     *         name="id",
+     *         @OA\Schema(type="integer")
      *     ),
      *     @OA\Response(response="200",
      *         description="Success",
