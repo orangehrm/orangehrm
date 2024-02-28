@@ -559,6 +559,9 @@ class LeaveRequestDao extends BaseDao
         $q->addOrderBy('employee.lastName', ListSorter::ASCENDING)
             ->addOrderBy('employee.firstName', ListSorter::ASCENDING);
 
+        $q->addSelect('leaveRequest.id');
+        $q->addSelect('MIN(leave.date) as minDate');
+
         if (!is_null($leaveRequestSearchFilterParams->getEmpNumber())) {
             $q->andWhere('leaveRequest.employee = :empNumber')
                 ->setParameter('empNumber', $leaveRequestSearchFilterParams->getEmpNumber());
@@ -606,6 +609,7 @@ class LeaveRequestDao extends BaseDao
             $q->andWhere($q->expr()->in('leave.status', ':statuses'))
                 ->setParameter('statuses', $statuses);
         }
+
         $q->addGroupBy('leaveRequest.id');
 
         $q->andWhere($q->expr()->isNull('employee.purgedAt'));
@@ -821,7 +825,7 @@ class LeaveRequestDao extends BaseDao
 
         $q->andWhere('leaveType.deleted = :leaveTypeDeleted')
            ->setParameter('leaveTypeDeleted', false);
-        $q->addOrderBy('leaveType.id', ListSorter::ASCENDING);
+        $q->addOrderBy('leaveTypeId', ListSorter::ASCENDING);
 
         return $q->getQuery()->getSingleColumnResult();
     }
