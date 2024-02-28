@@ -31,14 +31,14 @@ class Migration extends AbstractMigration
             'apiv2_admin_localization_languages'
         );
         $this->createQueryBuilder()->update('ohrm_data_group')
-            ->andWhere('id', ':id')
+            ->andWhere('id = :id')
             ->set('can_delete', ':value')
             ->setParameter('id', $localizationDataGroupId)
             ->setParameter('value', 1)
             ->executeQuery();
         $this->createQueryBuilder()->update('ohrm_user_role_data_group')
-            ->andWhere('data_group_id', ':dataGroupId')
-            ->andWhere('user_role_id', ':userRoleId')
+            ->andWhere('data_group_id = :dataGroupId')
+            ->andWhere('user_role_id = :userRoleId')
             ->set('can_delete', ':value')
             ->setParameter('dataGroupId', $localizationDataGroupId)
             ->setParameter('userRoleId', $this->getDataGroupHelper()->getUserRoleIdByName('Admin'))
