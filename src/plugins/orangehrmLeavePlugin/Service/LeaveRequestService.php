@@ -325,7 +325,7 @@ class LeaveRequestService
     {
         $leaveRequestsMap = [];
         foreach ($leaveRequests as $leaveRequest) {
-            $leaveRequestsMap[$leaveRequest[0]->getId()] = $leaveRequest[0];
+            $leaveRequestsMap[$leaveRequest->getId()] = $leaveRequest;
         }
         return $leaveRequestsMap;
     }
