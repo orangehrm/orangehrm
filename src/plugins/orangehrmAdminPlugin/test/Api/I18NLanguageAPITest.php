@@ -78,31 +78,37 @@ class I18NLanguageAPITest extends EndpointIntegrationTestCase
         $api->getValidationRuleForCreate();
     }
 
-    public function testGetOne(): void
+    /**
+     * @dataProvider dataProviderForTestGetOne
+     */
+    public function testGetOne(TestCaseParams $testCaseParams): void
     {
-        $api = new I18NLanguageAPI($this->getRequest());
-        $this->expectNotImplementedException();
-        $api->getOne();
+        $this->populateFixtures('I18NLanguagesAPI.yml');
+        $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
+        $this->registerServices($testCaseParams);
+        $api = $this->getApiEndpointMock(I18NLanguageAPI::class, $testCaseParams);
+        $this->assertValidTestCase($api, 'getOne', $testCaseParams);
     }
 
-    public function testGetValidationRuleForGetOne(): array
+    public function dataProviderForTestGetOne(): array
     {
-        $api = new I18NLanguageAPI($this->getRequest());
-        $this->expectNotImplementedException();
-        $api->getValidationRuleForGetOne();
+        return $this->getTestCases('I18NLanguagesAPITestCase.yml', 'GetOne');
     }
 
-    public function testDelete(): void
+    /**
+     * @dataProvider dataProviderForTestDelete
+     */
+    public function testDelete(TestCaseParams $testCaseParams): void
     {
-        $api = new I18NLanguageAPI($this->getRequest());
-        $this->expectNotImplementedException();
-        $api->delete();
+        $this->populateFixtures('I18NLanguagesAPI.yml');
+        $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
+        $this->registerServices($testCaseParams);
+        $api = $this->getApiEndpointMock(I18NLanguageAPI::class, $testCaseParams);
+        $this->assertValidTestCase($api, 'delete', $testCaseParams);
     }
 
-    public function testGetValidationRuleForDelete(): void
+    public function dataProviderForTestDelete(): array
     {
-        $api = new I18NLanguageAPI($this->getRequest());
-        $this->expectNotImplementedException();
-        $api->getValidationRuleForDelete();
+        return $this->getTestCases('I18NLanguagesAPITestCase.yml', 'Delete');
     }
 }
