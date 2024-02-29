@@ -153,18 +153,17 @@ class LocationDao extends BaseDao
         $locationIds = [];
 
         if (!empty($empNumbers)) {
-            $q = $this->createQueryBuilder(EmpLocations::class, 'el');
-            $q->distinct()
-                ->addGroupBy('el.location');
-            $q->andWhere($q->expr()->in('el.employee', ':empNumbers'))
+            $q = $this->createQueryBuilder(EmpLocations::class, 'empLocation');
+            $q->select('IDENTITY(empLocation.location) as locationId')
+                ->distinct()
+                ->addGroupBy('locationId');
+            $q->andWhere($q->expr()->in('empLocation.employee', ':empNumbers'))
                 ->setParameter('empNumbers', $empNumbers);
 
             /** @var EmpLocations[] $locations */
             $locations = $q->getQuery()->execute();
 
-            foreach ($locations as $location) {
-                $locationIds[] = $location->getLocation()->getId();
-            }
+            $locationIds = array_column($locations, 'locationId');
         }
 
         return $locationIds;
