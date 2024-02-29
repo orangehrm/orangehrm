@@ -532,27 +532,7 @@ class LeaveRequestDao extends BaseDao
     public function getLeaveRequests(LeaveRequestSearchFilterParams $leaveRequestSearchFilterParams): array
     {
         $this->_markApprovedLeaveAsTaken();
-        $queryResult = $this->getLeaveRequestsPaginator($leaveRequestSearchFilterParams)->getQuery()->execute();
-
-        // Since we are selecting id and MIN(leave.date), the resulting query will be in the following format
-        // [
-        //     [
-        //          0 => OrangeHRM/Entity/LeaveRequest,
-        //          'id' => 1.
-        //          'minDate' = '2024-02-29'
-        //     ],
-        //     [
-        //          0 => OrangeHRM/Entity/LeaveRequest,
-        //          'id' => 2,
-        //          'minDate' = '2024-03-01'
-        //     ]
-        // ]
-
-        $leaveRequests = [];
-        foreach ($queryResult as $item) {
-            $leaveRequests[] = $item[0];
-        }
-        return $leaveRequests;
+        return array_column($this->getLeaveRequestsPaginator($leaveRequestSearchFilterParams)->getQuery()->execute(), 0);
     }
 
     /**
