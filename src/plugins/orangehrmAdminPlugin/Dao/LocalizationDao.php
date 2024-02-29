@@ -267,4 +267,19 @@ class LocalizationDao extends BaseDao
     {
         return $this->getI18NGroupPaginator($i18NGroupSearchFilterParams)->count();
     }
+
+    /**
+     * @param array $toBeDeletedI18NLanguageIds
+     * @return int
+     */
+    public function deleteI18NLanguage(array $toBeDeletedI18NLanguageIds): int
+    {
+        $q = $this->createQueryBuilder(I18NLanguage::class, 'ln');
+        $q->update()
+            ->set('ln.added', ':isAdded')
+            ->setParameter('isAdded', I18NLanguage::REMOVED)
+            ->where($q->expr()->in('ln.id', ':ids'))
+            ->setParameter('ids', $toBeDeletedI18NLanguageIds);
+        return $q->getQuery()->execute();
+    }
 }
