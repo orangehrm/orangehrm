@@ -341,7 +341,7 @@ class InstallOnNewDatabaseCommand extends InstallerCommand
         $username = $this->getRequiredField('Admin Username', fn ($value) => $this->validateStrLength($value, 40));
         $password = $this->getIO()->askHidden('Password <comment>(hidden)</comment>', function ($value) {
             $value = $this->requiredValidator($value);
-            return $this->validateStrLength($value, 64);
+            return $this->validatePassword($value);
         });
         $this->getIO()->askHidden(
             'Confirm Password <comment>(hidden)</comment>',

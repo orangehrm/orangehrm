@@ -302,14 +302,14 @@ apiv2_admin_localization:
 apiv2_admin_i18n_languages:
   path: /api/v2/admin/i18n/languages
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
-  methods: [ GET ]
+  methods: [ GET, DELETE ]
   defaults:
     _api: OrangeHRM\Admin\Api\I18NLanguageAPI
 
 apiv2_admin_i18n_language:
   path: /api/v2/admin/i18n/languages/{id}
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
-  methods: [ PUT ]
+  methods: [ GET, PUT ]
   defaults:
     _api: OrangeHRM\Admin\Api\I18NLanguageAPI
 

@@ -74,13 +74,14 @@ describe('Leave - leave types', function () {
       cy.task('db:restore', {name: 'leaveTypes'});
       cy.loginTo(this.user, '/leave/defineLeaveType');
       cy.getOXD('form').within(() => {
-        cy.getOXDInput('Name')
-          .type(this.strings.chars100.text)
-          .isInvalid('Should not exceed 50 characters');
-        cy.getOXDInput('Name').setValue('').isInvalid('Required');
-        cy.getOXDInput('Name')
-          .type(this.strings.leaveTypes.leavetype2)
-          .isInvalid('Already exists');
+        cy.getOXDInput('Name').then(($input) => {
+          cy.wrap($input).type(this.strings.chars100.text);
+          cy.wrap($input).isInvalid('Should not exceed 50 characters');
+          cy.wrap($input).setValue('');
+          cy.wrap($input).isInvalid('Required');
+          cy.wrap($input).type(this.strings.leaveTypes.leavetype2);
+          cy.wrap($input).isInvalid('Already exists');
+        });
       });
     });
   });
@@ -94,7 +95,10 @@ describe('Leave - leave types', function () {
         '.oxd-table-body > :nth-child(1) .oxd-table-cell-actions > :nth-child(2)',
       ).click();
       cy.getOXD('form').within(() => {
-        cy.getOXDInput('Name').clear().type(this.strings.chars30.text);
+        cy.getOXDInput('Name').then(($input) => {
+          cy.wrap($input).clear();
+          cy.wrap($input).type(this.strings.chars30.text);
+        });
         cy.getOXD('button').contains('Save').click();
       });
       cy.wait('@putLeaveType');
