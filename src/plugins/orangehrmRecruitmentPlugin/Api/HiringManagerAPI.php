@@ -78,16 +78,9 @@ class HiringManagerAPI extends Endpoint implements CollectionEndpoint
         $accessibleVacancyIds = $this->getUserRoleManager()->getAccessibleEntityIds(Vacancy::class);
         $vacancySearchFilterParams = new VacancySearchFilterParams();
         $vacancySearchFilterParams->setVacancyIds($accessibleVacancyIds);
-        $vacancies = $this->getVacancyService()
+        $hiringManagerEmpNumbers = $this->getVacancyService()
             ->getVacancyDao()
-            ->getVacancyListGroupByHiringManager($vacancySearchFilterParams);
-        $hiringManagerEmpNumbers = array_map(function ($vacancy) {
-            if ($vacancy->getHiringManager() !== null) {
-                return $vacancy->getHiringManager()->getEmpNumber();
-            } else {
-                return null;
-            }
-        }, $vacancies);
+            ->getHiringManagerEmpNumberList($vacancySearchFilterParams);
         $employeeSearchFilterParams = new EmployeeSearchFilterParams();
         $this->setSortingAndPaginationParams($employeeSearchFilterParams);
         $employeeSearchFilterParams->setEmployeeNumbers($hiringManagerEmpNumbers);
