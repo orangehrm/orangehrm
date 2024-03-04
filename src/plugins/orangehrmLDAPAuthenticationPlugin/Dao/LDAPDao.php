@@ -40,14 +40,14 @@ class LDAPDao extends BaseDao
         $q = $this->createQueryBuilder(User::class, 'user');
         $q->andWhere('user.deleted = :deleted')
             ->setParameter('deleted', false);
-        $q->select('IDENTITY(user.employee)');
-        $q->addOrderBy('user.id');
+        $q->select('IDENTITY(user.employee) as empNumber');
+        $q->addOrderBy('empNumber');
 
-        $q->addGroupBy('user.employee');
-        $q->andHaving($q->expr()->gte($q->expr()->count('user.id'), ':userCount'))
+        $q->addGroupBy('empNumber');
+        $q->andHaving($q->expr()->gte($q->expr()->count('empNumber'), ':userCount'))
             ->setParameter('userCount', 2);
 
-        return $q->getQuery()->getSingleColumnResult();
+        return array_column($q->getQuery()->execute(), 'empNumber');
     }
 
     /**
