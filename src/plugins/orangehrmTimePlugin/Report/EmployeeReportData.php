@@ -52,9 +52,9 @@ class EmployeeReportData implements ReportData
             ->getTimesheetItemsForEmployeeReport($this->filterParams);
         $result = [];
         foreach ($timesheetItems as $timesheetItem) {
-            $projectName = $timesheetItem[0]->getProject()->getCustomer()->getName()
-                . ' - ' . $timesheetItem[0]->getProject()->getName();
-            $activityName = $timesheetItem[0]->getProjectActivity()->getName();
+            $projectName = $timesheetItem['customerName']
+                . ' - ' . $timesheetItem['projectName'];
+            $activityName = $timesheetItem['activityName'];
             $duration = $this->getNumberHelper()->numberFormat($timesheetItem['totalDurationByGroup'] / 3600, 2);
             $result[] = [
                 EmployeeReport::PARAMETER_PROJECT_NAME => $projectName,

@@ -436,9 +436,21 @@ class TimesheetDao extends BaseDao
         EmployeeReportsSearchFilterParams $filterParams
     ): Paginator {
         $qb = $this->getTimesheetItemsForEmployeeReportQueryBuilderWrapper($filterParams)->getQueryBuilder();
-        $qb->addSelect('COALESCE(SUM(timesheetItem.duration),0) AS totalDurationByGroup');
-        $qb->addGroupBy('timesheetItem.project');
-        $qb->addGroupBy('timesheetItem.projectActivity');
+        $qb->select(
+            'project.name AS projectName',
+            'projectActivity.name AS activityName',
+            'customer.name AS customerName',
+            'COALESCE(SUM(timesheetItem.duration),0) AS totalDurationByGroup'
+        );
+
+        $qb->addGroupBy('projectName');
+        $qb->addGroupBy('activityName');
+        $qb->addGroupBy('customerName');
+
+        $qb->addOrderBy('projectName', ListSorter::ASCENDING);
+        $qb->addOrderBy('activityName', ListSorter::ASCENDING);
+        $qb->addOrderBy('customerName', ListSorter::ASCENDING);
+
         return $this->getPaginator($qb);
     }
 
@@ -492,9 +504,6 @@ class TimesheetDao extends BaseDao
             $q->setParameter('state', EmployeeReportsSearchFilterParams::TIMESHEET_APPROVED_STATE);
         }
         //else: neither fromDate nor toDate is available
-
-        $q->addOrderBy('project.name', ListSorter::ASCENDING);
-        $q->addOrderBy('projectActivity.name', ListSorter::ASCENDING);
 
         return $this->getQueryBuilderWrapper($q);
     }
