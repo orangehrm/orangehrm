@@ -43,7 +43,6 @@ class GenericBasicDisplayField extends BasicDisplayField
         'empEmploymentStatus' => ['entityAlias' => 'employmentStatus', 'field' => 'name'],
         'empJobCategory' => ['entityAlias' => 'jobCategory', 'field' => 'name'],
         'empSubUnit' => ['entityAlias' => 'subunit', 'field' => 'name'],
-        'empLocation' => ['entityAlias' => 'location', 'field' => 'name'],
         'empTerminationReason' => ['entityAlias' => 'terminationReason', 'field' => 'name'],
         'terminationNote' => ['entityAlias' => 'employeeTerminationRecord', 'field' => 'note'],
 
@@ -60,8 +59,8 @@ class GenericBasicDisplayField extends BasicDisplayField
         'customField10' => ['entityAlias' => 'employee', 'field' => 'custom10'],
     ];
 
-    private string $entityAlias;
-    private string $field;
+    protected string $entityAlias;
+    protected string $field;
 
     /**
      * @param \OrangeHRM\Entity\DisplayField $displayField

@@ -44,6 +44,8 @@ class Migration extends AbstractMigration
             ->setParameter('userRoleId', $this->getDataGroupHelper()->getUserRoleIdByName('Admin'))
             ->setParameter('value', 1)
             ->executeQuery();
+
+        $this->updateDisplayFieldClassNames();
     }
 
     /**
@@ -52,5 +54,57 @@ class Migration extends AbstractMigration
     public function getVersion(): string
     {
         return '5.7.0';
+    }
+
+    private function updateDisplayFieldClassNames(): void
+    {
+        $empLocationFieldId = $this->getDisplayFieldIdFromFieldAlias('empLocation');
+        $empContStartDateFieldId = $this->getDisplayFieldIdFromFieldAlias('empContStartDate');
+        $empContEndDateFieldId = $this->getDisplayFieldIdFromFieldAlias('empContEndDate');
+
+        $this->updateDisplayFieldClassById(
+            $empLocationFieldId,
+            'OrangeHRM\Core\Report\DisplayField\GenericBasicDisplayFieldWithAggregate'
+        );
+        $this->updateDisplayFieldClassById(
+            $empContStartDateFieldId,
+            'OrangeHRM\Core\Report\DisplayField\GenericDateDisplayFieldWithAggregate'
+        );
+        $this->updateDisplayFieldClassById(
+            $empContEndDateFieldId,
+            'OrangeHRM\Core\Report\DisplayField\GenericDateDisplayFieldWithAggregate'
+        );
+
+    }
+
+    /**
+     * @param string $name
+     * @return int
+     */
+    private function getDisplayFieldIdFromFieldAlias(string $name): int
+    {
+        $qb = $this->createQueryBuilder()
+            ->select('field.display_field_id')
+            ->from('ohrm_display_field', 'field')
+            ->where('field.field_alias = :displayFieldName')
+            ->setParameter('displayFieldName', $name)
+            ->setMaxResults(1);
+
+        return $qb->fetchOne();
+    }
+
+    /**
+     * @param int $id
+     * @param string $className
+     */
+    private function updateDisplayFieldClassById(int $id, string $className): void
+    {
+        $this->createQueryBuilder()
+            ->update('ohrm_display_field')
+            ->set('ohrm_display_field.class_name', ':className')
+            ->setParameter('className', $className)
+            ->where('ohrm_display_field.display_field_id = :displayFieldId')
+            ->setParameter('displayFieldId', $id)
+            ->executeQuery();
     }
 }
