@@ -46,11 +46,17 @@ class GenericDateDisplayFieldWithAggregate extends GenericDateDisplayField
         return GenericDateDisplayFieldWithAggregateDTO::class;
     }
 
+    /**
+     * @return string
+     */
     public function getAggregate(): string
     {
         return $this->aggregate;
     }
 
+    /**
+     * @param string $aggregate
+     */
     public function setAggregate(string $aggregate): void
     {
         $this->aggregate = $aggregate;

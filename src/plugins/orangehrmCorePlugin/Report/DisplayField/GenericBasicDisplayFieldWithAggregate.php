@@ -37,11 +37,17 @@ class GenericBasicDisplayFieldWithAggregate extends GenericBasicDisplayField
         $this->setAggregate($mapping['aggregate']);
     }
 
+    /**
+     * @return string
+     */
     public function getAggregate(): string
     {
         return $this->aggregate;
     }
 
+    /**
+     * @param string $aggregate
+     */
     public function setAggregate(string $aggregate): void
     {
         $this->aggregate = $aggregate;
