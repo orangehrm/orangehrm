@@ -22,7 +22,7 @@ use OrangeHRM\Core\Dto\FilterParams;
 
 class EmployeeAllowedLanguageSearchFilterParams extends FilterParams
 {
-    public const ALLOWED_SORT_FIELDS = ['language.name'];
+    public const ALLOWED_SORT_FIELDS = ['l.name'];
 
     /**
      * @var string|null
@@ -31,7 +31,7 @@ class EmployeeAllowedLanguageSearchFilterParams extends FilterParams
 
     public function __construct()
     {
-        $this->setSortField('language.name');
+        $this->setSortField('l.name');
     }
 
     /**

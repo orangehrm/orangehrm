@@ -29,7 +29,7 @@ class LeaveRequestSearchFilterParams extends DateRangeSearchFilterParams
     use SubunitIdChainTrait;
     use LeaveRequestServiceTrait;
 
-    public const ALLOWED_SORT_FIELDS = ['minDate'];
+    public const ALLOWED_SORT_FIELDS = ['leave.date'];
 
     public const INCLUDE_EMPLOYEES_ONLY_CURRENT = 'onlyCurrent';
     public const INCLUDE_EMPLOYEES_ONLY_PAST = 'onlyPast';
@@ -81,7 +81,7 @@ class LeaveRequestSearchFilterParams extends DateRangeSearchFilterParams
 
     public function __construct()
     {
-        $this->setSortField('minDate');
+        $this->setSortField('leave.date');
         $this->setSortOrder(ListSorter::DESCENDING);
     }
 

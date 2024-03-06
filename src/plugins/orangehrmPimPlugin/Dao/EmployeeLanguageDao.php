@@ -162,6 +162,10 @@ class EmployeeLanguageDao extends BaseDao
         $q->addSelect('language.id');
         $q->addSelect('COUNT(language.name) as languageCount');
 
+        // For backwards compatibility
+        if ($employeeAllowedLanguageSearchFilterParams->getSortField() === 'l.name') {
+            $employeeAllowedLanguageSearchFilterParams->setSortField('language.name');
+        }
         $this->setSortingAndPaginationParams($q, $employeeAllowedLanguageSearchFilterParams);
 
         $q->addGroupBy('language.id');
