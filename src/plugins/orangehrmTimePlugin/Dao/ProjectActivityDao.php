@@ -197,8 +197,15 @@ class ProjectActivityDao extends BaseDao
             ->setParameter('deleted', false);
         $q->groupBy('activity.name')
             ->having('counter >= 2')
-            ->select('activity, COUNT(activity.id) AS HIDDEN counter');
-        return $q->getQuery()->execute();
+            ->select('activity.name, COUNT(activity.name) AS HIDDEN counter');
+
+        $duplicatedActivityNames = array_column($q->getQuery()->execute(), 'name');
+
+        return $this->createQueryBuilder(ProjectActivity::class, 'activity')
+            ->andWhere($q->expr()->in('activity.name', $duplicatedActivityNames))
+            ->andWhere($q->expr()->eq('activity.project', ':projectId'))
+            ->setParameter('projectId', $fromProjectId)
+            ->getQuery()->execute();
     }
 
     /**

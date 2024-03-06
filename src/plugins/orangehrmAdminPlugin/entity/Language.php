@@ -45,7 +45,7 @@ class Language
     private string $name;
 
     /**
-     * @var Collection|EmployeeLicense[]
+     * @var Collection|EmployeeLanguage[]
      *
      * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\EmployeeLanguage", mappedBy="language")
      */

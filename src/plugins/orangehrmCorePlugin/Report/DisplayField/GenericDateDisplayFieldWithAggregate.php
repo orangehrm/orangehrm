@@ -18,23 +18,14 @@
 
 namespace OrangeHRM\Core\Report\DisplayField;
 
-class GenericDateDisplayField extends CombinedDisplayField
+class GenericDateDisplayFieldWithAggregate extends GenericDateDisplayField
 {
     public const DATE_DISPLAY_FIELD_MAP = [
-        // Personal
-        'empBirthday' => ['entityAlias' => 'employee', 'field' => 'employee.birthday'],
-        'licenseExpiryDate' => ['entityAlias' => 'employee', 'field' => 'employee.drivingLicenseExpiredDate'],
-
-        // Job
-        'empJoinedDate' => ['entityAlias' => 'employee', 'field' => 'employee.joinedDate'],
-        'terminationDate' => [
-            'entityAlias' => 'employeeTerminationRecord',
-            'field' => 'employeeTerminationRecord.date'
-        ],
+        'empContStartDate' => ['entityAlias' => 'employmentContract', 'field' => 'employmentContract.startDate', 'aggregate' => 'MAX'],
+        'empContEndDate' => ['entityAlias' => 'employmentContract', 'field' => 'employmentContract.endDate', 'aggregate' => 'MAX'],
     ];
 
-    protected string $entityAlias;
-    protected string $field;
+    private string $aggregate;
 
     /**
      * @param \OrangeHRM\Entity\DisplayField $displayField
@@ -44,46 +35,42 @@ class GenericDateDisplayField extends CombinedDisplayField
         $mapping = self::DATE_DISPLAY_FIELD_MAP[$displayField->getFieldAlias()];
         $this->setEntityAlias($mapping['entityAlias']);
         $this->setField($mapping['field']);
+        $this->setAggregate($mapping['aggregate']);
     }
-
-    /**
-     * @param string $entityAlias
-     */
-    protected function setEntityAlias(string $entityAlias): void
-    {
-        $this->entityAlias = $entityAlias;
-    }
-
-    /**
-     * @param string $field
-     */
-    protected function setField(string $field): void
-    {
-        $this->field = $field;
-    }
-
 
     /**
      * @inheritDoc
      */
     public function getDtoClass(): string
     {
-        return GenericDateDisplayFieldDTO::class;
+        return GenericDateDisplayFieldWithAggregateDTO::class;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAggregate(): string
+    {
+        return $this->aggregate;
+    }
+
+    /**
+     * @param string $aggregate
+     */
+    public function setAggregate(string $aggregate): void
+    {
+        $this->aggregate = $aggregate;
     }
 
     /**
      * @inheritDoc
      */
-    public function getEntityAliases(): array
+    public function getSelectPart(): string
     {
-        return [$this->entityAlias];
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getFields(): array
-    {
-        return [$this->field];
+        return 'NEW ' . $this->getDtoClass() . '(' .
+            $this->getAggregate() . '(' .
+                implode(self::SEPARATOR, $this->getFields()) .
+                ')'.
+            ')';
     }
 }

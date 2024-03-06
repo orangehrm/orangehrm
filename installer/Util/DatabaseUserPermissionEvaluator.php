@@ -104,20 +104,6 @@ class DatabaseUserPermissionEvaluator
             throw new Exception('Invalid record count');
         }
 
-        // Start - group by test
-        $result = $this->getConnection()->createQueryBuilder()
-            ->select('COUNT(_ohrm_temp_table.id) AS rowCount')
-            ->from('_ohrm_temp_table')
-            ->andWhere('_ohrm_temp_table.col_bool = :valueTrue')
-            ->addOrderBy('_ohrm_temp_table.col_string', 'DESC')
-            ->addGroupBy('_ohrm_temp_table.col_nullable')
-            ->setParameter('valueTrue', false, Types::BOOLEAN)
-            ->executeQuery();
-        if ($result->fetchFirstColumn() != [2, 3]) {
-            throw new Exception('Invalid result');
-        }
-        // End - group by test
-
         // Start - order by test
         $this->getConnection()->createQueryBuilder()
             ->select('_ohrm_temp_table.id')

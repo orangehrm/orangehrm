@@ -277,7 +277,7 @@ class TimesheetDaoTest extends KernelTestCase
         $employeeReportsSearchFilterParams->setEmpNumber(2);
         $timesheetItems = $this->timesheetDao->getTimesheetItemsForEmployeeReport($employeeReportsSearchFilterParams);
         $totalDuration = $this->timesheetDao->getTotalDurationForEmployeeReport($employeeReportsSearchFilterParams);
-        $this->assertEquals('Core project 01', $timesheetItems[0][0]->getProject()->getName());
+        $this->assertEquals('Core project 01', $timesheetItems[0]['projectName']);
         $this->assertEquals(10800, $timesheetItems[0]['totalDurationByGroup']);
         $this->assertEquals(18000, $totalDuration);
 
@@ -287,7 +287,7 @@ class TimesheetDaoTest extends KernelTestCase
         $employeeReportsSearchFilterParams->setProjectId(2);
         $timesheetItems = $this->timesheetDao->getTimesheetItemsForEmployeeReport($employeeReportsSearchFilterParams);
         $totalDuration = $this->timesheetDao->getTotalDurationForEmployeeReport($employeeReportsSearchFilterParams);
-        $this->assertEquals('Core project 01', $timesheetItems[0][0]->getProject()->getName());
+        $this->assertEquals('Core project 01', $timesheetItems[0]['projectName']);
         $this->assertEquals(10800, $timesheetItems[0]['totalDurationByGroup']);
         $this->assertEquals(10800, $totalDuration);
 
@@ -297,7 +297,7 @@ class TimesheetDaoTest extends KernelTestCase
         $employeeReportsSearchFilterParams->setActivityId(2);
         $timesheetItems = $this->timesheetDao->getTimesheetItemsForEmployeeReport($employeeReportsSearchFilterParams);
         $totalDuration = $this->timesheetDao->getTotalDurationForEmployeeReport($employeeReportsSearchFilterParams);
-        $this->assertEquals('Core project 01', $timesheetItems[0][0]->getProject()->getName());
+        $this->assertEquals('Core project 01', $timesheetItems[0]['projectName']);
         $this->assertEquals(10800, $timesheetItems[0]['totalDurationByGroup']);
         $this->assertEquals(10800, $totalDuration);
 
@@ -307,7 +307,7 @@ class TimesheetDaoTest extends KernelTestCase
         $employeeReportsSearchFilterParams->setFromDate(new DateTime('2020-10-23'));
         $timesheetItems = $this->timesheetDao->getTimesheetItemsForEmployeeReport($employeeReportsSearchFilterParams);
         $totalDuration = $this->timesheetDao->getTotalDurationForEmployeeReport($employeeReportsSearchFilterParams);
-        $this->assertEquals('Core project 02', $timesheetItems[0][0]->getProject()->getName());
+        $this->assertEquals('Core project 02', $timesheetItems[0]['projectName']);
         $this->assertEquals(3600, $timesheetItems[0]['totalDurationByGroup']);
         $this->assertEquals(3600, $totalDuration);
 
@@ -317,7 +317,7 @@ class TimesheetDaoTest extends KernelTestCase
         $employeeReportsSearchFilterParams->setToDate(new DateTime('2020-10-23'));
         $timesheetItems = $this->timesheetDao->getTimesheetItemsForEmployeeReport($employeeReportsSearchFilterParams);
         $totalDuration = $this->timesheetDao->getTotalDurationForEmployeeReport($employeeReportsSearchFilterParams);
-        $this->assertEquals('Core project 01', $timesheetItems[0][0]->getProject()->getName());
+        $this->assertEquals('Core project 01', $timesheetItems[0]['projectName']);
         $this->assertEquals(10800, $timesheetItems[0]['totalDurationByGroup']);
         $this->assertEquals(14400, $totalDuration);
 
@@ -328,7 +328,7 @@ class TimesheetDaoTest extends KernelTestCase
         $employeeReportsSearchFilterParams->setToDate(new DateTime('2020-09-29'));
         $timesheetItems = $this->timesheetDao->getTimesheetItemsForEmployeeReport($employeeReportsSearchFilterParams);
         $totalDuration = $this->timesheetDao->getTotalDurationForEmployeeReport($employeeReportsSearchFilterParams);
-        $this->assertEquals('Core project 00', $timesheetItems[0][0]->getProject()->getName());
+        $this->assertEquals('Core project 00', $timesheetItems[0]['projectName']);
         $this->assertEquals(3600, $timesheetItems[0]['totalDurationByGroup']);
         $this->assertEquals(3600, $totalDuration);
 
@@ -340,7 +340,7 @@ class TimesheetDaoTest extends KernelTestCase
         );
         $timesheetItems = $this->timesheetDao->getTimesheetItemsForEmployeeReport($employeeReportsSearchFilterParams);
         $totalDuration = $this->timesheetDao->getTotalDurationForEmployeeReport($employeeReportsSearchFilterParams);
-        $this->assertEquals('Core project 02', $timesheetItems[1][0]->getProject()->getName());
+        $this->assertEquals('Core project 02', $timesheetItems[1]['projectName']);
         $this->assertEquals(3600, $timesheetItems[1]['totalDurationByGroup']);
         $this->assertEquals(18000, $totalDuration);
 
@@ -352,7 +352,7 @@ class TimesheetDaoTest extends KernelTestCase
         );
         $timesheetItems = $this->timesheetDao->getTimesheetItemsForEmployeeReport($employeeReportsSearchFilterParams);
         $totalDuration = $this->timesheetDao->getTotalDurationForEmployeeReport($employeeReportsSearchFilterParams);
-        $this->assertEquals('Core project 02', $timesheetItems[0][0]->getProject()->getName());
+        $this->assertEquals('Core project 02', $timesheetItems[0]['projectName']);
         $this->assertEquals(3600, $timesheetItems[0]['totalDurationByGroup']);
         $this->assertEquals(3600, $totalDuration);
 
@@ -368,7 +368,7 @@ class TimesheetDaoTest extends KernelTestCase
         );
         $timesheetItems = $this->timesheetDao->getTimesheetItemsForEmployeeReport($employeeReportsSearchFilterParams);
         $totalDuration = $this->timesheetDao->getTotalDurationForEmployeeReport($employeeReportsSearchFilterParams);
-        $this->assertEquals('Core project 00', $timesheetItems[0][0]->getProject()->getName());
+        $this->assertEquals('Core project 00', $timesheetItems[0]['projectName']);
         $this->assertEquals(7200, $timesheetItems[0]['totalDurationByGroup']);
         $this->assertEquals(7200, $totalDuration);
     }

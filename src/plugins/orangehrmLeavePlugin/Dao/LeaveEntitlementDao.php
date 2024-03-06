@@ -838,7 +838,7 @@ class LeaveEntitlementDao extends BaseDao
 
         $q->andWhere('leaveType.deleted = :leaveTypeDeleted')
             ->setParameter('leaveTypeDeleted', false);
-        $q->addOrderBy('leaveType.id', ListSorter::ASCENDING);
+        $q->addOrderBy('leaveTypeId', ListSorter::ASCENDING);
 
         return $q->getQuery()->getSingleColumnResult();
     }
