@@ -256,7 +256,6 @@ class ProjectDao extends BaseDao
         $q = $this->getProjectReportQueryBuilderWrapper($projectReportSearchFilterParams)->getQueryBuilder();
         $q->select(
             'projectActivity.id AS activityId,
-            timesheet.id,
             projectActivity.name, 
             projectActivity.deleted AS deleted, 
             SUM(COALESCE(timesheetItem.duration, 0)) AS totalDuration'

@@ -86,10 +86,6 @@ jobs:
           mysqldump -V
           php7.4 devTools/core/console.php i:create-test-db -p root --dump-options="--column-statistics=0"
 
-      - name: Config sql_mode
-        if: ${{ matrix.database.image == 'mysql:5.7' || matrix.database.image == 'mysql:8.0'  || matrix.database.image == 'mysql:8.1'  || matrix.database.image == 'mysql:8.2' }}
-        run: docker exec database bash -c "mysql -uroot -proot -e \"SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));\""
-
       - name: Configure LDAP server
         run: |
           cd src/plugins/orangehrmLDAPAuthenticationPlugin/test/config

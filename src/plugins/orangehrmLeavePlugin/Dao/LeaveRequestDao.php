@@ -532,7 +532,7 @@ class LeaveRequestDao extends BaseDao
     public function getLeaveRequests(LeaveRequestSearchFilterParams $leaveRequestSearchFilterParams): array
     {
         $this->_markApprovedLeaveAsTaken();
-        return $this->getLeaveRequestsPaginator($leaveRequestSearchFilterParams)->getQuery()->execute();
+        return array_column($this->getLeaveRequestsPaginator($leaveRequestSearchFilterParams)->getQuery()->execute(), 0);
     }
 
     /**
@@ -555,9 +555,16 @@ class LeaveRequestDao extends BaseDao
         $q = $this->createQueryBuilder(LeaveRequest::class, 'leaveRequest')
             ->leftJoin('leaveRequest.leaves', 'leave')
             ->leftJoin('leaveRequest.employee', 'employee');
+        // For backwards compatibility
+        if ($leaveRequestSearchFilterParams->getSortField() === 'leave.date') {
+            $leaveRequestSearchFilterParams->setSortField('minDate');
+        }
         $this->setSortingAndPaginationParams($q, $leaveRequestSearchFilterParams);
         $q->addOrderBy('employee.lastName', ListSorter::ASCENDING)
             ->addOrderBy('employee.firstName', ListSorter::ASCENDING);
+
+        $q->addSelect('leaveRequest.id');
+        $q->addSelect('MIN(leave.date) as minDate');
 
         if (!is_null($leaveRequestSearchFilterParams->getEmpNumber())) {
             $q->andWhere('leaveRequest.employee = :empNumber')
@@ -606,6 +613,7 @@ class LeaveRequestDao extends BaseDao
             $q->andWhere($q->expr()->in('leave.status', ':statuses'))
                 ->setParameter('statuses', $statuses);
         }
+
         $q->addGroupBy('leaveRequest.id');
 
         $q->andWhere($q->expr()->isNull('employee.purgedAt'));
@@ -821,7 +829,7 @@ class LeaveRequestDao extends BaseDao
 
         $q->andWhere('leaveType.deleted = :leaveTypeDeleted')
            ->setParameter('leaveTypeDeleted', false);
-        $q->addOrderBy('leaveType.id', ListSorter::ASCENDING);
+        $q->addOrderBy('leaveTypeId', ListSorter::ASCENDING);
 
         return $q->getQuery()->getSingleColumnResult();
     }

@@ -134,7 +134,7 @@ class EmployeeLanguageDao extends BaseDao
         EmployeeAllowedLanguageSearchFilterParams $employeeAllowedLanguageSearchFilterParams
     ): array {
         $paginator = $this->getAllowedEmployeeLanguagesPaginator($employeeAllowedLanguageSearchFilterParams);
-        return $paginator->getQuery()->execute();
+        return array_column($paginator->getQuery()->execute(), 0);
     }
 
     /**
@@ -155,14 +155,21 @@ class EmployeeLanguageDao extends BaseDao
     private function getAllowedEmployeeLanguagesPaginator(
         EmployeeAllowedLanguageSearchFilterParams $employeeAllowedLanguageSearchFilterParams
     ): Paginator {
-        $q = $this->createQueryBuilder(Language::class, 'l');
-        $q->leftJoin('l.employeeLanguages', 'el', Expr\Join::WITH, 'el.employee = :empNumber');
-        $q->setParameter('empNumber', $employeeAllowedLanguageSearchFilterParams->getEmpNumber());
-        $q->addSelect('el');
+        $q = $this->createQueryBuilder(Language::class, 'language');
+        $q->leftJoin('language.employeeLanguages', 'employeeLanguage', Expr\Join::WITH, 'employeeLanguage.employee = :empNumber')
+            ->setParameter('empNumber', $employeeAllowedLanguageSearchFilterParams->getEmpNumber());
+
+        $q->addSelect('language.id');
+        $q->addSelect('COUNT(language.name) as languageCount');
+
+        // For backwards compatibility
+        if ($employeeAllowedLanguageSearchFilterParams->getSortField() === 'l.name') {
+            $employeeAllowedLanguageSearchFilterParams->setSortField('language.name');
+        }
         $this->setSortingAndPaginationParams($q, $employeeAllowedLanguageSearchFilterParams);
 
-        $q->addGroupBy('l.name');
-        $q->andHaving($q->expr()->lt($q->expr()->count('l.name'), ':fluencyCount'))
+        $q->addGroupBy('language.id');
+        $q->andHaving($q->expr()->lt('languageCount', ':fluencyCount'))
             ->setParameter('fluencyCount', count(EmployeeLanguage::FLUENCIES));
 
         return $this->getPaginator($q);

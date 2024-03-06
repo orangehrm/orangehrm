@@ -137,11 +137,11 @@ class VacancyDaoTest extends KernelTestCase
         $this->assertEquals('Part-Time Technical Assistant', $vacancies[0]->getName());
     }
 
-    public function testGetVacanciesGroupByHiringManagers(): void
+    public function testGetVacancyListGroupByHiringManager(): void
     {
         $vacancySearchFilterParams = new VacancySearchFilterParams();
         $vacancySearchFilterParams->setVacancyIds([1,2,3,4]);
-        $vacancies = $this->vacancyDao->getVacancyListGroupByHiringManager($vacancySearchFilterParams);
+        $vacancies = $this->vacancyDao->getHiringManagerEmpNumberList($vacancySearchFilterParams);
         $this->assertCount(3, $vacancies);
     }
 

@@ -6,12 +6,17 @@ on:
 
 jobs:
   test:
-
     runs-on: ubuntu-20.04
+
+    strategy:
+      matrix:
+        database:
+          - { image: "mysql:5.7", name: "mysql57" }
+          - { image: "mariadb:10.3", name: "mariadb103"}
 
     services:
       mysql:
-        image: mariadb:10.3
+        image: ${{ matrix.database.image }}
         env:
           MYSQL_ROOT_PASSWORD: root
         ports:
@@ -78,20 +83,20 @@ jobs:
       - name: Upload jest coverage
         uses: actions/upload-artifact@v4
         with:
-          name: jest-coverage
+          name: jest-coverage-${{ matrix.database.name }}
           path: src/client/coverage
 
       - name: Upload phpunit coverage
         uses: actions/upload-artifact@v4
         with:
-          name: coverage
+          name: coverage-${{ matrix.database.name }}
           path: coverage.tar.xz
 
       - name: Upload logs
         uses: actions/upload-artifact@v4
         if: ${{ always() }}
         with:
-          name: logs
+          name: logs-${{ matrix.database.name }}
           path: src/log
 
       - name: Stop LDAP container

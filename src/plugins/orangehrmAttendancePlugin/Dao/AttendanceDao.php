@@ -333,7 +333,6 @@ class AttendanceDao extends BaseDao
         $q = $this->getAttendanceReportQueryBuilderWrapper($attendanceReportSearchFilterParams)->getQueryBuilder();
         $q->select(
             'CONCAT(employee.firstName, \' \', employee.lastName) AS fullName',
-            'attendanceRecord.id',
             'IDENTITY(employee.employeeTerminationRecord) AS terminationId',
             'employee.empNumber as empNumber',
             "SUM(TIME_DIFF(COALESCE(attendanceRecord.punchOutUtcTime, 0), COALESCE(attendanceRecord.punchInUtcTime, 0),'second')) AS total"
@@ -460,6 +459,9 @@ class AttendanceDao extends BaseDao
             "SUM(TIME_DIFF(COALESCE(attendanceRecord.punchOutUtcTime, 0), COALESCE(attendanceRecord.punchInUtcTime, 0),'second')) AS total"
         );
         $q->groupBy('attendanceRecord.id');
+
+        $this->setSortingAndPaginationParams($q, $attendanceRecordSearchFilterParams);
+
         return $this->getPaginator($q);
     }
 
@@ -472,7 +474,6 @@ class AttendanceDao extends BaseDao
     ): QueryBuilderWrapper {
         $q = $this->createQueryBuilder(Employee::class, 'employee');
         $q->leftJoin('employee.attendanceRecords', 'attendanceRecord');
-        $this->setSortingAndPaginationParams($q, $attendanceRecordSearchFilterParams);
 
         return $this->getCommonQueryBuilderWrapper($attendanceRecordSearchFilterParams, $q);
     }

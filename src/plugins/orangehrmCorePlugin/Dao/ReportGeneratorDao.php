@@ -397,28 +397,15 @@ class ReportGeneratorDao extends BaseDao
      */
     public function getDisplayFieldGroupIdList(int $reportId): array
     {
-        // this method for getting all display field group ids that saved in the database
-        $displayFieldGroups = $this->getDisplayFieldGroupIds($reportId);
-        $displayFieldGroupIds = [];
-        foreach ($displayFieldGroups as $displayFieldGroup) {
-            array_push($displayFieldGroupIds, $displayFieldGroup->getDisplayFieldGroup()->getId());
-        }
-        return $displayFieldGroupIds;
-    }
-
-    /**
-     * @param int $reportId
-     * @return DisplayField[]
-     */
-    public function getDisplayFieldGroupIds(int $reportId): array
-    {
-        $q = $this->createQueryBuilder(DisplayField::class, 'df');
-        $q->leftJoin('df.displayFieldGroup', 'dfg');
-        $q->leftJoin('df.selectedDisplayFields', 'sdf');
-        $q->andWhere('sdf.report = :reportId')
+        $q = $this->createQueryBuilder(DisplayField::class, 'displayField');
+        $q->select('IDENTITY(displayField.displayFieldGroup) as displayFieldGroupId');
+        $q->leftJoin('displayField.displayFieldGroup', 'displayFieldGroup');
+        $q->leftJoin('displayField.selectedDisplayFields', 'selectedDisplayFields');
+        $q->andWhere($q->expr()->eq('selectedDisplayFields.report', ':reportId'))
             ->setParameter('reportId', $reportId);
-        $q->groupBy('df.displayFieldGroup');
-        return $q->getQuery()->execute();
+        $q->groupBy('displayFieldGroupId');
+
+        return array_column($q->getQuery()->execute(), 'displayFieldGroupId');
     }
 
     /**

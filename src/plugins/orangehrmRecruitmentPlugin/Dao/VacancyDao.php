@@ -47,6 +47,7 @@ class VacancyDao extends BaseDao
     private function getVacancyListPaginator(VacancySearchFilterParams $vacancySearchFilterParams): Paginator
     {
         $q = $this->getVacanciesQueryBuilderWrapper($vacancySearchFilterParams)->getQueryBuilder();
+        $this->setSortingAndPaginationParams($q, $vacancySearchFilterParams);
         return $this->getPaginator($q);
     }
 
@@ -60,8 +61,6 @@ class VacancyDao extends BaseDao
         $q = $this->createQueryBuilder(Vacancy::class, 'vacancy');
         $q->leftJoin('vacancy.jobTitle', 'jobTitle');
         $q->leftJoin('vacancy.hiringManager', 'hiringManager');
-
-        $this->setSortingAndPaginationParams($q, $vacancySearchFilterParamHolder);
 
         if (!is_null($vacancySearchFilterParamHolder->getJobTitleId())) {
             $q->andWhere('jobTitle.id = :jobTitleCode')
@@ -151,11 +150,12 @@ class VacancyDao extends BaseDao
 
     /**
      * @param VacancySearchFilterParams $vacancySearchFilterParams
-     * @return array
+     * @return int[]
      */
-    public function getVacancyListGroupByHiringManager(VacancySearchFilterParams $vacancySearchFilterParams): array
+    public function getHiringManagerEmpNumberList(VacancySearchFilterParams $vacancySearchFilterParams): array
     {
         $qb = $this->getVacanciesQueryBuilderWrapper($vacancySearchFilterParams)->getQueryBuilder();
+        $qb->select('hiringManager.empNumber');
         $qb->groupBy('hiringManager.empNumber');
         return $qb->getQuery()->execute();
     }
