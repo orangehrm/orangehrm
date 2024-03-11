@@ -62,6 +62,8 @@ class StateContainer
     public const INSTALLER_STARTED_AT = 'installerStartedAt';
     public const INSTALLER_STARTED_EVENT_STORED = 'installerStartedEventStored';
 
+    public const MIGRATION_COMPLETED = 'migrationCompleted';
+
     /**
      * @var null|self
      */
@@ -406,6 +408,22 @@ class StateContainer
             ];
         }
         return null;
+    }
+
+    /**
+     * @param bool $completed
+     */
+    public function setMigrationCompleted(bool $completed): void
+    {
+        $this->getSession()->set(self::MIGRATION_COMPLETED, $completed);
+    }
+
+    /**
+     * @return bool
+     */
+    public function isMigrationCompleted(): bool
+    {
+        return $this->getSession()->get(self::MIGRATION_COMPLETED);
     }
 
     public function clean(): void

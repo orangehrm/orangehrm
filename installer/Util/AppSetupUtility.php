@@ -27,6 +27,7 @@ use OrangeHRM\Core\Exception\KeyHandlerException;
 use OrangeHRM\Core\Utility\KeyHandler;
 use OrangeHRM\Core\Utility\PasswordHash;
 use OrangeHRM\Framework\Filesystem\Filesystem;
+use OrangeHRM\Installer\Exception\MigrationIncompleteException;
 use OrangeHRM\Installer\Migration\V3_3_3\Migration;
 use OrangeHRM\Installer\Util\Dto\DatabaseConnectionWrapper;
 use OrangeHRM\Installer\Util\SystemConfig\SystemConfiguration;
@@ -497,13 +498,14 @@ class AppSetupUtility
 
     /**
      * @param string $version
-     * @return void
      */
     public function runMigrationFor(string $version): void
     {
         if (!isset(self::MIGRATIONS_MAP[$version])) {
             throw new InvalidArgumentException("Invalid migration version `$version`");
         }
+
+        $this->throwMigrationErrorIfPreviousIncomplete($version);
 
         if (is_array(self::MIGRATIONS_MAP[$version])) {
             foreach (self::MIGRATIONS_MAP[$version] as $migration) {
@@ -516,6 +518,20 @@ class AppSetupUtility
     }
 
     /**
+     * @param string $runningMigrationVersion
+     * @throws MigrationIncompleteException
+     */
+    private function throwMigrationErrorIfPreviousIncomplete(string $runningMigrationVersion)
+    {
+        if (
+            array_key_first(self::MIGRATIONS_MAP) !== $runningMigrationVersion &&
+            !StateContainer::getInstance()->isMigrationCompleted()
+        ) {
+            throw new MigrationIncompleteException();
+        }
+    }
+
+    /**
      * @param string $migrationClass
      */
     private function _runMigration(string $migrationClass): void
@@ -524,8 +540,10 @@ class AppSetupUtility
         if ($migration instanceof AbstractMigration) {
             $version = $migration->getVersion();
             $this->getMigrationHelper()->logMigrationStarted($version);
+            StateContainer::getInstance()->setMigrationCompleted(false);
             $migration->up();
             $this->getConfigHelper()->setConfigValue('instance.version', $version);
+            StateContainer::getInstance()->setMigrationCompleted(true);
             $this->getMigrationHelper()->logMigrationFinished($version);
             return;
         }
