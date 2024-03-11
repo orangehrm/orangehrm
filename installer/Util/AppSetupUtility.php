@@ -27,7 +27,7 @@ use OrangeHRM\Core\Exception\KeyHandlerException;
 use OrangeHRM\Core\Utility\KeyHandler;
 use OrangeHRM\Core\Utility\PasswordHash;
 use OrangeHRM\Framework\Filesystem\Filesystem;
-use OrangeHRM\Installer\Exception\MigrationIncompleteException;
+use OrangeHRM\Installer\Exception\MigrationException;
 use OrangeHRM\Installer\Migration\V3_3_3\Migration;
 use OrangeHRM\Installer\Util\Dto\DatabaseConnectionWrapper;
 use OrangeHRM\Installer\Util\SystemConfig\SystemConfiguration;
@@ -519,7 +519,7 @@ class AppSetupUtility
 
     /**
      * @param string $runningMigrationVersion
-     * @throws MigrationIncompleteException
+     * @throws MigrationException
      */
     private function throwMigrationErrorIfPreviousIncomplete(string $runningMigrationVersion)
     {
@@ -527,7 +527,7 @@ class AppSetupUtility
             array_key_first(self::MIGRATIONS_MAP) !== $runningMigrationVersion &&
             !StateContainer::getInstance()->isMigrationCompleted()
         ) {
-            throw new MigrationIncompleteException();
+            throw MigrationException::previousMigrationIncomplete();
         }
     }
 

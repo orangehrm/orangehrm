@@ -20,6 +20,10 @@ namespace OrangeHRM\Installer\Exception;
 
 use Exception;
 
-class MigrationIncompleteException extends Exception
+class MigrationException extends Exception
 {
+    public static function previousMigrationIncomplete(): self
+    {
+        return new self('The previous migration is incomplete.');
+    }
 }
