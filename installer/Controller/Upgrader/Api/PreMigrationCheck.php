@@ -22,6 +22,7 @@ use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Installer\Controller\AbstractInstallerRestController;
 use OrangeHRM\Installer\Util\Connection;
 use OrangeHRM\Installer\Util\DatabaseUserPermissionEvaluator;
+use OrangeHRM\Installer\Util\StateContainer;
 
 class PreMigrationCheck extends AbstractInstallerRestController
 {
@@ -32,6 +33,7 @@ class PreMigrationCheck extends AbstractInstallerRestController
     {
         $evaluator = new DatabaseUserPermissionEvaluator(Connection::getConnection());
         $evaluator->evalPrivilegeDatabaseUserPermission();
+        StateContainer::getInstance()->clearMigrationCompleted();
         return [];
     }
 }
