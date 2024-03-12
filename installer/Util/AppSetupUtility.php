@@ -541,6 +541,7 @@ class AppSetupUtility
             $version = $migration->getVersion();
             $this->getMigrationHelper()->logMigrationStarted($version);
             StateContainer::getInstance()->setMigrationCompleted(false);
+            $this->disableExecutionTimeLimit();
             $migration->up();
             $this->getConfigHelper()->setConfigValue('instance.version', $version);
             StateContainer::getInstance()->setMigrationCompleted(true);
@@ -548,6 +549,15 @@ class AppSetupUtility
             return;
         }
         throw new InvalidArgumentException("Invalid migration class `$migrationClass`");
+    }
+
+    /**
+     * Disable execution time limit to prevent migration failure
+     */
+    private function disableExecutionTimeLimit(): void
+    {
+        $success = set_time_limit(0);
+        Logger::getLogger()->info('set_time_limit: ' . ($success ? 'success' : 'fail'));
     }
 
     /**
