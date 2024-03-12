@@ -22,6 +22,7 @@ use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Installer\Controller\AbstractInstallerRestController;
 use OrangeHRM\Installer\Util\AppSetupUtility;
 use OrangeHRM\Installer\Util\Logger;
+use OrangeHRM\Installer\Util\StateContainer;
 
 class MigrationAPI extends AbstractInstallerRestController
 {
@@ -46,6 +47,7 @@ class MigrationAPI extends AbstractInstallerRestController
             $version = $request->request->get('version');
             $result = ['version' => $version];
             Logger::getLogger()->info(json_encode($result));
+            StateContainer::getInstance()->clearMigrationCompleted();
             $appSetupUtility->runMigrationFor($version);
             return $result;
         } else {

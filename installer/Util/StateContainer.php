@@ -419,11 +419,16 @@ class StateContainer
     }
 
     /**
-     * @return bool
+     * @return bool|null
      */
-    public function isMigrationCompleted(): bool
+    public function isMigrationCompleted(): ?bool
     {
         return $this->getSession()->get(self::MIGRATION_COMPLETED);
+    }
+
+    public function clearMigrationCompleted(): void
+    {
+        $this->getSession()->remove(self::MIGRATION_COMPLETED);
     }
 
     public function clean(): void

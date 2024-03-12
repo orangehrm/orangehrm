@@ -491,6 +491,7 @@ class AppSetupUtility
      */
     public function runMigrations(string $fromVersion, ?string $toVersion = null): void
     {
+        StateContainer::getInstance()->clearMigrationCompleted();
         foreach ($this->getVersionsInRange($fromVersion, $toVersion) as $version) {
             $this->runMigrationFor($version);
         }
@@ -505,7 +506,7 @@ class AppSetupUtility
             throw new InvalidArgumentException("Invalid migration version `$version`");
         }
 
-        $this->throwMigrationErrorIfPreviousIncomplete($version);
+        $this->throwMigrationErrorIfPreviousIncomplete();
 
         if (is_array(self::MIGRATIONS_MAP[$version])) {
             foreach (self::MIGRATIONS_MAP[$version] as $migration) {
@@ -518,13 +519,12 @@ class AppSetupUtility
     }
 
     /**
-     * @param string $runningMigrationVersion
      * @throws MigrationException
      */
-    private function throwMigrationErrorIfPreviousIncomplete(string $runningMigrationVersion)
+    private function throwMigrationErrorIfPreviousIncomplete()
     {
         if (
-            array_key_first(self::MIGRATIONS_MAP) !== $runningMigrationVersion &&
+            is_bool(StateContainer::getInstance()->isMigrationCompleted()) &&
             !StateContainer::getInstance()->isMigrationCompleted()
         ) {
             throw MigrationException::previousMigrationIncomplete();

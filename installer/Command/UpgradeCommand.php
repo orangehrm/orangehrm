@@ -225,6 +225,7 @@ class UpgradeCommand extends InstallerCommand
             $this->getIO()->error('Invalid current version');
             return self::FAILURE;
         }
+        StateContainer::getInstance()->clearMigrationCompleted();
         foreach ($migrationVersions as $version) {
             Logger::getLogger()->info(json_encode(['version' => $version]));
             $appSetupUtility->runMigrationFor($version);
