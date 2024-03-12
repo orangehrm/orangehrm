@@ -202,8 +202,9 @@ class ProjectActivityDao extends BaseDao
         $duplicatedActivityNames = array_column($q->getQuery()->execute(), 'name');
 
         return $this->createQueryBuilder(ProjectActivity::class, 'activity')
-            ->andWhere($q->expr()->in('activity.name', $duplicatedActivityNames))
+            ->andWhere($q->expr()->in('activity.name', ':duplicatedActivities'))
             ->andWhere($q->expr()->eq('activity.project', ':projectId'))
+            ->setParameter('duplicatedActivities', $duplicatedActivityNames)
             ->setParameter('projectId', $fromProjectId)
             ->getQuery()->execute();
     }
