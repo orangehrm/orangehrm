@@ -50,7 +50,11 @@
         '--error': taskFailed,
       }"
     >
-      {{ progressNotice }}
+      <span v-if="taskFailed">
+        {{ errorMessage }}. To learn more, check our FAQ at
+        <a :href="faqUrl" target="_blank"> starterhelp.orangehrm.com </a>
+      </span>
+      <span v-else>Please Wait. Installation in Progress</span>
     </oxd-text>
 
     <oxd-form-actions class="orangehrm-installer-page-action">
@@ -158,12 +162,9 @@ export default {
       return tasks.value.findIndex((task) => task.state === 3) > -1;
     });
 
-    const progressNotice = computed(() => {
-      if (!taskFailed.value) return 'Please Wait. Installation in Progress';
-      return `${
-        errorText.value ? errorText.value : 'Installation has failed'
-      }. To learn more, check our FAQ at starterhelp.orangehrm.com`;
-    });
+    const errorMessage = computed(() =>
+      taskFailed.value ? errorText.value ?? 'Installation has failed' : null,
+    );
 
     const progressType = computed(() => {
       return !taskFailed.value ? 'secondary' : 'error';
@@ -181,9 +182,15 @@ export default {
       taskFailed,
       progressType,
       progressText,
-      progressNotice,
+      errorMessage,
       onClickCleanup,
       onClickNext,
+    };
+  },
+  data() {
+    return {
+      faqUrl:
+        'https://starterhelp.orangehrm.com/hc/en-us/categories/360002856800-FAQs',
     };
   },
 };
