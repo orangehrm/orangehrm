@@ -556,8 +556,10 @@ class AppSetupUtility
      */
     private function disableExecutionTimeLimit(): void
     {
-        $success = set_time_limit(0);
-        Logger::getLogger()->info('set_time_limit: ' . ($success ? 'success' : 'fail'));
+        if (function_exists('set_time_limit')) {
+            $success = set_time_limit(0);
+            Logger::getLogger()->info('set_time_limit: ' . ($success ? 'success' : 'fail'));
+        }
     }
 
     /**
