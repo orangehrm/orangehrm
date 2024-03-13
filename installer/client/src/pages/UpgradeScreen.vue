@@ -67,7 +67,11 @@
         '--error': taskFailed,
       }"
     >
-      {{ progressNotice }}
+      <span v-if="taskFailed">
+        {{ errorMessage }}. To learn more, check our FAQ at
+        <a :href="faqUrl" target="_blank"> starterhelp.orangehrm.com </a>
+      </span>
+      <span v-else>Please Wait. Upgrading in Progress</span>
     </oxd-text>
   </div>
 </template>
@@ -135,12 +139,9 @@ export default {
       return tasks.value.findIndex((task) => task.state === 3) > -1;
     });
 
-    const progressNotice = computed(() => {
-      if (!taskFailed.value) return 'Please Wait. Upgrading in Progress';
-      return `${
-        errorText.value ? errorText.value : 'Upgrading has failed'
-      }. For more details check the error log in /src/log/installer.log file`;
-    });
+    const errorMessage = computed(() =>
+      taskFailed.value ? errorText.value ?? 'Upgrading has failed' : null,
+    );
 
     const progressType = computed(() => {
       return !taskFailed.value ? 'secondary' : 'error';
@@ -158,8 +159,14 @@ export default {
       taskFailed,
       progressText,
       progressType,
-      progressNotice,
+      errorMessage,
       onClickNext,
+    };
+  },
+  data() {
+    return {
+      faqUrl:
+        'https://starterhelp.orangehrm.com/hc/en-us/categories/360002856800-FAQs',
     };
   },
 };
