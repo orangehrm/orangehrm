@@ -55,13 +55,13 @@ class PasswordStrengthService
 
     protected ?EnforcePasswordDao $enforcePasswordDao = null;
 
-    private int $minLength;
-    private int $maxLength;
-    private int $minNoOfLowercaseLetters;
-    private int $minNoOfUppercaseLetters;
-    private int $minNoOfNumbers;
-    private int $minNoOfSpecialCharacters;
-    private string $isSpacesAllowed;
+    protected int $minLength;
+    protected int $maxLength;
+    protected int $minNoOfLowercaseLetters;
+    protected int $minNoOfUppercaseLetters;
+    protected int $minNoOfNumbers;
+    protected int $minNoOfSpecialCharacters;
+    protected string $isSpacesAllowed;
     private string $defaultPasswordStrength;
 
     /**
