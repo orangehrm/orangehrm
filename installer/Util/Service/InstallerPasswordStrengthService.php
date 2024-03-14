@@ -33,7 +33,6 @@ class InstallerPasswordStrengthService extends PasswordStrengthService
     private const DEFAULT_MIN_NO_OF_NUMBERS = 1;
     private const DEFAULT_MIN_NO_OF_SPECIAL_CHARACTERS = 1;
     private const DEFAULT_IS_SPACES_ALLOWED = 'false';
-    private const DEFAULT_PASSWORD_STRENGTH = 'strong';
 
     /**
      * @return TextHelperService
@@ -100,14 +99,6 @@ class InstallerPasswordStrengthService extends PasswordStrengthService
     }
 
     /**
-     * @return string
-     */
-    protected function getDefaultPasswordStrength(): string
-    {
-        return $this->defaultPasswordStrength ??= self::DEFAULT_PASSWORD_STRENGTH;
-    }
-
-    /**
      * @param UserCredential $credential
      * @param int $passwordStrength
      *
@@ -137,9 +128,6 @@ class InstallerPasswordStrengthService extends PasswordStrengthService
         }
         if ($this->checkSpacesInPassword($password)) {
             $messages[] = 'Your password should not contain spaces';
-        }
-        if ($this->checkRequiredDefaultPasswordStrength($passwordStrength) && count($messages) === 0) {
-            $messages[] = 'Your password meets the minimum requirements, but it could be guessable';
         }
         return $messages;
     }
