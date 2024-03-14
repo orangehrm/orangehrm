@@ -523,10 +523,7 @@ class AppSetupUtility
      */
     private function throwMigrationErrorIfPreviousIncomplete()
     {
-        if (
-            is_bool(StateContainer::getInstance()->isMigrationCompleted()) &&
-            !StateContainer::getInstance()->isMigrationCompleted()
-        ) {
+        if (StateContainer::getInstance()->isMigrationCompleted() === false) {
             throw MigrationException::previousMigrationIncomplete();
         }
     }
