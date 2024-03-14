@@ -16,24 +16,14 @@
  * If not, see <https://www.gnu.org/licenses/>.
  */
 
-namespace OrangeHRM\Installer\Controller\Upgrader\Api;
+namespace OrangeHRM\Installer\Exception;
 
-use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Installer\Controller\AbstractInstallerRestController;
-use OrangeHRM\Installer\Util\Connection;
-use OrangeHRM\Installer\Util\DatabaseUserPermissionEvaluator;
-use OrangeHRM\Installer\Util\StateContainer;
+use Exception;
 
-class PreMigrationCheck extends AbstractInstallerRestController
+class MigrationException extends Exception
 {
-    /**
-     * @inheritDoc
-     */
-    protected function handlePost(Request $request): array
+    public static function previousMigrationIncomplete(): self
     {
-        $evaluator = new DatabaseUserPermissionEvaluator(Connection::getConnection());
-        $evaluator->evalPrivilegeDatabaseUserPermission();
-        StateContainer::getInstance()->clearMigrationCompleted();
-        return [];
+        return new self('The previous migration is incomplete.');
     }
 }

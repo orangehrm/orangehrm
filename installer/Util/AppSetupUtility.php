@@ -27,6 +27,7 @@ use OrangeHRM\Core\Exception\KeyHandlerException;
 use OrangeHRM\Core\Utility\KeyHandler;
 use OrangeHRM\Core\Utility\PasswordHash;
 use OrangeHRM\Framework\Filesystem\Filesystem;
+use OrangeHRM\Installer\Exception\MigrationException;
 use OrangeHRM\Installer\Migration\V3_3_3\Migration;
 use OrangeHRM\Installer\Util\Dto\DatabaseConnectionWrapper;
 use OrangeHRM\Installer\Util\SystemConfig\SystemConfiguration;
@@ -490,6 +491,7 @@ class AppSetupUtility
      */
     public function runMigrations(string $fromVersion, ?string $toVersion = null): void
     {
+        StateContainer::getInstance()->clearMigrationCompleted();
         foreach ($this->getVersionsInRange($fromVersion, $toVersion) as $version) {
             $this->runMigrationFor($version);
         }
@@ -497,13 +499,14 @@ class AppSetupUtility
 
     /**
      * @param string $version
-     * @return void
      */
     public function runMigrationFor(string $version): void
     {
         if (!isset(self::MIGRATIONS_MAP[$version])) {
             throw new InvalidArgumentException("Invalid migration version `$version`");
         }
+
+        $this->throwMigrationErrorIfPreviousIncomplete();
 
         if (is_array(self::MIGRATIONS_MAP[$version])) {
             foreach (self::MIGRATIONS_MAP[$version] as $migration) {
@@ -516,6 +519,16 @@ class AppSetupUtility
     }
 
     /**
+     * @throws MigrationException
+     */
+    private function throwMigrationErrorIfPreviousIncomplete()
+    {
+        if (StateContainer::getInstance()->isMigrationCompleted() === false) {
+            throw MigrationException::previousMigrationIncomplete();
+        }
+    }
+
+    /**
      * @param string $migrationClass
      */
     private function _runMigration(string $migrationClass): void
@@ -524,12 +537,26 @@ class AppSetupUtility
         if ($migration instanceof AbstractMigration) {
             $version = $migration->getVersion();
             $this->getMigrationHelper()->logMigrationStarted($version);
+            StateContainer::getInstance()->setMigrationCompleted(false);
+            $this->disableExecutionTimeLimit();
             $migration->up();
             $this->getConfigHelper()->setConfigValue('instance.version', $version);
+            StateContainer::getInstance()->setMigrationCompleted(true);
             $this->getMigrationHelper()->logMigrationFinished($version);
             return;
         }
         throw new InvalidArgumentException("Invalid migration class `$migrationClass`");
+    }
+
+    /**
+     * Disable execution time limit to prevent migration failure
+     */
+    private function disableExecutionTimeLimit(): void
+    {
+        if (function_exists('set_time_limit')) {
+            $success = set_time_limit(0);
+            Logger::getLogger()->info('set_time_limit: ' . ($success ? 'success' : 'fail'));
+        }
     }
 
     /**

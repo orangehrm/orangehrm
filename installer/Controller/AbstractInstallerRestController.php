@@ -20,6 +20,7 @@ namespace OrangeHRM\Installer\Controller;
 
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\Http\Response;
+use OrangeHRM\Installer\Exception\MigrationException;
 use OrangeHRM\Installer\Exception\NotImplementedException;
 use OrangeHRM\Installer\Util\Logger;
 use Throwable;
@@ -77,6 +78,19 @@ abstract class AbstractInstallerRestController extends AbstractInstallerControll
                     ]
                 ])
             );
+            return $response;
+        } catch (MigrationException $e) {
+            $response->setStatusCode(Response::HTTP_REQUEST_TIMEOUT);
+            $response->setContent(
+                json_encode([
+                    'error' => [
+                        'status' => $response->getStatusCode(),
+                        'message' => $e->getMessage()
+                    ]
+                ])
+            );
+            Logger::getLogger()->error($e->getMessage());
+            Logger::getLogger()->error($e->getTraceAsString());
             return $response;
         } catch (Throwable $e) {
             $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
