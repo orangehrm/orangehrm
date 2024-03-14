@@ -22,6 +22,9 @@ use Exception;
 
 class SanitizerException extends Exception
 {
+    /**
+     * @return self
+     */
     public static function svgBadlyFormatted(): self
     {
         return new self('SVG is badly formatted.');

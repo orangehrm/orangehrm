@@ -20,5 +20,8 @@ namespace OrangeHRM\Core\Exception;
 
 interface RedirectableException
 {
+    /**
+     * @return string
+     */
     public function getRedirectUrl(): string;
 }
