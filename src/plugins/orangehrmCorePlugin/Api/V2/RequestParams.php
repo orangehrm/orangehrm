@@ -20,6 +20,7 @@ namespace OrangeHRM\Core\Api\V2;
 
 use DateTime;
 use DateTimeZone;
+use enshrined\svgSanitize\Sanitizer;
 use InvalidArgumentException;
 use OpenApi\Annotations as OA;
 use OrangeHRM\Core\Api\V2\Exception\InvalidParamException;
@@ -228,12 +229,29 @@ class RequestParams
     {
         $attachment = $this->$type->get($key, $default);
         if (isset($attachment['name']) && isset($attachment['type']) && isset($attachment['base64']) && isset($attachment['size'])) {
-            return new Base64Attachment(
+            $attachment = new Base64Attachment(
                 $attachment['name'],
                 $attachment['type'],
                 $attachment['base64'],
                 $attachment['size']
             );
+
+            // Check for SVG and sanitize
+            if ($attachment->getFileType() === 'image/svg+xml') {
+                $sanitizer = new Sanitizer();
+                $sanitizedContent = $sanitizer->sanitize($attachment->getContent());
+
+                if ($sanitizedContent === false) {
+                    throw new InvalidParamException([
+                        $key => new InvalidArgumentException("SVG is badly formatted")
+                    ]);
+                }
+
+                $attachment->setContent($sanitizedContent);
+                $attachment->setSize(strlen($sanitizedContent));
+            }
+
+            return $attachment;
         }
 
         return null;

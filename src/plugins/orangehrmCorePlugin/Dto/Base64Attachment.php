@@ -114,6 +114,14 @@ class Base64Attachment
     }
 
     /**
+     * @param string $content
+     */
+    public function setContent(string $content): void
+    {
+        $this->base64Content = base64_encode($content);
+    }
+
+    /**
      * @param UploadedFile $uploadedFile
      * @return static
      */
