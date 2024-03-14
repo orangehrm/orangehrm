@@ -16,7 +16,7 @@
  * If not, see <https://www.gnu.org/licenses/>.
  */
 
-namespace OrangeHRM\Core\test\Utility;
+namespace OrangeHRM\Tests\Core\Utility;
 
 use DOMDocument;
 use DOMElement;
