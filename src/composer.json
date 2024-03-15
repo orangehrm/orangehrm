@@ -39,7 +39,7 @@
         "symfony/polyfill-intl-messageformatter": "~1.29.0",
         "symfony/process": "~5.4.35",
         "scssphp/scssphp": "~1.12.1",
-        "phpseclib/phpseclib": "~3.0.35",
+        "phpseclib/phpseclib": "~3.0.37",
         "symfony/ldap": "~5.4.35",
         "symfony/console": "~5.4.35",
         "crunzphp/crunz": "~3.4.1",
