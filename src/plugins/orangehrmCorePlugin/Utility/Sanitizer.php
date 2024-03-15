@@ -16,41 +16,27 @@
  * If not, see <https://www.gnu.org/licenses/>.
  */
 
-namespace OrangeHRM\Core\Exception;
+namespace OrangeHRM\Core\Utility;
 
-use Exception;
+use enshrined\svgSanitize\Sanitizer as SVGSanitizer;
+use OrangeHRM\Core\Exception\SanitizerException;
 
-class KeyHandlerException extends Exception
+class Sanitizer
 {
     /**
-     * @return self
+     * @param string $svgContent
+     * @return string|null
+     * @throws SanitizerException
      */
-    public static function keyAlreadyExists(): self
+    public function sanitizeSvg(string $svgContent): ?string
     {
-        return new self('Key already exists');
-    }
+        $sanitizer = new SVGSanitizer();
+        $sanitizedSVG = $sanitizer->sanitize($svgContent);
 
-    /**
-     * @return self
-     */
-    public static function failedToCreateKey(): self
-    {
-        return new self('Failed to create key');
-    }
+        if ($sanitizedSVG === false) {
+            throw SanitizerException::svgBadlyFormatted();
+        }
 
-    /**
-     * @return self
-     */
-    public static function keyDoesNotExist(): self
-    {
-        return new self('Key file does not exist');
-    }
-
-    /**
-     * @return self
-     */
-    public static function keyIsNotReadable(): self
-    {
-        return new self('Key is not readable');
+        return $sanitizedSVG;
     }
 }

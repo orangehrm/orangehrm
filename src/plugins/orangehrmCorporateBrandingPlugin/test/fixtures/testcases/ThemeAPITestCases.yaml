@@ -2,6 +2,7 @@ GetOne:
   'Get custom theme':
     services:
       admin.theme_service: \OrangeHRM\CorporateBranding\Service\ThemeService
+      core.class_helper: \OrangeHRM\Core\Helper\ClassHelper
     data: {
       "name": "custom",
       "variables": {
@@ -688,3 +689,81 @@ Update:
     }
     exception:
       class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+
+
+  'update with badly formatted SVG':
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.theme_service: \OrangeHRM\CorporateBranding\Service\ThemeService
+    body: {
+      "variables": {
+        "primaryColor": "#FF7B1D",
+        "primaryFontColor": "#FFFFFF",
+        "secondaryColor": "#76BC21",
+        "secondaryFontColor": "#FFFFFF",
+        "primaryGradientStartColor": "#FF920B",
+        "primaryGradientEndColor": "#F35C17"
+      },
+      "showSocialMediaImages": true,
+      "currentClientLogo": null,
+      "clientLogo": null,
+      "currentClientBanner": null,
+      "clientBanner": {
+        "name": "malicious.svg",
+        "type": "image/svg+xml",
+        "size": 390,
+        "base64": "abcd"
+      },
+      "currentLoginBanner": null,
+      "loginBanner": null
+    }
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+
+  'update with malicious SVG':
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.theme_service: \OrangeHRM\CorporateBranding\Service\ThemeService
+    factories:
+      core.cache: [ '\OrangeHRM\Tests\Util\Mock\MockCacheService', 'getCache' ]
+    hooks:
+      preAssertValidTestCase: [ '\OrangeHRM\Tests\CorporateBranding\Api\ThemeAPITest', 'keepOnlyDefaultThemePreHook' ]
+    body: {
+      "variables": {
+        "primaryColor": "#FF7B1D",
+        "primaryFontColor": "#FFFFFF",
+        "secondaryColor": "#76BC21",
+        "secondaryFontColor": "#FFFFFF",
+        "primaryGradientStartColor": "#FF920B",
+        "primaryGradientEndColor": "#F35C17"
+      },
+      "showSocialMediaImages": true,
+      "currentClientLogo": null,
+      "clientLogo": null,
+      "currentClientBanner": "replaceCurrent",
+      "clientBanner": {
+        "name": "malicious.svg",
+        "type": "image/svg+xml",
+        "size": 442,
+        "base64": "PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/Pg0KPCFET0NUWVBFIHN2ZyBQVUJMSUMgIi0vL1czQy8vRFREIFNWRyAxLjEvL0VOIiAiaHR0cDovL3d3dy53My5vcmcvR3JhcGhpY3MvU1ZHLzEuMS9EVEQvc3ZnMTEuZHRkIj4NCjxzdmcgdmVyc2lvbj0iMS4xIg0KICAgICBiYXNlUHJvZmlsZT0iZnVsbCINCiAgICAgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4NCiAgICA8cmVjdCB3aWR0aD0iMzAwIg0KICAgICAgICAgIGhlaWdodD0iMTAwIg0KICAgICAgICAgIHN0eWxlPSJmaWxsOnJnYigwLDAsMjU1KTtzdHJva2Utd2lkdGg6MztzdHJva2U6cmdiKDAsMCwwKSIgLz4NCiAgICA8c2NyaXB0IHR5cGU9InRleHQvamF2YXNjcmlwdCI+YWxlcnQoIlRoaXNpcyBzdG9yZWQgY3Jvc3Mtc2l0ZSBzY3JpcHRpbmciKTs8L3NjcmlwdD4NCjwvc3ZnPg=="
+      },
+      "currentLoginBanner": null,
+      "loginBanner": null
+    }
+    data: {
+      "name": "custom",
+      "variables": {
+        "primaryColor": "#FF7B1D",
+        "primaryFontColor": "#FFFFFF",
+        "secondaryColor": "#76BC21",
+        "secondaryFontColor": "#FFFFFF",
+        "primaryGradientStartColor": "#FF920B",
+        "primaryGradientEndColor": "#F35C17"
+      },
+      "showSocialMediaImages": true,
+      "clientLogo": null,
+      "clientBanner": {
+        "filename": "malicious.svg"
+      },
+      "loginBanner": null
+    }

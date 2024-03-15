@@ -20,37 +20,13 @@ namespace OrangeHRM\Core\Exception;
 
 use Exception;
 
-class KeyHandlerException extends Exception
+class SanitizerException extends Exception
 {
     /**
      * @return self
      */
-    public static function keyAlreadyExists(): self
+    public static function svgBadlyFormatted(): self
     {
-        return new self('Key already exists');
-    }
-
-    /**
-     * @return self
-     */
-    public static function failedToCreateKey(): self
-    {
-        return new self('Failed to create key');
-    }
-
-    /**
-     * @return self
-     */
-    public static function keyDoesNotExist(): self
-    {
-        return new self('Key file does not exist');
-    }
-
-    /**
-     * @return self
-     */
-    public static function keyIsNotReadable(): self
-    {
-        return new self('Key is not readable');
+        return new self('SVG is badly formatted.');
     }
 }

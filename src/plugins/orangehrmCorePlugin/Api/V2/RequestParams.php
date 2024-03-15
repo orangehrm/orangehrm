@@ -24,9 +24,14 @@ use InvalidArgumentException;
 use OpenApi\Annotations as OA;
 use OrangeHRM\Core\Api\V2\Exception\InvalidParamException;
 use OrangeHRM\Core\Dto\Base64Attachment;
+use OrangeHRM\Core\Exception\SanitizerException;
+use OrangeHRM\Core\Traits\Service\TextHelperTrait;
+use OrangeHRM\Core\Utility\Sanitizer;
 
 class RequestParams
 {
+    use TextHelperTrait;
+
     public const PARAM_TYPE_BODY = 'body';
     public const PARAM_TYPE_ATTRIBUTE = 'attributes';
     public const PARAM_TYPE_QUERY = 'query';
@@ -228,12 +233,29 @@ class RequestParams
     {
         $attachment = $this->$type->get($key, $default);
         if (isset($attachment['name']) && isset($attachment['type']) && isset($attachment['base64']) && isset($attachment['size'])) {
-            return new Base64Attachment(
+            $attachment = new Base64Attachment(
                 $attachment['name'],
                 $attachment['type'],
                 $attachment['base64'],
                 $attachment['size']
             );
+
+            // Check for SVG and sanitize
+            if ($attachment->getFileType() === 'image/svg+xml') {
+                $sanitizer = new Sanitizer();
+                try {
+                    $sanitizedContent = $sanitizer->sanitizeSvg($attachment->getContent());
+
+                    $attachment->setContent($sanitizedContent);
+                    $attachment->setSize($this->getTextHelper()->strLength($sanitizedContent));
+                } catch (SanitizerException $e) {
+                    throw new InvalidParamException([
+                        $key => new InvalidArgumentException($e->getMessage())
+                    ]);
+                }
+            }
+
+            return $attachment;
         }
 
         return null;
