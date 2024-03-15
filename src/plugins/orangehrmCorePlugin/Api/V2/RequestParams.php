@@ -25,10 +25,13 @@ use OpenApi\Annotations as OA;
 use OrangeHRM\Core\Api\V2\Exception\InvalidParamException;
 use OrangeHRM\Core\Dto\Base64Attachment;
 use OrangeHRM\Core\Exception\SanitizerException;
+use OrangeHRM\Core\Traits\Service\TextHelperTrait;
 use OrangeHRM\Core\Utility\Sanitizer;
 
 class RequestParams
 {
+    use TextHelperTrait;
+
     public const PARAM_TYPE_BODY = 'body';
     public const PARAM_TYPE_ATTRIBUTE = 'attributes';
     public const PARAM_TYPE_QUERY = 'query';
@@ -244,7 +247,7 @@ class RequestParams
                     $sanitizedContent = $sanitizer->sanitizeSvg($attachment->getContent());
 
                     $attachment->setContent($sanitizedContent);
-                    $attachment->setSize(strlen($sanitizedContent));
+                    $attachment->setSize($this->getTextHelper()->strLength($sanitizedContent));
                 } catch (SanitizerException $e) {
                     throw new InvalidParamException([
                         $key => new InvalidArgumentException($e->getMessage())
