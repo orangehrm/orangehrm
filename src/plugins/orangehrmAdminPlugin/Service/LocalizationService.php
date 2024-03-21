@@ -20,6 +20,8 @@ namespace OrangeHRM\Admin\Service;
 
 use DOMDocument;
 use Exception;
+use MessageFormatter;
+use IntlException;
 use OrangeHRM\Admin\Dao\LocalizationDao;
 use OrangeHRM\Admin\Dto\I18NGroupSearchFilterParams;
 use OrangeHRM\Admin\Dto\I18NLanguageSearchFilterParams;
@@ -34,6 +36,7 @@ use OrangeHRM\Entity\I18NLanguage;
 use OrangeHRM\Entity\I18NTranslation;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\I18N\Service\I18NService;
+use Symfony\Component\Translation\Util\XliffUtils;
 
 class LocalizationService
 {
@@ -230,23 +233,26 @@ class LocalizationService
         $root->setAttribute('srcLang', 'en_US');
         $root->setAttribute('trgLang', $language->getCode());
         $root->setAttribute('xmlns', 'urn:oasis:names:tc:xliff:document:2.0');
-        $root->setAttribute('date', @date('Y-m-d\TH:i:s\Z'));
+//        $root->setAttribute('date', @date('Y-m-d\TH:i:s\Z'));
 
         $file = $xml->createElement('file');
+        $file->setAttribute('id', 1);
         $root->appendChild($file);
 
-        foreach ($i18nGroups as  $i18nGroup) {
+        foreach ($i18nGroups as $i18nGroup) {
             if ($i18nGroup instanceof I18NGroup) {
                 $i18NTargetLangStringSearchFilterParams
                     = new I18NTranslationSearchFilterParams();
                 $i18NTargetLangStringSearchFilterParams->setLanguageId($language->getId());
                 $i18NTargetLangStringSearchFilterParams->setLimit(0);
                 $i18NTargetLangStringSearchFilterParams->setGroupId($i18nGroup->getId());
-                $translations = $this->localizationDao->getNormalizedTranslationsForExport($i18NTargetLangStringSearchFilterParams);
+                $translations = $this->localizationDao->getNormalizedTranslationsForExport(
+                    $i18NTargetLangStringSearchFilterParams
+                );
 
                 $group = $xml->createElement('group');
                 $file->appendChild($group);
-                $group->setAttribute('name', $i18nGroup->getName());
+                $group->setAttribute('id', $i18nGroup->getName());
 
 
                 foreach ($translations as $translation) {
@@ -269,5 +275,123 @@ class LocalizationService
             }
         }
         return $xml;
+    }
+
+    public function symfonyXliffValidations(string $content, ?string $file = null): array
+    {
+        $errors = [];
+        // Avoid: Warning DOMDocument::loadXML(): Empty string supplied as input
+        if ('' === trim($content)) {
+            return ['file' => $file, 'valid' => true];
+        }
+
+        $internal = libxml_use_internal_errors(true);
+
+        $document = new \DOMDocument();
+        $document->loadXML($content);
+
+        if (null !== $targetLanguage = $this->getTargetLanguageFromFile($document)) {
+            $normalizedLocalePattern = sprintf(
+                '(%s|%s)',
+                preg_quote($targetLanguage, '/'),
+                preg_quote(str_replace('-', '_', $targetLanguage), '/')
+            );
+            // strict file names require translation files to be named '____.locale.xlf'
+            $expectedFilenamePattern = sprintf('/^.*\.(?i:%s)\.(?:xlf|xliff)/', $normalizedLocalePattern);
+
+            if (0 === preg_match($expectedFilenamePattern, basename($file))) {
+                $errors[] = [
+                    'line' => -1,
+                    'column' => -1,
+                    'message' => sprintf(
+                        'There is a mismatch between the language included in the file name ("%s") and the "%s" value used in the "target-language" attribute of the file.',
+                        basename($file),
+                        $targetLanguage
+                    ),
+                ];
+            }
+        }
+
+        foreach (XliffUtils::validateSchema($document) as $xmlError) {
+            $errors[] = [
+                'line' => $xmlError['line'],
+                'column' => $xmlError['column'],
+                'message' => $xmlError['message'],
+            ];
+        }
+
+        libxml_clear_errors();
+        libxml_use_internal_errors($internal);
+
+        return ['file' => $file, 'isValid' => 0 === \count($errors), 'messages' => $errors];
+    }
+
+    private function getTargetLanguageFromFile(\DOMDocument $xliffContents): ?string
+    {
+        foreach ($xliffContents->getElementsByTagName('file')[0]->attributes ?? [] as $attribute) {
+            if ('target-language' === $attribute->nodeName) {
+                return $attribute->nodeValue;
+            }
+        }
+
+        return null;
+    }
+
+    public function validateXliffSourceAndTarget($xmlContent): array
+    {
+        // Load the XLIFF content into a DOMDocument
+        $xliffDocument = new \DOMDocument();
+        $xliffDocument->loadXML($xmlContent);
+
+        // Initialize an array to store validation errors
+        $errors = [];
+        $locale = "en_US";
+
+        // Get all the <unit> elements from the XLIFF document
+        $units = $xliffDocument->getElementsByTagName('unit');
+
+        // Define validation constraints
+        $maxLength = 255;
+        $pattern = '/^[a-zA-Z0-9_\-.]+$/';
+
+        // Validate each <unit> element
+        foreach ($units as $unit) {
+            $unitId = $unit->getAttribute('id');
+            $source = $unit->getElementsByTagName('source')->item(0)->nodeValue;
+            $target = $unit->getElementsByTagName('target')->item(0)->nodeValue;
+
+            // Initialize an array to store errors for this unit
+            $unitErrors = "";
+
+            // Validate source text
+            if (strlen($source) > $maxLength) {
+                $unitErrors .= "Source text exceeds maximum length of $maxLength characters.";
+            }
+
+            // Validate target text
+            if (strlen($target) > $maxLength) {
+                $unitErrors .= "Target text exceeds maximum length of $maxLength characters.";
+            }
+            if (!preg_match($pattern, $target)) {
+                $unitErrors .= "Target text contains invalid characters.";
+            }
+
+            try {
+                $fmt = new MessageFormatter($locale, $target);
+            } catch (IntlException $e) {
+                $unitErrors .= $e->getMessage();
+            }
+
+            // Store errors for this unit
+            if (!empty($unitErrors)) {
+                // Add a space after a full stop in error messages
+                $unitErrors = preg_replace('/\.(?!\s|$)/', '. ', $unitErrors);
+                // Store errors for the unit
+                $errors[$unitId] = $unitErrors;
+            }
+        }
+
+        // Return validation errors
+        return [$errors];
     }
 }

@@ -306,6 +306,13 @@ apiv2_admin_i18n_languages:
   defaults:
     _api: OrangeHRM\Admin\Api\I18NLanguageAPI
 
+apiv2_admin_i18n_translation_import:
+  path: /api/v2/admin/i18n/languages/{languageId}/import
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ POST ]
+  defaults:
+    _api: OrangeHRM\Admin\Api\I18NTranslationImportAPI
+
 apiv2_admin_i18n_language:
   path: /api/v2/admin/i18n/languages/{id}
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
@@ -592,6 +599,11 @@ admin_open_id_provider:
 admin_language_package:
   path: /admin/languagePackage
   controller: OrangeHRM\Admin\Controller\LanguagePackageController::handle
+  methods: [ GET ]
+
+admin_language_package_import:
+  path: /admin/languageImport/{languageId}
+  controller: OrangeHRM\Admin\Controller\LanguageImportController::handle
   methods: [ GET ]
 
 admin_language_translation:
