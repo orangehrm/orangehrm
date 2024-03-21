@@ -153,6 +153,15 @@ export default {
           cellType: 'oxd-table-cell-actions',
           style: {flex: '30%'},
           cellConfig: {
+            import: {
+              component: 'oxd-button',
+              onClick: this.onClickImport,
+              props: {
+                label: 'Import',
+                style: 'Text',
+                displayType: 'text',
+              },
+            },
             translate: {
               component: 'oxd-button',
               onClick: this.onClickTranslate,
@@ -198,6 +207,9 @@ export default {
         languageId: item.id,
       });
       window.open(url, '_blank');
+    },
+    onClickImport(item) {
+      navigate('/admin/languageImport/{languageId}', {languageId: item.id});
     },
   },
 };

@@ -64,6 +64,7 @@ import LocalizationConfiguration from './pages/localization/LocalizationConfigur
 import CorporateBranding from './pages/corporateBranding/CorporateBranding.vue';
 import LanguagePackages from '@/orangehrmAdminPlugin/pages/languagePackage/LanguagePackage.vue';
 import EditLanguagePackage from '@/orangehrmAdminPlugin/pages/languageTranslation/languageTranslation.vue';
+import LanguageImport from './pages/languageImport/LanguageImport.vue';
 import LdapConfiguration from './pages/ldap/LdapConfiguration.vue';
 import ProviderList from './pages/socialMediaAuth/ProviderList.vue';
 import AddProvider from './pages/socialMediaAuth/AddProvider.vue';
@@ -119,6 +120,7 @@ export default {
   'corporate-branding': CorporateBranding,
   'language-package-list': LanguagePackages,
   'language-translation-edit': EditLanguagePackage,
+  'language-import': LanguageImport,
   'ldap-configuration': LdapConfiguration,
   'auth-provider-list': ProviderList,
   'add-auth-provider': AddProvider,

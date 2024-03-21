@@ -155,7 +155,7 @@ class LocalizationServiceTest extends KernelTestCase
         $json = json_encode($xml);
         $result = json_decode($json, true);
 
-        $this->assertEquals('application/xml', $response->headers->get('content-type'));
+        $this->assertEquals('application/xliff+xml', $response->headers->get('content-type'));
         $this->assertEquals('2.0', $result['@attributes']['version']);
         $this->assertCount(3, $result['file']['group']);
         $this->assertEquals('Add Job Title', $result['file']['group'][0]['unit'][0]['segment']['source']);
