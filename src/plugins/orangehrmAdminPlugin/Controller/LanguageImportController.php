@@ -41,27 +41,7 @@ class LanguageImportController extends AbstractVueController
      */
     public function preRender(Request $request): void
     {
-//        $fmt = new MessageFormatter( "en_US", "{0, number} monkeys on {1, number} trees" );
-//        var_dump($fmt->getPattern());
-//        var_dump($fmt->parse("123 monkeys on 123 trees 123"));
-//        var_dump($fmt->format([123, 123, 123]));
-//        var_dump($fmt->parse($fmt->format([123, 123])));
-//
-//        $fmt = new MessageFormatter("en_US", "{empMatchCount,plural, =0{Matches no employee} one{Matches (1) employee} other {matches (#) employees}}");
-//        var_dump($fmt->getPattern());
-//        var_dump($fmt->format(['empMatchCount' => 2]));
-//
-//        $fmt = new MessageFormatter('en_US', "{action, select, APPROVE {{count, plural, =0 {You are about to Approve no Leave Requests} =1 {You are about to Approve 1 Leave Request} other {You are about to Approve # Leave Requests} }} REJECT {{count, plural, =0 {You are about to Reject no Leave Requests} =1 {You are about to Reject 1 Leave Request} other {You are about to Reject # Leave Requests} }} other {{count, plural, =0 {You are about to Cancel no Leave Requests} =1 {You are about to Cancel 1 Leave Request} other {You are about to Cancel # Leave Requests} }} }");
-//        var_dump($fmt->getPattern());
-//        var_dump($fmt->format(['action' => 'APPROVE', 'count' => 5]));
-//
-//        $fmt = new MessageFormatter('en_US', "Test");
-//        var_dump($fmt->format(['action' => 'APPROVE', 'count' => 5]));
-
-
-
         $translator = new Translator('en');
-//        die;
 
         if ($request->attributes->has('languageId')) {
             $languageId = $request->attributes->getInt('languageId');
