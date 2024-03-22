@@ -1,3 +1,25 @@
+Changed Features for OrangeHRM ver 5.6.1
+    Changes
+    -----------
+    - Environment
+        - Support ONLY_FULL_GROUP_BY sql_mode throughout the application
+    - Installation
+        - Handle PHP timeout on Windows environments
+    - Security
+        - Update BE and FE libraries to latest minor versions
+        - Sanitize SVG uploads in Corporate Branding
+        - Password strength validation in CLI installer
+        - Update Docker PHP image
+    - Supported Environments
+        - PHP - 7.4 to 8.3
+        - MariaDB - 5.5 to 11.2
+        - MySQL - 5.5 to 8.2
+
+     Bug Fixes
+     -----------
+     - https://github.com/orangehrm/orangehrm/issues/1817
+     - https://github.com/orangehrm/orangehrm/issues/1780
+
 New & Changed Features for OrangeHRM ver 5.6
     New Features/Changes
     -----------
