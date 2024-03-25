@@ -38,7 +38,7 @@ class EmployeeDao extends BaseDao
     public function getEmployeeList(EmployeeSearchFilterParams $employeeSearchParamHolder): array
     {
         $qb = $this->getEmployeeListQueryBuilderWrapper($employeeSearchParamHolder)->getQueryBuilder();
-        return $qb->getQuery()->execute();
+        return array_column($qb->getQuery()->execute(), 0);
     }
 
     /**
@@ -73,6 +73,7 @@ class EmployeeDao extends BaseDao
         EmployeeSearchFilterParams $employeeSearchParamHolder
     ): QueryBuilderWrapper {
         $q = $this->createQueryBuilder(Employee::class, 'employee');
+        $q->addSelect('employee.empNumber');
         $q->distinct();
         $q->leftJoin('employee.jobTitle', 'jobTitle');
         $q->leftJoin('employee.subDivision', 'subunit');
@@ -86,6 +87,9 @@ class EmployeeDao extends BaseDao
         }
 
         $this->setSortingAndPaginationParams($q, $employeeSearchParamHolder);
+        if ($employeeSearchParamHolder->getSortField() !== null && $employeeSearchParamHolder->getSortField() !== "") {
+            $q->addSelect($employeeSearchParamHolder->getSortField());
+        }
 
         if (is_null($employeeSearchParamHolder->getIncludeEmployees()) ||
             $employeeSearchParamHolder->getIncludeEmployees() ===

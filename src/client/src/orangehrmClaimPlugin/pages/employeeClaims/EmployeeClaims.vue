@@ -157,8 +157,8 @@ const defaultFilters = {
 
 const defaultSortOrder = {
   'claimRequest.referenceId': 'DESC',
-  'claimRequest.employee.firstName': 'ASC',
-  'claimRequest.claimEvent.name': 'ASC',
+  'employee.firstName': 'ASC',
+  'claimEvent.name': 'ASC',
   'claimRequest.status': 'ASC',
   'claimRequest.submittedDate': 'ASC',
 };
@@ -290,7 +290,7 @@ export default {
           name: 'employee',
           title: this.$t('general.employee_name'),
           slot: 'title',
-          sortField: 'claimRequest.employee.firstName',
+          sortField: 'employee.firstName',
           style: {flex: 4},
         },
         {
@@ -298,7 +298,7 @@ export default {
           title: this.$t('claim.event_name'),
           slot: 'title',
           cellType: 'oxd-table-cell-truncate',
-          sortField: 'claimRequest.claimEvent.name',
+          sortField: 'claimEvent.name',
           style: {flex: 3},
         },
         {
