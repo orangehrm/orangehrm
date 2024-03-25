@@ -8,8 +8,8 @@ Changed Features for OrangeHRM ver 5.6.1
         - Update Docker PHP image
     - Supported Environments
         - PHP - 7.4 to 8.3
-        - MariaDB - 5.5 to 11.2
-        - MySQL - 5.5 to 8.2
+        - MariaDB - 5.5 to 11.3
+        - MySQL - 5.5 to 8.3
 
      Bug Fixes
      -----------
