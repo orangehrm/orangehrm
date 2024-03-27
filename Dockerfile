@@ -1,7 +1,7 @@
 FROM php:8.3-apache-bookworm
 
-ENV OHRM_VERSION 5.6
-ENV OHRM_MD5 b8a08b3a3ee3bf9bf9b3225e36d10267
+ENV OHRM_VERSION 5.6.1
+ENV OHRM_MD5 c23a93df6244b3551fd4cd8feb4c8664
 
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 
