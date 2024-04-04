@@ -187,11 +187,9 @@ export default {
               onClick: this.onClickExport,
             },
             delete: {
-              component: 'oxd-button',
+              component: 'oxd-icon-button',
               props: {
-                label: 'Delete',
-                style: 'Text',
-                displayType: 'text',
+                name: 'trash',
               },
               onClick: this.onClickDelete,
             },
