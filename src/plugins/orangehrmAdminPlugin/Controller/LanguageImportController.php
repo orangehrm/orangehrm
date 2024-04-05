@@ -18,6 +18,7 @@
 
 namespace OrangeHRM\Admin\Controller;
 
+use MessageFormatter;
 use OrangeHRM\Admin\Api\I18NTranslationImportAPI;
 use OrangeHRM\Admin\Traits\Service\LocalizationServiceTrait;
 use OrangeHRM\Core\Controller\AbstractVueController;
