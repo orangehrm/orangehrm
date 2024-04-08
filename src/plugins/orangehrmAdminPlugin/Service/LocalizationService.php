@@ -233,7 +233,6 @@ class LocalizationService
         $root->setAttribute('srcLang', 'en_US');
         $root->setAttribute('trgLang', $language->getCode());
         $root->setAttribute('xmlns', 'urn:oasis:names:tc:xliff:document:2.0');
-//        $root->setAttribute('date', @date('Y-m-d\TH:i:s\Z'));
 
         $file = $xml->createElement('file');
         $file->setAttribute('id', 1);
@@ -350,9 +349,8 @@ class LocalizationService
         // Get all the <unit> elements from the XLIFF document
         $units = $xliffDocument->getElementsByTagName('unit');
 
-        // Define validation constraints
-        $maxLength = 255;
-        $pattern = '/^[a-zA-Z0-9_\-.]+$/';
+        // Define validation constraints, need to be finalized
+        $maxLength = 255000;
 
         // Validate each <unit> element
         foreach ($units as $unit) {
@@ -372,8 +370,55 @@ class LocalizationService
             if (strlen($target) > $maxLength) {
                 $unitErrors .= "Target text exceeds maximum length of $maxLength characters.";
             }
-            if (!preg_match($pattern, $target)) {
-                $unitErrors .= "Target text contains invalid characters.";
+
+            // Define patterns for matching placeholders, plural forms, and select expressions
+            $placeholderPattern = '/{(\w+)}/';
+            $pluralPattern = '/\s?(\w+)\s?,\s?plural/';
+            $selectPattern = '/\s?(\w+)\s?,\s?select/';
+
+            // Match placeholders between source and target strings
+            preg_match_all($placeholderPattern, $source, $placeholdersSource);
+            preg_match_all($placeholderPattern, $target, $placeholdersTarget);
+
+            $capturedPlaceholdersSource = $placeholdersSource[1];
+            $capturedPlaceholdersTarget = $placeholdersTarget[1];
+
+            // Compare placeholders between source and target strings
+            if ($capturedPlaceholdersSource !== $capturedPlaceholdersTarget) {
+                $unitErrors .= "Mismatch found between placeholders. Source: [" . implode(
+                    ', ',
+                    $capturedPlaceholdersSource
+                ) . "] & Target: [" . implode(', ', $capturedPlaceholdersTarget) . "]";
+            }
+
+            // Match plural forms between source and target strings
+            preg_match_all($pluralPattern, $source, $pluralsSource);
+            preg_match_all($pluralPattern, $target, $pluralsTarget);
+
+            $capturedPluralsSource = $pluralsSource[1];
+            $capturedPluralsTarget = $pluralsTarget[1];
+
+            // Compare plural forms between source and target strings
+            if ($capturedPluralsSource !== $capturedPluralsTarget) {
+                $unitErrors .= "Mismatch found between plural forms. Source: [" . implode(
+                    ', ',
+                    $capturedPluralsSource
+                ) . "] & Target: [" . implode(', ', $capturedPluralsTarget) . "].";
+            }
+
+            // Match select expressions between source and target strings
+            preg_match_all($selectPattern, $source, $selectsSource);
+            preg_match_all($selectPattern, $target, $selectsTarget);
+
+            $capturedSelectsSource = $selectsSource[1];
+            $capturedSelectsTarget = $selectsTarget[1];
+
+            // Compare select expressions between source and target strings
+            if ($capturedSelectsSource !== $capturedSelectsTarget) {
+                $unitErrors .= "Mismatch found between select expressions. Source: [" . implode(
+                    ', ',
+                    $capturedSelectsSource
+                ) . "] & Target: [" . implode(', ', $capturedSelectsTarget) . "]";
             }
 
             try {
@@ -386,12 +431,9 @@ class LocalizationService
             if (!empty($unitErrors)) {
                 // Add a space after a full stop in error messages
                 $unitErrors = preg_replace('/\.(?!\s|$)/', '. ', $unitErrors);
-                // Store errors for the unit
                 $errors[$unitId] = $unitErrors;
             }
         }
-
-        // Return validation errors
-        return [$errors];
+        return $errors;
     }
 }

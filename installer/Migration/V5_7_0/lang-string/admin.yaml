@@ -1,4 +1,16 @@
 langStrings:
   -
+    value: 'Use the sample template'
+    unitId: use_the_sample_template
+  -
+    value: 'Only edit the target field'
+    unitId: only_edit_the_target_field
+  -
+    value: 'Do not change the template'
+    unitId: do_not_change_the_template
+  -
+    value: 'Sample XLIFF'
+    unitId: sample_xliff
+  -
     value: 'Should be lower than Maximum Salary'
     unitId: should_be_lower_than_maximum_salary

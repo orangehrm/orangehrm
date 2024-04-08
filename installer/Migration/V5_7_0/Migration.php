@@ -48,12 +48,16 @@ class Migration extends AbstractMigration
             ->setParameter('value', 1)
             ->executeQuery();
 
-        $this->getDataGroupHelper()->insertDataGroupPermissions(__DIR__ . '/permission/data_group.yaml');
-
-        $groups = ['admin'];
+        $groups = ['admin', 'general'];
         foreach ($groups as $group) {
             $this->getLangStringHelper()->insertOrUpdateLangStrings(__DIR__, $group);
         }
+
+        $this->updateLangStringVersion($this->getVersion());
+
+        $this->getDataGroupHelper()->insertApiPermissions(__DIR__ . '/permission/api.yaml');
+
+        $this->getDataGroupHelper()->insertDataGroupPermissions(__DIR__ . '/permission/data_group.yaml');
 
         $this->dropOldTables();
     }
@@ -66,9 +70,6 @@ class Migration extends AbstractMigration
         return '5.7.0';
     }
 
-    /**
-     * @return LangStringHelper
-     */
     private function getLangStringHelper(): LangStringHelper
     {
         if (is_null($this->langStringHelper)) {
@@ -77,6 +78,16 @@ class Migration extends AbstractMigration
             );
         }
         return $this->langStringHelper;
+    }
+
+    private function updateLangStringVersion(string $version): void
+    {
+        $qb = $this->createQueryBuilder()
+            ->update('ohrm_i18n_lang_string', 'lang_string')
+            ->set('lang_string.version', ':version')
+            ->setParameter('version', $version);
+        $qb->andWhere($qb->expr()->isNull('lang_string.version'))
+            ->executeStatement();
     }
 
     private function dropOldTables(): void
