@@ -1,0 +1,16 @@
+##########################
+#        Admin
+##########################
+
+apiv2_admin_i18n_translation_import:
+  description: 'Admin - I18N Language Translation Import'
+  api: OrangeHRM\Admin\Api\I18NTranslationImportAPI
+  module: admin
+  allowed:
+    read: false
+    create: true
+    update: false
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: false, create: true, update: false, delete: false } }
+    - { role: ESS, permission: { read: false, create: false, update: false, delete: false } }

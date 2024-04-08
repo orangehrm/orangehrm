@@ -30,7 +30,7 @@
         <ul>
           <li>
             <oxd-text class="orangehrm-information-card-text">
-              Use the sample template
+              Use the sample template.
             </oxd-text>
           </li>
           <li>
@@ -103,11 +103,16 @@ import {
 import useForm from '@/core/util/composable/useForm';
 import {APIService} from '@/core/util/services/api.service';
 import EmployeeDataImportModal from '@/orangehrmPimPlugin/components/EmployeeDataImportModal.vue';
+import RequiredText from '@/core/components/labels/RequiredText.vue';
+import SubmitButton from '@/core/components/buttons/SubmitButton.vue';
+
 const attachmentModel = {
   attachment: null,
 };
 export default {
   components: {
+    SubmitButton,
+    RequiredText,
     'employee-data-import-modal': EmployeeDataImportModal,
   },
   props: {
@@ -181,10 +186,12 @@ export default {
   border-radius: 1.2rem;
   padding: 1.2rem;
 }
+
 .orangehrm-information-card-text {
   font-size: $oxd-input-control-font-size;
   color: $oxd-input-control-font-color;
   font-weight: $oxd-input-control-font-weight;
+
   & .download-link {
     color: $oxd-primary-one-color;
   }
