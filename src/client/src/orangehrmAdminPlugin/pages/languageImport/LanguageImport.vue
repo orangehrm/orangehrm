@@ -19,7 +19,7 @@
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
       <oxd-text class="orangehrm-main-title">
-        Import Language Package: {{ languageName }}
+        {{ $t('admin.import_language_package') }}: {{ languageName }}
       </oxd-text>
 
       <oxd-divider />
@@ -30,22 +30,22 @@
         <ul>
           <li>
             <oxd-text class="orangehrm-information-card-text">
-              Use the sample template.
+              {{ $t('admin.use_the_sample_template') }}
             </oxd-text>
           </li>
           <li>
             <oxd-text class="orangehrm-information-card-text">
-              Only edit the target field.
+              {{ $t('admin.only_edit_the_target_field') }}
             </oxd-text>
           </li>
           <li>
             <oxd-text class="orangehrm-information-card-text">
-              Do not change the template.
+              {{ $t('admin.do_not_change_the_template') }}
             </oxd-text>
           </li>
           <li>
             <oxd-text class="orangehrm-information-card-text">
-              Sample XLIFF :
+              {{ $t('admin.sample_xliff') }}:
               <a
                 href="#"
                 class="download-link"

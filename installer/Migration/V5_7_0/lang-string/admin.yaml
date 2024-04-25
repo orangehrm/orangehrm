@@ -12,5 +12,8 @@ langStrings:
     value: 'Sample XLIFF'
     unitId: sample_xliff
   -
+    value: 'Import Language Package'
+    unitId: import_language_package
+  -
     value: 'Should be lower than Maximum Salary'
     unitId: should_be_lower_than_maximum_salary
