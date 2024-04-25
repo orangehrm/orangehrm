@@ -176,7 +176,7 @@ export default {
             export: {
               component: 'oxd-icon-button',
               props: {
-                name: 'translate',
+                name: 'download',
               },
               onClick: this.onClickExport,
             },
