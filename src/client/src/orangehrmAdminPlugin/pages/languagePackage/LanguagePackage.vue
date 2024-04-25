@@ -160,29 +160,23 @@ export default {
           style: {flex: '35%'},
           cellConfig: {
             import: {
-              component: 'oxd-button',
+              component: 'oxd-icon-button',
               onClick: this.onClickImport,
               props: {
-                label: 'Import',
-                style: 'Text',
-                displayType: 'text',
+                name: 'upload',
               },
             },
             translate: {
-              component: 'oxd-button',
+              component: 'oxd-icon-button',
               onClick: this.onClickTranslate,
               props: {
-                label: this.$t('admin.translate'),
-                style: 'Text',
-                displayType: 'text',
+                name: 'translate',
               },
             },
             export: {
-              component: 'oxd-button',
+              component: 'oxd-icon-button',
               props: {
-                label: this.$t('admin.export'),
-                displayType: 'text',
-                size: 'medium',
+                name: 'download',
               },
               onClick: this.onClickExport,
             },
