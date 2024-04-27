@@ -154,10 +154,10 @@ export default {
         },
         {
           name: 'actions',
-          slot: 'footer',
+          slot: 'action',
           title: this.$t('general.actions'),
           cellType: 'oxd-table-cell-actions',
-          style: {flex: '35%'},
+          style: {flex: 1},
           cellConfig: {
             import: {
               component: 'oxd-icon-button',
