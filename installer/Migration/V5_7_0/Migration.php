@@ -30,6 +30,13 @@ class Migration extends AbstractMigration
      */
     public function up(): void
     {
+        $this->deleteLangStringTranslationByLangStringUnitId('translate_text_manually', $this->getLangHelper()->getGroupIdByName('admin'));
+
+        $this->getLangHelper()->deleteLangStringByUnitId(
+            'translate_text_manually',
+            $this->getLangHelper()->getGroupIdByName('admin')
+        );
+
         $localizationDataGroupId = $this->getDataGroupHelper()->getDataGroupIdByName(
             'apiv2_admin_localization_languages'
         );
@@ -88,6 +95,25 @@ class Migration extends AbstractMigration
             ->setParameter('version', $version);
         $qb->andWhere($qb->expr()->isNull('lang_string.version'))
             ->executeStatement();
+    }
+
+    private function deleteLangStringTranslationByLangStringUnitId(string $unitId, int $groupId): void
+    {
+        $id = $this->getConnection()->createQueryBuilder()
+            ->select('id')
+            ->from('ohrm_i18n_lang_string', 'langString')
+            ->andWhere('langString.unit_id = :unitId')
+            ->setParameter('unitId', $unitId)
+            ->andWhere('langString.group_id = :groupId')
+            ->setParameter('groupId', $groupId)
+            ->executeQuery()
+            ->fetchOne();
+
+        $this->createQueryBuilder()
+            ->delete('ohrm_i18n_translate')
+            ->andWhere('ohrm_i18n_translate.lang_string_id = :id')
+            ->setParameter('id', $id)
+            ->executeQuery();
     }
 
     private function dropOldTables(): void
