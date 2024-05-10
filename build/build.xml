@@ -25,8 +25,9 @@
   <resolvepath propertyName="dist.dir" file="dist"/>
   <property name="package.dir" value="${dist.dir}/${package.name}"/>
 
-  <exec command="git rev-list --tags --max-count=1" dir="${project.dir}" checkreturn="false"
-        outputProperty="git.revision"/>
+  <exec executable="git" dir="${project.dir}" checkreturn="false" outputProperty="git.revision">
+    <arg value="rev-list --tags --max-count=1" />
+  </exec>
   <property name="base.name" value="${package.name}.${git.revision}"/>
 
   <target name="prepare">
@@ -37,13 +38,21 @@
   </target>
 
   <target name="deps.5x">
-    <exec command="composer install --no-dev" dir="${project.dir}/src" checkreturn="false" passthru="true"/>
-    <exec command="composer dump-autoload --optimize --no-dev --classmap-authoritative" dir="${project.dir}/src" checkreturn="false" passthru="true"/>
-    <exec command="yarn install" dir="${project.dir}/src/client" checkreturn="false" passthru="true"/>
+    <exec executable="composer" dir="${project.dir}/src" checkreturn="false" passthru="true">
+      <arg value="install --no-dev" />
+    </exec>
+    <exec executable="composer" dir="${project.dir}/src" checkreturn="false" passthru="true">
+      <arg value="dump-autoload --optimize --no-dev --classmap-authoritative" />
+    </exec>
+    <exec executable="yarn" dir="${project.dir}/src/client" checkreturn="false" passthru="true">
+      <arg value="install" />
+    </exec>
   </target>
 
   <target name="build.client">
-    <exec command="yarn build" dir="${project.dir}/src/client" checkreturn="false" passthru="true"/>
+    <exec executable="yarn" dir="${project.dir}/src/client" checkreturn="false" passthru="true">
+      <arg value="build" />
+    </exec>
   </target>
 
   <target name="build" depends="prepare,clean">
