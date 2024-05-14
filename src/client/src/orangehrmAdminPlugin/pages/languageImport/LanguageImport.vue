@@ -21,7 +21,6 @@
       <oxd-text class="orangehrm-main-title">
         {{ $t('admin.import_language_package') }}: {{ languageName }}
       </oxd-text>
-
       <oxd-divider />
       <div class="orangehrm-information-card-container">
         <oxd-text class="orangehrm-sub-title">
@@ -78,7 +77,6 @@
             </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
-
         <oxd-divider />
         <oxd-form-actions>
           <required-text />
@@ -86,23 +84,24 @@
         </oxd-form-actions>
       </oxd-form>
     </div>
-    <employee-data-import-modal
+    <language-string-import-modal
       v-if="importModalState"
       :data="importModalState"
+      :language-id="languageId"
       @close="onImportModalClose"
-    ></employee-data-import-modal>
+    ></language-string-import-modal>
   </div>
 </template>
 
 <script>
 import {
-  required,
   maxFileSize,
+  required,
   validFileTypes,
 } from '@/core/util/validation/rules';
 import useForm from '@/core/util/composable/useForm';
 import {APIService} from '@/core/util/services/api.service';
-import EmployeeDataImportModal from '@/orangehrmPimPlugin/components/EmployeeDataImportModal.vue';
+import LanguageStringsImportModal from '@/orangehrmAdminPlugin/components/LanguageStringsImportModal.vue';
 import RequiredText from '@/core/components/labels/RequiredText.vue';
 import SubmitButton from '@/core/components/buttons/SubmitButton.vue';
 
@@ -113,7 +112,7 @@ export default {
   components: {
     SubmitButton,
     RequiredText,
-    'employee-data-import-modal': EmployeeDataImportModal,
+    'language-string-import-modal': LanguageStringsImportModal,
   },
   props: {
     languageId: {
@@ -163,6 +162,9 @@ export default {
       this.http
         .create({
           ...this.attachment,
+        })
+        .then((response) => {
+          this.importModalState = response.data;
         })
         .finally(() => {
           this.reset();

@@ -28,7 +28,6 @@ use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Entity\I18NLanguage;
 use OrangeHRM\Framework\Http\Request;
-use Symfony\Component\Translation\Translator;
 
 class LanguageImportController extends AbstractVueController
 {
@@ -40,8 +39,6 @@ class LanguageImportController extends AbstractVueController
      */
     public function preRender(Request $request): void
     {
-        $translator = new Translator('en');
-
         if ($request->attributes->has('languageId')) {
             $languageId = $request->attributes->getInt('languageId');
             $language = $this->getLocalizationService()->getLocalizationDao()
@@ -57,7 +54,14 @@ class LanguageImportController extends AbstractVueController
             $component = new Component('language-import');
             $component->addProp(new Prop('language-id', Prop::TYPE_NUMBER, $languageId));
             $component->addProp(new Prop('language-name', Prop::TYPE_STRING, $language->getName()));
-            $component->addProp(new Prop('allowed-file-types', Prop::TYPE_ARRAY, I18NTranslationImportAPI::PARAM_RULE_IMPORT_FILE_FORMAT));
+            $component->addProp(
+                new Prop(
+                    'allowed-file-types',
+                    Prop::TYPE_ARRAY,
+                    I18NTranslationImportAPI::PARAM_RULE_IMPORT_FILE_FORMAT
+                )
+            );
+
             $this->setComponent($component);
         }
     }
