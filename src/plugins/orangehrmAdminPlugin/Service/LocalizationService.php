@@ -45,6 +45,8 @@ class LocalizationService
     use ConfigServiceTrait;
     use ServiceContainerTrait;
 
+    public const CACHE_KEY_SUFFIX = 'admin.i18LanguageStringValidationErrors';
+
     /**
      * @var LocalizationDao|null
      */
@@ -420,5 +422,14 @@ class LocalizationService
         }
 
         return $errors;
+    }
+
+    /**
+     * @param $languageId
+     * @return string
+     */
+    public function generateCacheKey($languageId): string
+    {
+        return self::CACHE_KEY_SUFFIX . ".$languageId";
     }
 }

@@ -57,7 +57,6 @@ class I18NTranslationImportAPI extends Endpoint implements CollectionEndpoint
     public const XLIFF_FILE_ERRORS = 'xliffFileValidations';
     public const XLIFF_VALIDATION_ERRORS = 'xliffLanguageStringValidations';
     public const XLIFF_SUCCESS = 'successXliffLanguageStrings';
-    public const CACHE_KEY_SUFFIX = 'admin.i18LanguageStringValidationErrors';
 
     /**
      * @inheritDoc
@@ -120,8 +119,10 @@ class I18NTranslationImportAPI extends Endpoint implements CollectionEndpoint
 
         $this->beginTransaction();
         try {
+            //validate xliff file && validate language strings
             $xliffData = $this->processXliffData($attachment, $languageId);
 
+            //save validated language strings into cache storage
             $this->saveLanguageStringValidationsToCache(
                 $this->generateCacheKey($languageId),
                 $xliffData['xliffSourceAndTargetValidationErrors']
@@ -217,11 +218,14 @@ class I18NTranslationImportAPI extends Endpoint implements CollectionEndpoint
         $translatedDataValues = [];
 
         if ($xliffFileSymfonyValidation && $xliffFileSymfonyValidation['isValid']) {
+            //load xliff file into DOMDocument
             $xliffDocument = new \DOMDocument();
             $xliffDocument->loadXML($attachment->getContent());
 
+            //get units from the xliff file
             $units = $xliffDocument->getElementsByTagName('unit');
 
+            //retrieve saved language strings
             $languageStrings = $this->getLanguageStrings($languageId);
 
             $documentDataValues = [];
@@ -237,6 +241,7 @@ class I18NTranslationImportAPI extends Endpoint implements CollectionEndpoint
                     'target' => $target
                 ];
 
+                //validate language strings from the xliff file
                 $xliffSourceAndTargetValidation = $this->xliffSourceAndTargetValidation($unitElement);
 
                 $xliffSourceAndTargetValidation
@@ -291,6 +296,10 @@ class I18NTranslationImportAPI extends Endpoint implements CollectionEndpoint
         );
     }
 
+    /**
+     * @param $languageId
+     * @return array
+     */
     private function getLanguageStrings($languageId): array
     {
         $i18NTranslationSearchFilterParams = new I18NTranslationSearchFilterParams();
@@ -314,7 +323,7 @@ class I18NTranslationImportAPI extends Endpoint implements CollectionEndpoint
      */
     private function generateCacheKey($languageId): string
     {
-        return self::CACHE_KEY_SUFFIX . ".$languageId";
+        return $this->getLocalizationService()->generateCacheKey($languageId);
     }
 
     /**
