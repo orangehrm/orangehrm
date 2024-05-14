@@ -276,7 +276,7 @@ class LocalizationService
         return $xml;
     }
 
-    public function symfonyXliffValidations(string $content, ?string $file = null): array
+    public function validateXliffFile(string $content, ?string $file = null): array
     {
         $errors = [];
         // Avoid: Warning DOMDocument::loadXML(): Empty string supplied as input
@@ -336,104 +336,89 @@ class LocalizationService
         return null;
     }
 
-    public function validateXliffSourceAndTarget($xmlContent): array
+    public function validateXliffLanguageStrings($unitElement): array
     {
-        // Load the XLIFF content into a DOMDocument
-        $xliffDocument = new \DOMDocument();
-        $xliffDocument->loadXML($xmlContent);
-
         // Initialize an array to store validation errors
         $errors = [];
         $locale = "en_US";
 
-        // Get all the <unit> elements from the XLIFF document
-        $units = $xliffDocument->getElementsByTagName('unit');
-
-        // Define validation constraints, need to be finalized
-        $maxLength = 255000;
-
         // Validate each <unit> element
-        foreach ($units as $unit) {
-            $unitId = $unit->getAttribute('id');
-            $source = $unit->getElementsByTagName('source')->item(0)->nodeValue;
-            $target = $unit->getElementsByTagName('target')->item(0)->nodeValue;
+        $unitId = $unitElement['unitId'];
+        $source = $unitElement['source'];
+        $target = $unitElement['target'];
 
-            // Initialize an array to store errors for this unit
-            $unitErrors = "";
+        // Initialize an array to store errors for this unit
+        $unitErrors = "";
 
-            // Validate source text
-            if (strlen($source) > $maxLength) {
-                $unitErrors .= "Source text exceeds maximum length of $maxLength characters.";
-            }
+        // Define patterns for matching placeholders, plural forms, and select expressions
+        $placeholderPattern = '/{(\w+)}/';
+        $pluralPattern = '/\s?(\w+)\s?,\s?plural/';
+        $selectPattern = '/\s?(\w+)\s?,\s?select/';
 
-            // Validate target text
-            if (strlen($target) > $maxLength) {
-                $unitErrors .= "Target text exceeds maximum length of $maxLength characters.";
-            }
+        // Match placeholders between source and target strings
+        preg_match_all($placeholderPattern, $source, $placeholdersSource);
+        preg_match_all($placeholderPattern, $target, $placeholdersTarget);
 
-            // Define patterns for matching placeholders, plural forms, and select expressions
-            $placeholderPattern = '/{(\w+)}/';
-            $pluralPattern = '/\s?(\w+)\s?,\s?plural/';
-            $selectPattern = '/\s?(\w+)\s?,\s?select/';
+        $capturedPlaceholdersSource = $placeholdersSource[1];
+        $capturedPlaceholdersTarget = $placeholdersTarget[1];
 
-            // Match placeholders between source and target strings
-            preg_match_all($placeholderPattern, $source, $placeholdersSource);
-            preg_match_all($placeholderPattern, $target, $placeholdersTarget);
-
-            $capturedPlaceholdersSource = $placeholdersSource[1];
-            $capturedPlaceholdersTarget = $placeholdersTarget[1];
-
-            // Compare placeholders between source and target strings
-            if ($capturedPlaceholdersSource !== $capturedPlaceholdersTarget) {
-                $unitErrors .= "Mismatch found between placeholders. Source: [" . implode(
-                    ', ',
-                    $capturedPlaceholdersSource
-                ) . "] & Target: [" . implode(', ', $capturedPlaceholdersTarget) . "]";
-            }
-
-            // Match plural forms between source and target strings
-            preg_match_all($pluralPattern, $source, $pluralsSource);
-            preg_match_all($pluralPattern, $target, $pluralsTarget);
-
-            $capturedPluralsSource = $pluralsSource[1];
-            $capturedPluralsTarget = $pluralsTarget[1];
-
-            // Compare plural forms between source and target strings
-            if ($capturedPluralsSource !== $capturedPluralsTarget) {
-                $unitErrors .= "Mismatch found between plural forms. Source: [" . implode(
-                    ', ',
-                    $capturedPluralsSource
-                ) . "] & Target: [" . implode(', ', $capturedPluralsTarget) . "].";
-            }
-
-            // Match select expressions between source and target strings
-            preg_match_all($selectPattern, $source, $selectsSource);
-            preg_match_all($selectPattern, $target, $selectsTarget);
-
-            $capturedSelectsSource = $selectsSource[1];
-            $capturedSelectsTarget = $selectsTarget[1];
-
-            // Compare select expressions between source and target strings
-            if ($capturedSelectsSource !== $capturedSelectsTarget) {
-                $unitErrors .= "Mismatch found between select expressions. Source: [" . implode(
-                    ', ',
-                    $capturedSelectsSource
-                ) . "] & Target: [" . implode(', ', $capturedSelectsTarget) . "]";
-            }
-
-            try {
-                $fmt = new MessageFormatter($locale, $target);
-            } catch (IntlException $e) {
-                $unitErrors .= $e->getMessage();
-            }
-
-            // Store errors for this unit
-            if (!empty($unitErrors)) {
-                // Add a space after a full stop in error messages
-                $unitErrors = preg_replace('/\.(?!\s|$)/', '. ', $unitErrors);
-                $errors[$unitId] = $unitErrors;
-            }
+        // Compare placeholders between source and target strings
+        if ($capturedPlaceholdersSource !== $capturedPlaceholdersTarget) {
+            $unitErrors .= "Mismatch found between placeholders. Source: [" . implode(
+                ', ',
+                $capturedPlaceholdersSource
+            ) . "] & Target: [" . implode(', ', $capturedPlaceholdersTarget) . "]";
         }
+
+        // Match plural forms between source and target strings
+        preg_match_all($pluralPattern, $source, $pluralsSource);
+        preg_match_all($pluralPattern, $target, $pluralsTarget);
+
+        $capturedPluralsSource = $pluralsSource[1];
+        $capturedPluralsTarget = $pluralsTarget[1];
+
+        // Compare plural forms between source and target strings
+        if ($capturedPluralsSource !== $capturedPluralsTarget) {
+            $unitErrors .= "Mismatch found between plural forms. Source: [" . implode(
+                ', ',
+                $capturedPluralsSource
+            ) . "] & Target: [" . implode(', ', $capturedPluralsTarget) . "].";
+        }
+
+        // Match select expressions between source and target strings
+        preg_match_all($selectPattern, $source, $selectsSource);
+        preg_match_all($selectPattern, $target, $selectsTarget);
+
+        $capturedSelectsSource = $selectsSource[1];
+        $capturedSelectsTarget = $selectsTarget[1];
+
+        // Compare select expressions between source and target strings
+        if ($capturedSelectsSource !== $capturedSelectsTarget) {
+            $unitErrors .= "Mismatch found between select expressions. Source: [" . implode(
+                ', ',
+                $capturedSelectsSource
+            ) . "] & Target: [" . implode(', ', $capturedSelectsTarget) . "]";
+        }
+
+        try {
+            $fmt = new MessageFormatter($locale, $target);
+        } catch (IntlException $e) {
+            $unitErrors .= $e->getMessage();
+        }
+
+        // Store errors for this unit
+        if (!empty($unitErrors)) {
+            // Add a space after a full stop in error messages
+            $unitErrors = preg_replace('/\.(?!\s|$)/', '. ', $unitErrors);
+
+            $errors = [
+                'unitId' => $unitId,
+                'source' => $source,
+                'target' => $target,
+                'error' => $unitErrors
+            ];
+        }
+
         return $errors;
     }
 }

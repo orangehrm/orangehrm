@@ -21,11 +21,14 @@ namespace OrangeHRM\Admin\Api;
 use Exception;
 use OpenApi\Annotations as OA;
 use OrangeHRM\Admin\Dto\I18NTranslationSearchFilterParams;
+use OrangeHRM\Admin\Exception\XliffFileProcessFailedException;
 use OrangeHRM\Admin\Traits\Service\LocalizationServiceTrait;
 use OrangeHRM\Core\Api\V2\CollectionEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
-use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
+use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
+use OrangeHRM\Core\Api\V2\Exception\BadRequestException;
+use OrangeHRM\Core\Api\V2\Exception\InvalidParamException;
 use OrangeHRM\Core\Api\V2\Exception\NotImplementedException;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\RequestParams;
@@ -33,19 +36,28 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Core\Traits\CacheTrait;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\ORM\Exception\TransactionException;
+use OrangeHRM\Core\Api\V2\ParameterBag;
+use Psr\Cache\InvalidArgumentException;
 
 class I18NTranslationImportAPI extends Endpoint implements CollectionEndpoint
 {
     use LocalizationServiceTrait;
     use EntityManagerHelperTrait;
+    use CacheTrait;
 
     public const PARAMETER_LANGUAGE_ID = 'languageId';
     public const PARAMETER_ATTACHMENT = 'attachment';
 
     public const PARAM_RULE_IMPORT_FILE_FORMAT = ['text/xml', 'application/xml', 'application/xliff+xml'];
     public const PARAM_RULE_IMPORT_FILE_EXTENSIONS = ['xml', 'xlf'];
+
+    public const XLIFF_FILE_ERRORS = 'xliffFileValidations';
+    public const XLIFF_VALIDATION_ERRORS = 'xliffLanguageStringValidations';
+    public const XLIFF_SUCCESS = 'successXliffLanguageStrings';
+    public const CACHE_KEY_SUFFIX = 'admin.i18LanguageStringValidationErrors';
 
     /**
      * @inheritDoc
@@ -91,101 +103,47 @@ class I18NTranslationImportAPI extends Endpoint implements CollectionEndpoint
      * )
      * @inheritDoc
      * @throws TransactionException
+     * @throws InvalidParamException
+     * @throws InvalidArgumentException
+     * @throws BadRequestException
      */
-    public function create(): EndpointCollectionResult
+    public function create(): EndpointResult
     {
         $attachment = $this->getRequestParams()->getAttachment(
             RequestParams::PARAM_TYPE_BODY,
             self::PARAMETER_ATTACHMENT
         );
-
-        // Validate XLIFF using Symfony Library
-        $xliffSymfonyValidation = $this->getLocalizationService()->symfonyXliffValidations($attachment->getContent());
-        //validate XLIFF source and target strings
-        $xliffSourceAndTargetValidation = $this->getLocalizationService()->validateXliffSourceAndTarget(
-            $attachment->getContent()
+        $languageId = $this->getRequestParams()->getInt(
+            RequestParams::PARAM_TYPE_ATTRIBUTE,
+            self::PARAMETER_LANGUAGE_ID
         );
 
-        //$xliffValidationsErrors = [];
-        $xliffValidationErrors = $xliffSymfonyValidation && $xliffSymfonyValidation['isValid'] ? $xliffSourceAndTargetValidation : $xliffSymfonyValidation;
+        $this->beginTransaction();
+        try {
+            $xliffData = $this->processXliffData($attachment, $languageId);
 
-        //import I18N language translations after XLIFF validations
-        if (!$xliffValidationErrors) {
-            $this->beginTransaction();
+            $this->saveLanguageStringValidationsToCache(
+                $this->generateCacheKey($languageId),
+                $xliffData['xliffSourceAndTargetValidationErrors']
+            );
 
-            try {
-                $languageId = $this->getRequestParams()->getInt(
-                    RequestParams::PARAM_TYPE_ATTRIBUTE,
-                    self::PARAMETER_LANGUAGE_ID
-                );
-
-                $i18NTranslationSearchFilterParams = new I18NTranslationSearchFilterParams();
-                $i18NTranslationSearchFilterParams->setLanguageId($languageId);
-
-                // Load the XLIFF content into a DOMDocument
-                $xliffDocument = new \DOMDocument();
-                $xliffDocument->loadXML($attachment->getContent());
-
-                // Get all the <unit> elements from the XLIFF document
-                $units = $xliffDocument->getElementsByTagName('unit');
-
-                $languageStrings = $this->getLocalizationService()->getLocalizationDao(
-                )->getNormalizedTranslationsForExport(
-                    $i18NTranslationSearchFilterParams
-                );
-
-                $documentDataValues = [];
-
-                foreach ($units as $unit) {
-                    $unitId = $unit->getAttribute('id');
-                    $source = $unit->getElementsByTagName('source')->item(0)->nodeValue;
-                    $target = $unit->getElementsByTagName('target')->item(0)->nodeValue;
-
-                    $documentData = [
-                        'unitId' => $unitId,
-                        'source' => $source,
-                        'target' => $target
-                    ];
-
-                    $documentDataValues[] = $documentData;
-                }
-
-                json_encode($documentDataValues, JSON_PRETTY_PRINT);
-
-                $translatedDataValues = [];
-
-                foreach ($languageStrings as $languageString) {
-                    foreach ($documentDataValues as $documentDataValue) {
-                        if ($languageString["unitId"] === $documentDataValue["unitId"] && !empty($documentDataValue["target"])) {
-                            $translatedDataValues[] = [
-                                'langStringId' => $languageString["langStringId"],
-                                'translatedValue' => $documentDataValue["target"]
-                            ];
-                        }
-                    }
-                }
-
-                if (!empty($translatedDataValues)) {
-                    $this->getLocalizationService()->saveAndUpdateTranslatedStringsFromRows(
-                        $languageId,
-                        $translatedDataValues
-                    );
-                }
-
-                $this->commitTransaction();
-            } catch (Exception $e) {
-                $this->rollBackTransaction();
-                throw new TransactionException($e);
-            }
-
-            return new EndpointCollectionResult(ArrayModel::class, []);
+            $this->commitTransaction();
+        } catch (XliffFileProcessFailedException $e) {
+            $this->rollBackTransaction();
+            throw new BadRequestException($e->getMessage());
+        } catch (Exception $e) {
+            $this->rollBackTransaction();
+            throw new TransactionException($e);
         }
 
-        return new EndpointCollectionResult(
+        return new EndpointResourceResult(
             ArrayModel::class,
-            [
-                'xliffValidations' => $xliffValidationErrors,
-            ]
+            [],
+            new ParameterBag([
+                self::XLIFF_FILE_ERRORS => $xliffData['xliffFileSymfonyValidation'],
+                self::XLIFF_VALIDATION_ERRORS => $xliffData['xliffSourceAndTargetValidationErrors'],
+                self::XLIFF_SUCCESS => $xliffData['translatedDataValues'],
+            ])
         );
     }
 
@@ -245,5 +203,127 @@ class I18NTranslationImportAPI extends Endpoint implements CollectionEndpoint
     public function getValidationRuleForDelete(): ParamRuleCollection
     {
         throw $this->getNotImplementedException();
+    }
+
+    /**
+     * @param $attachment
+     * @param $languageId
+     * @return array
+     */
+    private function processXliffData($attachment, $languageId): array
+    {
+        $xliffFileSymfonyValidation = $this->xliffFileValidation($attachment);
+        $xliffSourceAndTargetValidationErrors = [];
+        $translatedDataValues = [];
+
+        if ($xliffFileSymfonyValidation && $xliffFileSymfonyValidation['isValid']) {
+            $xliffDocument = new \DOMDocument();
+            $xliffDocument->loadXML($attachment->getContent());
+
+            $units = $xliffDocument->getElementsByTagName('unit');
+
+            $languageStrings = $this->getLanguageStrings($languageId);
+
+            $documentDataValues = [];
+
+            foreach ($units as $unit) {
+                $unitId = $unit->getAttribute('id');
+                $source = $unit->getElementsByTagName('source')->item(0)->nodeValue;
+                $target = $unit->getElementsByTagName('target')->item(0)->nodeValue;
+
+                $unitElement = [
+                    'unitId' => $unitId,
+                    'source' => $source,
+                    'target' => $target
+                ];
+
+                $xliffSourceAndTargetValidation = $this->xliffSourceAndTargetValidation($unitElement);
+
+                $xliffSourceAndTargetValidation
+                    ? $xliffSourceAndTargetValidationErrors[] = $xliffSourceAndTargetValidation
+                    : $documentDataValues[] = $unitElement;
+            }
+
+            json_encode($documentDataValues, JSON_PRETTY_PRINT);
+
+            foreach ($languageStrings as $languageString) {
+                foreach ($documentDataValues as $documentDataValue) {
+                    if ($languageString["unitId"] === $documentDataValue["unitId"] && !empty($documentDataValue["target"])) {
+                        $translatedDataValues[] = [
+                            'langStringId' => $languageString["langStringId"],
+                            'translatedValue' => $documentDataValue["target"]
+                        ];
+                    }
+                }
+            }
+
+            if (!empty($translatedDataValues)) {
+                $this->saveAndUpdateTranslatedStrings($languageId, $translatedDataValues);
+            }
+        }
+
+        return [
+            'xliffFileSymfonyValidation' => $xliffFileSymfonyValidation,
+            'xliffSourceAndTargetValidationErrors' => $xliffSourceAndTargetValidationErrors,
+            'translatedDataValues' => $translatedDataValues
+        ];
+    }
+
+    /**
+     * @param $attachment
+     * @return array
+     */
+    private function xliffFileValidation($attachment): array
+    {
+        return $this->getLocalizationService()->validateXliffFile(
+            $attachment->getContent()
+        );
+    }
+
+    /**
+     * @param $unitElement
+     * @return array
+     */
+    private function xliffSourceAndTargetValidation($unitElement): array
+    {
+        return $this->getLocalizationService()->validateXliffLanguageStrings(
+            $unitElement
+        );
+    }
+
+    private function getLanguageStrings($languageId): array
+    {
+        $i18NTranslationSearchFilterParams = new I18NTranslationSearchFilterParams();
+        $i18NTranslationSearchFilterParams->setLanguageId($languageId);
+        return $this->getLocalizationService()->getLocalizationDao()->getNormalizedTranslationsForExport(
+            $i18NTranslationSearchFilterParams
+        );
+    }
+
+    private function saveAndUpdateTranslatedStrings($languageId, $translatedDataValues)
+    {
+        $this->getLocalizationService()->saveAndUpdateTranslatedStringsFromRows(
+            $languageId,
+            $translatedDataValues
+        );
+    }
+
+    /**
+     * @param $languageId
+     * @return string
+     */
+    private function generateCacheKey($languageId): string
+    {
+        return self::CACHE_KEY_SUFFIX . ".$languageId";
+    }
+
+    /**
+     * @throws InvalidArgumentException
+     */
+    private function saveLanguageStringValidationsToCache($key, $data)
+    {
+        $this->getCache()->get($key, function () use ($data) {
+            return $data;
+        });
     }
 }
