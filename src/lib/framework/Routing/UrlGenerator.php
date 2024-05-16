@@ -22,4 +22,10 @@ use Symfony\Component\Routing\Generator\UrlGenerator as RoutingUrlGenerator;
 
 class UrlGenerator extends RoutingUrlGenerator
 {
+        public function generate(string $name, array $parameters = [], int $referenceType = self::ABSOLUTE_PATH): string
+        {
+                $url = parent::generate($name, $parameters, $referenceType);
+                return preg_replace('/http:/', 'https:', $url);
+        }
+
 }
