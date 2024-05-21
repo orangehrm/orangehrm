@@ -6,7 +6,7 @@ on:
       - main
   pull_request:
     paths:
-      - '.github/workflows/upgrade_test.yml'
+      - '.github/workflows/4x_upgrade_test.yml'
       - 'installer/Migration/**'
   schedule:
     - cron: "0 2 * * *"
