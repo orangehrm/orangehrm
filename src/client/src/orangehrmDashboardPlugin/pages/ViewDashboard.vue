@@ -31,7 +31,10 @@
     <oxd-grid-item class="orangehrm-dashboard-widget">
       <quick-launch-widget></quick-launch-widget>
     </oxd-grid-item>
-    <oxd-grid-item class="orangehrm-dashboard-widget">
+    <oxd-grid-item
+      v-if="$can.read('dashboard_buzz_widget')"
+      class="orangehrm-dashboard-widget"
+    >
       <buzz-latest-post-widget></buzz-latest-post-widget>
     </oxd-grid-item>
     <oxd-grid-item

@@ -1,0 +1,10 @@
+dashboard_buzz_widget:
+  description: 'Dashboard - Buzz Widget Visibility'
+  allowed:
+    read: true
+    create: false
+    update: false
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: ESS, permission: { read: true, create: false, update: false, delete: false, self: false } }

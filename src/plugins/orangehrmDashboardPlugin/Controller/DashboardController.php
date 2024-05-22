@@ -42,6 +42,7 @@ class DashboardController extends AbstractVueController
             'dashboard_location_widget',
             'dashboard_leave_widget',
             'dashboard_time_widget',
+            'dashboard_buzz_widget',
             'dashboard_employees_on_leave_today_config',
         ];
 
