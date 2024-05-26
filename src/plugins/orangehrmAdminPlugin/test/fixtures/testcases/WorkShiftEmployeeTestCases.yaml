@@ -1,0 +1,101 @@
+GetAll:
+  'get employee with nameOrId=Raj':
+    userId: 1
+    services:
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    query:
+      nameOrId: Raj
+    data: [
+      {
+        empNumber: 2,
+        lastName: Kumara,
+        firstName: Rajitha,
+        middleName: '',
+        employeeId: 0002,
+        terminationId: null
+      }
+    ]
+    meta:
+      total: 1
+
+  'get purged employees':
+    userId: 1
+    services:
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    query:
+      nameOrId: Purged
+    data: [ ]
+    meta:
+      total: 0
+
+  'get terminated employees':
+    userId: 1
+    services:
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    query:
+      nameOrId: Linda
+    data: [ ]
+    meta:
+      total: 0
+
+  'get employee with nameOrId=Dev':
+    userId: 1
+    services:
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    query:
+      nameOrId: Dev
+    data: [
+      {
+        empNumber: 3,
+        lastName: de Silva,
+        firstName: Devishke,
+        middleName: '',
+        employeeId: 0003,
+        terminationId: null
+      }
+    ]
+    meta:
+      total: 2 #employee count is not considering assigned employees
+
+  'get already assigned employee':
+    userId: 1
+    services:
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    query:
+      nameOrId: Devi Admin
+    data: [ ]
+    meta:
+      total: 1 #employee count is not considering assigned employees
+
+  'without query params':
+    userId: 1
+    services:
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    data: [
+      {
+        empNumber: 3,
+        lastName: de Silva,
+        firstName: Devishke,
+        middleName: '',
+        employeeId: 0003,
+        terminationId: null,
+      },
+      {
+        empNumber: 2,
+        lastName: Kumara,
+        firstName: Rajitha,
+        middleName: '',
+        employeeId: 0002,
+        terminationId: null,
+      },
+      {
+        empNumber: 5,
+        lastName: Perera,
+        firstName: Sharuka,
+        middleName: '',
+        employeeId: 0005,
+        terminationId: null,
+      }
+    ]
+    meta:
+      total: 4 #employee count is not considering assigned employees
