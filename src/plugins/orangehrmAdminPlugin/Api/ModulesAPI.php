@@ -46,6 +46,7 @@ class ModulesAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_MOBILE = 'mobile';
     public const PARAMETER_DIRECTORY = 'directory';
     public const PARAMETER_CLAIM = 'claim';
+    public const PARAMETER_BUZZ = 'buzz';
 
     /**
      * @var ModuleService|null
@@ -66,6 +67,7 @@ class ModulesAPI extends Endpoint implements CrudEndpoint
         self::PARAMETER_MOBILE => false,
         self::PARAMETER_DIRECTORY => false,
         self::PARAMETER_CLAIM => false,
+        self::PARAMETER_BUZZ => false,
     ];
 
     /**
@@ -203,7 +205,8 @@ class ModulesAPI extends Endpoint implements CrudEndpoint
      *             @OA\Property(property="maintenance", type="boolean"),
      *             @OA\Property(property="mobile", type="boolean"),
      *             @OA\Property(property="directory", type="boolean"),
-     *             @OA\Property(property="claim", type="boolean")
+     *             @OA\Property(property="claim", type="boolean"),
+     *             @OA\Property(property="buzz", type="boolean"),
      *         )
      *     ),
      *     @OA\Response(response="200",
@@ -288,6 +291,12 @@ class ModulesAPI extends Endpoint implements CrudEndpoint
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_CLAIM,
+                    new Rule(Rules::BOOL_TYPE),
+                )
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_BUZZ,
                     new Rule(Rules::BOOL_TYPE),
                 )
             )

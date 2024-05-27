@@ -23,6 +23,7 @@ use OrangeHRM\Dashboard\Service\EmployeeActionSummaryService;
 use OrangeHRM\Dashboard\Service\EmployeeOnLeaveService;
 use OrangeHRM\Dashboard\Service\EmployeeTimeAtWorkService;
 use OrangeHRM\Dashboard\Service\QuickLaunchService;
+use OrangeHRM\Dashboard\Subscriber\BuzzModuleStatusChangeSubscriber;
 use OrangeHRM\Dashboard\Subscriber\LeaveModuleStatusChangeSubscriber;
 use OrangeHRM\Dashboard\Subscriber\TimeModuleStatusChangeSubscriber;
 use OrangeHRM\Framework\Http\Request;
@@ -65,5 +66,6 @@ class DashboardPluginConfiguration implements PluginConfigurationInterface
 
         $this->getEventDispatcher()->addSubscriber(new TimeModuleStatusChangeSubscriber());
         $this->getEventDispatcher()->addSubscriber(new LeaveModuleStatusChangeSubscriber());
+        $this->getEventDispatcher()->addSubscriber(new BuzzModuleStatusChangeSubscriber());
     }
 }
