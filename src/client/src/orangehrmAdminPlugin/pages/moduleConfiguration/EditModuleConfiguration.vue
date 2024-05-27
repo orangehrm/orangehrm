@@ -89,6 +89,12 @@
               </oxd-text>
               <oxd-switch-input v-model="modules.claim" />
             </div>
+            <div class="orangehrm-module-field-row">
+              <oxd-text tag="p" class="orangehrm-module-field-label">
+                {{ $t('general.buzz') }}
+              </oxd-text>
+              <oxd-switch-input v-model="modules.buzz" />
+            </div>
           </oxd-grid>
         </oxd-form-row>
 
@@ -118,6 +124,7 @@ const modulesModel = {
   mobile: false,
   directory: false,
   claim: false,
+  buzz: false,
 };
 
 export default {
@@ -155,6 +162,7 @@ export default {
         this.modules.mobile = data.mobile;
         this.modules.directory = data.directory;
         this.modules.claim = data.claim;
+        this.modules.buzz = data.buzz;
       })
       .finally(() => {
         this.isLoading = false;
@@ -174,6 +182,7 @@ export default {
         mobile: this.modules.mobile,
         directory: this.modules.directory,
         claim: this.modules.claim,
+        buzz: this.modules.buzz,
       };
       this.http
         .request({

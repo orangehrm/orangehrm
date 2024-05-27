@@ -14,7 +14,8 @@ GetAll:
       maintenance: false,
       mobile: false,
       directory: true,
-      claim: true
+      claim: true,
+      buzz: true
     }
 
   'unexpected param':
@@ -39,7 +40,8 @@ Update:
       maintenance: false,
       mobile: false,
       directory: false,
-      claim: false
+      claim: false,
+      buzz: false
     }
 
   'all modules enabled':
@@ -58,7 +60,8 @@ Update:
       maintenance: true,
       mobile: true,
       directory: true,
-      claim: false
+      claim: false,
+      buzz: false
     }
 
   'all modules disabled':
@@ -98,7 +101,8 @@ Update:
       maintenance: false,
       mobile: false,
       directory: false,
-      claim: false
+      claim: false,
+      buzz: false
     }
 
   'not submitting pim module':
@@ -117,7 +121,8 @@ Update:
       maintenance: false,
       mobile: false,
       directory: false,
-      claim: false
+      claim: false,
+      buzz: false
     }
 
   'not submitting any not required module':
@@ -164,7 +169,8 @@ Update:
       maintenance: false,
       mobile: false,
       directory: false,
-      claim: true
+      claim: true,
+      buzz: false
     }
 
   'submitting with invalid data for claim module':
@@ -174,3 +180,67 @@ Update:
       oauth.oauth_service: OrangeHRM\OAuth\Service\OAuthService
     body: { admin: true, leave: false, time: false, recruitment: false, performance: false, maintenance: false, mobile: false, directory: false, claim: 1 }
     invalidOnly: [ claim ]
+
+  'enable buzz module':
+    userId: 1
+    services:
+      core.menu_service: OrangeHRM\Core\Service\MenuService
+      oauth.oauth_service: OrangeHRM\OAuth\Service\OAuthService
+    body: {
+      admin: true,
+      pim: true,
+      leave: true,
+      time: true,
+      recruitment: true,
+      performance: true,
+      maintenance: true,
+      mobile: true,
+      directory: true,
+      claim: true,
+      buzz: true
+    }
+    data: {
+      admin: true,
+      pim: true,
+      leave: true,
+      time: true,
+      recruitment: true,
+      performance: true,
+      maintenance: true,
+      mobile: true,
+      directory: true,
+      claim: true,
+      buzz: true
+    }
+
+  'disable buzz module':
+    userId: 1
+    services:
+      core.menu_service: OrangeHRM\Core\Service\MenuService
+      oauth.oauth_service: OrangeHRM\OAuth\Service\OAuthService
+    body: {
+      admin: true,
+      pim: true,
+      leave: true,
+      time: true,
+      recruitment: true,
+      performance: true,
+      maintenance: true,
+      mobile: true,
+      directory: true,
+      claim: true,
+      buzz: false
+    }
+    data: {
+      admin: true,
+      pim: true,
+      leave: true,
+      time: true,
+      recruitment: true,
+      performance: true,
+      maintenance: true,
+      mobile: true,
+      directory: true,
+      claim: true,
+      buzz: false
+    }
