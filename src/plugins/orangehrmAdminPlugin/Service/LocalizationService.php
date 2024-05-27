@@ -281,9 +281,10 @@ class LocalizationService
     public function validateXliffFile(string $content, ?string $file = null): array
     {
         $errors = [];
+
         // Avoid: Warning DOMDocument::loadXML(): Empty string supplied as input
         if ('' === trim($content)) {
-            return ['file' => $file, 'valid' => true];
+            return ['file' => $file, 'isValid' => true, 'messages' => $errors];
         }
 
         $internal = libxml_use_internal_errors(true);
@@ -292,20 +293,21 @@ class LocalizationService
         $document->loadXML($content);
 
         if (null !== $targetLanguage = $this->getTargetLanguageFromFile($document)) {
+            // Normalize locale: handle both hyphen and underscore variations, and make it case-insensitive
             $normalizedLocalePattern = sprintf(
-                '(%s|%s)',
+                '(?i:%s|%s)',
                 preg_quote($targetLanguage, '/'),
-                preg_quote(str_replace('-', '_', $targetLanguage), '/')
+                preg_quote(str_replace('_', '-', $targetLanguage), '/')
             );
-            // strict file names require translation files to be named '____.locale.xlf'
-            $expectedFilenamePattern = sprintf('/^.*\.(?i:%s)\.(?:xlf|xliff)/', $normalizedLocalePattern);
+            // strict file names require translation files to be named 'i18n-trgLang.xlf' or 'i18n-trgLang.xliff'
+            $expectedFilenamePattern = sprintf('/^i18n\-(?:%s)\.(?:xlf|xliff)$/i', $normalizedLocalePattern);
 
-            if (0 === preg_match($expectedFilenamePattern, basename($file))) {
+            if ($file && 0 === preg_match($expectedFilenamePattern, basename($file))) {
                 $errors[] = [
                     'line' => -1,
                     'column' => -1,
                     'message' => sprintf(
-                        'There is a mismatch between the language included in the file name ("%s") and the "%s" value used in the "target-language" attribute of the file.',
+                        'There is a mismatch between the language included in the file name ("%s") and the "%s" value used in the "trgLang" attribute of the file.',
                         basename($file),
                         $targetLanguage
                     ),
@@ -329,16 +331,18 @@ class LocalizationService
 
     private function getTargetLanguageFromFile(\DOMDocument $xliffContents): ?string
     {
-        foreach ($xliffContents->getElementsByTagName('file')[0]->attributes ?? [] as $attribute) {
-            if ('target-language' === $attribute->nodeName) {
-                return $attribute->nodeValue;
+        $xliffTags = $xliffContents->getElementsByTagName('xliff');
+        if ($xliffTags->length > 0) {
+            $xliffTag = $xliffTags->item(0);
+            if ($xliffTag && $xliffTag->hasAttribute('trgLang')) {
+                return $xliffTag->getAttribute('trgLang');
             }
         }
 
         return null;
     }
 
-    public function validateXliffLanguageStrings($unitElement): array
+    public function validateXliffLanguageStrings(array $unitElement): array
     {
         // Initialize an array to store validation errors
         $errors = [];
@@ -425,10 +429,10 @@ class LocalizationService
     }
 
     /**
-     * @param $languageId
+     * @param int $languageId
      * @return string
      */
-    public function generateCacheKey($languageId): string
+    public function generateCacheKey(int $languageId): string
     {
         return self::CACHE_KEY_SUFFIX . ".$languageId";
     }

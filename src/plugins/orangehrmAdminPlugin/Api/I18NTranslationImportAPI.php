@@ -36,6 +36,7 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Core\Dto\Base64Attachment;
 use OrangeHRM\Core\Traits\CacheTrait;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\ORM\Exception\TransactionException;
@@ -207,11 +208,11 @@ class I18NTranslationImportAPI extends Endpoint implements CollectionEndpoint
     }
 
     /**
-     * @param $attachment
-     * @param $languageId
+     * @param Base64Attachment $attachment
+     * @param int $languageId
      * @return array
      */
-    private function processXliffData($attachment, $languageId): array
+    private function processXliffData(Base64Attachment $attachment, int $languageId): array
     {
         $xliffFileSymfonyValidation = $this->xliffFileValidation($attachment);
         $xliffSourceAndTargetValidationErrors = [];
@@ -275,21 +276,22 @@ class I18NTranslationImportAPI extends Endpoint implements CollectionEndpoint
     }
 
     /**
-     * @param $attachment
+     * @param Base64Attachment $attachment
      * @return array
      */
-    private function xliffFileValidation($attachment): array
+    private function xliffFileValidation(Base64Attachment $attachment): array
     {
         return $this->getLocalizationService()->validateXliffFile(
-            $attachment->getContent()
+            $attachment->getContent(),
+            $attachment->getFilename()
         );
     }
 
     /**
-     * @param $unitElement
+     * @param array $unitElement
      * @return array
      */
-    private function xliffSourceAndTargetValidation($unitElement): array
+    private function xliffSourceAndTargetValidation(array $unitElement): array
     {
         return $this->getLocalizationService()->validateXliffLanguageStrings(
             $unitElement
@@ -297,10 +299,10 @@ class I18NTranslationImportAPI extends Endpoint implements CollectionEndpoint
     }
 
     /**
-     * @param $languageId
+     * @param int $languageId
      * @return array
      */
-    private function getLanguageStrings($languageId): array
+    private function getLanguageStrings(int $languageId): array
     {
         $i18NTranslationSearchFilterParams = new I18NTranslationSearchFilterParams();
         $i18NTranslationSearchFilterParams->setLanguageId($languageId);
@@ -309,7 +311,7 @@ class I18NTranslationImportAPI extends Endpoint implements CollectionEndpoint
         );
     }
 
-    private function saveAndUpdateTranslatedStrings($languageId, $translatedDataValues)
+    private function saveAndUpdateTranslatedStrings(int $languageId, array $translatedDataValues)
     {
         $this->getLocalizationService()->saveAndUpdateTranslatedStringsFromRows(
             $languageId,
@@ -318,10 +320,10 @@ class I18NTranslationImportAPI extends Endpoint implements CollectionEndpoint
     }
 
     /**
-     * @param $languageId
+     * @param int $languageId
      * @return string
      */
-    private function generateCacheKey($languageId): string
+    private function generateCacheKey(int $languageId): string
     {
         return $this->getLocalizationService()->generateCacheKey($languageId);
     }
@@ -329,7 +331,7 @@ class I18NTranslationImportAPI extends Endpoint implements CollectionEndpoint
     /**
      * @throws InvalidArgumentException
      */
-    private function saveLanguageStringValidationsToCache($key, $data)
+    private function saveLanguageStringValidationsToCache(string $key, array $data)
     {
         $this->getCache()->get($key, function () use ($data) {
             return $data;

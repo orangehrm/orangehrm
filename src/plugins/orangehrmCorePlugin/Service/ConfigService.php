@@ -85,6 +85,7 @@ class ConfigService
         'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
         'application/vnd.openxmlformats-officedocument.presentationml.presentation',
         'application/vnd.openxmlformats-officedocument.presentationml.slideshow',
+        'application/xliff+xml',
         'image/x-png',
         'image/gif',
         'image/jpeg',
@@ -113,6 +114,7 @@ class ConfigService
         'jpg',
         'jfif',
         'png',
+        'xlf'
     ];
 
     /**
