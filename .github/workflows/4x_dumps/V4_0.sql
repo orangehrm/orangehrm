@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: mariadb102
--- Generation Time: May 21, 2024 at 08:06 AM
+-- Generation Time: May 28, 2024 at 09:00 AM
 -- Server version: 10.2.44-MariaDB-1:10.2.44+maria~bionic
 -- PHP Version: 8.2.8
 
@@ -80,7 +80,7 @@ INSERT INTO `hs_hr_config` (`key`, `value`) VALUES
 ('beacon.lock', 'unlocked'),
 ('beacon.next_flash_time', '0000-00-00'),
 ('beacon.uuid', '0'),
-('csrf_secret', '4b4e4f3e4f9b2c1d69d64ba6811aa3c66815fdc3434a889cbdc8056b5793cf4597693a21f12612b58b21ea8097912844f1adaced86507e'),
+('csrf_secret', '8dcede36081a38be03401b953302050e32e2d03702c435eea47889002ab4936177657aa5d7f603f5ed3cd217acab59656b4467e225a46e'),
 ('domain.name', 'localhost'),
 ('hsp_accrued_last_updated', '0000-00-00'),
 ('hsp_current_plan', '0'),
@@ -94,6 +94,7 @@ INSERT INTO `hs_hr_config` (`key`, `value`) VALUES
 ('leave.include_pending_leave_in_balance', '1'),
 ('leave.leavePeriodStatus', '1'),
 ('leave.work_schedule_implementation', 'BasicWorkSchedule'),
+('leave_period_defined', 'Yes'),
 ('openId.provider.added', 'on'),
 ('pim_show_deprecated_fields', '0'),
 ('report.mysql_group_concat_max_len', '2048'),
@@ -648,6 +649,14 @@ CREATE TABLE `hs_hr_employee` (
   `custom10` varchar(250) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `hs_hr_employee`
+--
+
+INSERT INTO `hs_hr_employee` (`emp_number`, `employee_id`, `emp_lastname`, `emp_firstname`, `emp_middle_name`, `emp_nick_name`, `emp_smoker`, `ethnic_race_code`, `emp_birthday`, `nation_code`, `emp_gender`, `emp_marital_status`, `emp_ssn_num`, `emp_sin_num`, `emp_other_id`, `emp_dri_lice_num`, `emp_dri_lice_exp_date`, `emp_military_service`, `emp_status`, `job_title_code`, `eeo_cat_code`, `work_station`, `emp_street1`, `emp_street2`, `city_code`, `coun_code`, `provin_code`, `emp_zipcode`, `emp_hm_telephone`, `emp_mobile`, `emp_work_telephone`, `emp_work_email`, `sal_grd_code`, `joined_date`, `emp_oth_email`, `termination_id`, `custom1`, `custom2`, `custom3`, `custom4`, `custom5`, `custom6`, `custom7`, `custom8`, `custom9`, `custom10`) VALUES
+(1, '0001', 'Admin', 'Devi', '', '', 0, NULL, NULL, NULL, NULL, NULL, '', '', '', '', NULL, '', 1, 1, 2, 2, 'Address', 'Address 2', 'City', 'LK', 'State', '00000', '123', '123', '123', 'example@example.com', NULL, '2024-04-01', 'example2@example.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(2, '0002', 'Employee', 'Test', '', '', 0, NULL, NULL, NULL, NULL, NULL, '', '', '', '', NULL, '', 2, 2, 2, 2, '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, '2024-05-01', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -710,6 +719,14 @@ CREATE TABLE `hs_hr_emp_contract_extend` (
   `econ_extend_start_date` datetime DEFAULT NULL,
   `econ_extend_end_date` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `hs_hr_emp_contract_extend`
+--
+
+INSERT INTO `hs_hr_emp_contract_extend` (`emp_number`, `econ_extend_id`, `econ_extend_start_date`, `econ_extend_end_date`) VALUES
+(1, 1, NULL, NULL),
+(2, 1, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -796,6 +813,14 @@ CREATE TABLE `hs_hr_emp_locations` (
   `location_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `hs_hr_emp_locations`
+--
+
+INSERT INTO `hs_hr_emp_locations` (`emp_number`, `location_id`) VALUES
+(1, 1),
+(2, 2);
+
 -- --------------------------------------------------------
 
 --
@@ -858,6 +883,13 @@ CREATE TABLE `hs_hr_emp_reportto` (
   `erep_sub_emp_number` int(7) NOT NULL DEFAULT 0,
   `erep_reporting_mode` int(7) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `hs_hr_emp_reportto`
+--
+
+INSERT INTO `hs_hr_emp_reportto` (`erep_sup_emp_number`, `erep_sub_emp_number`, `erep_reporting_mode`) VALUES
+(1, 2, 1);
 
 -- --------------------------------------------------------
 
@@ -1099,7 +1131,7 @@ CREATE TABLE `hs_hr_unique_id` (
 --
 
 INSERT INTO `hs_hr_unique_id` (`id`, `last_id`, `table_name`, `field_name`) VALUES
-(1, 0, 'hs_hr_employee', 'emp_number'),
+(1, 2, 'hs_hr_employee', 'emp_number'),
 (2, 9, 'hs_hr_module', 'mod_id'),
 (3, 0, 'hs_hr_leave', 'leave_id'),
 (4, 0, 'hs_hr_leavetype', 'leave_type_id'),
@@ -1114,13 +1146,13 @@ INSERT INTO `hs_hr_unique_id` (`id`, `last_id`, `table_name`, `field_name`) VALU
 (13, 0, 'ohrm_timesheet_action_log', 'timesheet_action_log_id'),
 (14, 0, 'ohrm_timesheet_item', 'timesheet_item_id'),
 (15, 0, 'ohrm_attendance_record', 'id'),
-(16, 0, 'ohrm_job_vacancy', 'id'),
-(17, 0, 'ohrm_job_candidate', 'id'),
+(16, 1, 'ohrm_job_vacancy', 'id'),
+(17, 2, 'ohrm_job_candidate', 'id'),
 (18, 106, 'ohrm_workflow_state_machine', 'id'),
 (19, 0, 'ohrm_job_candidate_attachment', 'id'),
 (20, 0, 'ohrm_job_vacancy_attachment', 'id'),
-(21, 0, 'ohrm_job_candidate_vacancy', 'id'),
-(22, 0, 'ohrm_job_candidate_history', 'id'),
+(21, 2, 'ohrm_job_candidate_vacancy', 'id'),
+(22, 4, 'ohrm_job_candidate_history', 'id'),
 (23, 0, 'ohrm_job_interview', 'id');
 
 -- --------------------------------------------------------
@@ -1651,6 +1683,13 @@ CREATE TABLE `ohrm_education` (
   `name` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `ohrm_education`
+--
+
+INSERT INTO `ohrm_education` (`id`, `name`) VALUES
+(1, 'Education 1');
+
 -- --------------------------------------------------------
 
 --
@@ -1827,6 +1866,14 @@ CREATE TABLE `ohrm_employment_status` (
   `id` int(11) NOT NULL,
   `name` varchar(60) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `ohrm_employment_status`
+--
+
+INSERT INTO `ohrm_employment_status` (`id`, `name`) VALUES
+(1, 'Permanent'),
+(2, 'Contract');
 
 -- --------------------------------------------------------
 
@@ -2045,6 +2092,14 @@ CREATE TABLE `ohrm_job_candidate` (
   `added_person` int(13) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `ohrm_job_candidate`
+--
+
+INSERT INTO `ohrm_job_candidate` (`id`, `first_name`, `middle_name`, `last_name`, `email`, `contact_number`, `status`, `comment`, `mode_of_application`, `date_of_application`, `cv_file_id`, `cv_text_version`, `keywords`, `added_person`) VALUES
+(1, 'Test', '', 'Candidate', 'example@example.com', '', 1, '', 1, '2024-05-28', NULL, NULL, '', NULL),
+(2, 'Test', '', 'Candidate 2', 'example@example.com', '123', 1, '', 1, '2024-05-28', NULL, NULL, '', NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -2080,6 +2135,16 @@ CREATE TABLE `ohrm_job_candidate_history` (
   `interviewers` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `ohrm_job_candidate_history`
+--
+
+INSERT INTO `ohrm_job_candidate_history` (`id`, `candidate_id`, `vacancy_id`, `candidate_vacancy_name`, `interview_id`, `action`, `performed_by`, `performed_date`, `note`, `interviewers`) VALUES
+(1, 1, NULL, NULL, NULL, 16, NULL, '2024-05-28 20:44:16', NULL, NULL),
+(2, 1, 1, 'Vacancy 1', NULL, 1, NULL, '2024-05-28 20:53:02', NULL, NULL),
+(3, 2, 1, 'Vacancy 1', NULL, 1, NULL, '2024-05-28 20:53:29', NULL, NULL),
+(4, 2, NULL, NULL, NULL, 16, NULL, '2024-05-28 20:53:29', NULL, NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -2093,6 +2158,14 @@ CREATE TABLE `ohrm_job_candidate_vacancy` (
   `status` varchar(100) NOT NULL,
   `applied_date` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `ohrm_job_candidate_vacancy`
+--
+
+INSERT INTO `ohrm_job_candidate_vacancy` (`id`, `candidate_id`, `vacancy_id`, `status`, `applied_date`) VALUES
+(1, 1, 1, 'APPLICATION INITIATED', '2024-05-28'),
+(2, 2, 1, 'APPLICATION INITIATED', '2024-05-28');
 
 -- --------------------------------------------------------
 
@@ -2193,6 +2266,14 @@ CREATE TABLE `ohrm_job_title` (
   `is_deleted` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `ohrm_job_title`
+--
+
+INSERT INTO `ohrm_job_title` (`id`, `job_title`, `job_description`, `note`, `is_deleted`) VALUES
+(1, 'Job Title 1', 'This is the description', '', 0),
+(2, 'Job Title 2', 'This is the description', '', 0);
+
 -- --------------------------------------------------------
 
 --
@@ -2211,6 +2292,13 @@ CREATE TABLE `ohrm_job_vacancy` (
   `defined_time` datetime NOT NULL,
   `updated_time` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `ohrm_job_vacancy`
+--
+
+INSERT INTO `ohrm_job_vacancy` (`id`, `job_title_code`, `hiring_manager_id`, `name`, `description`, `no_of_positions`, `status`, `published_in_feed`, `defined_time`, `updated_time`) VALUES
+(1, 1, 1, 'Vacancy 1', '', 2, 1, 0, '2024-05-28 20:44:33', '2024-05-28 20:52:51');
 
 -- --------------------------------------------------------
 
@@ -2245,6 +2333,14 @@ CREATE TABLE `ohrm_kpi` (
   `deleted_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `ohrm_kpi`
+--
+
+INSERT INTO `ohrm_kpi` (`id`, `job_title_code`, `kpi_indicators`, `min_rating`, `max_rating`, `default_kpi`, `deleted_at`) VALUES
+(1, '1', 'KPI 1', 0, 100, NULL, NULL),
+(2, '2', 'KPI 2', 0, 100, NULL, NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -2255,6 +2351,14 @@ CREATE TABLE `ohrm_language` (
   `id` int(11) NOT NULL,
   `name` varchar(120) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `ohrm_language`
+--
+
+INSERT INTO `ohrm_language` (`id`, `name`) VALUES
+(1, 'Language 1'),
+(2, 'Language 2');
 
 -- --------------------------------------------------------
 
@@ -2276,6 +2380,15 @@ CREATE TABLE `ohrm_leave` (
   `end_time` time DEFAULT NULL,
   `duration_type` tinyint(4) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `ohrm_leave`
+--
+
+INSERT INTO `ohrm_leave` (`id`, `date`, `length_hours`, `length_days`, `status`, `comments`, `leave_request_id`, `leave_type_id`, `emp_number`, `start_time`, `end_time`, `duration_type`) VALUES
+(1, '2024-05-29', 8.00, 1.0000, 2, NULL, 1, 1, 2, '00:00:00', '00:00:00', 0),
+(2, '2024-05-30', 8.00, 1.0000, 2, NULL, 1, 1, 2, '00:00:00', '00:00:00', 0),
+(3, '2024-05-31', 8.00, 1.0000, 2, NULL, 1, 1, 2, '00:00:00', '00:00:00', 0);
 
 -- --------------------------------------------------------
 
@@ -2336,6 +2449,16 @@ CREATE TABLE `ohrm_leave_entitlement` (
   `created_by_name` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `ohrm_leave_entitlement`
+--
+
+INSERT INTO `ohrm_leave_entitlement` (`id`, `emp_number`, `no_of_days`, `days_used`, `leave_type_id`, `from_date`, `to_date`, `credited_date`, `note`, `entitlement_type`, `deleted`, `created_by_id`, `created_by_name`) VALUES
+(1, 1, 14.000000000000000, 0.0000, 1, '2024-01-01 00:00:00', '2024-12-31 00:00:00', NULL, NULL, 1, 0, NULL, NULL),
+(2, 2, 14.000000000000000, 3.0000, 1, '2024-01-01 00:00:00', '2024-12-31 00:00:00', NULL, NULL, 1, 0, NULL, NULL),
+(3, 1, 7.000000000000000, 0.0000, 2, '2024-01-01 00:00:00', '2024-12-31 00:00:00', NULL, NULL, 1, 0, NULL, NULL),
+(4, 2, 7.000000000000000, 0.0000, 2, '2024-01-01 00:00:00', '2024-12-31 00:00:00', NULL, NULL, 1, 0, NULL, NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -2381,6 +2504,15 @@ CREATE TABLE `ohrm_leave_leave_entitlement` (
   `length_days` decimal(6,4) UNSIGNED DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `ohrm_leave_leave_entitlement`
+--
+
+INSERT INTO `ohrm_leave_leave_entitlement` (`id`, `leave_id`, `entitlement_id`, `length_days`) VALUES
+(1, 1, 2, 1.0000),
+(2, 2, 2, 1.0000),
+(3, 3, 2, 1.0000);
+
 -- --------------------------------------------------------
 
 --
@@ -2393,6 +2525,13 @@ CREATE TABLE `ohrm_leave_period_history` (
   `leave_period_start_day` int(11) NOT NULL,
   `created_at` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `ohrm_leave_period_history`
+--
+
+INSERT INTO `ohrm_leave_period_history` (`id`, `leave_period_start_month`, `leave_period_start_day`, `created_at`) VALUES
+(1, 1, 1, '2024-05-28');
 
 -- --------------------------------------------------------
 
@@ -2407,6 +2546,13 @@ CREATE TABLE `ohrm_leave_request` (
   `emp_number` int(7) NOT NULL,
   `comments` varchar(256) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `ohrm_leave_request`
+--
+
+INSERT INTO `ohrm_leave_request` (`id`, `leave_type_id`, `date_applied`, `emp_number`, `comments`) VALUES
+(1, 1, '2024-05-29', 2, '');
 
 -- --------------------------------------------------------
 
@@ -2463,6 +2609,14 @@ CREATE TABLE `ohrm_leave_type` (
   `operational_country_id` int(10) UNSIGNED DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `ohrm_leave_type`
+--
+
+INSERT INTO `ohrm_leave_type` (`id`, `name`, `deleted`, `exclude_in_reports_if_no_entitlement`, `operational_country_id`) VALUES
+(1, 'Annual', 0, 0, NULL),
+(2, 'Casual', 0, 0, NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -2473,6 +2627,14 @@ CREATE TABLE `ohrm_license` (
   `id` int(11) NOT NULL,
   `name` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `ohrm_license`
+--
+
+INSERT INTO `ohrm_license` (`id`, `name`) VALUES
+(1, 'License 1'),
+(2, 'License 2');
 
 -- --------------------------------------------------------
 
@@ -2492,6 +2654,14 @@ CREATE TABLE `ohrm_location` (
   `fax` varchar(35) DEFAULT NULL,
   `notes` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `ohrm_location`
+--
+
+INSERT INTO `ohrm_location` (`id`, `name`, `country_code`, `province`, `city`, `address`, `zip_code`, `phone`, `fax`, `notes`) VALUES
+(1, 'Location 1', 'LK', '', '', '', '', '', '', ''),
+(2, 'Location 2', 'LK', '', '', '', '', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -2513,7 +2683,7 @@ CREATE TABLE `ohrm_login` (
 --
 
 INSERT INTO `ohrm_login` (`id`, `user_id`, `user_name`, `user_role_name`, `user_role_predefined`, `login_time`) VALUES
-(1, 1, 'Admin', 'Admin', 1, '2024-05-21 08:06:37');
+(1, 1, 'Admin', 'Admin', 1, '2024-05-28 08:24:26');
 
 -- --------------------------------------------------------
 
@@ -2525,6 +2695,14 @@ CREATE TABLE `ohrm_membership` (
   `id` int(6) NOT NULL,
   `name` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `ohrm_membership`
+--
+
+INSERT INTO `ohrm_membership` (`id`, `name`) VALUES
+(1, 'Membership 1'),
+(2, 'Membership 2');
 
 -- --------------------------------------------------------
 
@@ -2588,14 +2766,14 @@ INSERT INTO `ohrm_menu_item` (`id`, `menu_title`, `screen_id`, `parent_id`, `lev
 (40, 'My Info', 46, NULL, 1, 700, NULL, 1),
 (41, 'Leave', 68, NULL, 1, 300, NULL, 1),
 (42, 'Configure', NULL, 41, 2, 500, NULL, 0),
-(43, 'Leave Period', 47, 42, 3, 100, NULL, 0),
-(44, 'Leave Types', 7, 42, 3, 200, NULL, 0),
-(45, 'Work Week', 14, 42, 3, 300, NULL, 0),
-(46, 'Holidays', 11, 42, 3, 400, NULL, 0),
-(48, 'Leave List', 16, 41, 2, 600, '/reset/1', 0),
-(49, 'Assign Leave', 17, 41, 2, 700, NULL, 0),
-(50, 'My Leave', 48, 41, 2, 200, '/reset/1', 0),
-(51, 'Apply', 49, 41, 2, 100, NULL, 0),
+(43, 'Leave Period', 47, 42, 3, 100, NULL, 1),
+(44, 'Leave Types', 7, 42, 3, 200, NULL, 1),
+(45, 'Work Week', 14, 42, 3, 300, NULL, 1),
+(46, 'Holidays', 11, 42, 3, 400, NULL, 1),
+(48, 'Leave List', 16, 41, 2, 600, '/reset/1', 1),
+(49, 'Assign Leave', 17, 41, 2, 700, NULL, 1),
+(50, 'My Leave', 48, 41, 2, 200, '/reset/1', 1),
+(51, 'Apply', 49, 41, 2, 100, NULL, 1),
 (52, 'Time', 67, NULL, 1, 400, NULL, 1),
 (53, 'Timesheets', NULL, 52, 2, 100, NULL, 1),
 (54, 'My Timesheets', 51, 53, 3, 100, NULL, 0),
@@ -2613,12 +2791,12 @@ INSERT INTO `ohrm_menu_item` (`id`, `menu_title`, `screen_id`, `parent_id`, `lev
 (66, 'Candidates', 60, 65, 2, 100, NULL, 1),
 (67, 'Vacancies', 61, 65, 2, 200, NULL, 1),
 (74, 'Entitlements', NULL, 41, 2, 300, NULL, 0),
-(75, 'Add Entitlements', 72, 74, 3, 100, NULL, 0),
-(76, 'My Entitlements', 70, 74, 3, 300, '/reset/1', 0),
-(77, 'Employee Entitlements', 69, 74, 3, 200, '/reset/1', 0),
+(75, 'Add Entitlements', 72, 74, 3, 100, NULL, 1),
+(76, 'My Entitlements', 70, 74, 3, 300, '/reset/1', 1),
+(77, 'Employee Entitlements', 69, 74, 3, 200, '/reset/1', 1),
 (78, 'Reports', NULL, 41, 2, 400, NULL, 0),
-(79, 'Leave Entitlements and Usage Report', 78, 78, 3, 100, NULL, 0),
-(80, 'My Leave Entitlements and Usage Report', 79, 78, 3, 200, NULL, 0),
+(79, 'Leave Entitlements and Usage Report', 78, 78, 3, 100, NULL, 1),
+(80, 'My Leave Entitlements and Usage Report', 79, 78, 3, 200, NULL, 1),
 (81, 'Users', 1, 2, 3, 100, NULL, 1),
 (82, 'Dashboard', 103, NULL, 1, 800, NULL, 1),
 (83, 'Performance', NULL, NULL, 1, 700, '', 1),
@@ -3039,6 +3217,13 @@ CREATE TABLE `ohrm_organization_gen_info` (
   `note` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `ohrm_organization_gen_info`
+--
+
+INSERT INTO `ohrm_organization_gen_info` (`id`, `name`, `tax_id`, `registration_number`, `phone`, `fax`, `email`, `country`, `province`, `city`, `zip_code`, `street1`, `street2`, `note`) VALUES
+(1, 'Test Org', '', '', '123', '', 'org@example.com', 'LK', 'State', 'City', '000000', 'Address', 'Address 2', '');
+
 -- --------------------------------------------------------
 
 --
@@ -3084,6 +3269,13 @@ CREATE TABLE `ohrm_performance_review` (
   `final_rate` decimal(18,2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `ohrm_performance_review`
+--
+
+INSERT INTO `ohrm_performance_review` (`id`, `status_id`, `employee_number`, `work_period_start`, `work_period_end`, `job_title_code`, `department_id`, `due_date`, `completed_date`, `activated_date`, `final_comment`, `final_rate`) VALUES
+(1, 4, 2, '2024-05-01', '2024-05-31', 2, 2, '2024-05-30', '2024-05-28', '2024-05-28 20:45:19', 'Super', 100.00);
+
 -- --------------------------------------------------------
 
 --
@@ -3099,6 +3291,13 @@ CREATE TABLE `ohrm_performance_track` (
   `status` int(11) DEFAULT NULL,
   `modified_date` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `ohrm_performance_track`
+--
+
+INSERT INTO `ohrm_performance_track` (`id`, `emp_number`, `tracker_name`, `added_date`, `added_by`, `status`, `modified_date`) VALUES
+(1, 2, 'Tracker 1', '2024-05-28 20:46:06', NULL, 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -3119,6 +3318,14 @@ CREATE TABLE `ohrm_performance_tracker_log` (
   `user_id` int(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `ohrm_performance_tracker_log`
+--
+
+INSERT INTO `ohrm_performance_tracker_log` (`id`, `performance_track_id`, `log`, `comment`, `status`, `added_date`, `modified_date`, `reviewer_id`, `achievement`, `user_id`) VALUES
+(1, 1, 'Log 1', 'Good', 1, '2024-05-28 20:46:17', NULL, NULL, '1', 1),
+(2, 1, 'Log 2', 'Good', 1, '2024-05-28 20:46:29', NULL, NULL, '1', 1);
+
 -- --------------------------------------------------------
 
 --
@@ -3132,6 +3339,13 @@ CREATE TABLE `ohrm_performance_tracker_reviewer` (
   `added_date` timestamp NULL DEFAULT NULL,
   `status` int(2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `ohrm_performance_tracker_reviewer`
+--
+
+INSERT INTO `ohrm_performance_tracker_reviewer` (`id`, `performance_track_id`, `reviewer_id`, `added_date`, `status`) VALUES
+(1, 1, 1, '2024-05-28 20:46:06', NULL);
 
 -- --------------------------------------------------------
 
@@ -3245,6 +3459,14 @@ CREATE TABLE `ohrm_reviewer` (
   `comment` text CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `ohrm_reviewer`
+--
+
+INSERT INTO `ohrm_reviewer` (`id`, `review_id`, `employee_number`, `status`, `reviewer_group_id`, `completed_date`, `comment`) VALUES
+(1, 1, 2, 3, 2, '2024-05-28 20:45:38', NULL),
+(2, 1, 1, 3, 1, '2024-05-28 20:45:38', '');
+
 -- --------------------------------------------------------
 
 --
@@ -3279,6 +3501,14 @@ CREATE TABLE `ohrm_reviewer_rating` (
   `reviewer_id` int(7) NOT NULL,
   `comment` text CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `ohrm_reviewer_rating`
+--
+
+INSERT INTO `ohrm_reviewer_rating` (`id`, `rating`, `kpi_id`, `review_id`, `reviewer_id`, `comment`) VALUES
+(1, NULL, 2, 1, 1, NULL),
+(2, 99.00, 2, 1, 2, 'Great');
 
 -- --------------------------------------------------------
 
@@ -3646,6 +3876,14 @@ CREATE TABLE `ohrm_skill` (
   `description` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `ohrm_skill`
+--
+
+INSERT INTO `ohrm_skill` (`id`, `name`, `description`) VALUES
+(1, 'Skill 1', ''),
+(2, 'Skill 2', '');
+
 -- --------------------------------------------------------
 
 --
@@ -3667,7 +3905,8 @@ CREATE TABLE `ohrm_subunit` (
 --
 
 INSERT INTO `ohrm_subunit` (`id`, `name`, `unit_id`, `description`, `lft`, `rgt`, `level`) VALUES
-(1, 'Organization', '', '', 1, 2, 0);
+(1, 'Test Org', '', '', 1, 4, 0),
+(2, 'Unit 1', '1', '', 2, 3, 1);
 
 -- --------------------------------------------------------
 
@@ -3787,7 +4026,8 @@ CREATE TABLE `ohrm_user` (
 --
 
 INSERT INTO `ohrm_user` (`id`, `user_role_id`, `emp_number`, `user_name`, `user_password`, `deleted`, `status`, `date_entered`, `date_modified`, `modified_user_id`, `created_by`) VALUES
-(1, 1, NULL, 'admin', '$2y$12$t2NR2X53MEQkblslK438ouGIFBluCS4WX/x7NCUUV8ukOmKnycXrC', 0, 1, NULL, NULL, NULL, NULL);
+(1, 1, 1, 'admin', '$2y$12$mal/I1iJvA4KDuRczW4.jOBuEoFxkSSsws6qqH/GcuR6xLkSBYmPy', 0, 1, NULL, '2024-05-28 20:34:25', 1, NULL),
+(2, 2, 2, 'testemployee', '$2y$12$7PPQnY41B8bLYeQd1l7N1easuz/6daOjZEjiMi6YI23.SY0/TaO8G', 0, 1, '2024-05-28 20:34:48', NULL, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -5562,7 +5802,7 @@ ALTER TABLE `ohrm_display_field_group`
 -- AUTO_INCREMENT for table `ohrm_education`
 --
 ALTER TABLE `ohrm_education`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `ohrm_email`
@@ -5616,7 +5856,7 @@ ALTER TABLE `ohrm_employee_work_shift`
 -- AUTO_INCREMENT for table `ohrm_employment_status`
 --
 ALTER TABLE `ohrm_employment_status`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `ohrm_emp_education`
@@ -5664,7 +5904,7 @@ ALTER TABLE `ohrm_job_candidate_attachment`
 -- AUTO_INCREMENT for table `ohrm_job_candidate_history`
 --
 ALTER TABLE `ohrm_job_candidate_history`
-  MODIFY `id` int(13) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(13) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `ohrm_job_category`
@@ -5694,7 +5934,7 @@ ALTER TABLE `ohrm_job_specification_attachment`
 -- AUTO_INCREMENT for table `ohrm_job_title`
 --
 ALTER TABLE `ohrm_job_title`
-  MODIFY `id` int(13) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(13) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `ohrm_job_vacancy_attachment`
@@ -5706,19 +5946,19 @@ ALTER TABLE `ohrm_job_vacancy_attachment`
 -- AUTO_INCREMENT for table `ohrm_kpi`
 --
 ALTER TABLE `ohrm_kpi`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `ohrm_language`
 --
 ALTER TABLE `ohrm_language`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `ohrm_leave`
 --
 ALTER TABLE `ohrm_leave`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `ohrm_leave_adjustment`
@@ -5736,7 +5976,7 @@ ALTER TABLE `ohrm_leave_comment`
 -- AUTO_INCREMENT for table `ohrm_leave_entitlement`
 --
 ALTER TABLE `ohrm_leave_entitlement`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `ohrm_leave_entitlement_adjustment`
@@ -5754,19 +5994,19 @@ ALTER TABLE `ohrm_leave_entitlement_type`
 -- AUTO_INCREMENT for table `ohrm_leave_leave_entitlement`
 --
 ALTER TABLE `ohrm_leave_leave_entitlement`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `ohrm_leave_period_history`
 --
 ALTER TABLE `ohrm_leave_period_history`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `ohrm_leave_request`
 --
 ALTER TABLE `ohrm_leave_request`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `ohrm_leave_request_comment`
@@ -5784,19 +6024,19 @@ ALTER TABLE `ohrm_leave_status`
 -- AUTO_INCREMENT for table `ohrm_leave_type`
 --
 ALTER TABLE `ohrm_leave_type`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `ohrm_license`
 --
 ALTER TABLE `ohrm_license`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `ohrm_location`
 --
 ALTER TABLE `ohrm_location`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `ohrm_login`
@@ -5808,7 +6048,7 @@ ALTER TABLE `ohrm_login`
 -- AUTO_INCREMENT for table `ohrm_membership`
 --
 ALTER TABLE `ohrm_membership`
-  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `ohrm_menu_item`
@@ -5850,7 +6090,7 @@ ALTER TABLE `ohrm_operational_country`
 -- AUTO_INCREMENT for table `ohrm_organization_gen_info`
 --
 ALTER TABLE `ohrm_organization_gen_info`
-  MODIFY `id` int(4) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `ohrm_pay_grade`
@@ -5862,25 +6102,25 @@ ALTER TABLE `ohrm_pay_grade`
 -- AUTO_INCREMENT for table `ohrm_performance_review`
 --
 ALTER TABLE `ohrm_performance_review`
-  MODIFY `id` int(7) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(7) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `ohrm_performance_track`
 --
 ALTER TABLE `ohrm_performance_track`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `ohrm_performance_tracker_log`
 --
 ALTER TABLE `ohrm_performance_tracker_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `ohrm_performance_tracker_reviewer`
 --
 ALTER TABLE `ohrm_performance_tracker_reviewer`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `ohrm_plugin`
@@ -5910,7 +6150,7 @@ ALTER TABLE `ohrm_report`
 -- AUTO_INCREMENT for table `ohrm_reviewer`
 --
 ALTER TABLE `ohrm_reviewer`
-  MODIFY `id` int(7) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(7) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `ohrm_reviewer_group`
@@ -5922,7 +6162,7 @@ ALTER TABLE `ohrm_reviewer_group`
 -- AUTO_INCREMENT for table `ohrm_reviewer_rating`
 --
 ALTER TABLE `ohrm_reviewer_rating`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `ohrm_screen`
@@ -5946,13 +6186,13 @@ ALTER TABLE `ohrm_selected_display_field_group`
 -- AUTO_INCREMENT for table `ohrm_skill`
 --
 ALTER TABLE `ohrm_skill`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `ohrm_subunit`
 --
 ALTER TABLE `ohrm_subunit`
-  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `ohrm_upgrade_history`
@@ -5964,7 +6204,7 @@ ALTER TABLE `ohrm_upgrade_history`
 -- AUTO_INCREMENT for table `ohrm_user`
 --
 ALTER TABLE `ohrm_user`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `ohrm_user_role`
