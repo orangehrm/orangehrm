@@ -73,7 +73,6 @@ jobs:
       - name: Install dependencies
         run: |
           php7.4 -f /usr/bin/composer install -d src
-          cd src/client
 
       - name: Run Upgrade
         run: php installer/console upgrade:run --dbHost 127.0.0.1 --dbPort 3306 --dbName upgrade --dbUser root --dbUserPassword root --currentVersion ${{ matrix.dumps.version }}
