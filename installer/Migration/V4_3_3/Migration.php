@@ -63,6 +63,7 @@ class Migration extends AbstractMigration
         'ohrm_job_candidate_vacancy',
         'ohrm_job_candidate_attachment',
         'ohrm_job_vacancy_attachment',
+        'hs_hr_emp_member_detail'
     ];
 
     /**
