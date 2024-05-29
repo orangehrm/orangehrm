@@ -473,7 +473,7 @@ class EmployeeDao extends BaseDao
         $q = $this->getEmployeeListQueryBuilderWrapper($employeeSearchParamHolder)->getQueryBuilder();
         $q->leftJoin('employee.employeeWorkShift', 'ew');
         $q->andWhere($q->expr()->isNull('ew.employee'));
-        return $q->getQuery()->execute();
+        return array_column($q->getQuery()->execute(), 0);
     }
 
     /**

@@ -1,0 +1,78 @@
+name: Upgrade Test (4.x)
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    paths:
+      - '.github/workflows/4x_upgrade_test.yml'
+      - 'installer/Migration/**'
+  schedule:
+    - cron: "0 2 * * *"
+
+jobs:
+  upgrade_test:
+    runs-on: ubuntu-20.04
+
+    strategy:
+      fail-fast: false
+      matrix:
+        dumps:
+          - { "file": "V4_0.sql", "version": "4.0" }
+          - { "file": "V4_1.sql", "version": "4.1" }
+          - { "file": "V4_1_1.sql", "version": "4.1.1" }
+          - { "file": "V4_1_2.sql", "version": "4.1.2" }
+          - { "file": "V4_1_2_1.sql", "version": "4.1.2.1" }
+          - { "file": "V4_2_0_1.sql", "version": "4.2.0.1" }
+          - { "file": "V4_3.sql", "version": "4.3" }
+          - { "file": "V4_3_1.sql", "version": "4.3.1" }
+          - { "file": "V4_3_2.sql", "version": "4.3.2" }
+          - { "file": "V4_3_3.sql", "version": "4.3.3" }
+          - { "file": "V4_3_4.sql", "version": "4.3.4" }
+          - { "file": "V4_3_5.sql", "version": "4.3.5" }
+          - { "file": "V4_4.sql", "version": "4.4" }
+          - { "file": "V4_5.sql", "version": "4.5" }
+          - { "file": "V4_6.sql", "version": "4.6" }
+          - { "file": "V4_6_0_1.sql", "version": "4.6.0.1" }
+          - { "file": "V4_7.sql", "version": "4.7" }
+          - { "file": "V4_8.sql", "version": "4.8" }
+          - { "file": "V4_9.sql", "version": "4.9" }
+          - { "file": "V4_10.sql", "version": "4.10" }
+          - { "file": "V4_10_1.sql", "version": "4.10.1" }
+
+    services:
+      mysql:
+        image: "mariadb:10.2"
+        env:
+          MYSQL_ROOT_PASSWORD: root
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd "mysqladmin ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 3
+          --name="database"
+          --tmpfs /var/lib/mysql/
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Copy dump to DB container
+        run: docker cp .github/workflows/4x_dumps/${{ matrix.dumps.file }} database:/dump.sql
+
+      - name: Source DB
+        run: docker exec database mysql -uroot -proot -e 'create database upgrade;use upgrade;source dump.sql;'
+        
+      - name: Validate composer.json and composer.lock
+        run: |
+          cd src
+          composer validate --strict
+
+      - name: Install dependencies
+        run: |
+          php7.4 -f /usr/bin/composer install -d src
+
+      - name: Run Upgrade
+        run: php installer/console upgrade:run --dbHost 127.0.0.1 --dbPort 3306 --dbName upgrade --dbUser root --dbUserPassword root --currentVersion ${{ matrix.dumps.version }}
