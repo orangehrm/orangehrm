@@ -104,4 +104,18 @@ class EntityUniquePropertyOption
     {
         return $this->ignoreValues;
     }
+
+    /**
+     * @param int $ignoreId
+     * @return $this
+     * Helper function. Provide ID to ignore
+     */
+    public function setIgnoreId(int $ignoreId): self
+    {
+        $ignoreIdValues = ['getId' => $ignoreId];
+        $this->ignoreValues = is_array($this->ignoreValues) ?
+            array_merge($ignoreIdValues, $this->ignoreValues) :
+            $ignoreIdValues;
+        return $this;
+    }
 }

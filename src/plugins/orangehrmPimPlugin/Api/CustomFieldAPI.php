@@ -325,8 +325,7 @@ class CustomFieldAPI extends Endpoint implements CrudEndpoint
                     self::PARAMETER_NAME,
                     new Rule(Rules::STRING_TYPE),
                     new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NAME_MAX_LENGTH]),
-                ),
-                false
+                )
             ),
             $this->getValidationDecorator()->requiredParamRule(
                 new ParamRule(
@@ -334,8 +333,7 @@ class CustomFieldAPI extends Endpoint implements CrudEndpoint
                     new Rule(Rules::INT_TYPE),
                     new Rule(Rules::IN, [CustomField::FIELD_TYPES]),
                     new Rule(Rules::LENGTH, [null, self::PARAM_RULE_TYPE_MAX_LENGTH]),
-                ),
-                false
+                )
             ),
             $this->getValidationDecorator()->requiredParamRule(
                 new ParamRule(

@@ -35,6 +35,7 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Core\Api\V2\Validator\Rules\EntityUniquePropertyOption;
 use OrangeHRM\Core\Exception\ServiceException;
 use OrangeHRM\Entity\Skill;
 
@@ -45,6 +46,9 @@ class SkillAPI extends Endpoint implements CrudEndpoint
 
     public const FILTER_NAME = 'name';
     public const FILTER_DESCRIPTION = 'description';
+
+    public const PARAM_RULE_NAME_MAX_LENGTH = 120;
+    public const PARAM_RULE_DESCRIPTION_MAX_LENGTH = 400;
 
     /**
      * @var null|SkillService
@@ -207,8 +211,8 @@ class SkillAPI extends Endpoint implements CrudEndpoint
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="name", type="string"),
-     *             @OA\Property(property="description", type="string"),
+     *             @OA\Property(property="name", type="string", maxLength=OrangeHRM\Admin\Api\SkillAPI::PARAM_RULE_NAME_MAX_LENGTH),
+     *             @OA\Property(property="description", type="string, maxLength=OrangeHRM\Admin\Api\SkillAPI::PARAM_RULE_DESCRIPTION_MAX_LENGTH"),
      *             required={"name"}
      *         )
      *     ),
@@ -229,8 +233,8 @@ class SkillAPI extends Endpoint implements CrudEndpoint
      */
     public function create(): EndpointResourceResult
     {
-        $skill = $this->saveSkill();
-
+        $skill = new Skill();
+        $skill = $this->saveSkill($skill);
         return new EndpointResourceResult(SkillModel::class, $skill);
     }
 
@@ -245,13 +249,27 @@ class SkillAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @param EntityUniquePropertyOption|null $uniqueOption
      * @return ParamRule[]
      */
-    private function getCommonBodyValidationRules(): array
+    private function getCommonBodyValidationRules(?EntityUniquePropertyOption $uniqueOption = null): array
     {
         return [
-            new ParamRule(self::PARAMETER_NAME),
-            new ParamRule(self::PARAMETER_DESCRIPTION),
+            $this->getValidationDecorator()->requiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_NAME,
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NAME_MAX_LENGTH]),
+                    new Rule(Rules::ENTITY_UNIQUE_PROPERTY, [Skill::class, 'name', $uniqueOption])
+                )
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_DESCRIPTION,
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_DESCRIPTION_MAX_LENGTH])
+                )
+            )
         ];
     }
 
@@ -268,8 +286,8 @@ class SkillAPI extends Endpoint implements CrudEndpoint
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="name", type="string"),
-     *             @OA\Property(property="description", type="string"),
+     *             @OA\Property(property="name", type="string", maxLength=OrangeHRM\Admin\Api\SkillAPI::PARAM_RULE_NAME_MAX_LENGTH),
+     *             @OA\Property(property="description", type="string, maxLength=OrangeHRM\Admin\Api\SkillAPI::PARAM_RULE_DESCRIPTION_MAX_LENGTH"),
      *             required={"name"}
      *         )
      *     ),
@@ -291,8 +309,9 @@ class SkillAPI extends Endpoint implements CrudEndpoint
      */
     public function update(): EndpointResourceResult
     {
-        $skill = $this->saveSkill();
-
+        $skill = $this->getSkillService()->getSkillById($this->getAttributeId());
+        $this->throwRecordNotFoundExceptionIfNotExist($skill, Skill::class);
+        $skill = $this->saveSkill($skill);
         return new EndpointResourceResult(SkillModel::class, $skill);
     }
 
@@ -301,12 +320,15 @@ class SkillAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
+        $uniqueOption = new EntityUniquePropertyOption();
+        $uniqueOption->setIgnoreId($this->getAttributeId());
+
         return new ParamRuleCollection(
             new ParamRule(
                 CommonParams::PARAMETER_ID,
                 new Rule(Rules::POSITIVE)
             ),
-            ...$this->getCommonBodyValidationRules(),
+            ...$this->getCommonBodyValidationRules($uniqueOption),
         );
     }
 
@@ -340,26 +362,16 @@ class SkillAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @param Skill $skill
      * @return Skill
-     * @throws RecordNotFoundException
      */
-    public function saveSkill(): Skill
+    public function saveSkill(Skill $skill): Skill
     {
-        $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $name = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_NAME);
         $description = $this->getRequestParams()->getString(
             RequestParams::PARAM_TYPE_BODY,
             self::PARAMETER_DESCRIPTION
         );
-        if (!empty($id)) {
-            $skill = $this->getSkillService()->getSkillById($id);
-            if ($skill == null) {
-                throw new RecordNotFoundException();
-            }
-        } else {
-            $skill = new Skill();
-        }
-
         $skill->setName($name);
         $skill->setDescription($description);
         return $this->getSkillService()->saveSkill($skill);

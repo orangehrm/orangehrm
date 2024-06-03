@@ -168,8 +168,9 @@ class LeaveCommentAPI extends Endpoint implements CollectionEndpoint
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="comment", type="string")
-     *         ),
+     *             @OA\Property(property="comment", type="string", maxLength=OrangeHRM\Leave\Api\LeaveCommentAPI::PARAM_RULE_COMMENT_MAX_LENGTH),
+     *             required={"comment"}
+     *         )
      *     ),
      *     @OA\Response(response="200",
      *         description="Success",
@@ -215,10 +216,12 @@ class LeaveCommentAPI extends Endpoint implements CollectionEndpoint
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(
-                self::PARAMETER_COMMENT,
-                new Rule(Rules::STRING_TYPE),
-                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_COMMENT_MAX_LENGTH]),
+            $this->getValidationDecorator()->requiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_COMMENT,
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_COMMENT_MAX_LENGTH]),
+                ),
             ),
             ...$this->getCommonValidationRules()
         );

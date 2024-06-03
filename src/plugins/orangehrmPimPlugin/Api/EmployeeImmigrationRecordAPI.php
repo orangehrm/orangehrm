@@ -178,11 +178,19 @@ class EmployeeImmigrationRecordAPI extends Endpoint implements CrudEndpoint
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="number", type="string"),
+     *             @OA\Property(
+     *                 property="number",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Pim\Api\EmployeeImmigrationRecordAPI::PARAM_RULE_DEFAULT_MAX_LENGTH
+     *             ),
      *             @OA\Property(property="issuedDate", type="string", format="date"),
      *             @OA\Property(property="expiryDate", type="string", format="date"),
      *             @OA\Property(property="type", type="integer"),
-     *             @OA\Property(property="status", type="string"),
+     *             @OA\Property(
+     *                 property="status",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Pim\Api\EmployeeImmigrationRecordAPI::PARAM_RULE_DEFAULT_MAX_LENGTH
+     *             ),
      *             @OA\Property(property="reviewDate", type="string", format="date"),
      *             @OA\Property(
      *                 property="countryCode",
@@ -195,7 +203,7 @@ class EmployeeImmigrationRecordAPI extends Endpoint implements CrudEndpoint
      *                 maxLength=OrangeHRM\Pim\Api\EmployeeImmigrationRecordAPI::PARAM_RULE_COMMENT_MAX_LENGTH
      *             ),
      *             @OA\Property(property="additionalProperties", type="boolean", default=true),
-     *             required={"name", "type"}
+     *             required={"number", "type"}
      *         )
      *     ),
      *     @OA\Response(
@@ -240,10 +248,12 @@ class EmployeeImmigrationRecordAPI extends Endpoint implements CrudEndpoint
     private function getCommonBodyValidationRules(): array
     {
         return [
-            new ParamRule(
-                self::PARAMETER_NUMBER,
-                new Rule(Rules::STRING_TYPE),
-                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_DEFAULT_MAX_LENGTH])
+            $this->getValidationDecorator()->requiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_NUMBER,
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_DEFAULT_MAX_LENGTH])
+                ),
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(

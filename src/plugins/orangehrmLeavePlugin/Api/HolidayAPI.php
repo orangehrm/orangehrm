@@ -199,11 +199,16 @@ class HolidayAPI extends Endpoint implements CrudEndpoint
      *             @OA\Property(
      *                 property="length",
      *                 type="integer",
-     *                 enum={ 0, 4},
+     *                 enum={0, 4},
      *                 description="0 - working day, 4 - half day"
      *             ),
-     *             @OA\Property(property="name", type="string"),
-     *             @OA\Property(property="recurring", type="boolean")
+     *             @OA\Property(
+     *                 property="name",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Leave\Api\HolidayAPI::PARAM_RULE_NAME_MAX_LENGTH
+     *             ),
+     *             @OA\Property(property="recurring", type="boolean"),
+     *             required={"name", "date"}
      *         )
      *     ),
      *     @OA\Response(response="200",
@@ -257,9 +262,11 @@ class HolidayAPI extends Endpoint implements CrudEndpoint
     private function getCommonBodyParamRuleCollection(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(
-                self::PARAMETER_NAME,
-                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NAME_MAX_LENGTH])
+            $this->getValidationDecorator()->requiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_NAME,
+                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NAME_MAX_LENGTH])
+                )
             ),
             new ParamRule(
                 self::PARAMETER_DATE,

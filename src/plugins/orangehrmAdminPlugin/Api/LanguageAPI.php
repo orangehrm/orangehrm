@@ -27,7 +27,6 @@ use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
-use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
@@ -35,6 +34,7 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Core\Api\V2\Validator\Rules\EntityUniquePropertyOption;
 use OrangeHRM\Entity\Language;
 
 class LanguageAPI extends Endpoint implements CrudEndpoint
@@ -182,7 +182,7 @@ class LanguageAPI extends Endpoint implements CrudEndpoint
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="name", type="string"),
+     *             @OA\Property(property="name", type="string", maxLength=OrangeHRM\Admin\Api\LanguageAPI::PARAM_RULE_NAME_MAX_LENGTH),
      *             required={"name"}
      *         )
      *     ),
@@ -203,7 +203,8 @@ class LanguageAPI extends Endpoint implements CrudEndpoint
      */
     public function create(): EndpointResourceResult
     {
-        $languages = $this->saveLanguage();
+        $language = new Language();
+        $languages = $this->saveLanguage($language);
         return new EndpointResourceResult(LanguageModel::class, $languages);
     }
 
@@ -213,29 +214,17 @@ class LanguageAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(
-                self::PARAMETER_NAME,
-                new Rule(Rules::STRING_TYPE),
-                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NAME_MAX_LENGTH]),
-            ),
+            $this->getNameRule()
         );
     }
 
     /**
+     * @param Language $language
      * @return Language
-     * @throws RecordNotFoundException
-     * @throws Exception
      */
-    public function saveLanguage(): Language
+    public function saveLanguage(Language $language): Language
     {
-        $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $name = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_NAME);
-        if ($id) {
-            $language = $this->getLanguageService()->getLanguageById($id);
-            $this->throwRecordNotFoundExceptionIfNotExist($language, Language::class);
-        } else {
-            $language = new Language();
-        }
         $language->setName($name);
         return $this->getLanguageService()->saveLanguage($language);
     }
@@ -268,7 +257,7 @@ class LanguageAPI extends Endpoint implements CrudEndpoint
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="name", type="string"),
+     *             @OA\Property(property="name", type="string", maxLength=OrangeHRM\Admin\Api\LanguageAPI::PARAM_RULE_NAME_MAX_LENGTH),
      *             required={"name"}
      *         )
      *     ),
@@ -290,7 +279,9 @@ class LanguageAPI extends Endpoint implements CrudEndpoint
      */
     public function update(): EndpointResourceResult
     {
-        $languages = $this->saveLanguage();
+        $language = $this->getLanguageService()->getLanguageById($this->getAttributeId());
+        $this->throwRecordNotFoundExceptionIfNotExist($language, Language::class);
+        $languages = $this->saveLanguage($language);
         return new EndpointResourceResult(LanguageModel::class, $languages);
     }
 
@@ -299,16 +290,31 @@ class LanguageAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
+        $uniqueOption = new EntityUniquePropertyOption();
+        $uniqueOption->setIgnoreId($this->getAttributeId());
+
         return new ParamRuleCollection(
             new ParamRule(
                 CommonParams::PARAMETER_ID,
                 new Rule(Rules::POSITIVE)
             ),
+            $this->getNameRule($uniqueOption)
+        );
+    }
+
+    /**
+     * @param EntityUniquePropertyOption|null $uniqueOption
+     * @return ParamRule
+     */
+    private function getNameRule(EntityUniquePropertyOption $uniqueOption = null): ParamRule
+    {
+        return $this->getValidationDecorator()->requiredParamRule(
             new ParamRule(
                 self::PARAMETER_NAME,
                 new Rule(Rules::STRING_TYPE),
                 new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NAME_MAX_LENGTH]),
-            ),
+                new Rule(Rules::ENTITY_UNIQUE_PROPERTY, [Language::class, 'name', $uniqueOption])
+            )
         );
     }
 

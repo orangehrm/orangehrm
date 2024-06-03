@@ -212,9 +212,9 @@ class JobTitleAPI extends Endpoint implements CrudEndpoint
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="title", type="string"),
-     *             @OA\Property(property="description", type="string", default=null),
-     *             @OA\Property(property="note", type="string", default=null),
+     *             @OA\Property(property="title", type="string", maxLength=OrangeHRM\Admin\Api\JobTitleAPI::PARAM_RULE_TITLE_MAX_LENGTH),
+     *             @OA\Property(property="description", type="string", default=null, maxLength=OrangeHRM\Admin\Api\JobTitleAPI::PARAM_RULE_DESCRIPTION_MAX_LENGTH),
+     *             @OA\Property(property="note", type="string", default=null, maxLength=OrangeHRM\Admin\Api\JobTitleAPI::PARAM_RULE_NOTE_MAX_LENGTH),
      *             @OA\Property(property="specification", ref="#/components/schemas/Base64AttachmentOrNull"),
      *             required={"title"}
      *         )
@@ -308,7 +308,6 @@ class JobTitleAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            $this->getTitleRule(false),
             $this->getValidationDecorator()->notRequiredParamRule(
                 $this->getSpecificationRule()
             ),
@@ -317,11 +316,28 @@ class JobTitleAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @param EntityUniquePropertyOption|null $uniqueOption
      * @return ParamRule[]
      */
-    protected function getCommonBodyValidationRules(): array
+    protected function getCommonBodyValidationRules(?EntityUniquePropertyOption $uniqueOption = null): array
     {
+        $ignoreValues = ['isDeleted' => true];
+        if ($uniqueOption === null) {
+            $uniqueOption = new EntityUniquePropertyOption();
+            $uniqueOption->setIgnoreValues($ignoreValues);
+        } else {
+            $uniqueOption->setIgnoreValues(array_merge($ignoreValues, $uniqueOption->getIgnoreValues()));
+        }
+
         return [
+            $this->getValidationDecorator()->requiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_TITLE,
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_TITLE_MAX_LENGTH]),
+                    new Rule(Rules::ENTITY_UNIQUE_PROPERTY, [JobTitle::class, 'jobTitleName', $uniqueOption])
+                )
+            ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_DESCRIPTION,
@@ -339,30 +355,6 @@ class JobTitleAPI extends Endpoint implements CrudEndpoint
                 true
             ),
         ];
-    }
-
-    /**
-     * @param bool $update
-     * @return ParamRule
-     */
-    protected function getTitleRule(bool $update): ParamRule
-    {
-        $entityProperties = new EntityUniquePropertyOption();
-        $ignoreValues = ['isDeleted' => true];
-        if ($update) {
-            $ignoreValues['getId'] = $this->getRequestParams()->getInt(
-                RequestParams::PARAM_TYPE_ATTRIBUTE,
-                CommonParams::PARAMETER_ID
-            );
-        }
-        $entityProperties->setIgnoreValues($ignoreValues);
-
-        return new ParamRule(
-            self::PARAMETER_TITLE,
-            new Rule(Rules::STRING_TYPE),
-            new Rule(Rules::LENGTH, [null, self::PARAM_RULE_TITLE_MAX_LENGTH]),
-            new Rule(Rules::ENTITY_UNIQUE_PROPERTY, [JobTitle::class, 'jobTitleName', $entityProperties])
-        );
     }
 
     /**
@@ -392,9 +384,9 @@ class JobTitleAPI extends Endpoint implements CrudEndpoint
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="title", type="string"),
-     *             @OA\Property(property="description", type="string", default=null),
-     *             @OA\Property(property="note", type="string", default=null),
+     *             @OA\Property(property="title", type="string", maxLength=OrangeHRM\Admin\Api\JobTitleAPI::PARAM_RULE_TITLE_MAX_LENGTH),
+     *             @OA\Property(property="description", type="string", default=null, maxLength=OrangeHRM\Admin\Api\JobTitleAPI::PARAM_RULE_DESCRIPTION_MAX_LENGTH),
+     *             @OA\Property(property="note", type="string", default=null, maxLength=OrangeHRM\Admin\Api\JobTitleAPI::PARAM_RULE_NOTE_MAX_LENGTH),
      *             @OA\Property(property="currentJobSpecification", type="string", enum=OrangeHRM\Admin\Api\JobTitleAPI::CURRENT_JOB_SPECIFICATION, default=null),
      *             @OA\Property(property="specification", ref="#/components/schemas/Base64AttachmentOrNull"),
      *             required={"title"}
@@ -464,6 +456,9 @@ class JobTitleAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
+        $uniqueOption = new EntityUniquePropertyOption();
+        $uniqueOption->setIgnoreId($this->getAttributeId());
+
         $currentJobSpecification = $this->getRequestParams()->getStringOrNull(
             RequestParams::PARAM_TYPE_BODY,
             self::PARAMETER_CURRENT_JOB_SPECIFICATION
@@ -473,14 +468,13 @@ class JobTitleAPI extends Endpoint implements CrudEndpoint
                 CommonParams::PARAMETER_ID,
                 new Rule(Rules::POSITIVE)
             ),
-            $this->getTitleRule(true),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_CURRENT_JOB_SPECIFICATION,
                     new Rule(Rules::IN, [self::CURRENT_JOB_SPECIFICATION]),
                 )
             ),
-            ...$this->getCommonBodyValidationRules(),
+            ...$this->getCommonBodyValidationRules($uniqueOption),
         );
         if (!in_array(
             $currentJobSpecification,

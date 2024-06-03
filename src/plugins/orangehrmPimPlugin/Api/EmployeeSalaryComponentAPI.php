@@ -57,7 +57,8 @@ class EmployeeSalaryComponentAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_DIRECT_DEPOSIT_ROUTING_NUMBER = 'directDepositRoutingNumber';
 
     public const PARAM_RULE_SALARY_COMPONENT_MAX_LENGTH = 100;
-    public const PARAM_RULE_SALARY_AMOUNT_MAX_LENGTH = 100;
+    public const PARAM_RULE_SALARY_AMOUNT_MIN = 0;
+    public const PARAM_RULE_SALARY_AMOUNT_MAX = 999999999.99;
     public const PARAM_RULE_COMMENT_MAX_LENGTH = 250;
     public const PARAM_RULE_DIRECT_DEPOSIT_ACCOUNT_MAX_LENGTH = 100;
     public const PARAM_RULE_DIRECT_DEPOSIT_ACCOUNT_TYPE_MAX_LENGTH = 20;
@@ -251,7 +252,8 @@ class EmployeeSalaryComponentAPI extends Endpoint implements CrudEndpoint
      *             @OA\Property(
      *                 property="salaryAmount",
      *                 type="string",
-     *                 maxLength=OrangeHRM\Pim\Api\EmployeeSalaryComponentAPI::PARAM_RULE_SALARY_AMOUNT_MAX_LENGTH
+     *                 minimum=OrangeHRM\Pim\Api\EmployeeSalaryComponentAPI::PARAM_RULE_SALARY_AMOUNT_MIN,
+     *                 maximum=OrangeHRM\Pim\Api\EmployeeSalaryComponentAPI::PARAM_RULE_SALARY_AMOUNT_MAX,
      *             ),
      *             @OA\Property(
      *                 property="comment",
@@ -446,10 +448,12 @@ class EmployeeSalaryComponentAPI extends Endpoint implements CrudEndpoint
                     new Rule(Rules::POSITIVE)
                 )
             ),
-            new ParamRule(
-                self::PARAMETER_SALARY_COMPONENT,
-                new Rule(Rules::STRING_TYPE),
-                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_SALARY_COMPONENT_MAX_LENGTH])
+            $this->getValidationDecorator()->requiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_SALARY_COMPONENT,
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_SALARY_COMPONENT_MAX_LENGTH])
+                )
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
@@ -461,10 +465,18 @@ class EmployeeSalaryComponentAPI extends Endpoint implements CrudEndpoint
                 self::PARAMETER_CURRENCY_ID,
                 new Rule(Rules::CURRENCY)
             ),
-            new ParamRule(
-                self::PARAMETER_SALARY_AMOUNT,
-                new Rule(Rules::STRING_TYPE),
-                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_SALARY_AMOUNT_MAX_LENGTH])
+            $this->getValidationDecorator()->requiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_SALARY_AMOUNT,
+                    new Rule(Rules::NUMBER),
+                    new Rule(
+                        Rules::BETWEEN,
+                        [
+                            self::PARAM_RULE_SALARY_AMOUNT_MIN,
+                            self::PARAM_RULE_SALARY_AMOUNT_MAX
+                        ]
+                    )
+                ),
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
@@ -483,35 +495,43 @@ class EmployeeSalaryComponentAPI extends Endpoint implements CrudEndpoint
 
         if ($addDirectDeposit) {
             $paramRules->addParamValidation(
-                new ParamRule(
-                    self::PARAMETER_DIRECT_DEPOSIT_ACCOUNT,
-                    new Rule(Rules::STRING_TYPE),
-                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_DIRECT_DEPOSIT_ACCOUNT_MAX_LENGTH])
+                $this->getValidationDecorator()->requiredParamRule(
+                    new ParamRule(
+                        self::PARAMETER_DIRECT_DEPOSIT_ACCOUNT,
+                        new Rule(Rules::STRING_TYPE),
+                        new Rule(Rules::LENGTH, [null, self::PARAM_RULE_DIRECT_DEPOSIT_ACCOUNT_MAX_LENGTH])
+                    )
                 )
             );
             $paramRules->addParamValidation(
-                new ParamRule(
-                    self::PARAMETER_DIRECT_DEPOSIT_ACCOUNT_TYPE,
-                    new Rule(Rules::STRING_TYPE),
-                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_DIRECT_DEPOSIT_ACCOUNT_TYPE_MAX_LENGTH])
+                $this->getValidationDecorator()->requiredParamRule(
+                    new ParamRule(
+                        self::PARAMETER_DIRECT_DEPOSIT_ACCOUNT_TYPE,
+                        new Rule(Rules::STRING_TYPE),
+                        new Rule(Rules::LENGTH, [null, self::PARAM_RULE_DIRECT_DEPOSIT_ACCOUNT_TYPE_MAX_LENGTH])
+                    )
                 )
             );
             $paramRules->addParamValidation(
-                new ParamRule(
-                    self::PARAMETER_DIRECT_DEPOSIT_ROUTING_NUMBER,
-                    new Rule(Rules::NUMBER),
-                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_DIRECT_DEPOSIT_ROUTING_NUMBER_MAX_LENGTH])
+                $this->getValidationDecorator()->requiredParamRule(
+                    new ParamRule(
+                        self::PARAMETER_DIRECT_DEPOSIT_ROUTING_NUMBER,
+                        new Rule(Rules::NUMBER),
+                        new Rule(Rules::LENGTH, [null, self::PARAM_RULE_DIRECT_DEPOSIT_ROUTING_NUMBER_MAX_LENGTH])
+                    )
                 )
             );
             $paramRules->addParamValidation(
-                new ParamRule(
-                    self::PARAMETER_DIRECT_DEPOSIT_AMOUNT,
-                    new Rule(
-                        Rules::BETWEEN,
-                        [
-                            self::PARAM_RULE_DIRECT_DEPOSIT_AMOUNT_MIN,
-                            self::PARAM_RULE_DIRECT_DEPOSIT_AMOUNT_MAX
-                        ]
+                $this->getValidationDecorator()->requiredParamRule(
+                    new ParamRule(
+                        self::PARAMETER_DIRECT_DEPOSIT_AMOUNT,
+                        new Rule(
+                            Rules::BETWEEN,
+                            [
+                                self::PARAM_RULE_DIRECT_DEPOSIT_AMOUNT_MIN,
+                                self::PARAM_RULE_DIRECT_DEPOSIT_AMOUNT_MAX
+                            ]
+                        )
                     )
                 )
             );
@@ -540,7 +560,12 @@ class EmployeeSalaryComponentAPI extends Endpoint implements CrudEndpoint
      *             @OA\Property(property="salaryComponent", type="string", maxLength=OrangeHRM\Pim\Api\EmployeeSalaryComponentAPI::PARAM_RULE_SALARY_COMPONENT_MAX_LENGTH),
      *             @OA\Property(property="payFrequencyId", type="integer", nullable=true),
      *             @OA\Property(property="currencyId", type="string"),
-     *             @OA\Property(property="salaryAmount", type="string", maxLength=OrangeHRM\Pim\Api\EmployeeSalaryComponentAPI::PARAM_RULE_SALARY_AMOUNT_MAX_LENGTH),
+     *             @OA\Property(
+     *                 property="salaryAmount",
+     *                 type="string",
+     *                 minimum=OrangeHRM\Pim\Api\EmployeeSalaryComponentAPI::PARAM_RULE_SALARY_AMOUNT_MIN,
+     *                 maximum=OrangeHRM\Pim\Api\EmployeeSalaryComponentAPI::PARAM_RULE_SALARY_AMOUNT_MAX,
+     *             ),
      *             @OA\Property(property="comment", type="string", maxLength=OrangeHRM\Pim\Api\EmployeeSalaryComponentAPI::PARAM_RULE_COMMENT_MAX_LENGTH, nullable=true),
      *             @OA\Property(property="addDirectDeposit", type="boolean"),
      *             required={"salaryComponent", "currencyId", "salaryAmount"}
