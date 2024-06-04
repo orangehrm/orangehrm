@@ -241,7 +241,7 @@ class ClaimExpenseTypeAPI extends Endpoint implements CrudEndpoint
     private function getClaimExpenseTypeCommonUniqueOption(): EntityUniquePropertyOption
     {
         $uniqueOption = new EntityUniquePropertyOption();
-        $uniqueOption->setIgnoreValues(['deleted' => true]);
+        $uniqueOption->setIgnoreValues(['isDeleted' => true]);
         return $uniqueOption;
     }
 
