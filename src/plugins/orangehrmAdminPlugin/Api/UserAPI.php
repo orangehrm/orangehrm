@@ -233,8 +233,17 @@ class UserAPI extends Endpoint implements CrudEndpoint
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="username", type="string"),
-     *             @OA\Property(property="password", type="string"),
+     *             @OA\Property(
+     *                 property="username",
+     *                 type="string",
+     *                 minLength=OrangeHRM\Admin\Api\UserAPI::PARAM_RULE_USERNAME_MIN_LENGTH,
+     *                 maxLength=OrangeHRM\Admin\Api\UserAPI::PARAM_RULE_USERNAME_MAX_LENGTH
+     *             ),
+     *             @OA\Property(
+     *                 property="password",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Admin\Api\UserAPI::PARAM_RULE_PASSWORD_MAX_LENGTH
+     *             ),
      *             @OA\Property(property="status", type="boolean"),
      *             @OA\Property(property="userRoleId", type="integer"),
      *             @OA\Property(property="empNumber", type="integer"),
@@ -358,8 +367,17 @@ class UserAPI extends Endpoint implements CrudEndpoint
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="username", type="string"),
-     *             @OA\Property(property="password", type="string"),
+     *             @OA\Property(
+     *                 property="username",
+     *                 type="string",
+     *                 minLength=OrangeHRM\Admin\Api\UserAPI::PARAM_RULE_USERNAME_MIN_LENGTH,
+     *                 maxLength=OrangeHRM\Admin\Api\UserAPI::PARAM_RULE_USERNAME_MAX_LENGTH
+     *             ),
+     *             @OA\Property(
+     *                 property="password",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Admin\Api\UserAPI::PARAM_RULE_PASSWORD_MAX_LENGTH
+     *             ),
      *             @OA\Property(property="status", type="boolean"),
      *             @OA\Property(property="userRoleId", type="integer"),
      *             @OA\Property(property="empNumber", type="integer"),

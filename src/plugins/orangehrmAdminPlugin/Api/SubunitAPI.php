@@ -31,6 +31,7 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Core\Api\V2\Validator\Rules\EntityUniquePropertyOption;
 use OrangeHRM\Entity\Subunit;
 
 class SubunitAPI extends Endpoint implements CrudEndpoint
@@ -47,6 +48,10 @@ class SubunitAPI extends Endpoint implements CrudEndpoint
 
     public const MODE_LIST = 'list';
     public const MODE_TREE = 'tree';
+
+    public const PARAM_RULE_UNIT_ID_MAX_LENGTH = 100;
+    public const PARAM_RULE_NAME_MAX_LENGTH = 100;
+    public const PARAM_RULE_DESCRIPTION_MAX_LENGTH = 400;
 
     /**
      * @OA\Get(
@@ -187,15 +192,28 @@ class SubunitAPI extends Endpoint implements CrudEndpoint
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="name", type="string", description="Should be unique"),
-     *             @OA\Property(property="description", type="string"),
+     *             @OA\Property(
+     *                 property="name",
+     *                 type="string",
+     *                 description="Should be unique",
+     *                 maxLength=OrangeHRM\Admin\Api\SubunitAPI::PARAM_RULE_NAME_MAX_LENGTH
+     *             ),
+     *             @OA\Property(
+     *                 property="description",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Admin\Api\SubunitAPI::PARAM_RULE_DESCRIPTION_MAX_LENGTH
+     *             ),
      *             @OA\Property(
      *                 property="parentId",
      *                 type="integer",
      *                 description="Should be the id of the parent node",
      *                 example="1"
      *             ),
-     *             @OA\Property(property="unitId", type="string"),
+     *             @OA\Property(
+     *                 property="unitId",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Admin\Api\SubunitAPI::PARAM_RULE_UNIT_ID_MAX_LENGTH
+     *             ),
      *             required={"name", "parentId"}
      *         )
      *     ),
@@ -238,14 +256,30 @@ class SubunitAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @param EntityUniquePropertyOption|null $uniqueOption
      * @return ParamRule[]
      */
-    private function getCommonBodyValidationRules(): array
+    private function getCommonBodyValidationRules(?EntityUniquePropertyOption $uniqueOption = null): array
     {
         return [
-            new ParamRule(self::PARAMETER_UNIT_ID),
-            new ParamRule(self::PARAMETER_NAME),
-            new ParamRule(self::PARAMETER_DESCRIPTION),
+            new ParamRule(
+                self::PARAMETER_UNIT_ID,
+                new Rule(Rules::STRING_TYPE),
+                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_UNIT_ID_MAX_LENGTH])
+            ),
+            $this->getValidationDecorator()->requiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_NAME,
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NAME_MAX_LENGTH]),
+                    new Rule(Rules::ENTITY_UNIQUE_PROPERTY, [Subunit::class, 'name', $uniqueOption])
+                )
+            ),
+            new ParamRule(
+                self::PARAMETER_DESCRIPTION,
+                new Rule(Rules::STRING_TYPE),
+                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_DESCRIPTION_MAX_LENGTH])
+            ),
         ];
     }
 
@@ -280,9 +314,22 @@ class SubunitAPI extends Endpoint implements CrudEndpoint
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="name", type="string", description="String should be unique"),
-     *             @OA\Property(property="description", type="string"),
-     *             @OA\Property(property="unitId", type="string"),
+     *             @OA\Property(
+     *                 property="name",
+     *                 type="string",
+     *                 description="String should be unique",
+     *                 maxLength=OrangeHRM\Admin\Api\SubunitAPI::PARAM_RULE_NAME_MAX_LENGTH
+     *             ),
+     *             @OA\Property(
+     *                 property="description",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Admin\Api\SubunitAPI::PARAM_RULE_DESCRIPTION_MAX_LENGTH
+     *             ),
+     *             @OA\Property(
+     *                 property="unitId",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Admin\Api\SubunitAPI::PARAM_RULE_UNIT_ID_MAX_LENGTH
+     *             ),
      *             required={"name"}
      *         )
      *     ),
@@ -317,12 +364,15 @@ class SubunitAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
+        $uniqueOption = new EntityUniquePropertyOption();
+        $uniqueOption->setIgnoreId($this->getAttributeId());
+
         return new ParamRuleCollection(
             new ParamRule(
                 CommonParams::PARAMETER_ID,
                 new Rule(Rules::POSITIVE)
             ),
-            ...$this->getCommonBodyValidationRules(),
+            ...$this->getCommonBodyValidationRules($uniqueOption),
         );
     }
 

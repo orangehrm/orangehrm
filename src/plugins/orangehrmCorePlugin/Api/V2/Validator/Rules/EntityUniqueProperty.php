@@ -61,6 +61,7 @@ class EntityUniqueProperty extends AbstractRule
         $qb->andWhere($qb->expr()->eq('entity.' . $this->property, ':input'))
             ->setParameter('input', $input);
 
+        // Match all entities that have these values
         if ($this->option->hasMatchValues()) {
             foreach ($this->option->getMatchValues() as $property => $value) {
                 $qb->andWhere($qb->expr()->eq('entity.' . $property, ':' . $property . '_value'))
@@ -68,6 +69,7 @@ class EntityUniqueProperty extends AbstractRule
             }
         }
 
+        // Match all entities that DON'T have these values
         if ($this->option->hasIgnoreValues()) {
             foreach ($this->option->getIgnoreValues() as $property => $value) {
                 $qb->andWhere($qb->expr()->neq('entity.' . $property, ':' . $property . '_value'))
