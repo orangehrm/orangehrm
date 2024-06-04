@@ -56,32 +56,31 @@ class EntityUniqueProperty extends AbstractRule
             $input = $this->option->getTrimFunction()(($input));
         }
 
-        $entityList = $this->getRepository($this->entityName)->findBy([$this->property => $input]);
+        $qb = $this->createQueryBuilder($this->entityName, 'entity');
+
+        $qb->andWhere($qb->expr()->eq('entity.' . $this->property, ':input'))
+            ->setParameter('input', $input);
+
+        if ($this->option->hasMatchValues()) {
+            foreach ($this->option->getMatchValues() as $property => $value) {
+                $qb->andWhere($qb->expr()->eq('entity.' . $property, ':' . $property . '_value'))
+                    ->setParameter($property . '_value', $value);
+            }
+        }
+
+        if ($this->option->hasIgnoreValues()) {
+            foreach ($this->option->getIgnoreValues() as $property => $value) {
+                $qb->andWhere($qb->expr()->neq('entity.' . $property, ':' . $property . '_value'))
+                    ->setParameter($property . '_value', $value);
+            }
+        }
+
+        $entityList = $qb->getQuery()->execute();
 
         if (empty($entityList)) {
             return true;
         }
 
-        return $this->option->hasIgnoreValues() && $this->entitiesHaveIgnoreValues($entityList);
-    }
-
-    /**
-     * @param array $entities
-     * @return bool
-     */
-    private function entitiesHaveIgnoreValues(array $entities): bool
-    {
-        $lastGetter = array_key_last($this->option->getIgnoreValues());
-        foreach ($entities as $entity) {
-            foreach ($this->option->getIgnoreValues() as $getter => $value) {
-                if ($entity->$getter() === $value) {
-                    break; //if entity has ignored value, skip to next entity
-                }
-                if ($getter === $lastGetter) {
-                    return false; //if this point reached, entity has no ignored values
-                }
-            }
-        }
-        return true; //all entities have ignored values
+        return false;
     }
 }

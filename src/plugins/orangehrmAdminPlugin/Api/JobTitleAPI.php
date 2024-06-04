@@ -311,7 +311,7 @@ class JobTitleAPI extends Endpoint implements CrudEndpoint
             $this->getValidationDecorator()->notRequiredParamRule(
                 $this->getSpecificationRule()
             ),
-            ...$this->getCommonBodyValidationRules(),
+            ...$this->getCommonBodyValidationRules($this->getJobTitleCommonUniqueOption()),
         );
     }
 
@@ -321,14 +321,6 @@ class JobTitleAPI extends Endpoint implements CrudEndpoint
      */
     protected function getCommonBodyValidationRules(?EntityUniquePropertyOption $uniqueOption = null): array
     {
-        $ignoreValues = ['isDeleted' => true];
-        if ($uniqueOption === null) {
-            $uniqueOption = new EntityUniquePropertyOption();
-            $uniqueOption->setIgnoreValues($ignoreValues);
-        } else {
-            $uniqueOption->setIgnoreValues(array_merge($ignoreValues, $uniqueOption->getIgnoreValues()));
-        }
-
         return [
             $this->getValidationDecorator()->requiredParamRule(
                 new ParamRule(
@@ -355,6 +347,18 @@ class JobTitleAPI extends Endpoint implements CrudEndpoint
                 true
             ),
         ];
+    }
+
+    /**
+     * @return EntityUniquePropertyOption
+     */
+    private function getJobTitleCommonUniqueOption(): EntityUniquePropertyOption
+    {
+        $uniqueOption = new EntityUniquePropertyOption();
+        $uniqueOption->setIgnoreValues([
+            'deleted' => true
+        ]);
+        return $uniqueOption;
     }
 
     /**
@@ -456,7 +460,7 @@ class JobTitleAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
-        $uniqueOption = new EntityUniquePropertyOption();
+        $uniqueOption = $this->getJobTitleCommonUniqueOption();
         $uniqueOption->setIgnoreId($this->getAttributeId());
 
         $currentJobSpecification = $this->getRequestParams()->getStringOrNull(

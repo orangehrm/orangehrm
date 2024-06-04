@@ -32,6 +32,7 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Core\Api\V2\Validator\Rules\EntityUniquePropertyOption;
 use OrangeHRM\Core\Api\V2\Validator\Rules\InAccessibleEntityIdOption;
 use OrangeHRM\Core\Authorization\Manager\BasicUserRoleManager;
 use OrangeHRM\Core\Authorization\UserRole\ProjectAdminUserRole;
@@ -420,14 +421,15 @@ class ProjectAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            ...$this->getCommonBodyValidationRules(),
+            ...$this->getCommonBodyValidationRules($this->getProjectCommonUniqueOption()),
         );
     }
 
     /**
+     * @param EntityUniquePropertyOption|null $uniqueOption
      * @return ParamRule[]
      */
-    protected function getCommonBodyValidationRules(): array
+    protected function getCommonBodyValidationRules(?EntityUniquePropertyOption $uniqueOption = null): array
     {
         return [
             $this->getValidationDecorator()->requiredParamRule(
@@ -452,12 +454,30 @@ class ProjectAPI extends Endpoint implements CrudEndpoint
                     new Rule(Rules::LENGTH, [null, self::PARAMETER_RULE_DESCRIPTION_MAX_LENGTH])
                 ),
             ),
-            new ParamRule(
-                self::PARAMETER_NAME,
-                new Rule(Rules::STRING_TYPE),
-                new Rule(Rules::LENGTH, [null, self::PARAMETER_RULE_NAME_MAX_LENGTH])
+            $this->getValidationDecorator()->requiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_NAME,
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::LENGTH, [null, self::PARAMETER_RULE_NAME_MAX_LENGTH]),
+                    new Rule(Rules::ENTITY_UNIQUE_PROPERTY, [Project::class, 'name', $uniqueOption])
+                )
             ),
         ];
+    }
+
+    /**
+     * @return EntityUniquePropertyOption
+     */
+    private function getProjectCommonUniqueOption(): EntityUniquePropertyOption
+    {
+        $uniqueOption = new EntityUniquePropertyOption();
+        $uniqueOption->setMatchValues([
+            'customer' => $this->getRequestParams()->getInt(
+                RequestParams::PARAM_TYPE_BODY,
+                self::PARAMETER_CUSTOMER_ID
+            )
+        ]);
+        return $uniqueOption;
     }
 
     /**
@@ -628,6 +648,9 @@ class ProjectAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
+        $uniqueOption = $this->getProjectCommonUniqueOption();
+        $uniqueOption->setIgnoreId($this->getAttributeId());
+
         return new ParamRuleCollection(
             $this->getValidationDecorator()->requiredParamRule(
                 new ParamRule(
@@ -635,7 +658,7 @@ class ProjectAPI extends Endpoint implements CrudEndpoint
                     new Rule(Rules::POSITIVE)
                 )
             ),
-            ...$this->getCommonBodyValidationRules(),
+            ...$this->getCommonBodyValidationRules($uniqueOption),
         );
     }
 }

@@ -204,7 +204,7 @@ class ClaimExpenseTypeAPI extends Endpoint implements CrudEndpoint
     {
         return new ParamRuleCollection(
             $this->getValidationDecorator()->requiredParamRule(
-                $this->getNameRule(false),
+                $this->getNameRule($this->getClaimExpenseTypeCommonUniqueOption()),
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
@@ -222,27 +222,27 @@ class ClaimExpenseTypeAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     * @param bool $update
+     * @param EntityUniquePropertyOption|null $uniqueOption
      * @return ParamRule
      */
-    protected function getNameRule(bool $update): ParamRule
+    protected function getNameRule(?EntityUniquePropertyOption $uniqueOption = null): ParamRule
     {
-        $entityProperties = new EntityUniquePropertyOption();
-        $ignoreValues = ['isDeleted' => true];
-        if ($update) {
-            $ignoreValues['getId'] = $this->getRequestParams()->getInt(
-                RequestParams::PARAM_TYPE_ATTRIBUTE,
-                CommonParams::PARAMETER_ID
-            );
-        }
-        $entityProperties->setIgnoreValues($ignoreValues);
-
         return new ParamRule(
             self::PARAMETER_NAME,
             new Rule(Rules::STRING_TYPE),
             new Rule(Rules::LENGTH, [null, self::NAME_MAX_LENGTH]),
-            new Rule(Rules::ENTITY_UNIQUE_PROPERTY, [ExpenseType::class, 'name', $entityProperties])
+            new Rule(Rules::ENTITY_UNIQUE_PROPERTY, [ExpenseType::class, 'name', $uniqueOption])
         );
+    }
+
+    /**
+     * @return EntityUniquePropertyOption
+     */
+    private function getClaimExpenseTypeCommonUniqueOption(): EntityUniquePropertyOption
+    {
+        $uniqueOption = new EntityUniquePropertyOption();
+        $uniqueOption->setIgnoreValues(['deleted' => true]);
+        return $uniqueOption;
     }
 
     /**
@@ -410,6 +410,9 @@ class ClaimExpenseTypeAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
+        $uniqueOption = $this->getClaimExpenseTypeCommonUniqueOption();
+        $uniqueOption->setIgnoreId($this->getAttributeId());
+
         return new ParamRuleCollection(
             new ParamRule(
                 CommonParams::PARAMETER_ID,
@@ -428,7 +431,7 @@ class ClaimExpenseTypeAPI extends Endpoint implements CrudEndpoint
                 new Rule(Rules::BOOL_VAL)
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
-                $this->getNameRule(true),
+                $this->getNameRule($uniqueOption),
             ),
         );
     }
