@@ -356,7 +356,7 @@ class JobTitleAPI extends Endpoint implements CrudEndpoint
     {
         $uniqueOption = new EntityUniquePropertyOption();
         $uniqueOption->setIgnoreValues([
-            'deleted' => true
+            'isDeleted' => true
         ]);
         return $uniqueOption;
     }
