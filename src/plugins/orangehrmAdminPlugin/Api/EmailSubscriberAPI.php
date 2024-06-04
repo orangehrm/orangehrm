@@ -34,6 +34,7 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Core\Api\V2\Validator\Rules\EntityUniquePropertyOption;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Entity\EmailSubscriber;
 
@@ -213,8 +214,7 @@ class EmailSubscriberAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            $this->getEmailRule(false),
-            ...$this->getCommonBodyValidationRules(),
+            ...$this->getCommonBodyValidationRules($this->getEmailSubscriberCommonUniqueOption()),
         );
     }
 
@@ -389,56 +389,34 @@ class EmailSubscriberAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
+        $uniqueOption = $this->getEmailSubscriberCommonUniqueOption();
+        $uniqueOption->setIgnoreId($this->getAttributeId());
+
         return new ParamRuleCollection(
             new ParamRule(
                 CommonParams::PARAMETER_ID,
                 new Rule(Rules::POSITIVE)
             ),
-            $this->getEmailRule(true),
-            ...$this->getCommonBodyValidationRules(),
+            ...$this->getCommonBodyValidationRules($uniqueOption),
         );
     }
 
     /**
-     * @param bool $update
-     * @return ParamRule
-     */
-    private function getEmailRule(bool $update): ParamRule
-    {
-        return $this->getValidationDecorator()->requiredParamRule(
-            new ParamRule(
-                self::PARAMETER_SUBSCRIBER_EMAIL,
-                new Rule(Rules::STRING_TYPE),
-                new Rule(Rules::EMAIL),
-                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_STRING_MAX_LENGTH]),
-                new Rule(Rules::CALLBACK, [
-                    function (string $email) use ($update) {
-                        $subscriptionId = $this->getRequestParams()->getInt(
-                            RequestParams::PARAM_TYPE_ATTRIBUTE,
-                            self::PARAMETER_EMAIL_SUBSCRIPTION_ID
-                        );
-                        $id = null;
-                        if ($update) {
-                            $id = $this->getRequestParams()->getInt(
-                                RequestParams::PARAM_TYPE_ATTRIBUTE,
-                                CommonParams::PARAMETER_ID
-                            );
-                        }
-                        return $this->getEmailSubscriberService()
-                            ->getEmailSubscriberDao()
-                            ->isSubscriberEmailUnique($email, $subscriptionId, $id);
-                    }
-                ])
-            ),
-        );
-    }
-
-    /**
+     * @param EntityUniquePropertyOption|null $uniqueOption
      * @return ParamRule[]
      */
-    private function getCommonBodyValidationRules(): array
+    private function getCommonBodyValidationRules(?EntityUniquePropertyOption $uniqueOption = null): array
     {
         return [
+            $this->getValidationDecorator()->requiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_SUBSCRIBER_EMAIL,
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::EMAIL),
+                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_STRING_MAX_LENGTH]),
+                    new Rule(Rules::ENTITY_UNIQUE_PROPERTY, [EmailSubscriber::class, 'email', $uniqueOption])
+                )
+            ),
             $this->getValidationDecorator()->requiredParamRule(
                 new ParamRule(
                     self::PARAMETER_EMAIL_SUBSCRIPTION_ID,
@@ -453,5 +431,20 @@ class EmailSubscriberAPI extends Endpoint implements CrudEndpoint
                 ),
             ),
         ];
+    }
+
+    /**
+     * @return EntityUniquePropertyOption
+     */
+    private function getEmailSubscriberCommonUniqueOption(): EntityUniquePropertyOption
+    {
+        $uniqueOption = new EntityUniquePropertyOption();
+        $uniqueOption->setMatchValues([
+            'emailNotification' => $this->getRequestParams()->getInt(
+                RequestParams::PARAM_TYPE_ATTRIBUTE,
+                self::PARAMETER_EMAIL_SUBSCRIPTION_ID
+            )
+        ]);
+        return $uniqueOption;
     }
 }
