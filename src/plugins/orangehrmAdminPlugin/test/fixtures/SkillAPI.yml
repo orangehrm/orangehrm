@@ -1,0 +1,25 @@
+Config:
+  - { name: 'authorize_user_role_manager_class', value: 'BasicUserRoleManager' }
+
+Employee:
+  - { empNumber: 1, firstName: 'Devi', lastName: 'Admin', employeeId: '0001' }
+
+UserRole:
+  - { id: 1, name: Admin, display_name: Admin, is_assignable: 1, is_predefined: 1 }
+
+User:
+  - { id: 1, user_role_id: 1, emp_number: 1, user_name: 'kayla', user_password: 'Kayla' }
+
+Skill:
+  - { id: 1, name: PHP, description: Programming Language }
+  - { id: 2, name: JavaScript, description: Programming Language }
+  - { id: 3, name: Python, description: Programming Language }
+  - { id: 4, name: Ruby, description: Programming Language }
+  - { id: 5, name: SQL, description: Programming Language }
+  - { id: 6, name: Swift, description: Programming Language }
+  - { id: 7, name: Perl, description: Programming Language }
+  - { id: 8, name: UI/UX Design, description: Graphic Design }
+  - { id: 9, name: Wireframing, description: Graphic Design }
+  - { id: 10, name: React Native, description: Programming Language }
+  - { id: 11, name: Office Suite, description: Productivity Tools }
+  - { id: 12, name: Search Engine Optimization, description: Marketing Skill }
