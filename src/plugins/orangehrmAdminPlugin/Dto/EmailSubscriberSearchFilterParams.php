@@ -25,6 +25,7 @@ class EmailSubscriberSearchFilterParams extends FilterParams
     public const ALLOWED_SORT_FIELDS = ['emailSubscriber.name'];
 
     private ?bool $enabled = null;
+    private ?array $ids;
 
     public function __construct()
     {
@@ -45,5 +46,21 @@ class EmailSubscriberSearchFilterParams extends FilterParams
     public function setEnabled(?bool $enabled): void
     {
         $this->enabled = $enabled;
+    }
+
+    /**
+     * @return int[]|null
+     */
+    public function getIds(): ?array
+    {
+        return $this->ids;
+    }
+
+    /**
+     * @param int[]|null $ids
+     */
+    public function setIds(?array $ids): void
+    {
+        $this->ids = $ids;
     }
 }

@@ -114,6 +114,20 @@ class EmailSubscriberDao extends BaseDao
     }
 
     /**
+     * @param int[] $ids
+     * @return int[]
+     */
+    public function getExistingEmailSubscriberIds(array $ids): array
+    {
+        $qb = $this->createQueryBuilder(EmailSubscriber::class, 'emailSubscriber');
+        $qb->select('emailSubscriber.id')
+            ->andWhere($qb->expr()->in('emailSubscriber.id', ':ids'))
+            ->setParameter('ids', $ids);
+
+        return $qb->getQuery()->getSingleColumnResult();
+    }
+
+    /**
      * @param int[] $emailSubscriberIds
      * @return int
      */

@@ -150,14 +150,18 @@ class PayGradeAPI extends Endpoint implements CrudEndpoint
      *     summary="Delete Pay Grades",
      *     operationId="delete-pay-grades",
      *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),
-     *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse")
+     *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse"),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
      * )
      *
      * @inheritDoc
      */
     public function delete(): EndpointResult
     {
-        $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
+        $ids = $this->getPayGradeService()->getPayGradeDao()->getExistingPayGradeIds(
+            $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS)
+        );
+        $this->throwRecordNotFoundExceptionIfEmptyIds($ids);
         $this->getPayGradeService()->deletePayGrades($ids);
         return new EndpointResourceResult(ArrayModel::class, $ids);
     }

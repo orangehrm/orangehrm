@@ -40,6 +40,20 @@ class LocationDao extends BaseDao
     }
 
     /**
+     * @param int[] $ids
+     * @return int[]
+     */
+    public function getExistingLocationIds(array $ids): array
+    {
+        $qb = $this->createQueryBuilder(Location::class, 'location');
+        $qb->select('location.id')
+            ->andWhere($qb->expr()->in('location.id', ':ids'))
+            ->setParameter('ids', $ids);
+
+        return $qb->getQuery()->getSingleColumnResult();
+    }
+
+    /**
      * Returns the count of Locations that matches the given search filters
      *
      * @param LocationSearchFilterParams $locationSearchFilterParams

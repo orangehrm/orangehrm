@@ -50,6 +50,20 @@ class EducationDao extends BaseDao
     }
 
     /**
+     * @param int[] $ids
+     * @return int[]
+     */
+    public function getExistingEducationIds(array $ids): array
+    {
+        $qb = $this->createQueryBuilder(Education::class, 'education');
+        $qb->select('education.id')
+            ->andWhere($qb->expr()->in('education.id', ':ids'))
+            ->setParameter('ids', $ids);
+
+        return $qb->getQuery()->getSingleColumnResult();
+    }
+
+    /**
      * @param string $name
      * @return Education|null
      */
@@ -80,6 +94,12 @@ class EducationDao extends BaseDao
         QualificationEducationSearchFilterParams $educationSearchFilterParams
     ): Paginator {
         $q = $this->createQueryBuilder(Education::class, 'e');
+
+        if ($educationSearchFilterParams->getIds()) {
+            $q->andWhere($q->expr()->in('e.id', ':ids'))
+                ->setParameter(':ids', $educationSearchFilterParams->getIds());
+        }
+
         $this->setSortingAndPaginationParams($q, $educationSearchFilterParams);
         return new Paginator($q);
     }

@@ -382,7 +382,10 @@ class SubunitAPI extends Endpoint implements CrudEndpoint
      *     tags={"Admin/Subunits"},
      *     summary="Delete Subunits",
      *     operationId="delete-subunits",
-     *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),
+     *     @OA\PathParameter(
+     *         name="id",
+     *         @OA\Schema(type="integer", minimum="2")
+     *     ),
      *     @OA\Response(
      *         response="200",
      *         description="Success",
@@ -394,6 +397,7 @@ class SubunitAPI extends Endpoint implements CrudEndpoint
      *             @OA\Property(property="meta", type="object")
      *         )
      *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
      * )
      *
      * @inheritDoc
@@ -418,7 +422,8 @@ class SubunitAPI extends Endpoint implements CrudEndpoint
         return new ParamRuleCollection(
             new ParamRule(
                 CommonParams::PARAMETER_ID,
-                new Rule(Rules::POSITIVE)
+                new Rule(Rules::POSITIVE),
+                new Rule(Rules::GREATER_THAN, [1]) // prevent deleting the top of the organization structure
             ),
         );
     }

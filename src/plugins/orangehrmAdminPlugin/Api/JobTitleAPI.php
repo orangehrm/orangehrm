@@ -502,14 +502,18 @@ class JobTitleAPI extends Endpoint implements CrudEndpoint
      *     summary="Delete Job Titles",
      *     operationId="delete-job-titles",
      *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),
-     *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse")
+     *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse"),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
      * )
      *
      * @inheritDoc
      */
     public function delete(): EndpointResult
     {
-        $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
+        $ids = $this->getJobTitleService()->getJobTitleDao()->getExistingJobTitleIds(
+            $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS)
+        );
+        $this->throwRecordNotFoundExceptionIfEmptyIds($ids);
         $this->getJobTitleService()->deleteJobTitle($ids);
         return new EndpointResourceResult(ArrayModel::class, $ids);
     }

@@ -327,7 +327,8 @@ class PayGradeCurrencyAPI extends Endpoint implements CrudEndpoint
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),
-     *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse")
+     *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse"),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
      * )
      *
      * @inheritDoc
@@ -335,7 +336,11 @@ class PayGradeCurrencyAPI extends Endpoint implements CrudEndpoint
     public function delete(): EndpointResourceResult
     {
         $payGradeId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_PAY_GRADE_ID);
-        $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
+        $ids = $this->getPayGradeService()->getPayGradeDao()->getExistingCurrencyIdsForPayGradeId(
+            $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS),
+            $payGradeId
+        );
+        $this->throwRecordNotFoundExceptionIfEmptyIds($ids);
         $this->getPayGradeService()->deletePayGradeCurrency($payGradeId, $ids);
         return new EndpointResourceResult(
             ArrayModel::class,

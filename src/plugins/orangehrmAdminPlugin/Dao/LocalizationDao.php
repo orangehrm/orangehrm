@@ -84,6 +84,20 @@ class LocalizationDao extends BaseDao
     }
 
     /**
+     * @param int[] $ids
+     * @return int[]
+     */
+    public function getExistingLanguageIds(array $ids): array
+    {
+        $qb = $this->createQueryBuilder(I18NLanguage::class, 'language');
+        $qb->select('language.id')
+            ->andWhere($qb->expr()->in('language.id', ':ids'))
+            ->setParameter('ids', $ids);
+
+        return $qb->getQuery()->getSingleColumnResult();
+    }
+
+    /**
      * @param I18NLanguage $i18NLanguage
      * @return I18NLanguage
      */

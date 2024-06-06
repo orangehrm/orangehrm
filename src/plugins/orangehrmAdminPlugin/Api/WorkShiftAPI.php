@@ -255,14 +255,18 @@ class WorkShiftAPI extends EndPoint implements CrudEndpoint
      *     summary="Delete Work Shifts",
      *     operationId="delete-work-shifts",
      *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),
-     *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse")
+     *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse"),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
      * )
      *
      * @inheritDoc
      */
     public function delete(): EndpointResult
     {
-        $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
+        $ids = $this->getWorkShiftService()->getWorkShiftDao()->getExistingWorkShiftIds(
+            $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS)
+        );
+        $this->throwRecordNotFoundExceptionIfEmptyIds($ids);
         $this->getWorkShiftService()->getWorkShiftDao()->deleteWorkShifts($ids);
 
         return new EndpointResourceResult(ArrayModel::class, $ids);
