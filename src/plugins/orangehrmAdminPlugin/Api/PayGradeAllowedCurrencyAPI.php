@@ -20,7 +20,7 @@ namespace OrangeHRM\Admin\Api;
 
 use OrangeHRM\Admin\Api\Model\CurrencyTypeModel;
 use OrangeHRM\Admin\Dto\PayGradeCurrencySearchFilterParams;
-use OrangeHRM\Admin\Service\PayGradeService;
+use OrangeHRM\Admin\Traits\Service\PayGradeServiceTrait;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CollectionEndpoint;
 use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
@@ -32,21 +32,10 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
-use OrangeHRM\Core\Traits\ServiceContainerTrait;
-use OrangeHRM\Framework\Services;
 
 class PayGradeAllowedCurrencyAPI extends Endpoint implements CollectionEndpoint
 {
-    use ServiceContainerTrait;
-
-    /**
-     * @return PayGradeService
-     * @throws \Exception
-     */
-    public function getPayGradeService(): PayGradeService
-    {
-        return $this->getContainer()->get(Services::PAY_GRADE_SERVICE);
-    }
+    use PayGradeServiceTrait;
 
     /**
      * @OA\Get(
@@ -90,9 +79,9 @@ class PayGradeAllowedCurrencyAPI extends Endpoint implements CollectionEndpoint
     {
         $payGradeId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, PayGradeCurrencySearchFilterParams::PARAMETER_PAY_GRADE_ID);
         $payGradeCurrencySearchFilterParams = new PayGradeCurrencySearchFilterParams();
-        $payGradeCurrencySearchFilterParams->setPayGradeId($payGradeId);
+        $this->setSortingAndPaginationParams($payGradeCurrencySearchFilterParams);
         $payGradeCurrencySearchFilterParams->setSortField('ct.id');
-        $payGradeCurrencySearchFilterParams->setLimit(0);
+        $payGradeCurrencySearchFilterParams->setPayGradeId($payGradeId);
         $allowedCurrencies = $this->getPayGradeService()->getAllowedPayCurrencies($payGradeCurrencySearchFilterParams);
         $count = $this->getPayGradeService()->getAllowedPayCurrenciesCount($payGradeCurrencySearchFilterParams);
         return new EndpointCollectionResult(

@@ -1,0 +1,430 @@
+GetOne:
+  get one by existing id:
+    userId: 1
+    services:
+      admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
+    attributes:
+      payGradeId: 1
+      id: USD
+    data: {
+      maxSalary: 10000.0,
+      minSalary: 5000.0,
+      currencyType: {
+        id: USD,
+        name: United States Dollar
+      }
+    }
+
+  get one by non-existing id:
+    userId: 1
+    services:
+      admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
+    attributes:
+      payGradeId: 1
+      id: aaaaaaaaaa
+    exception:
+      class: \OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException
+      message: Record Not Found
+
+  valid currency id but not existing in pay grade:
+    userId: 1
+    services:
+      admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
+    attributes:
+      payGradeId: 1
+      id: AED
+    exception:
+      class: \OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException
+      message: Record Not Found
+
+  negative id:
+    userId: 1
+    services:
+      admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
+    attributes:
+      id: -1
+    invalidOnly: [ payGradeId, id ]
+
+  zero id:
+    userId: 1
+    services:
+      admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
+    attributes:
+      id: 0
+    invalidOnly: [ payGradeId, id ]
+
+  empty id:
+    userId: 1
+    services:
+      admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
+    attributes:
+      id: ''
+    invalidOnly: [ payGradeId, id ]
+
+  empty params:
+    userId: 1
+    services:
+      admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
+    invalidOnly: [ payGradeId, id ]
+
+  missing id param:
+    userId: 1
+    services:
+      admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
+    attributes:
+      value: 1
+    invalidOnly: [ payGradeId, id, value ]
+
+GetAll:
+  get all:
+    userId: 1
+    services:
+      admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
+    attributes:
+      payGradeId: 1
+    data: [
+      {
+        minSalary: 2000,
+        maxSalary: 5000,
+        currencyType: {
+          id: AUD,
+          name: Australian Dollar
+        }
+      },
+      {
+        minSalary: 5000,
+        maxSalary: 10000,
+        currencyType: {
+          id: USD,
+          name: United States Dollar
+        }
+      }
+    ]
+    meta:
+      payGradeId: 1
+      total: 2
+
+  get all with limit 1:
+    userId: 1
+    services:
+      admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
+    attributes:
+      payGradeId: 1
+    query:
+      limit: 1
+    data: [
+      {
+        minSalary: 2000,
+        maxSalary: 5000,
+        currencyType: {
+          id: AUD,
+          name: Australian Dollar
+        }
+      }
+    ]
+    meta:
+      payGradeId: 1
+      total: 2
+
+  get all with order:
+    userId: 1
+    services:
+      admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
+    attributes:
+      payGradeId: 1
+    query:
+      sortField: ct.name
+      sortOrder: DESC
+    data: [
+      {
+        minSalary: 5000,
+        maxSalary: 10000,
+        currencyType: {
+          id: USD,
+          name: United States Dollar
+        }
+      },
+      {
+        minSalary: 2000,
+        maxSalary: 5000,
+        currencyType: {
+          id: AUD,
+          name: Australian Dollar
+        }
+      }
+    ]
+    meta:
+      payGradeId: 1
+      total: 2
+
+  missing payGradeId:
+    userId: 1
+    services:
+      admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
+    invalidOnly: [ payGradeId ]
+
+  unexpected param:
+    userId: 1
+    services:
+      admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
+    attributes:
+      name: Test
+      empNumber: 1
+    invalidOnly: [ name, empNumber, payGradeId ]
+
+Create:
+  create successful - 1:
+    userId: 1
+    services:
+      admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
+    attributes:
+      payGradeId: 1
+    body: {
+      currencyId: AUD,
+      minSalary: 100,
+      maxSalary: 200
+    }
+    data: {
+      minSalary: 100.0,
+      maxSalary: 200.0,
+      currencyType: {
+        id: AUD,
+        name: Australian Dollar
+      }
+    }
+    meta:
+      payGradeId: 1
+
+  create successful - 2:
+    userId: 1
+    services:
+      admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
+    attributes:
+      payGradeId: 1
+    body: {
+      currencyId: LKR,
+      minSalary: 10000,
+      maxSalary: 200000
+    }
+    data: {
+      minSalary: 10000.0,
+      maxSalary: 200000.0,
+      currencyType: {
+        id: LKR,
+        name: Sri Lankan Rupee
+      }
+    }
+    meta:
+      payGradeId: 1
+
+  invalid currencyId:
+    userId: 1
+    services:
+      admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
+    attributes:
+      payGradeId: 1
+    body: {
+      currencyId: ABCDEFGH,
+      minSalary: 100,
+      maxSalary: 200
+    }
+    exception:
+      class: \OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException
+      message: Record Not Found
+
+  non-existent paygradeId:
+    userId: 1
+    services:
+      admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
+    attributes:
+      payGradeId: 100
+    body: {
+      currencyId: AUD,
+      minSalary: 100,
+      maxSalary: 200
+    }
+    exception:
+      class: \OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException
+      message: Record Not Found
+
+  missing currencyId:
+    userId: 1
+    services:
+      admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
+    attributes:
+      payGradeId: 1
+    body: {
+      minSalary: 100,
+      maxSalary: 200
+    }
+    invalidOnly: [ currencyId ]
+
+  min salary greater than max salary:
+    userId: 1
+    services:
+      admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
+    attributes:
+      payGradeId: 1
+    body: {
+      currencyId: AUD,
+      minSalary: 1000,
+      maxSalary: 200
+    }
+    exception:
+      class: \OrangeHRM\Core\Api\V2\Exception\BadRequestException
+      message: Min salary should be less than max salary
+
+  invalid length for salary:
+    userId: 1
+    services:
+      admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
+    attributes:
+      payGradeId: 1
+    body: {
+      currencyId: AUD,
+      minSalary: 100,
+      maxSalary: 2000000000000
+    }
+    invalidOnly: [ maxSalary ]
+
+Update:
+  update successful - 1:
+    userId: 1
+    services:
+      admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
+    attributes:
+      payGradeId: 1
+      id: AUD
+    body: {
+      minSalary: 1000,
+      maxSalary: 2000
+    }
+    data: {
+      minSalary: 1000.0,
+      maxSalary: 2000.0,
+      currencyType: {
+        id: AUD,
+        name: Australian Dollar
+      }
+    }
+    meta:
+      payGradeId: 1
+
+  non existing payGradeId:
+    userId: 1
+    services:
+      admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
+    attributes:
+      payGradeId: 1000
+      id: AUD
+    body: {
+      minSalary: 1000,
+      maxSalary: 2000
+    }
+    exception:
+      class: \OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException
+      message: Record Not Found
+
+  non existing Id:
+    userId: 1
+    services:
+      admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
+    attributes:
+      payGradeId: 1
+      id: ABCDEFG
+    body: {
+      minSalary: 1000,
+      maxSalary: 2000
+    }
+    exception:
+      class: \OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException
+      message: Record Not Found
+
+  payGradeId invalid:
+    userId: 1
+    services:
+      admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
+    attributes:
+      payGradeId: abcd
+      id: AUD
+    body: {
+      minSalary: 1000,
+      maxSalary: 2000
+    }
+    invalidOnly: [ payGradeId ]
+
+  min salary greater than max salary:
+    userId: 1
+    services:
+      admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
+    attributes:
+      payGradeId: 1
+      id: AUD
+    body: {
+      minSalary: 10000,
+      maxSalary: 2000
+    }
+    exception:
+      class: \OrangeHRM\Core\Api\V2\Exception\BadRequestException
+      message: Min salary should be less than max salary
+
+Delete:
+  delete successful - 1:
+    userId: 1
+    services:
+      admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
+    attributes:
+      payGradeId: 1
+    body:
+      ids: [ AUD ]
+    data: [ AUD ]
+    meta:
+      payGradeId: 1
+
+  delete successful - 2:
+    userId: 1
+    services:
+      admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
+    attributes:
+      payGradeId: 1
+    body:
+      ids: [ AUD, USD ]
+    data: [ AUD, USD ]
+    meta:
+      payGradeId: 1
+
+  delete successful - with non existing ids included:
+    userId: 1
+    services:
+      admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
+    attributes:
+      payGradeId: 1
+    body:
+      ids: [ AUD, USD, LKR ]
+    data: [ AUD, USD, LKR ]
+    meta:
+      payGradeId: 1
+
+  delete with empty ids array:
+    userId: 1
+    services:
+      admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
+    attributes:
+      payGradeId: 1
+    body:
+      ids: [ ]
+    data: [ ]
+    meta:
+      payGradeId: 1
+
+  delete successful - with non existing payGradeId:
+    userId: 1
+    services:
+      admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
+    attributes:
+      payGradeId: 100
+    body:
+      ids: [ LKR ]
+    data: [ LKR ]
+    meta:
+      payGradeId: 100

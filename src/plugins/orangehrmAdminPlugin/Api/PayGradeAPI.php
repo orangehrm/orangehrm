@@ -20,14 +20,13 @@ namespace OrangeHRM\Admin\Api;
 
 use OrangeHRM\Admin\Dto\PayGradeSearchFilterParams;
 use OrangeHRM\Admin\Api\Model\PayGradeModel;
-use OrangeHRM\Admin\Service\PayGradeService;
+use OrangeHRM\Admin\Traits\Service\PayGradeServiceTrait;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
-use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
@@ -35,23 +34,15 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
-use OrangeHRM\Core\Traits\ServiceContainerTrait;
+use OrangeHRM\Core\Api\V2\Validator\Rules\EntityUniquePropertyOption;
 use OrangeHRM\Entity\PayGrade;
-use OrangeHRM\Framework\Services;
 
 class PayGradeAPI extends Endpoint implements CrudEndpoint
 {
-    use ServiceContainerTrait;
+    use PayGradeServiceTrait;
 
     public const PARAMETER_NAME = 'name';
     public const PARAM_RULE_NAME_MAX_LENGTH = 100;
-    /**
-     * @return PayGradeService
-     */
-    public function getPayGradeService(): PayGradeService
-    {
-        return $this->getContainer()->get(Services::PAY_GRADE_SERVICE);
-    }
 
     /**
      * @OA\Get(
@@ -137,7 +128,8 @@ class PayGradeAPI extends Endpoint implements CrudEndpoint
      */
     public function create(): EndpointResourceResult
     {
-        $payGrade = $this->savePayGrade();
+        $payGrade = new PayGrade();
+        $payGrade = $this->savePayGrade($payGrade);
         return new EndpointResourceResult(PayGradeModel::class, $payGrade);
     }
 
@@ -176,7 +168,10 @@ class PayGradeAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForDelete(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(CommonParams::PARAMETER_IDS, new Rule(Rules::ARRAY_TYPE))
+            new ParamRule(
+                CommonParams::PARAMETER_IDS,
+                new Rule(Rules::INT_ARRAY)
+            )
         );
     }
 
@@ -257,7 +252,9 @@ class PayGradeAPI extends Endpoint implements CrudEndpoint
      */
     public function update(): EndpointResourceResult
     {
-        $payGrade = $this->savePayGrade();
+        $payGrade = $this->getPayGradeService()->getPayGradeById($this->getAttributeId());
+        $this->throwRecordNotFoundExceptionIfNotExist($payGrade, PayGrade::class);
+        $payGrade = $this->savePayGrade($payGrade);
         return new EndpointResourceResult(PayGradeModel::class, $payGrade);
     }
 
@@ -266,44 +263,44 @@ class PayGradeAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
+        $uniqueOption = new EntityUniquePropertyOption();
+        $uniqueOption->setIgnoreId($this->getAttributeId());
+
         return new ParamRuleCollection(
             new ParamRule(
                 CommonParams::PARAMETER_ID,
                 new Rule(Rules::POSITIVE)
             ),
-            ...$this->getCommonBodyValidationRules()
+            ...$this->getCommonBodyValidationRules($uniqueOption)
         );
     }
 
     /**
+     * @param PayGrade $payGrade
      * @return PayGrade
-     * @throws RecordNotFoundException
      */
-    protected function savePayGrade(): PayGrade
+    protected function savePayGrade(PayGrade $payGrade): PayGrade
     {
-        $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $name = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_NAME);
-        if (!empty($id)) {
-            $payGrade = $this->getPayGradeService()->getPayGradeById($id);
-            $this->throwRecordNotFoundExceptionIfNotExist($payGrade, PayGrade::class);
-        } else {
-            $payGrade = new PayGrade();
-        }
         $payGrade->setName($name);
         return  $this->getPayGradeService()->savePayGrade($payGrade);
     }
 
     /**
+     * @param EntityUniquePropertyOption|null $uniqueOption
      * @return ParamRule[]
      */
-    public function getCommonBodyValidationRules(): array
+    public function getCommonBodyValidationRules(?EntityUniquePropertyOption $uniqueOption = null): array
     {
         return [
-            new ParamRule(
-                self::PARAMETER_NAME,
-                new Rule(Rules::STRING_TYPE),
-                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NAME_MAX_LENGTH]),
-            ),
+            $this->getValidationDecorator()->requiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_NAME,
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NAME_MAX_LENGTH]),
+                    new Rule(Rules::ENTITY_UNIQUE_PROPERTY, [PayGrade::class, 'name', $uniqueOption])
+                )
+            )
         ];
     }
 }
