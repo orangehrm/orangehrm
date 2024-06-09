@@ -69,6 +69,7 @@ import LdapConfiguration from './pages/ldap/LdapConfiguration.vue';
 import ProviderList from './pages/socialMediaAuth/ProviderList.vue';
 import AddProvider from './pages/socialMediaAuth/AddProvider.vue';
 import EditProvider from './pages/socialMediaAuth/EditProvider.vue';
+import FixLanguageErrors from './pages/languageImport/FixLanguageStringErrors.vue';
 
 export default {
   'job-title-list': JobTitle,
@@ -125,4 +126,5 @@ export default {
   'auth-provider-list': ProviderList,
   'add-auth-provider': AddProvider,
   'edit-auth-provider': EditProvider,
+  'fix-language-errors': FixLanguageErrors,
 };

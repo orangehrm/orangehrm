@@ -53,6 +53,23 @@
         </oxd-text>
         <oxd-text type="card-body" class="orangehrm-error-message"></oxd-text>
       </template>
+      <template
+        v-if="
+          data.meta.xliffFileValidations &&
+          data.meta.xliffFileValidations.isValid === false
+        "
+      >
+        <oxd-text type="card-body" class="orangehrm-error-message">
+          {{
+            data.meta.xliffFileValidations &&
+            data.meta.xliffFileValidations.messages &&
+            data.meta.xliffFileValidations.messages
+              .map((message) => message.message)
+              .join('\n')
+          }}
+        </oxd-text>
+        <oxd-text type="card-body" class="orangehrm-error-message"></oxd-text>
+      </template>
     </div>
     <div class="orangehrm-modal-footer">
       <oxd-button

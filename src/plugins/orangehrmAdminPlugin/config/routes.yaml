@@ -606,6 +606,11 @@ admin_language_package_import:
   controller: OrangeHRM\Admin\Controller\LanguageImportController::handle
   methods: [ GET ]
 
+admin_language_package_fix_errors:
+  path: /admin/fixLanguageStringErrors/{languageId}
+  controller: OrangeHRM\Admin\Controller\FixLanguageStringErrorsController::handle
+  methods: [ GET ]
+
 admin_language_translation:
   path: /admin/languageCustomization/{languageId}
   controller: OrangeHRM\Admin\Controller\LanguageTranslationController::handle
