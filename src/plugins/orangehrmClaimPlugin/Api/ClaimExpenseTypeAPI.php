@@ -267,13 +267,17 @@ class ClaimExpenseTypeAPI extends Endpoint implements CrudEndpoint
      *     summary="Delete Expense Types",
      *     operationId="delete-expense-types",
      *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),
-     *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse")
+     *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse"),
+     *     @OA\Response(response="404", ref="#/components/responses/ForbiddenResponse")
      * )
      * @inheritDoc
      */
     public function delete(): EndpointResult
     {
-        $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
+        $ids = $this->getClaimService()->getClaimDao()->getExistingExpenseTypeIds(
+            $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS)
+        );
+        $this->throwRecordNotFoundExceptionIfEmptyIds($ids);
         $this->getClaimService()->getClaimDao()->deleteExpenseTypes($ids);
         return new EndpointResourceResult(ArrayModel::class, $ids);
     }

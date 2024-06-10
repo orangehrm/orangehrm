@@ -265,13 +265,18 @@ class ClaimEventAPI extends Endpoint implements CrudEndpoint
      *     summary="Delete Claim Events",
      *     operationId="delete-claim-events",
      *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),
-     *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse")
+     *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse"),
+     *     @OA\Response(response="403", ref="#/components/responses/ForbiddenResponse"),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
      * )
      * @inheritDoc
      */
     public function delete(): EndpointResult
     {
-        $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_IDS);
+        $ids = $this->getClaimService()->getClaimDao()->getExistingClaimEventIds(
+            $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_IDS)
+        );
+        $this->throwRecordNotFoundExceptionIfEmptyIds($ids);
         $this->getClaimService()->getClaimDao()->deleteClaimEvents($ids);
         return new EndpointResourceResult(ArrayModel::class, $ids);
     }
