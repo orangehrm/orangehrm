@@ -56,6 +56,36 @@ class EmployeeLanguageDao extends BaseDao
     }
 
     /**
+     * @param array $entries
+     * @param int $empNumber
+     * @return array
+     */
+    public function getExistingEmployeeLanguageRecordsForEmpNumber(array $entries, int $empNumber): array
+    {
+        $qb = $this->createQueryBuilder(EmployeeLanguage::class, 'employeeLanguage');
+
+        $qb->select('IDENTITY(employeeLanguage.language) AS languageId', 'employeeLanguage.fluency as fluencyId');
+
+        foreach ($entries as $index => $entry) {
+            if (isset($entry['languageId']) && isset($entry['fluencyId'])) {
+                $qb->orWhere(
+                    $qb->expr()->andX(
+                        $qb->expr()->eq('employeeLanguage.language', ':langId' . $index),
+                        $qb->expr()->eq('employeeLanguage.fluency', ':fluencyId' . $index)
+                    )
+                );
+                $qb->setParameter('langId' . $index, $entry['languageId'])
+                    ->setParameter('fluencyId' . $index, $entry['fluencyId']);
+            }
+        }
+
+        $qb->andWhere($qb->expr()->in('employeeLanguage.employee', ':empNumber'))
+            ->setParameter('empNumber', $empNumber);
+
+        return $qb->getQuery()->getArrayResult();
+    }
+
+    /**
      * @param int $empNumber
      * @param array $entriesToDelete
      * @return int

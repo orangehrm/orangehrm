@@ -462,8 +462,15 @@ class EmployeeEducationAPI extends Endpoint implements CrudEndpoint
      */
     public function delete(): EndpointResourceResult
     {
-        list($empNumber) = $this->getUrlAttributes();
-        $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
+        $empNumber = $this->getRequestParams()->getInt(
+            RequestParams::PARAM_TYPE_ATTRIBUTE,
+            CommonParams::PARAMETER_EMP_NUMBER
+        );
+        $ids = $this->getEmployeeEducationService()->getEmployeeEducationDao()->getExistingEmpEducationIdsByEmpNumber(
+            $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS),
+            $empNumber
+        );
+        $this->throwRecordNotFoundExceptionIfEmptyIds($ids);
         $this->getEmployeeEducationService()->getEmployeeEducationDao()->deleteEmployeeEducations($empNumber, $ids);
         return new EndpointResourceResult(
             ArrayModel::class,

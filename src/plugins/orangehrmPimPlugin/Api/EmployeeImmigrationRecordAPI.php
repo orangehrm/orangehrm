@@ -322,18 +322,19 @@ class EmployeeImmigrationRecordAPI extends Endpoint implements CrudEndpoint
      */
     public function delete(): EndpointResourceResult
     {
-        $recordId = $this->getRequestParams()->getArray(
-            RequestParams::PARAM_TYPE_BODY,
-            CommonParams::PARAMETER_IDS
-        );
         $empNumber = $this->getRequestParams()->getInt(
             RequestParams::PARAM_TYPE_ATTRIBUTE,
             CommonParams::PARAMETER_EMP_NUMBER
         );
-        $this->getEmployeeImmigrationRecordService()->deleteEmployeeImmigrationRecords($empNumber, $recordId);
+        $ids = $this->getEmployeeImmigrationRecordService()->getEmployeeImmigrationRecordDao()->getExistingEmployeeImmigrationIdsForEmpNumber(
+            $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS),
+            $empNumber
+        );
+        $this->throwRecordNotFoundExceptionIfEmptyIds($ids);
+        $this->getEmployeeImmigrationRecordService()->deleteEmployeeImmigrationRecords($empNumber, $ids);
         return new EndpointResourceResult(
             ArrayModel::class,
-            $recordId,
+            $ids,
             new ParameterBag([CommonParams::PARAMETER_EMP_NUMBER => $empNumber])
         );
     }

@@ -664,14 +664,18 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
      *                 @OA\Property(property="messsage", type="string", default="Employees not accessible")
      *             )
      *         )
-     *     )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
      * )
      *
      * @inheritDoc
      */
     public function delete(): EndpointResourceResult
     {
-        $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
+        $ids = $this->getEmployeeService()->getEmployeeDao()->getExistingEmpNumbers(
+            $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS)
+        );
+        $this->throwRecordNotFoundExceptionIfEmptyIds($ids);
         if (!$this->getUserRoleManager()->areEntitiesAccessible(Employee::class, $ids)) {
             throw $this->getBadRequestException('Employees not accessible');
         }
@@ -702,6 +706,7 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
         return new ParamRuleCollection(
             new ParamRule(
                 CommonParams::PARAMETER_IDS,
+                new Rule(Rules::ARRAY_TYPE),
                 new Rule(
                     Rules::EACH,
                     [

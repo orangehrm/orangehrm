@@ -177,7 +177,8 @@ class TerminationReasonConfigurationAPI extends EndPoint implements CrudEndpoint
      *     summary="Delete Termination Reasons",
      *     operationId="delete-termination-reasons",
      *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),
-     *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse")
+     *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse"),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
      * )
      *
      * @inheritDoc
@@ -185,7 +186,10 @@ class TerminationReasonConfigurationAPI extends EndPoint implements CrudEndpoint
      */
     public function delete(): EndpointResult
     {
-        $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
+        $ids = $this->getTerminationReasonConfigurationService()->getTerminationReasonDao()->getExistingTerminationReasonIds(
+            $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS)
+        );
+        $this->throwRecordNotFoundExceptionIfEmptyIds($ids);
         $this->getTerminationReasonConfigurationService()->deleteTerminationReasons($ids);
         return new EndpointResourceResult(ArrayModel::class, $ids);
     }

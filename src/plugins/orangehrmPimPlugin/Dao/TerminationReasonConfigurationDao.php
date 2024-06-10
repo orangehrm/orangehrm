@@ -50,6 +50,21 @@ class TerminationReasonConfigurationDao extends BaseDao
     }
 
     /**
+     * @param int[] $ids
+     * @return int[]
+     */
+    public function getExistingTerminationReasonIds(array $ids): array
+    {
+        $qb = $this->createQueryBuilder(TerminationReason::class, 'terminationReason');
+
+        $qb->select('terminationReason.id')
+            ->andWhere($qb->expr()->in('terminationReason.id', ':ids'))
+            ->setParameter('ids', $ids);
+
+        return $qb->getQuery()->getSingleColumnResult();
+    }
+
+    /**
      * @param string $name
      * @return TerminationReason|null
      */

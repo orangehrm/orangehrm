@@ -55,6 +55,24 @@ class EmployeeMembershipDao extends BaseDao
     }
 
     /**
+     * @param int[] $ids
+     * @param int $empNumber
+     * @return int[]
+     */
+    public function getExistingEmployeeMembershipIdsForEmpNumber(array $ids, int $empNumber): array
+    {
+        $qb = $this->createQueryBuilder(EmployeeMembership::class, 'employeeMembership');
+
+        $qb->select('employeeMembership.id')
+            ->andWhere($qb->expr()->in('employeeMembership.id', ':ids'))
+            ->andWhere($qb->expr()->eq('employeeMembership.employee', ':empNumber'))
+            ->setParameter('ids', $ids)
+            ->setParameter('empNumber', $empNumber);
+
+        return $qb->getQuery()->getSingleColumnResult();
+    }
+
+    /**
      * @param int $empNumber
      * @param array $toDeleteIds
      * @return int

@@ -404,7 +404,11 @@ class EmployeeMembershipAPI extends Endpoint implements CrudEndpoint
             RequestParams::PARAM_TYPE_ATTRIBUTE,
             CommonParams::PARAMETER_EMP_NUMBER
         );
-        $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
+        $ids = $this->getEmployeeMembershipService()->getEmployeeMembershipDao()->getExistingEmployeeMembershipIdsForEmpNumber(
+            $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS),
+            $empNumber
+        );
+        $this->throwRecordNotFoundExceptionIfEmptyIds($ids);
         $this->getEmployeeMembershipService()->getEmployeeMembershipDao()->deleteEmployeeMemberships($empNumber, $ids);
         return new EndpointResourceResult(
             ArrayModel::class,

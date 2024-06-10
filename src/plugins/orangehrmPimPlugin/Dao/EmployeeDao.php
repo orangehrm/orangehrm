@@ -225,6 +225,23 @@ class EmployeeDao extends BaseDao
     }
 
     /**
+     * @param int[] $ids
+     * @return int[]
+     */
+    public function getExistingEmpNumbers(array $ids): array
+    {
+        $qb = $this->createQueryBuilder(Employee::class, 'employee');
+
+        $qb->select('employee.empNumber')
+            ->andWhere($qb->expr()->in('employee.empNumber', ':ids'))
+            ->andWhere($qb->expr()->isNull('employee.purgedAt'))
+            ->andWhere($qb->expr()->isNull('employee.employeeTerminationRecord'))
+            ->setParameter(':ids', $ids);
+
+        return $qb->getQuery()->getSingleColumnResult();
+    }
+
+    /**
      * @param int $supervisorId
      * @param bool $includeChain
      * @param array $supervisorIdStack
