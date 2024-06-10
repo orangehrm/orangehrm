@@ -271,7 +271,8 @@ class SkillAPI extends Endpoint implements CrudEndpoint
                     self::PARAMETER_DESCRIPTION,
                     new Rule(Rules::STRING_TYPE),
                     new Rule(Rules::LENGTH, [null, self::PARAM_RULE_DESCRIPTION_MAX_LENGTH])
-                )
+                ),
+                true
             )
         ];
     }

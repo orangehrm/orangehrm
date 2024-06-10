@@ -94,12 +94,6 @@ class EducationDao extends BaseDao
         QualificationEducationSearchFilterParams $educationSearchFilterParams
     ): Paginator {
         $q = $this->createQueryBuilder(Education::class, 'e');
-
-        if ($educationSearchFilterParams->getIds()) {
-            $q->andWhere($q->expr()->in('e.id', ':ids'))
-                ->setParameter(':ids', $educationSearchFilterParams->getIds());
-        }
-
         $this->setSortingAndPaginationParams($q, $educationSearchFilterParams);
         return new Paginator($q);
     }
