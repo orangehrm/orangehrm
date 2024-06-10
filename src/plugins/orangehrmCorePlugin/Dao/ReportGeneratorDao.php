@@ -251,8 +251,10 @@ class ReportGeneratorDao extends BaseDao
     {
         $q = $this->createQueryBuilder(Report::class, 'report');
         $q->delete()
-            ->where($q->expr()->in('report.id', ':ids'))
-            ->setParameter('ids', $deletedIds);
+            ->andWhere($q->expr()->in('report.id', ':ids'))
+            ->andWhere($q->expr()->eq('report.reportGroup', ':reportGroupId'))
+            ->setParameter('ids', $deletedIds)
+            ->setParameter('reportGroupId', ReportGroup::REPORT_GROUP_PIM);
         return $q->getQuery()->execute();
     }
 
@@ -264,6 +266,23 @@ class ReportGeneratorDao extends BaseDao
     {
         $report = $this->getRepository(Report::class)->find($reportId);
         return ($report instanceof Report) ? $report : null;
+    }
+
+    /**
+     * @param int[] $ids
+     * @return int[]
+     */
+    public function getExistingReportIdsForPim(array $ids): array
+    {
+        $qb = $this->createQueryBuilder(Report::class, 'report');
+
+        $qb->select('report.id')
+            ->andWhere($qb->expr()->in('report.id', ':ids'))
+            ->andWhere($qb->expr()->eq('report.reportGroup', ':reportGroupId'))
+            ->setParameter('ids', $ids)
+            ->setParameter('reportGroupId', ReportGroup::REPORT_GROUP_PIM);
+
+        return $qb->getQuery()->getSingleColumnResult();
     }
 
     /**
