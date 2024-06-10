@@ -47,6 +47,21 @@ class HolidayDao extends BaseDao
     }
 
     /**
+     * @param int[] $ids
+     * @return int[]
+     */
+    public function getExistingHolidayIds(array $ids): array
+    {
+        $qb = $this->createQueryBuilder(Holiday::class, 'holiday');
+
+        $qb->select('holiday.id')
+            ->andWhere($qb->expr()->in('holiday.id', ':ids'))
+            ->setParameter('ids', $ids);
+
+        return $qb->getQuery()->getSingleColumnResult();
+    }
+
+    /**
      * @param HolidaySearchFilterParams $holidaySearchFilterParams
      * @return Holiday[]
      */

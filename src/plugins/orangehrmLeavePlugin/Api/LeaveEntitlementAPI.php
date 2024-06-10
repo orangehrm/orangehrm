@@ -614,14 +614,30 @@ class LeaveEntitlementAPI extends Endpoint implements CrudEndpoint
      *     summary="Delete Leave Entitlements",
      *     operationId="delete-leave-entitlements",
      *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),
-     *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse")
+     *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse"),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound"),
+     *     @OA\Response(
+     *         response="400",
+     *         description="Bad Request - Leave entitlement not accessible",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="error",
+     *                 type="object",
+     *                 @OA\Property(property="status", type="string", default="400"),
+     *                 @OA\Property(property="message", type="string", default="Bad Request")
+     *             )
+     *         )
+     *     )
      * )
      *
      * @inheritDoc
      */
     public function delete(): EndpointResult
     {
-        $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
+        $ids = $this->getLeaveEntitlementService()->getLeaveEntitlementDao()->getExistingLeaveEntitlementIds(
+            $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS)
+        );
+        $this->throwRecordNotFoundExceptionIfEmptyIds($ids);
 
         $leaveEntitlements = $this->getLeaveEntitlementService()
             ->getLeaveEntitlementDao()->getLeaveEntitlementsByIds($ids);
@@ -644,7 +660,10 @@ class LeaveEntitlementAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForDelete(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(CommonParams::PARAMETER_IDS, new Rule(Rules::ARRAY_TYPE))
+            new ParamRule(
+                CommonParams::PARAMETER_IDS,
+                new Rule(Rules::INT_ARRAY)
+            )
         );
     }
 }

@@ -311,7 +311,8 @@ class LeaveTypeAPI extends Endpoint implements CrudEndpoint
      *     summary="Delete Leave Types",
      *     operationId="delete-leave-types",
      *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),
-     *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse")
+     *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse"),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
      * )
      *
      * @inheritDoc
@@ -319,7 +320,10 @@ class LeaveTypeAPI extends Endpoint implements CrudEndpoint
      */
     public function delete(): EndpointResourceResult
     {
-        $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
+        $ids = $this->getLeaveTypeService()->getLeaveTypeDao()->getExistingLeaveTypeIds(
+            $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS)
+        );
+        $this->throwRecordNotFoundExceptionIfEmptyIds($ids);
         $this->getLeaveTypeService()->getLeaveTypeDao()->deleteLeaveType($ids);
         return new EndpointResourceResult(ArrayModel::class, $ids);
     }
@@ -330,7 +334,10 @@ class LeaveTypeAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForDelete(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(CommonParams::PARAMETER_IDS),
+            new ParamRule(
+                CommonParams::PARAMETER_IDS,
+                new Rule(Rules::INT_ARRAY)
+            ),
         );
     }
 }
