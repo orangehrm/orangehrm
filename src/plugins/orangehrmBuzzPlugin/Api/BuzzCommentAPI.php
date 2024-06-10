@@ -442,7 +442,9 @@ class BuzzCommentAPI extends Endpoint implements CrudEndpoint
      *             ),
      *             @OA\Property(property="meta", type="object")
      *         )
-     *     )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound"),
+     *     @OA\Response(response="403", ref="#/components/responses/ForbiddenResponse")
      * )
      *
      * @inheritDoc
