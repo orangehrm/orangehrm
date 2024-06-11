@@ -26,6 +26,7 @@ use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\ParameterBag;
+use OrangeHRM\Core\Api\V2\Request;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
@@ -237,13 +238,18 @@ class ProjectActivityAPI extends Endpoint implements CrudEndpoint
      *             )
      *         )
      *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
      * )
      * @inheritDoc
      */
     public function delete(): EndpointResult
     {
         try {
-            $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
+            $ids = $this->getProjectService()->getProjectActivityDao()->getExistingProjectActivityIdsForProject(
+                $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS),
+                $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_PROJECT_ID)
+            );
+            $this->throwRecordNotFoundExceptionIfEmptyIds($ids);
             $this->getProjectService()->getProjectActivityDao()->deleteProjectActivities($ids);
             return new EndpointResourceResult(ArrayModel::class, $ids);
         } catch (ProjectServiceException $projectServiceException) {

@@ -71,6 +71,23 @@ class ProjectDao extends BaseDao
     }
 
     /**
+     * @param int[] $ids
+     * @return int[]
+     */
+    public function getExistingProjectIds(array $ids): array
+    {
+        $qb = $this->createQueryBuilder(Project::class, 'project');
+
+        $qb->select('project.id')
+            ->andWhere($qb->expr()->in('project.id', ':ids'))
+            ->andWhere($qb->expr()->eq('project.deleted', ':deleted'))
+            ->setParameter('ids', $ids)
+            ->setParameter('deleted', false);
+
+        return $qb->getQuery()->getSingleColumnResult();
+    }
+
+    /**
      * @param ProjectSearchFilterParams $projectSearchFilterParamHolder
      * @return Project[]
      */

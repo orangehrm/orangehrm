@@ -173,7 +173,7 @@ class CustomerAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            ...$this->getCommonBodyValidationRules(),
+            ...$this->getCommonBodyValidationRules($this->getNameCommonUniqueOption()),
         );
     }
 
@@ -197,6 +197,7 @@ class CustomerAPI extends Endpoint implements CrudEndpoint
      *             )
      *         )
      *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
      * )
      *
      * @inheritDoc
@@ -204,7 +205,10 @@ class CustomerAPI extends Endpoint implements CrudEndpoint
     public function delete(): EndpointResult
     {
         try {
-            $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
+            $ids = $this->getCustomerService()->getCustomerDao()->getExistingCustomerIds(
+                $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS)
+            );
+            $this->throwRecordNotFoundExceptionIfEmptyIds($ids);
             $this->getCustomerService()->getCustomerDao()->deleteCustomer($ids);
             return new EndpointResourceResult(ArrayModel::class, $ids);
         } catch (CustomerServiceException $customerServiceException) {
@@ -343,7 +347,7 @@ class CustomerAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
-        $uniqueOption = new EntityUniquePropertyOption();
+        $uniqueOption = $this->getNameCommonUniqueOption();
         $uniqueOption->setIgnoreId($this->getAttributeId());
 
         return new ParamRuleCollection(
@@ -379,6 +383,18 @@ class CustomerAPI extends Endpoint implements CrudEndpoint
                 true
             ),
         ];
+    }
+
+    /**
+     * @return EntityUniquePropertyOption
+     */
+    private function getNameCommonUniqueOption(): EntityUniquePropertyOption
+    {
+        $uniqueOption = new EntityUniquePropertyOption();
+        $uniqueOption->setIgnoreValues([
+            'deleted' => true
+        ]);
+        return $uniqueOption;
     }
 
     /**

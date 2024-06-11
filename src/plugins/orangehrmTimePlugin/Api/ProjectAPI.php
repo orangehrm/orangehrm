@@ -487,7 +487,8 @@ class ProjectAPI extends Endpoint implements CrudEndpoint
      *     summary="Delete Projects",
      *     operationId="delete-projects",
      *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),
-     *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse")
+     *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse"),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
      * )
      *
      * @inheritDoc
@@ -495,7 +496,10 @@ class ProjectAPI extends Endpoint implements CrudEndpoint
      */
     public function delete(): EndpointResult
     {
-        $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
+        $ids = $this->getProjectService()->getProjectDao()->getExistingProjectIds(
+            $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS)
+        );
+        $this->throwRecordNotFoundExceptionIfEmptyIds($ids);
         foreach ($ids as $id) {
             $hasTimesheetItems = $this->getProjectService()->getProjectDao()->hasTimesheetItemsForProject($id);
             if ($hasTimesheetItems) {
