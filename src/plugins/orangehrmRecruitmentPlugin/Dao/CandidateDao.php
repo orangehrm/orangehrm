@@ -155,6 +155,21 @@ class CandidateDao extends BaseDao
     }
 
     /**
+     * @param int[] $ids
+     * @return int[]
+     */
+    public function getExistingCandidateIds(array $ids): array
+    {
+        $qb = $this->createQueryBuilder(Candidate::class, 'candidate');
+
+        $qb->select('candidate.id')
+            ->andWhere($qb->expr()->in('candidate.id', ':ids'))
+            ->setParameter('ids', $ids);
+
+        return $qb->getQuery()->getSingleColumnResult();
+    }
+
+    /**
      * @param int $candidateId
      * @return CandidateVacancy|null
      */

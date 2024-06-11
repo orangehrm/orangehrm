@@ -135,6 +135,21 @@ class VacancyDao extends BaseDao
     }
 
     /**
+     * @param int[] $ids
+     * @return int[]
+     */
+    public function getExistingVacancyIds(array $ids): array
+    {
+        $qb = $this->createQueryBuilder(Vacancy::class, 'vacancy');
+
+        $qb->select('vacancy.id')
+            ->andWhere($qb->expr()->in('vacancy.id', ':ids'))
+            ->setParameter('ids', $ids);
+
+        return $qb->getQuery()->getSingleColumnResult();
+    }
+
+    /**
      * @param array $toBeDeletedVacancyIds
      * @return bool
      */

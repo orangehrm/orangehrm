@@ -231,17 +231,19 @@ class VacancyAttachmentAPI extends Endpoint implements CrudEndpoint
      *     summary="Delete Vacancy Attachments",
      *     operationId="delete-vacancy-attachments",
      *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),
-     *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse")
+     *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse"),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
      * )
      *
      * @inheritDoc
      */
     public function delete(): EndpointResult
     {
-        $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
-        $this->getRecruitmentAttachmentService()
-            ->getRecruitmentAttachmentDao()
-            ->deleteVacancyAttachments($ids);
+        $ids = $this->getRecruitmentAttachmentService()->getRecruitmentAttachmentDao()->getExistingVacancyAttachmentIds(
+            $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS)
+        );
+        $this->throwRecordNotFoundExceptionIfEmptyIds($ids);
+        $this->getRecruitmentAttachmentService()->getRecruitmentAttachmentDao()->deleteVacancyAttachments($ids);
         return new EndpointResourceResult(ArrayModel::class, $ids);
     }
 
