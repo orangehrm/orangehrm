@@ -64,8 +64,12 @@ class EntityUniqueProperty extends AbstractRule
         // Match all entities that have these values
         if ($this->option->hasMatchValues()) {
             foreach ($this->option->getMatchValues() as $property => $value) {
-                $qb->andWhere($qb->expr()->eq('entity.' . $property, ':' . $property . '_value'))
-                    ->setParameter($property . '_value', $value);
+                if (is_null($value)) {
+                    $qb->andWhere($qb->expr()->isNull('entity.' . $property));
+                } else {
+                    $qb->andWhere($qb->expr()->eq('entity.' . $property, ':' . $property . '_value'))
+                        ->setParameter($property . '_value', $value);
+                }
             }
         }
 
