@@ -281,7 +281,7 @@ class EmployeeMembershipAPI extends Endpoint implements CrudEndpoint
                 new ParamRule(
                     self::PARAMETER_SUBSCRIPTION_FEE,
                     new Rule(Rules::NOT_EMPTY),
-                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::NUMBER),
                     new Rule(Rules::BETWEEN, [0, 1000000000]),
                 ),
             ),
