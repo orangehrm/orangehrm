@@ -36,6 +36,7 @@ use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Api\V2\Validator\Rules\EntityUniquePropertyOption;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
+use OrangeHRM\Entity\EmailNotification;
 use OrangeHRM\Entity\EmailSubscriber;
 
 class EmailSubscriberAPI extends Endpoint implements CrudEndpoint
@@ -47,6 +48,13 @@ class EmailSubscriberAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_SUBSCRIBER_EMAIL = 'email';
 
     public const PARAM_RULE_STRING_MAX_LENGTH = 100;
+    public const PARAM_RULE_EMAIL_SUBSCRIPTION_ID_MAP = [
+        EmailNotification::LEAVE_APPLICATION,
+        EmailNotification::LEAVE_ASSIGNMENT,
+        EmailNotification::LEAVE_APPROVAL,
+        EmailNotification::LEAVE_CANCELLATION,
+        EmailNotification::LEAVE_REJECTION
+    ];
 
     /**
      * @var EmailSubscriberService|null
@@ -137,7 +145,8 @@ class EmailSubscriberAPI extends Endpoint implements CrudEndpoint
         return new ParamRuleCollection(
             new ParamRule(
                 self::PARAMETER_EMAIL_SUBSCRIPTION_ID,
-                new Rule(Rules::POSITIVE)
+                new Rule(Rules::POSITIVE),
+                new Rule(Rules::IN, [self::PARAM_RULE_EMAIL_SUBSCRIPTION_ID_MAP])
             ),
             ...$this->getSortingAndPaginationParamsRules(EmailSubscriberSearchFilterParams::ALLOWED_SORT_FIELDS)
         );
@@ -254,7 +263,8 @@ class EmailSubscriberAPI extends Endpoint implements CrudEndpoint
             $this->getValidationDecorator()->requiredParamRule(
                 new ParamRule(
                     self::PARAMETER_EMAIL_SUBSCRIPTION_ID,
-                    new Rule(Rules::POSITIVE)
+                    new Rule(Rules::POSITIVE),
+                    new Rule(Rules::IN, [self::PARAM_RULE_EMAIL_SUBSCRIPTION_ID_MAP])
                 ),
             ),
             new ParamRule(
@@ -327,7 +337,8 @@ class EmailSubscriberAPI extends Endpoint implements CrudEndpoint
             ),
             new ParamRule(
                 self::PARAMETER_EMAIL_SUBSCRIPTION_ID,
-                new Rule(Rules::POSITIVE)
+                new Rule(Rules::POSITIVE),
+                new Rule(Rules::IN, [self::PARAM_RULE_EMAIL_SUBSCRIPTION_ID_MAP])
             ),
         );
     }
@@ -424,7 +435,8 @@ class EmailSubscriberAPI extends Endpoint implements CrudEndpoint
             $this->getValidationDecorator()->requiredParamRule(
                 new ParamRule(
                     self::PARAMETER_EMAIL_SUBSCRIPTION_ID,
-                    new Rule(Rules::POSITIVE)
+                    new Rule(Rules::POSITIVE),
+                    new Rule(Rules::IN, [self::PARAM_RULE_EMAIL_SUBSCRIPTION_ID_MAP])
                 ),
             ),
             $this->getValidationDecorator()->requiredParamRule(
