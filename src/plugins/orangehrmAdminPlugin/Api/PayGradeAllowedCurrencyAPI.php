@@ -19,6 +19,7 @@
 namespace OrangeHRM\Admin\Api;
 
 use OrangeHRM\Admin\Api\Model\CurrencyTypeModel;
+use OrangeHRM\Admin\Dto\AllowedPayGradeCurrencySearchFilterParams;
 use OrangeHRM\Admin\Dto\PayGradeCurrencySearchFilterParams;
 use OrangeHRM\Admin\Traits\Service\PayGradeServiceTrait;
 use OrangeHRM\Core\Api\CommonParams;
@@ -78,9 +79,8 @@ class PayGradeAllowedCurrencyAPI extends Endpoint implements CollectionEndpoint
     public function getAll(): EndpointResult
     {
         $payGradeId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, PayGradeCurrencySearchFilterParams::PARAMETER_PAY_GRADE_ID);
-        $payGradeCurrencySearchFilterParams = new PayGradeCurrencySearchFilterParams();
+        $payGradeCurrencySearchFilterParams = new AllowedPayGradeCurrencySearchFilterParams();
         $this->setSortingAndPaginationParams($payGradeCurrencySearchFilterParams);
-        $payGradeCurrencySearchFilterParams->setSortField('ct.id');
         $payGradeCurrencySearchFilterParams->setPayGradeId($payGradeId);
         $allowedCurrencies = $this->getPayGradeService()->getAllowedPayCurrencies($payGradeCurrencySearchFilterParams);
         $count = $this->getPayGradeService()->getAllowedPayCurrenciesCount($payGradeCurrencySearchFilterParams);
@@ -104,7 +104,7 @@ class PayGradeAllowedCurrencyAPI extends Endpoint implements CollectionEndpoint
                 PayGradeCurrencySearchFilterParams::PARAMETER_PAY_GRADE_ID,
                 new Rule(Rules::POSITIVE)
             ),
-            ...$this->getSortingAndPaginationParamsRules(PayGradeCurrencySearchFilterParams::ALLOWED_SORT_FIELDS)
+            ...$this->getSortingAndPaginationParamsRules(AllowedPayGradeCurrencySearchFilterParams::ALLOWED_SORT_FIELDS)
         );
     }
 
