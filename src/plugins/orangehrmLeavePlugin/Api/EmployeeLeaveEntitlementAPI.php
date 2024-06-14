@@ -320,7 +320,12 @@ class EmployeeLeaveEntitlementAPI extends Endpoint implements CrudEndpoint
      */
     private function getLeaveTypeIdRule(): ParamRule
     {
-        return new ParamRule(LeaveCommonParams::PARAMETER_LEAVE_TYPE_ID, new Rule(LeaveTypeIdRule::class));
+        return new ParamRule(
+            LeaveCommonParams::PARAMETER_LEAVE_TYPE_ID,
+            new Rule(Rules::INT_VAL),
+            new Rule(Rules::POSITIVE),
+            new Rule(LeaveTypeIdRule::class)
+        );
     }
 
     /**
