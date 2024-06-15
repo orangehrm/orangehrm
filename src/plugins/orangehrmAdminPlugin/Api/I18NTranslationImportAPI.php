@@ -96,7 +96,7 @@ class I18NTranslationImportAPI extends Endpoint implements CollectionEndpoint
      *             @OA\Property(property="meta",
      *                 type="object",
      *                 @OA\Property(property="xliffLanguageStringValidations", description="The language strings that failed to import", type="array"),
-     *                 @OA\Property(property="xliffFileValidations", description="The XLIFF language file validation")
+     *                 @OA\Property(property="xliffFileValidations", description="The XLIFF language file validation"),
      *                 @OA\Property(property="successXliffLanguageStrings", description="The language strings that succeeded to import", type="array")
      *             )
      *         )
