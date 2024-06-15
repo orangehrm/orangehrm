@@ -191,15 +191,14 @@ class LocalizationServiceTest extends KernelTestCase
         $this->assertCount(2, $result['file']['group'][1]['unit'][1]);
     }
 
-    public function testValidateXliffFileEmptyContent(): void
+    public function testValidateXliffFile(): void
     {
+        //test validate Xliff file with empty content
         $result = $this->localizationService->validateXliffFile('');
         $this->assertSame(['file' => null, 'isValid' => true, 'messages' => []], $result);
-    }
 
-    public function testValidateXliffFileWithValidContent(): void
-    {
-        $content = '<?xml version="1.0" encoding="UTF-8"?>
+        //test validate Xliff file with valid content
+        $validContent = '<?xml version="1.0" encoding="UTF-8"?>
                     <xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" version="2.0" srcLang="en_US" trgLang="en_US">
                       <file id="1">
                         <group id="general">
@@ -220,15 +219,13 @@ class LocalizationServiceTest extends KernelTestCase
                     </xliff>';
         $file = 'i18n-en_US.xlf';
 
-        $result = $this->localizationService->validateXliffFile($content, $file);
+        $result = $this->localizationService->validateXliffFile($validContent, $file);
 
         $this->assertTrue($result['isValid']);
         $this->assertEmpty($result['messages']);
-    }
 
-    public function testValidateXliffFileWithInValidContent(): void
-    {
-        $content = '<?xml version="1.0" encoding="UTF-8"?>
+        //test validate Xliff file with invalid content
+        $invalidContent = '<?xml version="1.0" encoding="UTF-8"?>
                     <xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" version="2.0" srcLang="en_US" trgLang="en_UX">
                       <file id="1">
                         <group id="general">
@@ -247,9 +244,8 @@ class LocalizationServiceTest extends KernelTestCase
                         </group>
                       </file>
                     </xliff>';
-        $file = 'i18n-en_US.xlf';
 
-        $result = $this->localizationService->validateXliffFile($content, $file);
+        $result = $this->localizationService->validateXliffFile($invalidContent, $file);
 
         $this->assertFalse($result['isValid']);
         $this->assertCount(1, $result['messages']);
@@ -257,10 +253,8 @@ class LocalizationServiceTest extends KernelTestCase
             'mismatch between the language included in the file name',
             $result['messages'][0]['message']
         );
-    }
 
-    public function testValidateXliffFileWithInvalidFilename(): void
-    {
+        //test validate Xliff file with invalid file name
         $content = '<?xml version="1.0" encoding="UTF-8"?>
                         <xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" version="2.0" srcLang="en_US" trgLang="fr">
                           <file id="1">
@@ -286,7 +280,6 @@ class LocalizationServiceTest extends KernelTestCase
                               </group>
                               </file>
                               </xliff>';
-        $file = 'i18n-en_US.xlf';
 
         $result = $this->localizationService->validateXliffFile($content, $file);
 
@@ -300,39 +293,44 @@ class LocalizationServiceTest extends KernelTestCase
 
     public function testValidateXliffLanguageStrings(): void
     {
-        $localizationService = new LocalizationService();
-
         // Test case with no errors
         $unitElement = [
             'unitId' => 1,
             'source' => 'This is a test {placeholder}.',
             'target' => 'This is a test {placeholder}.',
         ];
-        $result = $localizationService->validateXliffLanguageStrings($unitElement);
+        $result = $this->localizationService->validateXliffLanguageStrings($unitElement);
         $this->assertEmpty($result);
 
         // Test case with mismatched placeholders
         $unitElement['target'] = 'This is a test {placeholder1}.';
-        $result = $localizationService->validateXliffLanguageStrings($unitElement);
+        $result = $this->localizationService->validateXliffLanguageStrings($unitElement);
         $this->assertNotEmpty($result);
         $this->assertStringContainsString('Mismatch found between placeholders', $result['error']);
 
         // Test case with mismatched plural forms
         $unitElement['target'] = '{count} apple, plural';
-        $result = $localizationService->validateXliffLanguageStrings($unitElement);
+        $result = $this->localizationService->validateXliffLanguageStrings($unitElement);
         $this->assertNotEmpty($result);
         $this->assertStringContainsString('Mismatch found between plural forms', $result['error']);
 
         // Test case with mismatched select expressions
         $unitElement['target'] = '{gender, select, male {He} female {She} other {They}}';
-        $result = $localizationService->validateXliffLanguageStrings($unitElement);
+        $result = $this->localizationService->validateXliffLanguageStrings($unitElement);
         $this->assertNotEmpty($result);
         $this->assertStringContainsString('Mismatch found between select expressions', $result['error']);
 
         // Test case with invalid MessageFormatter pattern
         $unitElement['target'] = '{invalid_pattern}';
-        $result = $localizationService->validateXliffLanguageStrings($unitElement);
+        $result = $this->localizationService->validateXliffLanguageStrings($unitElement);
         $this->assertNotEmpty($result);
         $this->assertStringContainsString('Mismatch found between placeholders', $result['error']);
+    }
+
+    public function testGenerateCacheKey(): void
+    {
+        $result = $this->localizationService->generateCacheKey(4);
+        $this->assertNotEmpty($result);
+        $this->assertStringContainsString("admin.i18LanguageStringValidationErrors.4", $result);
     }
 }

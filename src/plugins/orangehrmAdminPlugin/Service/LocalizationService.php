@@ -373,7 +373,7 @@ class LocalizationService
             $unitErrors .= "Mismatch found between placeholders. Source: [" . implode(
                 ', ',
                 $capturedPlaceholdersSource
-            ) . "] & Target: [" . implode(', ', $capturedPlaceholdersTarget) . "]";
+            ) . "] & Target: [" . implode(', ', $capturedPlaceholdersTarget) . "]. ";
         }
 
         // Match plural forms between source and target strings
@@ -388,7 +388,7 @@ class LocalizationService
             $unitErrors .= "Mismatch found between plural forms. Source: [" . implode(
                 ', ',
                 $capturedPluralsSource
-            ) . "] & Target: [" . implode(', ', $capturedPluralsTarget) . "].";
+            ) . "] & Target: [" . implode(', ', $capturedPluralsTarget) . "]. ";
         }
 
         // Match select expressions between source and target strings
@@ -403,7 +403,7 @@ class LocalizationService
             $unitErrors .= "Mismatch found between select expressions. Source: [" . implode(
                 ', ',
                 $capturedSelectsSource
-            ) . "] & Target: [" . implode(', ', $capturedSelectsTarget) . "]";
+            ) . "] & Target: [" . implode(', ', $capturedSelectsTarget) . "]. ";
         }
 
         try {
@@ -416,6 +416,17 @@ class LocalizationService
         if (!empty($unitErrors)) {
             // Add a space after a full stop in error messages
             $unitErrors = preg_replace('/\.(?!\s|$)/', '. ', $unitErrors);
+
+            if (strpos(
+                $unitErrors,
+                'msgfmt_create: message formatter creation failed: U_ILLEGAL_ARGUMENT_ERROR'
+            ) !== false) {
+                $unitErrors = str_replace(
+                    'msgfmt_create: message formatter creation failed: U_ILLEGAL_ARGUMENT_ERROR',
+                    'Target language value is required.',
+                    $unitErrors
+                );
+            }
 
             $errors = [
                 'unitId' => $unitId,

@@ -95,8 +95,9 @@ class I18NTranslationImportAPI extends Endpoint implements CollectionEndpoint
      *             @OA\Property(property="data", type="array", @OA\Items()),
      *             @OA\Property(property="meta",
      *                 type="object",
-     *                 @OA\Property(property="xliffStringValidation", description="The language strings that failed to import", type="integer"),
-     *                 @OA\Property(property="xliffFileValidation", description="The language file that failed to import")
+     *                 @OA\Property(property="xliffLanguageStringValidations", description="The language strings that failed to import", type="array"),
+     *                 @OA\Property(property="xliffFileValidations", description="The XLIFF language file validation")
+     *                 @OA\Property(property="successXliffLanguageStrings", description="The language strings that succeeded to import", type="array")
      *             )
      *         )
      *     )
@@ -250,6 +251,22 @@ class I18NTranslationImportAPI extends Endpoint implements CollectionEndpoint
                     : $documentDataValues[] = $unitElement;
             }
 
+            $languageStringMap = [];
+            foreach ($languageStrings as $langString) {
+                $languageStringMap[$langString["unitId"]] = [
+                    'langStringId' => $langString["langStringId"],
+                    'note' => $langString["note"]
+                ];
+            }
+
+            foreach ($xliffSourceAndTargetValidationErrors as &$validation) {
+                if (isset($languageStringMap[$validation["unitId"]])) {
+                    $matchingData = $languageStringMap[$validation["unitId"]];
+                    $validation["langStringId"] = $matchingData["langStringId"];
+                    $validation["note"] = $matchingData["note"];
+                }
+            }
+
             json_encode($documentDataValues, JSON_PRETTY_PRINT);
 
             foreach ($languageStrings as $languageString) {
@@ -306,6 +323,7 @@ class I18NTranslationImportAPI extends Endpoint implements CollectionEndpoint
     {
         $i18NTranslationSearchFilterParams = new I18NTranslationSearchFilterParams();
         $i18NTranslationSearchFilterParams->setLanguageId($languageId);
+        $i18NTranslationSearchFilterParams->setLimit(0);
         return $this->getLocalizationService()->getLocalizationDao()->getNormalizedTranslationsForExport(
             $i18NTranslationSearchFilterParams
         );
