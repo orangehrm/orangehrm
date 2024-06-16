@@ -351,6 +351,10 @@ class EmployeeEducationAPI extends Endpoint implements CrudEndpoint
                 new ParamRule(
                     self::PARAMETER_END_DATE,
                     new Rule(Rules::API_DATE),
+                    new Rule(
+                        Rules::GREATER_THAN,
+                        [$this->getRequestParams()->getDateTimeOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_START_DATE)]
+                    )
                 ),
             ),
         ];

@@ -308,6 +308,10 @@ class EmployeeMembershipAPI extends Endpoint implements CrudEndpoint
                 new ParamRule(
                     self::PARAMETER_SUBSCRIPTION_RENEWAL_DATE,
                     new Rule(Rules::API_DATE),
+                    new Rule(
+                        Rules::GREATER_THAN,
+                        [$this->getRequestParams()->getDateTimeOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_SUBSCRIPTION_COMMENCE_DATE)]
+                    )
                 ),
             ),
         ];

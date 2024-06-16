@@ -36,6 +36,7 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Core\Api\V2\Validator\Rules\EntityUniquePropertyOption;
 use OrangeHRM\Entity\WorkShift;
 
 class WorkShiftAPI extends EndPoint implements CrudEndpoint
@@ -235,16 +236,36 @@ class WorkShiftAPI extends EndPoint implements CrudEndpoint
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
+            $this->getNameRule(),
+            new ParamRule(self::PARAMETER_HOURS_PER_DAY, new Rule(Rules::REQUIRED), new Rule(Rules::STRING_TYPE)),
+            new ParamRule(self::PARAMETER_START_TIME, new Rule(Rules::REQUIRED), new Rule(Rules::DATE_TIME)),
+            new ParamRule(
+                self::PARAMETER_END_TIME,
+                new Rule(Rules::REQUIRED),
+                new Rule(Rules::DATE_TIME),
+                new Rule(
+                    Rules::GREATER_THAN,
+                    [$this->getRequestParams()->getDateTime(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_START_TIME)]
+                )
+            ),
+            new ParamRule(self::PARAMETER_EMP_NUMBERS, new Rule(Rules::ARRAY_TYPE)),
+        );
+    }
+
+    /**
+     * @param EntityUniquePropertyOption|null $uniqueOption
+     * @return ParamRule
+     */
+    private function getNameRule(?EntityUniquePropertyOption $uniqueOption = null): ParamRule
+    {
+        return $this->getValidationDecorator()->requiredParamRule(
             new ParamRule(
                 self::PARAMETER_NAME,
                 new Rule(Rules::STRING_TYPE),
                 new Rule(Rules::REQUIRED),
-                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NAME_MAX_LENGTH])
-            ),
-            new ParamRule(self::PARAMETER_HOURS_PER_DAY, new Rule(Rules::REQUIRED), new Rule(Rules::STRING_TYPE)),
-            new ParamRule(self::PARAMETER_START_TIME, new Rule(Rules::REQUIRED), new Rule(Rules::DATE_TIME)),
-            new ParamRule(self::PARAMETER_END_TIME, new Rule(Rules::REQUIRED), new Rule(Rules::DATE_TIME)),
-            new ParamRule(self::PARAMETER_EMP_NUMBERS, new Rule(Rules::ARRAY_TYPE)),
+                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NAME_MAX_LENGTH]),
+                new Rule(Rules::ENTITY_UNIQUE_PROPERTY, [WorkShift::class, 'name', $uniqueOption])
+            )
         );
     }
 
@@ -346,17 +367,23 @@ class WorkShiftAPI extends EndPoint implements CrudEndpoint
      */
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
+        $uniqueOption = new EntityUniquePropertyOption();
+        $uniqueOption->setIgnoreId($this->getAttributeId());
+
         return new ParamRuleCollection(
             new ParamRule(CommonParams::PARAMETER_ID, new Rule(Rules::POSITIVE)),
-            new ParamRule(
-                self::PARAMETER_NAME,
-                new Rule(Rules::STRING_TYPE),
-                new Rule(Rules::REQUIRED),
-                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NAME_MAX_LENGTH])
-            ),
+            $this->getNameRule($uniqueOption),
             new ParamRule(self::PARAMETER_HOURS_PER_DAY, new Rule(Rules::REQUIRED), new Rule(Rules::STRING_TYPE)),
             new ParamRule(self::PARAMETER_START_TIME, new Rule(Rules::REQUIRED), new Rule(Rules::DATE_TIME)),
-            new ParamRule(self::PARAMETER_END_TIME, new Rule(Rules::REQUIRED), new Rule(Rules::DATE_TIME)),
+            new ParamRule(
+                self::PARAMETER_END_TIME,
+                new Rule(Rules::REQUIRED),
+                new Rule(Rules::DATE_TIME),
+                new Rule(
+                    Rules::GREATER_THAN,
+                    [$this->getRequestParams()->getDateTime(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_START_TIME)]
+                )
+            ),
             new ParamRule(self::PARAMETER_EMP_NUMBERS, new Rule(Rules::ARRAY_TYPE)),
         );
     }
