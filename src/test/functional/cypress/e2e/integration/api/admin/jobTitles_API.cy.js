@@ -55,10 +55,11 @@ describe('Admin - Job Title API', function () {
         description: this.strings.chars120.text,
         specification: null,
         note: this.strings.chars120.text,
-      }).then((response) => {
+      })
+        .then((response) => {
           expect(response.status).to.eq(200);
           return cy.request('DELETE', jobTitlesApi, {
-            ids: response.body.data.map((item) => item.id),
+            ids: [response.body.data.id],
           });
         })
         .then((response) => {
