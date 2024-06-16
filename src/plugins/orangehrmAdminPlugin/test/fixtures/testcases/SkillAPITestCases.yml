@@ -415,4 +415,6 @@ Delete:
     userId: 1
     body:
       ids: [ 1000 ]
-    data: [ 1000 ]
+    exception:
+      class: \OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException
+      message: Records Not Found

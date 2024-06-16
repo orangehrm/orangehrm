@@ -282,7 +282,7 @@ Delete:
       admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
     body:
       ids: [ 1, 24, 2 ]
-    data: [ 1, 24, 2 ]
+    data: [ 1, 2 ]
 
   delete successful - single entry:
     userId: 1
@@ -298,7 +298,9 @@ Delete:
       admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
     body:
       ids: [ 25 ]
-    data: [ 25 ]
+    exception:
+      class: \OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException
+      message: Records Not Found
 
   delete all:
     userId: 1
@@ -314,7 +316,9 @@ Delete:
       admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
     body:
       ids: [ ]
-    data: [ ]
+    exception:
+      class: \OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException
+      message: Records Not Found
 
   ids missing:
     userId: 1

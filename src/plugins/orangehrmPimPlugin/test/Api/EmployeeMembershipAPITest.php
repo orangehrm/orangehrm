@@ -210,7 +210,7 @@ class EmployeeMembershipAPITest extends EndpointTestCase
         $employeeMembership->setMembership($membership);
         $employeeMembership->setEmployee($employee);
 
-        $employeeMembershipDao->expects($this->exactly(1))
+        $employeeMembershipDao->expects($this->exactly(0))
             ->method('deleteEmployeeMemberships')
             ->with(1, [1])
             ->willReturn(1);
@@ -238,17 +238,8 @@ class EmployeeMembershipAPITest extends EndpointTestCase
             ->method('getEmployeeMembershipService')
             ->will($this->returnValue($employeeMembershipService));
 
+        $this->expectRecordNotFoundException();
         $result = $api->delete();
-        $this->assertEquals(
-            [1],
-            $result->normalize()
-        );
-        $this->assertEquals(
-            [
-                "empNumber" => 1,
-            ],
-            $result->getMeta()->all()
-        );
     }
 
     public function testGetValidationRuleForDelete(): void

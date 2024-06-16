@@ -23,12 +23,13 @@ use OrangeHRM\Core\Api\V2\Exception\BadRequestException;
 use OrangeHRM\Core\Report\Api\EndpointAwareReport;
 use OrangeHRM\Leave\Report\EmployeeLeaveEntitlementUsageReport;
 use OrangeHRM\Leave\Report\LeaveTypeLeaveEntitlementUsageReport;
+use OrangeHRM\Leave\Report\MyLeaveEntitlementUsageReport;
 
 class LeaveReportAPI extends ReportAPI
 {
     public const LEAVE_REPORT_MAP = [
         'employee_leave_entitlements_and_usage' => EmployeeLeaveEntitlementUsageReport::class,
-        'my_leave_entitlements_and_usage' => EmployeeLeaveEntitlementUsageReport::class,
+        'my_leave_entitlements_and_usage' => MyLeaveEntitlementUsageReport::class,
         'leave_type_leave_entitlements_and_usage' => LeaveTypeLeaveEntitlementUsageReport::class,
     ];
 

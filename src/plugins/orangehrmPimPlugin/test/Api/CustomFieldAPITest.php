@@ -318,13 +318,9 @@ class CustomFieldAPITest extends EndpointTestCase
             ->onlyMethods(['getCustomFieldDao','getAllFieldsInUse'])
             ->getMock();
 
-        $customFieldService->expects($this->exactly(0))
+        $customFieldService->expects($this->exactly(1))
             ->method('getCustomFieldDao')
             ->willReturn($customFieldDao);
-
-        $customFieldService->expects($this->exactly(1))
-            ->method('getAllFieldsInUse')
-            ->willReturn([1,5]);
 
         /** @var MockObject&CustomFieldAPI $api */
         $api = $this->getApiEndpointMockBuilder(
@@ -340,7 +336,7 @@ class CustomFieldAPITest extends EndpointTestCase
         $api->expects($this->exactly(1))
             ->method('getCustomFieldService')
             ->will($this->returnValue($customFieldService));
-        $this->expectBadRequestException();
+        $this->expectRecordNotFoundException();
         $result = $api->delete();
     }
 
@@ -358,9 +354,6 @@ class CustomFieldAPITest extends EndpointTestCase
             ->method('getCustomFieldDao')
             ->willReturn($customFieldDao);
 
-        $customFieldService->expects($this->exactly(1))
-            ->method('getAllFieldsInUse')
-            ->willReturn([1,5]);
 
         /** @var MockObject&CustomFieldAPI $api */
         $api = $this->getApiEndpointMockBuilder(
@@ -373,17 +366,12 @@ class CustomFieldAPITest extends EndpointTestCase
             ]
         )->onlyMethods(['getCustomFieldService'])
             ->getMock();
-        $api->expects($this->exactly(2))
+        $api->expects($this->exactly(1))
             ->method('getCustomFieldService')
             ->will($this->returnValue($customFieldService));
 
+        $this->expectRecordNotFoundException();
         $result = $api->delete();
-        $this->assertEquals(
-            [
-                2
-            ],
-            $result->normalize()
-        );
     }
 
     public function testGetValidationRuleForDelete(): void

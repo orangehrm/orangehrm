@@ -176,9 +176,9 @@ class PayGradeDao extends BaseDao
     {
         $qb = $this->createQueryBuilder(PayGradeCurrency::class, 'payGradeCurrency');
 
-        $qb->select('payGradeCurrency.id')
-            ->andWhere($qb->expr()->in('payGradeCurrency.id', ':ids'))
-            ->andWhere($qb->expr()->eq('payGrade.id', ':payGradeId'))
+        $qb->select('payGradeCurrency.currencyId')
+            ->andWhere($qb->expr()->in('payGradeCurrency.currencyId', ':ids'))
+            ->andWhere($qb->expr()->eq('payGradeCurrency.payGradeId', ':payGradeId'))
             ->setParameter('ids', $ids)
             ->setParameter('payGradeId', $payGradeId);
 

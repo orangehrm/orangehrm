@@ -195,7 +195,7 @@ class EmployeeImmigrationRecordAPITest extends EndpointTestCase
         $immigrationRecord->setReviewDate(new DateTime('2021-12-30'));
         $immigrationRecord->setCountryCode('LK');
 
-        $employeeImmigrationRecordDao->expects($this->exactly(1))
+        $employeeImmigrationRecordDao->expects($this->exactly(0))
             ->method('deleteEmployeeImmigrationRecords')
             ->with(1, [1])
             ->willReturn(1);
@@ -223,17 +223,8 @@ class EmployeeImmigrationRecordAPITest extends EndpointTestCase
             ->method('getEmployeeImmigrationRecordService')
             ->will($this->returnValue($employeeImmigrationRecordService));
 
+        $this->expectRecordNotFoundException();
         $result = $api->delete();
-        $this->assertEquals(
-            [1],
-            $result->normalize()
-        );
-        $this->assertEquals(
-            [
-                "empNumber" => 1,
-            ],
-            $result->getMeta()->all()
-        );
     }
 
     public function testGetValidationRuleForDelete(): void

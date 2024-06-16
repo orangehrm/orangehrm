@@ -235,7 +235,6 @@ class EmployeeDao extends BaseDao
         $qb->select('employee.empNumber')
             ->andWhere($qb->expr()->in('employee.empNumber', ':ids'))
             ->andWhere($qb->expr()->isNull('employee.purgedAt'))
-            ->andWhere($qb->expr()->isNull('employee.employeeTerminationRecord'))
             ->setParameter(':ids', $ids);
 
         return $qb->getQuery()->getSingleColumnResult();

@@ -401,7 +401,7 @@ Delete:
       payGradeId: 1
     body:
       ids: [ AUD, USD, LKR ]
-    data: [ AUD, USD, LKR ]
+    data: [ AUD, USD ]
     meta:
       payGradeId: 1
 
@@ -413,9 +413,9 @@ Delete:
       payGradeId: 1
     body:
       ids: [ ]
-    data: [ ]
-    meta:
-      payGradeId: 1
+    exception:
+      class: \OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException
+      message: Records Not Found
 
   delete successful - with non existing payGradeId:
     userId: 1
@@ -425,6 +425,6 @@ Delete:
       payGradeId: 100
     body:
       ids: [ LKR ]
-    data: [ LKR ]
-    meta:
-      payGradeId: 100
+    exception:
+      class: \OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException
+      message: Records Not Found

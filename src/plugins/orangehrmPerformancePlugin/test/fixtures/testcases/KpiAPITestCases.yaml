@@ -1395,11 +1395,11 @@ Delete:
     userId: 1
     services:
       performance.kpi_service: \OrangeHRM\Performance\Service\KpiService
-    now:
-      datetime: '2022-02-03 02:16:18'
     body:
       ids: [ ]
-    data: [ ]
+    exception:
+      class: \OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException
+      message: Records Not Found
 
   'with one id':
     userId: 1
@@ -1411,15 +1411,15 @@ Delete:
       ids: [ 6 ]
     data: [ 6 ]
 
-  'with multiple ids':
+  'with multiple ids (7 is already deleted)':
     userId: 1
     services:
       performance.kpi_service: \OrangeHRM\Performance\Service\KpiService
     now:
       datetime: '2022-02-03 02:16:18'
     body:
-      ids: [ 6, 7 ]
-    data: [ 6, 7 ]
+      ids: [ 6, 7, 8 ]
+    data: [ 6, 8 ]
 
   'without int array':
     userId: 1
