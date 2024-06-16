@@ -213,7 +213,7 @@ class LeaveTypeAPITest extends EndpointTestCase
             ->onlyMethods(['deleteLeaveType'])
             ->getMock();
 
-        $leaveTypeDao->expects($this->exactly(1))
+        $leaveTypeDao->expects($this->exactly(0))
             ->method('deleteLeaveType')
             ->with([1])
             ->willReturn(1);
@@ -222,7 +222,7 @@ class LeaveTypeAPITest extends EndpointTestCase
             ->onlyMethods(['getLeaveTypeDao'])
             ->getMock();
 
-        $leaveTypeService->expects($this->exactly(1))
+        $leaveTypeService->expects($this->exactly(0))
             ->method('getLeaveTypeDao')
             ->willReturn($leaveTypeDao);
 
@@ -236,17 +236,9 @@ class LeaveTypeAPITest extends EndpointTestCase
             ]
         )->onlyMethods(['getLeaveTypeService'])
             ->getMock();
-        $api->expects($this->exactly(1))
-            ->method('getLeaveTypeService')
-            ->will($this->returnValue($leaveTypeService));
 
+        $this->expectRecordNotFoundException();
         $result = $api->delete();
-        $this->assertEquals(
-            [
-                1
-            ],
-            $result->normalize()
-        );
     }
 
     public function testGetValidationRuleForDelete(): void

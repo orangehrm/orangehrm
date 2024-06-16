@@ -102,18 +102,16 @@ class TerminationReasonConfigurationAPITest extends EndpointTestCase
             ->onlyMethods(['deleteTerminationReasons'])
             ->getMock();
 
-        $terminationReason = new TerminationReason();
-        $terminationReason->setId(1);
-        $terminationReason->setName('Resigned');
-
-        $terminationReasonDao->expects($this->exactly(1))
+        $terminationReasonDao->expects($this->exactly(0))
             ->method('deleteTerminationReasons')
             ->with([1])
             ->willReturn(1);
+
         $terminationReasonService = $this->getMockBuilder(TerminationReasonConfigurationService::class)
             ->onlyMethods(['getTerminationReasonDao'])
             ->getMock();
-        $terminationReasonService->expects($this->exactly(1))
+
+        $terminationReasonService->expects($this->exactly(0))
             ->method('getTerminationReasonDao')
             ->willReturn($terminationReasonDao);
 
@@ -121,24 +119,15 @@ class TerminationReasonConfigurationAPITest extends EndpointTestCase
         $api = $this->getApiEndpointMockBuilder(
             TerminationReasonConfigurationAPI::class,
             [
-
                 RequestParams::PARAM_TYPE_BODY => [
                     CommonParams::PARAMETER_IDS => [1],
                 ]
             ]
         )->onlyMethods(['getTerminationReasonConfigurationService'])
             ->getMock();
-        $api->expects($this->exactly(1))
-            ->method('getTerminationReasonConfigurationService')
-            ->will($this->returnValue($terminationReasonService));
 
+        $this->expectRecordNotFoundException();
         $result = $api->delete();
-        $this->assertEquals(
-            [
-                1
-            ],
-            $result->normalize()
-        );
     }
 
     public function testGetValidationRuleForDelete(): void
