@@ -108,6 +108,7 @@ import {
   required,
   validSelection,
   validDateFormat,
+  shouldNotExceedCharLength,
 } from '@/core/util/validation/rules';
 import {
   freshDate,
@@ -177,7 +178,7 @@ export default {
 
     const rules = {
       date: [required, validDateFormat(userDateFormat)],
-      employee: [validSelection],
+      employee: [shouldNotExceedCharLength(100), validSelection],
     };
 
     const attendanceRecordNormalizer = (data) => {

@@ -101,7 +101,10 @@ import useLocale from '@/core/util/composable/useLocale';
 import usei18n from '@/core/util/composable/usei18n';
 import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
 import IncludeEmployeeDropdown from '@/core/components/dropdown/IncludeEmployeeDropdown';
-import {validSelection} from '@/core/util/validation/rules';
+import {
+  shouldNotExceedCharLength,
+  validSelection,
+} from '@/core/util/validation/rules';
 
 const defaultFilters = {
   empName: null,
@@ -246,7 +249,7 @@ export default {
         },
       ],
       rules: {
-        employee: [validSelection],
+        employee: [shouldNotExceedCharLength(100), validSelection],
       },
     };
   },

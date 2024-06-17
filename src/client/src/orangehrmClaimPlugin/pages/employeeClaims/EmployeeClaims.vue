@@ -133,7 +133,10 @@ import usePaginate from '@ohrm/core/util/composable/usePaginate';
 import ReferenceIdAutocomplete from '@/orangehrmClaimPlugin/components/ReferenceIdAutocomplete.vue';
 import ClaimEventDropdown from '@/orangehrmClaimPlugin/components/ClaimEventDropdown.vue';
 import StatusDropdown from '@/orangehrmClaimPlugin/components/StatusDropdown.vue';
-import {validDateFormat} from '@/core/util/validation/rules';
+import {
+  shouldNotExceedCharLength,
+  validDateFormat,
+} from '@/core/util/validation/rules';
 import useDateFormat from '@/core/util/composable/useDateFormat';
 import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete.vue';
 import useEmployeeNameTranslate from '@/core/util/composable/useEmployeeNameTranslate';
@@ -364,7 +367,7 @@ export default {
             {allowSameDate: true},
           ),
         ],
-        employee: [validSelection],
+        employee: [shouldNotExceedCharLength(100), validSelection],
       },
     };
   },

@@ -75,7 +75,11 @@
 
 <script>
 import ReportToEmployeeAutocomplete from '@/orangehrmPimPlugin/components/ReportToEmployeeAutocomplete';
-import {required, validSelection} from '@ohrm/core/util/validation/rules';
+import {
+  required,
+  shouldNotExceedCharLength,
+  validSelection,
+} from '@ohrm/core/util/validation/rules';
 
 const reportToModel = {
   employee: null,
@@ -122,7 +126,7 @@ export default {
       isLoading: false,
       reportTo: {...reportToModel},
       rules: {
-        employee: [required, validSelection],
+        employee: [required, shouldNotExceedCharLength(100), validSelection],
         reportingMethod: [required],
       },
     };

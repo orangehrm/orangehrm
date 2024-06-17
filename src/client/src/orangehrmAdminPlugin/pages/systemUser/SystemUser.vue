@@ -119,7 +119,10 @@ import {navigate} from '@ohrm/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
 import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
 import useSort from '@ohrm/core/util/composable/useSort';
-import {validSelection} from '@/core/util/validation/rules';
+import {
+  shouldNotExceedCharLength,
+  validSelection,
+} from '@/core/util/validation/rules';
 import useEmployeeNameTranslate from '@/core/util/composable/useEmployeeNameTranslate';
 import usei18n from '@/core/util/composable/usei18n';
 
@@ -282,7 +285,7 @@ export default {
       ],
       checkedItems: [],
       rules: {
-        employee: [validSelection],
+        employee: [shouldNotExceedCharLength(100), validSelection],
       },
     };
   },
