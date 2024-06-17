@@ -1,0 +1,253 @@
+GetAll:
+  without query params:
+    userId: 1
+    data: [
+      {
+        id: 3,
+        name: Contract Not Renewed
+      },
+      {
+        id: 7,
+        name: Deceased
+      },
+      {
+        id: 10,
+        name: Dismissed
+      },
+      {
+        id: 9,
+        name: Laid-off
+      },
+      {
+        id: 1,
+        name: Other
+      },
+      {
+        id: 8,
+        name: Physically Disabled/Compensated
+      },
+      {
+        id: 6,
+        name: Resigned
+      },
+      {
+        id: 4,
+        name: Resigned - Company Requested
+      },
+      {
+        id: 5,
+        name: Resigned - Self Proposed
+      },
+      {
+        id: 2,
+        name: Retired
+      }      
+    ]
+    meta:
+      total: 10
+
+  with limit and offset:
+    userId: 1
+    query:
+      limit: 2
+      offset: 2
+    data: [
+      {
+        id: 10,
+        name: Dismissed
+      },
+      {
+        id: 9,
+        name: Laid-off
+      }
+    ]
+    meta:
+      total: 10
+
+  sort in DESC:
+    userId: 1
+    query:
+      sortField: tr.name
+      sortOrder: DESC
+    data: [
+      {
+        id: 2,
+        name: Retired
+      },
+      {
+        id: 5,
+        name: Resigned - Self Proposed
+      },
+      {
+        id: 4,
+        name: Resigned - Company Requested
+      },
+      {
+        id: 6,
+        name: Resigned
+      },
+      {
+        id: 8,
+        name: Physically Disabled/Compensated
+      },
+      {
+        id: 1,
+        name: Other
+      },
+      {
+        id: 9,
+        name: Laid-off
+      },
+      {
+        id: 10,
+        name: Dismissed
+      },
+      {
+        id: 7,
+        name: Deceased
+      },
+      {
+        id: 3,
+        name: Contract Not Renewed
+      }
+    ]
+    meta:
+      total: 10
+
+GetOne:
+  get one existing id:
+    userId: 1
+    attributes:
+      id: 5
+    data: {
+      id: 5,
+      name: Resigned - Self Proposed
+    }
+
+  get one non existent id:
+    userId: 1
+    attributes:
+      id: 15
+    exception:
+      class: \OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException
+      message: Record Not Found
+
+Create:
+  create new reason:
+    userId: 1
+    body:
+      name: New Reason
+    data: {
+      id: 11,
+      name: New Reason
+    }
+
+  create new reason with existing name:
+    userId: 1
+    body:
+      name: Resigned
+    invalidOnly: [ name ]
+
+  create new reason with name exceeding 100 chars:
+    userId: 1
+    body:
+      name: Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean ma
+    invalidOnly: [ name ]
+
+  create new reason without body:
+    userId: 1
+    invalidOnly: [ name ]
+
+  create new reason with empty name:
+    userId: 1
+    body:
+      name: ""
+    invalidOnly: [ name ]
+
+Update:
+  update existing reason with new name:
+    userId: 1
+    attributes:
+      id: 5
+    body:
+      name: New Reason
+    data: {
+      id: 5,
+      name: New Reason
+    }
+
+  update existing reason with the same name:
+    userId: 1
+    attributes:
+      id: 6
+    body:
+      name: Resigned
+    data: {
+      id: 6,
+      name: Resigned
+    }
+
+  update non existing reason:
+    userId: 1
+    attributes:
+      id: 100
+    body:
+      name: New Reason
+    exception:
+      class: \OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException
+      message: Record Not Found
+
+  update existing reason with a different pre-existing name:
+    userId: 1
+    attributes:
+      id: 6
+    body:
+      name: Dismissed
+    invalidOnly: [ name ]
+
+  update existing reason with empty name:
+    userId: 1
+    attributes:
+      id: 6
+    body:
+      name: ""
+    invalidOnly: [ name ]
+
+  update existing reason without body:
+    userId: 1
+    attributes:
+      id: 6
+    invalidOnly: [ name ]
+
+Delete:
+  delete one reason:
+    userId: 1
+    body:
+      ids: [ 1 ]
+    data: [ 1 ]
+
+  delete multiple reasons:
+    userId: 1
+    body:
+      ids: [ 1, 2, 3 ]
+    data: [ 1, 2, 3 ]
+
+  delete multiple reasons with invalid ids:
+    userId: 1
+    body:
+      ids: [ 1, 2, 3, 500 ]
+    data: [ 1, 2, 3 ]
+
+  delete non existent ids:
+    userId: 1
+    body:
+      ids: [ 50, 100, 150 ]
+    exception:
+      class: \OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException
+      message: Records Not Found
+
+  delete all reasons:
+    userId: 1
+    body:
+      ids: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
+    data: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]

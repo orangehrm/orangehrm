@@ -18,344 +18,99 @@
 
 namespace OrangeHRM\Tests\Pim\Api;
 
+use OrangeHRM\Framework\Services;
 use OrangeHRM\Pim\Api\TerminationReasonConfigurationAPI;
-use OrangeHRM\Pim\Dao\TerminationReasonConfigurationDao;
-use OrangeHRM\Pim\Service\TerminationReasonConfigurationService;
-use OrangeHRM\Core\Api\CommonParams;
-use OrangeHRM\Core\Api\V2\RequestParams;
-use OrangeHRM\Entity\TerminationReason;
-use OrangeHRM\Tests\Util\EndpointTestCase;
-use OrangeHRM\Tests\Util\MockObject;
+use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
+use OrangeHRM\Tests\Util\Integration\TestCaseParams;
 
 /**
  * @group Pim
  * @group APIv2
  */
-class TerminationReasonConfigurationAPITest extends EndpointTestCase
+class TerminationReasonConfigurationAPITest extends EndpointIntegrationTestCase
 {
-    public function testGetTerminationReasonConfigurationService(): void
+    protected function setUp(): void
     {
-        $api = new TerminationReasonConfigurationAPI($this->getRequest());
-        $this->assertTrue($api->getTerminationReasonConfigurationService() instanceof TerminationReasonConfigurationService);
+        $this->populateFixtures('TerminationReasonConfigurationAPITest.yml');
     }
 
-    public function testGetOne(): void
+    /**
+     * @dataProvider dataProviderForTestGetAll
+     */
+    public function testGetAll(TestCaseParams $testCaseParams): void
     {
-        $terminationReasonDao = $this->getMockBuilder(TerminationReasonConfigurationDao::class)
-            ->onlyMethods(['getTerminationReasonById'])
-            ->getMock();
-
-        $terminationReason = new TerminationReason();
-        $terminationReason->setId(1);
-        $terminationReason->setName('Resigned');
-
-        $terminationReasonDao->expects($this->exactly(1))
-            ->method('getTerminationReasonById')
-            ->with(1)
-            ->will($this->returnValue($terminationReason));
-        $terminationReasonService = $this->getMockBuilder(TerminationReasonConfigurationService::class)
-            ->onlyMethods(['getTerminationReasonDao'])
-            ->getMock();
-        $terminationReasonService->expects($this->exactly(1))
-            ->method('getTerminationReasonDao')
-            ->willReturn($terminationReasonDao);
-
-        /** @var MockObject&TerminationReasonConfigurationAPI $api */
-        $api = $this->getApiEndpointMockBuilder(
-            TerminationReasonConfigurationAPI::class,
-            [
-                RequestParams::PARAM_TYPE_ATTRIBUTE => [
-                    CommonParams::PARAMETER_ID => 1
-                ]
-            ]
-        )->onlyMethods(['getTerminationReasonConfigurationService'])
-            ->getMock();
-        $api->expects($this->once())
-            ->method('getTerminationReasonConfigurationService')
-            ->will($this->returnValue($terminationReasonService));
-
-        $result = $api->getOne();
-        $this->assertEquals(
-            [
-                "id" => 1,
-                "name" => "Resigned"
-            ],
-            $result->normalize()
-        );
+        $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
+        $this->registerServices($testCaseParams);
+        $api = $this->getApiEndpointMock(TerminationReasonConfigurationAPI::class, $testCaseParams);
+        $this->assertValidTestCase($api, 'getAll', $testCaseParams);
     }
 
-    public function testGetValidationRuleForGetOne(): void
+    public function dataProviderForTestGetAll(): array
     {
-        $api = new TerminationReasonConfigurationAPI($this->getRequest());
-        $rules = $api->getValidationRuleForGetOne();
-        $this->assertTrue(
-            $this->validate(
-                [CommonParams::PARAMETER_ID => 1],
-                $rules
-            )
-        );
+        return $this->getTestCases('TerminationReasonConfigurationAPITestCases.yml', 'GetAll');
     }
 
-    public function testDelete()
+    /**
+     * @dataProvider dataProviderForTestGetOne
+     */
+    public function testGetOne(TestCaseParams $testCaseParams): void
     {
-        $terminationReasonDao = $this->getMockBuilder(TerminationReasonConfigurationDao::class)
-            ->onlyMethods(['deleteTerminationReasons'])
-            ->getMock();
-
-        $terminationReasonDao->expects($this->exactly(0))
-            ->method('deleteTerminationReasons')
-            ->with([1])
-            ->willReturn(1);
-
-        $terminationReasonService = $this->getMockBuilder(TerminationReasonConfigurationService::class)
-            ->onlyMethods(['getTerminationReasonDao'])
-            ->getMock();
-
-        $terminationReasonService->expects($this->exactly(0))
-            ->method('getTerminationReasonDao')
-            ->willReturn($terminationReasonDao);
-
-        /** @var MockObject&TerminationReasonConfigurationAPI $api */
-        $api = $this->getApiEndpointMockBuilder(
-            TerminationReasonConfigurationAPI::class,
-            [
-                RequestParams::PARAM_TYPE_BODY => [
-                    CommonParams::PARAMETER_IDS => [1],
-                ]
-            ]
-        )->onlyMethods(['getTerminationReasonConfigurationService'])
-            ->getMock();
-
-        $this->expectRecordNotFoundException();
-        $result = $api->delete();
+        $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
+        $this->registerServices($testCaseParams);
+        $api = $this->getApiEndpointMock(TerminationReasonConfigurationAPI::class, $testCaseParams);
+        $this->assertValidTestCase($api, 'getOne', $testCaseParams);
     }
 
-    public function testGetValidationRuleForDelete(): void
+    public function dataProviderForTestGetOne(): array
     {
-        $terminationReasonService = $this->getMockBuilder(TerminationReasonConfigurationService::class)
-            ->onlyMethods(['getReasonIdsInUse'])
-            ->getMock();
-        $terminationReasonService->expects($this->once())
-            ->method('getReasonIdsInUse')
-            ->willReturn([2]);
-
-        /** @var MockObject&TerminationReasonConfigurationAPI $api */
-        $api = $this->getApiEndpointMockBuilder(TerminationReasonConfigurationAPI::class)
-            ->onlyMethods(['getTerminationReasonConfigurationService'])
-            ->getMock();
-        $api->expects($this->once())
-            ->method('getTerminationReasonConfigurationService')
-            ->willReturn($terminationReasonService);
-        $rules = $api->getValidationRuleForDelete();
-        $this->assertTrue(
-            $this->validate(
-                [
-                    CommonParams::PARAMETER_IDS => [1],
-                ],
-                $rules
-            )
-        );
+        return $this->getTestCases('TerminationReasonConfigurationAPITestCases.yml', 'GetOne');
     }
 
-    public function testUpdate()
+    /**
+     * @dataProvider dataProviderForTestCreate
+     */
+    public function testCreate(TestCaseParams $testCaseParams): void
     {
-        $terminationReasonDao = $this->getMockBuilder(TerminationReasonConfigurationDao::class)
-            ->onlyMethods(['saveTerminationReason', 'getTerminationReasonById'])
-            ->getMock();
-
-        $terminationReason = new TerminationReason();
-        $terminationReason->setId(1);
-        $terminationReason->setName('Dismissed');
-
-        $terminationReasonDao->expects($this->exactly(1))
-            ->method('getTerminationReasonById')
-            ->with(1)
-            ->willReturn($terminationReason);
-        $terminationReasonDao->expects($this->exactly(1))
-            ->method('saveTerminationReason')
-            ->with($terminationReason)
-            ->will($this->returnValue($terminationReason));
-        $terminationReasonService = $this->getMockBuilder(TerminationReasonConfigurationService::class)
-            ->onlyMethods(['getTerminationReasonDao'])
-            ->getMock();
-        $terminationReasonService->expects($this->exactly(2))
-            ->method('getTerminationReasonDao')
-            ->willReturn($terminationReasonDao);
-
-        /** @var MockObject&TerminationReasonConfigurationAPI $api */
-        $api = $this->getApiEndpointMockBuilder(
-            TerminationReasonConfigurationAPI::class,
-            [
-                RequestParams::PARAM_TYPE_ATTRIBUTE => [
-                    CommonParams::PARAMETER_ID => 1
-                ],
-                RequestParams::PARAM_TYPE_BODY => [
-                    TerminationReasonConfigurationAPI::PARAMETER_NAME => 'Resigned',
-                ]
-            ]
-        )->onlyMethods(['getTerminationReasonConfigurationService'])
-            ->getMock();
-        $api->expects($this->exactly(2))
-            ->method('getTerminationReasonConfigurationService')
-            ->will($this->returnValue($terminationReasonService));
-
-        $result = $api->update();
-        $this->assertEquals(
-            [
-                "id" => 1,
-                "name" => "Resigned"
-            ],
-            $result->normalize()
-        );
+        $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
+        $this->registerServices($testCaseParams);
+        $api = $this->getApiEndpointMock(TerminationReasonConfigurationAPI::class, $testCaseParams);
+        $this->assertValidTestCase($api, 'create', $testCaseParams);
     }
 
-    public function testGetValidationRuleForUpdate(): void
+    public function dataProviderForTestCreate(): array
     {
-        $api = new TerminationReasonConfigurationAPI($this->getRequest());
-        $rules = $api->getValidationRuleForUpdate();
-        $this->assertTrue(
-            $this->validate(
-                [
-                    CommonParams::PARAMETER_ID => 1,
-                    TerminationReasonConfigurationAPI::PARAMETER_NAME => 'Resigned',
-                ],
-                $rules
-            )
-        );
+        return $this->getTestCases('TerminationReasonConfigurationAPITestCases.yml', 'Create');
     }
 
-    public function testCreate()
+    /**
+     * @dataProvider dataProviderForTestUpdate
+     */
+    public function testUpdate(TestCaseParams $testCaseParams): void
     {
-        $terminationReasonDao = $this->getMockBuilder(TerminationReasonConfigurationDao::class)
-            ->onlyMethods(['saveTerminationReason'])
-            ->getMock();
-        $terminationReasonDao->expects($this->once())
-            ->method('saveTerminationReason')
-            ->will(
-                $this->returnCallback(
-                    function (TerminationReason $terminationReason) {
-                        $terminationReason->setId(1);
-                        return $terminationReason;
-                    }
-                )
-            );
-
-        $terminationReasonService = $this->getMockBuilder(TerminationReasonConfigurationService::class)
-            ->onlyMethods(['getTerminationReasonDao'])
-            ->getMock();
-        $terminationReasonService->expects($this->once())
-            ->method('getTerminationReasonDao')
-            ->willReturn($terminationReasonDao);
-
-        /** @var MockObject&TerminationReasonConfigurationAPI $api */
-        $api = $this->getApiEndpointMockBuilder(
-            TerminationReasonConfigurationAPI::class,
-            [
-                RequestParams::PARAM_TYPE_BODY => [
-                    TerminationReasonConfigurationAPI::PARAMETER_NAME => 'Dismissed',
-                ]
-            ]
-        )->onlyMethods(['getTerminationReasonConfigurationService'])
-            ->getMock();
-        $api->expects($this->once())
-            ->method('getTerminationReasonConfigurationService')
-            ->will($this->returnValue($terminationReasonService));
-
-        $result = $api->create();
-        $this->assertEquals(
-            [
-                "id" => 1,
-                "name" => 'Dismissed'
-            ],
-            $result->normalize()
-        );
+        $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
+        $this->registerServices($testCaseParams);
+        $api = $this->getApiEndpointMock(TerminationReasonConfigurationAPI::class, $testCaseParams);
+        $this->assertValidTestCase($api, 'update', $testCaseParams);
     }
 
-    public function testGetValidationRuleForCreate(): void
+    public function dataProviderForTestUpdate(): array
     {
-        $api = new TerminationReasonConfigurationAPI($this->getRequest());
-        $rules = $api->getValidationRuleForCreate();
-        $this->assertTrue(
-            $this->validate(
-                [
-                    TerminationReasonConfigurationAPI::PARAMETER_NAME => 'Dismissed',
-                ],
-                $rules
-            )
-        );
+        return $this->getTestCases('TerminationReasonConfigurationAPITestCases.yml', 'Update');
     }
 
-    public function testGetAll()
+    /**
+     * @dataProvider dataProviderForTestDelete
+     */
+    public function testDelete(TestCaseParams $testCaseParams): void
     {
-        $terminationReasonDao = $this->getMockBuilder(TerminationReasonConfigurationDao::class)
-            ->onlyMethods(['getTerminationReasonList', 'getTerminationReasonCount'])
-            ->getMock();
-
-        $terminationReason1 = new TerminationReason();
-        $terminationReason1->setId(1);
-        $terminationReason1->setName('Resigned');
-        $terminationReason2 = new TerminationReason();
-        $terminationReason2->setId(2);
-        $terminationReason2->setName('Dismissed');
-
-        $terminationReasonDao->expects($this->exactly(1))
-            ->method('getTerminationReasonList')
-            ->willReturn([$terminationReason1, $terminationReason2]);
-        $terminationReasonDao->expects($this->exactly(1))
-            ->method('getTerminationReasonCount')
-            ->willReturn(2);
-        $terminationReasonService = $this->getMockBuilder(TerminationReasonConfigurationService::class)
-            ->onlyMethods(['getTerminationReasonDao'])
-            ->getMock();
-        $terminationReasonService->expects($this->exactly(2))
-            ->method('getTerminationReasonDao')
-            ->willReturn($terminationReasonDao);
-
-        /** @var MockObject&TerminationReasonConfigurationAPI $api */
-        $api = $this->getApiEndpointMockBuilder(
-            TerminationReasonConfigurationAPI::class,
-            [
-                RequestParams::PARAM_TYPE_BODY => [
-                    TerminationReasonConfigurationAPI::PARAMETER_NAME,
-                ]
-            ]
-        )->onlyMethods(['getTerminationReasonConfigurationService'])
-            ->getMock();
-        $api->expects($this->exactly(2))
-            ->method('getTerminationReasonConfigurationService')
-            ->will($this->returnValue($terminationReasonService));
-
-        $result = $api->getAll();
-        $this->assertEquals(
-            [
-                [
-                    "id" => 1,
-                    "name" => "Resigned"
-                ],
-                [
-                    "id" => 2,
-                    "name" => "Dismissed"
-                ]
-            ],
-            $result->normalize()
-        );
-        $this->assertEquals(
-            [
-                "total" => 2
-            ],
-            $result->getMeta()->all()
-        );
+        $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
+        $this->registerServices($testCaseParams);
+        $api = $this->getApiEndpointMock(TerminationReasonConfigurationAPI::class, $testCaseParams);
+        $this->assertValidTestCase($api, 'delete', $testCaseParams);
     }
 
-    public function testGetValidationRuleForGetAll(): void
+    public function dataProviderForTestDelete(): array
     {
-        $api = new TerminationReasonConfigurationAPI($this->getRequest());
-        $rules = $api->getValidationRuleForGetAll();
-        $this->assertTrue(
-            $this->validate(
-                [],
-                $rules
-            )
-        );
+        return $this->getTestCases('TerminationReasonConfigurationAPITestCases.yml', 'Delete');
     }
 }
