@@ -1,0 +1,4 @@
+langStrings:
+  -
+    value: 'Should be lower than Maximum Salary'
+    unitId: should_be_lower_than_maximum_salary

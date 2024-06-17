@@ -19,9 +19,12 @@
 namespace OrangeHRM\Installer\Migration\V5_7_0;
 
 use OrangeHRM\Installer\Util\V1\AbstractMigration;
+use OrangeHRM\Installer\Util\V1\LangStringHelper;
 
 class Migration extends AbstractMigration
 {
+    protected ?LangStringHelper $langStringHelper = null;
+
     /**
      * @inheritDoc
      */
@@ -46,6 +49,11 @@ class Migration extends AbstractMigration
             ->executeQuery();
 
         $this->getDataGroupHelper()->insertDataGroupPermissions(__DIR__ . '/permission/data_group.yaml');
+
+        $groups = ['admin'];
+        foreach ($groups as $group) {
+            $this->getLangStringHelper()->insertOrUpdateLangStrings(__DIR__, $group);
+        }
     }
 
     /**
@@ -54,5 +62,18 @@ class Migration extends AbstractMigration
     public function getVersion(): string
     {
         return '5.7.0';
+    }
+
+    /**
+     * @return LangStringHelper
+     */
+    private function getLangStringHelper(): LangStringHelper
+    {
+        if (is_null($this->langStringHelper)) {
+            $this->langStringHelper = new LangStringHelper(
+                $this->getConnection()
+            );
+        }
+        return $this->langStringHelper;
     }
 }
