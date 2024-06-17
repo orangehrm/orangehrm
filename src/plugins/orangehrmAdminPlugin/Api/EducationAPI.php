@@ -35,13 +35,10 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Api\V2\Validator\Rules\EntityUniquePropertyOption;
-use OrangeHRM\Core\Traits\LoggerTrait;
 use OrangeHRM\Entity\Education;
 
 class EducationAPI extends Endpoint implements CrudEndpoint
 {
-    use LoggerTrait;
-
     public const PARAMETER_NAME = 'name';
     public const PARAM_RULE_NAME_MAX_LENGTH = 100;
 
