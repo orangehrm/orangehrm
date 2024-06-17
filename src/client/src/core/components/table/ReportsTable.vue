@@ -26,6 +26,8 @@
         :headers="headers"
         :loading="isLoading"
         :column-count="colCount"
+        :can-focus="canFocus"
+        :range="range"
       >
         <template #pagination>
           <oxd-text class="oxd-text--count" tag="span">
@@ -81,6 +83,16 @@ export default {
     columnCount: {
       type: Number,
       default: null,
+      required: false,
+    },
+    canFocus: {
+      type: Boolean,
+      default: false,
+      required: false,
+    },
+    range: {
+      type: Boolean,
+      default: false,
       required: false,
     },
   },

@@ -23,6 +23,8 @@
     name="pim_defined"
     :prefetch="true"
     :filters="filters"
+    :can-focus="true"
+    :range="true"
   >
     <div class="orangehrm-card-container">
       <oxd-text tag="h6" class="orangehrm-main-title">
