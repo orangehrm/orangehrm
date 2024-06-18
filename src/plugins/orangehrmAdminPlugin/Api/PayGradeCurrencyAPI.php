@@ -48,6 +48,7 @@ class PayGradeCurrencyAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_CURRENCY_ID = 'currencyId';
     public const PARAMETER_MIN_SALARY = 'minSalary';
     public const PARAMETER_MAX_SALARY = 'maxSalary';
+    public const PARAM_RULE_SALARY_MAX_VALUE = 1000000000; // 1 billion
 
     /**
      * @OA\Get(
@@ -383,14 +384,30 @@ class PayGradeCurrencyAPI extends Endpoint implements CrudEndpoint
                 new ParamRule(
                     self::PARAMETER_MIN_SALARY,
                     new Rule(Rules::NUMBER),
-                    new Rule(Rules::LENGTH, [null, 9])
+                    new Rule(Rules::LESS_THAN, [self::PARAM_RULE_SALARY_MAX_VALUE]),
+                    new Rule(
+                        Rules::ONE_OF,
+                        [
+                            new Rule(Rules::DECIMAL, [0]),
+                            new Rule(Rules::DECIMAL, [1]),
+                            new Rule(Rules::DECIMAL, [2]),
+                        ]
+                    )
                 ),
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_MAX_SALARY,
                     new Rule(Rules::NUMBER),
-                    new Rule(Rules::LENGTH, [null, 9])
+                    new Rule(Rules::LESS_THAN, [self::PARAM_RULE_SALARY_MAX_VALUE]),
+                    new Rule(
+                        Rules::ONE_OF,
+                        [
+                            new Rule(Rules::DECIMAL, [0]),
+                            new Rule(Rules::DECIMAL, [1]),
+                            new Rule(Rules::DECIMAL, [2]),
+                        ]
+                    )
                 ),
             ),
         ];

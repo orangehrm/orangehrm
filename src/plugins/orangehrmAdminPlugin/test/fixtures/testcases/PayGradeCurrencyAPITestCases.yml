@@ -217,6 +217,41 @@ Create:
     meta:
       payGradeId: 1
 
+  create successful - 3:
+    userId: 1
+    services:
+      admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
+    attributes:
+      payGradeId: 1
+    body: {
+      currencyId: AUD,
+      minSalary: "10000000.5",
+      maxSalary: "999999999.99"
+    }
+    data: {
+      minSalary: 10000000.5,
+      maxSalary: 999999999.99,
+      currencyType: {
+        id: AUD,
+        name: Australian Dollar
+      }
+    }
+    meta:
+      payGradeId: 1
+
+  invalid decimal places:
+    userId: 1
+    services:
+      admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
+    attributes:
+      payGradeId: 1
+    body: {
+      currencyId: AED,
+      minSalary: "99.9999",
+      maxSalary: "100"
+    }
+    invalidOnly: [ minSalary ]
+
   invalid currencyId:
     userId: 1
     services:
@@ -274,7 +309,7 @@ Create:
       class: \OrangeHRM\Core\Api\V2\Exception\BadRequestException
       message: Min salary should be less than max salary
 
-  invalid length for salary:
+  invalid value for salary:
     userId: 1
     services:
       admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
