@@ -103,5 +103,5 @@ Delete:
       ids: [ 1, 2, 3 ]
     query: [ ]
     data:
-      [ 1, 3, 2 ]
+      [ 1, 2, 3 ]
     meta: [ ]

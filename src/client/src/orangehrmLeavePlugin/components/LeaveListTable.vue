@@ -71,6 +71,7 @@ import {
   validSelection,
   validDateFormat,
   endDateShouldBeAfterStartDate,
+  shouldNotExceedCharLength,
 } from '@/core/util/validation/rules';
 import {computed, ref} from 'vue';
 import {APIService} from '@/core/util/services/api.service';
@@ -173,7 +174,7 @@ export default {
         ),
       ],
       statuses: [required],
-      employee: [validSelection],
+      employee: [shouldNotExceedCharLength(100), validSelection],
     };
 
     const serializedFilters = computed(() => {

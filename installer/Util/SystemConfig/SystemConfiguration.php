@@ -122,11 +122,12 @@ class SystemConfiguration
     public function getAdminEmail(): string
     {
         $qb = $this->getConnection()->createQueryBuilder();
-        return $qb->select('employee.emp_work_email AS email')
+        $result = $qb->select('employee.emp_work_email AS email')
             ->from('hs_hr_employee', 'employee')
             ->where('employee.emp_number = :empNumber')
             ->setParameter('empNumber', $this->getAdminEmployeeNumber())
             ->fetchOne();
+        return $result ?: self::NOT_CAPTURED;
     }
 
     /**

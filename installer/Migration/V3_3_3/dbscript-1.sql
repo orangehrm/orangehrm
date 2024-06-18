@@ -430,7 +430,7 @@ create table `ohrm_project` (
   `name` varchar(100) default null,
   `description` varchar(256) default null,
   `is_deleted` tinyint(1) default 0,
-  primary key  (`project_id`,`customer_id`),
+  primary key  (`project_id`),
   key `customer_id` (`customer_id`)
 ) engine=innodb default charset=utf8;
 

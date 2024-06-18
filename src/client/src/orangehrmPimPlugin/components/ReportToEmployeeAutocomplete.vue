@@ -61,12 +61,12 @@ export default {
     };
   },
   methods: {
-    async loadEmployees(serachParam) {
+    async loadEmployees(searchParam) {
       return new Promise((resolve) => {
-        if (serachParam.trim()) {
+        if (searchParam.trim() && searchParam.length < 100) {
           this.http
             .getAll({
-              nameOrId: serachParam.trim(),
+              nameOrId: searchParam.trim(),
               ...this.params,
             })
             .then(({data}) => {
@@ -75,7 +75,7 @@ export default {
                   return {
                     id: employee.empNumber,
                     label: `${employee.firstName} ${employee.middleName} ${employee.lastName}`,
-                    isPastEmployee: employee.terminationId ? true : false,
+                    isPastEmployee: !!employee.terminationId,
                   };
                 }),
               );

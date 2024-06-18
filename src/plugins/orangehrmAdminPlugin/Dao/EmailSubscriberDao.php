@@ -122,7 +122,8 @@ class EmailSubscriberDao extends BaseDao
         $qb = $this->createQueryBuilder(EmailSubscriber::class, 'emailSubscriber');
         $qb->select('emailSubscriber.id')
             ->andWhere($qb->expr()->in('emailSubscriber.id', ':ids'))
-            ->setParameter('ids', $ids);
+            ->setParameter('ids', $ids)
+            ->addOrderBy('emailSubscriber.id');
 
         return $qb->getQuery()->getSingleColumnResult();
     }

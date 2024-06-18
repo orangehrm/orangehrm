@@ -143,7 +143,11 @@
 
 <script>
 import {computed, ref} from 'vue';
-import {required, validSelection} from '@/core/util/validation/rules';
+import {
+  required,
+  shouldNotExceedCharLength,
+  validSelection,
+} from '@/core/util/validation/rules';
 import ReportsTable from '@/core/components/table/ReportsTable';
 import JobtitleDropdown from '@/orangehrmPimPlugin/components/JobtitleDropdown';
 import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
@@ -193,7 +197,7 @@ export default {
       ...(props.leavePeriod && {leavePeriod: props.leavePeriod}),
     });
     const rules = ref({
-      employee: [required, validSelection],
+      employee: [required, shouldNotExceedCharLength(100), validSelection],
       leavePeriod: [required],
       leaveType: [required],
     });

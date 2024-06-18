@@ -137,7 +137,10 @@ import {reactive, toRefs} from 'vue';
 import usei18n from '@/core/util/composable/usei18n';
 import useToast from '@/core/util/composable/useToast';
 import {APIService} from '@/core/util/services/api.service';
-import {validSelection} from '@/core/util/validation/rules';
+import {
+  shouldNotExceedCharLength,
+  validSelection,
+} from '@/core/util/validation/rules';
 import useInfiniteScroll from '@ohrm/core/util/composable/useInfiniteScroll';
 import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
 import SummaryCard from '@/orangehrmCorporateDirectoryPlugin/components/SummaryCard';
@@ -179,7 +182,7 @@ export default {
     const responsiveState = useResponsive();
 
     const rules = {
-      employee: [validSelection],
+      employee: [shouldNotExceedCharLength(100), validSelection],
     };
 
     const employeeDataNormalizer = (data) => {

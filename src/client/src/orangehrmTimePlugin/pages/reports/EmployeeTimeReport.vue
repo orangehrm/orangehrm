@@ -119,6 +119,7 @@ import {
   validDateFormat,
   endDateShouldBeAfterStartDate,
   startDateShouldBeBeforeEndDate,
+  shouldNotExceedCharLength,
 } from '@/core/util/validation/rules';
 import ReportsTable from '@/core/components/table/ReportsTable';
 import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
@@ -153,7 +154,7 @@ export default {
 
     const rules = {
       project: [validSelection],
-      employee: [required, validSelection],
+      employee: [required, shouldNotExceedCharLength(100), validSelection],
       fromDate: [
         validDateFormat(userDateFormat),
         startDateShouldBeBeforeEndDate(

@@ -51,7 +51,11 @@
 </template>
 
 <script>
-import {required, validSelection} from '@/core/util/validation/rules';
+import {
+  required,
+  shouldNotExceedCharLength,
+  validSelection,
+} from '@/core/util/validation/rules';
 import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
 import RequiredText from '@/core/components/labels/RequiredText';
 
@@ -84,7 +88,7 @@ export default {
     return {
       employee: null,
       rules: {
-        employee: [required, validSelection],
+        employee: [required, shouldNotExceedCharLength(100), validSelection],
       },
     };
   },
