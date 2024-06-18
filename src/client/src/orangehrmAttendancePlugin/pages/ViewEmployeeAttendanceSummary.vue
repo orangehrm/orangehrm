@@ -27,6 +27,7 @@
           <oxd-grid-item>
             <employee-autocomplete
               v-model="filters.employee"
+              :rules="rules.employee"
               :params="{
                 includeEmployees: 'currentAndPast',
               }"
@@ -86,7 +87,11 @@
 
 <script>
 import {computed, ref} from 'vue';
-import {required, validDateFormat} from '@/core/util/validation/rules';
+import {
+  required,
+  shouldNotExceedCharLength,
+  validDateFormat,
+} from '@/core/util/validation/rules';
 import {navigate} from '@/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
 import usePaginate from '@ohrm/core/util/composable/usePaginate';
@@ -114,6 +119,7 @@ export default {
 
     const rules = {
       date: [required, validDateFormat(userDateFormat)],
+      employee: [shouldNotExceedCharLength(100)],
     };
 
     const filters = ref({

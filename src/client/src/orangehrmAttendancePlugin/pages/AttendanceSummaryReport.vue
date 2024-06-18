@@ -103,6 +103,7 @@ import {
   validDateFormat,
   endDateShouldBeAfterStartDate,
   startDateShouldBeBeforeEndDate,
+  shouldNotExceedCharLength,
 } from '@/core/util/validation/rules';
 import ReportsTable from '@/core/components/table/ReportsTable';
 import JobtitleDropdown from '@/orangehrmPimPlugin/components/JobtitleDropdown';
@@ -159,7 +160,7 @@ export default {
           {allowSameDate: true},
         ),
       ],
-      employee: [validSelection],
+      employee: [shouldNotExceedCharLength(100), validSelection],
     };
 
     const serializedFilters = computed(() => {

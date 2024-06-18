@@ -31,7 +31,7 @@
   <div class="orangehrm-background-container">
     <div class="orangehrm-paper-container">
       <div class="orangehrm-header-container">
-        <inline-action-button display-type="secondary" @click="onclickAdd">
+        <inline-action-button display-type="secondary" @click="onClickAdd">
           {{ $t('general.currencies') }}
         </inline-action-button>
       </div>
@@ -186,10 +186,11 @@ export default {
   },
 
   methods: {
-    onclickAdd() {
+    onClickAdd() {
       this.showEditModal = false;
       this.editModalState = null;
       this.showSaveModal = true;
+      this.checkedItems = [];
     },
     onClickDelete(item) {
       if (!this.selectable) return;
@@ -238,6 +239,7 @@ export default {
       this.showSaveModal = false;
       this.editModalState = item;
       this.showEditModal = true;
+      this.checkedItems = [];
     },
     onEditModalClose() {
       this.showEditModal = false;

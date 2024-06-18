@@ -19,9 +19,12 @@
 namespace OrangeHRM\Installer\Migration\V5_7_0;
 
 use OrangeHRM\Installer\Util\V1\AbstractMigration;
+use OrangeHRM\Installer\Util\V1\LangStringHelper;
 
 class Migration extends AbstractMigration
 {
+    protected ?LangStringHelper $langStringHelper = null;
+
     /**
      * @inheritDoc
      */
@@ -46,6 +49,13 @@ class Migration extends AbstractMigration
             ->executeQuery();
 
         $this->getDataGroupHelper()->insertDataGroupPermissions(__DIR__ . '/permission/data_group.yaml');
+
+        $groups = ['admin'];
+        foreach ($groups as $group) {
+            $this->getLangStringHelper()->insertOrUpdateLangStrings(__DIR__, $group);
+        }
+
+        $this->dropOldTables();
     }
 
     /**
@@ -54,5 +64,35 @@ class Migration extends AbstractMigration
     public function getVersion(): string
     {
         return '5.7.0';
+    }
+
+    /**
+     * @return LangStringHelper
+     */
+    private function getLangStringHelper(): LangStringHelper
+    {
+        if (is_null($this->langStringHelper)) {
+            $this->langStringHelper = new LangStringHelper(
+                $this->getConnection()
+            );
+        }
+        return $this->langStringHelper;
+    }
+
+    private function dropOldTables(): void
+    {
+        $this->getSchemaManager()->dropTable('ohrm_user_selection_rule');
+        $this->getSchemaManager()->dropTable('ohrm_role_user_selection_rule');
+        $this->getSchemaManager()->dropTable('ohrm_leave_entitlement_adjustment');
+        $this->getSchemaManager()->dropTable('ohrm_leave_adjustment');
+        $this->getSchemaManager()->dropTable('ohrm_available_group_field');
+        $this->getSchemaManager()->dropTable('hs_hr_mailnotifications');
+        $this->getSchemaManager()->dropTable('hs_hr_custom_export');
+        $this->getSchemaManager()->dropTable('hs_hr_custom_import');
+        $this->getSchemaManager()->dropTable('hs_hr_module');
+        $this->getSchemaManager()->dropTable('ohrm_advanced_report');
+        $this->getSchemaManager()->dropTable('ohrm_beacon_notification');
+        $this->getSchemaManager()->dropTable('ohrm_datapoint');
+        $this->getSchemaManager()->dropTable('ohrm_datapoint_type');
     }
 }

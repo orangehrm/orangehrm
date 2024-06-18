@@ -136,6 +136,7 @@ import {
   validDateFormat,
   endDateShouldBeAfterStartDate,
   startDateShouldBeBeforeEndDate,
+  shouldNotExceedCharLength,
 } from '@/core/util/validation/rules';
 import {
   viewIcon,
@@ -351,7 +352,7 @@ export default {
       ],
       checkedItems: [],
       rules: {
-        employee: [validSelection],
+        employee: [shouldNotExceedCharLength(100), validSelection],
         fromDate: [
           validDateFormat(this.userDateFormat),
           startDateShouldBeBeforeEndDate(
