@@ -292,6 +292,21 @@ class LeaveEntitlementDao extends BaseDao
 
     /**
      * @param int[] $ids
+     * @return int[]
+     */
+    public function getExistingLeaveEntitlementIds(array $ids): array
+    {
+        $qb = $this->createQueryBuilder(LeaveEntitlement::class, 'leaveEntitlement');
+        $qb->select('leaveEntitlement.id')
+            ->andWhere($qb->expr()->in('leaveEntitlement.id', ':ids'))
+            ->andWhere($qb->expr()->eq('leaveEntitlement.deleted', ':deleted'))
+            ->setParameter('ids', $ids)
+            ->setParameter('deleted', false);
+        return $qb->getQuery()->getSingleColumnResult();
+    }
+
+    /**
+     * @param int[] $ids
      * @return LeaveEntitlement[]
      */
     public function getLeaveEntitlementsByIds(array $ids): array

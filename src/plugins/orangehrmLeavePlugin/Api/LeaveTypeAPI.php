@@ -32,6 +32,8 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Core\Api\V2\Validator\Rules\EntityUniquePropertyOption;
+use OrangeHRM\Entity\Leave;
 use OrangeHRM\Entity\LeaveType;
 use OrangeHRM\Leave\Api\Model\LeaveTypeModel;
 use OrangeHRM\Leave\Dto\LeaveTypeSearchFilterParams;
@@ -182,8 +184,9 @@ class LeaveTypeAPI extends Endpoint implements CrudEndpoint
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="name", type="string"),
-     *             @OA\Property(property="situational", type="boolean", default="false")
+     *             @OA\Property(property="name", type="string", maxLength=OrangeHRM\Leave\Api\LeaveTypeAPI::PARAM_RULE_NAME_MAX_LENGTH),
+     *             @OA\Property(property="situational", type="boolean", default="false"),
+     *             required={"name"}
      *         )
      *     ),
      *     @OA\Response(response="200",
@@ -228,12 +231,20 @@ class LeaveTypeAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @param EntityUniquePropertyOption|null $uniqueOption
      * @return ParamRuleCollection
      */
-    private function getCommonBodyParamRuleCollection(): ParamRuleCollection
+    private function getCommonBodyParamRuleCollection(?EntityUniquePropertyOption $uniqueOption = null): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(self::PARAMETER_NAME, new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NAME_MAX_LENGTH])),
+            $this->getValidationDecorator()->requiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_NAME,
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NAME_MAX_LENGTH]),
+                    new Rule(Rules::ENTITY_UNIQUE_PROPERTY, [LeaveType::class, 'name', $uniqueOption])
+                )
+            ),
             new ParamRule(self::PARAMETER_SITUATIONAL, new Rule(Rules::BOOL_TYPE))
         );
     }
@@ -285,7 +296,10 @@ class LeaveTypeAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
-        $paramRules = $this->getCommonBodyParamRuleCollection();
+        $uniqueOption = new EntityUniquePropertyOption();
+        $uniqueOption->setIgnoreId($this->getAttributeId());
+
+        $paramRules = $this->getCommonBodyParamRuleCollection($uniqueOption);
         $paramRules->addParamValidation($this->getIdParamRule());
         return $paramRules;
     }
@@ -297,7 +311,8 @@ class LeaveTypeAPI extends Endpoint implements CrudEndpoint
      *     summary="Delete Leave Types",
      *     operationId="delete-leave-types",
      *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),
-     *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse")
+     *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse"),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
      * )
      *
      * @inheritDoc
@@ -305,7 +320,10 @@ class LeaveTypeAPI extends Endpoint implements CrudEndpoint
      */
     public function delete(): EndpointResourceResult
     {
-        $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
+        $ids = $this->getLeaveTypeService()->getLeaveTypeDao()->getExistingLeaveTypeIds(
+            $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS)
+        );
+        $this->throwRecordNotFoundExceptionIfEmptyIds($ids);
         $this->getLeaveTypeService()->getLeaveTypeDao()->deleteLeaveType($ids);
         return new EndpointResourceResult(ArrayModel::class, $ids);
     }
@@ -316,7 +334,10 @@ class LeaveTypeAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForDelete(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(CommonParams::PARAMETER_IDS),
+            new ParamRule(
+                CommonParams::PARAMETER_IDS,
+                new Rule(Rules::INT_ARRAY)
+            ),
         );
     }
 }

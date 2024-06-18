@@ -81,6 +81,20 @@ class NationalityDao extends BaseDao
     }
 
     /**
+     * @param int[] $ids
+     * @return int[]
+     */
+    public function getExistingNationalityIds(array $ids): array
+    {
+        $qb = $this->createQueryBuilder(Nationality::class, 'nationality');
+        $qb->select('nationality.id')
+            ->andWhere($qb->expr()->in('nationality.id', ':ids'))
+            ->setParameter('ids', $ids);
+
+        return $qb->getQuery()->getSingleColumnResult();
+    }
+
+    /**
      * @param string $name
      * @return Nationality|null
      */

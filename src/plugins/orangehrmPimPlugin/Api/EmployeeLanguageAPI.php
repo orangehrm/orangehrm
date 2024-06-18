@@ -465,10 +465,11 @@ class EmployeeLanguageAPI extends Endpoint implements CrudEndpoint
             RequestParams::PARAM_TYPE_ATTRIBUTE,
             CommonParams::PARAMETER_EMP_NUMBER
         );
-        $entriesToDelete = $this->getRequestParams()->getArray(
-            RequestParams::PARAM_TYPE_BODY,
-            CommonParams::PARAMETER_IDS
+        $entriesToDelete = $this->getEmployeeLanguageService()->getEmployeeLanguageDao()->getExistingEmployeeLanguageRecordsForEmpNumber(
+            $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS),
+            $empNumber
         );
+        $this->throwRecordNotFoundExceptionIfEmptyIds($entriesToDelete);
         $this->getEmployeeLanguageService()->getEmployeeLanguageDao()->deleteEmployeeLanguages(
             $empNumber,
             $entriesToDelete

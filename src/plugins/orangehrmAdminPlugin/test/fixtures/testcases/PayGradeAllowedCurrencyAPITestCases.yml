@@ -1,0 +1,116 @@
+GetAll:
+  get allowed for payGradeId=2:
+    userId: 1
+    services:
+      admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
+    attributes:
+      payGradeId: 2
+    data: [
+      {
+        id: LKR,
+        code: 3,
+        name: Sri Lankan Rupee
+      },
+      {
+        id: USD,
+        code: 1,
+        name: United States Dollar
+      }
+    ]
+    meta:
+      payGradeId: 2
+      total: 2
+
+  get allowed for payGradeId=3:
+    userId: 1
+    services:
+      admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
+    attributes:
+      payGradeId: 3
+    data: [
+      {
+        id: AUD,
+        code: 2,
+        name: Australian Dollar
+      },
+      {
+        id: LKR,
+        code: 3,
+        name: Sri Lankan Rupee
+      },
+      {
+        id: USD,
+        code: 1,
+        name: United States Dollar
+      }
+    ]
+    meta:
+      payGradeId: 3
+      total: 3
+
+  get allowed for payGradeId=1:
+    userId: 1
+    services:
+      admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
+    attributes:
+      payGradeId: 1
+    data: [
+      {
+        id: LKR,
+        code: 3,
+        name: Sri Lankan Rupee
+      }
+    ]
+    meta:
+      payGradeId: 1
+      total: 1
+
+  missing payGradeId:
+    userId: 1
+    services:
+      admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
+    invalidOnly: [ payGradeId ]
+
+  limit=1:
+    userId: 1
+    services:
+      admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
+    attributes:
+      payGradeId: 3
+    query:
+      limit: 1
+    data: [
+      {
+        id: AUD,
+        code: 2,
+        name: Australian Dollar
+      }
+    ]
+    meta:
+      payGradeId: 3
+      total: 3
+
+  limit 2 and offset 1:
+    userId: 1
+    services:
+      admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
+    attributes:
+      payGradeId: 3
+    query:
+      limit: 2
+      offset: 1
+    data: [
+      {
+        id: LKR,
+        code: 3,
+        name: Sri Lankan Rupee
+      },
+      {
+        id: USD,
+        code: 1,
+        name: United States Dollar
+      }
+    ]
+    meta:
+      payGradeId: 3
+      total: 3

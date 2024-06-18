@@ -27,7 +27,6 @@ use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
-use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
@@ -35,6 +34,7 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Core\Api\V2\Validator\Rules\EntityUniquePropertyOption;
 use OrangeHRM\Entity\Membership;
 
 class MembershipAPI extends Endpoint implements CrudEndpoint
@@ -180,7 +180,7 @@ class MembershipAPI extends Endpoint implements CrudEndpoint
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="name", type="string"),
+     *             @OA\Property(property="name", type="string", maxLength=OrangeHRM\Admin\Api\MembershipAPI::PARAM_RULE_NAME_MAX_LENGTH),
      *             required={"name"}
      *         )
      *     ),
@@ -201,24 +201,18 @@ class MembershipAPI extends Endpoint implements CrudEndpoint
      */
     public function create(): EndpointResourceResult
     {
-        $memberships = $this->saveMembership();
+        $membership = new Membership();
+        $memberships = $this->saveMembership($membership);
         return new EndpointResourceResult(MembershipModel::class, $memberships);
     }
 
     /**
+     * @param Membership $membership
      * @return Membership
-     * @throws RecordNotFoundException
      */
-    public function saveMembership(): Membership
+    public function saveMembership(Membership $membership): Membership
     {
-        $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $name = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_NAME);
-        if ($id) {
-            $membership = $this->getMembershipService()->getMembershipById($id);
-            $this->throwRecordNotFoundExceptionIfNotExist($membership, Membership::class);
-        } else {
-            $membership = new Membership();
-        }
         $membership->setName($name);
         return $this->getMembershipService()->saveMembership($membership);
     }
@@ -229,11 +223,7 @@ class MembershipAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(
-                self::PARAMETER_NAME,
-                new Rule(Rules::STRING_TYPE),
-                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NAME_MAX_LENGTH]),
-            ),
+            $this->getNameRule()
         );
     }
 
@@ -250,7 +240,7 @@ class MembershipAPI extends Endpoint implements CrudEndpoint
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="name", type="string"),
+     *             @OA\Property(property="name", type="string", maxLength=OrangeHRM\Admin\Api\MembershipAPI::PARAM_RULE_NAME_MAX_LENGTH),
      *             required={"name"}
      *         )
      *     ),
@@ -272,7 +262,9 @@ class MembershipAPI extends Endpoint implements CrudEndpoint
      */
     public function update(): EndpointResourceResult
     {
-        $memberships = $this->saveMembership();
+        $membership = $this->getMembershipService()->getMembershipById($this->getAttributeId());
+        $this->throwRecordNotFoundExceptionIfNotExist($membership, Membership::class);
+        $memberships = $this->saveMembership($membership);
         return new EndpointResourceResult(MembershipModel::class, $memberships);
     }
 
@@ -281,16 +273,31 @@ class MembershipAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
+        $uniqueOption = new EntityUniquePropertyOption();
+        $uniqueOption->setIgnoreId($this->getAttributeId());
+
         return new ParamRuleCollection(
             new ParamRule(
                 CommonParams::PARAMETER_ID,
                 new Rule(Rules::POSITIVE)
             ),
+            $this->getNameRule($uniqueOption)
+        );
+    }
+
+    /**
+     * @param EntityUniquePropertyOption|null $uniqueOption
+     * @return ParamRule
+     */
+    private function getNameRule(?EntityUniquePropertyOption $uniqueOption = null): ParamRule
+    {
+        return $this->getValidationDecorator()->requiredParamRule(
             new ParamRule(
                 self::PARAMETER_NAME,
                 new Rule(Rules::STRING_TYPE),
                 new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NAME_MAX_LENGTH]),
-            ),
+                new Rule(Rules::ENTITY_UNIQUE_PROPERTY, [Membership::class, 'name', $uniqueOption])
+            )
         );
     }
 
@@ -316,7 +323,8 @@ class MembershipAPI extends Endpoint implements CrudEndpoint
      *     summary="Delete Memberships",
      *     operationId="delete-memberships",
      *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),
-     *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse")
+     *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse"),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
      * )
      *
      * @inheritDoc
@@ -325,7 +333,10 @@ class MembershipAPI extends Endpoint implements CrudEndpoint
      */
     public function delete(): EndpointResourceResult
     {
-        $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
+        $ids = $this->getMembershipService()->getMembershipDao()->getExistingMembershipIds(
+            $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS)
+        );
+        $this->throwRecordNotFoundExceptionIfEmptyIds($ids);
         $this->getMembershipService()->deleteMemberships($ids);
         return new EndpointResourceResult(ArrayModel::class, $ids);
     }
@@ -336,7 +347,10 @@ class MembershipAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForDelete(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(CommonParams::PARAMETER_IDS),
+            new ParamRule(
+                CommonParams::PARAMETER_IDS,
+                new Rule(Rules::INT_ARRAY)
+            ),
         );
     }
 }

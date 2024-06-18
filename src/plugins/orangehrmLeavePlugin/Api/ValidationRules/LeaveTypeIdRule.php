@@ -31,10 +31,6 @@ class LeaveTypeIdRule extends AbstractRule
      */
     public function validate($input): bool
     {
-        if (!is_numeric($input) || !($input > 0)) {
-            return false;
-        }
-
         return $this->getLeaveTypeService()->getLeaveTypeDao()->getLeaveTypeById($input) instanceof LeaveType;
     }
 }

@@ -272,7 +272,7 @@ class ProviderAPI extends Endpoint implements CrudEndpoint
     {
         return new ParamRuleCollection(
             $this->getValidationDecorator()->requiredParamRule(
-                $this->getNameRule(false),
+                $this->getNameRule($this->getOpenIdProviderCommonUniqueOption()),
             ),
             $this->getValidationDecorator()->requiredParamRule(
                 new ParamRule(
@@ -310,29 +310,26 @@ class ProviderAPI extends Endpoint implements CrudEndpoint
      * @return ParamRule
      * @throws InvalidParamException
      */
-    protected function getNameRule(bool $update): ParamRule
+    protected function getNameRule(?EntityUniquePropertyOption $uniqueOption = null): ParamRule
     {
-        $entityProperties = new EntityUniquePropertyOption();
-        $entityProperties->setIgnoreValues(['getStatus' => false]);
-        $uniquePropertyParams = [OpenIdProvider::class, 'providerName', $entityProperties];
-        if ($update) {
-            $entityProperties->setIgnoreValues(
-                [
-                    'getId' => $this->getRequestParams()->getInt(
-                        RequestParams::PARAM_TYPE_ATTRIBUTE,
-                        CommonParams::PARAMETER_ID
-                    ),
-                    'getStatus' => false,
-                ]
-            );
-        }
-
         return new ParamRule(
             self::PARAMETER_NAME,
             new Rule(Rules::STRING_TYPE),
             new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NAME_MAX_LENGTH]),
-            new Rule(Rules::ENTITY_UNIQUE_PROPERTY, $uniquePropertyParams)
+            new Rule(Rules::ENTITY_UNIQUE_PROPERTY, [OpenIdProvider::class, 'providerName', $uniqueOption])
         );
+    }
+
+    /**
+     * @return EntityUniquePropertyOption
+     */
+    private function getOpenIdProviderCommonUniqueOption(): EntityUniquePropertyOption
+    {
+        $uniqueOption = new EntityUniquePropertyOption();
+        $uniqueOption->setIgnoreValues(
+            ['status' => false]
+        );
+        return $uniqueOption;
     }
 
     /**
@@ -491,13 +488,16 @@ class ProviderAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
+        $uniqueOption = $this->getOpenIdProviderCommonUniqueOption();
+        $uniqueOption->setIgnoreId($this->getAttributeId());
+
         return new ParamRuleCollection(
             new ParamRule(
                 CommonParams::PARAMETER_ID,
                 new Rule(Rules::POSITIVE)
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
-                $this->getNameRule(true),
+                $this->getNameRule($uniqueOption),
             ),
             $this->getValidationDecorator()->requiredParamRule(
                 new ParamRule(

@@ -1,0 +1,344 @@
+GetOne:
+  get one by existing id:
+    userId: 1
+    services:
+      admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
+    attributes:
+      id: 1
+    data: {
+      id: 1,
+      name: Pay Grade 1,
+      currencies: [
+        {
+          id: AUD,
+          name: Australian Dollar
+        },
+        {
+          id: USD,
+          name: United States Dollar
+        }
+      ]
+    }
+
+  get one by non-existing id:
+    userId: 1
+    services:
+      admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
+    attributes:
+      id: 2910
+    exception:
+      class: \OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException
+      message: Record Not Found
+
+  negative id:
+    userId: 1
+    services:
+      admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
+    attributes:
+      id: -1
+    invalidOnly: [ id ]
+
+  zero id:
+    userId: 1
+    services:
+      admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
+    attributes:
+      id: 0
+    invalidOnly: [ id ]
+
+  empty id:
+    userId: 1
+    services:
+      admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
+    attributes:
+      id: ''
+    invalidOnly: [ id ]
+
+  missing id param:
+    userId: 1
+    services:
+      admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
+    invalidOnly: [ id ]
+
+GetAll:
+  get all without filtering:
+    userId: 1
+    services:
+      admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
+    data: [
+      {
+        id: 1,
+        name: Pay Grade 1,
+        currencies: [
+          {
+            id: AUD,
+            name: Australian Dollar
+          },
+          {
+            id: USD,
+            name: United States Dollar
+          }
+        ]
+      },
+      {
+        id: 2,
+        name: Pay Grade 2,
+        currencies: [
+          {
+            id: AUD,
+            name: Australian Dollar
+          }
+        ]
+      },
+      {
+        id: 3,
+        name: Pay Grade 3,
+        currencies: [ ]
+      }
+    ]
+    meta:
+      total: 3
+
+  get all - sorted by name - descending:
+    userId: 1
+    services:
+      admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
+    query:
+      sortField: pg.name
+      sortOrder: DESC
+    data: [
+      {
+        id: 3,
+        name: Pay Grade 3,
+        currencies: [ ]
+      },
+      {
+        id: 2,
+        name: Pay Grade 2,
+        currencies: [
+          {
+            id: AUD,
+            name: Australian Dollar
+          }
+        ]
+      },
+      {
+        id: 1,
+        name: Pay Grade 1,
+        currencies: [
+          {
+            id: AUD,
+            name: Australian Dollar
+          },
+          {
+            id: USD,
+            name: United States Dollar
+          }
+        ]
+      }
+    ]
+    meta:
+      total: 3
+
+  unexpected param:
+    userId: 1
+    services:
+      admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
+    query:
+      empNumber: 1
+    invalidOnly: [ empNumber ]
+
+Create:
+  create successful - 1:
+    userId: 1
+    services:
+      admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
+    body:
+      name: Pay Grade 4
+    data: {
+      id: 4,
+      name: Pay Grade 4,
+      currencies: [ ]
+    }
+
+  name missing:
+    userId: 1
+    services:
+      admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
+    invalidOnly: [ name ]
+
+  invalid name - data type:
+    userId: 1
+    services:
+      admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
+    body:
+      name: 1
+    invalidOnly: [ name ]
+
+  invalid name - length:
+    userId: 1
+    services:
+      admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
+    body:
+      name: asdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd
+    invalidOnly: [ name ]
+
+  invalid name - empty:
+    userId: 1
+    services:
+      admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
+    body:
+      name: ''
+    invalidOnly: [ name ]
+
+  invalid name - existing pay grade name:
+    userId: 1
+    services:
+      admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
+    body:
+      name: Pay Grade 1
+    invalidOnly: [ name ]
+
+Update:
+  update successful - 1:
+    userId: 1
+    services:
+      admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
+    attributes:
+      id: 1
+    body:
+      name: test paygrade 1
+    data: {
+      id: 1,
+      name: test paygrade 1,
+      currencies: [
+        {
+          id: AUD,
+          name: Australian Dollar
+        },
+        {
+          id: USD,
+          name: United States Dollar
+        }
+      ]
+    }
+
+  non existing id:
+    userId: 1
+    services:
+      admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
+    attributes:
+      id: 25
+    body:
+      name: test paygrade 2
+    exception:
+      class: \OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException
+      message: Record Not Found
+
+  id missing:
+    userId: 1
+    services:
+      admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
+    body:
+      name: test paygrade 1
+    invalidOnly: [ id ]
+
+  update pay grade with same name:
+    userId: 1
+    services:
+      admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
+    attributes:
+      id: 3
+    body:
+      name: Pay Grade 3
+    data: {
+      id: 3,
+      name: Pay Grade 3,
+      currencies: [ ]
+    }
+
+  update pay grade with existing different name:
+    userId: 1
+    services:
+      admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
+    attributes:
+      id: 3
+    body:
+      name: Pay Grade 1
+    invalidOnly: [ name ]
+
+Delete:
+  delete successful - 1:
+    userId: 1
+    services:
+      admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
+    body:
+      ids: [ 1, 3 ]
+    data: [ 1, 3 ]
+
+  delete successful - with non existing ids included:
+    userId: 1
+    services:
+      admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
+    body:
+      ids: [ 1, 24, 2 ]
+    data: [ 1, 2 ]
+
+  delete successful - single entry:
+    userId: 1
+    services:
+      admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
+    body:
+      ids: [ 2 ]
+    data: [ 2 ]
+
+  delete non existing ids:
+    userId: 1
+    services:
+      admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
+    body:
+      ids: [ 25 ]
+    exception:
+      class: \OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException
+      message: Records Not Found
+
+  delete all:
+    userId: 1
+    services:
+      admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
+    body:
+      ids: [ 1, 2, 3 ]
+    data: [ 1, 2, 3 ]
+
+  delete with empty ids:
+    userId: 1
+    services:
+      admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
+    body:
+      ids: [ ]
+    exception:
+      class: \OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException
+      message: Records Not Found
+
+  ids missing:
+    userId: 1
+    services:
+      admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
+    invalidOnly: [ ids ]
+
+  extra params:
+    userId: 1
+    services:
+      admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
+    body:
+      ids: [ 1, 3 ]
+      extraParam: 1
+    invalidOnly: [ extraParam ]
+
+  non array type:
+    userId: 1
+    services:
+      admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
+    body:
+      ids: 1
+    invalidOnly: [ ids ]

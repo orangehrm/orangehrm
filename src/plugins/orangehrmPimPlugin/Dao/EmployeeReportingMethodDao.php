@@ -165,4 +165,40 @@ class EmployeeReportingMethodDao extends BaseDao
         }
         return null;
     }
+
+    /**
+     * @param int[] $ids
+     * @param int $empNumber
+     * @return int[]
+     */
+    public function getExistingSubordinateIdsForEmpNumber(array $ids, int $empNumber): array
+    {
+        $qb = $this->createQueryBuilder(ReportTo::class, 'reportTo');
+
+        $qb->select('IDENTITY(reportTo.subordinate)')
+            ->andWhere($qb->expr()->in('reportTo.subordinate', ':ids'))
+            ->andWhere($qb->expr()->eq('reportTo.supervisor', ':empNumber'))
+            ->setParameter('ids', $ids)
+            ->setParameter('empNumber', $empNumber);
+
+        return $qb->getQuery()->getSingleColumnResult();
+    }
+
+    /**
+     * @param int[] $ids
+     * @param int $empNumber
+     * @return int[]
+     */
+    public function getExistingSupervisorIdsForEmpNumber(array $ids, int $empNumber): array
+    {
+        $qb = $this->createQueryBuilder(ReportTo::class, 'reportTo');
+
+        $qb->select('IDENTITY(reportTo.supervisor)')
+            ->andWhere($qb->expr()->in('reportTo.supervisor', ':ids'))
+            ->andWhere($qb->expr()->eq('reportTo.subordinate', ':empNumber'))
+            ->setParameter('ids', $ids)
+            ->setParameter('empNumber', $empNumber);
+
+        return $qb->getQuery()->getSingleColumnResult();
+    }
 }

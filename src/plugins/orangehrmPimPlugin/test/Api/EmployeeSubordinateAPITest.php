@@ -573,7 +573,7 @@ class EmployeeSubordinateAPITest extends EndpointTestCase
         $reportTo->setSupervisor($employee2);
         $reportTo->setReportingMethod($reportingMethod);
 
-        $employeeReportingMethodDao->expects($this->exactly(1))
+        $employeeReportingMethodDao->expects($this->exactly(0))
             ->method('deleteEmployeeSubordinates')
             ->with(1, [1])
             ->willReturn(1);
@@ -603,13 +603,8 @@ class EmployeeSubordinateAPITest extends EndpointTestCase
             ->method('getEmployeeReportingMethodService')
             ->will($this->returnValue($employeeReportingMethodService));
 
+        $this->expectRecordNotFoundException();
         $result = $api->delete();
-        $this->assertEquals(
-            [
-                1
-            ],
-            $result->normalize()
-        );
     }
 
     public function testGetValidationRuleForDelete(): void

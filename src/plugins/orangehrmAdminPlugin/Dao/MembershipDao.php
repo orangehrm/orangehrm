@@ -49,6 +49,20 @@ class MembershipDao extends BaseDao
     }
 
     /**
+     * @param int[] $ids
+     * @return int[]
+     */
+    public function getExistingMembershipIds(array $ids): array
+    {
+        $qb = $this->createQueryBuilder(Membership::class, 'membership');
+        $qb->select('membership.id')
+            ->andWhere($qb->expr()->in('membership.id', ':ids'))
+            ->setParameter('ids', $ids);
+
+        return $qb->getQuery()->getSingleColumnResult();
+    }
+
+    /**
      * @param string $name
      * @return Membership|null
      */

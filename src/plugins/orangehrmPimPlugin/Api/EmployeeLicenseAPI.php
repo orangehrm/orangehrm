@@ -304,7 +304,11 @@ class EmployeeLicenseAPI extends Endpoint implements CrudEndpoint
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_LICENSE_EXPIRED_DATE,
-                    new Rule(Rules::API_DATE)
+                    new Rule(Rules::API_DATE),
+                    new Rule(
+                        Rules::GREATER_THAN,
+                        [$this->getRequestParams()->getDateTimeOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_LICENSE_ISSUED_DATE)]
+                    )
                 ),
             ),
         ];

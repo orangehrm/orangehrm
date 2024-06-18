@@ -33,11 +33,13 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Core\Api\V2\Validator\Rules\EntityUniquePropertyOption;
 use OrangeHRM\Entity\EmploymentStatus;
 
 class EmploymentStatusAPI extends Endpoint implements CrudEndpoint
 {
     public const PARAMETER_NAME = 'name';
+    public const PARAM_RULE_NAME_MAX_LENGTH = 50;
 
     public const FILTER_NAME = 'name';
 
@@ -183,7 +185,7 @@ class EmploymentStatusAPI extends Endpoint implements CrudEndpoint
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="name", type="string"),
+     *             @OA\Property(property="name", type="string", maxLength=OrangeHRM\Admin\Api\EmploymentStatusAPI::PARAM_RULE_NAME_MAX_LENGTH),
      *             required={"name"}
      *         )
      *     ),
@@ -215,7 +217,7 @@ class EmploymentStatusAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(self::PARAMETER_NAME),
+            $this->getNameRule()
         );
     }
 
@@ -232,7 +234,7 @@ class EmploymentStatusAPI extends Endpoint implements CrudEndpoint
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="name", type="string"),
+     *             @OA\Property(property="name", type="string", maxLength=OrangeHRM\Admin\Api\EmploymentStatusAPI::PARAM_RULE_NAME_MAX_LENGTH),
      *             required={"name"}
      *         )
      *     ),
@@ -266,12 +268,31 @@ class EmploymentStatusAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
+        $uniqueOption = new EntityUniquePropertyOption();
+        $uniqueOption->setIgnoreId($this->getAttributeId());
+
         return new ParamRuleCollection(
             new ParamRule(
                 CommonParams::PARAMETER_ID,
                 new Rule(Rules::POSITIVE)
             ),
-            new ParamRule(self::PARAMETER_NAME),
+            $this->getNameRule($uniqueOption)
+        );
+    }
+
+    /**
+     * @param EntityUniquePropertyOption|null $uniqueOption
+     * @return ParamRule
+     */
+    private function getNameRule(?EntityUniquePropertyOption $uniqueOption = null): ParamRule
+    {
+        return $this->getValidationDecorator()->requiredParamRule(
+            new ParamRule(
+                self::PARAMETER_NAME,
+                new Rule(Rules::STRING_TYPE),
+                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NAME_MAX_LENGTH]),
+                new Rule(Rules::ENTITY_UNIQUE_PROPERTY, [EmploymentStatus::class, 'name', $uniqueOption])
+            )
         );
     }
 
@@ -293,14 +314,18 @@ class EmploymentStatusAPI extends Endpoint implements CrudEndpoint
      *     operationId="delete-employment-statuses",
      *     tags={"Admin/Employment Status"},
      *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),
-     *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse")
+     *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse"),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
      * )
      *
      * @inheritDoc
      */
     public function delete(): EndpointResourceResult
     {
-        $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
+        $ids = $this->getEmploymentStatusService()->getEmploymentStatusDao()->getExistingEmploymentStatusIds(
+            $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS)
+        );
+        $this->throwRecordNotFoundExceptionIfEmptyIds($ids);
         $this->getEmploymentStatusService()->deleteEmploymentStatus($ids);
         return new EndpointResourceResult(ArrayModel::class, $ids);
     }

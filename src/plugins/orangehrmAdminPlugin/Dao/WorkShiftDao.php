@@ -43,6 +43,21 @@ class WorkShiftDao extends BaseDao
     }
 
     /**
+     * @param int[] $ids
+     * @return int[]
+     */
+    public function getExistingWorkShiftIds(array $ids): array
+    {
+        $qb = $this->createQueryBuilder(WorkShift::class, 'workShift');
+
+        $qb->select('workShift.id')
+            ->andWhere($qb->expr()->in('workShift.id', ':ids'))
+            ->setParameter('ids', $ids);
+
+        return $qb->getQuery()->getSingleColumnResult();
+    }
+
+    /**
      * @param WorkShiftSearchFilterParams $workShiftSearchFilterParams
      * @return array
      */

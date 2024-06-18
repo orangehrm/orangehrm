@@ -26,6 +26,7 @@ class EntityUniquePropertyOption
 
     private Closure $trimFunction;
     private ?array $ignoreValues;
+    private ?array $matchValues;
 
     public function __construct()
     {
@@ -103,5 +104,45 @@ class EntityUniquePropertyOption
     public function getIgnoreValues(): array
     {
         return $this->ignoreValues;
+    }
+
+    /**
+     * @param int $ignoreId
+     * @return $this
+     * Helper function. Provide ID to ignore
+     */
+    public function setIgnoreId(int $ignoreId): self
+    {
+        $ignoreIdValues = ['id' => $ignoreId];
+        $this->ignoreValues = is_array($this->ignoreValues) ?
+            array_merge($ignoreIdValues, $this->ignoreValues) :
+            $ignoreIdValues;
+        return $this;
+    }
+
+    /**
+     * @return array|null
+     */
+    public function getMatchValues(): ?array
+    {
+        return $this->matchValues;
+    }
+
+    /**
+     * @param array|null $matchValues
+     * @return $this
+     */
+    public function setMatchValues(?array $matchValues): self
+    {
+        $this->matchValues = $matchValues;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasMatchValues(): bool
+    {
+        return isset($this->matchValues);
     }
 }

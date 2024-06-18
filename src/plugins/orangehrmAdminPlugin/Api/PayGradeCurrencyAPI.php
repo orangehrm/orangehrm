@@ -20,7 +20,7 @@ namespace OrangeHRM\Admin\Api;
 
 use OrangeHRM\Admin\Api\Model\PayGradeCurrencyModel;
 use OrangeHRM\Admin\Dto\PayGradeCurrencySearchFilterParams;
-use OrangeHRM\Admin\Service\PayGradeService;
+use OrangeHRM\Admin\Traits\Service\PayGradeServiceTrait;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
@@ -35,29 +35,19 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
-use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Entity\CurrencyType;
 use OrangeHRM\Entity\PayGrade;
 use OrangeHRM\Entity\PayGradeCurrency;
-use OrangeHRM\Framework\Services;
 
 class PayGradeCurrencyAPI extends Endpoint implements CrudEndpoint
 {
-    use ServiceContainerTrait;
+    use PayGradeServiceTrait;
     use EntityManagerHelperTrait;
 
     public const PARAMETER_PAY_GRADE_ID = 'payGradeId';
     public const PARAMETER_CURRENCY_ID = 'currencyId';
     public const PARAMETER_MIN_SALARY = 'minSalary';
     public const PARAMETER_MAX_SALARY = 'maxSalary';
-
-    /**
-     * @return PayGradeService
-     */
-    public function getPayGradeService(): PayGradeService
-    {
-        return $this->getContainer()->get(Services::PAY_GRADE_SERVICE);
-    }
 
     /**
      * @OA\Get(
@@ -110,8 +100,18 @@ class PayGradeCurrencyAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForGetOne(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(self::PARAMETER_PAY_GRADE_ID, new Rule(Rules::POSITIVE)),
-            new ParamRule(CommonParams::PARAMETER_ID, new Rule(Rules::REQUIRED))
+            $this->getValidationDecorator()->requiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_PAY_GRADE_ID,
+                    new Rule(Rules::POSITIVE)
+                )
+            ),
+            $this->getValidationDecorator()->requiredParamRule(
+                new ParamRule(
+                    CommonParams::PARAMETER_ID,
+                    new Rule(Rules::STRING_TYPE)
+                )
+            )
         );
     }
 
@@ -242,8 +242,12 @@ class PayGradeCurrencyAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(self::PARAMETER_PAY_GRADE_ID, new Rule(Rules::REQUIRED)),
-            new ParamRule(self::PARAMETER_CURRENCY_ID, new Rule(Rules::REQUIRED)),
+            $this->getValidationDecorator()->requiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_CURRENCY_ID,
+                    new Rule(Rules::STRING_TYPE)
+                ),
+            ),
             ...$this->getBodyValidationRules(),
         );
     }
@@ -265,10 +269,9 @@ class PayGradeCurrencyAPI extends Endpoint implements CrudEndpoint
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="currencyId", type="string"),
      *             @OA\Property(property="maxSalary", type="integer"),
      *             @OA\Property(property="minSalary", type="integer"),
-     *             required={"currencyId", "maxSalary", "minSalary"}
+     *             required={"maxSalary", "minSalary"}
      *         )
      *     ),
      *     @OA\Response(response="200",
@@ -303,8 +306,12 @@ class PayGradeCurrencyAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(self::PARAMETER_PAY_GRADE_ID, new Rule(Rules::REQUIRED)),
-            new ParamRule(CommonParams::PARAMETER_ID, new Rule(Rules::REQUIRED)),
+            $this->getValidationDecorator()->requiredParamRule(
+                new ParamRule(
+                    CommonParams::PARAMETER_ID,
+                    new Rule(Rules::STRING_TYPE)
+                )
+            ),
             ...$this->getBodyValidationRules()
         );
     }
@@ -320,7 +327,8 @@ class PayGradeCurrencyAPI extends Endpoint implements CrudEndpoint
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),
-     *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse")
+     *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse"),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
      * )
      *
      * @inheritDoc
@@ -328,7 +336,11 @@ class PayGradeCurrencyAPI extends Endpoint implements CrudEndpoint
     public function delete(): EndpointResourceResult
     {
         $payGradeId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_PAY_GRADE_ID);
-        $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
+        $ids = $this->getPayGradeService()->getPayGradeDao()->getExistingCurrencyIdsForPayGradeId(
+            $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS),
+            $payGradeId
+        );
+        $this->throwRecordNotFoundExceptionIfEmptyIds($ids);
         $this->getPayGradeService()->deletePayGradeCurrency($payGradeId, $ids);
         return new EndpointResourceResult(
             ArrayModel::class,
@@ -347,14 +359,26 @@ class PayGradeCurrencyAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForDelete(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(self::PARAMETER_PAY_GRADE_ID, new Rule(Rules::REQUIRED)),
-            new ParamRule(CommonParams::PARAMETER_IDS, new Rule(Rules::ARRAY_TYPE)),
+            new ParamRule(
+                self::PARAMETER_PAY_GRADE_ID,
+                new Rule(Rules::POSITIVE)
+            ),
+            new ParamRule(
+                CommonParams::PARAMETER_IDS,
+                new Rule(Rules::ARRAY_TYPE)
+            )
         );
     }
 
     protected function getBodyValidationRules(): array
     {
         return [
+            $this->getValidationDecorator()->requiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_PAY_GRADE_ID,
+                    new Rule(Rules::POSITIVE)
+                )
+            ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_MIN_SALARY,
@@ -395,6 +419,11 @@ class PayGradeCurrencyAPI extends Endpoint implements CrudEndpoint
             RequestParams::PARAM_TYPE_BODY,
             self::PARAMETER_MAX_SALARY
         );
+
+        if ($maxSalary <= $minSalary) {
+            throw $this->getBadRequestException("Min salary should be less than max salary");
+        }
+
         $id = $this->getRequestParams()->getString(
             RequestParams::PARAM_TYPE_ATTRIBUTE,
             CommonParams::PARAMETER_ID
@@ -414,7 +443,6 @@ class PayGradeCurrencyAPI extends Endpoint implements CrudEndpoint
         }
         $payGradeCurrency->setMinSalary($minSalary);
         $payGradeCurrency->setMaxSalary($maxSalary);
-        $payGradeCurrency = $this->getPayGradeService()->savePayGradeCurrency($payGradeCurrency);
-        return  $payGradeCurrency;
+        return $this->getPayGradeService()->savePayGradeCurrency($payGradeCurrency);
     }
 }

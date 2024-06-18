@@ -83,7 +83,9 @@ Delete:
       admin.localization_service: OrangeHRM\Admin\Service\LocalizationService
     body:
       ids: [ ]
-    data: [ ]
+    exception:
+      class: \OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException
+      message: Records Not Found
 
   'with one id':
     userId: 1

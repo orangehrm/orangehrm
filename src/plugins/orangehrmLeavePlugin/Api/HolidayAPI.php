@@ -199,11 +199,16 @@ class HolidayAPI extends Endpoint implements CrudEndpoint
      *             @OA\Property(
      *                 property="length",
      *                 type="integer",
-     *                 enum={ 0, 4},
+     *                 enum={0, 4},
      *                 description="0 - working day, 4 - half day"
      *             ),
-     *             @OA\Property(property="name", type="string"),
-     *             @OA\Property(property="recurring", type="boolean")
+     *             @OA\Property(
+     *                 property="name",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Leave\Api\HolidayAPI::PARAM_RULE_NAME_MAX_LENGTH
+     *             ),
+     *             @OA\Property(property="recurring", type="boolean"),
+     *             required={"name", "date"}
      *         )
      *     ),
      *     @OA\Response(response="200",
@@ -257,9 +262,11 @@ class HolidayAPI extends Endpoint implements CrudEndpoint
     private function getCommonBodyParamRuleCollection(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(
-                self::PARAMETER_NAME,
-                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NAME_MAX_LENGTH])
+            $this->getValidationDecorator()->requiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_NAME,
+                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NAME_MAX_LENGTH])
+                )
             ),
             new ParamRule(
                 self::PARAMETER_DATE,
@@ -343,7 +350,8 @@ class HolidayAPI extends Endpoint implements CrudEndpoint
      *     summary="Delete Holidays",
      *     operationId="delete-holidays",
      *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),
-     *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse")
+     *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse"),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
      * )
      *
      * @inheritDoc
@@ -351,7 +359,10 @@ class HolidayAPI extends Endpoint implements CrudEndpoint
      */
     public function delete(): EndpointResourceResult
     {
-        $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
+        $ids = $this->getHolidayService()->getHolidayDao()->getExistingHolidayIds(
+            $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS)
+        );
+        $this->throwRecordNotFoundExceptionIfEmptyIds($ids);
         $this->getHolidayService()->deleteHolidays($ids);
         return new EndpointResourceResult(ArrayModel::class, $ids);
     }
@@ -364,7 +375,7 @@ class HolidayAPI extends Endpoint implements CrudEndpoint
         return new ParamRuleCollection(
             new ParamRule(
                 CommonParams::PARAMETER_IDS,
-                new Rule(Rules::ARRAY_TYPE)
+                new Rule(Rules::INT_ARRAY)
             )
         );
     }

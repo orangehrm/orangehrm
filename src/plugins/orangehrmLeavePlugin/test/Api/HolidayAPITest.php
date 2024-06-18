@@ -228,19 +228,16 @@ class HolidayAPITest extends EndpointTestCase
         $holiday->setDate(new DateTime('2021-12-25'));
         $holiday->setLength(0);
 
-        $holidayDao->expects($this->exactly(1))
+        $holidayDao->expects($this->exactly(0))
             ->method('deleteHolidays')
             ->with([1])
             ->willReturn(1);
 
         $holidayService = $this->getMockBuilder(HolidayService::class)
-            ->onlyMethods(['getHolidayDao', 'getCache'])
+            ->onlyMethods(['getHolidayDao'])
             ->getMock();
 
-        $holidayService->expects($this->exactly(1))
-            ->method('getCache');
-
-        $holidayService->expects($this->exactly(1))
+        $holidayService->expects($this->exactly(0))
             ->method('getHolidayDao')
             ->willReturn($holidayDao);
 
@@ -255,17 +252,9 @@ class HolidayAPITest extends EndpointTestCase
             ]
         )->onlyMethods(['getHolidayService'])
             ->getMock();
-        $api->expects($this->exactly(1))
-            ->method('getHolidayService')
-            ->will($this->returnValue($holidayService));
 
+        $this->expectRecordNotFoundException();
         $result = $api->delete();
-        $this->assertEquals(
-            [
-                1
-            ],
-            $result->normalize()
-        );
     }
 
     public function testGetValidationRuleForDelete(): void

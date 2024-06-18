@@ -339,7 +339,7 @@ class EmployeeEducationAPITest extends EndpointTestCase
         $employeeEducation->setEducation($education);
         $employeeEducation->setEmployee($employee);
 
-        $employeeEducationDao->expects($this->exactly(1))
+        $employeeEducationDao->expects($this->exactly(0))
             ->method('deleteEmployeeEducations')
             ->with(1, [1])
             ->willReturn(1);
@@ -348,7 +348,7 @@ class EmployeeEducationAPITest extends EndpointTestCase
             ->onlyMethods(['getEmployeeEducationDao'])
             ->getMock();
 
-        $employeeEducationService->expects($this->exactly(1))
+        $employeeEducationService->expects($this->exactly(0))
             ->method('getEmployeeEducationDao')
             ->willReturn($employeeEducationDao);
 
@@ -365,23 +365,9 @@ class EmployeeEducationAPITest extends EndpointTestCase
             ]
         )->onlyMethods(['getEmployeeEducationService'])
             ->getMock();
-        $api->expects($this->exactly(1))
-            ->method('getEmployeeEducationService')
-            ->will($this->returnValue($employeeEducationService));
 
+        $this->expectRecordNotFoundException();
         $result = $api->delete();
-        $this->assertEquals(
-            [
-                1
-            ],
-            $result->normalize()
-        );
-        $this->assertEquals(
-            [
-                "empNumber" => 1,
-            ],
-            $result->getMeta()->all()
-        );
     }
 
     public function testGetValidationRuleForDelete(): void

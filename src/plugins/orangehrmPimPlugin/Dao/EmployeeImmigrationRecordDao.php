@@ -73,6 +73,19 @@ class EmployeeImmigrationRecordDao extends BaseDao
         return null;
     }
 
+    public function getExistingEmployeeImmigrationIdsForEmpNumber(array $ids, int $empNumber): array
+    {
+        $qb = $this->createQueryBuilder(EmployeeImmigrationRecord::class, 'employeeImmigrationRecord');
+
+        $qb->select('employeeImmigrationRecord.recordId')
+            ->andWhere($qb->expr()->in('employeeImmigrationRecord.recordId', ':ids'))
+            ->andWhere($qb->expr()->eq('employeeImmigrationRecord.employee', ':empNumber'))
+            ->setParameter('ids', $ids)
+            ->setParameter('empNumber', $empNumber);
+
+        return $qb->getQuery()->getSingleColumnResult();
+    }
+
     /**
      * @param int $empNumber
      * @param array $entriesToDelete

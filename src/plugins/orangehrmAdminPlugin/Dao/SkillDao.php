@@ -49,6 +49,21 @@ class SkillDao extends BaseDao
     }
 
     /**
+     * @param int[] $ids
+     * @return int[]
+     */
+    public function getExistingSkillIds(array $ids): array
+    {
+        $qb = $this->createQueryBuilder(Skill::class, 'skill');
+
+        $qb->select('skill.id')
+            ->andWhere($qb->expr()->in('skill.id', ':ids'))
+            ->setParameter('ids', $ids);
+
+        return $qb->getQuery()->getSingleColumnResult();
+    }
+
+    /**
      * @param array $toDeleteIds
      * @return int
      */

@@ -31,6 +31,7 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Core\Api\V2\Validator\Rules\EntityUniquePropertyOption;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\Customer;
 use OrangeHRM\Time\Api\Model\CustomerModel;
@@ -172,7 +173,7 @@ class CustomerAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            ...$this->getCommonBodyValidationRules(),
+            ...$this->getCommonBodyValidationRules($this->getNameCommonUniqueOption()),
         );
     }
 
@@ -196,6 +197,7 @@ class CustomerAPI extends Endpoint implements CrudEndpoint
      *             )
      *         )
      *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
      * )
      *
      * @inheritDoc
@@ -203,7 +205,10 @@ class CustomerAPI extends Endpoint implements CrudEndpoint
     public function delete(): EndpointResult
     {
         try {
-            $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
+            $ids = $this->getCustomerService()->getCustomerDao()->getExistingCustomerIds(
+                $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS)
+            );
+            $this->throwRecordNotFoundExceptionIfEmptyIds($ids);
             $this->getCustomerService()->getCustomerDao()->deleteCustomer($ids);
             return new EndpointResourceResult(ArrayModel::class, $ids);
         } catch (CustomerServiceException $customerServiceException) {
@@ -342,26 +347,31 @@ class CustomerAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
+        $uniqueOption = $this->getNameCommonUniqueOption();
+        $uniqueOption->setIgnoreId($this->getAttributeId());
+
         return new ParamRuleCollection(
             new ParamRule(
                 CommonParams::PARAMETER_ID,
                 new Rule(Rules::POSITIVE)
             ),
-            ...$this->getCommonBodyValidationRules(),
+            ...$this->getCommonBodyValidationRules($uniqueOption),
         );
     }
 
     /**
+     * @param EntityUniquePropertyOption|null $uniqueOption
      * @return ParamRule[]
      */
-    protected function getCommonBodyValidationRules(): array
+    protected function getCommonBodyValidationRules(?EntityUniquePropertyOption $uniqueOption = null): array
     {
         return [
             $this->getValidationDecorator()->requiredParamRule(
                 new ParamRule(
                     self::PARAMETER_NAME,
                     new Rule(Rules::STRING_TYPE),
-                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NAME_MAX_LENGTH])
+                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NAME_MAX_LENGTH]),
+                    new Rule(Rules::ENTITY_UNIQUE_PROPERTY, [Customer::class, 'name', $uniqueOption])
                 )
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
@@ -373,6 +383,18 @@ class CustomerAPI extends Endpoint implements CrudEndpoint
                 true
             ),
         ];
+    }
+
+    /**
+     * @return EntityUniquePropertyOption
+     */
+    private function getNameCommonUniqueOption(): EntityUniquePropertyOption
+    {
+        $uniqueOption = new EntityUniquePropertyOption();
+        $uniqueOption->setIgnoreValues([
+            'deleted' => true
+        ]);
+        return $uniqueOption;
     }
 
     /**

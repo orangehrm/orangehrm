@@ -39,6 +39,20 @@ class EmploymentStatusDao extends BaseDao
     }
 
     /**
+     * @param int[] $ids
+     * @return int[]
+     */
+    public function getExistingEmploymentStatusIds(array $ids): array
+    {
+        $qb = $this->createQueryBuilder(EmploymentStatus::class, 'employmentStatus');
+        $qb->select('employmentStatus.id')
+            ->andWhere($qb->expr()->in('employmentStatus.id', ':ids'))
+            ->setParameter('ids', $ids);
+
+        return $qb->getQuery()->getSingleColumnResult();
+    }
+
+    /**
      * @param EmploymentStatus $employmentStatus
      * @return EmploymentStatus
      */

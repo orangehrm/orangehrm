@@ -349,7 +349,8 @@ class EmployeeTerminationAPI extends Endpoint implements CrudEndpoint
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),
-     *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse")
+     *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse"),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
      * )
      *
      * @inheritDoc

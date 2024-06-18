@@ -889,11 +889,11 @@ Delete:
     attributes:
       requestId: 2
     body:
-      ids: [ 1 ]
-    data: [ 1 ]
+      ids: [ 4 ]
+    data: [ 4 ]
     meta: [ ]
 
-  'Delete - Claim Expense - with invalid id':
+  'Delete - Claim Expense - with invalid request id':
     userId: 1
     services:
       claim.claim_service: OrangeHRM\Claim\Service\ClaimService
@@ -910,3 +910,21 @@ Delete:
     exception:
       class: '\OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException'
       message: 'Record Not Found'
+
+  'Delete - Claim Expense - with invalid expense id':
+    userId: 1
+    services:
+      claim.claim_service: OrangeHRM\Claim\Service\ClaimService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      requestId: 2
+    body:
+      ids: [ 100 ]
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException'
+      message: 'Records Not Found'

@@ -321,7 +321,12 @@ trait LeaveRequestParamHelperTrait
             ]),
         );
         return new ParamRuleCollection(
-            new ParamRule(LeaveCommonParams::PARAMETER_LEAVE_TYPE_ID, new Rule(LeaveTypeIdRule::class)),
+            new ParamRule(
+                LeaveCommonParams::PARAMETER_LEAVE_TYPE_ID,
+                new Rule(Rules::INT_VAL),
+                new Rule(Rules::POSITIVE),
+                new Rule(LeaveTypeIdRule::class)
+            ),
             new ParamRule(
                 LeaveCommonParams::PARAMETER_FROM_DATE,
                 new Rule(Rules::API_DATE),

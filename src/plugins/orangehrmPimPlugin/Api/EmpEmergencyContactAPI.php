@@ -269,15 +269,19 @@ class EmpEmergencyContactAPI extends Endpoint implements CrudEndpoint
     private function getCommonBodyValidationRules(): array
     {
         return [
-            new ParamRule(
-                self::PARAMETER_NAME,
-                new Rule(Rules::STRING_TYPE),
-                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_MAX_LENGTH])
+            $this->getValidationDecorator()->requiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_NAME,
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_MAX_LENGTH])
+                )
             ),
-            new ParamRule(
-                self::PARAMETER_RELATIONSHIP,
-                new Rule(Rules::STRING_TYPE),
-                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_MAX_LENGTH])
+            $this->getValidationDecorator()->requiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_RELATIONSHIP,
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_MAX_LENGTH])
+                )
             ),
             new ParamRule(
                 self::PARAMETER_HOME_PHONE,
@@ -320,14 +324,15 @@ class EmpEmergencyContactAPI extends Endpoint implements CrudEndpoint
      */
     public function delete(): EndpointResourceResult
     {
-        $sequenceNumbers = $this->getRequestParams()->getArray(
-            RequestParams::PARAM_TYPE_BODY,
-            CommonParams::PARAMETER_IDS
-        );
         $empNumber = $this->getRequestParams()->getInt(
             RequestParams::PARAM_TYPE_ATTRIBUTE,
             CommonParams::PARAMETER_EMP_NUMBER
         );
+        $sequenceNumbers = $this->getEmpEmergencyContactService()->getEmpEmergencyContactDao()->getExistingSeqNosForEmpNumber(
+            $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS),
+            $empNumber
+        );
+        $this->throwRecordNotFoundExceptionIfEmptyIds($sequenceNumbers);
         $this->getEmpEmergencyContactService()->deleteEmployeeEmergencyContacts($empNumber, $sequenceNumbers);
         return new EndpointResourceResult(
             ArrayModel::class,

@@ -39,6 +39,26 @@ class PerformanceTrackerLogDao extends BaseDao
     }
 
     /**
+     * @param int[] $ids
+     * @param int $trackerId
+     * @return int[]
+     */
+    public function getExistingPerformanceTrackerLogIdsForTrackerId(array $ids, int $trackerId): array
+    {
+        $qb = $this->createQueryBuilder(PerformanceTrackerLog::class, 'performanceTrackerLog');
+
+        $qb->select('performanceTrackerLog.id')
+            ->andWhere($qb->expr()->in('performanceTrackerLog.id', ':ids'))
+            ->andWhere($qb->expr()->eq('performanceTrackerLog.performanceTracker', ':trackerId'))
+            ->andWhere($qb->expr()->eq('performanceTrackerLog.status', ':status'))
+            ->setParameter('ids', $ids)
+            ->setParameter('trackerId', $trackerId)
+            ->setParameter('status', PerformanceTrackerLog::STATUS_NOT_DELETED);
+
+        return $qb->getQuery()->getSingleColumnResult();
+    }
+
+    /**
      * @param PerformanceTrackerLogSearchFilterParams $performanceTrackerLogSearchFilterParams
      * @return PerformanceTrackerLog[]
      */

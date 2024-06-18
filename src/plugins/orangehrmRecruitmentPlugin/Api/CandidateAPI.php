@@ -452,6 +452,39 @@ class CandidateAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Post(
+     *     path="/api/v2/recruitment/candidates",
+     *     tags={"Recruitment/Candidates"},
+     *     summary="Create a Candidate",
+     *     operationId="create-a-candidate",
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="firstName", type="string", maxLength=OrangeHRM\Recruitment\Api\CandidateAPI::PARAMETER_RULE_NAME_MAX_LENGTH),
+     *             @OA\Property(property="middleName", type="string", maxLength=OrangeHRM\Recruitment\Api\CandidateAPI::PARAMETER_RULE_NAME_MAX_LENGTH),
+     *             @OA\Property(property="lastName", type="string", maxLength=OrangeHRM\Recruitment\Api\CandidateAPI::PARAMETER_RULE_NAME_MAX_LENGTH),
+     *             @OA\Property(property="email", type="string"),
+     *             @OA\Property(property="contactNumber", type="string"),
+     *             @OA\Property(property="vacancyId", type="integer"),
+     *             @OA\Property(property="keywords", type="string", maxLength=OrangeHRM\Recruitment\Api\CandidateAPI::PARAMETER_RULE_KEYWORDS_MAX_LENGTH),
+     *             @OA\Property(property="comment", type="string", maxLength=OrangeHRM\Recruitment\Api\CandidateAPI::PARAMETER_RULE_COMMENT_MAX_LENGTH),
+     *             @OA\Property(property="dateOfApplication", type="string", format="date"),
+     *             @OA\Property(property="consentToKeepData", type="boolean"),
+     *             required={"firstName", "lastName", "email"}
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Recruitment-CandidateModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     )
+     * )
      * @inheritDoc
      * @throws TransactionException
      */
@@ -674,14 +707,23 @@ class CandidateAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Delete(
+     *     path="/api/v2/recruitment/candidates",
+     *     tags={"Recruitment/Candidates"},
+     *     summary="Delete Candidates",
+     *     operationId="delete-candidates",
+     *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),
+     *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse"),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
+     * )
      * @inheritDoc
      */
     public function delete(): EndpointResult
     {
-        $ids = $this->getRequestParams()->getArray(
-            RequestParams::PARAM_TYPE_BODY,
-            CommonParams::PARAMETER_IDS
+        $ids = $this->getCandidateService()->getCandidateDao()->getExistingCandidateIds(
+            $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS)
         );
+        $this->throwRecordNotFoundExceptionIfEmptyIds($ids);
         $this->getCandidateService()->getCandidateDao()->deleteCandidates($ids);
         return new EndpointResourceResult(ArrayModel::class, $ids);
     }
@@ -700,6 +742,28 @@ class CandidateAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/recruitment/candidates/{id}",
+     *     tags={"Recruitment/Candidates"},
+     *     summary="Get a Candidate",
+     *     operationId="get-a-candidate",
+     *     @OA\PathParameter(
+     *         name="empNumber",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 @OA\Schema(ref="#/components/schemas/Recruitment-CandidateModel")
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
+     * )
      * @inheritDoc
      */
     public function getOne(): EndpointResult
@@ -727,6 +791,56 @@ class CandidateAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Put(
+     *     path="/api/v2/recruitment/candidates",
+     *     tags={"Recruitment/Candidates"},
+     *     summary="Update a Candidate",
+     *     operationId="update-a-candidate",
+     *     @OA\PathParameter(
+     *         name="id",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="firstName", type="string", maxLength=OrangeHRM\Recruitment\Api\CandidateAPI::PARAMETER_RULE_NAME_MAX_LENGTH),
+     *             @OA\Property(property="middleName", type="string", maxLength=OrangeHRM\Recruitment\Api\CandidateAPI::PARAMETER_RULE_NAME_MAX_LENGTH),
+     *             @OA\Property(property="lastName", type="string", maxLength=OrangeHRM\Recruitment\Api\CandidateAPI::PARAMETER_RULE_NAME_MAX_LENGTH),
+     *             @OA\Property(property="email", type="string"),
+     *             @OA\Property(property="contactNumber", type="string"),
+     *             @OA\Property(property="vacancyId", type="integer"),
+     *             @OA\Property(property="keywords", type="string", maxLength=OrangeHRM\Recruitment\Api\CandidateAPI::PARAMETER_RULE_KEYWORDS_MAX_LENGTH),
+     *             @OA\Property(property="comment", type="string", maxLength=OrangeHRM\Recruitment\Api\CandidateAPI::PARAMETER_RULE_COMMENT_MAX_LENGTH),
+     *             @OA\Property(property="dateOfApplication", type="string", format="date"),
+     *             @OA\Property(property="consentToKeepData", type="boolean"),
+     *             @OA\Parameter(
+     *                 name="model",
+     *                 in="query",
+     *                 required=false,
+     *                 @OA\Schema(
+     *                     type="string",
+     *                     enum={
+     *                         OrangeHRM\Recruitment\Api\CandidateAPI::MODEL_DEFAULT,
+     *                         OrangeHRM\Recruitment\Api\CandidateAPI::MODEL_CANDIDATE_LIST,
+     *                         OrangeHRM\Recruitment\Api\CandidateAPI::MODEL_CANDIDATE_DETAILED
+     *                     }
+     *                 )
+     *             ),
+     *             required={"firstName", "lastName", "email"}
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Recruitment-CandidateModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     )
+     * )
      * @inheritDoc
      * @throws TransactionException
      */

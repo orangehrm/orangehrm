@@ -41,6 +41,21 @@ class PayGradeDao extends BaseDao
     }
 
     /**
+     * @param int[] $ids
+     * @return int[]
+     */
+    public function getExistingPayGradeIds(array $ids): array
+    {
+        $qb = $this->createQueryBuilder(PayGrade::class, 'payGrade');
+
+        $qb->select('payGrade.id')
+            ->andWhere($qb->expr()->in('payGrade.id', ':ids'))
+            ->setParameter('ids', $ids);
+
+        return $qb->getQuery()->getSingleColumnResult();
+    }
+
+    /**
      * @return PayGrade[]
      */
     public function getPayGradeList(PayGradeSearchFilterParams $payGradeSearchFilterParams): array
@@ -150,6 +165,24 @@ class PayGradeDao extends BaseDao
     public function getCurrencyById(string $id): ?CurrencyType
     {
         return $this->getRepository(CurrencyType::class)->find($id);
+    }
+
+    /**
+     * @param int[] $ids
+     * @param int $payGradeId
+     * @return int[]
+     */
+    public function getExistingCurrencyIdsForPayGradeId(array $ids, int $payGradeId): array
+    {
+        $qb = $this->createQueryBuilder(PayGradeCurrency::class, 'payGradeCurrency');
+
+        $qb->select('payGradeCurrency.currencyId')
+            ->andWhere($qb->expr()->in('payGradeCurrency.currencyId', ':ids'))
+            ->andWhere($qb->expr()->eq('payGradeCurrency.payGradeId', ':payGradeId'))
+            ->setParameter('ids', $ids)
+            ->setParameter('payGradeId', $payGradeId);
+
+        return $qb->getQuery()->getSingleColumnResult();
     }
 
     /**

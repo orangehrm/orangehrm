@@ -281,7 +281,7 @@ class EmployeeMembershipAPI extends Endpoint implements CrudEndpoint
                 new ParamRule(
                     self::PARAMETER_SUBSCRIPTION_FEE,
                     new Rule(Rules::NOT_EMPTY),
-                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::NUMBER),
                     new Rule(Rules::BETWEEN, [0, 1000000000]),
                 ),
             ),
@@ -308,6 +308,10 @@ class EmployeeMembershipAPI extends Endpoint implements CrudEndpoint
                 new ParamRule(
                     self::PARAMETER_SUBSCRIPTION_RENEWAL_DATE,
                     new Rule(Rules::API_DATE),
+                    new Rule(
+                        Rules::GREATER_THAN,
+                        [$this->getRequestParams()->getDateTimeOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_SUBSCRIPTION_COMMENCE_DATE)]
+                    )
                 ),
             ),
         ];
@@ -404,7 +408,11 @@ class EmployeeMembershipAPI extends Endpoint implements CrudEndpoint
             RequestParams::PARAM_TYPE_ATTRIBUTE,
             CommonParams::PARAMETER_EMP_NUMBER
         );
-        $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
+        $ids = $this->getEmployeeMembershipService()->getEmployeeMembershipDao()->getExistingEmployeeMembershipIdsForEmpNumber(
+            $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS),
+            $empNumber
+        );
+        $this->throwRecordNotFoundExceptionIfEmptyIds($ids);
         $this->getEmployeeMembershipService()->getEmployeeMembershipDao()->deleteEmployeeMemberships($empNumber, $ids);
         return new EndpointResourceResult(
             ArrayModel::class,

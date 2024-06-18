@@ -50,6 +50,20 @@ class EducationDao extends BaseDao
     }
 
     /**
+     * @param int[] $ids
+     * @return int[]
+     */
+    public function getExistingEducationIds(array $ids): array
+    {
+        $qb = $this->createQueryBuilder(Education::class, 'education');
+        $qb->select('education.id')
+            ->andWhere($qb->expr()->in('education.id', ':ids'))
+            ->setParameter('ids', $ids);
+
+        return $qb->getQuery()->getSingleColumnResult();
+    }
+
+    /**
      * @param string $name
      * @return Education|null
      */

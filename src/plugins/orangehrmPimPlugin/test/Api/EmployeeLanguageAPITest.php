@@ -658,7 +658,7 @@ class EmployeeLanguageAPITest extends EndpointTestCase
             ->onlyMethods(['deleteEmployeeLanguages'])
             ->getMock();
 
-        $employeeLanguageDao->expects($this->once())
+        $employeeLanguageDao->expects($this->exactly(0))
             ->method('deleteEmployeeLanguages')
             ->willReturn(1);
 
@@ -689,17 +689,8 @@ class EmployeeLanguageAPITest extends EndpointTestCase
             ->method('getEmployeeLanguageService')
             ->will($this->returnValue($employeeLanguageService));
 
+        $this->expectRecordNotFoundException();
         $result = $api->delete();
-        $this->assertEquals(
-            [['languageId' => 1, 'fluencyId' => 1]],
-            $result->normalize()
-        );
-        $this->assertEquals(
-            [
-                "empNumber" => 1,
-            ],
-            $result->getMeta()->all()
-        );
     }
 
     public function testGetValidationRuleForDelete(): void

@@ -133,6 +133,19 @@ class CustomFieldDao extends BaseDao
     }
 
     /**
+     * @param int[] $ids
+     * @return int[]
+     */
+    public function getExistingCustomFieldIds(array $ids): array
+    {
+        $qb = $this->createQueryBuilder(CustomField::class, 'customField');
+        $qb->select('customField.fieldNum')
+            ->andWhere($qb->expr()->in('customField.fieldNum', ':ids'))
+            ->setParameter('ids', $ids);
+        return $qb->getQuery()->getSingleColumnResult();
+    }
+
+    /**
      * @param array $toDeleteIds
      * @return int
      * @throws TransactionException

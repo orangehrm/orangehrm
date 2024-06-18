@@ -159,7 +159,7 @@ class EmployeeLeaveEntitlementUsageReport implements EndpointAwareReport
     public function getValidationRule(EndpointProxy $endpoint): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            $endpoint->getValidationDecorator()->notRequiredParamRule(
+            $endpoint->getValidationDecorator()->requiredParamRule(
                 new ParamRule(CommonParams::PARAMETER_EMP_NUMBER, new Rule(Rules::IN_ACCESSIBLE_EMP_NUMBERS))
             ),
             $endpoint->getValidationDecorator()->notRequiredParamRule(

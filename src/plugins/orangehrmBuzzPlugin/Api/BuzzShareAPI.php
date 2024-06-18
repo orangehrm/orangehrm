@@ -166,7 +166,8 @@ class BuzzShareAPI extends Endpoint implements CrudEndpoint
      *                 @OA\Property(property="shareId", type="integer")
      *             )
      *         )
-     *     )
+     *     ),
+     *     @OA\Response(response="403", ref="#/components/responses/ForbiddenResponse")
      * )
      * @inheritDoc
      */

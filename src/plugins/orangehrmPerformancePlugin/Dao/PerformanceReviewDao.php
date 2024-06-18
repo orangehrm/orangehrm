@@ -385,6 +385,21 @@ class PerformanceReviewDao extends BaseDao
     }
 
     /**
+     * @param int[] $ids
+     * @return int[]
+     */
+    public function getExistingPerformanceReviewIds(array $ids): array
+    {
+        $qb = $this->createQueryBuilder(PerformanceReview::class, 'performanceReview');
+
+        $qb->select('performanceReview.id')
+            ->andWhere($qb->expr()->in('performanceReview.id', ':ids'))
+            ->setParameter('ids', $ids);
+
+        return $qb->getQuery()->getSingleColumnResult();
+    }
+
+    /**
      * @param ReviewKpiSearchFilterParams $reviewKpiSearchFilterParams
      * @return Kpi[]
      */

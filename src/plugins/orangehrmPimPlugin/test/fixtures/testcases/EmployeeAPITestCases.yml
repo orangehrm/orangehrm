@@ -1088,13 +1088,13 @@ Create:
       firstName: "Chamara"
       lastName: "Abesinghe"
       middleName: "Middle Name"
-      employeeId: "0007"
+      employeeId: "0008"
     data: {
       "empNumber": 8,
       "lastName": "Abesinghe",
       "firstName": "Chamara",
       "middleName": "Middle Name",
-      "employeeId": "0007",
+      "employeeId": "0008",
       "terminationId": null
     }
 
@@ -1165,8 +1165,8 @@ Delete:
     body:
       ids: [ 900 ]
     exception:
-      class: '\OrangeHRM\Core\Api\V2\Exception\BadRequestException'
-      message: 'Employees not accessible'
+      class: '\OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException'
+      message: 'Records Not Found'
 
 
   'with one id':

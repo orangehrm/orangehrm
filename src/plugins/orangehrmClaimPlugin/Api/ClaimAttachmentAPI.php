@@ -300,7 +300,9 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
      *             ),
      *             @OA\Property(property="meta", type="object")
      *         )
-     *     )
+     *     ),
+     *     @OA\Response(response="403", ref="#/components/responses/ForbiddenResponse"),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
      * )
      * @inheritDoc
      */
@@ -310,11 +312,15 @@ class ClaimAttachmentAPI extends Endpoint implements CrudEndpoint
             RequestParams::PARAM_TYPE_ATTRIBUTE,
             self::PARAMETER_REQUEST_ID
         );
-        $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
         $claimRequest = $this->getClaimRequest($requestId);
 
         $this->isActionAllowed(WorkflowStateMachine::CLAIM_ACTION_SUBMIT, $claimRequest);
 
+        $ids = $this->getClaimService()->getClaimDao()->getExistingClaimAttachmentIdsForRequestId(
+            $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS),
+            $requestId
+        );
+        $this->throwRecordNotFoundExceptionIfEmptyIds($ids);
         $this->getClaimService()
             ->getClaimDao()
             ->deleteClaimAttachments($requestId, $ids);

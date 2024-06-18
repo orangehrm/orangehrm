@@ -49,6 +49,23 @@ class LeaveTypeDao extends BaseDao
     }
 
     /**
+     * @param int[] $ids
+     * @return int[]
+     */
+    public function getExistingLeaveTypeIds(array $ids): array
+    {
+        $qb = $this->createQueryBuilder(LeaveType::class, 'leaveType');
+
+        $qb->select('leaveType.id')
+            ->andWhere($qb->expr()->in('leaveType.id', ':ids'))
+            ->andWhere($qb->expr()->eq('leaveType.deleted', ':deleted'))
+            ->setParameter('ids', $ids)
+            ->setParameter('deleted', false);
+
+        return $qb->getQuery()->getSingleColumnResult();
+    }
+
+    /**
      * @param LeaveType $leaveType
      * @return LeaveType
      */

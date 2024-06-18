@@ -54,6 +54,22 @@ class KpiDao extends BaseDao
     }
 
     /**
+     * @param int[] $ids
+     * @return int[]
+     */
+    public function getExistingKpiIds(array $ids): array
+    {
+        $qb = $this->createQueryBuilder(Kpi::class, 'kpi');
+
+        $qb->select('kpi.id')
+            ->andWhere($qb->expr()->in('kpi.id', ':ids'))
+            ->andWhere($qb->expr()->isNull('kpi.deletedAt'))
+            ->setParameter('ids', $ids);
+
+        return $qb->getQuery()->getSingleColumnResult();
+    }
+
+    /**
      * @param KpiSearchFilterParams $kpiSearchFilterParams
      * @return Kpi[]
      */
