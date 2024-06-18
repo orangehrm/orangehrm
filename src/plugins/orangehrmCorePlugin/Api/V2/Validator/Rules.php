@@ -50,6 +50,7 @@ final class Rules
     public const PASSWORD = OHRMRules\Password::class;
     public const INT_ARRAY = OHRMRules\IntArray::class;
     public const STR_LENGTH = OHRMRules\StrLength::class;
+    public const STRING_TYPE = OHRMRules\NotBlankStringType::class;
 
     public const ALNUM = RespectRules\Alnum::class;
     public const ALPHA = RespectRules\Alpha::class;
@@ -171,7 +172,6 @@ final class Rules
     public const SORTED = RespectRules\Sorted::class;
     public const SPACE = RespectRules\Space::class;
     public const STARTS_WITH = RespectRules\StartsWith::class;
-    public const STRING_TYPE = RespectRules\StringType::class;
     public const STRING_VAL = RespectRules\StringVal::class;
     public const SUBDIVISION_CODE = RespectRules\SubdivisionCode::class;
     public const SUBSET = RespectRules\Subset::class;
