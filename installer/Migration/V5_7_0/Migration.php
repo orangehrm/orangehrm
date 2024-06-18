@@ -54,6 +54,8 @@ class Migration extends AbstractMigration
         foreach ($groups as $group) {
             $this->getLangStringHelper()->insertOrUpdateLangStrings(__DIR__, $group);
         }
+
+        $this->dropOldTables();
     }
 
     /**
@@ -75,5 +77,22 @@ class Migration extends AbstractMigration
             );
         }
         return $this->langStringHelper;
+    }
+
+    private function dropOldTables(): void
+    {
+        $this->getSchemaManager()->dropTable('ohrm_user_selection_rule');
+        $this->getSchemaManager()->dropTable('ohrm_role_user_selection_rule');
+        $this->getSchemaManager()->dropTable('ohrm_leave_entitlement_adjustment');
+        $this->getSchemaManager()->dropTable('ohrm_leave_adjustment');
+        $this->getSchemaManager()->dropTable('ohrm_available_group_field');
+        $this->getSchemaManager()->dropTable('hs_hr_mailnotifications');
+        $this->getSchemaManager()->dropTable('hs_hr_custom_export');
+        $this->getSchemaManager()->dropTable('hs_hr_custom_import');
+        $this->getSchemaManager()->dropTable('hs_hr_module');
+        $this->getSchemaManager()->dropTable('ohrm_advanced_report');
+        $this->getSchemaManager()->dropTable('ohrm_beacon_notification');
+        $this->getSchemaManager()->dropTable('ohrm_datapoint');
+        $this->getSchemaManager()->dropTable('ohrm_datapoint_type');
     }
 }
