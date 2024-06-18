@@ -227,17 +227,18 @@ Delete:
     result: { ids: [ 1, 3 ], preCount: 4, postCount: 2 }
   'delete successful - with non existing ids included':
     params: { ids: [ 1, 24, 2 ] }
-    result: { ids: [ 1, 24, 2 ], preCount: 4, postCount: 2 }
+    result: { ids: [ 1, 2 ], preCount: 4, postCount: 2 }
   'delete successful - single entry':
     params: { ids: [ 2 ] }
     result: { ids: [ 2 ], preCount: 4, postCount: 3 }
   'delete non existing ids':
     params: { ids: [ 25 ] }
-    result: { ids: [ 25 ], preCount: 4, postCount: 4 }
+    result: { preCount: 4 }
+    exception: { class: 'OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException', message: 'Records Not Found' }
   'delete all':
     params: { ids: [ 1, 2, 3, 4 ] }
     result: { ids: [ 1, 2, 3, 4 ], preCount: 4, postCount: 0 }
   'delete with empty ids array':
     params: { ids: [ ] }
-    result: { ids: [ ], preCount: 4, postCount: 4 }
-
+    result: { preCount: 4 }
+    exception: { class: 'OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException', message: 'Records Not Found' }

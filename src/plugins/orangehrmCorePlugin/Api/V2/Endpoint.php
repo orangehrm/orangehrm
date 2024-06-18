@@ -178,4 +178,15 @@ abstract class Endpoint
         }
         return $rules;
     }
+
+    /**
+     * @return int
+     */
+    public function getAttributeId(): int
+    {
+        return $this->getRequestParams()->getInt(
+            RequestParams::PARAM_TYPE_ATTRIBUTE,
+            CommonParams::PARAMETER_ID
+        );
+    }
 }

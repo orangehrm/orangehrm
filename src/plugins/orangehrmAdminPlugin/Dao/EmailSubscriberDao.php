@@ -114,6 +114,20 @@ class EmailSubscriberDao extends BaseDao
     }
 
     /**
+     * @param int[] $ids
+     * @return int[]
+     */
+    public function getExistingEmailSubscriberIds(array $ids): array
+    {
+        $qb = $this->createQueryBuilder(EmailSubscriber::class, 'emailSubscriber');
+        $qb->select('emailSubscriber.id')
+            ->andWhere($qb->expr()->in('emailSubscriber.id', ':ids'))
+            ->setParameter('ids', $ids);
+
+        return $qb->getQuery()->getSingleColumnResult();
+    }
+
+    /**
      * @param int[] $emailSubscriberIds
      * @return int
      */
@@ -124,32 +138,5 @@ class EmailSubscriberDao extends BaseDao
             ->where($q->expr()->in('es.id', ':ids'))
             ->setParameter('ids', $emailSubscriberIds);
         return $q->getQuery()->execute();
-    }
-
-    /**
-     * Checks whether an email already exists for a particular subscription ID
-     * Can further set ignoreId to ignore a particular subscriber
-     * @param string $email
-     * @param int $subscriptionId
-     * @param int|null $ignoreId
-     * @return bool
-     */
-    public function isSubscriberEmailUnique(string $email, int $subscriptionId, ?int $ignoreId = null): bool
-    {
-        $qb = $this->createQueryBuilder(EmailSubscriber::class, 'subscriber');
-        $qb->leftJoin('subscriber.emailNotification', 'notification');
-
-        $qb->andWhere($qb->expr()->eq('notification.id', ':subscriptionId'))
-            ->setParameter('subscriptionId', $subscriptionId);
-        $qb->andWhere($qb->expr()->eq('subscriber.email', ':email'))
-            ->setParameter('email', $email);
-
-        if (isset($ignoreId)) {
-            $qb->andWhere($qb->expr()->neq('subscriber.id', ':id'))
-                ->setParameter('id', $ignoreId);
-        }
-
-        $emailList = $qb->getQuery()->execute();
-        return empty($emailList);
     }
 }

@@ -1,0 +1,420 @@
+GetAll:
+  get all without query params:
+    userId: 1
+    data: [
+      {
+        id: 2,
+        name: JavaScript,
+        description: Programming Language
+      },
+      {
+        id: 11,
+        name: Office Suite,
+        description: Productivity Tools
+      },
+      {
+        id: 7,
+        name: Perl,
+        description: Programming Language
+      },
+      {
+        id: 1,
+        name: PHP,
+        description: Programming Language
+      },
+      {
+        id: 3,
+        name: Python,
+        description: Programming Language
+      },
+      {
+        id: 10,
+        name: React Native,
+        description: Programming Language
+      },
+      {
+        id: 4,
+        name: Ruby,
+        description: Programming Language
+      },
+      {
+        id: 12,
+        name: Search Engine Optimization,
+        description: Marketing Skill
+      },
+      {
+        id: 5,
+        name: SQL,
+        description: Programming Language
+      },
+      {
+        id: 6,
+        name: Swift,
+        description: Programming Language
+      },
+      {
+        id: 8,
+        name: UI/UX Design,
+        description: Graphic Design
+      },
+      {
+        id: 9,
+        name: Wireframing,
+        description: Graphic Design
+      }            
+    ]
+    meta:
+      total: 12
+
+  get with limit=3:
+    userId: 1
+    query:
+      limit: 3
+    data: [
+      {
+        id: 2,
+        name: JavaScript,
+        description: Programming Language
+      },
+      {
+        id: 11,
+        name: Office Suite,
+        description: Productivity Tools
+      },
+      {
+        id: 7,
+        name: Perl,
+        description: Programming Language
+      }
+    ]
+    meta:
+      total: 12
+
+  get with limit=3 and offset=4:
+    userId: 1
+    query:
+      limit: 3
+      offset: 4
+    data: [
+      {
+        id: 3,
+        name: Python,
+        description: Programming Language
+      },
+      {
+        id: 10,
+        name: React Native,
+        description: Programming Language
+      },
+      {
+        id: 4,
+        name: Ruby,
+        description: Programming Language
+      }
+    ]
+    meta:
+      total: 12
+
+  sort by name in DESC:
+    userId: 1
+    query:
+      sortField: s.name
+      sortOrder: DESC
+    data: [
+      {
+        id: 9,
+        name: Wireframing,
+        description: Graphic Design
+      },
+      {
+        id: 8,
+        name: UI/UX Design,
+        description: Graphic Design
+      },
+      {
+        id: 6,
+        name: Swift,
+        description: Programming Language
+      },
+      {
+        id: 5,
+        name: SQL,
+        description: Programming Language
+      },
+      {
+        id: 12,
+        name: Search Engine Optimization,
+        description: Marketing Skill
+      },
+      {
+        id: 4,
+        name: Ruby,
+        description: Programming Language
+      },
+      {
+        id: 10,
+        name: React Native,
+        description: Programming Language
+      },
+      {
+        id: 3,
+        name: Python,
+        description: Programming Language
+      },
+      {
+        id: 1,
+        name: PHP,
+        description: Programming Language
+      },
+      {
+        id: 7,
+        name: Perl,
+        description: Programming Language
+      },
+      {
+        id: 11,
+        name: Office Suite,
+        description: Productivity Tools
+      },
+      {
+        id: 2,
+        name: JavaScript,
+        description: Programming Language
+      }
+    ]
+    meta:
+      total: 12
+
+  sort by description:
+    userId: 1
+    query:
+      sortField: s.description
+    data: [
+      {
+        id: 8,
+        name: UI/UX Design,
+        description: Graphic Design
+      },
+      {
+        id: 9,
+        name: Wireframing,
+        description: Graphic Design
+      },
+      {
+        id: 12,
+        name: Search Engine Optimization,
+        description: Marketing Skill
+      },
+      {
+        id: 11,
+        name: Office Suite,
+        description: Productivity Tools
+      },
+      {
+        id: 1,
+        name: PHP,
+        description: Programming Language
+      },
+      {
+        id: 2,
+        name: JavaScript,
+        description: Programming Language
+      },
+      {
+        id: 3,
+        name: Python,
+        description: Programming Language
+      },
+      {
+        id: 4,
+        name: Ruby,
+        description: Programming Language
+      },
+      {
+        id: 5,
+        name: SQL,
+        description: Programming Language
+      },
+      {
+        id: 6,
+        name: Swift,
+        description: Programming Language
+      },
+      {
+        id: 7,
+        name: Perl,
+        description: Programming Language
+      },
+      {
+        id: 10,
+        name: React Native,
+        description: Programming Language
+      }
+    ]
+    meta:
+      total: 12
+
+GetOne:
+  without id attribute:
+    userId: 1
+    invalidOnly: [ id ]
+
+  get one skill:
+    userId: 1
+    attributes:
+      id: 11
+    data: {
+      id: 11,
+      name: Office Suite,
+      description: Productivity Tools
+    }
+
+  get non-existent skill:
+    userId: 1
+    attributes:
+      id: 100000
+    exception:
+      class: \OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException
+      message: Record Not Found
+
+Create:
+  without body:
+    userId: 1
+    invalidOnly: [ name ]
+
+  with only description:
+    userId: 1
+    body:
+      description: Programming Language
+    invalidOnly: [ name ]
+
+  with only name:
+    userId: 1
+    body:
+      name: C
+    data: {
+      id: 13,
+      name: C,
+      description: ''
+    }
+
+  with name and description:
+    userId: 1
+    body:
+      name: C
+      description: Programming Language
+    data: {
+      id: 13,
+      name: C,
+      description: Programming Language
+    }
+
+  with name longer than 120 chars:
+    userId: 1
+    body:
+      name: Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis nato
+      description: Programming Language
+    invalidOnly: [ name ]
+
+  with description longer than 400 chars:
+    userId: 1
+    body:
+      name: C
+      description: Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a,
+    invalidOnly: [ description ]
+
+  with empty string for name:
+    userId: 1
+    body:
+      name: ''
+      description: Programming Language
+    invalidOnly: [ name ]
+
+  with existing skill name:
+    userId: 1
+    body:
+      name: PHP
+      description: Programming Language
+    invalidOnly: [ name ]
+
+Update:
+  without id attribute:
+    userId: 1
+    body:
+      name: C
+      description: Programming Language
+    invalidOnly: [ id ]
+
+  without name:
+    userId: 1
+    attributes:
+      id: 1
+    body:
+      description: Language
+    invalidOnly: [ name ]
+
+  update with the same name and different description:
+    userId: 1
+    attributes:
+      id: 1
+    body:
+      name: PHP
+      description: Language
+    data: {
+      id: 1,
+      name: PHP,
+      description: Language
+    }
+
+  update with name of a different existing skill:
+    userId: 1
+    attributes:
+      id: 1
+    body:
+      name: JavaScript
+      description: Language
+    invalidOnly: [ name ]
+
+  update with new values:
+    userId: 1
+    attributes:
+      id: 1
+    body:
+      name: English
+      description: Language
+    data: {
+      id: 1,
+      name: English,
+      description: Language
+    }
+
+Delete:
+  delete without ids:
+    userId: 1
+    invalidOnly: [ ids ]
+
+  delete with multiple ids:
+    userId: 1
+    body:
+      ids: [ 1, 2, 3 ]
+    data: [ 1, 2, 3 ]
+
+  delete with one id:
+    userId: 1
+    body:
+      ids: [ 11 ]
+    data: [ 11 ]
+
+  delete without int array:
+    userId: 1
+    body:
+      ids: 1
+    invalidOnly: [ ids ]
+
+  delete non existent id:
+    userId: 1
+    body:
+      ids: [ 1000 ]
+    exception:
+      class: \OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException
+      message: Records Not Found

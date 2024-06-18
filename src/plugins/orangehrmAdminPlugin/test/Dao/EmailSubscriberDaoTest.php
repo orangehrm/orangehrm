@@ -106,23 +106,4 @@ class EmailSubscriberDaoTest extends TestCase
         $result = $this->emailSubscriberDao->deleteEmailSubscribersByIds($toTobedeletedIds);
         $this->assertEquals(2, $result);
     }
-
-    public function testIsSubscriberEmailUnique(): void
-    {
-        //Check non existent email
-        $result = $this->emailSubscriberDao->isSubscriberEmailUnique("chenuka@ohrm.com", 1);
-        $this->assertTrue($result);
-
-        //Check existing email in a subscription
-        $result = $this->emailSubscriberDao->isSubscriberEmailUnique("devi@ohrm.com", 3);
-        $this->assertFalse($result);
-
-        //Check existing email in a different subscription
-        $result = $this->emailSubscriberDao->isSubscriberEmailUnique("sharuka@ohrm.com", 1);
-        $this->assertTrue($result);
-
-        //Check existing email in same subscription with ignore id set
-        $result = $this->emailSubscriberDao->isSubscriberEmailUnique("devi@ohrm.com", 3, 3);
-        $this->assertTrue($result);
-    }
 }

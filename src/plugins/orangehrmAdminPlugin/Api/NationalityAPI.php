@@ -27,7 +27,6 @@ use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
-use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
@@ -35,6 +34,7 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Core\Api\V2\Validator\Rules\EntityUniquePropertyOption;
 use OrangeHRM\Entity\Nationality;
 
 class NationalityAPI extends EndPoint implements CrudEndpoint
@@ -172,8 +172,7 @@ class NationalityAPI extends EndPoint implements CrudEndpoint
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="id", type="integer"),
-     *             @OA\Property(property="name", type="string"),
+     *             @OA\Property(property="name", type="string", maxLength=OrangeHRM\Admin\Api\NationalityAPI::PARAM_RULE_NAME_MAX_LENGTH),
      *             required={"name"}
      *         )
      *     ),
@@ -194,24 +193,18 @@ class NationalityAPI extends EndPoint implements CrudEndpoint
      */
     public function create(): EndpointResourceResult
     {
-        $nationality = $this->saveNationality();
+        $nationality = new Nationality();
+        $nationality = $this->saveNationality($nationality);
         return new EndpointResourceResult(NationalityModel::class, $nationality);
     }
 
     /**
+     * @param Nationality $nationality
      * @return Nationality
-     * @throws RecordNotFoundException
      */
-    public function saveNationality(): Nationality
+    public function saveNationality(Nationality $nationality): Nationality
     {
-        $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $name = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_NAME);
-        if ($id) {
-            $nationality = $this->getNationalityService()->getNationalityById($id);
-            $this->throwRecordNotFoundExceptionIfNotExist($nationality, Nationality::class);
-        } else {
-            $nationality = new Nationality();
-        }
         $nationality->setName($name);
         return $this->getNationalityService()->saveNationality($nationality);
     }
@@ -222,11 +215,7 @@ class NationalityAPI extends EndPoint implements CrudEndpoint
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(
-                self::PARAMETER_NAME,
-                new Rule(Rules::STRING_TYPE),
-                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NAME_MAX_LENGTH]),
-            ),
+            $this->getNameRule()
         );
     }
 
@@ -243,7 +232,7 @@ class NationalityAPI extends EndPoint implements CrudEndpoint
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="name", type="string"),
+     *             @OA\Property(property="name", type="string", maxLength=OrangeHRM\Admin\Api\NationalityAPI::PARAM_RULE_NAME_MAX_LENGTH),
      *             required={"name"}
      *         )
      *     ),
@@ -265,7 +254,9 @@ class NationalityAPI extends EndPoint implements CrudEndpoint
      */
     public function update(): EndpointResourceResult
     {
-        $nationalities = $this->saveNationality();
+        $nationality = $this->getNationalityService()->getNationalityById($this->getAttributeId());
+        $this->throwRecordNotFoundExceptionIfNotExist($nationality, Nationality::class);
+        $nationalities = $this->saveNationality($nationality);
         return new EndpointResourceResult(NationalityModel::class, $nationalities);
     }
 
@@ -274,31 +265,31 @@ class NationalityAPI extends EndPoint implements CrudEndpoint
      */
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
+        $uniqueOption = new EntityUniquePropertyOption();
+        $uniqueOption->setIgnoreId($this->getAttributeId());
+
         return new ParamRuleCollection(
             new ParamRule(
                 CommonParams::PARAMETER_ID,
                 new Rule(Rules::POSITIVE)
             ),
-            new ParamRule(
-                self::PARAMETER_NAME,
-                new Rule(Rules::STRING_TYPE),
-                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NAME_MAX_LENGTH]),
-            ),
+            $this->getNameRule($uniqueOption)
         );
     }
 
     /**
-     * @return ParamRuleCollection
+     * @param EntityUniquePropertyOption|null $uniqueOption
+     * @return ParamRule
      */
-    public function getValidationRuleForSaveNationality(): ParamRuleCollection
+    private function getNameRule(?EntityUniquePropertyOption $uniqueOption = null): ParamRule
     {
-        return new ParamRuleCollection(
-            new ParamRule(CommonParams::PARAMETER_ID),
+        return $this->getValidationDecorator()->requiredParamRule(
             new ParamRule(
                 self::PARAMETER_NAME,
                 new Rule(Rules::STRING_TYPE),
                 new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NAME_MAX_LENGTH]),
-            ),
+                new Rule(Rules::ENTITY_UNIQUE_PROPERTY, [Nationality::class, 'name', $uniqueOption])
+            )
         );
     }
 
@@ -309,14 +300,18 @@ class NationalityAPI extends EndPoint implements CrudEndpoint
      *     summary="Delete Nationalities",
      *     operationId="delete-nationalities",
      *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),
-     *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse")
+     *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse"),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
      * )
      *
      * @inheritDoc
      */
     public function delete(): EndpointResourceResult
     {
-        $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
+        $ids = $this->getNationalityService()->getNationalityDao()->getExistingNationalityIds(
+            $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS)
+        );
+        $this->throwRecordNotFoundExceptionIfEmptyIds($ids);
         $this->getNationalityService()->deleteNationalities($ids);
         return new EndpointResourceResult(ArrayModel::class, $ids);
     }

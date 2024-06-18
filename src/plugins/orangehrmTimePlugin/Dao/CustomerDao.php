@@ -47,6 +47,23 @@ class CustomerDao extends BaseDao
     }
 
     /**
+     * @param int[] $ids
+     * @return int[]
+     */
+    public function getExistingCustomerIds(array $ids): array
+    {
+        $qb = $this->createQueryBuilder(Customer::class, 'customer');
+
+        $qb->select('customer.id')
+            ->andWhere($qb->expr()->in('customer.id', ':ids'))
+            ->andWhere($qb->expr()->eq('customer.deleted', ':deleted'))
+            ->setParameter('ids', $ids)
+            ->setParameter('deleted', false);
+
+        return $qb->getQuery()->getSingleColumnResult();
+    }
+
+    /**
      * @param int[] $deletedIds
      * @return int
      * @throws TransactionException|CustomerServiceException

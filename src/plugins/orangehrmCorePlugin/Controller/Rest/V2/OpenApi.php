@@ -63,6 +63,19 @@ use OpenApi\Annotations as OA;
  *                 example={"error" : {"status" : "404", "message" : "Record Not Found"}}
  *             )
  *         ),
+ *         @OA\Response(
+ *             response="ForbiddenResponse",
+ *             description="Unauthorized",
+ *             @OA\JsonContent(
+ *                 @OA\Property(
+ *                     property="error",
+ *                     type="object",
+ *                     @OA\Property(property="status", type="string", default="403"),
+ *                     @OA\Property(property="message", type="string")
+ *                 ),
+ *                 example={"error" : {"status" : "403", "message" : "Unauthorized" }}
+ *             )
+ *         ),
  *         @OA\Parameter(
  *             name="sortOrder",
  *             description="Specify whether to sort in ascending or descending order",

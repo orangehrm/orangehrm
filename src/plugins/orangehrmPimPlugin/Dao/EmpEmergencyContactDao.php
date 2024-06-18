@@ -74,6 +74,24 @@ class EmpEmergencyContactDao extends BaseDao
     }
 
     /**
+     * @param int[] $seqNos
+     * @param int $empNumber
+     * @return int[]
+     */
+    public function getExistingSeqNosForEmpNumber(array $seqNos, int $empNumber): array
+    {
+        $qb = $this->createQueryBuilder(EmpEmergencyContact::class, 'empEmergencyContact');
+
+        $qb->select('empEmergencyContact.seqNo')
+            ->andWhere($qb->expr()->in('empEmergencyContact.seqNo', ':seqNos'))
+            ->andWhere($qb->expr()->eq('empEmergencyContact.employee', ':empNumber'))
+            ->setParameter('seqNos', $seqNos)
+            ->setParameter('empNumber', $empNumber);
+
+        return $qb->getQuery()->getSingleColumnResult();
+    }
+
+    /**
      * Delete Emergency contacts
      * @param int $empNumber
      * @param array|null $entriesToDelete

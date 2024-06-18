@@ -292,10 +292,13 @@ class InterviewAttachmentAPI extends Endpoint implements CrudEndpoint
             RequestParams::PARAM_TYPE_ATTRIBUTE,
             self::PARAMETER_INTERVIEW_ID
         );
-        $toBeDeletedAttachmentIds = $this->getRequestParams()->getArray(
-            RequestParams::PARAM_TYPE_BODY,
-            CommonParams::PARAMETER_IDS
-        );
+        $toBeDeletedAttachmentIds = $this->getRecruitmentAttachmentService()
+            ->getRecruitmentAttachmentDao()
+            ->getExistingInterviewAttachmentIdsForInterview(
+                $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS),
+                $interviewId
+            );
+        $this->throwRecordNotFoundExceptionIfEmptyIds($toBeDeletedAttachmentIds);
         $this->getRecruitmentAttachmentService()
             ->getRecruitmentAttachmentDao()
             ->deleteInterviewAttachments($interviewId, $toBeDeletedAttachmentIds);

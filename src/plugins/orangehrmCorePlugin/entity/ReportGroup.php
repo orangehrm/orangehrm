@@ -26,6 +26,10 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class ReportGroup
 {
+    public const REPORT_GROUP_TIMESHEET = 1;
+    public const REPORT_GROUP_ATTENDANCE = 2;
+    public const REPORT_GROUP_PIM = 3;
+
     /**
      * @var int
      *

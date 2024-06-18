@@ -284,17 +284,24 @@ class PerformanceTrackerLogAPI extends Endpoint implements CrudEndpoint
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),
-     *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse")
+     *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse"),
+     *     @OA\Response(response="403", ref="#/components/responses/ForbiddenResponse"),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
      * )
      *
      * @inheritDoc
      */
     public function delete(): EndpointResult
     {
-        $ids = $this->getRequestParams()->getArray(
-            RequestParams::PARAM_TYPE_BODY,
-            CommonParams::PARAMETER_IDS
+        $trackerId = $this->getRequestParams()->getInt(
+            RequestParams::PARAM_TYPE_ATTRIBUTE,
+            self::PARAMETER_TRACKER_ID
         );
+        $ids = $this->getPerformanceTrackerLogService()->getPerformanceTrackerLogDao()->getExistingPerformanceTrackerLogIdsForTrackerId(
+            $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS),
+            $trackerId
+        );
+        $this->throwRecordNotFoundExceptionIfEmptyIds($ids);
         foreach ($ids as $id) {
             if (!$this->getUserRoleManager()->isEntityAccessible(PerformanceTrackerLog::class, $id)) {
                 throw $this->getForbiddenException();

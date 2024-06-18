@@ -1,0 +1,387 @@
+GetAll:
+  without query params:
+    userId: 1
+    data: [
+      {
+        id: 1,
+        name: Afghan
+      },
+      {
+        id: 2,
+        name: Albanian
+      },
+      {
+        id: 3,
+        name: Algerian
+      },
+      {
+        id: 4,
+        name: American
+      },
+      {
+        id: 5,
+        name: Andorran
+      },
+      {
+        id: 6,
+        name: Angolan
+      },
+      {
+        id: 7,
+        name: Antiguans
+      },
+      {
+        id: 8,
+        name: Argentinean
+      },
+      {
+        id: 9,
+        name: Armenian
+      },
+      {
+        id: 10,
+        name: Australian
+      },
+      {
+        id: 11,
+        name: Austrian
+      },
+      {
+        id: 12,
+        name: Azerbaijani
+      },
+      {
+        id: 13,
+        name: Bahamian
+      },
+      {
+        id: 14,
+        name: Bahraini
+      },
+      {
+        id: 15,
+        name: Bangladeshi
+      },
+      {
+        id: 16,
+        name: Barbadian
+      },
+      {
+        id: 17,
+        name: Barbudans
+      },
+      {
+        id: 18,
+        name: Batswana
+      },
+      {
+        id: 19,
+        name: Belarusian
+      },
+      {
+        id: 20,
+        name: Belgian
+      },
+      {
+        id: 21,
+        name: Belizean
+      },
+      {
+        id: 22,
+        name: Beninese
+      },
+      {
+        id: 23,
+        name: Bhutanese
+      },
+      {
+        id: 24,
+        name: Bolivian
+      },
+      {
+        id: 25,
+        name: Bosnian
+      },
+      {
+        id: 26,
+        name: Brazilian
+      },
+      {
+        id: 27,
+        name: British
+      },
+      {
+        id: 28,
+        name: Bruneian
+      },
+      {
+        id: 29,
+        name: Bulgarian
+      },
+      {
+        id: 30,
+        name: Burkinabe
+      },
+      {
+        id: 31,
+        name: Burmese
+      },
+      {
+        id: 32,
+        name: Burundian
+      },
+      {
+        id: 33,
+        name: Cambodian
+      },
+      {
+        id: 34,
+        name: Cameroonian
+      },
+      {
+        id: 35,
+        name: Canadian
+      },
+      {
+        id: 36,
+        name: Cape Verdean
+      },
+      {
+        id: 37,
+        name: Central African
+      },
+      {
+        id: 38,
+        name: Chadian
+      },
+      {
+        id: 39,
+        name: Chilean
+      },
+      {
+        id: 40,
+        name: Chinese
+      },
+      {
+        id: 41,
+        name: Colombian
+      },
+      {
+        id: 42,
+        name: Comoran
+      },
+      {
+        id: 43,
+        name: Congolese
+      },
+      {
+        id: 44,
+        name: Costa Rican
+      },
+      {
+        id: 45,
+        name: Croatian
+      },
+      {
+        id: 46,
+        name: Cuban
+      },
+      {
+        id: 47,
+        name: Cypriot
+      },
+      {
+        id: 48,
+        name: Czech
+      },
+      {
+        id: 49,
+        name: Danish
+      },
+      {
+        id: 50,
+        name: Djibouti
+      }
+    ]
+    meta:
+      total: 193
+
+  with limit=2:
+    userId: 1
+    query:
+      limit: 2
+    data: [
+      {
+        id: 1,
+        name: Afghan
+      },
+      {
+        id: 2,
+        name: Albanian
+      },
+    ]
+    meta:
+      total: 193
+
+  with limit=2 and offset=165:
+    userId: 1
+    query:
+      limit: 2
+      offset: 165
+    data: [
+      {
+        id: 166,
+        name: Spanish
+      },
+      {
+        id: 167,
+        name: Sri Lankan
+      }
+    ]
+    meta:
+      total: 193
+
+  with sortField, sortOrder and limit:
+    userId: 1
+    query:
+      sortField: n.name
+      sortOrder: DESC
+      limit: 5
+    data: [
+      {
+        id: 193,
+        name: Zimbabwean
+      },
+      {
+        id: 192,
+        name: Zambian
+      },
+      {
+        id: 191,
+        name: Yemenite
+      },
+      {
+        id: 190,
+        name: Welsh
+      },
+      {
+        id: 189,
+        name: Vietnamese
+      }
+    ]
+    meta:
+      total: 193
+
+GetOne:
+  get sri lanka:
+    userId: 1
+    attributes:
+      id: 167
+    data: {
+      id: 167,
+      name: Sri Lankan
+    }
+
+  get non existing nationality:
+    userId: 1
+    attributes:
+      id: 10000
+    exception:
+      class: \OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException
+      message: Record Not Found
+
+Create:
+  create new nationality:
+    userId: 1
+    body:
+      name: Test
+    data: {
+      id: 194,
+      name: Test
+    }
+
+  create existing nationality:
+    userId: 1
+    body:
+      name: Sri Lankan
+    invalidOnly: [ name ]
+
+  create with empty string:
+    userId: 1
+    body:
+      name: ''
+    invalidOnly: [ name ]
+
+  create with string longer than 100 characters:
+    userId: 1
+    body:
+      name: Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean ma
+    invalidOnly: [ name ]
+
+Update:
+  update existing nationality:
+    userId: 1
+    attributes:
+      id: 1
+    body:
+      name: Test
+    data: {
+      id: 1,
+      name: Test
+    }
+
+  update non existent nationality:
+    userId: 1
+    attributes:
+      id: 1000
+    body:
+      name: Test
+    exception:
+      class: \OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException
+      message: Record Not Found
+
+  update existing nationality with the same name:
+    userId: 1
+    attributes:
+      id: 167
+    body:
+      name: Sri Lankan
+    data: {
+      id: 167,
+      name: Sri Lankan
+    }
+
+  update existing nationality with another existing name:
+    userId: 1
+    attributes:
+      id: 167
+    body:
+      name: Afghan
+    invalidOnly: [ name ]
+
+  without id param:
+    userId: 1
+    body:
+      name: Test
+    invalidOnly: [ id ]
+
+  with empty string:
+    userId: 1
+    attributes:
+      id: 1
+    body:
+      name: ''
+    invalidOnly: [ name ]
+
+Delete:
+  delete one id:
+    userId: 1
+    body:
+      ids: [ 193 ]
+    data: [ 193 ]
+
+  delete multiple ids:
+    userId: 1
+    body:
+      ids: [1, 2, 3]
+    data: [ 1, 2, 3 ]

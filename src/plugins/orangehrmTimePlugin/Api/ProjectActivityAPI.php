@@ -26,11 +26,13 @@ use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\ParameterBag;
+use OrangeHRM\Core\Api\V2\Request;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Core\Api\V2\Validator\Rules\EntityUniquePropertyOption;
 use OrangeHRM\Entity\ProjectActivity;
 use OrangeHRM\Time\Api\Model\ProjectActivityModel;
 use OrangeHRM\Time\Dto\ProjectActivitySearchFilterParams;
@@ -208,7 +210,7 @@ class ProjectActivityAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            ...$this->getCommonBodyValidationRules(),
+            ...$this->getCommonBodyValidationRules($this->getProjectActivityCommonUniqueOption()),
         );
     }
 
@@ -236,13 +238,18 @@ class ProjectActivityAPI extends Endpoint implements CrudEndpoint
      *             )
      *         )
      *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
      * )
      * @inheritDoc
      */
     public function delete(): EndpointResult
     {
         try {
-            $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
+            $ids = $this->getProjectService()->getProjectActivityDao()->getExistingProjectActivityIdsForProject(
+                $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS),
+                $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_PROJECT_ID)
+            );
+            $this->throwRecordNotFoundExceptionIfEmptyIds($ids);
             $this->getProjectService()->getProjectActivityDao()->deleteProjectActivities($ids);
             return new EndpointResourceResult(ArrayModel::class, $ids);
         } catch (ProjectServiceException $projectServiceException) {
@@ -379,19 +386,23 @@ class ProjectActivityAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
+        $uniqueOption = $this->getProjectActivityCommonUniqueOption();
+        $uniqueOption->setIgnoreId($this->getAttributeId());
+
         return new ParamRuleCollection(
             new ParamRule(
                 CommonParams::PARAMETER_ID,
                 new Rule(Rules::POSITIVE)
             ),
-            ...$this->getCommonBodyValidationRules(),
+            ...$this->getCommonBodyValidationRules($uniqueOption),
         );
     }
 
     /**
+     * @param EntityUniquePropertyOption|null $uniqueOption
      * @return ParamRule[]
      */
-    private function getCommonBodyValidationRules(): array
+    private function getCommonBodyValidationRules(?EntityUniquePropertyOption $uniqueOption = null): array
     {
         return [
             $this->getValidationDecorator()->requiredParamRule($this->getProjectIdParamRule()),
@@ -399,10 +410,29 @@ class ProjectActivityAPI extends Endpoint implements CrudEndpoint
                 new ParamRule(
                     self::PARAMETER_NAME,
                     new Rule(Rules::STRING_TYPE),
-                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_STRING_MAX_LENGTH])
+                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_STRING_MAX_LENGTH]),
+                    new Rule(Rules::ENTITY_UNIQUE_PROPERTY, [ProjectActivity::class, 'name', $uniqueOption])
                 )
             )
         ];
+    }
+
+    /**
+     * @return EntityUniquePropertyOption
+     */
+    private function getProjectActivityCommonUniqueOption(): EntityUniquePropertyOption
+    {
+        $uniqueOption = new EntityUniquePropertyOption();
+        $uniqueOption->setMatchValues([
+            'project' => $this->getRequestParams()->getInt(
+                RequestParams::PARAM_TYPE_ATTRIBUTE,
+                self::PARAMETER_PROJECT_ID
+            ),
+        ]);
+        $uniqueOption->setIgnoreValues([
+            'deleted' => true
+        ]);
+        return $uniqueOption;
     }
 
     /**

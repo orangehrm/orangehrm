@@ -125,6 +125,22 @@ class JobTitleDao extends BaseDao
     }
 
     /**
+     * @param int[] $ids
+     * @return int[]
+     */
+    public function getExistingJobTitleIds(array $ids): array
+    {
+        $qb = $this->createQueryBuilder(JobTitle::class, 'jobTitle');
+        $qb->select('jobTitle.id')
+            ->andWhere($qb->expr()->in('jobTitle.id', ':ids'))
+            ->andWhere($qb->expr()->eq('jobTitle.isDeleted', ':deleted'))
+            ->setParameter('ids', $ids)
+            ->setParameter('deleted', false);
+
+        return $qb->getQuery()->getSingleColumnResult();
+    }
+
+    /**
      * @param int $attachId
      * @return JobSpecificationAttachment|null
      */

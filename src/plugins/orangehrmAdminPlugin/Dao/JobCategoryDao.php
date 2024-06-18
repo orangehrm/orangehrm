@@ -68,6 +68,20 @@ class JobCategoryDao extends BaseDao
     }
 
     /**
+     * @param int[] $ids
+     * @return int[]
+     */
+    public function getExistingJobCategoryIds(array $ids): array
+    {
+        $qb = $this->createQueryBuilder(JobCategory::class, 'jobCategory');
+        $qb->select('jobCategory.id')
+            ->andWhere($qb->expr()->in('jobCategory.id', ':ids'))
+            ->setParameter('ids', $ids);
+
+        return $qb->getQuery()->getSingleColumnResult();
+    }
+
+    /**
      * @param JobCategory $jobCategory
      * @return JobCategory
      */

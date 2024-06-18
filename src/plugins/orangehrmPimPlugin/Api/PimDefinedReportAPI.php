@@ -255,14 +255,18 @@ class PimDefinedReportAPI extends Endpoint implements CrudEndpoint
      *     summary="Delete PIM Reports",
      *     operationId="delete-pim-reports",
      *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),
-     *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse")
+     *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse"),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
      * )
      *
      * @inheritDoc
      */
     public function delete(): EndpointResult
     {
-        $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
+        $ids = $this->getReportGeneratorService()->getReportGeneratorDao()->getExistingReportIdsForPim(
+            $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS)
+        );
+        $this->throwRecordNotFoundExceptionIfEmptyIds($ids);
         $this->getReportGeneratorService()->getReportGeneratorDao()->deletePimDefinedReport($ids);
         return new EndpointResourceResult(ArrayModel::class, $ids);
     }

@@ -233,8 +233,17 @@ class UserAPI extends Endpoint implements CrudEndpoint
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="username", type="string"),
-     *             @OA\Property(property="password", type="string"),
+     *             @OA\Property(
+     *                 property="username",
+     *                 type="string",
+     *                 minLength=OrangeHRM\Admin\Api\UserAPI::PARAM_RULE_USERNAME_MIN_LENGTH,
+     *                 maxLength=OrangeHRM\Admin\Api\UserAPI::PARAM_RULE_USERNAME_MAX_LENGTH
+     *             ),
+     *             @OA\Property(
+     *                 property="password",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Admin\Api\UserAPI::PARAM_RULE_PASSWORD_MAX_LENGTH
+     *             ),
      *             @OA\Property(property="status", type="boolean"),
      *             @OA\Property(property="userRoleId", type="integer"),
      *             @OA\Property(property="empNumber", type="integer"),
@@ -293,17 +302,33 @@ class UserAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            ...$this->getUsernameAndPasswordRule(false),
-            ...$this->getCommonBodyValidationRules(),
+            ...$this->getCommonBodyValidationRules($this->getUserCommonUniqueOption()),
         );
     }
 
     /**
      * @return ParamRule[]
      */
-    private function getCommonBodyValidationRules(): array
-    {
+    private function getCommonBodyValidationRules(
+        ?EntityUniquePropertyOption $uniqueOption = null,
+        bool $passwordConstructorOption = true
+    ): array {
         return [
+            new ParamRule(
+                self::PARAMETER_USERNAME,
+                new Rule(Rules::STRING_TYPE),
+                new Rule(Rules::LENGTH, [self::PARAM_RULE_USERNAME_MIN_LENGTH, self::PARAM_RULE_USERNAME_MAX_LENGTH]),
+                new Rule(Rules::ENTITY_UNIQUE_PROPERTY, [User::class, 'userName', $uniqueOption])
+            ),
+            new ParamRule(
+                self::PARAMETER_PASSWORD,
+                new Rule(Rules::STRING_TYPE),
+                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_PASSWORD_MAX_LENGTH]),
+                new Rule(
+                    Rules::PASSWORD,
+                    [!$this->getSocialMediaAuthenticationService()->isSocialMediaAuthEnable() && $passwordConstructorOption]
+                )
+            ),
             new ParamRule(
                 self::PARAMETER_USER_ROLE_ID,
                 new Rule(Rules::INT_TYPE)
@@ -320,52 +345,13 @@ class UserAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     * @param bool $update
-     * @return ParamRule[]
+     * @return EntityUniquePropertyOption
      */
-    protected function getUsernameAndPasswordRule(bool $update): array
+    private function getUserCommonUniqueOption(): EntityUniquePropertyOption
     {
-        $passwordConstructor = [true];
-        $entityProperties = new EntityUniquePropertyOption();
-        $entityProperties->setIgnoreValues(['isDeleted' => true]);
-        $uniquePropertyParams = [User::class, 'userName', $entityProperties];
-        if ($update) {
-            $entityProperties->setIgnoreValues(
-                [
-                    'getId' => $this->getRequestParams()->getInt(
-                        RequestParams::PARAM_TYPE_ATTRIBUTE,
-                        CommonParams::PARAMETER_ID
-                    ),
-                    'isDeleted' => true,
-                ]
-            );
-
-            $passwordConstructor = [
-                $this->getRequestParams()->getBoolean(
-                    RequestParams::PARAM_TYPE_BODY,
-                    self::PARAMETER_CHANGE_PASSWORD
-                )
-            ];
-        }
-
-        if ($this->getSocialMediaAuthenticationService()->isSocialMediaAuthEnable()) {
-            $passwordConstructor = [false];
-        }
-
-        return [
-            new ParamRule(
-                self::PARAMETER_USERNAME,
-                new Rule(Rules::STRING_TYPE),
-                new Rule(Rules::LENGTH, [self::PARAM_RULE_USERNAME_MIN_LENGTH, self::PARAM_RULE_USERNAME_MAX_LENGTH]),
-                new Rule(Rules::ENTITY_UNIQUE_PROPERTY, $uniquePropertyParams)
-            ),
-            new ParamRule(
-                self::PARAMETER_PASSWORD,
-                new Rule(Rules::STRING_TYPE),
-                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_PASSWORD_MAX_LENGTH]),
-                new Rule(Rules::PASSWORD, $passwordConstructor)
-            )
-        ];
+        $uniqueOption = new EntityUniquePropertyOption();
+        $uniqueOption->setIgnoreValues(['deleted' => true]);
+        return $uniqueOption;
     }
 
     /**
@@ -381,8 +367,17 @@ class UserAPI extends Endpoint implements CrudEndpoint
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="username", type="string"),
-     *             @OA\Property(property="password", type="string"),
+     *             @OA\Property(
+     *                 property="username",
+     *                 type="string",
+     *                 minLength=OrangeHRM\Admin\Api\UserAPI::PARAM_RULE_USERNAME_MIN_LENGTH,
+     *                 maxLength=OrangeHRM\Admin\Api\UserAPI::PARAM_RULE_USERNAME_MAX_LENGTH
+     *             ),
+     *             @OA\Property(
+     *                 property="password",
+     *                 type="string",
+     *                 maxLength=OrangeHRM\Admin\Api\UserAPI::PARAM_RULE_PASSWORD_MAX_LENGTH
+     *             ),
      *             @OA\Property(property="status", type="boolean"),
      *             @OA\Property(property="userRoleId", type="integer"),
      *             @OA\Property(property="empNumber", type="integer"),
@@ -427,6 +422,14 @@ class UserAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
+        $uniqueOption = $this->getUserCommonUniqueOption();
+        $uniqueOption->setIgnoreId($this->getAttributeId());
+
+        $passwordOption = $this->getRequestParams()->getBoolean(
+            RequestParams::PARAM_TYPE_BODY,
+            self::PARAMETER_CHANGE_PASSWORD
+        );
+
         return new ParamRuleCollection(
             new ParamRule(
                 CommonParams::PARAMETER_ID,
@@ -436,8 +439,10 @@ class UserAPI extends Endpoint implements CrudEndpoint
                 self::PARAMETER_CHANGE_PASSWORD,
                 new Rule(Rules::BOOL_TYPE)
             ),
-            ...$this->getUsernameAndPasswordRule(true),
-            ...$this->getCommonBodyValidationRules(),
+            ...$this->getCommonBodyValidationRules(
+                $uniqueOption,
+                $passwordOption
+            ),
         );
     }
 
@@ -448,14 +453,18 @@ class UserAPI extends Endpoint implements CrudEndpoint
      *     summary="Delete Users",
      *     operationId="delete-users",
      *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),
-     *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse")
+     *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse"),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
      * )
      *
      * @inheritDoc
      */
     public function delete(): EndpointResourceResult
     {
-        $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
+        $ids = $this->getUserService()->geUserDao()->getExistingSystemUserIds(
+            $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS)
+        );
+        $this->throwRecordNotFoundExceptionIfEmptyIds($ids);
         $this->getUserService()->deleteSystemUsers($ids);
         return new EndpointResourceResult(ArrayModel::class, $ids);
     }

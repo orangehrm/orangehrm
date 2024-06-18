@@ -79,6 +79,20 @@ trait EndpointExceptionTrait
     }
 
     /**
+     * @param int[] $entities
+     * @param string $message
+     * @throws RecordNotFoundException
+     */
+    protected function throwRecordNotFoundExceptionIfEmptyIds(
+        array $entities,
+        string $message = RecordNotFoundException::PLURAL_ERROR_MESSAGE
+    ): void {
+        if (count($entities) === 0) {
+            throw $this->getRecordNotFoundException($message);
+        }
+    }
+
+    /**
      * @param string|string[] $paramKeys
      * @param string|null $message
      * @return InvalidParamException

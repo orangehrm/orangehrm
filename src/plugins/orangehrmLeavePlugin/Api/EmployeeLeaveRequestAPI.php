@@ -364,6 +364,8 @@ class EmployeeLeaveRequestAPI extends Endpoint implements CrudEndpoint
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     LeaveCommonParams::PARAMETER_LEAVE_TYPE_ID,
+                    new Rule(Rules::INT_VAL),
+                    new Rule(Rules::POSITIVE),
                     new Rule(LeaveTypeIdRule::class)
                 )
             ),

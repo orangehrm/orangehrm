@@ -33,6 +33,7 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Core\Api\V2\Validator\Rules\EntityUniquePropertyOption;
 use OrangeHRM\Entity\JobCategory;
 
 class JobCategoryAPI extends Endpoint implements CrudEndpoint
@@ -47,6 +48,7 @@ class JobCategoryAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_SORT_ORDER = 'sortOrder';
     public const PARAMETER_OFFSET = 'offset';
     public const PARAMETER_LIMIT = 'limit';
+    public const PARAM_RULE_NAME_MAX_LENGTH = 50;
 
     /**
      * @return JobCategoryService
@@ -202,7 +204,7 @@ class JobCategoryAPI extends Endpoint implements CrudEndpoint
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="name", type="string"),
+     *             @OA\Property(property="name", type="string", maxLength=OrangeHRM\Admin\Api\JobCategoryAPI::PARAM_RULE_NAME_MAX_LENGTH),
      *             required={"name"}
      *         )
      *     ),
@@ -222,7 +224,8 @@ class JobCategoryAPI extends Endpoint implements CrudEndpoint
      */
     public function create(): EndpointResourceResult
     {
-        $jobCategory = $this->saveJobCategory();
+        $jobCategory = new JobCategory();
+        $jobCategory = $this->saveJobCategory($jobCategory);
 
         return new EndpointResourceResult(JobCategoryModel::class, $jobCategory);
     }
@@ -233,7 +236,7 @@ class JobCategoryAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(self::PARAMETER_NAME),
+            $this->getNameRule()
         );
     }
 
@@ -250,7 +253,7 @@ class JobCategoryAPI extends Endpoint implements CrudEndpoint
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="name", type="string"),
+     *             @OA\Property(property="name", type="string", maxLength=OrangeHRM\Admin\Api\JobCategoryAPI::PARAM_RULE_NAME_MAX_LENGTH),
      *             required={"name"}
      *         )
      *     ),
@@ -271,8 +274,9 @@ class JobCategoryAPI extends Endpoint implements CrudEndpoint
      */
     public function update(): EndpointResourceResult
     {
-        $jobCategory = $this->saveJobCategory();
-
+        $jobCategory = $this->getJobCategoryService()->getJobCategoryById($this->getAttributeId());
+        $this->throwRecordNotFoundExceptionIfNotExist($jobCategory, JobCategory::class);
+        $jobCategory = $this->saveJobCategory($jobCategory);
         return new EndpointResourceResult(JobCategoryModel::class, $jobCategory);
     }
 
@@ -281,30 +285,43 @@ class JobCategoryAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
+        $uniqueOption = new EntityUniquePropertyOption();
+        $uniqueOption->setIgnoreId($this->getAttributeId());
+
         return new ParamRuleCollection(
             new ParamRule(
                 CommonParams::PARAMETER_ID,
                 new Rule(Rules::POSITIVE)
             ),
-            new ParamRule(self::PARAMETER_NAME),
+            $this->getNameRule($uniqueOption)
         );
     }
 
     /**
+     * @param JobCategory $jobCategory
      * @return JobCategory
      */
-    private function saveJobCategory(): JobCategory
+    private function saveJobCategory(JobCategory $jobCategory): JobCategory
     {
-        $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $name = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_NAME);
-        if (!empty($id)) {
-            $jobCategory = $this->getJobCategoryService()->getJobCategoryById($id);
-        } else {
-            $jobCategory = new JobCategory();
-        }
-
         $jobCategory->setName($name);
         return $this->getJobCategoryService()->saveJobCategory($jobCategory);
+    }
+
+    /**
+     * @param EntityUniquePropertyOption|null $uniqueOption
+     * @return ParamRule
+     */
+    private function getNameRule(?EntityUniquePropertyOption $uniqueOption = null): ParamRule
+    {
+        return $this->getValidationDecorator()->requiredParamRule(
+            new ParamRule(
+                self::PARAMETER_NAME,
+                new Rule(Rules::STRING_TYPE),
+                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NAME_MAX_LENGTH]),
+                new Rule(Rules::ENTITY_UNIQUE_PROPERTY, [JobCategory::class, 'name', $uniqueOption])
+            )
+        );
     }
 
     /**
@@ -314,14 +331,18 @@ class JobCategoryAPI extends Endpoint implements CrudEndpoint
      *     summary="Delete Job Categories",
      *     operationId="delete-job-categories",
      *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),
-     *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse")
+     *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse"),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
      * )
      *
      * @inheritDoc
      */
     public function delete(): EndpointResourceResult
     {
-        $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
+        $ids = $this->getJobCategoryService()->getJobCategoryDao()->getExistingJobCategoryIds(
+            $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS)
+        );
+        $this->throwRecordNotFoundExceptionIfEmptyIds($ids);
         $this->getJobCategoryService()->deleteJobCategory($ids);
         return new EndpointResourceResult(ArrayModel::class, $ids);
     }

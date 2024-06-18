@@ -50,11 +50,16 @@ describe('Admin - Job Title API', function () {
 
   describe('DELETE /job-titles', function () {
     it('creates a new job title', function () {
-      cy.request('GET', jobTitlesApi)
+      cy.request('POST', jobTitlesApi, {
+        title: this.strings.chars50.text,
+        description: this.strings.chars120.text,
+        specification: null,
+        note: this.strings.chars120.text,
+      })
         .then((response) => {
           expect(response.status).to.eq(200);
           return cy.request('DELETE', jobTitlesApi, {
-            ids: response.body.data.map((item) => item.id),
+            ids: [response.body.data.id],
           });
         })
         .then((response) => {

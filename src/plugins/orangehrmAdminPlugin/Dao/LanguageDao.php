@@ -49,6 +49,20 @@ class LanguageDao extends BaseDao
     }
 
     /**
+     * @param int[] $ids
+     * @return int[]
+     */
+    public function getExistingLanguageIds(array $ids): array
+    {
+        $qb = $this->createQueryBuilder(Language::class, 'language');
+        $qb->select('language.id')
+            ->andWhere($qb->expr()->in('language.id', ':ids'))
+            ->setParameter('ids', $ids);
+
+        return $qb->getQuery()->getSingleColumnResult();
+    }
+
+    /**
      * @param string $name
      * @return Language|null
      */

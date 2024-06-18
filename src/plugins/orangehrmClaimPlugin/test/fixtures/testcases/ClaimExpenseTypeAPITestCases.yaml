@@ -586,7 +586,9 @@ Delete:
       claim.claim_service: OrangeHRM\Claim\Service\ClaimService
     body:
       ids: [ ]
-    data: [ ]
+    exception:
+      class: \OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException
+      message: Records Not Found
 
   'with multiple ids':
     userId: 1
@@ -602,7 +604,9 @@ Delete:
       claim.claim_service: OrangeHRM\Claim\Service\ClaimService
     body:
       ids: [ 50 ]
-    data: [ 50 ]
+    exception:
+      class: \OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException
+      message: Records Not Found
 
   'with multiple ids including invalid ids and valid ids':
     userId: 1
@@ -610,4 +614,4 @@ Delete:
       claim.claim_service: OrangeHRM\Claim\Service\ClaimService
     body:
       ids: [ 1, 2, 300 ]
-    data: [ 1, 2, 300 ]
+    data: [ 1, 2 ]

@@ -67,6 +67,23 @@ class UserDao extends BaseDao
     }
 
     /**
+     * @param array $ids
+     * @return array
+     */
+    public function getExistingSystemUserIds(array $ids): array
+    {
+        $qb = $this->createQueryBuilder(User::class, 'user');
+
+        $qb->select('user.id')
+            ->andWhere($qb->expr()->in('user.id', ':ids'))
+            ->andWhere($qb->expr()->eq('user.deleted', ':deleted'))
+            ->setParameter('ids', $ids)
+            ->setParameter('deleted', false);
+
+        return $qb->getQuery()->getSingleColumnResult();
+    }
+
+    /**
      * Return an array of System User Ids
      * @return array
      */

@@ -295,7 +295,9 @@ class ClaimExpenseAPI extends Endpoint implements CrudEndpoint
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),
-     *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse")
+     *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse"),
+     *     @OA\Response(response="403", ref="#/components/responses/ForbiddenResponse"),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
      * )
      * @inheritDoc
      */
@@ -307,8 +309,11 @@ class ClaimExpenseAPI extends Endpoint implements CrudEndpoint
 
         $this->isActionAllowed(WorkflowStateMachine::CLAIM_ACTION_SUBMIT, $claimRequest);
 
-        $ids = $this->getRequestParams()
-            ->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
+        $ids = $this->getClaimService()->getClaimDao()->getExistingClaimExpenseIdsForRequestId(
+            $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS),
+            $requestId
+        );
+        $this->throwRecordNotFoundExceptionIfEmptyIds($ids);
         $this->getClaimService()
             ->getClaimDao()
             ->deleteClaimExpense($requestId, $ids);

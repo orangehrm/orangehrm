@@ -58,6 +58,24 @@ class EmployeeDependentDao extends BaseDao
     }
 
     /**
+     * @param int[] $ids
+     * @param int $empNumber
+     * @return int[]
+     */
+    public function getExistingDependentIdsForEmpNumber(array $ids, int $empNumber): array
+    {
+        $qb = $this->createQueryBuilder(EmpDependent::class, 'empDependent');
+
+        $qb->select('empDependent.seqNo')
+            ->andWhere($qb->expr()->in('empDependent.seqNo', ':ids'))
+            ->andWhere($qb->expr()->eq('empDependent.employee', ':empNumber'))
+            ->setParameter('ids', $ids)
+            ->setParameter('empNumber', $empNumber);
+
+        return $qb->getQuery()->getSingleColumnResult();
+    }
+
+    /**
      * @param EmpDependent $dependent
      * @return EmpDependent
      */

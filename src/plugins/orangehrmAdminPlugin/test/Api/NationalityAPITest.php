@@ -19,341 +19,100 @@
 namespace OrangeHRM\Tests\Admin\Api;
 
 use OrangeHRM\Admin\Api\NationalityAPI;
-use OrangeHRM\Admin\Dao\NationalityDao;
-use OrangeHRM\Admin\Service\NationalityService;
-use OrangeHRM\Core\Api\CommonParams;
-use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Entity\Nationality;
-use OrangeHRM\Tests\Util\EndpointTestCase;
-use OrangeHRM\Tests\Util\MockObject;
+use OrangeHRM\Framework\Services;
+use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
+use OrangeHRM\Tests\Util\Integration\TestCaseParams;
+use OrangeHRM\Tests\Util\TestDataService;
 
 /**
  * @group Admin
  * @group APIv2
  */
-class NationalityAPITest extends EndpointTestCase
+class NationalityAPITest extends EndpointIntegrationTestCase
 {
-    public function testGetNationalityService(): void
+    protected function setUp(): void
     {
-        $api = new NationalityAPI($this->getRequest());
-        $this->assertTrue($api->getNationalityService() instanceof NationalityService);
+        TestDataService::truncateSpecificTables([Nationality::class]);
     }
 
-    public function testGetOne(): void
+    /**
+     * @dataProvider dataProviderForTestGetAll
+     */
+    public function testGetAll(TestCaseParams $testCaseParams): void
     {
-        $nationalityDao = $this->getMockBuilder(NationalityDao::class)
-            ->onlyMethods(['getNationalityById'])
-            ->getMock();
-
-        $nationality = new Nationality();
-        $nationality->setId(1);
-        $nationality->setName('Sri Lankan');
-
-        $nationalityDao->expects($this->exactly(1))
-            ->method('getNationalityById')
-            ->with(1)
-            ->will($this->returnValue($nationality));
-        $nationalityService = $this->getMockBuilder(NationalityService::class)
-            ->onlyMethods(['getNationalityDao'])
-            ->getMock();
-        $nationalityService->expects($this->exactly(1))
-            ->method('getNationalityDao')
-            ->willReturn($nationalityDao);
-
-        /** @var MockObject&NationalityAPI $api */
-        $api = $this->getApiEndpointMockBuilder(
-            NationalityAPI::class,
-            [
-                RequestParams::PARAM_TYPE_ATTRIBUTE => [
-                    CommonParams::PARAMETER_ID => 1
-                ]
-            ]
-        )->onlyMethods(['getNationalityService'])
-            ->getMock();
-        $api->expects($this->once())
-            ->method('getNationalityService')
-            ->will($this->returnValue($nationalityService));
-
-        $result = $api->getOne();
-        $this->assertEquals(
-            [
-                "id" => 1,
-                "name" => "Sri Lankan"
-            ],
-            $result->normalize()
-        );
+        $this->populateFixtures('NationalityAPI.yml');
+        $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
+        $api = $this->getApiEndpointMock(NationalityAPI::class, $testCaseParams);
+        $this->assertValidTestCase($api, 'getAll', $testCaseParams);
     }
 
-    public function testGetValidationRuleForGetOne(): void
+    public function dataProviderForTestGetAll(): array
     {
-        $api = new NationalityAPI($this->getRequest());
-        $rules = $api->getValidationRuleForGetOne();
-        $this->assertTrue(
-            $this->validate(
-                [CommonParams::PARAMETER_ID => 1],
-                $rules
-            )
-        );
+        return $this->getTestCases('NationalityAPITestCases.yml', 'GetAll');
     }
 
-    public function testDelete()
+    /**
+     * @dataProvider dataProviderForTestGetOne
+     */
+    public function testGetOne(TestCaseParams $testCaseParams): void
     {
-        $nationalityDao = $this->getMockBuilder(NationalityDao::class)
-            ->onlyMethods(['deleteNationalities'])
-            ->getMock();
-
-        $nationality = new Nationality();
-        $nationality->setId(1);
-        $nationality->setName('Sri Lankan');
-
-        $nationalityDao->expects($this->exactly(1))
-            ->method('deleteNationalities')
-            ->with([1])
-            ->willReturn(1);
-        $nationalityService = $this->getMockBuilder(NationalityService::class)
-            ->onlyMethods(['getNationalityDao'])
-            ->getMock();
-        $nationalityService->expects($this->exactly(1))
-            ->method('getNationalityDao')
-            ->willReturn($nationalityDao);
-
-        /** @var MockObject&NationalityAPI $api */
-        $api = $this->getApiEndpointMockBuilder(
-            NationalityAPI::class,
-            [
-
-                RequestParams::PARAM_TYPE_BODY => [
-                    CommonParams::PARAMETER_IDS => [1],
-                ]
-            ]
-        )->onlyMethods(['getNationalityService'])
-            ->getMock();
-        $api->expects($this->exactly(1))
-            ->method('getNationalityService')
-            ->will($this->returnValue($nationalityService));
-
-        $result = $api->delete();
-        $this->assertEquals(
-            [
-                1
-            ],
-            $result->normalize()
-        );
+        $this->populateFixtures('NationalityAPI.yml');
+        $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
+        $api = $this->getApiEndpointMock(NationalityAPI::class, $testCaseParams);
+        $this->assertValidTestCase($api, 'getOne', $testCaseParams);
     }
 
-    public function testGetValidationRuleForDelete(): void
+    public function dataProviderForTestGetOne(): array
     {
-        $api = new NationalityAPI($this->getRequest());
-        $rules = $api->getValidationRuleForDelete();
-        $this->assertTrue(
-            $this->validate(
-                [
-                    CommonParams::PARAMETER_IDS => [1],
-                ],
-                $rules
-            )
-        );
+        return $this->getTestCases('NationalityAPITestCases.yml', 'GetOne');
     }
 
-    public function testUpdate()
+    /**
+     * @dataProvider dataProviderForTestCreate
+     */
+    public function testCreate(TestCaseParams $testCaseParams): void
     {
-        $nationalityDao = $this->getMockBuilder(NationalityDao::class)
-            ->onlyMethods(['saveNationality', 'getNationalityById'])
-            ->getMock();
-
-        $nationality = new Nationality();
-        $nationality->setId(1);
-        $nationality->setName('India');
-
-        $nationalityDao->expects($this->exactly(1))
-            ->method('getNationalityById')
-            ->with(1)
-            ->willReturn($nationality);
-        $nationalityDao->expects($this->exactly(1))
-            ->method('saveNationality')
-            ->with($nationality)
-            ->will($this->returnValue($nationality));
-        $nationalityService = $this->getMockBuilder(NationalityService::class)
-            ->onlyMethods(['getNationalityDao'])
-            ->getMock();
-        $nationalityService->expects($this->exactly(2))
-            ->method('getNationalityDao')
-            ->willReturn($nationalityDao);
-
-        /** @var MockObject&NationalityAPI $api */
-        $api = $this->getApiEndpointMockBuilder(
-            NationalityAPI::class,
-            [
-                RequestParams::PARAM_TYPE_ATTRIBUTE => [
-                    CommonParams::PARAMETER_ID => 1
-                ],
-                RequestParams::PARAM_TYPE_BODY => [
-                    NationalityAPI::PARAMETER_NAME => 'sri lankan',
-                ]
-            ]
-        )->onlyMethods(['getNationalityService'])
-            ->getMock();
-        $api->expects($this->exactly(2))
-            ->method('getNationalityService')
-            ->will($this->returnValue($nationalityService));
-
-        $result = $api->update();
-        $this->assertEquals(
-            [
-                "id" => 1,
-                "name" => "sri lankan"
-            ],
-            $result->normalize()
-        );
+        $this->populateFixtures('NationalityAPI.yml');
+        $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
+        $api = $this->getApiEndpointMock(NationalityAPI::class, $testCaseParams);
+        $this->assertValidTestCase($api, 'create', $testCaseParams);
     }
 
-    public function testGetValidationRuleForUpdate(): void
+    public function dataProviderForTestCreate(): array
     {
-        $api = new NationalityAPI($this->getRequest());
-        $rules = $api->getValidationRuleForUpdate();
-        $this->assertTrue(
-            $this->validate(
-                [
-                    CommonParams::PARAMETER_ID => 1,
-                    NationalityAPI::PARAMETER_NAME => 'Sri Lankan',
-                ],
-                $rules
-            )
-        );
+        return $this->getTestCases('NationalityAPITestCases.yml', 'Create');
     }
 
-    public function testCreate()
+    /**
+     * @dataProvider dataProviderForTestUpdate
+     */
+    public function testUpdate(TestCaseParams $testCaseParams): void
     {
-        $nationalityDao = $this->getMockBuilder(NationalityDao::class)
-            ->onlyMethods(['saveNationality'])
-            ->getMock();
-        $nationalityDao->expects($this->once())
-            ->method('saveNationality')
-            ->will(
-                $this->returnCallback(
-                    function (Nationality $nationality) {
-                        $nationality->setId(1);
-                        return $nationality;
-                    }
-                )
-            );
-
-        $nationalityService = $this->getMockBuilder(NationalityService::class)
-            ->onlyMethods(['getNationalityDao'])
-            ->getMock();
-        $nationalityService->expects($this->once())
-            ->method('getNationalityDao')
-            ->willReturn($nationalityDao);
-
-        /** @var MockObject&NationalityAPI $api */
-        $api = $this->getApiEndpointMockBuilder(
-            NationalityAPI::class,
-            [
-                RequestParams::PARAM_TYPE_BODY => [
-                    NationalityAPI::PARAMETER_NAME => 'India',
-                ]
-            ]
-        )->onlyMethods(['getNationalityService'])
-            ->getMock();
-        $api->expects($this->once())
-            ->method('getNationalityService')
-            ->will($this->returnValue($nationalityService));
-
-        $result = $api->create();
-        $this->assertEquals(
-            [
-                "id" => 1,
-                "name" => 'India'
-            ],
-            $result->normalize()
-        );
+        $this->populateFixtures('NationalityAPI.yml');
+        $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
+        $api = $this->getApiEndpointMock(NationalityAPI::class, $testCaseParams);
+        $this->assertValidTestCase($api, 'update', $testCaseParams);
     }
 
-    public function testGetValidationRuleForCreate(): void
+    public function dataProviderForTestUpdate(): array
     {
-        $api = new NationalityAPI($this->getRequest());
-        $rules = $api->getValidationRuleForCreate();
-        $this->assertTrue(
-            $this->validate(
-                [
-                    NationalityAPI::PARAMETER_NAME => 'india',
-                ],
-                $rules
-            )
-        );
+        return $this->getTestCases('NationalityAPITestCases.yml', 'Update');
     }
 
-    public function testGetAll()
+    /**
+     * @dataProvider dataProviderForTestDelete
+     */
+    public function testDelete(TestCaseParams $testCaseParams): void
     {
-        $nationalityDao = $this->getMockBuilder(NationalityDao::class)
-            ->onlyMethods(['getNationalityList', 'getNationalityCount'])
-            ->getMock();
-
-        $nationality1 = new Nationality();
-        $nationality1->setId(1);
-        $nationality1->setName('Sri Lankan');
-        $nationality2 = new Nationality();
-        $nationality2->setId(2);
-        $nationality2->setName('Indian');
-
-        $nationalityDao->expects($this->exactly(1))
-            ->method('getNationalityList')
-            ->willReturn([$nationality1, $nationality2]);
-        $nationalityDao->expects($this->exactly(1))
-            ->method('getNationalityCount')
-            ->willReturn(2);
-        $nationalityService = $this->getMockBuilder(NationalityService::class)
-            ->onlyMethods(['getNationalityDao'])
-            ->getMock();
-        $nationalityService->expects($this->exactly(2))
-            ->method('getNationalityDao')
-            ->willReturn($nationalityDao);
-
-        /** @var MockObject&NationalityAPI $api */
-        $api = $this->getApiEndpointMockBuilder(
-            NationalityAPI::class,
-            [
-                RequestParams::PARAM_TYPE_BODY => [
-                    NationalityAPI::PARAMETER_NAME,
-                ]
-            ]
-        )->onlyMethods(['getNationalityService'])
-            ->getMock();
-        $api->expects($this->exactly(2))
-            ->method('getNationalityService')
-            ->will($this->returnValue($nationalityService));
-
-        $result = $api->getAll();
-        $this->assertEquals(
-            [
-                [
-                    "id" => 1,
-                    "name" => "Sri Lankan"
-                ],
-                [
-                    "id" => 2,
-                    "name" => "Indian"
-                ]
-            ],
-            $result->normalize()
-        );
-        $this->assertEquals(
-            [
-                "total" => 2
-            ],
-            $result->getMeta()->all()
-        );
+        $this->populateFixtures('NationalityAPI.yml');
+        $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
+        $api = $this->getApiEndpointMock(NationalityAPI::class, $testCaseParams);
+        $this->assertValidTestCase($api, 'delete', $testCaseParams);
     }
 
-    public function testGetValidationRuleForGetAll(): void
+    public function dataProviderForTestDelete(): array
     {
-        $api = new NationalityAPI($this->getRequest());
-        $rules = $api->getValidationRuleForGetAll();
-        $this->assertTrue(
-            $this->validate(
-                [],
-                $rules
-            )
-        );
+        return $this->getTestCases('NationalityAPITestCases.yml', 'Delete');
     }
 }

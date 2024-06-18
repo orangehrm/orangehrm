@@ -291,17 +291,19 @@ class EmployeeWorkExperienceAPI extends Endpoint implements CrudEndpoint
     private function getCommonBodyValidationRules(): array
     {
         return [
-            new ParamRule(
-                self::PARAMETER_EMPLOYER,
-                new Rule(Rules::STRING_TYPE),
-                new Rule(Rules::REQUIRED),
-                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_EMPLOYER_MAX_LENGTH]),
+            $this->getValidationDecorator()->requiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_EMPLOYER,
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_EMPLOYER_MAX_LENGTH]),
+                )
             ),
-            new ParamRule(
-                self::PARAMETER_JOB_TITLE,
-                new Rule(Rules::STRING_TYPE),
-                new Rule(Rules::REQUIRED),
-                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_JOB_TITLE_MAX_LENGTH]),
+            $this->getValidationDecorator()->requiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_JOB_TITLE,
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_JOB_TITLE_MAX_LENGTH]),
+                )
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
@@ -321,6 +323,10 @@ class EmployeeWorkExperienceAPI extends Endpoint implements CrudEndpoint
                 new ParamRule(
                     self::PARAMETER_TO_DATE,
                     new Rule(Rules::API_DATE),
+                    new Rule(
+                        Rules::GREATER_THAN,
+                        [$this->getRequestParams()->getDateTimeOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_FROM_DATE)]
+                    )
                 ),
             ),
         ];
@@ -415,7 +421,8 @@ class EmployeeWorkExperienceAPI extends Endpoint implements CrudEndpoint
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),
-     *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse")
+     *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse"),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
      * )
      *
      * @inheritDoc
@@ -427,7 +434,11 @@ class EmployeeWorkExperienceAPI extends Endpoint implements CrudEndpoint
             RequestParams::PARAM_TYPE_ATTRIBUTE,
             CommonParams::PARAMETER_EMP_NUMBER
         );
-        $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
+        $ids = $this->getEmployeeWorkExperienceService()->getEmployeeWorkExperienceDao()->getExistingEmpWorkExperienceIdsForEmpNumber(
+            $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS),
+            $empNumber
+        );
+        $this->throwRecordNotFoundExceptionIfEmptyIds($ids);
         $this->getEmployeeWorkExperienceService()->getEmployeeWorkExperienceDao()->deleteEmployeeWorkExperiences($empNumber, $ids);
         return new EndpointResourceResult(
             ArrayModel::class,

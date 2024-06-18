@@ -75,6 +75,21 @@ class RecruitmentAttachmentDao extends BaseDao
     }
 
     /**
+     * @param int[] $ids
+     * @return int[]
+     */
+    public function getExistingVacancyAttachmentIds(array $ids): array
+    {
+        $qb = $this->createQueryBuilder(VacancyAttachment::class, 'vacancyAttachment');
+
+        $qb->select('vacancyAttachment.id')
+            ->andWhere($qb->expr()->in('vacancyAttachment.id', ':ids'))
+            ->setParameter('ids', $ids);
+
+        return $qb->getQuery()->getSingleColumnResult();
+    }
+
+    /**
      * @param int $candidateId
      * @return RecruitmentAttachment|null
      */
@@ -173,6 +188,10 @@ class RecruitmentAttachmentDao extends BaseDao
         return $this->count($qb);
     }
 
+    /**
+     * @param array $toBeDeletedAttachmentIds
+     * @return bool
+     */
     public function deleteVacancyAttachments(array $toBeDeletedAttachmentIds): bool
     {
         $qr = $this->createQueryBuilder(VacancyAttachment::class, 'attachment');
@@ -315,6 +334,24 @@ class RecruitmentAttachmentDao extends BaseDao
         $q->setParameter('empNumber', $empNumber);
         $result = $q->getQuery()->getArrayResult();
         return array_column($result, 'id');
+    }
+
+    /**
+     * @param int[] $ids
+     * @param int $interviewId
+     * @return int[]
+     */
+    public function getExistingInterviewAttachmentIdsForInterview(array $ids, int $interviewId): array
+    {
+        $qb = $this->createQueryBuilder(InterviewAttachment::class, 'interviewAttachment');
+
+        $qb->select('interviewAttachment.id')
+            ->andWhere($qb->expr()->in('interviewAttachment.id', ':ids'))
+            ->andWhere($qb->expr()->eq('interviewAttachment.interview', ':interviewId'))
+            ->setParameter('ids', $ids)
+            ->setParameter('interviewId', $interviewId);
+
+        return $qb->getQuery()->getSingleColumnResult();
     }
 
     /**

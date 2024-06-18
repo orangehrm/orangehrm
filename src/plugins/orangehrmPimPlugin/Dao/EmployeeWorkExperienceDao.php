@@ -75,6 +75,24 @@ class EmployeeWorkExperienceDao extends BaseDao
     }
 
     /**
+     * @param int[] $ids
+     * @param int $empNumber
+     * @return int[]
+     */
+    public function getExistingEmpWorkExperienceIdsForEmpNumber(array $ids, int $empNumber): array
+    {
+        $qb = $this->createQueryBuilder(EmpWorkExperience::class, 'employeeWorkExperience');
+
+        $qb->select('employeeWorkExperience.seqNo')
+            ->andWhere($qb->expr()->in('employeeWorkExperience.seqNo', ':ids'))
+            ->andWhere($qb->expr()->eq('employeeWorkExperience.employee', ':empNumber'))
+            ->setParameter('ids', $ids)
+            ->setParameter('empNumber', $empNumber);
+
+        return $qb->getQuery()->getSingleColumnResult();
+    }
+
+    /**
      * @param int $empNumber
      * @param array $toDeleteIds
      * @return int

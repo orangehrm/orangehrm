@@ -16,6 +16,7 @@ GetAll:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
       name: 'employee_leave_entitlements_and_usage'
+      empNumber: 4
     data: [
       {
         "leaveTypeName": "CAN - Personal (Deleted)",
@@ -145,6 +146,7 @@ GetAll:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
       name: 'employee_leave_entitlements_and_usage'
+      empNumber: 4
       limit: 5
     data: [
       {
@@ -250,6 +252,7 @@ GetAll:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
       name: 'employee_leave_entitlements_and_usage'
+      empNumber: 4
       offset: 5
     data: [
       {
@@ -295,6 +298,7 @@ GetAll:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
       name: 'employee_leave_entitlements_and_usage'
+      empNumber: 4
     data: [
       {
         "leaveTypeName": "CAN - Personal (Deleted)",

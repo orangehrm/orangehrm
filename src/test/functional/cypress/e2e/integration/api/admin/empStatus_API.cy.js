@@ -99,7 +99,7 @@ describe('Admin - Employment Status API ', function () {
           })
           .then((response) => {
             expect(response.status).to.eq(200);
-            expect(response.body.data).to.deep.eq([1]);
+            expect(response.body.data).to.deep.eq(['1']);
           });
       });
 
@@ -107,7 +107,7 @@ describe('Admin - Employment Status API ', function () {
         cy.task('db:restore', {name: 'emp-statuses'});
         cy.request('DELETE', empStatusAPI, {ids: [1]}).then((response) => {
           expect(response.status).to.eq(200);
-          expect(response.body.data).to.deep.eq([1]);
+          expect(response.body.data).to.deep.eq(['1']);
         });
       });
     });

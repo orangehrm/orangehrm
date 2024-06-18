@@ -24,6 +24,7 @@ use Throwable;
 class RecordNotFoundException extends Exception
 {
     public const DEFAULT_ERROR_MESSAGE = "Record Not Found";
+    public const PLURAL_ERROR_MESSAGE = "Records Not Found";
 
     public function __construct($message = self::DEFAULT_ERROR_MESSAGE, $code = 0, Throwable $previous = null)
     {

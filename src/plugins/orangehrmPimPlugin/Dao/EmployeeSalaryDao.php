@@ -80,6 +80,24 @@ class EmployeeSalaryDao extends BaseDao
     }
 
     /**
+     * @param int[] $ids
+     * @param int $empNumber
+     * @return int[]
+     */
+    public function getExistingEmployeeSalaryIdsByEmpNumber(array $ids, int $empNumber): array
+    {
+        $qb = $this->createQueryBuilder(EmployeeSalary::class, 'employeeSalary');
+
+        $qb->select('employeeSalary.id')
+            ->andWhere($qb->expr()->in('employeeSalary.id', ':ids'))
+            ->andWhere($qb->expr()->eq('employeeSalary.employee', ':empNumber'))
+            ->setParameter('ids', $ids)
+            ->setParameter('empNumber', $empNumber);
+
+        return $qb->getQuery()->getSingleColumnResult();
+    }
+
+    /**
      * @param EmployeeSalarySearchFilterParams $employeeSalarySearchFilterParams
      * @return EmployeeSalary[]
      */
