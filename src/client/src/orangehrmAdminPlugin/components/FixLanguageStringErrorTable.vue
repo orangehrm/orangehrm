@@ -23,7 +23,7 @@
         <oxd-text type="card-title">{{ $t('admin.source_text') }}</oxd-text>
       </oxd-grid-item>
       <oxd-grid-item class="orangehrm-translation-grid-header">
-        <oxd-text type="card-title">{{ $t('admin.error') }}</oxd-text>
+        <oxd-text type="card-title">{{ $t('general.error') }}</oxd-text>
       </oxd-grid-item>
       <oxd-grid-item class="orangehrm-translation-grid-header">
         <oxd-text type="card-title">{{ $t('admin.translated_text') }}</oxd-text>

@@ -18,6 +18,8 @@
 
 namespace OrangeHRM\Installer\Migration\V5_7_0;
 
+use Doctrine\DBAL\Schema\ForeignKeyConstraint;
+use Doctrine\DBAL\Types\Types;
 use OrangeHRM\Installer\Util\V1\AbstractMigration;
 use OrangeHRM\Installer\Util\V1\LangStringHelper;
 
@@ -67,6 +69,63 @@ class Migration extends AbstractMigration
         $this->getDataGroupHelper()->insertDataGroupPermissions(__DIR__ . '/permission/data_group.yaml');
 
         $this->dropOldTables();
+
+        if (!$this->getSchemaHelper()->tableExists(['ohrm_i18n_error'])) {
+            $this->getSchemaHelper()->createTable('ohrm_i18n_error')
+                ->addColumn('name', Types::STRING, ['length' => 255, 'Notnull' => true])
+                ->addColumn('message', Types::STRING, ['length' => 255, 'Notnull' => true])
+                ->setPrimaryKey(['name'])
+                ->create();
+        }
+
+        $this->insertI18NError('placeholder_mismatch', 'Mismatch found between placeholders');
+        $this->insertI18NError('select_placeholder_mismatch', 'Mismatch found between select expression placeholder');
+        $this->insertI18NError('plural_placeholder_mismatch', 'Mismatch found between plural expression placeholder');
+        $this->insertI18NError('unnecessary_placeholder', 'Placeholders found where none were required');
+
+        if (!$this->getSchemaManager()->tablesExist(['ohrm_i18n_import_error'])) {
+            $this->getSchemaHelper()->createTable('ohrm_i18n_import_error')
+                ->addColumn('id', Types::INTEGER, ['Autoincrement' => true, 'Notnull' => true])
+                ->addColumn('lang_string_id', Types::INTEGER, ['Notnull' => true])
+                ->addColumn('language_id', Types::INTEGER, ['Notnull' => true])
+                ->addColumn('error_name', Types::STRING, ['length' => 255, 'Notnull' => true])
+                ->addColumn('imported_by', Types::INTEGER, ['Notnull' => true])
+                ->setPrimaryKey(['id'])
+                ->create();
+
+            $langStringConstraint  = new ForeignKeyConstraint(
+                ['lang_string_id'],
+                'ohrm_i18n_lang_string',
+                ['id'],
+                'i18n_lang_string_id',
+                ['onDelete' => 'CASCADE']
+            );
+            $languageConstraint = new ForeignKeyConstraint(
+                ['language_id'],
+                'ohrm_i18n_language',
+                ['id'],
+                'i18n_language_id',
+                ['onDelete' => 'CASCADE']
+            );
+            $errorConstraint = new ForeignKeyConstraint(
+                ['error_name'],
+                'ohrm_i18n_error',
+                ['name'],
+                'i18n_error_name',
+                ['onDelete' => 'CASCADE']
+            );
+            $importedByConstraint = new ForeignKeyConstraint(
+                ['imported_by'],
+                'hs_hr_employee',
+                ['emp_number'],
+                'imported_by_emp_number',
+                ['onDelete' => 'CASCADE']
+            );
+            $this->getSchemaHelper()->addForeignKey('ohrm_i18n_import_error', $langStringConstraint);
+            $this->getSchemaHelper()->addForeignKey('ohrm_i18n_import_error', $languageConstraint);
+            $this->getSchemaHelper()->addForeignKey('ohrm_i18n_import_error', $errorConstraint);
+            $this->getSchemaHelper()->addForeignKey('ohrm_i18n_import_error', $importedByConstraint);
+        }
     }
 
     /**
@@ -131,5 +190,22 @@ class Migration extends AbstractMigration
         $this->getSchemaManager()->dropTable('ohrm_beacon_notification');
         $this->getSchemaManager()->dropTable('ohrm_datapoint');
         $this->getSchemaManager()->dropTable('ohrm_datapoint_type');
+    }
+
+    /**
+     * @param string $name
+     * @param string $message
+     */
+    private function insertI18NError(string $name, string $message): void
+    {
+        $this->getConnection()->createQueryBuilder()
+            ->insert('ohrm_i18n_error')
+            ->values([
+                'name' => ':name',
+                'message' => ':message'
+            ])
+            ->setParameter('name', $name)
+            ->setParameter('message', $message)
+            ->executeQuery();
     }
 }

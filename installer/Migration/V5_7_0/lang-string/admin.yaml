@@ -16,13 +16,10 @@ langStrings:
     unitId: import_language_package
   -
     value: 'The text will not translate automatically. You will either have to import translations or translate within the system.'
-    unitId: translate_text_manually_note
+    unitId: translate_text_manually
   -
     value: 'Should be lower than Maximum Salary'
     unitId: should_be_lower_than_maximum_salary
   -
-    value: 'Errors in import language packages'
+    value: 'Errors in Import Language Packages'
     unitId: errors_in_import_language_packages
-  -
-    value: 'Error'
-    unitId: error
