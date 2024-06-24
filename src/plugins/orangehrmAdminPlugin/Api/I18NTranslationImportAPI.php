@@ -28,7 +28,6 @@ use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
 use OrangeHRM\Core\Api\V2\Exception\BadRequestException;
-use OrangeHRM\Core\Api\V2\Exception\InvalidParamException;
 use OrangeHRM\Core\Api\V2\Exception\NotImplementedException;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\RequestParams;
@@ -103,10 +102,6 @@ class I18NTranslationImportAPI extends Endpoint implements CollectionEndpoint
      *     )
      * )
      * @inheritDoc
-     * @throws TransactionException
-     * @throws InvalidParamException
-     * @throws InvalidArgumentException
-     * @throws BadRequestException
      */
     public function create(): EndpointResult
     {
@@ -121,15 +116,23 @@ class I18NTranslationImportAPI extends Endpoint implements CollectionEndpoint
 
         $this->beginTransaction();
         try {
-            //validate xliff file && validate language strings
-            $xliffData = $this->processXliffData($attachment, $languageId);
+            list(
+                $validLangStrings,
+                $invalidLangStrings,
+            ) = $this->getLocalizationService()->processXliffFile($attachment, $languageId);
 
-            //save validated language strings into cache storage
-            $this->saveLanguageStringValidationsToCache(
-                $this->generateCacheKey($languageId),
-                $xliffData['xliffSourceAndTargetValidationErrors']
+            $this->getLocalizationService()->saveAndUpdateTranslatedStringsFromRows(
+                $languageId,
+                $validLangStrings
             );
-
+            //            $xliffData = $this->processXliffData($attachment, $languageId);
+            //
+            //            //save validated language strings into cache storage
+            //            $this->saveLanguageStringValidationsToCache(
+            //                $this->generateCacheKey($languageId),
+            //                $xliffData['xliffSourceAndTargetValidationErrors']
+            //            );
+            //
             $this->commitTransaction();
         } catch (XliffFileProcessFailedException $e) {
             $this->rollBackTransaction();
@@ -143,9 +146,9 @@ class I18NTranslationImportAPI extends Endpoint implements CollectionEndpoint
             ArrayModel::class,
             [],
             new ParameterBag([
-                self::XLIFF_FILE_ERRORS => $xliffData['xliffFileSymfonyValidation'],
-                self::XLIFF_VALIDATION_ERRORS => $xliffData['xliffSourceAndTargetValidationErrors'],
-                self::XLIFF_SUCCESS => $xliffData['translatedDataValues'],
+                self::XLIFF_FILE_ERRORS => [],
+                self::XLIFF_VALIDATION_ERRORS => [],
+                self::XLIFF_SUCCESS => $validLangStrings,
             ])
         );
     }
@@ -292,17 +295,17 @@ class I18NTranslationImportAPI extends Endpoint implements CollectionEndpoint
         ];
     }
 
-    /**
-     * @param Base64Attachment $attachment
-     * @return array
-     */
-    private function xliffFileValidation(Base64Attachment $attachment): array
-    {
-        return $this->getLocalizationService()->validateXliffFile(
-            $attachment->getContent(),
-            $attachment->getFilename()
-        );
-    }
+    //    /**
+    //     * @param Base64Attachment $attachment
+    //     * @return array
+    //     */
+    //    private function xliffFileValidation(Base64Attachment $attachment): array
+    //    {
+    //        return $this->getLocalizationService()->validateXliffFile(
+    //            $attachment->getContent(),
+    //            $attachment->getFilename()
+    //        );
+    //    }
 
     /**
      * @param array $unitElement

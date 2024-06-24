@@ -308,11 +308,33 @@ class LocalizationDao extends BaseDao
     }
 
     /**
+     * @param string $unitId
+     * @param int $groupId
+     * @return I18NLangString|null
+     */
+    public function getLangStringByUnitIdAndGroupId(string $unitId, int $groupId): ?I18NLangString
+    {
+        return $this->getRepository(I18NLangString::class)->findOneBy([
+            'unitId' => $unitId,
+            'group' => $groupId
+        ]);
+    }
+
+    /**
      * @param string $errorName
      * @return I18NError|null
      */
     public function getI18NErrorByName(string $errorName): ?I18NError
     {
         return $this->getRepository(I18NError::class)->findOneBy(['name' => $errorName]);
+    }
+
+    /**
+     * @param string $groupName
+     * @return I18NGroup|null
+     */
+    public function getI18NGroupByName(string $groupName): ?I18NGroup
+    {
+        return $this->getRepository(I18NGroup::class)->findOneBy(['name' => $groupName]);
     }
 }

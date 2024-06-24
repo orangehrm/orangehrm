@@ -27,6 +27,30 @@ class XliffFileProcessFailedException extends Exception
      */
     public static function validationFailed(): self
     {
-        return new self("The XLIFF File Is Not Valid");
+        return new self("The XLIFF file is not valid");
+    }
+
+    /**
+     * @return static
+     */
+    public static function emptyFile(): self
+    {
+        return new self("The XLIFF file is empty");
+    }
+
+    /**
+     * @return static
+     */
+    public static function missingTargetLanguage(): self
+    {
+        return new self("The XLIFF file is missing the target language attribute");
+    }
+
+    /**
+     * @return static
+     */
+    public static function invalidTargetLanguage(): self
+    {
+        return new self("The target language does not match the selected language");
     }
 }

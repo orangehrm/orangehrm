@@ -19,6 +19,8 @@
 namespace OrangeHRM\Admin\Service;
 
 use DOMDocument;
+use DOMElement;
+use DOMException;
 use Exception;
 use LogicException;
 use MessageFormatter;
@@ -27,7 +29,9 @@ use OrangeHRM\Admin\Dao\LocalizationDao;
 use OrangeHRM\Admin\Dto\I18NGroupSearchFilterParams;
 use OrangeHRM\Admin\Dto\I18NLanguageSearchFilterParams;
 use OrangeHRM\Admin\Dto\I18NTranslationSearchFilterParams;
+use OrangeHRM\Admin\Exception\XliffFileProcessFailedException;
 use OrangeHRM\Admin\Service\Model\I18NLanguageModel;
+use OrangeHRM\Core\Dto\Base64Attachment;
 use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
@@ -233,7 +237,7 @@ class LocalizationService
      * @param I18NGroup[] $i18nGroups
      * @param I18NLanguage $language
      * @return DOMDocument
-     * @throws \DOMException
+     * @throws DOMException
      */
     private function getXliffXmlSources(array $i18nGroups, I18NLanguage $language): DOMDocument
     {
@@ -289,58 +293,11 @@ class LocalizationService
         return $xml;
     }
 
-    public function validateXliffFile(string $content, ?string $file = null): array
-    {
-        $errors = [];
-
-        // Avoid: Warning DOMDocument::loadXML(): Empty string supplied as input
-        if ('' === trim($content)) {
-            return ['file' => $file, 'isValid' => true, 'messages' => $errors];
-        }
-
-        $internal = libxml_use_internal_errors(true);
-
-        $document = new \DOMDocument();
-        $document->loadXML($content);
-
-        if (null !== $targetLanguage = $this->getTargetLanguageFromFile($document)) {
-            // Normalize locale: handle both hyphen and underscore variations, and make it case-insensitive
-            $normalizedLocalePattern = sprintf(
-                '(?i:%s|%s)',
-                preg_quote($targetLanguage, '/'),
-                preg_quote(str_replace('_', '-', $targetLanguage), '/')
-            );
-            // strict file names require translation files to be named 'i18n-trgLang.xlf' or 'i18n-trgLang.xliff'
-            $expectedFilenamePattern = sprintf('/^i18n\-(?:%s)\.(?:xlf|xliff)$/i', $normalizedLocalePattern);
-
-            if ($file && 0 === preg_match($expectedFilenamePattern, basename($file))) {
-                $errors[] = [
-                    'line' => -1,
-                    'column' => -1,
-                    'message' => sprintf(
-                        'There is a mismatch between the language included in the file name ("%s") and the "%s" value used in the "trgLang" attribute of the file.',
-                        basename($file),
-                        $targetLanguage
-                    ),
-                ];
-            }
-        }
-
-        foreach (XliffUtils::validateSchema($document) as $xmlError) {
-            $errors[] = [
-                'line' => $xmlError['line'],
-                'column' => $xmlError['column'],
-                'message' => $xmlError['message'],
-            ];
-        }
-
-        libxml_clear_errors();
-        libxml_use_internal_errors($internal);
-
-        return ['file' => $file, 'isValid' => 0 === \count($errors), 'messages' => $errors];
-    }
-
-    private function getTargetLanguageFromFile(\DOMDocument $xliffContents): ?string
+    /**
+     * @param DOMDocument $xliffContents
+     * @return string|null
+     */
+    private function getTargetLanguageFromFile(DOMDocument $xliffContents): ?string
     {
         $xliffTags = $xliffContents->getElementsByTagName('xliff');
         if ($xliffTags->length > 0) {
@@ -494,6 +451,121 @@ class LocalizationService
         }
 
         return $errors;
+    }
+
+    /**
+     * Validate Xliff file and return an array of valid and failed lang strings
+     *
+     * @param Base64Attachment $attachment
+     * @param int $languageId
+     * @return array
+     * @throws XliffFileProcessFailedException
+     */
+    public function processXliffFile(Base64Attachment $attachment, int $languageId): array
+    {
+        $this->validateXliffFile(
+            $attachment->getContent(),
+            $this->getLocalizationDao()->getLanguageById($languageId)->getCode()
+        );
+
+        return $this->validateLangStrings($attachment->getContent());
+    }
+
+    /**
+     * @param string $content
+     * @param string $langCode
+     * @throws XliffFileProcessFailedException
+     */
+    private function validateXliffFile(string $content, string $langCode): void
+    {
+        if ('' === trim($content)) {
+            throw XliffFileProcessFailedException::emptyFile();
+        }
+
+        // Enable this to check errors
+        $internal = libxml_use_internal_errors(true);
+
+        $document = new \DOMDocument();
+        $document->loadXML($content);
+
+        if (count(XliffUtils::validateSchema($document)) > 0) {
+            throw XliffFileProcessFailedException::validationFailed();
+        }
+
+        $targetLanguage = $this->getTargetLanguageFromFile($document);
+
+        if (is_null($targetLanguage)) {
+            throw XliffFileProcessFailedException::missingTargetLanguage();
+        }
+
+        if ($targetLanguage !== $langCode) {
+            throw XliffFileProcessFailedException::invalidTargetLanguage();
+        }
+
+        libxml_clear_errors();
+        libxml_use_internal_errors($internal);
+    }
+
+    /**
+     * Get an array of valid and invalid lang strings
+     *
+     * @param string $content
+     * @return array
+     */
+    private function validateLangStrings(string $content): array
+    {
+        $xliffDocument = new DOMDocument('1.0', 'UTF-8');
+        $xliffDocument->loadXML($content);
+
+        $validTargetStrings = [];
+        $invalidTargetStrings = [];
+
+        $units = $xliffDocument->getElementsByTagName('unit');
+
+        /** @var DOMElement $unit */
+        foreach ($units as $unit) {
+            $unitId = $unit->getAttribute('id');
+            $groupName  = $unit->parentNode->getAttribute('id');
+            $group = $groupName ? $this->getLocalizationDao()->getI18NGroupByName($groupName) : null;
+
+            // If a unit does not have an ID or a group, ignore it
+            if (is_null($unitId) || is_null($group)) {
+                continue;
+            }
+
+            $target = $unit->getElementsByTagName('target')->item(0)->nodeValue;
+
+            // If the target string is empty, ignore it
+            if (is_null($target) || "" === $target) {
+                continue;
+            }
+
+            $langString = $this->getLocalizationDao()->getLangStringByUnitIdAndGroupId($unitId, $group->getId());
+
+            // If there is no corresponding lang string in the system, ignore it
+            if (is_null($langString)) {
+                continue;
+            }
+
+            $error = $this->validateTargetString($langString->getId(), $target);
+
+            if (is_null($error)) {
+                $validTargetStrings[] = [
+                    'langStringId' => $langString->getId(),
+                    'translatedValue' => $target
+                ];
+            } else {
+                $invalidTargetStrings[] = [
+                    'langStringId' => $langString->getId(),
+                    'error' => $error->getName(),
+                ];
+            }
+        }
+
+        return [
+            $validTargetStrings,
+            $invalidTargetStrings,
+        ];
     }
 
     /**
