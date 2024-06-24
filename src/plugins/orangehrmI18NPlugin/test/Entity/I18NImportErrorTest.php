@@ -3,6 +3,7 @@
 namespace OrangeHRM\I18N\test\Entity;
 
 use Doctrine\DBAL\Exception\NotNullConstraintViolationException;
+use OrangeHRM\Entity\Decorator\I18NImportErrorDecorator;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\I18NError;
 use OrangeHRM\Entity\I18NGroup;
@@ -137,5 +138,27 @@ class I18NImportErrorTest extends EntityTestCase
 
         $this->expectException(NotNullConstraintViolationException::class);
         $this->persist($importError);
+    }
+
+    public function testGetDecorator(): void
+    {
+        $importError = new I18NImportError();
+        $this->assertInstanceOf(I18NImportErrorDecorator::class, $importError->getDecorator());
+    }
+
+    public function testI18NImportErrorWithDecorator(): void
+    {
+        $importError = new I18NImportError();
+        $importError->getDecorator()->setLangStringById(1);
+        $importError->getDecorator()->setLanguageById(1);
+        $importError->getDecorator()->setErrorByName('test');
+        $importError->getDecorator()->setImportedEmployeeByEmpNumber(1);
+        $this->persist($importError);
+
+        $importError = $this->getRepository(I18NImportError::class)->find(1);
+        $this->assertEquals($this->getRepository(I18NLanguage::class)->find(1), $importError->getLanguage());
+        $this->assertEquals($this->getRepository(I18NLangString::class)->find(1), $importError->getLangString());
+        $this->assertEquals($this->getRepository(I18NError::class)->findOneBy(['name' => 'test']), $importError->getError());
+        $this->assertEquals($this->getRepository(Employee::class)->findOneBy(['empNumber' => 1]), $importError->getImportedBy());
     }
 }

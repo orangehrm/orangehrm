@@ -24,6 +24,7 @@ use OrangeHRM\Admin\Dto\I18NLanguageSearchFilterParams;
 use OrangeHRM\Admin\Dto\I18NTranslationSearchFilterParams;
 use OrangeHRM\Admin\Traits\Service\LocalizationServiceTrait;
 use OrangeHRM\Core\Dao\BaseDao;
+use OrangeHRM\Entity\I18NError;
 use OrangeHRM\Entity\I18NGroup;
 use OrangeHRM\Entity\I18NLangString;
 use OrangeHRM\Entity\I18NLanguage;
@@ -295,5 +296,23 @@ class LocalizationDao extends BaseDao
             ->where($q->expr()->in('ln.id', ':ids'))
             ->setParameter('ids', $toBeDeletedI18NLanguageIds);
         return $q->getQuery()->execute();
+    }
+
+    /**
+     * @param int $langStringId
+     * @return I18NLangString|null
+     */
+    public function getLangStringById(int $langStringId): ?I18NLangString
+    {
+        return $this->getRepository(I18NLangString::class)->find($langStringId);
+    }
+
+    /**
+     * @param string $errorName
+     * @return I18NError|null
+     */
+    public function getI18NErrorByName(string $errorName): ?I18NError
+    {
+        return $this->getRepository(I18NError::class)->findOneBy(['name' => $errorName]);
     }
 }

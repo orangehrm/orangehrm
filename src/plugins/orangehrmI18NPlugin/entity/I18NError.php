@@ -14,6 +14,14 @@ class I18NError
     public const SELECT_MISMATCH = 'select_placeholder_mismatch';
     public const PLURAL_MISMATCH = 'plural_placeholder_mismatch';
     public const UNNECESSARY_PLACEHOLDER = 'unnecessary_placeholder';
+    public const INVALID_SYNTAX = 'invalid_syntax';
+    public const ERROR_MAP = [
+        self::PLACEHOLDER_MISMATCH,
+        self::SELECT_MISMATCH,
+        self::PLURAL_MISMATCH,
+        self::UNNECESSARY_PLACEHOLDER,
+        self::INVALID_SYNTAX,
+    ];
 
     /**
      * @var string

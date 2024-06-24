@@ -20,6 +20,7 @@ namespace OrangeHRM\Admin\Service;
 
 use DOMDocument;
 use Exception;
+use LogicException;
 use MessageFormatter;
 use IntlException;
 use OrangeHRM\Admin\Dao\LocalizationDao;
@@ -31,11 +32,13 @@ use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
+use OrangeHRM\Entity\I18NError;
 use OrangeHRM\Entity\I18NGroup;
 use OrangeHRM\Entity\I18NLanguage;
 use OrangeHRM\Entity\I18NTranslation;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\I18N\Service\I18NService;
+use OrangeHRM\Installer\Util\SystemConfig\SystemConfiguration;
 use Symfony\Component\Translation\Util\XliffUtils;
 
 class LocalizationService
@@ -46,6 +49,14 @@ class LocalizationService
     use ServiceContainerTrait;
 
     public const CACHE_KEY_SUFFIX = 'admin.i18LanguageStringValidationErrors';
+    public const PLACEHOLDER_PATTERN = '/{(\w+)}/';
+    public const PLURAL_PATTERN = '/\s?(\w+)\s?,\s?plural/';
+    public const SELECT_PATTERN = '/\s?(\w+)\s?,\s?select/';
+    public const PATTERN_ERROR_MAP = [
+        self::SELECT_PATTERN => I18NError::SELECT_MISMATCH,
+        self::PLURAL_PATTERN => I18NError::PLURAL_MISMATCH,
+        self::PLACEHOLDER_PATTERN => I18NError::PLACEHOLDER_MISMATCH,
+    ];
 
     /**
      * @var LocalizationDao|null
@@ -174,7 +185,7 @@ class LocalizationService
         $i18NTranslations = [];
         foreach ($rows as $row) {
             if (!(isset($row['langStringId']))) {
-                throw new \LogicException('langStringId is required attribute');
+                throw new LogicException('langStringId is required attribute');
             }
 
             $itemKey = $this->generateLangStringLanguageKey(
@@ -340,6 +351,52 @@ class LocalizationService
         }
 
         return null;
+    }
+
+    /**
+     * @param int $langStringId
+     * @param string $targetValue
+     * @return I18NError|null
+     */
+    public function validateTargetString(int $langStringId, string $targetValue): ?I18NError
+    {
+        try {
+            new MessageFormatter(
+                SystemConfiguration::DEFAULT_LANGUAGE,
+                $targetValue
+            );
+        } catch (IntlException $exception) {
+            return $this->getI18NErrorByName(I18NError::INVALID_SYNTAX);
+        }
+
+        $sourceValue = $this->getLocalizationDao()
+            ->getLangStringById($langStringId)
+            ->getValue();
+
+        $sourceMatches = [];
+        $targetMatches = [];
+        foreach (self::PATTERN_ERROR_MAP as $pattern => $error) {
+            preg_match_all($pattern, $sourceValue, $sourceMatches);
+            preg_match_all($pattern, $targetValue, $targetMatches);
+
+            if ($sourceMatches !== $targetMatches) {
+                return $this->getI18NErrorByName($error);
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * @param string $name
+     * @return I18NError
+     */
+    public function getI18NErrorByName(string $name): I18NError
+    {
+        if (!in_array($name, I18NError::ERROR_MAP)) {
+            throw new LogicException("Should be a valid I18N error");
+        }
+        return $this->getLocalizationDao()->getI18NErrorByName($name);
     }
 
     public function validateXliffLanguageStrings(array $unitElement): array

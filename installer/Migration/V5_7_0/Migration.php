@@ -81,7 +81,7 @@ class Migration extends AbstractMigration
         $this->insertI18NError('placeholder_mismatch', 'Mismatch found between placeholders');
         $this->insertI18NError('select_placeholder_mismatch', 'Mismatch found between select expression placeholder');
         $this->insertI18NError('plural_placeholder_mismatch', 'Mismatch found between plural expression placeholder');
-        $this->insertI18NError('unnecessary_placeholder', 'Placeholders found where none were required');
+        $this->insertI18NError('invalid_syntax', 'The syntax used is invalid');
 
         if (!$this->getSchemaManager()->tablesExist(['ohrm_i18n_import_error'])) {
             $this->getSchemaHelper()->createTable('ohrm_i18n_import_error')

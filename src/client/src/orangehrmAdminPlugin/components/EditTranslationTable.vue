@@ -63,11 +63,10 @@
           >
             {{ $t('admin.translated_text') }}
           </oxd-text>
-          <oxd-input-field
-            type="input"
+          <lang-string-target-input
+            :lang-string-id="langstring.langStringId"
             :placeholder="langstring.target"
             :model-value="langstring.target"
-            :rules="rules.langString"
             @update:model-value="onUpdateTranslation($event, index)"
           />
           <oxd-divider class="orangehrm-translation-grid-langstring-header" />
@@ -78,9 +77,12 @@
   </div>
 </template>
 <script>
-import {validLangString} from '@/core/util/validation/rules';
+import LangStringTargetInput from '@/orangehrmAdminPlugin/components/LangStringTargetInput.vue';
 
 export default {
+  components: {
+    LangStringTargetInput,
+  },
   props: {
     langstrings: {
       type: Array,
@@ -105,9 +107,6 @@ export default {
 
     return {
       onUpdateTranslation,
-      rules: {
-        langString: [validLangString],
-      },
     };
   },
 };
