@@ -39,6 +39,7 @@
           :loading="isLoading"
           :total="total"
           :selected="0"
+          records-found-lang-string="admin.n_errors_found"
         ></table-header>
         <edit-translations
           v-if="items?.data"
@@ -73,7 +74,7 @@ import useToast from '@/core/util/composable/useToast';
 import {APIService} from '@/core/util/services/api.service';
 import FixLanguageStringErrorTable from '@/orangehrmAdminPlugin/components/FixLanguageStringErrorTable.vue';
 import usePaginate from '@/core/util/composable/usePaginate';
-import {reloadPage} from '@/core/util/helper/navigation';
+import {navigate} from '@/core/util/helper/navigation';
 
 export default {
   name: 'FixLanguageStringErrors',
@@ -140,7 +141,10 @@ export default {
         .then(() => {
           return saveSuccess();
         })
-        .then(() => reloadPage());
+        .then(() => {
+          currentPage.value = 1;
+          execQuery();
+        });
     };
 
     return {
@@ -153,6 +157,14 @@ export default {
       onReset,
       onSubmitLangString,
     };
+  },
+
+  watch: {
+    total(value) {
+      if (value === 0) {
+        navigate('/admin/languagePackage');
+      }
+    },
   },
 };
 </script>

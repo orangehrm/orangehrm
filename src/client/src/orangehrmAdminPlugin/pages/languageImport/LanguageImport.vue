@@ -164,7 +164,8 @@ export default {
           ...this.attachment,
         })
         .then((response) => {
-          this.importModalState = response.data;
+          const {meta} = response.data;
+          this.importModalState = meta;
         })
         .finally(() => {
           this.reset();

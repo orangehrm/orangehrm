@@ -6,7 +6,7 @@ use OrangeHRM\Core\Dto\FilterParams;
 
 class I18NImportErrorSearchFilterParams extends FilterParams
 {
-    public const ALLOWED_SORT_FIELDS = ['importError.id'];
+    public const ALLOWED_SORT_FIELDS = ['importError.langString'];
 
     /**
      * @var int
@@ -20,7 +20,7 @@ class I18NImportErrorSearchFilterParams extends FilterParams
 
     public function __construct()
     {
-        $this->setSortField('importError.id');
+        $this->setSortField('importError.langString');
     }
 
     /**

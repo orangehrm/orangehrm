@@ -22,72 +22,34 @@
     </div>
     <div class="orangehrm-text-center-align">
       <oxd-text
-        v-if="
-          data.meta.successXliffLanguageStrings &&
-          data.meta.successXliffLanguageStrings.length > 0
-        "
+        v-if="data.success > 0"
         type="card-body"
-        :class="{
-          'orangehrm-success-message':
-            data.meta.successXliffLanguageStrings.length > 0,
-        }"
+        :class="{'orangehrm-success-message': data.success > 0}"
       >
-        {{
-          $t('pim.n_records_successfully_imported', {
-            count: data.meta.successXliffLanguageStrings.length,
-          })
-        }}
+        {{ $t('pim.n_records_successfully_imported', {count: data.success}) }}
       </oxd-text>
-      <template
-        v-if="
-          data.meta.xliffLanguageStringValidations &&
-          data.meta.xliffLanguageStringValidations.length > 0
-        "
-      >
+      <template v-if="data.failed > 0">
         <oxd-text type="card-body" class="orangehrm-error-message">
-          {{
-            $t('pim.n_records_failed_to_import', {
-              count: data.meta.xliffLanguageStringValidations.length,
-            })
-          }}
+          {{ $t('pim.n_records_failed_to_import', {count: data.failed}) }}
         </oxd-text>
-        <oxd-text type="card-body" class="orangehrm-error-message"></oxd-text>
       </template>
-      <template
-        v-if="
-          data.meta.xliffFileValidations &&
-          data.meta.xliffFileValidations.isValid === false
-        "
-      >
-        <oxd-text type="card-body" class="orangehrm-error-message">
-          {{
-            data.meta.xliffFileValidations &&
-            data.meta.xliffFileValidations.messages &&
-            data.meta.xliffFileValidations.messages
-              .map((message) => message.message)
-              .join('\n')
-          }}
+      <template v-if="data.skipped > 0">
+        <oxd-text type="card-body" class="orangehrm-warn-message">
+          {{ $t('admin.n_records_skipped', {count: data.skipped}) }}
         </oxd-text>
-        <oxd-text type="card-body" class="orangehrm-error-message"></oxd-text>
       </template>
     </div>
     <div class="orangehrm-modal-footer">
       <oxd-button
-        v-if="
-          data.meta.xliffLanguageStringValidations &&
-          data.meta.xliffLanguageStringValidations.length === 0
-        "
-        display-type="text"
+        v-if="data.failed === 0"
+        display-type="secondary"
         :label="$t('general.ok')"
         @click="onClose"
       />
       <oxd-button
-        v-if="
-          data.meta.xliffLanguageStringValidations &&
-          data.meta.xliffLanguageStringValidations.length > 0
-        "
-        display-type="text"
-        :label="'Fix Errors'"
+        v-if="data.failed > 0"
+        display-type="secondary"
+        :label="$t('admin.fix_errors')"
         @click="onClickFixErrors"
       />
     </div>
@@ -155,5 +117,9 @@ export default {
 
 .orangehrm-error-message {
   color: $oxd-feedback-danger-color;
+}
+
+.orangehrm-warn-message {
+  color: $oxd-feedback-warn-color;
 }
 </style>

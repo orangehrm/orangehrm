@@ -562,6 +562,7 @@ class LocalizationService
 
         $validTargetStrings = [];
         $invalidTargetStrings = [];
+        $skippedLangStrings = [];
 
         $units = $xliffDocument->getElementsByTagName('unit');
 
@@ -576,17 +577,21 @@ class LocalizationService
                 continue;
             }
 
-            $target = $unit->getElementsByTagName('target')->item(0)->nodeValue;
-
-            // If the target string is empty, ignore it
-            if (is_null($target) || "" === $target) {
-                continue;
-            }
-
             $langString = $this->getLocalizationDao()->getLangStringByUnitIdAndGroupId($unitId, $group->getId());
 
             // If there is no corresponding lang string in the system, ignore it
             if (is_null($langString)) {
+                continue;
+            }
+
+            $target = $unit->getElementsByTagName('target')->item(0)->nodeValue;
+
+            // If the target string is empty, ignore it
+            if (is_null($target) || "" === $target) {
+                $skippedLangStrings[] = [
+                    'langStringId' => $langString->getId(),
+                    'unitId' => $langString->getUnitId()
+                ];
                 continue;
             }
 
@@ -608,6 +613,7 @@ class LocalizationService
         return [
             $validTargetStrings,
             $invalidTargetStrings,
+            $skippedLangStrings
         ];
     }
 

@@ -20,9 +20,9 @@ namespace OrangeHRM\Admin\Api;
 
 use Exception;
 use OpenApi\Annotations as OA;
-use OrangeHRM\Admin\Dto\I18NTranslationSearchFilterParams;
 use OrangeHRM\Admin\Exception\XliffFileProcessFailedException;
 use OrangeHRM\Admin\Traits\Service\LocalizationServiceTrait;
+use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CollectionEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
@@ -41,7 +41,6 @@ use OrangeHRM\Core\Traits\CacheTrait;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\ORM\Exception\TransactionException;
 use OrangeHRM\Core\Api\V2\ParameterBag;
-use Psr\Cache\InvalidArgumentException;
 
 class I18NTranslationImportAPI extends Endpoint implements CollectionEndpoint
 {
@@ -56,9 +55,9 @@ class I18NTranslationImportAPI extends Endpoint implements CollectionEndpoint
     public const PARAM_RULE_IMPORT_FILE_FORMAT = ['text/xml', 'application/xml', 'application/xliff+xml'];
     public const PARAM_RULE_IMPORT_FILE_EXTENSIONS = ['xml', 'xlf'];
 
-    public const XLIFF_FILE_ERRORS = 'xliffFileValidations';
-    public const XLIFF_VALIDATION_ERRORS = 'xliffLanguageStringValidations';
-    public const XLIFF_SUCCESS = 'successXliffLanguageStrings';
+    public const PARAMETER_SUCCESS = 'success';
+    public const PARAMETER_FAILED = 'failed';
+    public const PARAMETER_SKIPPED = 'skipped';
 
     /**
      * @inheritDoc
@@ -121,6 +120,7 @@ class I18NTranslationImportAPI extends Endpoint implements CollectionEndpoint
             list(
                 $validLangStrings,
                 $invalidLangStrings,
+                $skippedLangStrings
             ) = $this->getLocalizationService()->processXliffFile($attachment, $languageId);
 
             $this->getLocalizationService()->saveAndUpdateTranslatedStringsFromRows(
@@ -149,9 +149,10 @@ class I18NTranslationImportAPI extends Endpoint implements CollectionEndpoint
             ArrayModel::class,
             [],
             new ParameterBag([
-                self::XLIFF_FILE_ERRORS => [],
-                self::XLIFF_VALIDATION_ERRORS => $invalidLangStrings,
-                self::XLIFF_SUCCESS => $validLangStrings,
+                self::PARAMETER_SUCCESS => count($validLangStrings),
+                self::PARAMETER_FAILED => count($invalidLangStrings),
+                self::PARAMETER_SKIPPED => count($skippedLangStrings),
+                CommonParams::PARAMETER_TOTAL => count($validLangStrings) + count($invalidLangStrings) + count($skippedLangStrings)
             ])
         );
     }
@@ -212,153 +213,5 @@ class I18NTranslationImportAPI extends Endpoint implements CollectionEndpoint
     public function getValidationRuleForDelete(): ParamRuleCollection
     {
         throw $this->getNotImplementedException();
-    }
-
-    /**
-     * @param Base64Attachment $attachment
-     * @param int $languageId
-     * @return array
-     */
-    private function processXliffData(Base64Attachment $attachment, int $languageId): array
-    {
-        $xliffFileSymfonyValidation = $this->xliffFileValidation($attachment);
-        $xliffSourceAndTargetValidationErrors = [];
-        $translatedDataValues = [];
-
-        if ($xliffFileSymfonyValidation && $xliffFileSymfonyValidation['isValid']) {
-            //load xliff file into DOMDocument
-            $xliffDocument = new \DOMDocument();
-            $xliffDocument->loadXML($attachment->getContent());
-
-            //get units from the xliff file
-            $units = $xliffDocument->getElementsByTagName('unit');
-
-            //retrieve saved language strings
-            $languageStrings = $this->getLanguageStrings($languageId);
-
-            $documentDataValues = [];
-
-            foreach ($units as $unit) {
-                $unitId = $unit->getAttribute('id');
-                $source = $unit->getElementsByTagName('source')->item(0)->nodeValue;
-                $target = $unit->getElementsByTagName('target')->item(0)->nodeValue;
-
-                $unitElement = [
-                    'unitId' => $unitId,
-                    'source' => $source,
-                    'target' => $target
-                ];
-
-                //validate language strings from the xliff file
-                $xliffSourceAndTargetValidation = $this->xliffSourceAndTargetValidation($unitElement);
-
-                $xliffSourceAndTargetValidation
-                    ? $xliffSourceAndTargetValidationErrors[] = $xliffSourceAndTargetValidation
-                    : $documentDataValues[] = $unitElement;
-            }
-
-            $languageStringMap = [];
-            foreach ($languageStrings as $langString) {
-                $languageStringMap[$langString["unitId"]] = [
-                    'langStringId' => $langString["langStringId"],
-                    'note' => $langString["note"]
-                ];
-            }
-
-            foreach ($xliffSourceAndTargetValidationErrors as &$validation) {
-                if (isset($languageStringMap[$validation["unitId"]])) {
-                    $matchingData = $languageStringMap[$validation["unitId"]];
-                    $validation["langStringId"] = $matchingData["langStringId"];
-                    $validation["note"] = $matchingData["note"];
-                }
-            }
-
-            json_encode($documentDataValues, JSON_PRETTY_PRINT);
-
-            foreach ($languageStrings as $languageString) {
-                foreach ($documentDataValues as $documentDataValue) {
-                    if ($languageString["unitId"] === $documentDataValue["unitId"] && !empty($documentDataValue["target"])) {
-                        $translatedDataValues[] = [
-                            'langStringId' => $languageString["langStringId"],
-                            'translatedValue' => $documentDataValue["target"]
-                        ];
-                    }
-                }
-            }
-
-            if (!empty($translatedDataValues)) {
-                $this->saveAndUpdateTranslatedStrings($languageId, $translatedDataValues);
-            }
-        }
-
-        return [
-            'xliffFileSymfonyValidation' => $xliffFileSymfonyValidation,
-            'xliffSourceAndTargetValidationErrors' => $xliffSourceAndTargetValidationErrors,
-            'translatedDataValues' => $translatedDataValues
-        ];
-    }
-
-    //    /**
-    //     * @param Base64Attachment $attachment
-    //     * @return array
-    //     */
-    //    private function xliffFileValidation(Base64Attachment $attachment): array
-    //    {
-    //        return $this->getLocalizationService()->validateXliffFile(
-    //            $attachment->getContent(),
-    //            $attachment->getFilename()
-    //        );
-    //    }
-
-    /**
-     * @param array $unitElement
-     * @return array
-     */
-    private function xliffSourceAndTargetValidation(array $unitElement): array
-    {
-        return $this->getLocalizationService()->validateXliffLanguageStrings(
-            $unitElement
-        );
-    }
-
-    /**
-     * @param int $languageId
-     * @return array
-     */
-    private function getLanguageStrings(int $languageId): array
-    {
-        $i18NTranslationSearchFilterParams = new I18NTranslationSearchFilterParams();
-        $i18NTranslationSearchFilterParams->setLanguageId($languageId);
-        $i18NTranslationSearchFilterParams->setLimit(0);
-        return $this->getLocalizationService()->getLocalizationDao()->getNormalizedTranslationsForExport(
-            $i18NTranslationSearchFilterParams
-        );
-    }
-
-    private function saveAndUpdateTranslatedStrings(int $languageId, array $translatedDataValues)
-    {
-        $this->getLocalizationService()->saveAndUpdateTranslatedStringsFromRows(
-            $languageId,
-            $translatedDataValues
-        );
-    }
-
-    /**
-     * @param int $languageId
-     * @return string
-     */
-    private function generateCacheKey(int $languageId): string
-    {
-        return $this->getLocalizationService()->generateCacheKey($languageId);
-    }
-
-    /**
-     * @throws InvalidArgumentException
-     */
-    private function saveLanguageStringValidationsToCache(string $key, array $data)
-    {
-        $this->getCache()->get($key, function () use ($data) {
-            return $data;
-        });
     }
 }

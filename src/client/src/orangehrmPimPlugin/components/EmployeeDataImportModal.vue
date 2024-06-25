@@ -45,7 +45,7 @@
     </div>
     <div class="orangehrm-modal-footer">
       <oxd-button
-        display-type="text"
+        display-type="secondary"
         :label="$t('general.ok')"
         @click="onClose"
       />

@@ -35,3 +35,12 @@ langStrings:
   -
     value: 'Mismatch found between select expression placeholder'
     unitId: select_placeholder_mismatch
+  -
+    value: '{count,plural, =0{No Records Skipped} one{1 Record Skipped} other{ # Records Skipped}}'
+    unitId: n_records_skipped
+  -
+    value: '{count,plural, =0{No Errors Found} one{(1) Error Found} other{ (#) Errors Found}}'
+    unitId: n_errors_found
+  -
+    value: 'Fix Errors'
+    unitId: fix_errors

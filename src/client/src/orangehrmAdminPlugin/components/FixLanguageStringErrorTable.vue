@@ -45,7 +45,7 @@
             :title="langstring.error.message"
             class="orangehrm-translation-grid-header"
           >
-            {{ langstring.error.message }}
+            {{ $t('admin.' + langstring.error.code) }}
           </oxd-text>
         </oxd-grid-item>
         <oxd-grid-item class="orangehrm-translation-grid-text">
