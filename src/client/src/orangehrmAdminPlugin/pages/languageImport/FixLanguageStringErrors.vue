@@ -19,7 +19,7 @@
   <div class="orangehrm-background-container">
     <div class="orangehrm-paper-container">
       <oxd-form
-        v-if="totalItems > 0"
+        v-if="total > 0"
         :loading="isLoading"
         @submit-valid="onSubmitLangString"
         @reset="onReset"
@@ -32,25 +32,24 @@
             v-if="showPaginator"
             :key="currentPage"
             v-model:current="currentPage"
-            :length="totalPages"
+            :length="pages"
           />
         </div>
         <table-header
           :loading="isLoading"
-          :total="xliffSourceAndTargetValidationErrors.length"
+          :total="total"
           :selected="0"
         ></table-header>
         <edit-translations
-          v-if="paginatedErrors.length"
-          v-model:langstrings="paginatedErrors"
-          :xliff-source-and-target-validation-errors="paginatedErrors"
+          v-if="items?.data"
+          v-model:langstrings="items.data"
         ></edit-translations>
         <oxd-form-actions>
           <div class="orangehrm-bottom-container">
             <div>
               <oxd-button
                 display-type="ghost"
-                :label="$t('general.cancel')"
+                :label="$t('general.reset')"
                 type="reset"
               />
               <oxd-button
@@ -70,11 +69,11 @@
 </template>
 
 <script>
-import {ref, computed, watch} from 'vue';
 import useToast from '@/core/util/composable/useToast';
-import {reloadPage} from '@/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
 import FixLanguageStringErrorTable from '@/orangehrmAdminPlugin/components/FixLanguageStringErrorTable.vue';
+import usePaginate from '@/core/util/composable/usePaginate';
+import {reloadPage} from '@/core/util/helper/navigation';
 
 export default {
   name: 'FixLanguageStringErrors',
@@ -86,6 +85,10 @@ export default {
       type: Number,
       required: true,
     },
+    empNumber: {
+      type: Number,
+      required: true,
+    },
     languagePackage: {
       type: String,
       required: true,
@@ -94,46 +97,29 @@ export default {
       type: String,
       required: true,
     },
-    xliffSourceAndTargetValidationErrors: {
-      type: Array,
-      required: true,
-    },
   },
 
   setup(props) {
     const {saveSuccess} = useToast();
-    const itemsPerPage = 10;
 
     const http = new APIService(
       window.appGlobal.baseUrl,
-      `/api/v2/admin/i18n/languages/${props.languageId}/translations`,
+      `/api/v2/admin/i18n/languages/${props.languageId}/translations/errors`,
     );
 
-    const currentPage = ref(1);
-    const isLoading = ref(false);
-
-    const totalItems = computed(
-      () => props.xliffSourceAndTargetValidationErrors.length,
-    );
-    const totalPages = computed(() =>
-      Math.ceil(totalItems.value / itemsPerPage),
-    );
-    const paginatedErrors = computed(() => {
-      const start = (currentPage.value - 1) * itemsPerPage;
-      return props.xliffSourceAndTargetValidationErrors.slice(
-        start,
-        start + itemsPerPage,
-      );
-    });
-
-    const showPaginator = computed(() => totalPages.value > 1);
-
-    watch(totalPages, (newTotalPages) => {
-      if (currentPage.value > newTotalPages) {
-        currentPage.value = newTotalPages;
-      }
-    });
-
+    const {
+      showPaginator,
+      currentPage,
+      total,
+      pages,
+      response: items,
+      isLoading,
+      execQuery,
+    } = usePaginate(http);
+    const onReset = () => {
+      currentPage.value = 1;
+      execQuery();
+    };
     const onSubmitLangString = () => {
       isLoading.value = true;
       http
@@ -141,8 +127,8 @@ export default {
           method: `PUT`,
           url: `/api/v2/admin/i18n/languages/${props.languageId}/translations/bulk`,
           data: {
-            data: paginatedErrors.value.data
-              .filter((item) => item.target !== null && item.modified == true)
+            data: items.value.data
+              .filter((item) => item.target !== null && item.modified === true)
               .map((item) => {
                 return {
                   langStringId: item.langStringId,
@@ -161,9 +147,10 @@ export default {
       showPaginator,
       currentPage,
       isLoading,
-      totalItems,
-      totalPages,
-      paginatedErrors,
+      total,
+      pages,
+      items,
+      onReset,
       onSubmitLangString,
     };
   },

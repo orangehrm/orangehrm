@@ -36,6 +36,7 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Dto\Base64Attachment;
+use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\CacheTrait;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\ORM\Exception\TransactionException;
@@ -46,6 +47,7 @@ class I18NTranslationImportAPI extends Endpoint implements CollectionEndpoint
 {
     use LocalizationServiceTrait;
     use EntityManagerHelperTrait;
+    use AuthUserTrait;
     use CacheTrait;
 
     public const PARAMETER_LANGUAGE_ID = 'languageId';
@@ -125,14 +127,15 @@ class I18NTranslationImportAPI extends Endpoint implements CollectionEndpoint
                 $languageId,
                 $validLangStrings
             );
-            //            $xliffData = $this->processXliffData($attachment, $languageId);
-            //
-            //            //save validated language strings into cache storage
-            //            $this->saveLanguageStringValidationsToCache(
-            //                $this->generateCacheKey($languageId),
-            //                $xliffData['xliffSourceAndTargetValidationErrors']
-            //            );
-            //
+            $this->getLocalizationService()->clearImportErrorsForLangStrings(
+                $languageId,
+                $validLangStrings
+            );
+            $this->getLocalizationService()->saveAndUpdateImportErrorLangStringsFromRows(
+                $languageId,
+                $this->getAuthUser()->getEmpNumber(),
+                $invalidLangStrings
+            );
             $this->commitTransaction();
         } catch (XliffFileProcessFailedException $e) {
             $this->rollBackTransaction();
@@ -147,7 +150,7 @@ class I18NTranslationImportAPI extends Endpoint implements CollectionEndpoint
             [],
             new ParameterBag([
                 self::XLIFF_FILE_ERRORS => [],
-                self::XLIFF_VALIDATION_ERRORS => [],
+                self::XLIFF_VALIDATION_ERRORS => $invalidLangStrings,
                 self::XLIFF_SUCCESS => $validLangStrings,
             ])
         );

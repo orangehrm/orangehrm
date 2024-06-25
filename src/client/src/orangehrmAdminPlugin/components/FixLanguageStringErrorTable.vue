@@ -28,10 +28,7 @@
       <oxd-grid-item class="orangehrm-translation-grid-header">
         <oxd-text type="card-title">{{ $t('admin.translated_text') }}</oxd-text>
       </oxd-grid-item>
-      <template
-        v-for="(langstring, index) in xliffSourceAndTargetValidationErrors"
-        :key="index"
-      >
+      <template v-for="(langstring, index) in langstrings" :key="index">
         <oxd-grid-item class="orangehrm-translation-grid-text">
           <oxd-text
             class="orangehrm-translation-grid-langstring-header"
@@ -45,10 +42,10 @@
         </oxd-grid-item>
         <oxd-grid-item class="orangehrm-translation-grid-text">
           <oxd-text
-            :title="langstring.error"
+            :title="langstring.error.message"
             class="orangehrm-translation-grid-header"
           >
-            {{ langstring.error }}
+            {{ langstring.error.message }}
           </oxd-text>
         </oxd-grid-item>
         <oxd-grid-item class="orangehrm-translation-grid-text">
@@ -58,11 +55,10 @@
           >
             {{ $t('admin.translated_text') }}
           </oxd-text>
-          <oxd-input-field
-            type="input"
+          <lang-string-target-input
+            :lang-string-id="langstring.langStringId"
             :placeholder="langstring.target"
             :model-value="langstring.target"
-            :rules="rules.langString"
             @update:model-value="onUpdateTranslation($event, index)"
           />
           <oxd-divider class="orangehrm-translation-grid-langstring-header" />
@@ -74,15 +70,14 @@
 </template>
 
 <script>
-import {validLangString} from '@/core/util/validation/rules';
+import LangStringTargetInput from '@/orangehrmAdminPlugin/components/LangStringTargetInput.vue';
 
 export default {
+  components: {
+    LangStringTargetInput,
+  },
   props: {
     langstrings: {
-      type: Array,
-      required: true,
-    },
-    xliffSourceAndTargetValidationErrors: {
       type: Array,
       required: true,
     },
@@ -100,9 +95,6 @@ export default {
 
     return {
       onUpdateTranslation,
-      rules: {
-        langString: [validLangString],
-      },
     };
   },
 };

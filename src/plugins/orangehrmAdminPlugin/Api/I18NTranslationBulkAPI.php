@@ -115,6 +115,9 @@ class I18NTranslationBulkAPI extends Endpoint implements ResourceEndpoint
             $this->getLocalizationService()
                 ->saveAndUpdateTranslatedStringsFromRows($languageId, $translatedDataValues);
 
+            $this->getLocalizationService()
+                ->clearImportErrorsForLangStrings($languageId, $translatedDataValues);
+
             $this->commitTransaction();
         } catch (Exception $e) {
             $this->rollBackTransaction();

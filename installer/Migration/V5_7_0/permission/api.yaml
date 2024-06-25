@@ -27,3 +27,16 @@ apiv2_admin_i18n_translation_validation:
   permissions:
     - { role: Admin, permission: { read: true, create: false, update: false, delete: false } }
     - { role: ESS, permission: { read: false, create: false, update: false, delete: false } }
+
+apiv2_admin_i18n_language_translation_errors:
+  description: 'Admin - I18N Language Translation Errors'
+  api: OrangeHRM\Admin\Api\I18NImportErrorAPI
+  module: admin
+  allowed:
+    read: true
+    create: false
+    update: false
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false } }
+    - { role: ESS, permission: { read: false, create: false, update: false, delete: false } }

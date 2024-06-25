@@ -27,6 +27,7 @@ use MessageFormatter;
 use IntlException;
 use OrangeHRM\Admin\Dao\LocalizationDao;
 use OrangeHRM\Admin\Dto\I18NGroupSearchFilterParams;
+use OrangeHRM\Admin\Dto\I18NImportErrorSearchFilterParams;
 use OrangeHRM\Admin\Dto\I18NLanguageSearchFilterParams;
 use OrangeHRM\Admin\Dto\I18NTranslationSearchFilterParams;
 use OrangeHRM\Admin\Exception\XliffFileProcessFailedException;
@@ -38,6 +39,7 @@ use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Entity\I18NError;
 use OrangeHRM\Entity\I18NGroup;
+use OrangeHRM\Entity\I18NImportError;
 use OrangeHRM\Entity\I18NLanguage;
 use OrangeHRM\Entity\I18NTranslation;
 use OrangeHRM\Framework\Services;
@@ -169,7 +171,6 @@ class LocalizationService
     /**
      * @param int $languageId
      * @param array $rows e.g. [['langStringId'=> 1, 'translatedValue' => 'Employee'], ['langStringId'=> 2, 'translatedValue' => 'Admin']]
-     * @return void
      */
     public function saveAndUpdateTranslatedStringsFromRows(int $languageId, array $rows): void
     {
@@ -177,6 +178,21 @@ class LocalizationService
         $i18NTranslations = $this->createTranslatedItemsFromRows($languageId, $rows);
         $this->getLocalizationDao()->saveAndUpdateTranslatedLangString($i18NTranslations);
         $this->getI18NService()->cleanCacheByLangCode($language->getCode());
+    }
+
+    /**
+     * @param int $languageId
+     * @param int $empNumber
+     * @param array $rows
+     */
+    public function saveAndUpdateImportErrorLangStringsFromRows(int $languageId, int $empNumber, array $rows): void
+    {
+        $i18NImportErrors = $this->createImportErrorItemsFromRows(
+            $languageId,
+            $empNumber,
+            $rows
+        );
+        $this->getLocalizationDao()->saveAndUpdateImportErrorLangStrings($i18NImportErrors, $languageId, $empNumber);
     }
 
     /**
@@ -207,6 +223,33 @@ class LocalizationService
             $i18NTranslations[$itemKey] = $i18NTranslation;
         }
         return $i18NTranslations;
+    }
+
+    /**
+     * @param int $languageId
+     * @param int $empNumber
+     * @param array $rows
+     * @return array<string, I18NImportError>
+     */
+    private function createImportErrorItemsFromRows(int $languageId, int $empNumber, array $rows): array
+    {
+        $i18NImportErrors = [];
+        foreach ($rows as $row) {
+            if (!(isset($row['langStringId'])) || !(isset($row['errorName']))) {
+                throw new LogicException('langStringId and errorName are required');
+            }
+
+            $key = $row['langStringId'] . '_' . $row['errorName'];
+            $importError = new I18NImportError();
+            $importError->getDecorator()->setLangStringById($row['langStringId']);
+            $importError->getDecorator()->setErrorByName($row['errorName']);
+            $importError->getDecorator()->setLanguageById($languageId);
+            $importError->getDecorator()->setImportedEmployeeByEmpNumber($empNumber);
+
+            $i18NImportErrors[$key] = $importError;
+        }
+
+        return $i18NImportErrors;
     }
 
     /**
@@ -557,7 +600,7 @@ class LocalizationService
             } else {
                 $invalidTargetStrings[] = [
                     'langStringId' => $langString->getId(),
-                    'error' => $error->getName(),
+                    'errorName' => $error->getName(),
                 ];
             }
         }
@@ -566,6 +609,30 @@ class LocalizationService
             $validTargetStrings,
             $invalidTargetStrings,
         ];
+    }
+
+    /**
+     * @param int $languageId
+     * @param int $empNumber
+     * @return bool
+     */
+    public function languageHasImportErrors(int $languageId, int $empNumber): bool
+    {
+        $importErrorSearchFilterParams = new I18NImportErrorSearchFilterParams();
+        $importErrorSearchFilterParams->setLanguageId($languageId);
+        $importErrorSearchFilterParams->setEmpNumber($empNumber);
+
+        return $this->getLocalizationDao()->getImportErrorCount($importErrorSearchFilterParams) > 0;
+    }
+
+    /**
+     * @param int $languageId
+     * @param array $rows
+     */
+    public function clearImportErrorsForLangStrings(int $languageId, array $rows): void
+    {
+        $langStringIds = array_column($rows, 'langStringId');
+        $this->getLocalizationDao()->clearImportErrorsForLangStrings($languageId, $langStringIds);
     }
 
     /**

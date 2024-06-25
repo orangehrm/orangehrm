@@ -23,18 +23,17 @@ use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Controller\Common\NoRecordsFoundController;
 use OrangeHRM\Core\Controller\Exception\RequestForwardableException;
 use OrangeHRM\Core\Controller\Exception\VueControllerException;
-use OrangeHRM\Core\Traits\CacheTrait;
+use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Entity\I18NLanguage;
 use OrangeHRM\Framework\Http\Request;
 use Psr\Cache\InvalidArgumentException;
-use Symfony\Component\Translation\Translator;
 
 class FixLanguageStringErrorsController extends AbstractVueController
 {
     use LocalizationServiceTrait;
-    use CacheTrait;
+    use AuthUserTrait;
 
     /**
      * @throws VueControllerException
@@ -43,30 +42,26 @@ class FixLanguageStringErrorsController extends AbstractVueController
      */
     public function preRender(Request $request): void
     {
-        $translator = new Translator('en');
-
         if ($request->attributes->has('languageId')) {
             $languageId = $request->attributes->getInt('languageId');
-            $language = $this->getLocalizationService()->getLocalizationDao()
-                ->getLanguageById($languageId);
+            $language = $this->getLocalizationService()->getLocalizationDao()->getLanguageById($languageId);
             if (
                 !$language instanceof I18NLanguage ||
                 !$language->isAdded() ||
-                !$language->isEnabled()
+                !$language->isEnabled() ||
+                !$this->getLocalizationService()->languageHasImportErrors($languageId, $this->getAuthUser()->getEmpNumber())
             ) {
                 throw new RequestForwardableException(NoRecordsFoundController::class . '::handle');
             }
 
             $component = new Component('fix-language-errors');
             $component->addProp(new Prop('language-id', Prop::TYPE_NUMBER, $languageId));
-
-            $cacheItem = $this->getCache()->getItem($this->getLocalizationService()->generateCacheKey($languageId));
-
-            if ($cacheItem->isHit()) {
-                $component->addProp(
-                    new Prop('xliff-source-and-target-validation-errors', Prop::TYPE_ARRAY, $cacheItem->get())
-                );
-            }
+            $component->addProp(new Prop('emp-number', Prop::TYPE_NUMBER, $this->getAuthUser()->getEmpNumber()));
+            $component->addProp(new Prop('language-package', Prop::TYPE_STRING, $language->getName()));
+            $component->addProp(new Prop('source-language', Prop::TYPE_STRING, 'English (United States)'));
+            $component->addProp(new Prop('xliff-source-and-target-validation-errors', Prop::TYPE_ARRAY, [
+                ['source' => 'test', 'error' => 'test', 'target' => 'test']
+            ]));
 
             $this->setComponent($component);
         }
