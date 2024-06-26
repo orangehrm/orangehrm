@@ -39,6 +39,8 @@ class Migration extends AbstractMigration
             $this->getLangHelper()->getGroupIdByName('admin')
         );
 
+        $this->deleteUnusedLangStrings();
+
         $localizationDataGroupId = $this->getDataGroupHelper()->getDataGroupIdByName(
             'apiv2_admin_localization_languages'
         );
@@ -207,5 +209,63 @@ class Migration extends AbstractMigration
             ->setParameter('name', $name)
             ->setParameter('message', $message)
             ->executeQuery();
+    }
+
+    private function deleteUnusedLangStrings(): void
+    {
+        $langStringsToDelete = [
+            'general' => [
+                'failed_to_import',
+                'no_records_added'
+            ],
+            'admin' => [
+                'employee_id_field',
+                'firstname_field',
+                'group_members_attribute',
+                'group_name_attribute',
+                'group_object_class',
+                'group_object_filter',
+                'lastname_field',
+                'middlename_field',
+                'use_browser_language_if_set',
+                'user_membership_attribute',
+                'user_status_field',
+                'work_email_field',
+            ],
+            'pim' => [
+                'first_name',
+                'number_of_records_imported'
+            ],
+            'recruitment' => [
+                'history',
+                'profile'
+            ],
+            'maintenance' => [
+                'selected_candidates'
+            ],
+            'buzz' => [
+                'no_work_anniversaries_for_the_next_30_days',
+                'years'
+            ],
+            'auth' => [
+                'should_have_min_8_characters',
+                'must_contain_lower_case_upper_case_digit_character_message',
+                'your_password_should_not_contain_spaces'
+            ]
+        ];
+
+        foreach ($langStringsToDelete as $group => $langStrings) {
+            $groupId = $this->getLangHelper()->getGroupIdByName($group);
+            foreach ($langStrings as $langString) {
+                $this->deleteLangStringTranslationByLangStringUnitId(
+                    $langString,
+                    $groupId
+                );
+                $this->getLangHelper()->deleteLangStringByUnitId(
+                    $langString,
+                    $groupId
+                );
+            }
+    }
     }
 }
