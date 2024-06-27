@@ -37,7 +37,6 @@ use OrangeHRM\Entity\I18NLangString;
 use OrangeHRM\Entity\I18NLanguage;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Tests\Util\KernelTestCase;
-use OrangeHRM\Tests\Util\MockObject;
 use OrangeHRM\Tests\Util\TestDataService;
 
 /**
@@ -647,7 +646,7 @@ class LocalizationServiceTest extends KernelTestCase
         $result = $this->localizationService->processXliffFile($attachment, 1);
         $this->assertCount(3, $result);
 
-        list ($validLangStrings, $invalidLangStrings, $skippedLangStrings) = $result;
+        list($validLangStrings, $invalidLangStrings, $skippedLangStrings) = $result;
         $this->assertEmpty($validLangStrings);
         $this->assertEmpty($invalidLangStrings);
 
@@ -686,7 +685,7 @@ class LocalizationServiceTest extends KernelTestCase
         $result = $this->localizationService->processXliffFile($attachment, 1);
         $this->assertCount(3, $result);
 
-        list ($validLangStrings, $invalidLangStrings, $skippedLangStrings) = $result;
+        list($validLangStrings, $invalidLangStrings, $skippedLangStrings) = $result;
         $this->assertEmpty($skippedLangStrings);
 
         $this->assertCount(1, $validLangStrings);
@@ -729,7 +728,7 @@ class LocalizationServiceTest extends KernelTestCase
         $result = $this->localizationService->processXliffFile($attachment, 1);
         $this->assertCount(3, $result);
 
-        list ($validLangStrings, $invalidLangStrings, $skippedLangStrings) = $result;
+        list($validLangStrings, $invalidLangStrings, $skippedLangStrings) = $result;
         $this->assertEmpty($validLangStrings);
         $this->assertEmpty($skippedLangStrings);
 

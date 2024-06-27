@@ -1,6 +1,6 @@
 <?php
 
-namespace OrangeHRM\I18N\test\Entity;
+namespace OrangeHRM\Tests\I18N\Entity;
 
 use Doctrine\DBAL\Exception\NotNullConstraintViolationException;
 use OrangeHRM\Entity\Decorator\I18NImportErrorDecorator;

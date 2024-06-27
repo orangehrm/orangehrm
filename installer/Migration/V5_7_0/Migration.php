@@ -266,6 +266,6 @@ class Migration extends AbstractMigration
                     $groupId
                 );
             }
-    }
+        }
     }
 }
