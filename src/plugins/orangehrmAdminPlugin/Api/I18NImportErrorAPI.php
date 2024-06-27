@@ -27,6 +27,42 @@ class I18NImportErrorAPI extends Endpoint implements CollectionEndpoint
     public const PARAMETER_LANGUAGE_ID = 'languageId';
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/admin/i18n/languages/{languageId}/translations/errors",
+     *     tags={"Admin/I18N"},
+     *     summary="List I18N Import Errors",
+     *     operationId="list-i18n-import-errors",
+     *     @OA\PathParameter(
+     *         name="languageId",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         name="sortField",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string", enum=I18NImportErrorSearchFilterParams::ALLOWED_SORT_FIELDS)
+     *     ),
+     *     @OA\Parameter(ref="#/components/parameters/sortOrder"),
+     *     @OA\Parameter(ref="#/components/parameters/limit"),
+     *     @OA\Parameter(ref="#/components/parameters/offset"),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="array",
+     *                 @OA\Items(ref="#/components/schemas/Admin-I18NImportErrorModel")
+     *             ),
+     *             @OA\Property(
+     *                 property="meta",
+     *                 type="object",
+     *                 @OA\Property(property="total", type="integer")
+     *             )
+     *         )
+     *     )
+     * )
+     *
      * @inheritDoc
      */
     public function getAll(): EndpointResult

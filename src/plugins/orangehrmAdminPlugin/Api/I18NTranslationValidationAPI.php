@@ -24,6 +24,36 @@ class I18NTranslationValidationAPI extends Endpoint implements ResourceEndpoint
     public const PARAM_RULE_TRANSLATION_MAX_LENGTH = 1000;
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/admin/i18n/translation/{langStringId}/validate",
+     *     tags={"Admin/I18N"},
+     *     summary="Validate I18N Translation",
+     *     operationId="validate-i18n-translation",
+     *     @OA\PathParameter(
+     *         name="langStringId",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         name="translation",
+     *         in="query",
+     *         required=true,
+     *         @OA\Schema(type="string", maxLength=OrangeHRM\Admin\Api\I18NTranslationValidationAPI::PARAM_RULE_TRANSLATION_MAX_LENGTH)
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="object",
+     *                 @OA\Property(property="valid", type="boolean"),
+     *                 @OA\Property(property="code", type="string", nullable=true, enum=OrangeHRM\Entity\I18NError::ERROR_MAP),
+     *                 @OA\Property(property="message", type="string", nullable=true),
+     *             )
+     *         )
+     *     )
+     * )
+     *
      * @inheritDoc
      */
     public function getOne(): EndpointResult

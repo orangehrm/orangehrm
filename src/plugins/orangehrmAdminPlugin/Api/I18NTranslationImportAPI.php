@@ -95,9 +95,10 @@ class I18NTranslationImportAPI extends Endpoint implements CollectionEndpoint
      *             @OA\Property(property="data", type="array", @OA\Items()),
      *             @OA\Property(property="meta",
      *                 type="object",
-     *                 @OA\Property(property="xliffLanguageStringValidations", description="The language strings that failed to import", type="array", @OA\Items()),
-     *                 @OA\Property(property="xliffFileValidations", description="The XLIFF language file validation"),
-     *                 @OA\Property(property="successXliffLanguageStrings", description="The language strings that succeeded to import", type="array", @OA\Items())
+     *                 @OA\Property(property="success", description="The number of lang strings that successfully imported", type="integer"),
+     *                 @OA\Property(property="failed", description="The number of lang strings that failed to import", type="integer"),
+     *                 @OA\Property(property="skipped", description="The number of lang strings that were skipped", type="integer"),
+     *                 @OA\Property(property="total", type="integer")
      *             )
      *         )
      *     )

@@ -6,6 +6,21 @@ use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\I18NImportError;
 
+/**
+ * @OA\Schema(
+ *     schema="Admin-I18NImportErrorModel",
+ *     type="object",
+ *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(property="langStringId", type="string"),
+ *     @OA\Property(property="source", type="string"),
+ *     @OA\Property(
+ *         property="error",
+ *         type="object",
+ *         @OA\Property(property="code", type="string"),
+ *         @OA\Property(property="message", type="string")
+ *     )
+ * )
+ */
 class I18NImportErrorModel implements Normalizable
 {
     use ModelTrait;
