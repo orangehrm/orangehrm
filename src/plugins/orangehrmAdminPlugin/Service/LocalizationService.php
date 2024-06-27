@@ -54,8 +54,7 @@ class LocalizationService
     use ConfigServiceTrait;
     use ServiceContainerTrait;
 
-    public const CACHE_KEY_SUFFIX = 'admin.i18LanguageStringValidationErrors';
-    public const PLACEHOLDER_PATTERN = '/{(\w+)}/';
+    public const PLACEHOLDER_PATTERN = '/{(\w+)}|\s?(\w+)\s?,\s?plural|\s?(\w+)\s?,\s?select/';
     public const PLURAL_PATTERN = '/\s?(\w+)\s?,\s?plural/';
     public const SELECT_PATTERN = '/\s?(\w+)\s?,\s?select/';
     public const PATTERN_ERROR_MAP = [
@@ -379,7 +378,21 @@ class LocalizationService
             preg_match_all($pattern, $sourceValue, $sourceMatches);
             preg_match_all($pattern, $targetValue, $targetMatches);
 
-            if ($sourceMatches !== $targetMatches) {
+            $capturedSource = $sourceMatches[1];
+            $capturedTarget = $targetMatches[1];
+
+            if ($pattern === self::PLACEHOLDER_PATTERN) {
+                // If the source string has plural or select, skip checking for placeholders
+                if (array_filter($sourceMatches[2]) || array_filter($sourceMatches[3])) {
+                    continue;
+                }
+
+                // Sort the matches to allow placeholders to be in any order
+                sort($capturedSource);
+                sort($capturedTarget);
+            }
+
+            if ($capturedSource !== $capturedTarget) {
                 return $this->getI18NErrorByName($error);
             }
         }
@@ -397,103 +410,6 @@ class LocalizationService
             throw new LogicException("Should be a valid I18N error");
         }
         return $this->getLocalizationDao()->getI18NErrorByName($name);
-    }
-
-    public function validateXliffLanguageStrings(array $unitElement): array
-    {
-        // Initialize an array to store validation errors
-        $errors = [];
-        $locale = "en_US";
-
-        // Validate each <unit> element
-        $unitId = $unitElement['unitId'];
-        $source = $unitElement['source'];
-        $target = $unitElement['target'];
-
-        // Initialize an array to store errors for this unit
-        $unitErrors = "";
-
-        // Define patterns for matching placeholders, plural forms, and select expressions
-        $placeholderPattern = '/{(\w+)}/';
-        $pluralPattern = '/\s?(\w+)\s?,\s?plural/';
-        $selectPattern = '/\s?(\w+)\s?,\s?select/';
-
-        // Match placeholders between source and target strings
-        preg_match_all($placeholderPattern, $source, $placeholdersSource);
-        preg_match_all($placeholderPattern, $target, $placeholdersTarget);
-
-        $capturedPlaceholdersSource = $placeholdersSource[1];
-        $capturedPlaceholdersTarget = $placeholdersTarget[1];
-
-        // Compare placeholders between source and target strings
-        if ($capturedPlaceholdersSource !== $capturedPlaceholdersTarget) {
-            $unitErrors .= "Mismatch found between placeholders. Source: [" . implode(
-                ', ',
-                $capturedPlaceholdersSource
-            ) . "] & Target: [" . implode(', ', $capturedPlaceholdersTarget) . "]. ";
-        }
-
-        // Match plural forms between source and target strings
-        preg_match_all($pluralPattern, $source, $pluralsSource);
-        preg_match_all($pluralPattern, $target, $pluralsTarget);
-
-        $capturedPluralsSource = $pluralsSource[1];
-        $capturedPluralsTarget = $pluralsTarget[1];
-
-        // Compare plural forms between source and target strings
-        if ($capturedPluralsSource !== $capturedPluralsTarget) {
-            $unitErrors .= "Mismatch found between plural forms. Source: [" . implode(
-                ', ',
-                $capturedPluralsSource
-            ) . "] & Target: [" . implode(', ', $capturedPluralsTarget) . "]. ";
-        }
-
-        // Match select expressions between source and target strings
-        preg_match_all($selectPattern, $source, $selectsSource);
-        preg_match_all($selectPattern, $target, $selectsTarget);
-
-        $capturedSelectsSource = $selectsSource[1];
-        $capturedSelectsTarget = $selectsTarget[1];
-
-        // Compare select expressions between source and target strings
-        if ($capturedSelectsSource !== $capturedSelectsTarget) {
-            $unitErrors .= "Mismatch found between select expressions. Source: [" . implode(
-                ', ',
-                $capturedSelectsSource
-            ) . "] & Target: [" . implode(', ', $capturedSelectsTarget) . "]. ";
-        }
-
-        try {
-            $fmt = new MessageFormatter($locale, $target);
-        } catch (IntlException $e) {
-            $unitErrors .= $e->getMessage();
-        }
-
-        // Store errors for this unit
-        if (!empty($unitErrors)) {
-            // Add a space after a full stop in error messages
-            $unitErrors = preg_replace('/\.(?!\s|$)/', '. ', $unitErrors);
-
-            if (strpos(
-                $unitErrors,
-                'msgfmt_create: message formatter creation failed: U_ILLEGAL_ARGUMENT_ERROR'
-            ) !== false) {
-                $unitErrors = str_replace(
-                    'msgfmt_create: message formatter creation failed: U_ILLEGAL_ARGUMENT_ERROR',
-                    'Target language value is required.',
-                    $unitErrors
-                );
-            }
-
-            $errors = [
-                'unitId' => $unitId,
-                'source' => $source,
-                'target' => $target,
-                'error' => $unitErrors
-            ];
-        }
-
-        return $errors;
     }
 
     /**
@@ -639,14 +555,5 @@ class LocalizationService
     {
         $langStringIds = array_column($rows, 'langStringId');
         $this->getLocalizationDao()->clearImportErrorsForLangStrings($languageId, $langStringIds);
-    }
-
-    /**
-     * @param int $languageId
-     * @return string
-     */
-    public function generateCacheKey(int $languageId): string
-    {
-        return self::CACHE_KEY_SUFFIX . ".$languageId";
     }
 }
