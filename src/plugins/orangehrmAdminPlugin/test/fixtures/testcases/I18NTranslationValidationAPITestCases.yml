@@ -1,0 +1,165 @@
+GetOne:
+  without lang string id:
+    userId: 1
+    invalidOnly: [ langStringId ]
+
+  with non existing lang string id:
+    userId: 1
+    attributes:
+      langStringId: 10000
+    invalidOnly: [ langStringId ]
+
+  without translation:
+    userId: 1
+    attributes:
+      langStringId: 196
+    data:
+      valid: true
+      code: null
+      message: null
+
+  with empty translation:
+    userId: 1
+    attributes:
+      langStringId: 196
+    query:
+      translation: "  "
+    invalidOnly: [ translation ]
+
+  with translation greater than 1000 chars:
+    userId: 1
+    attributes:
+      langStringId: 196
+    query:
+      translation: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Na"
+    invalidOnly: [ translation ]
+
+  with valid translation:
+    userId: 1
+    services:
+      admin.localization_service: \OrangeHRM\Admin\Service\LocalizationService
+    attributes:
+      langStringId: 196
+    query:
+      translation: "TEST"
+    data:
+      valid: true
+      code: null
+      message: null
+
+  with placeholder translation for no placeholder source:
+    userId: 1
+    services:
+      admin.localization_service: \OrangeHRM\Admin\Service\LocalizationService
+    attributes:
+      langStringId: 196
+    query:
+      translation: "{TEST}"
+    data:
+      valid: false
+      code: placeholder_mismatch
+      message: Mismatch found between placeholders
+
+  with invalid syntax translation:
+    userId: 1
+    services:
+      admin.localization_service: \OrangeHRM\Admin\Service\LocalizationService
+    attributes:
+      langStringId: 196
+    query:
+      translation: "{Test"
+    data:
+      valid: false
+      code: invalid_syntax
+      message: The syntax used is invalid
+
+  with invalid translation for placeholder source:
+    userId: 1
+    services:
+      admin.localization_service: \OrangeHRM\Admin\Service\LocalizationService
+    attributes:
+      langStringId: 961
+    query:
+      translation: "Accepts {fileSize} {width}"
+    data:
+      valid: false
+      code: placeholder_mismatch
+      message: Mismatch found between placeholders
+
+  with valid translation for placeholder source:
+    userId: 1
+    services:
+      admin.localization_service: \OrangeHRM\Admin\Service\LocalizationService
+    attributes:
+      langStringId: 961
+    query:
+      translation: "{width} {height} {fileSize}"
+    data:
+      valid: true
+      code: null
+      message: null
+
+  with invalid translation for plural source:
+    userId: 1
+    services:
+      admin.localization_service: \OrangeHRM\Admin\Service\LocalizationService
+    attributes:
+      langStringId: 1113
+    query:
+      translation: "TEST"
+    data:
+      valid: false
+      code: plural_placeholder_mismatch
+      message: Mismatch found between plural expression placeholder
+
+  with valid translation for plural source:
+    userId: 1
+    services:
+      admin.localization_service: \OrangeHRM\Admin\Service\LocalizationService
+    attributes:
+      langStringId: 1113
+    query:
+      translation: "{yearsCount,plural, =0{} one{Year} two{Two Years} other{Years}}"
+    data:
+      valid: true
+      code: null
+      message: null
+
+  with missing other category for plural source:
+    userId: 1
+    services:
+      admin.localization_service: \OrangeHRM\Admin\Service\LocalizationService
+    attributes:
+      langStringId: 1113
+    query:
+      translation: "{yearsCount, plural, =0{} one{Year}}"
+    data:
+      valid: false
+      code: invalid_syntax
+      message: The syntax used is invalid
+
+  with invalid translation for select source:
+    userId: 1
+    services:
+      admin.localization_service: \OrangeHRM\Admin\Service\LocalizationService
+    attributes:
+      langStringId: 1067
+    query:
+      translation: "TEST"
+    data:
+      valid: false
+      code: select_placeholder_mismatch
+      message: Mismatch found between select expression placeholder
+
+  with valid translation for select source:
+    userId: 1
+    services:
+      admin.localization_service: \OrangeHRM\Admin\Service\LocalizationService
+    attributes:
+      langStringId: 1067
+    query:
+      translation: "{action, select, APPROVE {{count, plural, =0 {No Leave Requests Approved} =1 {1 Leave Request Approved} other {# Leave Requests Approved} }} REJECT {{count, plural, =0 {No Leave Requests Rejected} =1 {1 Leave Request Rejected} other {# Leave Requests Rejected} }} other {{count, plural, =0 {No Leave Requests Cancelled} =1 {1 Leave Request Cancelled} other {# Leave Requests Cancelled} }} }"
+    data:
+      valid: true
+      code: false
+      message: false
