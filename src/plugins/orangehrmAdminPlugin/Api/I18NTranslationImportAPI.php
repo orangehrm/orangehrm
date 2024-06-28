@@ -28,7 +28,6 @@ use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
 use OrangeHRM\Core\Api\V2\Exception\BadRequestException;
-use OrangeHRM\Core\Api\V2\Exception\NotImplementedException;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
@@ -37,8 +36,8 @@ use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Dto\Base64Attachment;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
-use OrangeHRM\Core\Traits\CacheTrait;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
+use OrangeHRM\Entity\I18NLanguage;
 use OrangeHRM\ORM\Exception\TransactionException;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 
@@ -47,7 +46,6 @@ class I18NTranslationImportAPI extends Endpoint implements CollectionEndpoint
     use LocalizationServiceTrait;
     use EntityManagerHelperTrait;
     use AuthUserTrait;
-    use CacheTrait;
 
     public const PARAMETER_LANGUAGE_ID = 'languageId';
     public const PARAMETER_ATTACHMENT = 'attachment';
@@ -166,9 +164,8 @@ class I18NTranslationImportAPI extends Endpoint implements CollectionEndpoint
         return new ParamRuleCollection(
             new ParamRule(
                 self::PARAMETER_LANGUAGE_ID,
-                new Rule(
-                    Rules::POSITIVE
-                )
+                new Rule(Rules::POSITIVE),
+                new Rule(Rules::ENTITY_ID_EXISTS, [I18NLanguage::class])
             ),
             new ParamRule(
                 self::PARAMETER_ATTACHMENT,
@@ -182,25 +179,7 @@ class I18NTranslationImportAPI extends Endpoint implements CollectionEndpoint
 
     /**
      *
-     * @throws NotImplementedException
-     */
-    public function update(): EndpointResult
-    {
-        throw $this->getNotImplementedException();
-    }
-
-    /**
-     *
-     * @throws NotImplementedException
-     */
-    public function getValidationRuleForUpdate(): ParamRuleCollection
-    {
-        throw $this->getNotImplementedException();
-    }
-
-    /**
-     *
-     * @throws NotImplementedException
+     * @inheritDoc
      */
     public function delete(): EndpointResult
     {
@@ -209,7 +188,7 @@ class I18NTranslationImportAPI extends Endpoint implements CollectionEndpoint
 
     /**
      *
-     * @throws NotImplementedException
+     * @inheritDoc
      */
     public function getValidationRuleForDelete(): ParamRuleCollection
     {
