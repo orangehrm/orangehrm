@@ -44,3 +44,15 @@ langStrings:
   -
     value: 'Fix Errors'
     unitId: fix_errors
+  -
+    value: 'The XLIFF file is not valid'
+    unitId: xliff_file_not_valid
+  -
+    value: 'The XLIFF file is empty'
+    unitId: xliff_file_empty
+  -
+    value: 'The XLIFF file is missing the target language attribute'
+    unitId: xliff_file_missing_target_language
+  -
+    value: 'The target language does not match the selected language'
+    unitId: target_language_does_not_match
