@@ -127,6 +127,8 @@ class Migration extends AbstractMigration
             $this->getSchemaHelper()->addForeignKey('ohrm_i18n_import_error', $languageConstraint);
             $this->getSchemaHelper()->addForeignKey('ohrm_i18n_import_error', $errorConstraint);
             $this->getSchemaHelper()->addForeignKey('ohrm_i18n_import_error', $importedByConstraint);
+
+            $this->getDataGroupHelper()->insertScreenPermissions(__DIR__ . '/permission/screen.yaml');
         }
     }
 
@@ -138,6 +140,9 @@ class Migration extends AbstractMigration
         return '5.7.0';
     }
 
+    /**
+     * @return LangStringHelper
+     */
     private function getLangStringHelper(): LangStringHelper
     {
         if (is_null($this->langStringHelper)) {
@@ -148,6 +153,9 @@ class Migration extends AbstractMigration
         return $this->langStringHelper;
     }
 
+    /**
+     * @param string $version
+     */
     private function updateLangStringVersion(string $version): void
     {
         $qb = $this->createQueryBuilder()
@@ -158,6 +166,10 @@ class Migration extends AbstractMigration
             ->executeStatement();
     }
 
+    /**
+     * @param string $unitId
+     * @param int $groupId
+     */
     private function deleteLangStringTranslationByLangStringUnitId(string $unitId, int $groupId): void
     {
         $id = $this->getConnection()->createQueryBuilder()

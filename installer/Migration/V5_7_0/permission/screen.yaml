@@ -1,0 +1,11 @@
+'Fix Language String Errors':
+  module: admin
+  url: fixLanguageStringErrors
+  permissions:
+    - { role: Admin, permission: { read: true, update: true } }
+
+'Import Language Package':
+  module: admin
+  url: languageImport
+  permissions:
+    - { role: Admin, permission: { read: true, create: true } }
