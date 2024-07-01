@@ -24,10 +24,9 @@
     </div>
     <div class="orangehrm-text-center-align">
       <oxd-text
+        v-if="data.success > 0"
         type="card-body"
-        :class="{
-          'orangehrm-success-message': data.success > 0,
-        }"
+        :class="{'orangehrm-success-message': data.success > 0}"
       >
         {{ $t('pim.n_records_successfully_imported', {count: data.success}) }}
       </oxd-text>
@@ -35,19 +34,25 @@
         <oxd-text type="card-body" class="orangehrm-error-message">
           {{ $t('pim.n_records_failed_to_import', {count: data.failed}) }}
         </oxd-text>
-        <oxd-text type="card-body" class="orangehrm-error-message">
-          {{ $t('pim.failed_rows') }}
-        </oxd-text>
-        <oxd-text type="card-body" class="orangehrm-error-message">
-          {{ data.failedRows.toString() }}
+      </template>
+      <template v-if="data.skipped > 0">
+        <oxd-text type="card-body" class="orangehrm-warn-message">
+          {{ $t('admin.n_records_skipped', {count: data.skipped}) }}
         </oxd-text>
       </template>
     </div>
     <div class="orangehrm-modal-footer">
       <oxd-button
+        v-if="data.failed === 0"
         display-type="secondary"
         :label="$t('general.ok')"
         @click="onClose"
+      />
+      <oxd-button
+        v-if="data.failed > 0"
+        display-type="secondary"
+        :label="$t('admin.fix_errors')"
+        @click="onClickFixErrors"
       />
     </div>
   </oxd-dialog>
@@ -55,9 +60,10 @@
 
 <script>
 import {OxdDialog} from '@ohrm/oxd';
+import {navigate} from '@/core/util/helper/navigation';
 
 export default {
-  name: 'EmployeeDataImportModal',
+  name: 'LanguageStringsImportModal',
   components: {
     'oxd-dialog': OxdDialog,
   },
@@ -66,11 +72,20 @@ export default {
       type: Object,
       required: true,
     },
+    languageId: {
+      type: Number,
+      required: true,
+    },
   },
   emits: ['close'],
   methods: {
     onClose() {
       this.$emit('close', true);
+    },
+    onClickFixErrors() {
+      navigate('/admin/fixLanguageStringErrors/{languageId}', {
+        languageId: this.languageId,
+      });
     },
   },
 };
@@ -82,22 +97,31 @@ export default {
   margin-bottom: 1.2rem;
   justify-content: center;
 }
+
 .orangehrm-modal-footer {
   display: flex;
   margin-top: 1.2rem;
   justify-content: center;
 }
+
 .orangehrm-text-center-align {
   text-align: center;
   overflow-wrap: break-word;
 }
+
 ::v-deep(.orangehrm-dialog-popup) {
   width: 450px;
 }
+
 .orangehrm-success-message {
   color: $oxd-feedback-success-color;
 }
+
 .orangehrm-error-message {
   color: $oxd-feedback-danger-color;
+}
+
+.orangehrm-warn-message {
+  color: $oxd-feedback-warn-color;
 }
 </style>

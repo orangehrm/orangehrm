@@ -53,11 +53,11 @@ class LanguagePackage extends AbstractFileController
             $xliffContent = $this->getLocalizationService()
                 ->exportLanguagePackage($language);
 
-            $fileName = sprintf('i18n-%s.xml', $language->getCode());
+            $fileName = sprintf('i18n-%s.xlf', $language->getCode());
 
             $this->setCommonHeadersToResponse(
                 $fileName,
-                'application/xml',
+                'application/xliff+xml',
                 $this->getTextHelper()->strLength($xliffContent, '8bit'),
                 $response
             );

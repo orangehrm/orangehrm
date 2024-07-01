@@ -1,0 +1,63 @@
+Config:
+  - { name: 'authorize_user_role_manager_class', value: 'BasicUserRoleManager' }
+
+Employee:
+  - { empNumber: 1, firstName: 'Kayla', lastName: 'Abbey', middleName: 'T', employeeId: '0001' }
+  - { empNumber: 2, firstName: 'Devi', lastName: 'Admin', employeeId: '0002' }
+
+UserRole:
+  - { id: 1, name: Admin, display_name: Admin, is_assignable: 1, is_predefined: 1 }
+
+User:
+  - { id: 1, user_role_id: 1, emp_number: 1, user_name: 'kayla', user_password: 'Kayla' }
+  - { id: 2, user_role_id: 1, emp_number: 2, user_name: 'devi', user_password: 'devi' }
+
+I18NGroup:
+  - { id: 1, name: general, title: General }
+  - { id: 2, name: admin, title: Admin }
+  - { id: 3, name: pim, title: PIM }
+  - { id: 4, name: leave, title: Leave }
+  - { id: 5, name: time, title: Time }
+  - { id: 6, name: recruitment, title: Recruitment }
+  - { id: 7, name: performance, title: Performance }
+  - { id: 8, name: dashboard, title: Dashboard }
+  - { id: 10, name: maintenance, title: Maintenance }
+  - { id: 11, name: buzz, title: Buzz }
+  - { id: 12, name: marketplace, title: Marketplace }
+  - { id: 13, name: mobile, title: Mobile }
+  - { id: 14, name: help, title: Help }
+  - { id: 17, name: attendance, title: Attendance }
+  - { id: 19, name: auth, title: Auth }
+  - { id: 20, name: claim, title: Claim }
+
+I18NError:
+  - { name: invalid_syntax, message: The syntax used is invalid }
+  - { name: placeholder_mismatch, message: Mismatch found between placeholders }
+  - { name: plural_placeholder_mismatch, message: Mismatch found between plural expression placeholder }
+  - { name: select_placeholder_mismatch, message: Mismatch found between select expression placeholder }
+
+I18NLanguage:
+  - { id: 1, name: "Chinese (Simplified,  China) - 中文（简体，中国）", code: zh_Hans_CN, enabled: 1, added: 1, modified_at: null }
+  - { id: 2, name: "Chinese (Traditional,  Taiwan) - 中文（繁體，台灣）", code: zh_Hant_TW, enabled: 1, added: 1, modified_at: null }
+  - { id: 3, name: "Dutch - Nederlands", code: nl, enabled: 1, added: 1, modified_at: null }
+  - { id: 4, name: "English (United States)", code: en_US, enabled: 1, added: 1, modified_at: null }
+  - { id: 5, name: "French - Français", code: fr, enabled: 1, added: 1, modified_at: null }
+  - { id: 6, name: "German - Deutsch", code: de, enabled: 1, added: 1, modified_at: null }
+
+I18NLangString:
+  - { id: 196, unit_id: past_employee, group_id: 1, value: "(Past Employee)", note: null, version: 5.0.0 }
+  - { id: 204, unit_id: accept_jpg_png_upto_1mb_recomended_dimentions_200px_x_200px, group_id: 1, value: "Accepts jpg, .png, .gif up to 1MB. Recommended dimensions: 200px X 200px", note: null, version: 5.0.0 }
+  - { id: 232, unit_id: deleted, group_id: 1, value: " (Deleted)", note: null, version: 5.0.0 }
+  - { id: 961, unit_id: accept_jpg_png_gif_upto_recommended_dimensions, group_id: 1, value: "Accepts jpg, .png, .gif, .svg up to {fileSize}. Recommended dimensions: {width}px X {height}px", note: null, version: 5.1.0 }
+  - { id: 1067, unit_id: leave_requests_action, group_id: 4, value: "{action, select, APPROVE {{count, plural, =0 {No Leave Requests Approved} =1 {1 Leave Request Approved} other {# Leave Requests Approved} }} REJECT {{count, plural, =0 {No Leave Requests Rejected} =1 {1 Leave Request Rejected} other {# Leave Requests Rejected} }} other {{count, plural, =0 {No Leave Requests Cancelled} =1 {1 Leave Request Cancelled} other {# Leave Requests Cancelled} }} }", note: "Action might either be Approve, Reject or Cancel of a single\/number of leave requests", version: 5.2.0 }
+  - { id: 1113, unit_id: n_year, group_id: 11, value: "{yearsCount,plural, =0{} one{Year} other{Years}}", note: null, version: 5.3.0 }
+
+I18NImportError:
+  - { id: 1, lang_string_id: 232, language_id: 1, error_name: placeholder_mismatch, imported_by: 1 }
+  - { id: 2, lang_string_id: 204, language_id: 1, error_name: invalid_syntax, imported_by: 1 }
+  - { id: 3, lang_string_id: 961, language_id: 1, error_name: placeholder_mismatch, imported_by: 1 }
+  - { id: 4, lang_string_id: 1067, language_id: 1, error_name: select_placeholder_mismatch, imported_by: 1 }
+  - { id: 5, lang_string_id: 1113, language_id: 1, error_name: plural_placeholder_mismatch, imported_by: 1 }
+  - { id: 6, lang_string_id: 232, language_id: 4, error_name: invalid_syntax, imported_by: 1 }
+  - { id: 7, lang_string_id: 196, language_id: 4, error_name: placeholder_mismatch, imported_by: 1 }
+  - { id: 8, lang_string_id: 232, language_id: 4, error_name: placeholder_mismatch, imported_by: 2 }

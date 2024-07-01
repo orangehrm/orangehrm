@@ -35,7 +35,7 @@
       <div class="orangehrm-modal-footer">
         <oxd-button
           :label="$t('general.no_cancel')"
-          display-type="text"
+          display-type="ghost"
           class="orangehrm-button-margin"
           @click="onCancel"
         />

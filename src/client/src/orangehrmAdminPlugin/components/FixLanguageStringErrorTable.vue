@@ -20,12 +20,12 @@
 <template>
   <div class="orangehrm-translation-container">
     <oxd-divider />
-    <oxd-grid :cols="3" class="orangehrm-translation-grid">
+    <oxd-grid :cols="2" class="orangehrm-translation-grid">
       <oxd-grid-item class="orangehrm-translation-grid-header">
         <oxd-text type="card-title">{{ $t('admin.source_text') }}</oxd-text>
       </oxd-grid-item>
       <oxd-grid-item class="orangehrm-translation-grid-header">
-        <oxd-text type="card-title">{{ $t('admin.source_note') }}</oxd-text>
+        <oxd-text type="card-title">{{ $t('general.error') }}</oxd-text>
       </oxd-grid-item>
       <oxd-grid-item class="orangehrm-translation-grid-header">
         <oxd-text type="card-title">{{ $t('admin.translated_text') }}</oxd-text>
@@ -44,16 +44,10 @@
         </oxd-grid-item>
         <oxd-grid-item class="orangehrm-translation-grid-text">
           <oxd-text
-            class="orangehrm-translation-grid-langstring-header-note"
-            type="card-title"
-          >
-            {{ $t('admin.source_note') }}
-          </oxd-text>
-          <oxd-text
-            :title="langstring.note"
+            :title="langstring.error.message"
             class="orangehrm-translation-grid-header"
           >
-            {{ langstring.note }}
+            {{ $t('admin.' + langstring.error.code) }}
           </oxd-text>
         </oxd-grid-item>
         <oxd-grid-item class="orangehrm-translation-grid-text">
@@ -76,6 +70,7 @@
     <oxd-divider />
   </div>
 </template>
+
 <script>
 import LangStringTargetInput from '@/orangehrmAdminPlugin/components/LangStringTargetInput.vue';
 
@@ -94,15 +89,10 @@ export default {
 
   setup(props, context) {
     const onUpdateTranslation = (value, index) => {
-      context.emit(
-        'update:langstrings',
-        props.langstrings.map((item, _index) => {
-          if (_index === index) {
-            return {...item, target: value, modified: true};
-          }
-          return item;
-        }),
-      );
+      const updatedLangstrings = [...props.langstrings];
+      updatedLangstrings[index].target = value;
+      updatedLangstrings[index].modified = true;
+      context.emit('update:langstrings', updatedLangstrings);
     };
 
     return {
@@ -111,4 +101,5 @@ export default {
   },
 };
 </script>
+
 <style src="./edit-translation-table.scss" lang="scss" scoped></style>

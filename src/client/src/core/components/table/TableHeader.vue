@@ -34,7 +34,7 @@
         />
       </div>
       <oxd-text v-else tag="span">
-        {{ $t('general.n_records_found', {count: total}) }}
+        {{ $t(recordsFoundLangString, {count: total}) }}
       </oxd-text>
     </div>
   </div>
@@ -61,6 +61,11 @@ export default {
       type: Boolean,
       required: false,
       default: true,
+    },
+    recordsFoundLangString: {
+      type: String,
+      required: false,
+      default: 'general.n_records_found',
     },
   },
 

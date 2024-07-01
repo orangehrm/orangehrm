@@ -1,4 +1,58 @@
 langStrings:
   -
+    value: 'Use the sample template'
+    unitId: use_the_sample_template
+  -
+    value: 'Only edit the target field'
+    unitId: only_edit_the_target_field
+  -
+    value: 'Do not change the template'
+    unitId: do_not_change_the_template
+  -
+    value: 'Sample XLIFF'
+    unitId: sample_xliff
+  -
+    value: 'Import Language Package'
+    unitId: import_language_package
+  -
+    value: 'The text will not translate automatically. You will either have to import translations or translate within the system.'
+    unitId: translate_text_manually
+  -
     value: 'Should be lower than Maximum Salary'
     unitId: should_be_lower_than_maximum_salary
+  -
+    value: 'Errors in Import Language Packages'
+    unitId: errors_in_import_language_packages
+  -
+    value: 'The syntax used is invalid'
+    unitId: invalid_syntax
+  -
+    value: 'Mismatch found between placeholders'
+    unitId: placeholder_mismatch
+  -
+    value: 'Mismatch found between plural expression placeholder'
+    unitId: plural_placeholder_mismatch
+  -
+    value: 'Mismatch found between select expression placeholder'
+    unitId: select_placeholder_mismatch
+  -
+    value: '{count,plural, =0{No Records Skipped} one{1 Record Skipped} other{ # Records Skipped}}'
+    unitId: n_records_skipped
+  -
+    value: '{count,plural, =0{No Errors Found} one{(1) Error Found} other{ (#) Errors Found}}'
+    unitId: n_errors_found
+  -
+    value: 'Fix Errors'
+    unitId: fix_errors
+  -
+    value: 'The XLIFF file is not valid'
+    unitId: xliff_file_not_valid
+  -
+    value: 'The XLIFF file is empty'
+    unitId: xliff_file_empty
+  -
+    value: 'The XLIFF file is missing the target language attribute'
+    unitId: xliff_file_missing_target_language
+  -
+    value: 'The target language does not match the selected language'
+    unitId: target_language_does_not_match

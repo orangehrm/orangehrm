@@ -44,3 +44,14 @@ I18NTranslation:
   - { "id": 13, "lang_string_id": 5, "language_id": 1, "value": '([{\|/?!~#@$%^&*)-=_+;"><}]',  "customized": '0', "modified_at": null }
   - { "id": 14, "lang_string_id": 5, "language_id": 22, "value": '([{\|/?!~#@$%^&*)-=_+;"><}]',  "customized": '0', "modified_at": null }
   - { "id": 15, "lang_string_id": 5, "language_id": 3, "value": '([{\|/?!~#@$%^&*)-=_+;"><}]',  "customized": '0', "modified_at": null }
+
+I18NError:
+  - { "name": "invalid_syntax", "message": "The syntax used is invalid" }
+  - { "name": "placeholder_mismatch", "message": "Mismatch found between placeholders" }
+  - { "name": "plural_placeholder_mismatch", "message": "Mismatch found between plural expression placeholder" }
+  - { "name": "select_placeholder_mismatch", "message": "Mismatch found between select expression placeholder" }
+
+I18NImportError:
+  - { "id": 1, "lang_string_id": 1, "language_id": 1, "error_name": "invalid_syntax", "imported_by": 1 }
+  - { "id": 2, "lang_string_id": 2, "language_id": 1, "error_name": "invalid_syntax", "imported_by": 1 }
+  - { "id": 3, "lang_string_id": 3, "language_id": 1, "error_name": "invalid_syntax", "imported_by": 1 }

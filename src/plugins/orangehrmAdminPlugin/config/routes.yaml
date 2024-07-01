@@ -306,6 +306,13 @@ apiv2_admin_i18n_languages:
   defaults:
     _api: OrangeHRM\Admin\Api\I18NLanguageAPI
 
+apiv2_admin_i18n_translation_import:
+  path: /api/v2/admin/i18n/languages/{languageId}/import
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ POST ]
+  defaults:
+    _api: OrangeHRM\Admin\Api\I18NTranslationImportAPI
+
 apiv2_admin_i18n_language:
   path: /api/v2/admin/i18n/languages/{id}
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
@@ -333,6 +340,21 @@ apiv2_admin_i18n_groups:
   methods: [ GET ]
   defaults:
     _api: OrangeHRM\Admin\Api\I18NGroupAPI
+
+apiv2_admin_i18n_translation_validation:
+  path: /api/v2/admin/i18n/translation/{langStringId}/validate
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _key: langStringId
+    _api: OrangeHRM\Admin\Api\I18NTranslationValidationAPI
+
+apiv2_admin_i18n_language_translation_errors:
+  path: /api/v2/admin/i18n/languages/{languageId}/translations/errors
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Admin\Api\I18NImportErrorAPI
 
 ##########################
 #        Files
@@ -592,6 +614,16 @@ admin_open_id_provider:
 admin_language_package:
   path: /admin/languagePackage
   controller: OrangeHRM\Admin\Controller\LanguagePackageController::handle
+  methods: [ GET ]
+
+admin_language_package_import:
+  path: /admin/languageImport/{languageId}
+  controller: OrangeHRM\Admin\Controller\LanguageImportController::handle
+  methods: [ GET ]
+
+admin_language_package_fix_errors:
+  path: /admin/fixLanguageStringErrors/{languageId}
+  controller: OrangeHRM\Admin\Controller\FixLanguageStringErrorsController::handle
   methods: [ GET ]
 
 admin_language_translation:

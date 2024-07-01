@@ -46,6 +46,10 @@
     }
     &-text {
       font-size: 0.75rem;
+      @include oxd-respond-to('lg') {
+        display: flex;
+        align-items: center;
+      }
     }
   }
 }

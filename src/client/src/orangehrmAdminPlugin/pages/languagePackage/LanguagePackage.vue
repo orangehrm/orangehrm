@@ -33,16 +33,18 @@
         </div>
       </div>
       <table-header
-        :loading="isLoading"
+        :selected="checkedItems.length"
         :total="total"
-        :selected="0"
+        :loading="isLoading"
+        @delete="onClickDeleteSelected"
       ></table-header>
       <div class="orangehrm-container">
         <oxd-card-table
+          v-model:selected="checkedItems"
           v-model:order="sortDefinition"
           :headers="headers"
           :items="items?.data"
-          :selectable="false"
+          :selectable="true"
           :clickable="false"
           :loading="isLoading"
           row-decorator="oxd-table-decorator-card"
@@ -61,6 +63,8 @@
       @close="onAddLanguageModalClose"
     >
     </add-language-modal>
+
+    <delete-confirmation ref="deleteDialog"></delete-confirmation>
   </div>
 </template>
 <script>
@@ -70,6 +74,7 @@ import {navigate} from '@ohrm/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
 import useSort from '@ohrm/core/util/composable/useSort';
 import AddLanguageModal from '@/orangehrmAdminPlugin/components/AddLanguageModal.vue';
+import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmationDialog.vue';
 import {urlFor} from '@/core/util/helper/url';
 
 const defaultFilters = {
@@ -84,6 +89,7 @@ export default {
   name: 'LanguagePackageList',
 
   components: {
+    'delete-confirmation': DeleteConfirmationDialog,
     'add-language-modal': AddLanguageModal,
   },
 
@@ -148,32 +154,43 @@ export default {
         },
         {
           name: 'actions',
-          slot: 'footer',
+          slot: 'action',
           title: this.$t('general.actions'),
           cellType: 'oxd-table-cell-actions',
-          style: {flex: '30%'},
+          style: {flex: 1},
           cellConfig: {
+            import: {
+              component: 'oxd-icon-button',
+              onClick: this.onClickImport,
+              props: {
+                name: 'upload',
+              },
+            },
             translate: {
-              component: 'oxd-button',
+              component: 'oxd-icon-button',
               onClick: this.onClickTranslate,
               props: {
-                label: this.$t('admin.translate'),
-                style: 'Text',
-                displayType: 'text',
+                name: 'translate',
               },
             },
             export: {
-              component: 'oxd-button',
+              component: 'oxd-icon-button',
               props: {
-                label: this.$t('admin.export'),
-                displayType: 'text',
-                size: 'medium',
+                name: 'download',
               },
               onClick: this.onClickExport,
+            },
+            delete: {
+              component: 'oxd-icon-button',
+              props: {
+                name: 'trash',
+              },
+              onClick: this.onClickDelete,
             },
           },
         },
       ],
+      checkedItems: [],
     };
   },
   methods: {
@@ -198,6 +215,47 @@ export default {
         languageId: item.id,
       });
       window.open(url, '_blank');
+    },
+    onClickImport(item) {
+      navigate('/admin/languageImport/{languageId}', {languageId: item.id});
+    },
+    onClickDeleteSelected() {
+      const ids = [];
+      this.checkedItems.forEach((index) => {
+        ids.push(this.items?.data[index].id);
+      });
+      this.$refs.deleteDialog.showDialog().then((confirmation) => {
+        if (confirmation === 'ok') {
+          this.deleteItems(ids);
+        }
+      });
+    },
+    onClickDelete(item) {
+      this.$refs.deleteDialog.showDialog().then((confirmation) => {
+        if (confirmation === 'ok') {
+          this.deleteItems([item.id]);
+        }
+      });
+    },
+    deleteItems(items) {
+      if (items instanceof Array) {
+        this.isLoading = true;
+        this.http
+          .deleteAll({
+            ids: items,
+          })
+          .then(() => {
+            return this.$toast.deleteSuccess();
+          })
+          .then(() => {
+            this.isLoading = false;
+            this.resetDataTable();
+          });
+      }
+    },
+    async resetDataTable() {
+      this.checkedItems = [];
+      await this.execQuery();
     },
   },
 };

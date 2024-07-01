@@ -20,11 +20,14 @@ namespace OrangeHRM\Admin\Dao;
 
 use Doctrine\ORM\Query\Expr;
 use OrangeHRM\Admin\Dto\I18NGroupSearchFilterParams;
+use OrangeHRM\Admin\Dto\I18NImportErrorSearchFilterParams;
 use OrangeHRM\Admin\Dto\I18NLanguageSearchFilterParams;
 use OrangeHRM\Admin\Dto\I18NTranslationSearchFilterParams;
 use OrangeHRM\Admin\Traits\Service\LocalizationServiceTrait;
 use OrangeHRM\Core\Dao\BaseDao;
+use OrangeHRM\Entity\I18NError;
 use OrangeHRM\Entity\I18NGroup;
+use OrangeHRM\Entity\I18NImportError;
 use OrangeHRM\Entity\I18NLangString;
 use OrangeHRM\Entity\I18NLanguage;
 use OrangeHRM\Entity\I18NTranslation;
@@ -253,6 +256,117 @@ class LocalizationDao extends BaseDao
     }
 
     /**
+     * @param array<string, I18NImportError> $i18NImportErrorStrings
+     * @param int $languageId
+     * @param int $empNumber
+     */
+    public function saveAndUpdateImportErrorLangStrings(array $i18NImportErrorStrings, int $languageId, int $empNumber): void
+    {
+        $qb = $this->createQueryBuilder(I18NImportError::class, 'importError');
+
+        foreach ($i18NImportErrorStrings as $index => $langStringError) {
+            $langStringParam = 'langStringParam_' . $index;
+            $errorNameParam = 'errorNameParam_' . $index;
+            $languageParam = 'languageParam_' . $index;
+            $empNumberParam = 'empNumberParam_' . $index;
+
+            $qb->orWhere(
+                $qb->expr()->andX(
+                    $qb->expr()->eq('importError.langString', ':' . $langStringParam),
+                    $qb->expr()->eq('importError.error', ':' . $errorNameParam),
+                    $qb->expr()->eq('importError.language', ':' . $languageParam),
+                    $qb->expr()->eq('importError.importedBy', ':' . $empNumberParam)
+                )
+            );
+
+            $qb->setParameter($langStringParam, $langStringError->getLangString()->getId());
+            $qb->setParameter($errorNameParam, $langStringError->getError()->getName());
+            $qb->setParameter($languageParam, $languageId);
+            $qb->setParameter($empNumberParam, $empNumber);
+        }
+
+        /** @var array<string, I18NImportError> $updatableImportErrors */
+        $updatableImportErrors = [];
+        /** @var I18NImportError $updatableImportError */
+        foreach ($qb->getQuery()->execute() as $updatableImportError) {
+            $key = $updatableImportError->getLangString()->getId() . '_' .
+                $updatableImportError->getError()->getName() . '_' .
+                $updatableImportError->getLanguage()->getId() . '_' .
+                $updatableImportError->getImportedBy()->getEmpNumber();
+            $updatableImportErrors[$key] = $updatableImportError;
+        }
+
+        foreach ($i18NImportErrorStrings as $index => $langStringError) {
+            if (isset($updatableImportErrors[$index])) {
+                $updatableImportErrors[$index]->setError($langStringError->getError());
+                $this->getEntityManager()->persist($updatableImportErrors[$index]);
+                continue;
+            }
+            $this->getEntityManager()->persist($langStringError);
+        }
+        $this->getEntityManager()->flush();
+    }
+
+    /**
+     * @param I18NImportErrorSearchFilterParams $importErrorSearchFilterParams
+     * @return I18NImportError[]
+     */
+    public function getImportErrorList(I18NImportErrorSearchFilterParams $importErrorSearchFilterParams): array
+    {
+        $qb = $this->getImportErrorQueryBuilderWrapper($importErrorSearchFilterParams)->getQueryBuilder();
+        return $qb->getQuery()->execute();
+    }
+
+    /**
+     * @param I18NImportErrorSearchFilterParams $importErrorSearchFilterParams
+     * @return int
+     */
+    public function getImportErrorCount(I18NImportErrorSearchFilterParams $importErrorSearchFilterParams): int
+    {
+        $qb = $this->getImportErrorQueryBuilderWrapper($importErrorSearchFilterParams)->getQueryBuilder();
+        return $this->getPaginator($qb)->count();
+    }
+
+    /**
+     * @param I18NImportErrorSearchFilterParams $importErrorSearchFilterParams
+     * @return QueryBuilderWrapper
+     */
+    private function getImportErrorQueryBuilderWrapper(
+        I18NImportErrorSearchFilterParams $importErrorSearchFilterParams
+    ): QueryBuilderWrapper {
+        $qb = $this->createQueryBuilder(I18NImportError::class, 'importError');
+        $this->setSortingAndPaginationParams($qb, $importErrorSearchFilterParams);
+
+        if (!empty($importErrorSearchFilterParams->getLanguageId())) {
+            $qb->andWhere($qb->expr()->eq('importError.language', ':languageId'))
+                ->setParameter('languageId', $importErrorSearchFilterParams->getLanguageId());
+        }
+
+        if (!empty($importErrorSearchFilterParams->getEmpNumber())) {
+            $qb->andWhere($qb->expr()->eq('importError.importedBy', ':empNumber'))
+                ->setParameter('empNumber', $importErrorSearchFilterParams->getEmpNumber());
+        }
+
+        return $this->getQueryBuilderWrapper($qb);
+    }
+
+    /**
+     * @param int $languageId
+     * @param array $langStringIds
+     */
+    public function clearImportErrorsForLangStrings(int $languageId, array $langStringIds)
+    {
+        $qb = $this->createQueryBuilder(I18NImportError::class, 'importError');
+        $qb->delete()
+            ->andWhere($qb->expr()->eq('importError.language', ':languageId'))
+            ->andWhere($qb->expr()->in('importError.langString', ':langStringIds'))
+            ->setParameter('languageId', $languageId)
+            ->setParameter('langStringIds', $langStringIds);
+
+        $qb->getQuery()->execute();
+    }
+
+    /**
      * @param I18NGroupSearchFilterParams $i18NGroupSearchFilterParams
      * @return array e.g. [0 => ['id' => 1, 'name' => 'admin', 'title' => 'Admin']]
      */
@@ -295,5 +409,45 @@ class LocalizationDao extends BaseDao
             ->where($q->expr()->in('ln.id', ':ids'))
             ->setParameter('ids', $toBeDeletedI18NLanguageIds);
         return $q->getQuery()->execute();
+    }
+
+    /**
+     * @param int $langStringId
+     * @return I18NLangString|null
+     */
+    public function getLangStringById(int $langStringId): ?I18NLangString
+    {
+        return $this->getRepository(I18NLangString::class)->find($langStringId);
+    }
+
+    /**
+     * @param string $unitId
+     * @param int $groupId
+     * @return I18NLangString|null
+     */
+    public function getLangStringByUnitIdAndGroupId(string $unitId, int $groupId): ?I18NLangString
+    {
+        return $this->getRepository(I18NLangString::class)->findOneBy([
+            'unitId' => $unitId,
+            'group' => $groupId
+        ]);
+    }
+
+    /**
+     * @param string $errorName
+     * @return I18NError|null
+     */
+    public function getI18NErrorByName(string $errorName): ?I18NError
+    {
+        return $this->getRepository(I18NError::class)->findOneBy(['name' => $errorName]);
+    }
+
+    /**
+     * @param string $groupName
+     * @return I18NGroup|null
+     */
+    public function getI18NGroupByName(string $groupName): ?I18NGroup
+    {
+        return $this->getRepository(I18NGroup::class)->findOneBy(['name' => $groupName]);
     }
 }

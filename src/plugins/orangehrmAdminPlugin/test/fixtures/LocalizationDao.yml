@@ -1,3 +1,14 @@
+Employee:
+  - { empNumber: 1, firstName: 'Kayla', lastName: 'Abbey', middleName: 'T', employeeId: '0001' }
+  - { empNumber: 2, firstName: 'Devi', lastName: 'Admin', employeeId: '0002' }
+
+UserRole:
+  - { id: 1, name: Admin, display_name: Admin, is_assignable: 1, is_predefined: 1 }
+
+User:
+  - { id: 1, user_role_id: 1, emp_number: 1, user_name: 'kayla', user_password: 'Kayla' }
+  - { id: 2, user_role_id: 1, emp_number: 2, user_name: 'devi', user_password: 'devi' }
+
 I18NLanguage:
   0: { id: 1, name: 'Chinese (Simplified, China) - 中文（简体，中国）', code: 'zh_Hans_CN', added: 1 }
   1: { id: 2, name: 'English (United States)', code: 'en_US', added: 1 }
@@ -19,3 +30,16 @@ I18NTranslation:
   - { "id": 2, "lang_string_id": 3, "language_id": 1, "value": 'Вече съществува', "customized": '0', "modified_at": null }
   - { "id": 3, "lang_string_id": 1, "language_id": 2, "value": 'Присвояване Оставете', "customized": '0', "modified_at": null }
   - { "id": 4, "lang_string_id": 4, "language_id": 3, "value": 'Коментар', "customized": '0', "modified_at": null }
+
+I18NError:
+  - { name: invalid_syntax, message: The syntax used is invalid }
+  - { name: placeholder_mismatch, message: Mismatch found between placeholders }
+  - { name: plural_placeholder_mismatch, message: Mismatch found between plural expression placeholder }
+  - { name: select_placeholder_mismatch, message: Mismatch found between select expression placeholder }
+
+I18NImportError:
+  - { id: 1, lang_string_id: 2, language_id: 1, error_name: placeholder_mismatch, imported_by: 1 }
+  - { id: 2, lang_string_id: 3, language_id: 1, error_name: invalid_syntax, imported_by: 1 }
+  - { id: 3, lang_string_id: 1, language_id: 4, error_name: invalid_syntax, imported_by: 1 }
+  - { id: 4, lang_string_id: 4, language_id: 4, error_name: placeholder_mismatch, imported_by: 1 }
+  - { id: 5, lang_string_id: 2, language_id: 4, error_name: placeholder_mismatch, imported_by: 1 }

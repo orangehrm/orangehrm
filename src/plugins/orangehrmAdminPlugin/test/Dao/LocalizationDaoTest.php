@@ -21,9 +21,14 @@ namespace OrangeHRM\Tests\Admin\Dao;
 use Exception;
 use OrangeHRM\Admin\Dao\LocalizationDao;
 use OrangeHRM\Admin\Dto\I18NGroupSearchFilterParams;
+use OrangeHRM\Admin\Dto\I18NImportErrorSearchFilterParams;
 use OrangeHRM\Admin\Dto\I18NLanguageSearchFilterParams;
 use OrangeHRM\Admin\Dto\I18NTranslationSearchFilterParams;
 use OrangeHRM\Config\Config;
+use OrangeHRM\Entity\I18NError;
+use OrangeHRM\Entity\I18NGroup;
+use OrangeHRM\Entity\I18NImportError;
+use OrangeHRM\Entity\I18NLangString;
 use OrangeHRM\Entity\I18NLanguage;
 use OrangeHRM\Tests\Util\TestCase;
 use OrangeHRM\Tests\Util\TestDataService;
@@ -181,5 +186,65 @@ class LocalizationDaoTest extends TestCase
         $toBedeletedIds = [1, 2];
         $result = $this->i18NDao->deleteI18NLanguage($toBedeletedIds);
         $this->assertEquals($result, 2);
+    }
+
+    public function testGetI18NErrorByName(): void
+    {
+        $expectedError = $this->getEntityManager()->getRepository(I18NError::class)->findOneBy(['name' => I18NError::INVALID_SYNTAX]);
+        $result = $this->i18NDao->getI18NErrorByName(I18NError::INVALID_SYNTAX);
+        $this->assertEquals($expectedError, $result);
+    }
+
+    public function testGetI18NGroupByName(): void
+    {
+        $expectedGroup = $this->getEntityManager()->getRepository(I18NGroup::class)->find(1);
+        $result = $this->i18NDao->getI18NGroupByName('general');
+        $this->assertEquals($expectedGroup, $result);
+    }
+
+    public function testGetLangStringByUnitIdAndGroupID(): void
+    {
+        $expectedLangString = $this->getEntityManager()->getRepository(I18NLangString::class)->find(1);
+        $result = $this->i18NDao->getLangStringByUnitIdAndGroupID('add_job_title', 1);
+        $this->assertEquals($expectedLangString, $result);
+    }
+
+    public function testGetLangStringById(): void
+    {
+        $expectedLangString = $this->getEntityManager()->getRepository(I18NLangString::class)->find(1);
+        $result = $this->i18NDao->getLangStringById(1);
+        $this->assertEquals($expectedLangString, $result);
+    }
+
+    public function testClearImportErrorsForLangString(): void
+    {
+        $importErrorsForLanguage = $this->getEntityManager()->getRepository(I18NImportError::class)->findBy(['language' => 1]);
+        $this->assertCount(2, $importErrorsForLanguage);
+        $this->i18NDao->clearImportErrorsForLangStrings(
+            1,
+            [2, 3]
+        );
+        $importErrorsForLanguage = $this->getEntityManager()->getRepository(I18NImportError::class)->findBy(['language' => 1]);
+        $this->assertCount(0, $importErrorsForLanguage);
+    }
+
+    public function testGetImportErrorList(): void
+    {
+        $expectedImportErrors = $this->getEntityManager()->getRepository(I18NImportError::class)->findBy(['language' => 1]);
+        $searchFilterParams = new I18NImportErrorSearchFilterParams();
+        $searchFilterParams->setLanguageId(1);
+        $searchFilterParams->setEmpNumber(1);
+        $result = $this->i18NDao->getImportErrorList($searchFilterParams);
+        $this->assertEquals($expectedImportErrors, $result);
+    }
+
+    public function testGetImportErrorCount(): void
+    {
+        $expectedImportErrorCount = count($this->getEntityManager()->getRepository(I18NImportError::class)->findBy(['language' => 4]));
+        $searchFilterParams = new I18NImportErrorSearchFilterParams();
+        $searchFilterParams->setLanguageId(4);
+        $searchFilterParams->setEmpNumber(1);
+        $result = $this->i18NDao->getImportErrorCount($searchFilterParams);
+        $this->assertEquals($expectedImportErrorCount, $result);
     }
 }

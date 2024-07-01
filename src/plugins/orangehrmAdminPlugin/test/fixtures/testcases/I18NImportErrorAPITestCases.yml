@@ -1,0 +1,229 @@
+GetAll:
+  without language id:
+    userId: 1
+    services:
+      admin.localization_service: \OrangeHRM\Admin\Service\LocalizationService
+    invalidOnly: [ languageId ]
+
+  with invalid language id:
+    userId: 1
+    attributes:
+      languageId: 1000
+    services:
+      admin.localization_service: \OrangeHRM\Admin\Service\LocalizationService
+    invalidOnly: [ languageId ]
+
+  with language id that has no errors:
+    userId: 1
+    attributes:
+      languageId: 2
+    services:
+      admin.localization_service: \OrangeHRM\Admin\Service\LocalizationService
+    data: [ ]
+    meta:
+      total: 0
+
+  with language id 1:
+    userId: 1
+    attributes:
+      languageId: 1
+    services:
+      admin.localization_service: \OrangeHRM\Admin\Service\LocalizationService
+    data: [
+      {
+        id: 2,
+        langStringId: 204,
+        source: "Accepts jpg, .png, .gif up to 1MB. Recommended dimensions: 200px X 200px",
+        error: {
+          code: invalid_syntax,
+          message: The syntax used is invalid
+        }
+      },
+      {
+        id: 1,
+        langStringId: 232,
+        source: " (Deleted)",
+        error: {
+          code: placeholder_mismatch,
+          message: Mismatch found between placeholders
+        }
+      },
+      {
+        id: 3,
+        langStringId: 961,
+        source: "Accepts jpg, .png, .gif, .svg up to {fileSize}. Recommended dimensions: {width}px X {height}px",
+        error: {
+          code: placeholder_mismatch,
+          message: Mismatch found between placeholders
+        }
+      },
+      {
+        id: 4,
+        langStringId: 1067,
+        source: "{action, select, APPROVE {{count, plural, =0 {No Leave Requests Approved} =1 {1 Leave Request Approved} other {# Leave Requests Approved} }} REJECT {{count, plural, =0 {No Leave Requests Rejected} =1 {1 Leave Request Rejected} other {# Leave Requests Rejected} }} other {{count, plural, =0 {No Leave Requests Cancelled} =1 {1 Leave Request Cancelled} other {# Leave Requests Cancelled} }} }",
+        error: {
+          code: select_placeholder_mismatch,
+          message: Mismatch found between select expression placeholder
+        }
+      },
+      {
+        id: 5,
+        langStringId: 1113,
+        source: "{yearsCount,plural, =0{} one{Year} other{Years}}",
+        error: {
+          code: plural_placeholder_mismatch,
+          message: Mismatch found between plural expression placeholder
+        }
+      }
+    ]
+    meta:
+      total: 5
+
+  with language id 4:
+    userId: 1
+    attributes:
+      languageId: 4
+    services:
+      admin.localization_service: \OrangeHRM\Admin\Service\LocalizationService
+    data: [
+      {
+        id: 7,
+        langStringId: 196,
+        source: "(Past Employee)",
+        error: {
+          code: placeholder_mismatch,
+          message: Mismatch found between placeholders
+        }
+      },
+      {
+        id: 6,
+        langStringId: 232,
+        source: " (Deleted)",
+        error: {
+          code: invalid_syntax,
+          message: The syntax used is invalid
+        }
+      }
+    ]
+    meta:
+      total: 2
+
+  with sort order desc:
+    userId: 1
+    attributes:
+      languageId: 1
+    query:
+      sortOrder: DESC
+    services:
+      admin.localization_service: \OrangeHRM\Admin\Service\LocalizationService
+    data: [
+      {
+        id: 5,
+        langStringId: 1113,
+        source: "{yearsCount,plural, =0{} one{Year} other{Years}}",
+        error: {
+          code: plural_placeholder_mismatch,
+          message: Mismatch found between plural expression placeholder
+        }
+      },
+      {
+        id: 4,
+        langStringId: 1067,
+        source: "{action, select, APPROVE {{count, plural, =0 {No Leave Requests Approved} =1 {1 Leave Request Approved} other {# Leave Requests Approved} }} REJECT {{count, plural, =0 {No Leave Requests Rejected} =1 {1 Leave Request Rejected} other {# Leave Requests Rejected} }} other {{count, plural, =0 {No Leave Requests Cancelled} =1 {1 Leave Request Cancelled} other {# Leave Requests Cancelled} }} }",
+        error: {
+          code: select_placeholder_mismatch,
+          message: Mismatch found between select expression placeholder
+        }
+      },
+      {
+        id: 3,
+        langStringId: 961,
+        source: "Accepts jpg, .png, .gif, .svg up to {fileSize}. Recommended dimensions: {width}px X {height}px",
+        error: {
+          code: placeholder_mismatch,
+          message: Mismatch found between placeholders
+        }
+      },
+      {
+        id: 1,
+        langStringId: 232,
+        source: " (Deleted)",
+        error: {
+          code: placeholder_mismatch,
+          message: Mismatch found between placeholders
+        }
+      },
+      {
+        id: 2,
+        langStringId: 204,
+        source: "Accepts jpg, .png, .gif up to 1MB. Recommended dimensions: 200px X 200px",
+        error: {
+          code: invalid_syntax,
+          message: The syntax used is invalid
+        }
+      }
+    ]
+    meta:
+      total: 5
+
+  with limit and offset:
+    userId: 1
+    attributes:
+      languageId: 1
+    query:
+      limit: 2
+      offset: 1
+    services:
+      admin.localization_service: \OrangeHRM\Admin\Service\LocalizationService
+    data: [
+      {
+        id: 1,
+        langStringId: 232,
+        source: " (Deleted)",
+        error: {
+          code: placeholder_mismatch,
+          message: Mismatch found between placeholders
+        }
+      },
+      {
+        id: 3,
+        langStringId: 961,
+        source: "Accepts jpg, .png, .gif, .svg up to {fileSize}. Recommended dimensions: {width}px X {height}px",
+        error: {
+          code: placeholder_mismatch,
+          message: Mismatch found between placeholders
+        }
+      }
+    ]
+    meta:
+      total: 5
+
+  with user id 2 and language id 4:
+    userId: 2
+    attributes:
+      languageId: 4
+    services:
+      admin.localization_service: \OrangeHRM\Admin\Service\LocalizationService
+    data: [
+      {
+        id: 8,
+        langStringId: 232,
+        source: " (Deleted)",
+        error: {
+          code: placeholder_mismatch,
+          message: Mismatch found between placeholders
+        }
+      }
+    ]
+    meta:
+      total: 1
+
+  with user id 2 and language id 1:
+    userId: 2
+    attributes:
+      languageId: 1
+    services:
+      admin.localization_service: \OrangeHRM\Admin\Service\LocalizationService
+    data: [ ]
+    meta:
+      total: 0

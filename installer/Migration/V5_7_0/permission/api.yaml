@@ -1,0 +1,42 @@
+##########################
+#        Admin
+##########################
+
+apiv2_admin_i18n_translation_import:
+  description: 'Admin - I18N Language Translation Import'
+  api: OrangeHRM\Admin\Api\I18NTranslationImportAPI
+  module: admin
+  allowed:
+    read: false
+    create: true
+    update: false
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: false, create: true, update: false, delete: false } }
+    - { role: ESS, permission: { read: false, create: false, update: false, delete: false } }
+
+apiv2_admin_i18n_translation_validation:
+  description: 'Admin - I18N Translation Validation'
+  api: OrangeHRM\Admin\Api\I18NTranslationValidationAPI
+  module: admin
+  allowed:
+    read: true
+    create: false
+    update: false
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false } }
+    - { role: ESS, permission: { read: false, create: false, update: false, delete: false } }
+
+apiv2_admin_i18n_language_translation_errors:
+  description: 'Admin - I18N Language Translation Errors'
+  api: OrangeHRM\Admin\Api\I18NImportErrorAPI
+  module: admin
+  allowed:
+    read: true
+    create: false
+    update: false
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false } }
+    - { role: ESS, permission: { read: false, create: false, update: false, delete: false } }

@@ -1,0 +1,163 @@
+Create:
+  without language id and attachment:
+    userId: 1
+    services:
+      admin.localization_service: \OrangeHRM\Admin\Service\LocalizationService
+    invalidOnly: [ languageId, attachment ]
+
+  with non existing language id and without attachment:
+    userId: 1
+    services:
+      admin.localization_service: \OrangeHRM\Admin\Service\LocalizationService
+    attributes:
+      languageId: 10000
+    invalidOnly: [ languageId, attachment ]
+
+  with valid language id and no attachment:
+    userId: 1
+    services:
+      admin.localization_service: \OrangeHRM\Admin\Service\LocalizationService
+    attributes:
+      languageId: 1
+    invalidOnly: [ attachment ]
+
+  with invalid xliff file:
+    userId: 1
+    services:
+      admin.localization_service: \OrangeHRM\Admin\Service\LocalizationService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    attributes:
+      languageId: 1
+    body:
+      attachment:
+        name: "i18n-zh_Hans_CN.xlf"
+        type: "application/xliff+xml"
+        size: 512
+        base64: "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHhsaWZmIHhtbG5zPSJ1cm46b2FzaXM6bmFtZXM6dGM6eGxpZmY6ZG9jdW1lbnQ6Mi4wIiB2ZXJzaW9uPSIyLjAiIHNyY0xhbmc9ImVuX1VTIiB0cmdMYW5nPSJ6aF9IYW5zX0NOIgogIDxmaWxlIGlkPSIxIj4KICAgIDxncm91cCBpZD0iZ2VuZXJhbCI+CiAgICAgIDx1bml0IGlkPSJkZWxldGVkIgogICAgICAgIDxzZWdtZW50PgogICAgICAgICAgPHNvdXJjZT4gKERlbGV0ZWQpPC9zb3VyY2U+CiAgICAgICAgICA8dGFyZ2V0PjwvdGFyZ2V0PgogICAgICAgIDwvc2VnbWVudD4KICAgICAgPC91bml0PgogICAgICA8dW5pdCBpZD0icGFzdF9lbXBsb3llZSI+CiAgICAgICAgPHNlZ21lbnQ+CiAgICAgICAgICA8c291cmNlPihQYXN0IEVtcGxveWVlKTwvc291cmNlPgogICAgICAgICAgPHRhcmdldD48L3RhcmdldD4KICAgICAgICA8L3NlZ21lbnQ+CiAgICAgIDwvdW5pdD4KICAgIDwvZ3JvdXA+CiAgPC9maWxlPgo8L3hsaWZmPgo="
+    exception:
+      class: \OrangeHRM\Core\Api\V2\Exception\BadRequestException
+      message: The XLIFF file is not valid
+
+  with xliff file missing trgLang attribute:
+    userId: 1
+    services:
+      admin.localization_service: \OrangeHRM\Admin\Service\LocalizationService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    attributes:
+      languageId: 1
+    body:
+      attachment:
+        name: "i18n-zh_Hans_CN.xlf"
+        type: "application/xliff+xml"
+        size: 493
+        base64: "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHhsaWZmIHhtbG5zPSJ1cm46b2FzaXM6bmFtZXM6dGM6eGxpZmY6ZG9jdW1lbnQ6Mi4wIiB2ZXJzaW9uPSIyLjAiIHNyY0xhbmc9ImVuX1VTIj4KICA8ZmlsZSBpZD0iMSI+CiAgICA8Z3JvdXAgaWQ9ImdlbmVyYWwiPgogICAgICA8dW5pdCBpZD0iZGVsZXRlZCI+CiAgICAgICAgPHNlZ21lbnQ+CiAgICAgICAgICA8c291cmNlPiAoRGVsZXRlZCk8L3NvdXJjZT4KICAgICAgICAgIDx0YXJnZXQ+PC90YXJnZXQ+CiAgICAgICAgPC9zZWdtZW50PgogICAgICA8L3VuaXQ+CiAgICAgIDx1bml0IGlkPSJwYXN0X2VtcGxveWVlIj4KICAgICAgICA8c2VnbWVudD4KICAgICAgICAgIDxzb3VyY2U+KFBhc3QgRW1wbG95ZWUpPC9zb3VyY2U+CiAgICAgICAgICA8dGFyZ2V0PjwvdGFyZ2V0PgogICAgICAgIDwvc2VnbWVudD4KICAgICAgPC91bml0PgogICAgPC9ncm91cD4KICA8L2ZpbGU+CjwveGxpZmY+Cg=="
+    exception:
+      class: \OrangeHRM\Core\Api\V2\Exception\BadRequestException
+      message: The XLIFF file is missing the target language attribute
+
+  with valid xliff file for wrong language:
+    userId: 1
+    services:
+      admin.localization_service: \OrangeHRM\Admin\Service\LocalizationService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    attributes:
+      languageId: 4
+    body:
+      attachment:
+        name: "i18n-zh_Hans_CN.xlf"
+        type: "application/xliff+xml"
+        size: 514
+        base64: "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHhsaWZmIHhtbG5zPSJ1cm46b2FzaXM6bmFtZXM6dGM6eGxpZmY6ZG9jdW1lbnQ6Mi4wIiB2ZXJzaW9uPSIyLjAiIHNyY0xhbmc9ImVuX1VTIiB0cmdMYW5nPSJ6aF9IYW5zX0NOIj4KICA8ZmlsZSBpZD0iMSI+CiAgICA8Z3JvdXAgaWQ9ImdlbmVyYWwiPgogICAgICA8dW5pdCBpZD0iZGVsZXRlZCI+CiAgICAgICAgPHNlZ21lbnQ+CiAgICAgICAgICA8c291cmNlPiAoRGVsZXRlZCk8L3NvdXJjZT4KICAgICAgICAgIDx0YXJnZXQ+PC90YXJnZXQ+CiAgICAgICAgPC9zZWdtZW50PgogICAgICA8L3VuaXQ+CiAgICAgIDx1bml0IGlkPSJwYXN0X2VtcGxveWVlIj4KICAgICAgICA8c2VnbWVudD4KICAgICAgICAgIDxzb3VyY2U+KFBhc3QgRW1wbG95ZWUpPC9zb3VyY2U+CiAgICAgICAgICA8dGFyZ2V0PjwvdGFyZ2V0PgogICAgICAgIDwvc2VnbWVudD4KICAgICAgPC91bml0PgogICAgPC9ncm91cD4KICA8L2ZpbGU+CjwveGxpZmY+Cg=="
+    exception:
+      class: \OrangeHRM\Core\Api\V2\Exception\BadRequestException
+      message: The target language does not match the selected language
+
+  with empty xliff file:
+    userId: 1
+    services:
+      admin.localization_service: \OrangeHRM\Admin\Service\LocalizationService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    attributes:
+      languageId: 4
+    body:
+      attachment:
+        name: "i18n-zh_Hans_CN.xlf"
+        type: "application/xliff+xml"
+        size: 0
+        base64: ""
+    exception:
+      class: \OrangeHRM\Core\Api\V2\Exception\BadRequestException
+      message: The XLIFF file is empty
+
+  with valid xliff file that has empty target strings:
+    userId: 1
+    services:
+      admin.localization_service: \OrangeHRM\Admin\Service\LocalizationService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      i18n.i18n_service: OrangeHRM\I18N\Service\I18NService
+    factories:
+      core.cache: [ '\OrangeHRM\Tests\Util\Mock\MockCacheService', 'getCache' ]
+    attributes:
+      languageId: 1
+    body:
+      attachment:
+        name: "i18n-zh_Hans_CN.xlf"
+        type: "application/xliff+xml"
+        size: 514
+        base64: "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHhsaWZmIHhtbG5zPSJ1cm46b2FzaXM6bmFtZXM6dGM6eGxpZmY6ZG9jdW1lbnQ6Mi4wIiB2ZXJzaW9uPSIyLjAiIHNyY0xhbmc9ImVuX1VTIiB0cmdMYW5nPSJ6aF9IYW5zX0NOIj4KICA8ZmlsZSBpZD0iMSI+CiAgICA8Z3JvdXAgaWQ9ImdlbmVyYWwiPgogICAgICA8dW5pdCBpZD0iZGVsZXRlZCI+CiAgICAgICAgPHNlZ21lbnQ+CiAgICAgICAgICA8c291cmNlPiAoRGVsZXRlZCk8L3NvdXJjZT4KICAgICAgICAgIDx0YXJnZXQ+PC90YXJnZXQ+CiAgICAgICAgPC9zZWdtZW50PgogICAgICA8L3VuaXQ+CiAgICAgIDx1bml0IGlkPSJwYXN0X2VtcGxveWVlIj4KICAgICAgICA8c2VnbWVudD4KICAgICAgICAgIDxzb3VyY2U+KFBhc3QgRW1wbG95ZWUpPC9zb3VyY2U+CiAgICAgICAgICA8dGFyZ2V0PjwvdGFyZ2V0PgogICAgICAgIDwvc2VnbWVudD4KICAgICAgPC91bml0PgogICAgPC9ncm91cD4KICA8L2ZpbGU+CjwveGxpZmY+Cg=="
+    data: [ ]
+    meta:
+      success: 0
+      failed: 0
+      skipped: 2
+      total: 2
+
+  with valid xliff file that has valid target strings:
+    userId: 1
+    now:
+      datetime: 2024-06-28
+    services:
+      admin.localization_service: \OrangeHRM\Admin\Service\LocalizationService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      i18n.i18n_service: OrangeHRM\I18N\Service\I18NService
+    factories:
+      core.cache: [ '\OrangeHRM\Tests\Util\Mock\MockCacheService', 'getCache' ]
+    attributes:
+      languageId: 1
+    body:
+      attachment:
+        name: "i18n-zh_Hans_CN.xlf"
+        type: "application/xliff+xml"
+        size: 524
+        base64: "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHhsaWZmIHhtbG5zPSJ1cm46b2FzaXM6bmFtZXM6dGM6eGxpZmY6ZG9jdW1lbnQ6Mi4wIiB2ZXJzaW9uPSIyLjAiIHNyY0xhbmc9ImVuX1VTIiB0cmdMYW5nPSJ6aF9IYW5zX0NOIj4KICA8ZmlsZSBpZD0iMSI+CiAgICA8Z3JvdXAgaWQ9ImdlbmVyYWwiPgogICAgICA8dW5pdCBpZD0iZGVsZXRlZCI+CiAgICAgICAgPHNlZ21lbnQ+CiAgICAgICAgICA8c291cmNlPiAoRGVsZXRlZCk8L3NvdXJjZT4KICAgICAgICAgIDx0YXJnZXQ+VEVTVDwvdGFyZ2V0PgogICAgICAgIDwvc2VnbWVudD4KICAgICAgPC91bml0PgogICAgICA8dW5pdCBpZD0icGFzdF9lbXBsb3llZSI+CiAgICAgICAgPHNlZ21lbnQ+CiAgICAgICAgICA8c291cmNlPihQYXN0IEVtcGxveWVlKTwvc291cmNlPgogICAgICAgICAgPHRhcmdldD5URVNUIDI8L3RhcmdldD4KICAgICAgICA8L3NlZ21lbnQ+CiAgICAgIDwvdW5pdD4KICAgIDwvZ3JvdXA+CiAgPC9maWxlPgo8L3hsaWZmPgo="
+    data: [ ]
+    meta:
+      success: 2
+      failed: 0
+      skipped: 0
+      total: 2
+
+  with valid xliff file that has valid and invalid target strings:
+    userId: 1
+    now:
+      datetime: 2024-06-28
+    services:
+      admin.localization_service: \OrangeHRM\Admin\Service\LocalizationService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      i18n.i18n_service: OrangeHRM\I18N\Service\I18NService
+    factories:
+      core.cache: [ '\OrangeHRM\Tests\Util\Mock\MockCacheService', 'getCache' ]
+    attributes:
+      languageId: 1
+    body:
+      attachment:
+        name: "i18n-zh_Hans_CN.xlf"
+        type: "application/xliff+xml"
+        size: 524
+        base64: "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHhsaWZmIHhtbG5zPSJ1cm46b2FzaXM6bmFtZXM6dGM6eGxpZmY6ZG9jdW1lbnQ6Mi4wIiB2ZXJzaW9uPSIyLjAiIHNyY0xhbmc9ImVuX1VTIiB0cmdMYW5nPSJ6aF9IYW5zX0NOIj4KICA8ZmlsZSBpZD0iMSI+CiAgICA8Z3JvdXAgaWQ9ImdlbmVyYWwiPgogICAgICA8dW5pdCBpZD0iZGVsZXRlZCI+CiAgICAgICAgPHNlZ21lbnQ+CiAgICAgICAgICA8c291cmNlPiAoRGVsZXRlZCk8L3NvdXJjZT4KICAgICAgICAgIDx0YXJnZXQ+VEVTVDwvdGFyZ2V0PgogICAgICAgIDwvc2VnbWVudD4KICAgICAgPC91bml0PgogICAgICA8dW5pdCBpZD0icGFzdF9lbXBsb3llZSI+CiAgICAgICAgPHNlZ21lbnQ+CiAgICAgICAgICA8c291cmNlPihQYXN0IEVtcGxveWVlKTwvc291cmNlPgogICAgICAgICAgPHRhcmdldD57VEVTVH08L3RhcmdldD4KICAgICAgICA8L3NlZ21lbnQ+CiAgICAgIDwvdW5pdD4KICAgIDwvZ3JvdXA+CiAgPC9maWxlPgo8L3hsaWZmPgo="
+    data: [ ]
+    meta:
+      success: 1
+      failed: 1
+      skipped: 0
+      total: 2
