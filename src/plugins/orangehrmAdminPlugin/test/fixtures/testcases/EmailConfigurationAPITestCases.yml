@@ -1,0 +1,192 @@
+GetOne:
+  get email configuration:
+    userId: 1
+    data:
+      mailType: smtp
+      sentAs: 'test@orangehrm.com'
+      smtpHost: 'smtp.gmail.com'
+      smtpPort: 587
+      smtpUsername: testUN
+      smtpAuthType: login
+      smtpSecurityType: tls
+
+Update:
+  update with sendmail:
+    userId: 1
+    body:
+      mailType: sendmail
+      sentAs: 'test@orangehrm.com'
+    data:
+      mailType: sendmail
+      sentAs: 'test@orangehrm.com'
+      smtpHost: null
+      smtpPort: null
+      smtpUsername: null
+      smtpAuthType: null
+      smtpSecurityType: null
+    meta:
+      testEmailStatus: 1
+
+  update with smtp without host:
+    userId: 1
+    body:
+      mailType: smtp
+      sentAs: 'test@orangehrm.com'
+    invalidOnly: [ smtpAuthType, smtpHost ]
+
+  update smtp with login auth without username:
+    userId: 1
+    body:
+      mailType: smtp
+      sentAs: 'test@orangehrm.com'
+      smtpHost: 'smtp.orangehrm.com'
+      smtpAuthType: login
+    invalidOnly: [ smtpUsername ]
+
+  update smtp with no auth:
+    userId: 1
+    body:
+      mailType: smtp
+      sentAs: 'test@orangehrm.com'
+      smtpHost: 'smtp.orangehrm.com'
+      smtpAuthType: none
+    data:
+      mailType: smtp
+      sentAs: 'test@orangehrm.com'
+      smtpHost: 'smtp.orangehrm.com'
+      smtpPort: null
+      smtpUsername: null
+      smtpAuthType: none
+      smtpSecurityType: null
+    meta:
+      testEmailStatus: 1
+
+  update smtp with invalid auth type:
+    userId: 1
+    body:
+      mailType: smtp
+      sentAs: 'test@orangehrm.com'
+      smtpHost: 'smtp.orangehrm.com'
+      smtpAuthType: abcdefg
+    invalidOnly: [ smtpAuthType ]
+
+  update smtp with login auth type with password:
+    userId: 1
+    body:
+      mailType: smtp
+      sentAs: 'test@orangehrm.com'
+      smtpHost: 'smtp.orangehrm.com'
+      smtpAuthType: login
+      smtpUsername: test
+      smtpPassword: test
+    data:
+      mailType: smtp
+      sentAs: 'test@orangehrm.com'
+      smtpHost: 'smtp.orangehrm.com'
+      smtpPort: null
+      smtpUsername: test
+      smtpAuthType: login
+      smtpSecurityType: null
+    meta:
+      testEmailStatus: 1
+
+  update smtps with login auth without password:
+    userId: 1
+    body:
+      mailType: smtps
+      sentAs: 'test@orangehrm.com'
+      smtpHost: 'smtp.orangehrm.com'
+      smtpAuthType: login
+      smtpUsername: test
+    data:
+      mailType: smtps
+      sentAs: 'test@orangehrm.com'
+      smtpHost: 'smtp.orangehrm.com'
+      smtpPort: null
+      smtpUsername: test
+      smtpAuthType: login
+      smtpSecurityType: null
+    meta:
+      testEmailStatus: 1
+
+  update smtps with login auth with null username:
+    userId: 1
+    body:
+      mailType: smtps
+      sentAs: 'test@orangehrm.com'
+      smtpHost: 'smtp.orangehrm.com'
+      smtpAuthType: login
+      smtpUsername: null
+    invalidOnly: [ smtpUsername ]
+
+  update with invalid mailType:
+    userId: 1
+    body:
+      mailType: ABCDEFG
+      sentAs: 'test@orangehrm.com'
+    invalidOnly: [ mailType ]
+
+  update with missing mailType:
+    userId: 1
+    body:
+      sentAs: 'test@orangehrm.com'
+    invalidOnly: [ mailType ]
+
+  update with empty password:
+    userId: 1
+    body:
+      mailType: smtps
+      sentAs: 'test@orangehrm.com'
+      smtpHost: 'smtp.orangehrm.com'
+      smtpAuthType: login
+      smtpUsername: test
+      smtpPassword: '    '
+    invalidOnly: [ smtpPassword ]
+
+  update with null password (null password ignored if password is set):
+    userId: 1
+    body:
+      mailType: smtps
+      sentAs: 'test@orangehrm.com'
+      smtpHost: 'smtp.orangehrm.com'
+      smtpAuthType: login
+      smtpUsername: test
+      smtpPassword: null
+    data:
+      mailType: smtps
+      sentAs: 'test@orangehrm.com'
+      smtpHost: 'smtp.orangehrm.com'
+      smtpPort: null
+      smtpUsername: test
+      smtpAuthType: login
+      smtpSecurityType: null
+    meta:
+      testEmailStatus: 1
+
+UpdateWithEmptyConfiguration:
+  update with sendmail:
+    userId: 1
+    body:
+      mailType: sendmail
+      sentAs: 'test@orangehrm.com'
+    data:
+      mailType: sendmail
+      sentAs: 'test@orangehrm.com'
+      smtpHost: null
+      smtpPort: null
+      smtpUsername: null
+      smtpAuthType: null
+      smtpSecurityType: null
+    meta:
+      testEmailStatus: 1
+
+  update with null password (fails if no password set):
+    userId: 1
+    body:
+      mailType: smtps
+      sentAs: 'test@orangehrm.com'
+      smtpHost: 'smtp.orangehrm.com'
+      smtpAuthType: login
+      smtpUsername: test
+      smtpPassword: null
+    invalidOnly: [ smtpPassword ]

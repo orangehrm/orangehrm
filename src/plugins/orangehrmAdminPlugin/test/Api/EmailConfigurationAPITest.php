@@ -19,198 +19,68 @@
 namespace OrangeHRM\Tests\Admin\Api;
 
 use OrangeHRM\Admin\Api\EmailConfigurationAPI;
-use OrangeHRM\Admin\Dao\EmailConfigurationDao;
-use OrangeHRM\Admin\Service\EmailConfigurationService;
-use OrangeHRM\Core\Api\CommonParams;
-use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Entity\EmailConfiguration;
-use OrangeHRM\Tests\Util\EndpointTestCase;
-use OrangeHRM\Tests\Util\MockObject;
+use OrangeHRM\Framework\Services;
+use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
+use OrangeHRM\Tests\Util\Integration\TestCaseParams;
+use OrangeHRM\Tests\Util\TestDataService;
 
 /**
  * @group Pim
  * @group APIv2
  */
-class EmailConfigurationAPITest extends EndpointTestCase
+class EmailConfigurationAPITest extends EndpointIntegrationTestCase
 {
-    public function testGetEmailConfigurationService(): void
+    public function setUp(): void
     {
-        $api = new EmailConfigurationAPI($this->getRequest());
-        $this->assertTrue($api->getEmailConfigurationService() instanceof EmailConfigurationService);
+        TestDataService::truncateSpecificTables([EmailConfiguration::class]);
+        $this->populateFixtures('EmailConfigurationDao.yml');
     }
 
-    public function testGetOne(): void
+    /**
+     * @dataProvider dataProviderForTestGetOne
+     */
+    public function testGetOne(TestCaseParams $testCaseParams): void
     {
-        $emailConfigurationDao = $this->getMockBuilder(EmailConfigurationDao::class)
-            ->onlyMethods(['getEmailConfiguration'])
-            ->getMock();
-
-        $emailConfiguration = new EmailConfiguration();
-        $emailConfiguration->setId(1);
-        $emailConfiguration->setMailType("smtp");
-        $emailConfiguration->setSentAs("test@orangehrm.com");
-        $emailConfiguration->setSmtpHost("smtp.gmail.com");
-        $emailConfiguration->setSmtpPort(587);
-        $emailConfiguration->setSmtpUsername("testUN");
-        $emailConfiguration->setSmtpPassword("testPW");
-        $emailConfiguration->setSmtpAuthType("login");
-        $emailConfiguration->setSmtpSecurityType("tls");
-
-        $emailConfigurationDao->expects($this->exactly(1))
-            ->method('getEmailConfiguration')
-            ->will($this->returnValue($emailConfiguration));
-
-        $emailConfigurationService = $this->getMockBuilder(EmailConfigurationService::class)
-            ->onlyMethods(['getEmailConfigurationDao'])
-            ->getMock();
-
-        $emailConfigurationService->expects($this->exactly(1))
-            ->method('getEmailConfigurationDao')
-            ->willReturn($emailConfigurationDao);
-
-        /** @var MockObject&EmailConfigurationAPI $api */
-        $api = $this->getApiEndpointMockBuilder(
-            EmailConfigurationAPI::class,
-            [
-                RequestParams::PARAM_TYPE_ATTRIBUTE => [
-                ]
-            ]
-        )->onlyMethods(['getEmailConfigurationService'])
-            ->getMock();
-        $api->expects($this->once())
-            ->method('getEmailConfigurationService')
-            ->will($this->returnValue($emailConfigurationService));
-
-        $result = $api->getOne();
-        $this->assertEquals(
-            [
-                "mailType" => "smtp",
-                "sentAs" => "test@orangehrm.com",
-                "smtpHost" => "smtp.gmail.com",
-                "smtpPort" => 587,
-                "smtpUsername" => "testUN",
-                "smtpAuthType" => "login",
-                "smtpSecurityType" => "tls"
-            ],
-            $result->normalize()
-        );
+        $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
+        $api = $this->getApiEndpointMock(EmailConfigurationAPI::class, $testCaseParams);
+        $this->assertValidTestCase($api, 'getOne', $testCaseParams);
     }
 
-    public function testGetValidationRuleForGetOne(): void
+    public function dataProviderForTestGetOne(): array
     {
-        $api = new EmailConfigurationAPI($this->getRequest());
-        $rules = $api->getValidationRuleForGetOne();
-        $this->assertTrue(
-            $this->validate(
-                [CommonParams::PARAMETER_ID => 1],
-                $rules
-            )
-        );
+        return $this->getTestCases('EmailConfigurationAPITestCases.yml', 'GetOne');
     }
 
-    public function testUpdate()
+    /**
+     * @dataProvider dataProviderForTestUpdate
+     */
+    public function testUpdate(TestCaseParams $testCaseParams): void
     {
-        $emailConfigurationDao = $this->getMockBuilder(EmailConfigurationDao::class)
-            ->onlyMethods(['saveEmailConfiguration', 'getEmailConfiguration'])
-            ->getMock();
-
-        $emailConfiguration = new EmailConfiguration();
-        $emailConfiguration->setMailType("smtp");
-        $emailConfiguration->setSentAs("test@orangehrm.com");
-        $emailConfiguration->setSmtpHost("smtp.gmail.com");
-        $emailConfiguration->setSmtpPort(587);
-        $emailConfiguration->setSmtpUsername("testUN");
-        $emailConfiguration->setSmtpPassword("testPW");
-        $emailConfiguration->setSmtpAuthType("login");
-        $emailConfiguration->setSmtpSecurityType("tls");
-
-        $emailConfigurationDao->expects($this->exactly(1))
-            ->method('getEmailConfiguration')
-            ->willReturn($emailConfiguration);
-
-        $emailConfigurationDao->expects($this->exactly(1))
-            ->method('saveEmailConfiguration')
-            ->will(
-                $this->returnCallback(
-                    function (EmailConfiguration $emailConfiguration) {
-                        return $emailConfiguration;
-                    }
-                )
-            );
-
-        $emailConfigurationService = $this->getMockBuilder(EmailConfigurationService::class)
-            ->onlyMethods(['getEmailConfigurationDao', 'sendTestMail'])
-            ->getMock();
-
-        $emailConfigurationService->expects($this->exactly(2))
-            ->method('getEmailConfigurationDao')
-            ->willReturn($emailConfigurationDao);
-
-        $emailConfigurationService->expects($this->exactly(1))
-            ->method('sendTestMail')
-            ->with('test1@orangehrm.com')
-            ->willReturn(true);
-
-        /** @var MockObject&EmailConfigurationAPI $api */
-        $api = $this->getApiEndpointMockBuilder(
-            EmailConfigurationAPI::class,
-            [
-                RequestParams::PARAM_TYPE_ATTRIBUTE => [
-                ],
-                RequestParams::PARAM_TYPE_BODY => [
-                    EmailConfigurationAPI::PARAMETER_MAIL_TYPE => 'smtp',
-                    EmailConfigurationAPI::PARAMETER_SENT_AS => 'test@orangehrm.com',
-                    EmailConfigurationAPI::PARAMETER_SMTP_HOST => 'smtp.gmail.com',
-                    EmailConfigurationAPI::PARAMETER_SMTP_PORT => 587,
-                    EmailConfigurationAPI::PARAMETER_SMTP_USERNAME => 'testUN',
-                    EmailConfigurationAPI::PARAMETER_SMTP_PASSWORD => 'testPW',
-                    EmailConfigurationAPI::PARAMETER_SMTP_AUTH_TYPE => 'login',
-                    EmailConfigurationAPI::PARAMETER_SMTP_SECURITY_TYPE => 'tls',
-                    EmailConfigurationAPI::PARAMETER_TEST_EMAIL_ADDRESS => 'test1@orangehrm.com'
-                ]
-            ]
-        )->onlyMethods(['getEmailConfigurationService'])
-            ->getMock();
-        $api->expects($this->exactly(3))
-            ->method('getEmailConfigurationService')
-            ->will($this->returnValue($emailConfigurationService));
-
-        $result = $api->update();
-        $this->assertEquals(
-            [
-                "mailType" => "smtp",
-                "sentAs" => "test@orangehrm.com",
-                "smtpHost" => "smtp.gmail.com",
-                "smtpPort" => 587,
-                "smtpUsername" => "testUN",
-                "smtpAuthType" => "login",
-                "smtpSecurityType" => "tls"
-            ],
-            $result->normalize()
-        );
+        $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
+        $api = $this->getApiEndpointMock(EmailConfigurationAPI::class, $testCaseParams);
+        $this->assertValidTestCase($api, 'update', $testCaseParams);
     }
 
-    public function testGetValidationRuleForUpdate(): void
+    public function dataProviderForTestUpdate(): array
     {
-        $api = new EmailConfigurationAPI($this->getRequest());
-        $rules = $api->getValidationRuleForUpdate();
-        $this->assertTrue(
-            $this->validate(
-                [
-                    CommonParams::PARAMETER_ID => 1,
-                    EmailConfigurationAPI::PARAMETER_MAIL_TYPE => 'smtp',
-                    EmailConfigurationAPI::PARAMETER_SENT_AS => 'test@orangehrm.com',
-                    EmailConfigurationAPI::PARAMETER_SMTP_HOST => 'smtp.gmail.com',
-                    EmailConfigurationAPI::PARAMETER_SMTP_PORT => 587,
-                    EmailConfigurationAPI::PARAMETER_SMTP_USERNAME => 'testUN',
-                    EmailConfigurationAPI::PARAMETER_SMTP_PASSWORD => 'testPW',
-                    EmailConfigurationAPI::PARAMETER_SMTP_AUTH_TYPE => 'login',
-                    EmailConfigurationAPI::PARAMETER_SMTP_SECURITY_TYPE => 'tls',
-                    EmailConfigurationAPI::PARAMETER_TEST_EMAIL_ADDRESS => 'test1@orangehrm.com'
-                ],
-                $rules
-            )
-        );
+        return $this->getTestCases('EmailConfigurationAPITestCases.yml', 'Update');
+    }
+
+    /**
+     * @dataProvider dataProviderForTestUpdateWithEmptyConfiguration
+     */
+    public function testUpdateWithEmptyConfiguration(TestCaseParams $testCaseParams): void
+    {
+        TestDataService::truncateSpecificTables([EmailConfiguration::class]);
+        $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
+        $api = $this->getApiEndpointMock(EmailConfigurationAPI::class, $testCaseParams);
+        $this->assertValidTestCase($api, 'update', $testCaseParams);
+    }
+
+    public function dataProviderForTestUpdateWithEmptyConfiguration(): array
+    {
+        return $this->getTestCases('EmailConfigurationAPITestCases.yml', 'UpdateWithEmptyConfiguration');
     }
 
     public function testDelete(): void

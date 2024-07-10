@@ -300,7 +300,7 @@ export default {
         this.emailConfiguration.smtpPort = data.smtpPort;
         this.emailConfiguration.smtpUsername = data.smtpUsername;
         this.passwordPlaceHolder = data.smtpUsername ? '******' : '';
-        this.emailConfiguration.smtpAuthType = data.smtpAuthType;
+        this.emailConfiguration.smtpAuthType = data.smtpAuthType ?? 'none';
         this.emailConfiguration.testEmailAddress = data.testEmailAddress;
         this.useTLSSecureConnection = data.smtpSecurityType === 'tls';
         this.initialEmailConfiguration = {
