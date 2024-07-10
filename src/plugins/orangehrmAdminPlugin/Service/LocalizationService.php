@@ -446,7 +446,9 @@ class LocalizationService
         $document = new \DOMDocument();
         $document->loadXML($content);
 
-        if (count(XliffUtils::validateSchema($document)) > 0) {
+        $version = $document->getElementsByTagName('xliff')[0]->getAttribute("version");
+
+        if ($version !== "2.0" || count(XliffUtils::validateSchema($document)) > 0) {
             throw XliffFileProcessFailedException::validationFailed();
         }
 
