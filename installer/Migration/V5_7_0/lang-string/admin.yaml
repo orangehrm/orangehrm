@@ -56,3 +56,6 @@ langStrings:
   -
     value: 'The target language does not match the selected language'
     unitId: target_language_does_not_match
+  -
+    value: 'Please save your changes before moving to the next page'
+    unitId: please_save_before_pagination

@@ -90,9 +90,9 @@
     </oxd-table-filter>
     <br />
     <oxd-alert
-      :show="itemsModified"
+      :show="!isLoading && itemsModified"
       type="info"
-      message="Please save your changes before moving to the next page"
+      :message="$t('admin.please_save_before_pagination')"
     ></oxd-alert>
     <div class="orangehrm-paper-container">
       <oxd-form
