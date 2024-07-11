@@ -168,7 +168,7 @@ class LocalizationServiceTest extends KernelTestCase
         $this->assertEquals('使用 SMTP 验证', $result['file']['group'][0]['unit'][1]['segment']['target']);
         $this->assertCount(2, $result['file']['group'][0]['unit'][1]);
         $this->assertEquals(
-            '([{\|/?!~#@$%^&amp;*)-=_+;&quot;&gt;&lt;}]',
+            '([{\|/?!~#@$%^&*)-=_+;"><}]',
             $result['file']['group'][2]['unit']['segment']['target']
         );
 
