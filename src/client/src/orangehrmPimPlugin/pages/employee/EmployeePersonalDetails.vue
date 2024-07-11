@@ -282,9 +282,9 @@ export default {
         drivingLicenseExpiredDate: [validDateFormat(this.userDateFormat)],
       },
       maritalStatuses: [
-        {id: 'Single', label: 'Single'},
-        {id: 'Married', label: 'Married'},
-        {id: 'Other', label: 'Other'},
+        {id: 'Single', label: this.$t('pim.single')},
+        {id: 'Married', label: this.$t('pim.married')},
+        {id: 'Other', label: this.$t('pim.other')},
       ],
     };
   },

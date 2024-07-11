@@ -59,7 +59,7 @@ class Migration extends AbstractMigration
             ->setParameter('value', 1)
             ->executeQuery();
 
-        $groups = ['admin'];
+        $groups = ['admin', 'pim'];
         foreach ($groups as $group) {
             $this->getLangStringHelper()->insertOrUpdateLangStrings(__DIR__, $group);
         }

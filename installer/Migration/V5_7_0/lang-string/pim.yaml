@@ -1,0 +1,7 @@
+langStrings:
+  -
+    value: 'Single'
+    unitId: single
+  -
+    value: 'Married'
+    unitId: married

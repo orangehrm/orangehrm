@@ -41,7 +41,7 @@
               <oxd-grid-item>
                 <oxd-input-field
                   v-model="filters.statuses"
-                  value="Select"
+                  :value="$t('general.select')"
                   type="multiselect"
                   :label="$t('leave.show_leave_with_status')"
                   :options="leaveStatuses"
