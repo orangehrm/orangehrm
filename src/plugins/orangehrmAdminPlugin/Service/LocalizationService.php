@@ -237,7 +237,7 @@ class LocalizationService
             if (!(isset($row['langStringId'])) || !(isset($row['errorName']))) {
                 throw new LogicException('langStringId and errorName are required');
             }
-            $key = $row['langStringId'] . '_' . $row['errorName'] . '_' . $languageId . '_' . $empNumber;
+            $key = $this->generateImportErrorKey($row['langStringId'], $languageId, $empNumber);
             $importError = new I18NImportError();
             $importError->getDecorator()->setLangStringById($row['langStringId']);
             $importError->getDecorator()->setErrorByName($row['errorName']);
@@ -259,6 +259,19 @@ class LocalizationService
     {
         return $languageId . '_' .
             $langStringId . '_';
+    }
+
+    /**
+     * @param int $langStringId
+     * @param int $languageId
+     * @param int $empNumber
+     * @return string
+     */
+    public function generateImportErrorKey(int $langStringId, int $languageId, int $empNumber): string
+    {
+        return $langStringId . '_' .
+            $languageId . '_' .
+            $empNumber;
     }
 
     /**

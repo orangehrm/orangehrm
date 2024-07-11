@@ -266,21 +266,18 @@ class LocalizationDao extends BaseDao
 
         foreach ($i18NImportErrorStrings as $index => $langStringError) {
             $langStringParam = 'langStringParam_' . $index;
-            $errorNameParam = 'errorNameParam_' . $index;
             $languageParam = 'languageParam_' . $index;
             $empNumberParam = 'empNumberParam_' . $index;
 
             $qb->orWhere(
                 $qb->expr()->andX(
                     $qb->expr()->eq('importError.langString', ':' . $langStringParam),
-                    $qb->expr()->eq('importError.error', ':' . $errorNameParam),
                     $qb->expr()->eq('importError.language', ':' . $languageParam),
                     $qb->expr()->eq('importError.importedBy', ':' . $empNumberParam)
                 )
             );
 
             $qb->setParameter($langStringParam, $langStringError->getLangString()->getId());
-            $qb->setParameter($errorNameParam, $langStringError->getError()->getName());
             $qb->setParameter($languageParam, $languageId);
             $qb->setParameter($empNumberParam, $empNumber);
         }
@@ -289,10 +286,11 @@ class LocalizationDao extends BaseDao
         $updatableImportErrors = [];
         /** @var I18NImportError $updatableImportError */
         foreach ($qb->getQuery()->execute() as $updatableImportError) {
-            $key = $updatableImportError->getLangString()->getId() . '_' .
-                $updatableImportError->getError()->getName() . '_' .
-                $updatableImportError->getLanguage()->getId() . '_' .
-                $updatableImportError->getImportedBy()->getEmpNumber();
+            $key = $this->getLocalizationService()->generateImportErrorKey(
+                $updatableImportError->getLangString()->getId(),
+                $updatableImportError->getLanguage()->getId(),
+                $updatableImportError->getImportedBy()->getEmpNumber()
+            );
             $updatableImportErrors[$key] = $updatableImportError;
         }
 
