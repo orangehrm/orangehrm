@@ -89,6 +89,11 @@
       </oxd-form>
     </oxd-table-filter>
     <br />
+    <oxd-alert
+      :show="itemsModified"
+      type="info"
+      message="Please save your changes before moving to the next page"
+    ></oxd-alert>
     <div class="orangehrm-paper-container">
       <oxd-form
         v-if="total > 0"
@@ -98,7 +103,7 @@
       >
         <div class="orangehrm-header-container">
           <oxd-pagination
-            v-if="showPaginator"
+            v-if="showPaginator && !itemsModified"
             :key="currentPage"
             v-model:current="currentPage"
             :length="pages"
@@ -112,6 +117,7 @@
         <edit-translations
           v-if="items?.data"
           v-model:langstrings="items.data"
+          @update:langstrings="checkItemsModified"
         ></edit-translations>
         <oxd-form-actions>
           <div class="orangehrm-bottom-container">
@@ -139,11 +145,11 @@
 import {computed, ref} from 'vue';
 import usei18n from '@/core/util/composable/usei18n';
 import useToast from '@/core/util/composable/useToast';
-import {reloadPage} from '@/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
 import usePaginate from '@ohrm/core/util/composable/usePaginate';
 import EditTranslationTable from '@/orangehrmAdminPlugin/components/EditTranslationTable.vue';
 import GroupListDropdown from '@/orangehrmAdminPlugin/components/LanguageGroupListDropdown.vue';
+import {OxdAlert} from '@ohrm/oxd';
 
 const defaultFilters = {
   sourceText: null,
@@ -158,6 +164,7 @@ export default {
   components: {
     'language-group-list-dropdown': GroupListDropdown,
     'edit-translations': EditTranslationTable,
+    'oxd-alert': OxdAlert,
   },
   props: {
     languageId: {
@@ -221,15 +228,29 @@ export default {
       execQuery,
     } = usePaginate(http, {query: serializedFilters});
 
+    const itemsModified = ref(false);
+
     const onReset = () => {
       currentPage.value = 1;
+      itemsModified.value = false;
       filters.value = {...defaultFilters, sortOrder: sortOptions.value[0]};
       execQuery();
     };
 
     const onSubmit = () => {
-      currentPage.value = 1;
+      itemsModified.value = false;
       execQuery();
+    };
+
+    const checkItemsModified = () => {
+      itemsModified.value = items.value.data.reduce(
+        (accumulator, item) =>
+          accumulator ||
+          (item.target !== null &&
+            item.oldTarget !== item.target &&
+            item.modified === true),
+        false,
+      );
     };
 
     const onSubmitLangString = () => {
@@ -240,7 +261,7 @@ export default {
           url: `/api/v2/admin/i18n/languages/${props.languageId}/translations/bulk`,
           data: {
             data: items.value.data
-              .filter((item) => item.target !== null && item.modified == true)
+              .filter((item) => item.target !== null && item.modified === true)
               .map((item) => {
                 return {
                   langStringId: item.langStringId,
@@ -252,7 +273,10 @@ export default {
         .then(() => {
           return saveSuccess();
         })
-        .then(() => reloadPage());
+        .then(() => {
+          itemsModified.value = false;
+          execQuery();
+        });
     };
 
     return {
@@ -268,6 +292,8 @@ export default {
       onReset,
       onSubmit,
       onSubmitLangString,
+      itemsModified,
+      checkItemsModified,
     };
   },
 };

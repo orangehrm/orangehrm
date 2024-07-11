@@ -126,11 +126,11 @@ class I18NTranslationImportAPI extends Endpoint implements CollectionEndpoint
                 $languageId,
                 $validLangStrings
             );
-            $this->getLocalizationService()->clearImportErrorsForLangStrings(
+            $this->getLocalizationService()->getLocalizationDao()->clearImportErrorsForLanguageAndEmpNumber(
                 $languageId,
-                $validLangStrings
+                $this->getAuthUser()->getEmpNumber()
             );
-            $this->getLocalizationService()->saveAndUpdateImportErrorLangStringsFromRows(
+            $this->getLocalizationService()->saveImportErrorLangStringsFromRows(
                 $languageId,
                 $this->getAuthUser()->getEmpNumber(),
                 $invalidLangStrings
