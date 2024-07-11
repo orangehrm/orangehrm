@@ -529,6 +529,66 @@ class LocalizationServiceTest extends KernelTestCase
         $this->localizationService->processXliffFile($attachment, 1);
     }
 
+    public function testProcessXliffFileWithInvalidVersion(): void
+    {
+        $xliffContent = '<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" version="sadasd" srcLang="en_US" trgLang="zh_Hans_CN">
+  <file id="1"
+    <group id="general">
+      <unit id="add_job_title">
+        <segment>
+          <source>Add Job Title</source>
+          <target></target>
+        </segment>
+      </unit>
+      <unit id="use_smtp_authentication">
+        <segment>
+          <source>Use SMTP Authentication</source>
+          <target></target>
+        </segment>
+      </unit>
+    </group>
+  </file>
+</xliff>';
+
+        $attachment = $this->getBase64AttachmentForTestingProcessXliff($xliffContent);
+
+        $this->expectException(XliffFileProcessFailedException::class);
+        $this->expectExceptionMessage(XliffFileProcessFailedException::validationFailed()->getMessage());
+
+        $this->localizationService->processXliffFile($attachment, 1);
+    }
+
+    public function testProcessXliffFileWithMissingVersion(): void
+    {
+        $xliffContent = '<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" srcLang="en_US" trgLang="zh_Hans_CN">
+  <file id="1"
+    <group id="general">
+      <unit id="add_job_title">
+        <segment>
+          <source>Add Job Title</source>
+          <target></target>
+        </segment>
+      </unit>
+      <unit id="use_smtp_authentication">
+        <segment>
+          <source>Use SMTP Authentication</source>
+          <target></target>
+        </segment>
+      </unit>
+    </group>
+  </file>
+</xliff>';
+
+        $attachment = $this->getBase64AttachmentForTestingProcessXliff($xliffContent);
+
+        $this->expectException(XliffFileProcessFailedException::class);
+        $this->expectExceptionMessage(XliffFileProcessFailedException::validationFailed()->getMessage());
+
+        $this->localizationService->processXliffFile($attachment, 1);
+    }
+
     public function testProcessXliffFileWithMissingSourceLanguage(): void
     {
         $xliffContent = '<?xml version="1.0" encoding="UTF-8"?>
