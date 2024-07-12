@@ -19,6 +19,7 @@
 namespace OrangeHRM\Tests\Recruitment\Controller;
 
 use OrangeHRM\Config\Config;
+use OrangeHRM\Core\Service\ConfigService;
 use OrangeHRM\Core\Service\DateTimeHelperService;
 use OrangeHRM\Framework\Routing\UrlGenerator;
 use OrangeHRM\Framework\Services;
@@ -72,7 +73,8 @@ class VacancyListRSSControllerTest extends KernelTestCase
         $this->createKernelWithMockServices([
             Services::VACANCY_SERVICE => new VacancyService(),
             Services::URL_GENERATOR => $urlGenerator,
-            Services::DATETIME_HELPER_SERVICE => $dateTimeHelper
+            Services::DATETIME_HELPER_SERVICE => $dateTimeHelper,
+            Services::CONFIG_SERVICE => new ConfigService()
         ]);
         $controller = new VacancyListRSSController();
         $response = $controller->handle();

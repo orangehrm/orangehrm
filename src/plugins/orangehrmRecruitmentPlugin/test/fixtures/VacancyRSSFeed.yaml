@@ -1,5 +1,6 @@
 Config:
   - { name: 'authorize_user_role_manager_class', value: 'BasicUserRoleManager' }
+  - { name: 'admin.localization.default_language', value: 'en_US'}
 
 Employee:
   - { empNumber: 1, firstName: 'Kayla', lastName: 'Abbey', middleName: 'T', employeeId: 'E001', emp_work_email: 'kayla@xample.com', emp_oth_email: 'kayla2@xample.com' }
