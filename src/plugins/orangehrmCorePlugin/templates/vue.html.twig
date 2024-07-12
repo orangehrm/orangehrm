@@ -36,6 +36,7 @@
         :breadcrumb="{{ breadcrumb | json_encode() }}"
         :date-format="{{ dateFormat | json_encode() }}"
         help-url="{{ helpUrl }}"
+        :show-upgrade="{{ showUpgrade }}"
     >
       <{{ componentName }}
       {% for prop in componentProps %}
