@@ -322,6 +322,39 @@ Create:
     }
     invalidOnly: [ maxSalary ]
 
+  only max salary defined:
+    userId: 1
+    services:
+      admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
+    attributes:
+      payGradeId: 1
+    body:
+      currencyId: AUD
+      maxSalary: 10000
+    data: {
+      minSalary: null,
+      maxSalary: 10000,
+      currencyType: {
+        id: AUD,
+        name: Australian Dollar
+      }
+    }
+    meta:
+      payGradeId: 1
+
+  only min salary defined:
+    userId: 1
+    services:
+      admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
+    attributes:
+      payGradeId: 1
+    body:
+      currencyId: AUD
+      minSalary: 10000
+    exception:
+      class: \OrangeHRM\Core\Api\V2\Exception\BadRequestException
+      message: Min salary should be less than max salary
+
 Update:
   update successful - 1:
     userId: 1

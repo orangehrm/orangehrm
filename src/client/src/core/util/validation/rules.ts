@@ -491,10 +491,14 @@ export const maxValueShouldBeGreaterThanMinValue = (
       typeof message === 'string'
         ? message
         : translate('general.should_be_higher_than_minimum_value');
-    if (resolvedMinValue === null || value === null) return true;
-    if (resolvedMinValue === undefined || value === undefined) return true;
-    if (resolvedMinValue === '' || value === '') return true;
-    if (resolvedMinValue === '0' || value === '0') return true;
+    // If the minimum is not given, null or 0 => return true
+    // If the value is not given, then return true only if the minimum is not given, null or 0
+    if (resolvedMinValue === null) return true;
+    if (resolvedMinValue === undefined) return true;
+    if (resolvedMinValue === '' || (resolvedMinValue === '' && value === ''))
+      return true;
+    if (resolvedMinValue === '0' || (resolvedMinValue === '0' && value === '0'))
+      return true;
     return parseFloat(resolvedMinValue) < parseFloat(value) || resolvedMessage;
   };
 };
@@ -516,7 +520,8 @@ export const minValueShouldBeLowerThanMaxValue = (
         : translate('general.should_be_lower_than_maximum_value');
     if (resolvedMaxValue === null || value === null) return true;
     if (resolvedMaxValue === undefined || value === undefined) return true;
-    if (resolvedMaxValue === '' || value === '0') return true;
+    if (resolvedMaxValue === '' || value === '') return true;
+    if (resolvedMaxValue === '0' || value === '0') return true;
     return parseFloat(resolvedMaxValue) > parseFloat(value) || resolvedMessage;
   };
 };
