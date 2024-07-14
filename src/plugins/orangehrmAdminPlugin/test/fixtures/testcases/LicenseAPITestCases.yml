@@ -1,0 +1,183 @@
+GetAll:
+  get all licenses:
+    userId: 1
+    data:
+      - id: 1
+        name: License 1
+      - id: 2
+        name: License 2
+      - id: 3
+        name: License 3
+    meta:
+      total: 3
+
+  get all licenses limit 2:
+    userId: 1
+    query:
+      limit: 2
+    data:
+      - id: 1
+        name: License 1
+      - id: 2
+        name: License 2
+    meta:
+      total: 3
+
+  get all licenses limit and offset:
+    userId: 1
+    query:
+      limit: 2
+      offset: 1
+    data:
+      - id: 2
+        name: License 2
+      - id: 3
+        name: License 3
+    meta:
+      total: 3
+
+  get all licenses sort DESC:
+    userId: 1
+    query:
+      sortOrder: DESC
+    data:
+      - id: 3
+        name: License 3
+      - id: 2
+        name: License 2
+      - id: 1
+        name: License 1
+    meta:
+      total: 3
+
+GetOne:
+  get license 2:
+    userId: 1
+    attributes:
+      id: 2
+    data:
+      id: 2
+      name: License 2
+
+  without id:
+    userId: 1
+    invalidOnly: [ id ]
+
+  with non existing id:
+    userId: 1
+    attributes:
+      id: 1000
+    exception:
+      class: \OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException
+      message: Record Not Found
+
+Create:
+  create new license:
+    userId: 1
+    body:
+      name: 'License 4'
+    data:
+      id: 4
+      name: License 4
+
+  without name:
+    userId: 1
+    invalidOnly: [ name ]
+
+  with empty name:
+    userId: 1
+    body:
+      name: '   '
+    invalidOnly: [ name ]
+
+  with existing name:
+    userId: 1
+    body:
+      name: 'License 1'
+    invalidOnly: [ name ]
+
+Update:
+  update license:
+    userId: 1
+    attributes:
+      id: 1
+    body:
+      name: 'New License'
+    data:
+      id: 1
+      name: New License
+
+  with empty name:
+    userId: 1
+    attributes:
+      id: 1
+    body:
+      name: '   '
+    invalidOnly: [ name ]
+
+  without name:
+    userId: 1
+    attributes:
+      id: 1
+    invalidOnly: [ name ]
+
+  with non existing id:
+    userId: 1
+    attributes:
+      id: 1000
+    body:
+      name: 'New License'
+    exception:
+      class: \OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException
+      message: Record Not Found
+
+  without id:
+    userId: 1
+    body:
+      name: 'New License'
+    invalidOnly: [ id ]
+
+  with same name:
+    userId: 1
+    attributes:
+      id: 1
+    body:
+      name: 'License 1'
+    data:
+      id: 1
+      name: License 1
+
+  with name of different license:
+    userId: 1
+    attributes:
+      id: 1
+    body:
+      name: 'License 2'
+    invalidOnly: [ name ]
+
+Delete:
+  with one id:
+    userId: 1
+    body:
+      ids: [ 1 ]
+    data: [ 1 ]
+
+  with multiple ids:
+    userId: 1
+    body:
+      ids: [ 1, 2, 3 ]
+    data: [ 1, 2, 3 ]
+
+  with valid and invalid ids:
+    userId: 1
+    body:
+      ids: [ 1, 2, 1000 ]
+    data: [ 1, 2 ]
+
+  with only invalid ids:
+    userId: 1
+    body:
+      ids: [ 200, 300 ]
+    exception:
+      class: \OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException
+      message: Records Not Found
