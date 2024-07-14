@@ -73,15 +73,22 @@ import DeleteConfirmationDialog from '@/core/components/dialogs/DeleteConfirmati
 
 const PayGradeCurrencyNormalizer = (data) => {
   return data.map((item) => {
+    let maxSalary = item.maxSalary ? Number(item.maxSalary) : 0;
+    let minSalary = item.minSalary ? Number(item.minSalary) : 0;
+    maxSalary = maxSalary.toLocaleString('en-US', {
+      maximumFractionDigits: 2,
+      minimumFractionDigits: 2,
+    });
+    minSalary = minSalary.toLocaleString('en-US', {
+      maximumFractionDigits: 2,
+      minimumFractionDigits: 2,
+    });
+
     return {
       id: item.currencyType.id,
       name: item.currencyType.name,
-      maxSalary: item.maxSalary
-        ? parseFloat(item.maxSalary).toFixed(2)
-        : '0.00',
-      minSalary: item.minSalary
-        ? parseFloat(item.minSalary).toFixed(2)
-        : '0.00',
+      maxSalary: maxSalary,
+      minSalary: minSalary,
     };
   });
 };

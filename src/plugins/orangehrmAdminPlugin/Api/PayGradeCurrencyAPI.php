@@ -437,7 +437,7 @@ class PayGradeCurrencyAPI extends Endpoint implements CrudEndpoint
             self::PARAMETER_MAX_SALARY
         );
 
-        if (!is_null($minSalary) && $maxSalary <= $minSalary) {
+        if (!is_null($minSalary) && $minSalary !== '0' && $maxSalary <= $minSalary) {
             throw $this->getBadRequestException("Min salary should be less than max salary");
         }
 

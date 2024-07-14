@@ -355,6 +355,27 @@ Create:
       class: \OrangeHRM\Core\Api\V2\Exception\BadRequestException
       message: Min salary should be less than max salary
 
+  only min salary defined and min salary is 0:
+    userId: 1
+    services:
+      admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
+    attributes:
+      payGradeId: 1
+    body:
+      currencyId: AUD
+      minSalary: 0
+    data: {
+      minSalary: 0,
+      maxSalary: null,
+      currencyType: {
+        id: AUD,
+        name: Australian Dollar
+      }
+    }
+    meta:
+      payGradeId: 1
+
+
 Update:
   update successful - 1:
     userId: 1
