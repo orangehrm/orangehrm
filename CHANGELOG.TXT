@@ -1,3 +1,18 @@
+New & Changed Features for OrangeHRM ver 5.7
+    New Features/Changes
+    -----------
+    - Language Package Import
+        - Allowing OrangeHRM Starter users to import translations via XLIFF files
+    - Supported Environments
+        - PHP - 7.4 to 8.3
+        - MariaDB - 5.5 to 11.4
+        - MySQL - 5.5 to 8.4
+
+    Bug Fixes
+    ---------
+    - Several API defects fixed
+    - https://github.com/orangehrm/orangehrm/issues/1853 (installation failure on MySQL 8.4)
+
 Changed Features for OrangeHRM ver 5.6.1
     Changes
     -----------
