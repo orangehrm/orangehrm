@@ -20,6 +20,7 @@ namespace OrangeHRM\Leave\Report;
 
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\Rest\ReportAPI;
+use OrangeHRM\Core\Api\V2\Exception\BadRequestException;
 use OrangeHRM\Core\Api\V2\Exception\ForbiddenException;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
@@ -38,6 +39,7 @@ use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\I18N\Traits\Service\I18NHelperTrait;
 use OrangeHRM\Leave\Api\LeaveCommonParams;
 use OrangeHRM\Leave\Dto\EmployeeLeaveEntitlementUsageReportSearchFilterParams;
+use OrangeHRM\Leave\Traits\Service\LeaveConfigServiceTrait;
 use OrangeHRM\Leave\Traits\Service\LeavePeriodServiceTrait;
 
 class EmployeeLeaveEntitlementUsageReport implements EndpointAwareReport
@@ -47,6 +49,7 @@ class EmployeeLeaveEntitlementUsageReport implements EndpointAwareReport
     use TextHelperTrait;
     use UserRoleManagerTrait;
     use I18NHelperTrait;
+    use LeaveConfigServiceTrait;
 
     public const PARAMETER_LEAVE_TYPE_NAME = 'leaveTypeName';
     public const PARAMETER_ENTITLEMENT_DAYS = 'entitlementDays';
@@ -193,6 +196,9 @@ class EmployeeLeaveEntitlementUsageReport implements EndpointAwareReport
         }
         if (!$this->getUserRoleManagerHelper()->getEntityIndependentDataGroupPermissions($dataGroup)->canRead()) {
             throw new ForbiddenException();
+        }
+        if (!$this->getLeaveConfigService()->isLeavePeriodDefined()) {
+            throw new BadRequestException("Leave period is not defined");
         }
     }
 }
