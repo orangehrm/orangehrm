@@ -16,6 +16,10 @@
 .orangehrm-upgrade {
   &-container {
     margin-left: auto;
+    margin-top: auto;
+    position: relative;
+    left: 25px;
+    z-index: 10;
   }
   &-link {
     text-decoration: inherit;
@@ -26,13 +30,13 @@
     font-size: 0rem;
     padding-top: 0.9rem;
     padding-bottom: 0.9rem;
-    padding-left: 1rem;
-    padding-right: 0.4rem;
-    align-self: center;
+    padding-left: 0.9rem;
+    padding-right: 0.3rem;
     @include oxd-respond-to('md') {
       color: $oxd-primary-one-color;
-      font-size: 1.1rem;
+      font-size: 14px;
       white-space: nowrap;
+      padding-left: 1rem;
       padding-right: 1rem;
     }
   }

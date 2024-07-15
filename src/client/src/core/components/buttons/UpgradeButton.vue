@@ -21,6 +21,7 @@
   <div class="orangehrm-upgrade-container">
     <a
       class="orangehrm-upgrade-link"
+      target="_blank"
       href="https://www.orangehrm.com/open-source/upgrade-to-advanced"
     >
       <oxd-glass-button
