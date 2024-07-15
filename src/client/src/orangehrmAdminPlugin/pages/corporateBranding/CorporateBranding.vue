@@ -95,7 +95,7 @@
                 :rules="rules.clientLogo"
                 :hint="
                   $t('general.accept_jpg_png_gif_upto_recommended_dimensions', {
-                    fileSize: '1MB',
+                    fileSize: formattedFileSize,
                     width: 50,
                     height: 50,
                   })
@@ -114,7 +114,7 @@
                 :rules="rules.clientBanner"
                 :hint="
                   $t('general.accept_jpg_png_gif_upto_recommended_dimensions', {
-                    fileSize: '1MB',
+                    fileSize: formattedFileSize,
                     width: 182,
                     height: 50,
                   })
@@ -133,7 +133,7 @@
                 :rules="rules.loginBanner"
                 :hint="
                   $t('general.accept_jpg_png_gif_upto_recommended_dimensions', {
-                    fileSize: '1MB',
+                    fileSize: formattedFileSize,
                     width: 340,
                     height: 65,
                   })
@@ -238,6 +238,10 @@ export default {
       type: Number,
       required: true,
     },
+    maxFileSize: {
+      type: Number,
+      required: true,
+    },
   },
   setup(props) {
     const http = new APIService(
@@ -270,7 +274,7 @@ export default {
       clientLogo: [
         (v) =>
           state.clientLogo.method === 'replaceCurrent' ? required(v) : true,
-        maxFileSize(1024 * 1024),
+        maxFileSize(props.maxFileSize),
         imageShouldHaveDimensions(
           props.aspectRatios.clientLogo,
           props.aspectRatioTolerance,
@@ -280,7 +284,7 @@ export default {
       clientBanner: [
         (v) =>
           state.clientBanner.method === 'replaceCurrent' ? required(v) : true,
-        maxFileSize(1024 * 1024),
+        maxFileSize(props.maxFileSize),
         imageShouldHaveDimensions(
           props.aspectRatios.clientBanner,
           props.aspectRatioTolerance,
@@ -290,7 +294,7 @@ export default {
       loginBanner: [
         (v) =>
           state.loginBanner.method === 'replaceCurrent' ? required(v) : true,
-        maxFileSize(1024 * 1024),
+        maxFileSize(props.maxFileSize),
         imageShouldHaveDimensions(
           props.aspectRatios.loginBanner,
           props.aspectRatioTolerance,
@@ -409,6 +413,12 @@ export default {
       onClickPreview,
       ...toRefs(state),
     };
+  },
+  computed: {
+    formattedFileSize() {
+      let size = Math.round((this.maxFileSize / (1024 * 1024)) * 100) / 100;
+      return size === 1 ? size + 'MB' : size + 'MBs';
+    },
   },
 };
 </script>

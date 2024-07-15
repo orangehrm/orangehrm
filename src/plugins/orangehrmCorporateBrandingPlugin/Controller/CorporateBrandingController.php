@@ -19,6 +19,7 @@
 namespace OrangeHRM\CorporateBranding\Controller;
 
 use OrangeHRM\Core\Controller\AbstractVueController;
+use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Entity\Theme;
@@ -26,6 +27,8 @@ use OrangeHRM\Framework\Http\Request;
 
 class CorporateBrandingController extends AbstractVueController
 {
+    use ConfigServiceTrait;
+
     /**
      * @inheritDoc
      */
@@ -39,6 +42,7 @@ class CorporateBrandingController extends AbstractVueController
             'loginBanner' => Theme::LOGIN_BANNER_ASPECT_RATIO,
         ]));
         $component->addProp(new Prop('aspect-ratio-tolerance', Prop::TYPE_NUMBER, Theme::IMAGE_ASPECT_RATIO_TOLERANCE));
+        $component->addProp(new Prop('max-file-size', Prop::TYPE_NUMBER, $this->getConfigService()->getMaxAttachmentSize()));
         $this->setComponent($component);
     }
 }
