@@ -55,7 +55,7 @@
             :file="jobTitle.oldSpecification"
             :rules="rules.specification"
             :url="`admin/viewJobSpecification/attachId`"
-            :hint="$t('general.accepts_up_to_1mb')"
+            :hint="$t('general.accepts_up_to_n_mb', {count: formattedFileSize})"
           />
         </oxd-form-row>
 
@@ -173,6 +173,12 @@ export default {
         note: [shouldNotExceedCharLength(400)],
       },
     };
+  },
+
+  computed: {
+    formattedFileSize() {
+      return Math.round((this.maxFileSize / (1024 * 1024)) * 100) / 100;
+    },
   },
 
   created() {

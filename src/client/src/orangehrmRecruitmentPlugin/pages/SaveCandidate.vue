@@ -80,7 +80,11 @@
                 :button-label="$t('general.browse')"
                 :file="resume.oldAttachment"
                 :rules="rules.resume"
-                :hint="$t('general.accept_custom_format_file')"
+                :hint="
+                  $t('general.accept_custom_format_file_up_to_n_mb', {
+                    count: formattedFileSize,
+                  })
+                "
                 url="recruitment/candidateAttachment/attachId"
               />
             </oxd-grid-item>
@@ -238,6 +242,11 @@ export default {
         ],
       },
     };
+  },
+  computed: {
+    formattedFileSize() {
+      return Math.round((this.maxFileSize / (1024 * 1024)) * 100) / 100;
+    },
   },
   methods: {
     onSave() {

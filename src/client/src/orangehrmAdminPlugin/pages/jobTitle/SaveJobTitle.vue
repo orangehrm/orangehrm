@@ -55,7 +55,7 @@
             :rules="rules.specification"
           />
           <oxd-text class="orangehrm-input-hint" tag="p">
-            {{ $t('general.accepts_up_to_1mb') }}
+            {{ $t('general.accepts_up_to_n_mb', {count: formattedFileSize}) }}
           </oxd-text>
         </oxd-form-row>
 
@@ -155,6 +155,12 @@ export default {
         note: [shouldNotExceedCharLength(400)],
       },
     };
+  },
+
+  computed: {
+    formattedFileSize() {
+      return Math.round((this.maxFileSize / (1024 * 1024)) * 100) / 100;
+    },
   },
 
   methods: {

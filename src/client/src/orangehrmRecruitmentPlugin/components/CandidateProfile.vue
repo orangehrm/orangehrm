@@ -98,7 +98,11 @@
                 :button-label="$t('general.browse')"
                 :file="attachment.oldAttachment"
                 :rules="rules.resume"
-                :hint="$t('general.accept_custom_format_file')"
+                :hint="
+                  $t('general.accept_custom_format_file_up_to_n_mb', {
+                    count: formattedFileSize,
+                  })
+                "
                 :disabled="!editable"
                 :url="getResumeUrl"
               />
@@ -283,6 +287,11 @@ export default {
         ],
       },
     };
+  },
+  computed: {
+    formattedFileSize() {
+      return Math.round((this.maxFileSize / (1024 * 1024)) * 100) / 100;
+    },
   },
   watch: {
     candidate() {

@@ -118,7 +118,11 @@
                   required
                 />
                 <oxd-text class="orangehrm-input-hint" tag="p">
-                  {{ $t('general.accept_custom_format_file') }}
+                  {{
+                    $t('general.accept_custom_format_file_up_to_n_mb', {
+                      count: formattedFileSize,
+                    })
+                  }}
                 </oxd-text>
               </oxd-grid-item>
             </oxd-grid>
@@ -316,6 +320,9 @@ export default {
     descriptionLength() {
       if (this.isMobile) return 150;
       return this.windowWidth < 1920 ? 250 : 400;
+    },
+    formattedFileSize() {
+      return Math.round((this.maxFileSize / (1024 * 1024)) * 100) / 100;
     },
   },
   beforeMount() {

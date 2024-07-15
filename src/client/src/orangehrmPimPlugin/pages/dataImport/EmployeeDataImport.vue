@@ -94,7 +94,9 @@
                 required
               />
               <oxd-text class="orangehrm-input-hint" tag="p">
-                {{ $t('general.accepts_up_to_1mb') }}
+                {{
+                  $t('general.accepts_up_to_n_mb', {count: formattedFileSize})
+                }}
               </oxd-text>
             </oxd-grid-item>
           </oxd-grid>
@@ -138,6 +140,10 @@ export default {
       type: Array,
       required: true,
     },
+    maxFileSize: {
+      type: Number,
+      required: true,
+    },
   },
   setup() {
     const http = new APIService(
@@ -161,12 +167,17 @@ export default {
       rules: {
         attachment: [
           required,
-          maxFileSize(1048576),
+          maxFileSize(this.maxFileSize),
           validFileTypes(this.allowedFileTypes),
         ],
       },
       importModalState: null,
     };
+  },
+  computed: {
+    formattedFileSize() {
+      return Math.round((this.maxFileSize / (1024 * 1024)) * 100) / 100;
+    },
   },
   methods: {
     onSave() {

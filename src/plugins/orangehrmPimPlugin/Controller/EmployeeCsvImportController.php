@@ -19,6 +19,7 @@
 namespace OrangeHRM\Pim\Controller;
 
 use OrangeHRM\Core\Controller\AbstractVueController;
+use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Framework\Http\Request;
@@ -26,6 +27,8 @@ use OrangeHRM\Pim\Api\EmployeeCSVImportAPI;
 
 class EmployeeCsvImportController extends AbstractVueController
 {
+    use ConfigServiceTrait;
+
     /**
      * @inheritDoc
      */
@@ -33,6 +36,7 @@ class EmployeeCsvImportController extends AbstractVueController
     {
         $component = new Component('employee-data-import');
         $component->addProp(new Prop('allowed-file-types', Prop::TYPE_ARRAY, EmployeeCSVImportAPI::PARAM_RULE_IMPORT_FILE_FORMAT));
+        $component->addProp(new Prop('max-file-size', Prop::TYPE_NUMBER, $this->getConfigService()->getMaxAttachmentSize()));
         $this->setComponent($component);
     }
 }
