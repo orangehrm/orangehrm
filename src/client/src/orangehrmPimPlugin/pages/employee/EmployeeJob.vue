@@ -136,9 +136,7 @@
                   :rules="rules.contractAttachment"
                   :url="`pim/viewAttachment/empNumber/${empNumber}/attachId`"
                   :hint="
-                    $t('general.accepts_up_to_n_mb', {
-                      count: maxFileSize / (1024 * 1024),
-                    })
+                    $t('general.accepts_up_to_n_mb', {count: formattedFileSize})
                   "
                   :disabled="!hasUpdatePermissions"
                 />
@@ -354,6 +352,9 @@ export default {
             locale: this.locale,
           })
         : null;
+    },
+    formattedFileSize() {
+      return Math.round((this.maxFileSize / (1024 * 1024)) * 100) / 100;
     },
   },
 
