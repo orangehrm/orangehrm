@@ -106,13 +106,19 @@ export default {
       `/api/v2/pim/employees/${props.empNumber}/subordinates`,
     );
     const {$t} = usei18n();
+
+    const defaultReportingMethods = ['Direct', 'Indirect'];
+
     const subordinateNormalizer = (data) => {
       return data.map((item) => {
+        let reportingMethodName = item.reportingMethod.name;
         return {
           name: `${item.subordinate?.firstName} ${item.subordinate?.lastName} ${
             item.subordinate.terminationId ? $t('general.past_employee') : ''
           }`,
-          reportingMethod: item.reportingMethod.name,
+          reportingMethod: defaultReportingMethods.includes(reportingMethodName)
+            ? $t('pim.' + reportingMethodName.toLowerCase())
+            : reportingMethodName,
           subordinateEmpNumber: item.subordinate.empNumber,
         };
       });
