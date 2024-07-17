@@ -59,14 +59,6 @@ class LicenseAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     * @param LicenseService $licenseService
-     */
-    public function setLicenseService(LicenseService $licenseService): void
-    {
-        $this->licenseService = $licenseService;
-    }
-
-    /**
      * @OA\Get(
      *     path="/api/v2/admin/licenses/{id}",
      *     tags={"Admin/License"},

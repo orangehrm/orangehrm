@@ -94,14 +94,6 @@ class EducationAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     * @param EducationService $educationService
-     */
-    public function setEducationService(EducationService $educationService): void
-    {
-        $this->educationService = $educationService;
-    }
-
-    /**
      * @inheritDoc
      */
     public function getValidationRuleForGetOne(): ParamRuleCollection
@@ -301,21 +293,6 @@ class EducationAPI extends Endpoint implements CrudEndpoint
                 new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NAME_MAX_LENGTH]),
                 new Rule(Rules::ENTITY_UNIQUE_PROPERTY, [Education::class, 'name', $uniqueOption])
             )
-        );
-    }
-
-    /**
-     * @return ParamRuleCollection
-     */
-    public function getValidationRuleForSaveEducation(): ParamRuleCollection
-    {
-        return new ParamRuleCollection(
-            new ParamRule(CommonParams::PARAMETER_ID),
-            new ParamRule(
-                self::PARAMETER_NAME,
-                new Rule(Rules::STRING_TYPE),
-                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NAME_MAX_LENGTH]),
-            ),
         );
     }
 
