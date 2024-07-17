@@ -23,6 +23,10 @@ use OrangeHRM\Framework\Services;
 use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
 use OrangeHRM\Tests\Util\Integration\TestCaseParams;
 
+/**
+ * @group Admin
+ * @group APIv2
+ */
 class EmailSubscriptionAPITest extends EndpointIntegrationTestCase
 {
     /**

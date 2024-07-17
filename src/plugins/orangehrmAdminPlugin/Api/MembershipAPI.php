@@ -58,14 +58,6 @@ class MembershipAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     * @param MembershipService $membershipService
-     */
-    public function setMembershipService(MembershipService $membershipService): void
-    {
-        $this->membershipService = $membershipService;
-    }
-
-    /**
      * @OA\Get(
      *     path="/api/v2/admin/memberships/{id}",
      *     tags={"Admin/Memberships"},

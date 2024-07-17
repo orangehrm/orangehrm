@@ -1,0 +1,16 @@
+Config:
+  - { name: 'authorize_user_role_manager_class', value: 'BasicUserRoleManager' }
+
+Employee:
+  - { empNumber: 1, firstName: 'Kayla', lastName: 'Abbey', middleName: 'T', employeeId: '0001' }
+
+UserRole:
+  - { id: 1, name: Admin, display_name: Admin, is_assignable: 1, is_predefined: 1 }
+
+User:
+  - { id: 1, user_role_id: 1, emp_number: 1, user_name: 'kayla', user_password: 'Kayla' }
+
+Education:
+  - {id: 1, name: 'PhD'}
+  - {id: 2, name: 'BSc'}
+  - {id: 3, name: 'Msc'}

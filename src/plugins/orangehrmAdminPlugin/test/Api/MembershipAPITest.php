@@ -2,8 +2,8 @@
 
 namespace OrangeHRM\Tests\Admin\Api;
 
-use OrangeHRM\Admin\Api\LicenseAPI;
-use OrangeHRM\Entity\License;
+use OrangeHRM\Admin\Api\MembershipAPI;
+use OrangeHRM\Entity\Membership;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
 use OrangeHRM\Tests\Util\Integration\TestCaseParams;
@@ -13,12 +13,12 @@ use OrangeHRM\Tests\Util\TestDataService;
  * @group Admin
  * @group APIv2
  */
-class LicenseAPITest extends EndpointIntegrationTestCase
+class MembershipAPITest extends EndpointIntegrationTestCase
 {
     protected function setUp(): void
     {
-        TestDataService::truncateSpecificTables([License::class]);
-        $this->populateFixtures('LicenseAPITest.yml');
+        TestDataService::truncateSpecificTables([Membership::class]);
+        $this->populateFixtures('MembershipAPITest.yml');
     }
 
     /**
@@ -27,13 +27,13 @@ class LicenseAPITest extends EndpointIntegrationTestCase
     public function testGetAll(TestCaseParams $testCaseParams): void
     {
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
-        $api = $this->getApiEndpointMock(LicenseAPI::class, $testCaseParams);
+        $api = $this->getApiEndpointMock(MembershipAPI::class, $testCaseParams);
         $this->assertValidTestCase($api, 'getAll', $testCaseParams);
     }
 
     public function dataProviderForTestGetAll(): array
     {
-        return $this->getTestCases('LicenseAPITestCases.yml', 'GetAll');
+        return $this->getTestCases('MembershipAPITestCases.yml', 'GetAll');
     }
 
     /**
@@ -42,13 +42,13 @@ class LicenseAPITest extends EndpointIntegrationTestCase
     public function testGetOne(TestCaseParams $testCaseParams): void
     {
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
-        $api = $this->getApiEndpointMock(LicenseAPI::class, $testCaseParams);
+        $api = $this->getApiEndpointMock(MembershipAPI::class, $testCaseParams);
         $this->assertValidTestCase($api, 'getOne', $testCaseParams);
     }
 
     public function dataProviderForTestGetOne(): array
     {
-        return $this->getTestCases('LicenseAPITestCases.yml', 'GetOne');
+        return $this->getTestCases('MembershipAPITestCases.yml', 'GetOne');
     }
 
     /**
@@ -57,13 +57,13 @@ class LicenseAPITest extends EndpointIntegrationTestCase
     public function testCreate(TestCaseParams $testCaseParams): void
     {
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
-        $api = $this->getApiEndpointMock(LicenseAPI::class, $testCaseParams);
+        $api = $this->getApiEndpointMock(MembershipAPI::class, $testCaseParams);
         $this->assertValidTestCase($api, 'create', $testCaseParams);
     }
 
     public function dataProviderForTestCreate(): array
     {
-        return $this->getTestCases('LicenseAPITestCases.yml', 'Create');
+        return $this->getTestCases('MembershipAPITestCases.yml', 'Create');
     }
 
     /**
@@ -72,13 +72,13 @@ class LicenseAPITest extends EndpointIntegrationTestCase
     public function testUpdate(TestCaseParams $testCaseParams): void
     {
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
-        $api = $this->getApiEndpointMock(LicenseAPI::class, $testCaseParams);
+        $api = $this->getApiEndpointMock(MembershipAPI::class, $testCaseParams);
         $this->assertValidTestCase($api, 'update', $testCaseParams);
     }
 
     public function dataProviderForTestUpdate(): array
     {
-        return $this->getTestCases('LicenseAPITestCases.yml', 'Update');
+        return $this->getTestCases('MembershipAPITestCases.yml', 'Update');
     }
 
     /**
@@ -87,12 +87,12 @@ class LicenseAPITest extends EndpointIntegrationTestCase
     public function testDelete(TestCaseParams $testCaseParams): void
     {
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
-        $api = $this->getApiEndpointMock(LicenseAPI::class, $testCaseParams);
+        $api = $this->getApiEndpointMock(MembershipAPI::class, $testCaseParams);
         $this->assertValidTestCase($api, 'delete', $testCaseParams);
     }
 
     public function dataProviderForTestDelete(): array
     {
-        return $this->getTestCases('LicenseAPITestCases.yml', 'Delete');
+        return $this->getTestCases('MembershipAPITestCases.yml', 'Delete');
     }
 }

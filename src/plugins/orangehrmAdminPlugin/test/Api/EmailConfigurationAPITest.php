@@ -26,7 +26,7 @@ use OrangeHRM\Tests\Util\Integration\TestCaseParams;
 use OrangeHRM\Tests\Util\TestDataService;
 
 /**
- * @group Pim
+ * @group Admin
  * @group APIv2
  */
 class EmailConfigurationAPITest extends EndpointIntegrationTestCase
