@@ -34,7 +34,7 @@ class EmailConfigurationAPITest extends EndpointIntegrationTestCase
     public function setUp(): void
     {
         TestDataService::truncateSpecificTables([EmailConfiguration::class]);
-        $this->populateFixtures('EmailConfigurationDao.yml');
+        $this->populateFixtures('EmailConfigurationAPITest.yml');
     }
 
     /**
