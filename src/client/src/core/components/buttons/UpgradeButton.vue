@@ -22,7 +22,7 @@
     <a
       class="orangehrm-upgrade-link"
       target="_blank"
-      href="https://www.orangehrm.com/open-source/upgrade-to-advanced"
+      href="https://orangehrm.com/open-source/upgrade-to-advanced"
     >
       <oxd-glass-button
         :label="$t('general.upgrade')"
