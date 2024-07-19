@@ -1,0 +1,14 @@
+Config:
+  - { name: 'authorize_user_role_manager_class', value: 'BasicUserRoleManager' }
+
+Employee:
+  - { empNumber: 1, firstName: 'Kayla', lastName: 'Abbey', middleName: 'T', employeeId: '0001' }
+
+UserRole:
+  - { id: 1, name: Admin, display_name: Admin, is_assignable: 1, is_predefined: 1 }
+
+User:
+  - { id: 1, user_role_id: 1, emp_number: 1, user_name: 'kayla', user_password: 'Kayla' }
+
+EmailConfiguration:
+  - {id: 1, mail_type: 'smtp', sent_as: 'test@orangehrm.com', smtp_host: 'smtp.gmail.com', smtp_port: 587, smtp_username: 'testUN', smtp_password: 'testPW', smtp_auth_type: 'login', smtp_security_type: 'tls'}

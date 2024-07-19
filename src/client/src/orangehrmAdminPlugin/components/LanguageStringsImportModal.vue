@@ -51,7 +51,7 @@
       <oxd-button
         v-if="data.failed > 0"
         display-type="secondary"
-        :label="$t('admin.fix_errors')"
+        :label="$t('admin.fix_errors', {count: data.failed})"
         @click="onClickFixErrors"
       />
     </div>

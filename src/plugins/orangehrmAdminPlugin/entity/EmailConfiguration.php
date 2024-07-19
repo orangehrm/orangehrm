@@ -95,6 +95,9 @@ class EmailConfiguration
      */
     private ?string $smtpSecurityType = null;
 
+    public const AUTH_TYPE_LOGIN = 'login';
+    public const AUTH_TYPE_NONE = 'none';
+
     /**
      * @return int
      */

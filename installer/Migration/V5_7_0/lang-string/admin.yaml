@@ -42,7 +42,7 @@ langStrings:
     value: '{count,plural, =0{No Errors Found} one{(1) Error Found} other{ (#) Errors Found}}'
     unitId: n_errors_found
   -
-    value: 'Fix Errors'
+    value: '{count,plural, one{Fix Error} other{ Fix Errors}}'
     unitId: fix_errors
   -
     value: 'The XLIFF file is not valid'
@@ -56,3 +56,6 @@ langStrings:
   -
     value: 'The target language does not match the selected language'
     unitId: target_language_does_not_match
+  -
+    value: 'Please save your changes before moving to the next page'
+    unitId: please_save_before_pagination

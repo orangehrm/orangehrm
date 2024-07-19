@@ -748,7 +748,7 @@ class CandidateAPI extends Endpoint implements CrudEndpoint
      *     summary="Get a Candidate",
      *     operationId="get-a-candidate",
      *     @OA\PathParameter(
-     *         name="empNumber",
+     *         name="id",
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\Response(
@@ -792,7 +792,7 @@ class CandidateAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @OA\Put(
-     *     path="/api/v2/recruitment/candidates",
+     *     path="/api/v2/recruitment/candidates/{id}",
      *     tags={"Recruitment/Candidates"},
      *     summary="Update a Candidate",
      *     operationId="update-a-candidate",

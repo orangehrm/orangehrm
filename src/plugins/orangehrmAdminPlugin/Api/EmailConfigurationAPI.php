@@ -63,8 +63,13 @@ class EmailConfigurationAPI extends Endpoint implements ResourceEndpoint
         MailTransport::SCHEME_SECURE_SMTP
     ];
 
-    public const DEFAULT_PARAMETER_MAIL_TYPE = 'sendmail';
-    public const DEFAULT_PARAMETER_AUTH_TYPE = 'login';
+    public const PARAM_RULE_AUTH_TYPE_MAP = [
+        EmailConfiguration::AUTH_TYPE_LOGIN,
+        EmailConfiguration::AUTH_TYPE_NONE
+    ];
+
+    public const DEFAULT_PARAMETER_MAIL_TYPE = MailTransport::SCHEME_SMTP;
+    public const DEFAULT_PARAMETER_AUTH_TYPE = EmailConfiguration::AUTH_TYPE_LOGIN;
     public const DEFAULT_PARAMETER_SECURITY_TYPE = 'ssl';
 
     public const TEST_EMAIL_STATUS = 'testEmailStatus';
@@ -238,7 +243,6 @@ class EmailConfigurationAPI extends Endpoint implements ResourceEndpoint
                     new Rule(Rules::LENGTH, [null, self::PARAM_RULE_SENT_AS_MAX_LENGTH]),
                 )
             ),
-            $this->getSmtpHostRule(),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_SMTP_PORT,
@@ -247,23 +251,6 @@ class EmailConfigurationAPI extends Endpoint implements ResourceEndpoint
                 ),
                 true
             ),
-            $this->getValidationDecorator()->notRequiredParamRule(
-                new ParamRule(
-                    self::PARAMETER_SMTP_PASSWORD,
-                    new Rule(Rules::STRING_TYPE),
-                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_SMTP_PASSWORD_MAX_LENGTH]),
-                ),
-                true
-            ),
-            $this->getValidationDecorator()->notRequiredParamRule(
-                new ParamRule(
-                    self::PARAMETER_SMTP_AUTH_TYPE,
-                    new Rule(Rules::STRING_TYPE),
-                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_SMTP_AUTH_TYPE_MAX_LENGTH]),
-                ),
-                true
-            ),
-            $this->getSmtpUsernameRule(),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_SMTP_SECURITY_TYPE,
@@ -281,7 +268,54 @@ class EmailConfigurationAPI extends Endpoint implements ResourceEndpoint
                 ),
                 true
             ),
+            ...$this->getMailTypeDependentRules()
         );
+    }
+
+    /**
+     * @return array
+     */
+    private function getMailTypeDependentRules(): array
+    {
+        $rules = [];
+
+        $mailType = $this->getRequestParams()->getStringOrNull(
+            RequestParams::PARAM_TYPE_BODY,
+            self::PARAMETER_MAIL_TYPE
+        );
+
+        $authType = $this->getRequestParams()->getStringOrNull(
+            RequestParams::PARAM_TYPE_BODY,
+            self::PARAMETER_SMTP_AUTH_TYPE
+        );
+
+        $hostRequired = in_array($mailType, [MailTransport::SCHEME_SECURE_SMTP, MailTransport::SCHEME_SMTP]);
+
+        $usernameRequired = $hostRequired && $authType === self::DEFAULT_PARAMETER_AUTH_TYPE;
+
+        $emailConfiguration = $usernameRequired ?
+            $this->getEmailConfigurationService()->getEmailConfigurationDao()->getEmailConfiguration() :
+            null;
+
+        $passwordRequired = $usernameRequired && (is_null($emailConfiguration) || is_null($emailConfiguration->getSmtpPassword()));
+
+        $rules[] = $hostRequired ?
+            $this->getValidationDecorator()->requiredParamRule($this->getSmtpHostRule()) :
+            $this->getValidationDecorator()->notRequiredParamRule($this->getSmtpHostRule());
+
+        $rules[] = $hostRequired ?
+            $this->getValidationDecorator()->requiredParamRule($this->getSmtpAuthTypeRule()) :
+            $this->getValidationDecorator()->notRequiredParamRule($this->getSmtpAuthTypeRule(), true);
+
+        $rules[] = $usernameRequired ?
+            $this->getValidationDecorator()->requiredParamRule($this->getSmtpUsernameRule()) :
+            $this->getValidationDecorator()->notRequiredParamRule($this->getSmtpUsernameRule(), true);
+
+        $rules[] = $passwordRequired ?
+            $this->getValidationDecorator()->requiredParamRule($this->getSmtpPasswordRule()) :
+            $this->getValidationDecorator()->notRequiredParamRule($this->getSmtpPasswordRule(), true);
+
+        return $rules;
     }
 
     /**
@@ -289,26 +323,10 @@ class EmailConfigurationAPI extends Endpoint implements ResourceEndpoint
      */
     private function getSmtpHostRule(): ParamRule
     {
-        $mailType = $this->getRequestParams()->getString(
-            RequestParams::PARAM_TYPE_BODY,
-            self::PARAMETER_MAIL_TYPE
-        );
-
-        $smtpHostRule = new ParamRule(
+        return new ParamRule(
             self::PARAMETER_SMTP_HOST,
             new Rule(Rules::STRING_TYPE),
             new Rule(Rules::LENGTH, [null, self::PARAM_RULE_SMTP_HOST_MAX_LENGTH]),
-        );
-
-        if (in_array($mailType, [MailTransport::SCHEME_SECURE_SMTP, MailTransport::SCHEME_SMTP])) {
-            return $this->getValidationDecorator()->requiredParamRule(
-                $smtpHostRule
-            );
-        }
-
-        return $this->getValidationDecorator()->notRequiredParamRule(
-            $smtpHostRule,
-            true
         );
     }
 
@@ -317,26 +335,35 @@ class EmailConfigurationAPI extends Endpoint implements ResourceEndpoint
      */
     private function getSmtpUsernameRule(): ParamRule
     {
-        $authType = $this->getRequestParams()->getStringOrNull(
-            RequestParams::PARAM_TYPE_BODY,
-            self::PARAMETER_SMTP_AUTH_TYPE
-        );
-
-        $smtpUsernameRule = new ParamRule(
+        return new ParamRule(
             self::PARAMETER_SMTP_USERNAME,
             new Rule(Rules::STRING_TYPE),
             new Rule(Rules::LENGTH, [null, self::PARAM_RULE_SMTP_USERNAME_MAX_LENGTH]),
         );
+    }
 
-        if ($authType === self::DEFAULT_PARAMETER_AUTH_TYPE) {
-            return $this->getValidationDecorator()->requiredParamRule(
-                $smtpUsernameRule
-            );
-        }
+    /**
+     * @return ParamRule
+     */
+    private function getSmtpPasswordRule(): ParamRule
+    {
+        return new ParamRule(
+            self::PARAMETER_SMTP_PASSWORD,
+            new Rule(Rules::STRING_TYPE),
+            new Rule(Rules::LENGTH, [null, self::PARAM_RULE_SMTP_PASSWORD_MAX_LENGTH]),
+        );
+    }
 
-        return $this->getValidationDecorator()->notRequiredParamRule(
-            $smtpUsernameRule,
-            true,
+    /**
+     * @return ParamRule
+     */
+    private function getSmtpAuthTypeRule(): ParamRule
+    {
+        return new ParamRule(
+            self::PARAMETER_SMTP_AUTH_TYPE,
+            new Rule(Rules::STRING_TYPE),
+            new Rule(Rules::LENGTH, [null, self::PARAM_RULE_SMTP_AUTH_TYPE_MAX_LENGTH]),
+            new Rule(Rules::IN, [self::PARAM_RULE_AUTH_TYPE_MAP])
         );
     }
 
@@ -345,8 +372,7 @@ class EmailConfigurationAPI extends Endpoint implements ResourceEndpoint
      */
     public function saveEmailConfigurationInfo(): EmailConfiguration
     {
-        $emailConfiguration = $this->getEmailConfigurationService()->getEmailConfigurationDao()->getEmailConfiguration(
-        );
+        $emailConfiguration = $this->getEmailConfigurationService()->getEmailConfigurationDao()->getEmailConfiguration();
         if ($emailConfiguration == null) {
             $emailConfiguration = new EmailConfiguration();
         }

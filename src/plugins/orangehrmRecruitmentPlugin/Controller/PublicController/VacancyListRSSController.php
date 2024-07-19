@@ -22,11 +22,13 @@ use DOMDocument;
 use DOMException;
 use OrangeHRM\Core\Controller\AbstractController;
 use OrangeHRM\Core\Controller\PublicControllerInterface;
+use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\Vacancy;
 use OrangeHRM\Framework\Http\Response;
 use OrangeHRM\Framework\Routing\UrlGenerator;
 use OrangeHRM\Framework\Services;
+use OrangeHRM\I18N\Traits\Service\I18NHelperTrait;
 use OrangeHRM\Recruitment\Traits\Service\VacancyServiceTrait;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -34,6 +36,8 @@ class VacancyListRSSController extends AbstractController implements PublicContr
 {
     use VacancyServiceTrait;
     use DateTimeHelperTrait;
+    use ConfigServiceTrait;
+    use I18NHelperTrait;
 
     public const CONTENT_TYPE_KEY = 'Content-Type';
     public const CONTENT_TYPE_XML = 'text/xml';
@@ -56,9 +60,9 @@ class VacancyListRSSController extends AbstractController implements PublicContr
      */
     private function generateRSSFeed(): string
     {
-        $siteName = 'Active Job Vacancies';
+        $siteName = $this->getI18NHelper()->transBySource('Active Job Vacancies');
         $siteDescription = '';
-        $language = 'en-us';
+        $language = $this->getConfigService()->getAdminLocalizationDefaultLanguage();
         $logoUrl = '';
 
         /** @var UrlGenerator $urlGenerator */

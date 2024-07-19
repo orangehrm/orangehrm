@@ -1,0 +1,40 @@
+GetOne:
+  get specification for job 1:
+    userId: 1
+    attributes:
+      jobTitleId: 1
+    data:
+      fileSize: 10
+      fileType: 'text/plain'
+      filename: 'Software architect spec'
+      id: 1
+    meta:
+      jobTitleId: 1
+
+  get specification for job 3:
+    userId: 1
+    attributes:
+      jobTitleId: 3
+    data:
+      fileSize: 10
+      fileType: 'application/pdf'
+      filename: 'QA spec'
+      id: 2
+    meta:
+      jobTitleId: 3
+
+  get specification for job 2:
+    userId: 1
+    attributes:
+      jobTitleId: 2
+    exception:
+      class: \OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException
+      message: Record Not Found
+
+  get specification for job 4:
+    userId: 1
+    attributes:
+      jobTitleId: 4
+    exception:
+      class: \OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException
+      message: Record Not Found

@@ -1,0 +1,21 @@
+Config:
+  - { name: 'authorize_user_role_manager_class', value: 'BasicUserRoleManager' }
+
+Employee:
+  - { empNumber: 1, firstName: 'Kayla', lastName: 'Abbey', middleName: 'T', employeeId: '0001' }
+
+UserRole:
+  - { id: 1, name: Admin, display_name: Admin, is_assignable: 1, is_predefined: 1 }
+
+User:
+  - { id: 1, user_role_id: 1, emp_number: 1, user_name: 'kayla', user_password: 'Kayla' }
+
+JobTitle:
+  - {id: 1, jobTitleName: 'Software Architect', isDeleted: 0}
+  - {id: 2, jobTitleName: 'Software Engineer', isDeleted: 0}
+  - {id: 3, jobTitleName: 'Quality Assurance', isDeleted: 0}
+  - {id: 4, jobTitleName: 'Sales Person', isDeleted: 1}
+
+JobSpecificationAttachment:
+  - {id: 1, job_title_id: 1, file_name: 'Software architect spec', file_type: 'text/plain', file_size: 10, file_content: ''}
+  - {id: 2, job_title_id: 3, file_name: 'QA spec', file_type: 'application/pdf', file_size: 10, file_content: ''}

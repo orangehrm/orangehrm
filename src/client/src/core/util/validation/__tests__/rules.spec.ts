@@ -563,6 +563,22 @@ describe('core/util/validation/rules::maxValueShouldBeGreaterThanMinValue', () =
     const result = maxValueShouldBeGreaterThanMinValue('', undefined)('');
     expect(result).toEqual(true);
   });
+
+  test('maxValueShouldBeGreaterThanMinValue:: should not allow when only value is empty string', () => {
+    const result = maxValueShouldBeGreaterThanMinValue(
+      '10000',
+      'Should be higher than Minimum Salary',
+    )('');
+    expect(result).toEqual('Should be higher than Minimum Salary');
+  });
+
+  test('maxValueShouldBeGreaterThanMinValue:: should not allow when the minimum is given and the value is 0', () => {
+    const result = maxValueShouldBeGreaterThanMinValue(
+      '10000',
+      'Should be higher than Minimum Salary',
+    )('0');
+    expect(result).toEqual('Should be higher than Minimum Salary');
+  });
 });
 
 describe('core/util/validation/rules::minValueShouldBeLowerThanMaxValue', () => {
@@ -589,6 +605,14 @@ describe('core/util/validation/rules::minValueShouldBeLowerThanMaxValue', () => 
 
   test('minValueShouldBeLowerThanMaxValue:: should allow minimum and maximum value to be an empty string literal', () => {
     const result = minValueShouldBeLowerThanMaxValue('', undefined)('');
+    expect(result).toEqual(true);
+  });
+
+  test('minValueShouldBeLowerThanMaxValue:: should allow if only value is empty string', () => {
+    const result = minValueShouldBeLowerThanMaxValue(
+      '10000',
+      'Should be lower than Maximum Salary',
+    )('');
     expect(result).toEqual(true);
   });
 });

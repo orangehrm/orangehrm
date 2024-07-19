@@ -79,6 +79,10 @@ class I18NTranslationImportAPI extends Endpoint implements CollectionEndpoint
      *     tags={"Admin/I18N Language Import"},
      *     summary="Import I18N language",
      *     operationId="import-i18n-language",
+     *     @OA\PathParameter(
+     *         name="languageId",
+     *         @OA\Schema(type="integer")
+     *     ),
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
@@ -126,11 +130,11 @@ class I18NTranslationImportAPI extends Endpoint implements CollectionEndpoint
                 $languageId,
                 $validLangStrings
             );
-            $this->getLocalizationService()->clearImportErrorsForLangStrings(
+            $this->getLocalizationService()->getLocalizationDao()->clearImportErrorsForLanguageAndEmpNumber(
                 $languageId,
-                $validLangStrings
+                $this->getAuthUser()->getEmpNumber()
             );
-            $this->getLocalizationService()->saveAndUpdateImportErrorLangStringsFromRows(
+            $this->getLocalizationService()->saveImportErrorLangStringsFromRows(
                 $languageId,
                 $this->getAuthUser()->getEmpNumber(),
                 $invalidLangStrings

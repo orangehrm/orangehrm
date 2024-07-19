@@ -2,6 +2,7 @@ GetOne:
   'with valid report name':
     userId: 1
     services:
+      leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
       core.class_helper: \OrangeHRM\Core\Helper\ClassHelper
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
@@ -85,6 +86,7 @@ GetOne:
   'with my_leave_entitlements_and_usage report name':
     userId: 1
     services:
+      leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
       core.class_helper: \OrangeHRM\Core\Helper\ClassHelper
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
@@ -174,3 +176,21 @@ GetOne:
     exception:
       class: '\OrangeHRM\Core\Api\V2\Exception\BadRequestException'
       message: 'Invalid report name'
+
+GetOneWithNoLeavePeriod:
+  'without defining the leave period':
+    userId: 1
+    services:
+      leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
+      core.class_helper: \OrangeHRM\Core\Helper\ClassHelper
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: 'employee_leave_entitlements_and_usage'
+    exception:
+      class: \OrangeHRM\Core\Api\V2\Exception\BadRequestException
+      message: Leave period is not defined

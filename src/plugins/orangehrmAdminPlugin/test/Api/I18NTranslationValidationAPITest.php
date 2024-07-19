@@ -28,6 +28,10 @@ use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
 use OrangeHRM\Tests\Util\Integration\TestCaseParams;
 use OrangeHRM\Tests\Util\TestDataService;
 
+/**
+ * @group Admin
+ * @group APIv2
+ */
 class I18NTranslationValidationAPITest extends EndpointIntegrationTestCase
 {
     protected function setUp(): void

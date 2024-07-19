@@ -19,6 +19,11 @@
 
 <template>
   <div class="orangehrm-background-container">
+    <oxd-alert
+      :show="!isLoading && showPaginator && itemsModified"
+      type="info"
+      :message="$t('admin.please_save_before_pagination')"
+    ></oxd-alert>
     <div class="orangehrm-paper-container">
       <oxd-form
         v-if="total > 0"
@@ -31,7 +36,7 @@
             {{ $t('admin.errors_in_import_language_packages') }}
           </oxd-text>
           <oxd-pagination
-            v-if="showPaginator"
+            v-if="showPaginator && !itemsModified"
             :key="currentPage"
             v-model:current="currentPage"
             :length="pages"
@@ -46,6 +51,7 @@
         <edit-translations
           v-if="items?.data"
           v-model:langstrings="items.data"
+          @update:langstrings="checkItemsModified"
         ></edit-translations>
         <oxd-form-actions>
           <div class="orangehrm-bottom-container">
@@ -77,10 +83,13 @@ import {APIService} from '@/core/util/services/api.service';
 import FixLanguageStringErrorTable from '@/orangehrmAdminPlugin/components/FixLanguageStringErrorTable.vue';
 import usePaginate from '@/core/util/composable/usePaginate';
 import {navigate} from '@/core/util/helper/navigation';
+import {ref} from 'vue';
+import {OxdAlert} from '@ohrm/oxd';
 
 export default {
   name: 'FixLanguageStringErrors',
   components: {
+    'oxd-alert': OxdAlert,
     'edit-translations': FixLanguageStringErrorTable,
   },
   props: {
@@ -119,10 +128,23 @@ export default {
       isLoading,
       execQuery,
     } = usePaginate(http);
+
+    const itemsModified = ref(false);
+
     const onReset = () => {
       currentPage.value = 1;
+      itemsModified.value = false;
       execQuery();
     };
+
+    const checkItemsModified = () => {
+      itemsModified.value = items.value.data.reduce(
+        (accumulator, item) =>
+          accumulator || (item.target !== '' && item.modified === true),
+        false,
+      );
+    };
+
     const onSubmitLangString = () => {
       isLoading.value = true;
       http
@@ -145,6 +167,7 @@ export default {
         })
         .then(() => {
           currentPage.value = 1;
+          itemsModified.value = false;
           execQuery();
         });
     };
@@ -158,6 +181,8 @@ export default {
       items,
       onReset,
       onSubmitLangString,
+      itemsModified,
+      checkItemsModified,
     };
   },
 

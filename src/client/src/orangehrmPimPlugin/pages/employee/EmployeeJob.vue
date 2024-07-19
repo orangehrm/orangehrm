@@ -135,7 +135,9 @@
                   :file="contract.oldAttachment"
                   :rules="rules.contractAttachment"
                   :url="`pim/viewAttachment/empNumber/${empNumber}/attachId`"
-                  hint="Accepts up to 1MB"
+                  :hint="
+                    $t('general.accepts_up_to_n_mb', {count: formattedFileSize})
+                  "
                   :disabled="!hasUpdatePermissions"
                 />
               </oxd-grid-item>
@@ -350,6 +352,9 @@ export default {
             locale: this.locale,
           })
         : null;
+    },
+    formattedFileSize() {
+      return Math.round((this.maxFileSize / (1024 * 1024)) * 100) / 100;
     },
   },
 

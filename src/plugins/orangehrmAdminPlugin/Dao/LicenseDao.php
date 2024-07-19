@@ -121,4 +121,19 @@ class LicenseDao extends BaseDao
         }
         return false;
     }
+
+    /**
+     * @param int[] $ids
+     * @return int[]
+     */
+    public function getExistingLicenseIds(array $ids): array
+    {
+        $qb = $this->createQueryBuilder(License::class, 'license');
+
+        $qb->select('license.id')
+            ->andWhere($qb->expr()->in('license.id', ':ids'))
+            ->setParameter('ids', $ids);
+
+        return $qb->getQuery()->getSingleColumnResult();
+    }
 }

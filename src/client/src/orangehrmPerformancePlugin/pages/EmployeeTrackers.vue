@@ -106,15 +106,6 @@ import {
   validSelection,
 } from '@/core/util/validation/rules';
 
-const defaultFilters = {
-  empName: null,
-  includeEmployees: {
-    id: 1,
-    param: 'onlyCurrent',
-    label: 'Current Employees Only',
-  },
-};
-
 const defaultSortOrder = {
   'employee.lastName': 'DEFAULT',
   'tracker.trackerName': 'DEFAULT',
@@ -148,6 +139,15 @@ export default {
           }),
         };
       });
+    };
+
+    const defaultFilters = {
+      empName: null,
+      includeEmployees: {
+        id: 1,
+        param: 'onlyCurrent',
+        label: $t('general.current_employees_only'),
+      },
     };
 
     const filters = ref({...defaultFilters});

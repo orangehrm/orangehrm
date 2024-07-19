@@ -142,7 +142,9 @@
               :file="vacancyAttachment.oldAttachment"
               :rules="rules.addAttachment"
               :url="`recruitment/vacancyAttachment/attachId`"
-              :hint="$t('general.accepts_up_to_1mb')"
+              :hint="
+                $t('general.accepts_up_to_n_mb', {count: formattedFileSize})
+              "
               required
             />
           </oxd-grid-item>
@@ -193,7 +195,9 @@
               :file="vacancyAttachment.oldAttachment"
               :rules="rules.updateAttachment"
               :url="`recruitment/viewVacancyAttachment/attachId`"
-              :hint="$t('general.accepts_up_to_1mb')"
+              :hint="
+                $t('general.accepts_up_to_n_mb', {count: formattedFileSize})
+              "
               :deletable="false"
               required
             />
@@ -469,6 +473,11 @@ export default {
       rssFeedUrl: `${basePath}/recruitmentApply/jobs.rss`,
       webUrl: `${basePath}/recruitmentApply/jobs.html`,
     };
+  },
+  computed: {
+    formattedFileSize() {
+      return Math.round((this.maxFileSize / (1024 * 1024)) * 100) / 100;
+    },
   },
   created() {
     this.isLoading = true;

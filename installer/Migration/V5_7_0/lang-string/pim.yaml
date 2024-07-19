@@ -1,0 +1,13 @@
+langStrings:
+  -
+    value: 'Single'
+    unitId: single
+  -
+    value: 'Married'
+    unitId: married
+  -
+    value: 'Direct'
+    unitId: direct
+  -
+    value: 'Indirect'
+    unitId: indirect

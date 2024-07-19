@@ -184,14 +184,14 @@ class LocalizationService
      * @param int $empNumber
      * @param array $rows
      */
-    public function saveAndUpdateImportErrorLangStringsFromRows(int $languageId, int $empNumber, array $rows): void
+    public function saveImportErrorLangStringsFromRows(int $languageId, int $empNumber, array $rows): void
     {
         $i18NImportErrors = $this->createImportErrorItemsFromRows(
             $languageId,
             $empNumber,
             $rows
         );
-        $this->getLocalizationDao()->saveAndUpdateImportErrorLangStrings($i18NImportErrors, $languageId, $empNumber);
+        $this->getLocalizationDao()->saveImportErrorLangStrings($i18NImportErrors);
     }
 
     /**
@@ -237,14 +237,13 @@ class LocalizationService
             if (!(isset($row['langStringId'])) || !(isset($row['errorName']))) {
                 throw new LogicException('langStringId and errorName are required');
             }
-            $key = $row['langStringId'] . '_' . $row['errorName'] . '_' . $languageId . '_' . $empNumber;
             $importError = new I18NImportError();
             $importError->getDecorator()->setLangStringById($row['langStringId']);
             $importError->getDecorator()->setErrorByName($row['errorName']);
             $importError->getDecorator()->setLanguageById($languageId);
             $importError->getDecorator()->setImportedEmployeeByEmpNumber($empNumber);
 
-            $i18NImportErrors[$key] = $importError;
+            $i18NImportErrors[] = $importError;
         }
 
         return $i18NImportErrors;
@@ -323,8 +322,8 @@ class LocalizationService
                     $source = $xml->createElement('source');
                     $target = $xml->createElement('target');
 
-                    $source->appendChild(new \DOMText(htmlspecialchars($translation['source'])));
-                    $target->appendChild(new \DOMText(htmlspecialchars($translation['target'] ?? '')));
+                    $source->appendChild(new \DOMText($translation['source']));
+                    $target->appendChild(new \DOMText($translation['target'] ?? ''));
 
                     $segment->appendChild($source);
                     $segment->appendChild($target);
@@ -446,7 +445,11 @@ class LocalizationService
         $document = new \DOMDocument();
         $document->loadXML($content);
 
-        if (count(XliffUtils::validateSchema($document)) > 0) {
+        $version = !is_null($document->getElementsByTagName('xliff')[0]) ?
+            $document->getElementsByTagName('xliff')[0]->getAttribute("version") :
+            "";
+
+        if ($version !== "2.0" || count(XliffUtils::validateSchema($document)) > 0) {
             throw XliffFileProcessFailedException::validationFailed();
         }
 

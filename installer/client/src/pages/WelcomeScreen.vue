@@ -66,6 +66,7 @@
   </oxd-form>
   <database-config-dialog
     v-if="showModal"
+    :product-version="productversion"
     @close-model="closeModel"
   ></database-config-dialog>
 </template>

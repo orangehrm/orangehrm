@@ -41,6 +41,18 @@ class Migration extends AbstractMigration
 
         $this->deleteUnusedLangStrings();
 
+        $this->deleteLangStringTranslationByLangStringUnitId('accepts_up_to_1mb', $this->getLangHelper()->getGroupIdByName('general'));
+        $this->getLangHelper()->deleteLangStringByUnitId(
+            'accepts_up_to_1mb',
+            $this->getLangHelper()->getGroupIdByName('general')
+        );
+
+        $this->deleteLangStringTranslationByLangStringUnitId('accept_custom_format_file', $this->getLangHelper()->getGroupIdByName('general'));
+        $this->getLangHelper()->deleteLangStringByUnitId(
+            'accept_custom_format_file',
+            $this->getLangHelper()->getGroupIdByName('general')
+        );
+
         $localizationDataGroupId = $this->getDataGroupHelper()->getDataGroupIdByName(
             'apiv2_admin_localization_languages'
         );
@@ -59,7 +71,7 @@ class Migration extends AbstractMigration
             ->setParameter('value', 1)
             ->executeQuery();
 
-        $groups = ['admin'];
+        $groups = ['admin', 'pim', 'recruitment', 'general'];
         foreach ($groups as $group) {
             $this->getLangStringHelper()->insertOrUpdateLangStrings(__DIR__, $group);
         }

@@ -256,53 +256,12 @@ class LocalizationDao extends BaseDao
     }
 
     /**
-     * @param array<string, I18NImportError> $i18NImportErrorStrings
-     * @param int $languageId
-     * @param int $empNumber
+     * @param I18NImportError[] $i18NImportErrors
      */
-    public function saveAndUpdateImportErrorLangStrings(array $i18NImportErrorStrings, int $languageId, int $empNumber): void
+    public function saveImportErrorLangStrings(array $i18NImportErrors): void
     {
-        $qb = $this->createQueryBuilder(I18NImportError::class, 'importError');
-
-        foreach ($i18NImportErrorStrings as $index => $langStringError) {
-            $langStringParam = 'langStringParam_' . $index;
-            $errorNameParam = 'errorNameParam_' . $index;
-            $languageParam = 'languageParam_' . $index;
-            $empNumberParam = 'empNumberParam_' . $index;
-
-            $qb->orWhere(
-                $qb->expr()->andX(
-                    $qb->expr()->eq('importError.langString', ':' . $langStringParam),
-                    $qb->expr()->eq('importError.error', ':' . $errorNameParam),
-                    $qb->expr()->eq('importError.language', ':' . $languageParam),
-                    $qb->expr()->eq('importError.importedBy', ':' . $empNumberParam)
-                )
-            );
-
-            $qb->setParameter($langStringParam, $langStringError->getLangString()->getId());
-            $qb->setParameter($errorNameParam, $langStringError->getError()->getName());
-            $qb->setParameter($languageParam, $languageId);
-            $qb->setParameter($empNumberParam, $empNumber);
-        }
-
-        /** @var array<string, I18NImportError> $updatableImportErrors */
-        $updatableImportErrors = [];
-        /** @var I18NImportError $updatableImportError */
-        foreach ($qb->getQuery()->execute() as $updatableImportError) {
-            $key = $updatableImportError->getLangString()->getId() . '_' .
-                $updatableImportError->getError()->getName() . '_' .
-                $updatableImportError->getLanguage()->getId() . '_' .
-                $updatableImportError->getImportedBy()->getEmpNumber();
-            $updatableImportErrors[$key] = $updatableImportError;
-        }
-
-        foreach ($i18NImportErrorStrings as $index => $langStringError) {
-            if (isset($updatableImportErrors[$index])) {
-                $updatableImportErrors[$index]->setError($langStringError->getError());
-                $this->getEntityManager()->persist($updatableImportErrors[$index]);
-                continue;
-            }
-            $this->getEntityManager()->persist($langStringError);
+        foreach ($i18NImportErrors as $importError) {
+            $this->getEntityManager()->persist($importError);
         }
         $this->getEntityManager()->flush();
     }
@@ -362,6 +321,22 @@ class LocalizationDao extends BaseDao
             ->andWhere($qb->expr()->in('importError.langString', ':langStringIds'))
             ->setParameter('languageId', $languageId)
             ->setParameter('langStringIds', $langStringIds);
+
+        $qb->getQuery()->execute();
+    }
+
+    /**
+     * @param int $languageId
+     * @param int $empNumber
+     */
+    public function clearImportErrorsForLanguageAndEmpNumber(int $languageId, int $empNumber): void
+    {
+        $qb = $this->createQueryBuilder(I18NImportError::class, 'importError');
+        $qb->delete()
+            ->andWhere($qb->expr()->eq('importError.language', ':languageId'))
+            ->andWhere($qb->expr()->eq('importError.importedBy', ':empNumber'))
+            ->setParameter('languageId', $languageId)
+            ->setParameter('empNumber', $empNumber);
 
         $qb->getQuery()->execute();
     }

@@ -58,14 +58,6 @@ class MembershipAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     * @param MembershipService $membershipService
-     */
-    public function setMembershipService(MembershipService $membershipService): void
-    {
-        $this->membershipService = $membershipService;
-    }
-
-    /**
      * @OA\Get(
      *     path="/api/v2/admin/memberships/{id}",
      *     tags={"Admin/Memberships"},
@@ -298,21 +290,6 @@ class MembershipAPI extends Endpoint implements CrudEndpoint
                 new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NAME_MAX_LENGTH]),
                 new Rule(Rules::ENTITY_UNIQUE_PROPERTY, [Membership::class, 'name', $uniqueOption])
             )
-        );
-    }
-
-    /**
-     * @return ParamRuleCollection
-     */
-    public function getValidationRuleForSaveMembership(): ParamRuleCollection
-    {
-        return new ParamRuleCollection(
-            new ParamRule(CommonParams::PARAMETER_ID),
-            new ParamRule(
-                self::PARAMETER_NAME,
-                new Rule(Rules::STRING_TYPE),
-                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NAME_MAX_LENGTH]),
-            ),
         );
     }
 

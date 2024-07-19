@@ -49,7 +49,6 @@ class LicenseAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @return LicenseService
-     * @throws Exception
      */
     public function getLicenseService(): LicenseService
     {
@@ -57,14 +56,6 @@ class LicenseAPI extends Endpoint implements CrudEndpoint
             $this->licenseService = new LicenseService();
         }
         return $this->licenseService;
-    }
-
-    /**
-     * @param LicenseService $licenseService
-     */
-    public function setLicenseService(LicenseService $licenseService): void
-    {
-        $this->licenseService = $licenseService;
     }
 
     /**
@@ -318,8 +309,10 @@ class LicenseAPI extends Endpoint implements CrudEndpoint
      */
     public function delete(): EndpointResourceResult
     {
-        $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
-        $this->throwRecordNotFoundExceptionIfEntityIdsNotExist($ids, License::class);
+        $ids = $this->getLicenseService()->getLicenseDao()->getExistingLicenseIds(
+            $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS)
+        );
+        $this->throwRecordNotFoundExceptionIfEmptyIds($ids);
         $this->getLicenseService()->deleteLicenses($ids);
         return new EndpointResourceResult(ArrayModel::class, $ids);
     }

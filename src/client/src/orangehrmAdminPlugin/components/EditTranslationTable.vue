@@ -97,8 +97,14 @@ export default {
       context.emit(
         'update:langstrings',
         props.langstrings.map((item, _index) => {
+          let oldTarget = item.modified ? item.oldTarget : item.target ?? '';
           if (_index === index) {
-            return {...item, target: value, modified: true};
+            return {
+              ...item,
+              target: value,
+              oldTarget: oldTarget,
+              modified: true,
+            };
           }
           return item;
         }),

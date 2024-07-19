@@ -1,0 +1,408 @@
+GetAll:
+  with no params:
+    userId: 1
+    data:
+      - id: 3
+        title: Quality Assurance
+        description: null
+        note: null
+        jobSpecification:
+          id: null
+          filename: null
+          fileType: null
+          fileSize: null
+      - id: 1
+        title: Software Architect
+        description: null
+        note: null
+        jobSpecification:
+          id: 1
+          filename: Software architect spec
+          fileType: '.txt'
+          fileSize: 10
+      - id: 2
+        title: Software Engineer
+        description: null
+        note: null
+        jobSpecification:
+          id: null
+          filename: null
+          fileType: null
+          fileSize: null
+    meta:
+      total: 3
+
+  with limit 2:
+    userId: 1
+    query:
+      limit: 2
+    data:
+      - id: 3
+        title: Quality Assurance
+        description: null
+        note: null
+        jobSpecification:
+          id: null
+          filename: null
+          fileType: null
+          fileSize: null
+      - id: 1
+        title: Software Architect
+        description: null
+        note: null
+        jobSpecification:
+          id: 1
+          filename: Software architect spec
+          fileType: '.txt'
+          fileSize: 10
+    meta:
+      total: 3
+
+  with limit 2 and offset 1:
+    userId: 1
+    query:
+      limit: 2
+      offset: 1
+    data:
+      - id: 1
+        title: Software Architect
+        description: null
+        note: null
+        jobSpecification:
+          id: 1
+          filename: Software architect spec
+          fileType: '.txt'
+          fileSize: 10
+      - id: 2
+        title: Software Engineer
+        description: null
+        note: null
+        jobSpecification:
+          id: null
+          filename: null
+          fileType: null
+          fileSize: null
+    meta:
+      total: 3
+
+  with sort order DESC:
+    userId: 1
+    query:
+      sortField: 'jt.jobTitleName'
+      sortOrder: DESC
+    data:
+      - id: 2
+        title: Software Engineer
+        description: null
+        note: null
+        jobSpecification:
+          id: null
+          filename: null
+          fileType: null
+          fileSize: null
+      - id: 1
+        title: Software Architect
+        description: null
+        note: null
+        jobSpecification:
+          id: 1
+          filename: Software architect spec
+          fileType: '.txt'
+          fileSize: 10
+      - id: 3
+        title: Quality Assurance
+        description: null
+        note: null
+        jobSpecification:
+          id: null
+          filename: null
+          fileType: null
+          fileSize: null
+    meta:
+      total: 3
+
+  with invalid sort field:
+    userId: 1
+    query:
+      sortField: 'jt.id'
+    invalidOnly: [ sortField ]
+
+GetOne:
+  with valid id:
+    userId: 1
+    attributes:
+      id: 1
+    data:
+      id: 1
+      title: Software Architect
+      description: null
+      note: null
+      jobSpecification:
+        id: 1
+        filename: Software architect spec
+        fileType: '.txt'
+        fileSize: 10
+
+  with non existent id:
+    userId: 1
+    attributes:
+      id: 1000
+    exception:
+      class: \OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException
+      message: Record Not Found
+
+  missing id:
+    userId: 1
+    exception:
+      class: \OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException
+      message: Record Not Found
+
+Create:
+  create with valid title:
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    body:
+      title: Senior Software Engineer
+      description: Description of SSE
+      note: Some Note
+    data:
+      id: 5
+      title: Senior Software Engineer
+      description: Description of SSE
+      note: Some Note
+      jobSpecification:
+        id: null
+        filename: null
+        fileSize: null
+        fileType: null
+
+  create with only title:
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    body:
+      title: Senior Software Engineer
+    data:
+      id: 5
+      title: Senior Software Engineer
+      description: null
+      note: null
+      jobSpecification:
+        id: null
+        filename: null
+        fileSize: null
+        fileType: null
+
+  create with existing title:
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    body:
+      title: Software Architect
+    invalidOnly: [ title ]
+
+  create with existing deleted title:
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    body:
+      title: Sales Person
+    data:
+      id: 5
+      title: Sales Person
+      description: null
+      note: null
+      jobSpecification:
+        id: null
+        filename: null
+        fileSize: null
+        fileType: null
+
+  create without title:
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    body:
+      description: Description
+      note: Note
+    invalidOnly: [ title ]
+
+  create with empty title:
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    body:
+      title: '    '
+    invalidOnly: [ title ]
+
+  create with empty description and note:
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    body:
+      title: Senior Software Engineer
+      description: '   '
+      note: '    '
+    invalidOnly: [ description, note ]
+
+  create with title over 100 chars:
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    body:
+      title: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean ma'
+    invalidOnly: [ title ]
+
+  create with description and note over 400 chars:
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    body:
+      title: Senior Software Engineer
+      description: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a,'
+      note: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a,'
+    invalidOnly: [ description, note ]
+
+  create with specification:
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    body:
+      title: Senior Software Engineer
+      specification:
+        base64: 'JVBERi0xLjQKJdPr6eEKMSAwIG9iago8PC9UaXRsZSAoVGVzdCAtIEdvb2dsZSBEb2NzKQovQ3JlYXRvciAoTW96aWxsYS81LjAgXChYMTE7IExpbnV4IHg4Nl82NFwpIEFwcGxlV2ViS2l0LzUzNy4zNiBcKEtIVE1MLCBsaWtlIEdlY2tvXCkgQ2hyb21lLzEyNi4wLjAuMCBTYWZhcmkvNTM3LjM2KQovUHJvZHVjZXIgKFNraWEvUERGIG0xMjYpCi9DcmVhdGlvbkRhdGUgKEQ6MjAyNDA3MTcwMzIwMjMrMDAnMDAnKQovTW9kRGF0ZSAoRDoyMDI0MDcxNzAzMjAyMyswMCcwMCcpPj4KZW5kb2JqCjMgMCBvYmoKPDwvY2EgMQovQk0gL05vcm1hbD4+CmVuZG9iago1IDAgb2JqCjw8L0ZpbHRlciAvRmxhdGVEZWNvZGUKL0xlbmd0aCA0MDc+PiBzdHJlYW0KeJyllG1L5DAQx9/nU8xr4dKZZCYPUAq7XSv3QjjPwr2WPV04XNFVwY8vTZfdip2TxZZCOr9k/vOQxDqfywMICD/s5DdmB+uteTIDcSII3uVgUxTY3Zo/Z/Bgnoy35KSsPY7WW0MwvL8vYBzsNqa68LB5Lr4SBSCUMLi5KxYcpo6D3cYse1P9grquLtufK0BomuWqNdX1481DXVeL9cvrzX1/+/YCdXfedQ7dqoGmgTKpYyC2QYYcEvR3hsbECPIgmm2USIGh35oaEX0D/T9zftmWMPq/UCP6WIzJZnHBkRwAL/eAhAhjOoK2AG+dBOLsD0BCAdF6l8bqjPa9LluMlKPEo6esAU2COw0kJVpVXBYFEFpJ7CL776hrQE9dtOqenAgrZReneBLSQJ73pMYkso8pJQwsExC1YDVXHE/OW92Han5aVGqpdHE+dYUfQbYxSkB2B+CithFdVs7m6SdK3wxaCz9oZJovYkCeb637+lrQHU0bGzjMN3aiwIt5O43z/3OXtoe79HMYk+uyfL25MlfmHUfFVYcKZW5kc3RyZWFtCmVuZG9iagoyIDAgb2JqCjw8L1R5cGUgL1BhZ2UKL1Jlc291cmNlcyA8PC9Qcm9jU2V0IFsvUERGIC9UZXh0IC9JbWFnZUIgL0ltYWdlQyAvSW1hZ2VJXQovRXh0R1N0YXRlIDw8L0czIDMgMCBSPj4KL0ZvbnQgPDwvRjQgNCAwIFI+Pj4+Ci9NZWRpYUJveCBbMCAwIDYxMiA3OTJdCi9Db250ZW50cyA1IDAgUgovU3RydWN0UGFyZW50cyAwCi9QYXJlbnQgNiAwIFI+PgplbmRvYmoKNiAwIG9iago8PC9UeXBlIC9QYWdlcwovQ291bnQgMQovS2lkcyBbMiAwIFJdPj4KZW5kb2JqCjcgMCBvYmoKPDwvIFsyIDAgUiAvWFlaIDAgNzkyIDBdPj4KZW5kb2JqCjEyIDAgb2JqCjw8L1R5cGUgL1N0cnVjdEVsZW0KL1MgL05vblN0cnVjdAovUCAxMSAwIFIKL0sgWzw8L1R5cGUgL01DUgovUGcgMiAwIFIKL01DSUQgMD4+XQovSUQgKG5vZGUwMDAwMDIzMSk+PgplbmRvYmoKMTEgMCBvYmoKPDwvVHlwZSAvU3RydWN0RWxlbQovUyAvRGl2Ci9QIDEwIDAgUgovSyBbMTIgMCBSXQovSUQgKG5vZGUwMDAwNDYyNCk+PgplbmRvYmoKMTAgMCBvYmoKPDwvVHlwZSAvU3RydWN0RWxlbQovUyAvTm9uU3RydWN0Ci9QIDkgMCBSCi9LIFsxMSAwIFJdCi9JRCAobm9kZTAwMDAwMjUzKT4+CmVuZG9iago5IDAgb2JqCjw8L1R5cGUgL1N0cnVjdEVsZW0KL1MgL0RvY3VtZW50Ci9MYW5nIChlbikKL1AgOCAwIFIKL0sgWzEwIDAgUl0KL0lEIChub2RlMDAwMDAwMzMpPj4KZW5kb2JqCjEzIDAgb2JqClsxMiAwIFJdCmVuZG9iagoxNCAwIG9iago8PC9UeXBlIC9QYXJlbnRUcmVlCi9OdW1zIFswIDEzIDAgUl0+PgplbmRvYmoKMTUgMCBvYmoKPDwvTGltaXRzIFsobm9kZTAwMDAwMDMzKSAobm9kZTAwMDA0NjI0KV0KL05hbWVzIFsobm9kZTAwMDAwMDMzKSA5IDAgUiAobm9kZTAwMDAwMjMxKSAxMiAwIFIgKG5vZGUwMDAwMDI1MykgMTAgMCBSIChub2RlMDAwMDQ2MjQpIDExIDAgUl0+PgplbmRvYmoKMTYgMCBvYmoKPDwvS2lkcyBbMTUgMCBSXT4+CmVuZG9iago4IDAgb2JqCjw8L1R5cGUgL1N0cnVjdFRyZWVSb290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MCAyMjIuMTY3OTcgMCA1NTYuMTUyMzQgNTU2LjE1MjM0IDAgMCAzMzMuMDA3ODFdIDg3IFsyNzcuODMyMDNdIDkwIFs3MjIuMTY3OTddXQovRFcgNTAwPj4KZW5kb2JqCjIxIDAgb2JqCjw8L0ZpbHRlciAvRmxhdGVEZWNvZGUKL0xlbmd0aCAzMDM+PiBzdHJlYW0KeJxdkU1qwzAQhfc6xSyTRZDsWAkFYwhKDV70h7o5gCONXUEtC1lZ+PbFmjSFLiT4xu9pnme4as6NsxH4e5h0ixF660zAeboFjXDFwTqW5WCsjndKtx47z7hqzu0yRxwb10+sLAH4Bw52jmGBzclMV9wy/hYMBusG2FxUu2W8vXn/jSO6CIJVFRjsGVcvnX/tRgSebLvGoIs2LruLav8Un4tHyBNnlEZPBmffaQydG5CVQghRQVnXdV0xdObf9yO5rr3+6kJS7ysohchFtVKWET0nyo+JioLoieiQaE8+Sb49KSUpizrRQaUE917Fb+dH0KKgBxWps+SVlEDmVKQgUlKRuhxzKlIeeaLi4d6Mnl//fN3QY6z6FgK6mNaYRrkO0Tp8bNpPfnWt5wekK5lPCmVuZHN0cmVhbQplbmRvYmoKNCAwIG9iago8PC9UeXBlIC9Gb250Ci9TdWJ0eXBlIC9UeXBlMAovQmFzZUZvbnQgL0FBQUFBQStMaWJlcmF0aW9uU2FucwovRW5jb2RpbmcgL0lkZW50aXR5LUgKL0Rlc2NlbmRhbnRGb250cyBbMjAgMCBSXQovVG9Vbmljb2RlIDIxIDAgUj4+CmVuZG9iagp4cmVmCjAgMjIKMDAwMDAwMDAwMCA2NTUzNSBmIAowMDAwMDAwMDE1IDAwMDAwIG4gCjAwMDAwMDA3OTQgMDAwMDAgbiAKMDAwMDAwMDI4MCAwMDAwMCBuIAowMDAwMDA5NDcxIDAwMDAwIG4gCjAwMDAwMDAzMTcgMDAwMDAgbiAKMDAwMDAwMTAwMiAwMDAwMCBuIAowMDAwMDAxMDU3IDAwMDAwIG4gCjAwMDAwMDE3NjkgMDAwMDAgbiAKMDAwMDAwMTM5NyAwMDAwMCBuIAowMDAwMDAxMzA1IDAwMDAwIG4gCjAwMDAwMDEyMTggMDAwMDAgbiAKMDAwMDAwMTA5OSAwMDAwMCBuIAowMDAwMDAxNDk4IDAwMDAwIG4gCjAwMDAwMDE1MjMgMDAwMDAgbiAKMDAwMDAwMTU3OCAwMDAwMCBuIAowMDAwMDAxNzM0IDAwMDAwIG4gCjAwMDAwMDE4NzQgMDAwMDAgbiAKMDAwMDAwMjA4MSAwMDAwMCBuIAowMDAwMDA4MzkyIDAwMDAwIG4gCjAwMDAwMDg2NDAgMDAwMDAgbiAKMDAwMDAwOTA5NyAwMDAwMCBuIAp0cmFpbGVyCjw8L1NpemUgMjIKL1Jvb3QgMTcgMCBSCi9JbmZvIDEgMCBSPj4Kc3RhcnR4cmVmCjk2MTcKJSVFT0YK'
+        name: 'test.pdf'
+        type: 'application/pdf'
+        size: 10134
+    data:
+      id: 5
+      title: Senior Software Engineer
+      description: null
+      note: null
+      jobSpecification:
+        id: 2
+        filename: 'test.pdf'
+        fileSize: 10134
+        fileType: 'application/pdf'
+
+  create with invalid specification size:
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    body:
+      title: Senior Software Engineer
+      specification:
+        base64: 'JVBERi0xLjQKJdPr6eEKMSAwIG9iago8PC9UaXRsZSAoVGVzdCAtIEdvb2dsZSBEb2NzKQovQ3JlYXRvciAoTW96aWxsYS81LjAgXChYMTE7IExpbnV4IHg4Nl82NFwpIEFwcGxlV2ViS2l0LzUzNy4zNiBcKEtIVE1MLCBsaWtlIEdlY2tvXCkgQ2hyb21lLzEyNi4wLjAuMCBTYWZhcmkvNTM3LjM2KQovUHJvZHVjZXIgKFNraWEvUERGIG0xMjYpCi9DcmVhdGlvbkRhdGUgKEQ6MjAyNDA3MTcwMzIwMjMrMDAnMDAnKQovTW9kRGF0ZSAoRDoyMDI0MDcxNzAzMjAyMyswMCcwMCcpPj4KZW5kb2JqCjMgMCBvYmoKPDwvY2EgMQovQk0gL05vcm1hbD4+CmVuZG9iago1IDAgb2JqCjw8L0ZpbHRlciAvRmxhdGVEZWNvZGUKL0xlbmd0aCA0MDc+PiBzdHJlYW0KeJyllG1L5DAQx9/nU8xr4dKZZCYPUAq7XSv3QjjPwr2WPV04XNFVwY8vTZfdip2TxZZCOr9k/vOQxDqfywMICD/s5DdmB+uteTIDcSII3uVgUxTY3Zo/Z/Bgnoy35KSsPY7WW0MwvL8vYBzsNqa68LB5Lr4SBSCUMLi5KxYcpo6D3cYse1P9grquLtufK0BomuWqNdX1481DXVeL9cvrzX1/+/YCdXfedQ7dqoGmgTKpYyC2QYYcEvR3hsbECPIgmm2USIGh35oaEX0D/T9zftmWMPq/UCP6WIzJZnHBkRwAL/eAhAhjOoK2AG+dBOLsD0BCAdF6l8bqjPa9LluMlKPEo6esAU2COw0kJVpVXBYFEFpJ7CL776hrQE9dtOqenAgrZReneBLSQJ73pMYkso8pJQwsExC1YDVXHE/OW92Han5aVGqpdHE+dYUfQbYxSkB2B+CithFdVs7m6SdK3wxaCz9oZJovYkCeb637+lrQHU0bGzjMN3aiwIt5O43z/3OXtoe79HMYk+uyfL25MlfmHUfFVYcKZW5kc3RyZWFtCmVuZG9iagoyIDAgb2JqCjw8L1R5cGUgL1BhZ2UKL1Jlc291cmNlcyA8PC9Qcm9jU2V0IFsvUERGIC9UZXh0IC9JbWFnZUIgL0ltYWdlQyAvSW1hZ2VJXQovRXh0R1N0YXRlIDw8L0czIDMgMCBSPj4KL0ZvbnQgPDwvRjQgNCAwIFI+Pj4+Ci9NZWRpYUJveCBbMCAwIDYxMiA3OTJdCi9Db250ZW50cyA1IDAgUgovU3RydWN0UGFyZW50cyAwCi9QYXJlbnQgNiAwIFI+PgplbmRvYmoKNiAwIG9iago8PC9UeXBlIC9QYWdlcwovQ291bnQgMQovS2lkcyBbMiAwIFJdPj4KZW5kb2JqCjcgMCBvYmoKPDwvIFsyIDAgUiAvWFlaIDAgNzkyIDBdPj4KZW5kb2JqCjEyIDAgb2JqCjw8L1R5cGUgL1N0cnVjdEVsZW0KL1MgL05vblN0cnVjdAovUCAxMSAwIFIKL0sgWzw8L1R5cGUgL01DUgovUGcgMiAwIFIKL01DSUQgMD4+XQovSUQgKG5vZGUwMDAwMDIzMSk+PgplbmRvYmoKMTEgMCBvYmoKPDwvVHlwZSAvU3RydWN0RWxlbQovUyAvRGl2Ci9QIDEwIDAgUgovSyBbMTIgMCBSXQovSUQgKG5vZGUwMDAwNDYyNCk+PgplbmRvYmoKMTAgMCBvYmoKPDwvVHlwZSAvU3RydWN0RWxlbQovUyAvTm9uU3RydWN0Ci9QIDkgMCBSCi9LIFsxMSAwIFJdCi9JRCAobm9kZTAwMDAwMjUzKT4+CmVuZG9iago5IDAgb2JqCjw8L1R5cGUgL1N0cnVjdEVsZW0KL1MgL0RvY3VtZW50Ci9MYW5nIChlbikKL1AgOCAwIFIKL0sgWzEwIDAgUl0KL0lEIChub2RlMDAwMDAwMzMpPj4KZW5kb2JqCjEzIDAgb2JqClsxMiAwIFJdCmVuZG9iagoxNCAwIG9iago8PC9UeXBlIC9QYXJlbnRUcmVlCi9OdW1zIFswIDEzIDAgUl0+PgplbmRvYmoKMTUgMCBvYmoKPDwvTGltaXRzIFsobm9kZTAwMDAwMDMzKSAobm9kZTAwMDA0NjI0KV0KL05hbWVzIFsobm9kZTAwMDAwMDMzKSA5IDAgUiAobm9kZTAwMDAwMjMxKSAxMiAwIFIgKG5vZGUwMDAwMDI1MykgMTAgMCBSIChub2RlMDAwMDQ2MjQpIDExIDAgUl0+PgplbmRvYmoKMTYgMCBvYmoKPDwvS2lkcyBbMTUgMCBSXT4+CmVuZG9iago4IDAgb2JqCjw8L1R5cGUgL1N0cnVjdFRyZWVSb290Ci9LIDkgMCBSCi9QYXJlbnRUcmVlTmV4dEtleSAxCi9QYXJlbnRUcmVlIDE0IDAgUgovSURUcmVlIDE2IDAgUj4+CmVuZG9iagoxNyAwIG9iago8PC9UeXBlIC9DYXRhbG9nCi9QYWdlcyA2IDAgUgovRGVzdHMgNyAwIFIKL01hcmtJbmZvIDw8L1R5cGUgL01hcmtJbmZvCi9NYXJrZWQgdHJ1ZT4+Ci9TdHJ1Y3RUcmVlUm9vdCA4IDAgUgovVmlld2VyUHJlZmVyZW5jZXMgPDwvVHlwZSAvVmlld2VyUHJlZmVyZW5jZXMKL0Rpc3BsYXlEb2NUaXRsZSB0cnVlPj4KL0xhbmcgKGVuKT4+CmVuZG9iagoxOCAwIG9iago8PC9MZW5ndGgxIDk2NDAKL0ZpbHRlciAvRmxhdGVEZWNvZGUKL0xlbmd0aCA2MjI1Pj4gc3RyZWFtCnicpVkNfFPl1T/nfiZp2uS2yU1ogNxwm/KR9IOEAsVKrrSNxW6QUqpJsW0CLbQMaWwqijpIBbUWsXVjTMQJm84JQ7iFCkXnqJubXzC76T7ZRufXNgeWuen2im3e996kpWXq3r3vc/O793nO/zznnOec83zcXEAAyIA4kBBeXl3gufOeR+YC4EMAEF5zUyRKWsifAuA/AWD7mk3twnW/qfwYgJEAiM610XU3bYkc5wD0egC2b10kFgUraAHgPAAY123YvHbLGw+XAmQNAHDvNjdFGtNghwyAYQCY39zcFEnfRf4KAEsAIKf5pvbbGhq0awDIeQC4YUPrmkhgx8onAIg7AaD/pshtUfIV8m0A+AQAhI2Rm5qm31l8BwC1HwAfjbbG2hMDsBsApyp4tK0pOnL42qUAmpcAyFIAIEEDBHCAiQSQoIx9Fa6AlXAjMECAEQrgRgDicYICChBIUEviOUXmpxQEYBePLoNSXd+lJz6+XbdelTixrFIpxJQ9j73rdTYYSj4Eu0YFXpL+62Hl+bs78vlLT4x8Vbee/SWAal2ykNRj2AM0AP0w7QVAW/JJ/hTWEpkamkhjKEIpVNKOy2XuNdWlIIEAt9Kvj1ahl12MR8OAp879A4BaRHcongG3YpXqDwBTyhMmoCAKAFYwqn4SIB/KwA8BWAktsAFaoR1uTSTU/peRCGyAjdAGmxKJxFufdv2LTyYW57+9Sv6D6064E576lOv95IV7PusiZhEPEBfI5WQ/5aD6aSNdq17fpL9JX2Iq1Gsz8xc2n81n/675GwNwZmwARPHnjO5zClEMz/7fen5+oV+EJ5Un9Vby+W/5r5/MR70F+f+pTioGN1Ax2E6B+rxeaRPFMC1VfwBfhPvGePFF6Er16VTwMTpxEDopgGKiGOwqDsDSLyZGAICFWiVDKWVdOQy7U3WE6XBbqk5ABqxP1UmYB/NTdWoCDw3ZMDVVZ0BZH74ALbAamqANItAOLdAKG6EaIrARFLsUeixFFcAD+TAX8qEIroEYrIEm2AiNKo8AeSB8qixhXNoKaIJ1cAtsgAi0/RveMmiBddCiIrdDEzSCAI0qZwQEWAOtEIXN0KZyNUM7CDAL1sBs1cZCmAuFIMC10AqtsA42QBMIUAqt0AZR9X5ZYz4IoFOxz5fnAUG1X7GjQu3vBgGWwkZYo2QKfZo+DV+mO8AMm9X75MxYBCa4FSCh7AcT7qM3/Kc59vkluaZCHzwHR2D/JKgTtgDAoUm0U/BD+K5a2ws7P0fsSTiYqu2CPXDvZ/Kth22wEx6Hvgm0MKyHzfAQHIJ++A4AzkAv/BC+lELPwsufLgr/gC/DV+BJ+BJ8BU7Al2AvAHEH8QF8hVgBG4lfkh1wF9wH+2EftkC3upM+jqugHu5KCaiHJmi9QmgX9MC34XaIXybRHYm/Qfonx2Ab3AfdsBta4Gb6NBg+mZ74AOZR70L66BtwirTDd+AwPK126Rjry1aQ64njBDHyVQB4ENbBgxDBXwMQO8lrPseb/+/CdFDNYKJeVXIo8froVtgGZ+EgPAP74bVrHKBFHyAWQw0uTj2XoAQmsOM1KIEd7HgVeHER1OBC8Co4SMgCgl2970NKOogDI3hkBGEEdcsvoXAJPwzMsn/gn2X/q3+O/aLfZW8Y3jpMGIaXDzcMdw8fGabT3nl7uv2tN/12w5sovenn7X8Y8ttfGzo3NDxESkPe+f4hv9X+/oWE/QL+qeZ8xV9q3vNAzZ//9KeaP1ZAzbuQsP/u6nM155Cs+f3VZM1vyYTd8HP7zwn1Jr1itflf+wE+N1Bifz6Qa//e92fZEycx0B/tj/eT/YkBKdGf6fHbT/hOLD/RemLriX0njpxgrccxenT/UfkoaTiKPU+j/DQankaN4Zjv2PAxMi73yIQsD8iDMllwxHeE2P+U/BQx8NTgU0TBId8hYt93ceDg4EFi+YHuA0TBgdYDpw4kDlCP7M2xB/Zi6248tRt3+6fZv7bLYjfssu/auqt7V2IXXfig9CARfxCj3fFuoqcbB7oHu4nl9zfc33o/eY8/Yd93N27fNtfeHvPZY4Fce+vGEvtGf5E9G601U7zWGtZL1jBkwh4O5NobArn2G/1z7atqK+y1/rn2LE9mDY1kDeUhazaQqCdLyC+QG8g7SXq4KiE1VhFSVdFCv1TlnOV/LYBL/YK9wl9kv9ZfZD/ix3P+YT8R9yPvMddwaKgxegw1BEINAtrtBp+hwbDVQBkMBYblhlZDt+GcIWFgfYathmED2Qq4HDDOI4392NO7strlquxnEysqZTawSsZO2Vmt3KWqWpnplKGmdlWwF/GB0N07d8KSaZWypzooh6eFKuXG6qAsKZV4dVA2TuvlYUko1h5rv8WlFExWoN3lisWUGiotVxJTa+iKuUDhj7XHXOhqvwVirlg7xmLtEGtvj7XHsD4Wa4/FIBZzxWLoAhe6IOZKyR+X1O5y1cdc4KqPtSdVxGL1sVgMY7FYSp21HqRrV9WGgjUrq1dUBZYv++IXKq9bWnGtv7ysdMk1km/x1SVXLSpeuGB+0dzCgvw896yZuc4ccYbDbjVxRkNGeppOq2EZmiIJBLcgY7hcJp0C54+I5WKkIs8tlFuby/Lc5aI/LAsRQfaHZSpXrKhQSWJEFsKCnBuRhcgEcliWIoK89gpOKckpjXOiUSiBEkWFKMhnykShH2urgqIg7ywTQ4J8Qa1/Ua1TuWojvUwMORx5bkG1SrFWKJf9m5q7ysNleW7sTdOViqVNujw39OrSSsXStDw3yLPEaC/OWoxqhZhVvqiXAE26olYmneWRRjlQFSwvszkcoTz3UjlDLFMhKFVFykypzKoihRbFdNgh9LoHuu7vN8LqsEvfKDZGbgzKZCSU5+4iy7u67pU5lzxbLJNn3/62Nc9d3iS7xbJy2aVIrVwxrqfyskqUaadRFLo+BBnD4oXzkymRFIVxGj8EpSoTpTKuCDqUYvOL/nBXl18U/F3hrkh/Ir5aFIxiV69e3xUtDwsyBIIyRvoTz+ywyf77Q7Ix3IyLQqmh+1dUyllVq4Iy4fQLzRGZdMqk0yc6Ftoc3DhP4LNgkNlSmVE87HAobtjRL8HqPLdDjlcFk20BVtuOglTgCslEWEEGxhBzjYLEx5Dx7mHRkeeurA52yZRzaaNY3iJLOyJyfLUsRNYrgRGNcsZHNofYlckJxQUhlVeQSefSxhZBpnNlRuk1sYNM5SpduoxqI+Oj5OOCrUumcrlMoVgUigsUOeVieTj129RsleOrhTy3XOFKJsLKoCyVCeWyFElFrLy3sKBcLI+EZQy3lKnBlAvEqGwSl4xHVzGrvKU6qHZJdZNNpTKE16R6yQXl6rwSyrvCZUkTFFliVfAkeBNDvfME2zEvzINQmcLMlwZlMre8K9i4VraHbY2yEF4rBG0OWQrJGAmJwaaQknaiUZ49ZFOTI6TmyspgZbVYWVUbXJgyJAko4ihn+RVixKAtKUamnbLGqRGChI0MyZTTKNNOwS9TTnFJiUw5ZdapkVmnUWaSVCVxl5QIQbTBGLc8e0ieLZQ3laX4lPYkobSSTqUVY9IYpSljuLTC5gg5kiXPTciUU0gplmmnRnFqxRhEOgWZcmpkwllaoZIUX1qVpBeCYpMYEpsFWQoElbEp7lG9nHKG6vNUrFZOak1wVp5bBkflyvGG4kzZ77JNdK58rdoeb1ZcAS8dg4UujVhZ3aUIF1MCQSacS2VQUlhayNnUtUCZ0KI/IgpGwZ+c0F29kqRM5uZFihBxaWOXWB0sUbkrVwS/bLtd0ZUJlVi5ckmeu5eAJb0idlb1SthZXRs8aQQQOlcGjxJIlIaXhHpzsLMqeFIAkFQqoVAVotIQlIYiaUXwKKFR+W0nJYC4ilIqQW2v6UdQaZoxGsKafiJJMyYV5aqKJCBgTT+VRKQxbgrW9GuStLhKU0svKC6TdLSkkbSSnkgnbL2okI7SkuYZBNAiHNNjOtp640TpCpXcj/FerWRLcsRBi1LSws6ay6praoPH9JCONvUeCoWWKCXPXW5tFiuVbaVcaFQS5c5Qc1c4pEw24GXCKRNOlFFcDDIhLu5FgtHLOrFpiZwmLlHoPoXuS9IZhc6KS2Tk8X+6x2WiNCCjkgGrgg7RKAvZL9u6jBeUSIVcee4u4zt5QCj/RdAeugNIYMEupRMMTTKkVkOTFJDgO1NwhsvE4mLOy3nnFmY5OEcW5+DOUE2X9n6BPEN3fLyVLrpkof6s/Iv0LABugbNAgkXSkQAUDbh3FUCBSxGh9PcWec3P/vDsWeXfoycB6Ca6A7SQBW7JYqB1QIPJzGQ0hBiSNjSE6EzBjHXgc4HV55pgBJoISnRwDgFII8xGzuGZn0k3HRx96fTIX/FnuBbvHhj9w+jF0b/ior1/2UK89pvRk4fpjtE9o08jg1mXejtR/c/rSQDqQVX/fGka0jSjIRhSl4ZUQwiRZlloCLEknSmkKTYoBkCxVR2JZcwOzmF2cCLnMOM6MvOT90+Rf6beGfn7oyM/ojseSY2Qeo/uAB1wUCIJBppm0oCBzCwD1RAyGGiWzUjpyEIhC+tunqwnOd7kiJUBi5zDQ7FGZcQC9d7opaHR1aeIqgtIDYz2j96N21Aif/3S+ZGzdMfvTyM38gag8oZN9dEdwGKh9GskKIIltRqgaKohRJOYeYcWK7V4lRZztHhJi69q8Vkt7tXiDi1u1SLRoMXlWizUokGL685p8TUtylrs1mISMGjxohaT9CNa3KfFqApJWrRrcViF9mmxVSX6VCJoccGwFge12KPFuIoFtFigAoOqlB5VdZIuaVHQolGLCS0OafGUFverDGEV8qmoQYtsfd14uXmstKVK/WchKtBwGVN9D95UfJXoipyjyGEmBr8/OpW6h3rnko165xE1rjckzlMxahmIUAgPSNcLs2ezrDnDkE+SBnM25Zk7zVoVmsYLwLGzq0Isy4EvAw0ZrRlEGpmRwXFpgRBnhJxACPgBD+73YI8H4x6MejDswYAHC1XiuMFjEwC81oKG+rqbuczigmSW+C5n41im0DNyi+bN92HRvFxxBsPOzHR4eDNn4r2eBWZGnJE7U8zAmZ7FeDWyGYTZxOOjjz3+u4/+Fr1t88a07+Xj9tM/mXNVtqPs2sZVDFN+onbNw6Efbd3mbzAd2v1kH0Ndtb1tRS2HOc/2juYHqtiosSV657p7a79RHaKIwsaqYFjxzvbEeWoafRosIEKdtGA6nZGRboV0yHHSHGE22wIhszEddGbCEQgRvOxEnxN7nBh1ot2JCScOOXHAicmotLUlR5+aF8UTZoUSIqNDGZGJYcX5RZyXM7Hexej1ZJLq4M3KqOdT00bb7njMS2iIw0wfRXm+ffuZ55+77d6HdnTu6dxMzBh5JbTGvlU3/wB1YTR0TbC5dvT86JtvvTD45s9ffRlQiTT5CrUMpsBaqRzSTVkMy2alk9k2oyUQspu2mrpN50yUyWQ0CkyUiTODzBBDA2NkwmpzgBlkWC3JMDodGQjpeLtNXc/GQ+nzFtRNjKEy0xWjF1gyUJxBcMZMr4e3sPkozmAwq/O+cIfhuHno0FvDF4eeODv1ZEZbS3ecmPGrweYN+keeQTtmIYf2Q1/PqF3/fSUS1yfOk8P0aeBhBlwvzZ0GGRkGC2NgcsRMcwZAGqnRCIGQxkhmB0Ik35OD0Ry052AiB4dycCAnFYPxBRiKi60+3+QQOFOGOjy8xTtTiYFFzMei5DCSSUgWqU7HB+543EMQfcwhkh35zW337unq+nrn5sPNtWhCKzG/dvVmfP5S1oH5xvY5GH3rhTfO/fKll1NzzUotg0yYArdK/iyOYacoH4xYjrRlMwyQUyAQSp+CJmrKFK3BwAdCBqOWDIS0/KANB2y434Y9NozbMGrDsA0DNiy04c1Xzi11zW2or0vVJk2ry0EhHMmYCJx5phoTFk0P77pl55RHI6NPXrx06c/4u2cMPfdu28PgP555pb4iLwE4HbNRj9NHnrd2ffcbR/YAwjQAooR+BczQLTWnZyGDBGGmzJSF1xkCIR0AyZCBUBZjQLPdUmBZbmmwbLV0W/ZZWIPFZ9lqOWI5ZTlnGbawVzVYTlmIJEYaLAWWIyqdtkjXN1ZYpJnuCsFSaAlbSMmCdTe7XHU3t9Wre4xXzcDknurhMos5r5fzepJLnljkLZo33+uxmJXYTUOvGVv6Hnrornsq5+WJ5YtfJ098spQ8se32XXfp79P4b4xsU/Js9AZymKpUv+vskxodFq3WTpGzOI60k4UFUw0WnSnD5AyETMYMVyCUwQMbCJkpZChMo8AmFaJQiK8VolyIPWodCjFwrhAHCnF5Ie4vxHghFhSioRAvFuKgWtHUp1bt8RVeiaWnvq5OjeeEfJ0USiWWM3JnLpiOXoErEidOMu+8+Qu8jJkzkvPU0Kqrx2Ikcnp/Nv3pzDsaMZ3wHr31xWdfPhM7kE9oqO8yxyq2VXdt2dRds71i9IYd8ezKKrzqcHMLatCGduRaItN3sfMPfvKj0YXkj7efanpp6Pc/aHwWEB4AIN+nT4MVwtJVZo7L1LCZ7JTsLAAykzWT6YEQaRzMxoFslLPxonpPZONQNo4T92djNBvH97W2sVXSm1nsm3xuUJZD3syJXGpQnKhMUYbFqxc99mX5O0/PCdds3dPXxyLZsX7NkZ+MFBCH21rnyV8buYs+Pbrl6rt0QCjfXvBq+rR6PtwoVZAsCxSl0dIGyoxQHUJI7s7ntDigng/2qTt7dGy/vzgBSm7fy1Wo7oqNenypT54Vk8fNIq+Z5LzcfX19fbRw6NDHQ9SiSz8GVL4B4WLVpk1SFQlAUwhgvkjjEI3naBygUaZxH41xGqM02mk00HhxArSfxh4al9OYULsMqvRx5sknhokG+sYPspyX6+qjT388DxA6lYhSyyAbIlJJplarg2xdtm1qJg88HQjxxnSDDsyDU3FgKspT8aJ6T0zFoak4Ttw/FaNTrwipJ7XrTQqpY0Io5830Tics3lSQyeI5N4bu2t3HHESCJMjFj20++m3i8Jc2zTv66MhOsvq5ObS7eHm0rvf0SEFyb6CmUctABzxUSG5OPZlarJoMdUMwKRvCfiv2WDFuxagVw1YMWLHQiues45H7lJO5kUjtBlfswR+/f+EDfOef7z139zce3bnja9/aQUwffXv0PXQgRxSODo/+YejV1377i18OQtKbRCe1DLJAlIxMVhaA3mQ2MDojZQAz+Hw+r3eCSq/iBd6sOiG5Zpm5B5iDGsoVXZvjzCmJbiIXt3X1O3es1X1b93zfyGlAKE6cJ49TlTAHGqUSlplhnmpLB7CZGcrlTp9BWq32QGiq1UjqAiGW5I1uBDdedOOQGwfcGHZj3I0+NxrdOL4Igc+rTsDxU8rk7UM9eSmrjronFmA+oa6xY1u72TQdLdNJ8vgfB18569hn6YnftzW4umPvtutef+XY61O/Zdi28fb2wvqvd29ZOgtde564e6f9hqqVK6VA9oxZX9wY2LV3yw5TxRevq8wvmePMufq6iOJFe+IiMYd2gwnKpZx0kynNYNBSFG/OoDV0IJRm0KKe1EoaA5GpnMLi/NiLVvaZhvo6b+oknNoZlEE4GXFGkbI7LPCavWYxeaQk5oTqfvXl7UW3vfSS15dTprF+SPxs2wcfbBupWebLUKxgAcj/ohaBDm+U/onAaHUkQTA6Mk2vJQwMmvfqcbsew3pcqccyPQp6NOmR0uOQHt/Q4wt63K/HXZN5kgzrknASmwicVelJuatUum0yfYdKr1TpaXpccFaPr04GfP87Q8Z5/pWBCOixQI9GPYI+9XrScMVbyKSF5V9eUv4FmICBz+vzTkgxZVEQ0ZvFW3yY5SWafj5668D76QvFmR+dohaNSLN+dMsm4geAyrdw+rTyRRUPSwkEjmX0hgwyS6snOdKkYU1o4jUaTNOYyYwsUmNAPUey5k08ruVxJY9+HufzmMMjzyPF4995fJfHF3g8yuPjPO7m8Z4xzjKV08Qjw2PLRzy+yeMbPP6Yx+Mq33Ye21XWiRKZMYnHVXG7VHEtPF4/Jo7h8W0ef6GqPM7jEzzex2MbjxhWdeaoRi38u6rqBVVGXNVTyWOhCpt4vKRC+xXxUiHewWOjKn0ejzYeL6oKXuWxT1W/XUV9PBJGHoFXDxwNn/mSOfltsu5TY3xlOCcG1OL1WbwceuvrOG8dl2kpVuacN/lTokvOzEAyGeMFWd4s5Ubt/ulzOdrck4OjPz16gs3h3nz+uXz7GZkYOZB3YKSQWjTisB6+jlw1MuX7O8hsgP8GJFu3cAplbmRzdHJlYW0KZW5kb2JqCjE5IDAgb2JqCjw8L1R5cGUgL0ZvbnREZXNjcmlwdG9yCi9Gb250TmFtZSAvQUFBQUFBK0xpYmVyYXRpb25TYW5zCi9GbGFncyA0Ci9Bc2NlbnQgOTA1LjI3MzQ0Ci9EZXNjZW50IC0yMTEuOTE0MDYKL1N0ZW1WIDQ1Ljg5ODQzOAovQ2FwSGVpZ2h0IDY4Ny45ODgyOAovSXRhbGljQW5nbGUgMAovRm9udEJCb3ggWy01NDMuOTQ1MzEgLTMwMy4yMjI2NiAxMzAxLjc1NzgxIDk3OS45ODA0N10KL0ZvbnRGaWxlMiAxOCAwIFI+PgplbmRvYmoKMjAgMCBvYmoKPDwvVHlwZSAvRm9udAovRm9udERlc2NyaXB0b3IgMTkgMCBSCi9CYXNlRm9udCAvQUFBQUFBK0xpYmVyYXRpb25TYW5zCi9TdWJ0eXBlIC9DSURGb250VHlwZTIKL0NJRFRvR0lETWFwIC9JZGVudGl0eQovQ0lEU3lzdGVtSW5mbyA8PC9SZWdpc3RyeSAoQWRvYmUpCi9PcmRlcmluZyAoSWRlbnRpdHkpCi9TdXBwbGVtZW50IDA+PgovVyBbMCBbNzUwXSAzIDE3IDI3Ny44MzIwMyAzOSBbNzIyLjE2Nzk3IDAgNjEwLjgzOTg0XSA1MSBbNjY2Ljk5MjE5IDAgMCAwIDYxMC44Mzk4NF0gNjggNjkgNTU2LjE1MjM0IDcxIDcyIDU1Ni4xNTIzNCA3MyBbMjc3LjgzMjAzIDU1Ni4xNTIzNCA1NTYuMTUyMzQgMjIyLjE2Nzk3IDAgMCAyMjIuMTY3OTcgMCA1NTYuMTUyMzQgNTU2LjE1MjM0IDAgMCAzMzMuMDA3ODFdIDg3IFsyNzcuODMyMDNdIDkwIFs3MjIuMTY3OTddXQovRFcgNTAwPj4KZW5kb2JqCjIxIDAgb2JqCjw8L0ZpbHRlciAvRmxhdGVEZWNvZGUKL0xlbmd0aCAzMDM+PiBzdHJlYW0KeJxdkU1qwzAQhfc6xSyTRZDsWAkFYwhKDV70h7o5gCONXUEtC1lZ+PbFmjSFLiT4xu9pnme4as6NsxH4e5h0ixF660zAeboFjXDFwTqW5WCsjndKtx47z7hqzu0yRxwb10+sLAH4Bw52jmGBzclMV9wy/hYMBusG2FxUu2W8vXn/jSO6CIJVFRjsGVcvnX/tRgSebLvGoIs2LruLav8Un4tHyBNnlEZPBmffaQydG5CVQghRQVnXdV0xdObf9yO5rr3+6kJS7ysohchFtVKWET0nyo+JioLoieiQaE8+Sb49KSUpizrRQaUE917Fb+dH0KKgBxWps+SVlEDmVKQgUlKRuhxzKlIeeaLi4d6Mnl//fN3QY6z6FgK6mNaYRrkO0Tp8bNpPfnWt5wekK5lPCmVuZHN0cmVhbQplbmRvYmoKNCAwIG9iago8PC9UeXBlIC9Gb250Ci9TdWJ0eXBlIC9UeXBlMAovQmFzZUZvbnQgL0FBQUFBQStMaWJlcmF0aW9uU2FucwovRW5jb2RpbmcgL0lkZW50aXR5LUgKL0Rlc2NlbmRhbnRGb250cyBbMjAgMCBSXQovVG9Vbmljb2RlIDIxIDAgUj4+CmVuZG9iagp4cmVmCjAgMjIKMDAwMDAwMDAwMCA2NTUzNSBmIAowMDAwMDAwMDE1IDAwMDAwIG4gCjAwMDAwMDA3OTQgMDAwMDAgbiAKMDAwMDAwMDI4MCAwMDAwMCBuIAowMDAwMDA5NDcxIDAwMDAwIG4gCjAwMDAwMDAzMTcgMDAwMDAgbiAKMDAwMDAwMTAwMiAwMDAwMCBuIAowMDAwMDAxMDU3IDAwMDAwIG4gCjAwMDAwMDE3NjkgMDAwMDAgbiAKMDAwMDAwMTM5NyAwMDAwMCBuIAowMDAwMDAxMzA1IDAwMDAwIG4gCjAwMDAwMDEyMTggMDAwMDAgbiAKMDAwMDAwMTA5OSAwMDAwMCBuIAowMDAwMDAxNDk4IDAwMDAwIG4gCjAwMDAwMDE1MjMgMDAwMDAgbiAKMDAwMDAwMTU3OCAwMDAwMCBuIAowMDAwMDAxNzM0IDAwMDAwIG4gCjAwMDAwMDE4NzQgMDAwMDAgbiAKMDAwMDAwMjA4MSAwMDAwMCBuIAowMDAwMDA4MzkyIDAwMDAwIG4gCjAwMDAwMDg2NDAgMDAwMDAgbiAKMDAwMDAwOTA5NyAwMDAwMCBuIAp0cmFpbGVyCjw8L1NpemUgMjIKL1Jvb3QgMTcgMCBSCi9JbmZvIDEgMCBSPj4Kc3RhcnR4cmVmCjk2MTcKJSVFT0YK'
+        name: 'test.pdf'
+        type: 'application/pdf'
+        size: 20
+    invalidOnly: [ specification ]
+
+Update:
+  update with new name:
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    attributes:
+      id: 2
+    body:
+      title: Senior Software Engineer
+    data:
+      id: 2
+      title: Senior Software Engineer
+      description: null
+      note: null
+      jobSpecification:
+        id: null
+        filename: null
+        fileType: null
+        fileSize: null
+
+  update with new name for title with specification:
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    attributes:
+      id: 1
+    body:
+      title: Senior Software Engineer
+    exception:
+      class: \OrangeHRM\Core\Api\V2\Exception\BadRequestException
+      message: '`currentJobSpecification` should define if there is a job specification'
+
+  update with invalid currentJobSpecification:
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    attributes:
+      id: 1
+    body:
+      title: Senior Software Engineer
+      currentJobSpecification: abcd
+    invalidOnly: [ currentJobSpecification ]
+
+  update with valid currentJobSpecification (deleting the specification recreates the job title):
+    userId: 1
+    attributes:
+      id: 1
+    body:
+      title: Senior Software Engineer
+      currentJobSpecification: deleteCurrent
+    data:
+      id: 5
+      title: Senior Software Engineer
+      description: null
+      note: null
+      jobSpecification:
+        id: null
+        filename: null
+        fileType: null
+        fileSize: null
+
+  update with non existent id:
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    attributes:
+      id: 1000
+    body:
+      title: Senior Software Engineer
+    exception:
+      class: \OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException
+      message: Record Not Found
+
+Delete:
+  delete with one id:
+    userId: 1
+    body:
+      ids: [ 1 ]
+    data: [ 1 ]
+
+  delete with multiple ids:
+    userId: 1
+    body:
+      ids: [ 1, 2, 3 ]
+    data: [ 1, 2, 3 ]
+
+  with already deleted id:
+    userId: 1
+    body:
+      ids: [ 4 ]
+    exception:
+      class: \OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException
+      message: Records Not Found
+
+  with valid and invalid ids:
+    userId: 1
+    body:
+      ids: [ 1, 2, 4, 100 ]
+    data: [ 1, 2 ]
+
+  with only invalid ids:
+    userId: 1
+    body:
+      ids: [ 100, 4, 1111 ]
+    exception:
+      class: \OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException
+      message: Records Not Found

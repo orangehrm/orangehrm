@@ -25,6 +25,7 @@ use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Authorization\Service\ScreenPermissionService;
 use OrangeHRM\Core\Dto\AttributeBag;
 use OrangeHRM\Core\Exception\ServiceException;
+use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\ModuleScreenHelperTrait;
 use OrangeHRM\Core\Traits\Service\MenuServiceTrait;
 use OrangeHRM\Core\Vue\Component;
@@ -42,6 +43,7 @@ class VueControllerHelper
     use I18NHelperTrait;
     use ThemeServiceTrait;
     use LocalizationServiceTrait;
+    use AuthUserTrait;
 
     public const COMPONENT_NAME = 'componentName';
     public const COMPONENT_PROPS = 'componentProps';
@@ -63,6 +65,7 @@ class VueControllerHelper
     public const CLIENT_BANNER_URL = 'clientBannerUrl';
     public const THEME_VARIABLES = 'themeVariables';
     public const HELP_URL = 'helpUrl';
+    public const SHOW_UPGRADE = 'showUpgrade';
 
     /**
      * @var Request|null
@@ -149,6 +152,7 @@ class VueControllerHelper
                 self::CLIENT_BANNER_URL => $clientBannerUrl,
                 self::THEME_VARIABLES => $themeVariables,
                 self::HELP_URL => $this->getHelpUrl(),
+                self::SHOW_UPGRADE => $this->getAuthUser()->getUserRoleId() === 1
             ]
         );
         return $this->context->all();

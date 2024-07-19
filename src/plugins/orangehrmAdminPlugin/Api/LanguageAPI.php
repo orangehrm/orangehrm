@@ -60,14 +60,6 @@ class LanguageAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     * @param LanguageService $languageService
-     */
-    public function setLanguageService(LanguageService $languageService): void
-    {
-        $this->languageService = $languageService;
-    }
-
-    /**
      * @OA\Get(
      *     path="/api/v2/admin/languages/{id}",
      *     tags={"Admin/Languages"},
@@ -227,21 +219,6 @@ class LanguageAPI extends Endpoint implements CrudEndpoint
         $name = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_NAME);
         $language->setName($name);
         return $this->getLanguageService()->saveLanguage($language);
-    }
-
-    /**
-     * @return ParamRuleCollection
-     */
-    public function getValidationRuleForSaveLanguage(): ParamRuleCollection
-    {
-        return new ParamRuleCollection(
-            new ParamRule(CommonParams::PARAMETER_ID),
-            new ParamRule(
-                self::PARAMETER_NAME,
-                new Rule(Rules::STRING_TYPE),
-                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NAME_MAX_LENGTH]),
-            ),
-        );
     }
 
     /**

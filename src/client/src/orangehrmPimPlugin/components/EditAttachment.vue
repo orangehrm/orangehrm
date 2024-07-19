@@ -48,7 +48,7 @@
               :placeholder="$t('general.no_file_selected')"
             />
             <oxd-text class="orangehrm-input-hint" tag="p">
-              {{ $t('general.accepts_up_to_1mb') }}
+              {{ $t('general.accepts_up_to_n_mb', {count: formattedFileSize}) }}
             </oxd-text>
           </oxd-grid-item>
         </oxd-grid>
@@ -133,6 +133,12 @@ export default {
         ],
       },
     };
+  },
+
+  computed: {
+    formattedFileSize() {
+      return Math.round((this.maxFileSize / (1024 * 1024)) * 100) / 100;
+    },
   },
 
   beforeMount() {

@@ -62,14 +62,6 @@ class JobCategoryAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     * @param JobCategoryService $jobCategoryService
-     */
-    public function setJobCategoryService(JobCategoryService $jobCategoryService)
-    {
-        $this->jobCategoryService = $jobCategoryService;
-    }
-
-    /**
      * @OA\Get(
      *     path="/api/v2/admin/job-categories/{id}",
      *     tags={"Admin/Job Category"},

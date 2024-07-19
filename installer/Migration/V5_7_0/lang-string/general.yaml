@@ -1,0 +1,10 @@
+langStrings:
+  -
+    value: 'Upgrade'
+    unitId: upgrade
+  -
+    value: '{count, plural, one {Accepts up to 1MB} other { Accepts up to #MBs}}'
+    unitId: accepts_up_to_n_mb
+  -
+    value: '{count, plural, one {Accepts .docx, .doc, .odt, .pdf, .rtf, .txt up to 1MB} other{ Accepts .docx, .doc, .odt, .pdf, .rtf, .txt up to #MBs}}'
+    unitId: accept_custom_format_file_up_to_n_mb

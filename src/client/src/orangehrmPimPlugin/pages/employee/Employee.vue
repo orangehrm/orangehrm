@@ -332,23 +332,7 @@ export default {
           title: this.$t('general.actions'),
           style: {flex: 1},
           cellType: 'oxd-table-cell-actions',
-          cellConfig: {
-            ...(this.$can.delete('employee_list') && {
-              delete: {
-                onClick: this.onClickDelete,
-                component: 'oxd-icon-button',
-                props: {
-                  name: 'trash',
-                },
-              },
-            }),
-            edit: {
-              onClick: this.onClickEdit,
-              props: {
-                name: 'pencil-fill',
-              },
-            },
-          },
+          cellRenderer: this.cellRenderer,
         },
       ];
     },
@@ -408,6 +392,37 @@ export default {
     },
     async filterItems() {
       await this.execQuery();
+    },
+    cellRenderer(...[, , , row]) {
+      const cellConfig = {
+        edit: {
+          onClick: this.onClickEdit,
+          props: {
+            name: 'pencil-fill',
+          },
+        },
+      };
+
+      if (
+        this.$can.delete('employee_list') &&
+        !this.unselectableEmpNumbers.includes(row.id)
+      ) {
+        cellConfig.delete = {
+          onClick: this.onClickDelete,
+          component: 'oxd-icon-button',
+          props: {
+            name: 'trash',
+          },
+        };
+      }
+
+      return {
+        props: {
+          header: {
+            cellConfig,
+          },
+        },
+      };
     },
   },
 };

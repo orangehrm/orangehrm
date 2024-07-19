@@ -24,6 +24,7 @@ use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Controller\Common\NoRecordsFoundController;
 use OrangeHRM\Core\Controller\Exception\RequestForwardableException;
 use OrangeHRM\Core\Controller\Exception\VueControllerException;
+use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Entity\I18NLanguage;
@@ -31,6 +32,7 @@ use OrangeHRM\Framework\Http\Request;
 
 class LanguageImportController extends AbstractVueController
 {
+    use ConfigServiceTrait;
     use LocalizationServiceTrait;
 
     /**
@@ -61,6 +63,7 @@ class LanguageImportController extends AbstractVueController
                     I18NTranslationImportAPI::PARAM_RULE_IMPORT_FILE_FORMAT
                 )
             );
+            $component->addProp(new Prop('max-file-size', Prop::TYPE_NUMBER, $this->getConfigService()->getMaxAttachmentSize()));
 
             $this->setComponent($component);
         }

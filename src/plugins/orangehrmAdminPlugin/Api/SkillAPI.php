@@ -67,14 +67,6 @@ class SkillAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     * @param SkillService $skillService
-     */
-    public function setSkillService(SkillService $skillService): void
-    {
-        $this->skillService = $skillService;
-    }
-
-    /**
      * @OA\Get(
      *     path="/api/v2/admin/skills/{id}",
      *     tags={"Admin/Skills"},
@@ -379,7 +371,7 @@ class SkillAPI extends Endpoint implements CrudEndpoint
     public function saveSkill(Skill $skill): Skill
     {
         $name = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_NAME);
-        $description = $this->getRequestParams()->getString(
+        $description = $this->getRequestParams()->getStringOrNull(
             RequestParams::PARAM_TYPE_BODY,
             self::PARAMETER_DESCRIPTION
         );

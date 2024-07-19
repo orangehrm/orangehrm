@@ -21,11 +21,14 @@ namespace OrangeHRM\Pim\Controller;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\I18N\Traits\Service\I18NHelperTrait;
 use OrangeHRM\Pim\Dto\ReportingMethodSearchFilterParams;
 use OrangeHRM\Pim\Service\ReportingMethodConfigurationService;
 
 class EmployeeReportToController extends BaseViewEmployeeController
 {
+    use I18NHelperTrait;
+
     /**
      * @var ReportingMethodConfigurationService|null
      */
@@ -54,6 +57,12 @@ class EmployeeReportToController extends BaseViewEmployeeController
             $reportingMethods = $this->getReportingMethodConfigurationService()->getReportingMethodArray(
                 $reportingMethodParamHolder
             );
+            $reportingMethods = array_map(function ($reportingMethod) {
+                return [
+                    'id' => $reportingMethod['id'],
+                    'label' => $this->getI18NHelper()->transBySource($reportingMethod['label'])
+                ];
+            }, $reportingMethods);
             $component->addProp(new Prop('emp-number', Prop::TYPE_NUMBER, $empNumber));
             $component->addProp(new Prop('reporting-methods', Prop::TYPE_ARRAY, $reportingMethods));
             $this->setComponent($component);

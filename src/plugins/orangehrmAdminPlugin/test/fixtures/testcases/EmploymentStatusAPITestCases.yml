@@ -1,0 +1,196 @@
+GetAll:
+  with no params:
+    userId: 1
+    data:
+      - id: 1
+        name: Full Time
+      - id: 3
+        name: Intern
+      - id: 2
+        name: Part Time
+    meta:
+      total: 3
+
+  with limit 2:
+    userId: 1
+    query:
+      limit: 2
+    data:
+      - id: 1
+        name: Full Time
+      - id: 3
+        name: Intern
+    meta:
+      total: 3
+
+  with limit 2 and offset 1:
+    userId: 1
+    query:
+      limit: 2
+      offset: 1
+    data:
+      - id: 3
+        name: Intern
+      - id: 2
+        name: Part Time
+    meta:
+      total: 3
+
+  with sort order DESC:
+    userId: 1
+    query:
+      sortField: 'es.name'
+      sortOrder: DESC
+    data:
+      - id: 2
+        name: Part Time
+      - id: 3
+        name: Intern
+      - id: 1
+        name: Full Time
+    meta:
+      total: 3
+
+  with invalid sort field:
+    userId: 1
+    query:
+      sortField: 'es.id'
+    invalidOnly: [ sortField ]
+
+GetOne:
+  with valid id:
+    userId: 1
+    attributes:
+      id: 1
+    data:
+      id: 1
+      name: Full Time
+
+  with non existent id:
+    userId: 1
+    attributes:
+      id: 1000
+    exception:
+      class: \OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException
+      message: Record Not Found
+
+  missing id:
+    userId: 1
+    invalidOnly: [ id ]
+
+Create:
+  create with valid name:
+    userId: 1
+    body:
+      name: Contract
+    data:
+      id: 4
+      name: Contract
+
+  create with existing name:
+    userId: 1
+    body:
+      name: Full Time
+    invalidOnly: [ name ]
+
+  with missing name:
+    userId: 1
+    invalidOnly: [ name ]
+
+  with empty name:
+    userId: 1
+    body:
+      name: '   '
+    invalidOnly: [ name ]
+
+  with name over 50 chars:
+    userId: 1
+    body:
+      name: 'Lorem ipsum dolor sit amet, consectetuer adipiscing'
+    invalidOnly: [ name ]
+
+Update:
+  update with valid name:
+    userId: 1
+    attributes:
+      id: 1
+    body:
+      name: Contract
+    data:
+      id: 1
+      name: Contract
+
+  update with same name:
+    userId: 1
+    attributes:
+      id: 1
+    body:
+      name: Full Time
+    data:
+      id: 1
+      name: Full Time
+
+  update with different existing name:
+    userId: 1
+    attributes:
+      id: 1
+    body:
+      name: Part Time
+    invalidOnly: [ name ]
+
+  update without name:
+    userId: 1
+    attributes:
+      id: 1
+    invalidOnly: [ name ]
+
+  update with empty name:
+    userId: 1
+    attributes:
+      id: 1
+    body:
+      name: '   '
+    invalidOnly: [ name ]
+
+  update without id:
+    userId: 1
+    body:
+      name: 'Contract'
+    invalidOnly: [ id ]
+
+  update non existent id:
+    userId: 1
+    attributes:
+      id: 1000
+    body:
+      name: Contract
+    exception:
+      class: \OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException
+      message: Record Not Found
+
+Delete:
+  with one id:
+    userId: 1
+    body:
+      ids: [ 1 ]
+    data: [ 1 ]
+
+  with multiple ids:
+    userId: 1
+    body:
+      ids: [ 1, 2, 3 ]
+    data: [ 1, 2, 3 ]
+
+  with valid and invalid ids:
+    userId: 1
+    body:
+      ids: [ 1, 2000, 2, 300 ]
+    data: [ 1, 2 ]
+
+  with invalid ids:
+    userId: 1
+    body:
+      ids: [ 100, 20, 45 ]
+    exception:
+      class: \OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException
+      message: Records Not Found

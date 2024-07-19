@@ -25,12 +25,20 @@
 import {promiseDebounce} from '@ohrm/oxd';
 import {APIService} from '@/core/util/services/api.service';
 import usei18n from '@/core/util/composable/usei18n';
+import {
+  required,
+  shouldNotExceedCharLength,
+} from '@/core/util/validation/rules';
 
 export default {
   props: {
     langStringId: {
       type: Number,
       required: true,
+    },
+    required: {
+      type: Boolean,
+      default: false,
     },
   },
   setup(props) {
@@ -69,7 +77,16 @@ export default {
   data() {
     return {
       rules: {
-        langStringTarget: [promiseDebounce(this.validateLangString, 500)],
+        langStringTarget: this.required
+          ? [
+              required,
+              shouldNotExceedCharLength(1000),
+              promiseDebounce(this.validateLangString, 500),
+            ]
+          : [
+              shouldNotExceedCharLength(1000),
+              promiseDebounce(this.validateLangString, 500),
+            ],
       },
     };
   },

@@ -378,7 +378,7 @@ class SubunitAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @OA\Delete(
-     *     path="/api/v2/admin/subunits",
+     *     path="/api/v2/admin/subunits/{id}",
      *     tags={"Admin/Subunits"},
      *     summary="Delete Subunits",
      *     operationId="delete-subunits",
