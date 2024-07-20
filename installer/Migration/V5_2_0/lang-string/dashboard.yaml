@@ -65,3 +65,6 @@ langStrings:
   -
     value: 'Not Available'
     unitId: not_available
+  -
+    value: 'Upcoming Holidays'
+    unitId: up_coming_holidays
