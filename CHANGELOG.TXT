@@ -1,4 +1,5 @@
-New & Changed Features for OrangeHRM ver 5.7
+NEW VALUES HAS BEEN UPDATED
+New & ChangeFeatures fo.7
     New Features/Changes
     -----------
     - Language Package Import
@@ -16,6 +17,7 @@ New & Changed Features for OrangeHRM ver 5.7
 Changed Features for OrangeHRM ver 5.6.1
     Changes
     -----------
+   
     - Security
         - Update BE and FE libraries to latest minor versions
         - Sanitize SVG uploads in Corporate Branding
@@ -158,8 +160,7 @@ New & Changed Features for OrangeHRM ver 5.0
         - MySQL - 5.5 to 5.7
 
     Known Issues
-    ------------
-    Following modules and add-ons are not supported in  OrangeHRM Starter version 5.0
+    ------------ Following modules and add-ons are not supported in  OrangeHRM Starter version 5.0
 
     Modules
          - Recruitment
