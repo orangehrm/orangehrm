@@ -2,7 +2,7 @@ FROM php:8.3-apache-bookworm
 
 ENV OHRM_VERSION 5.7
 ENV OHRM_MD5 5bd924a546e29e06c34eec73b014d139
-
+COPY --from=composer:2.7.7 /usr/bin/composer /usr/bin/composer
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 
 RUN set -ex; \
