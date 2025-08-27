@@ -1,0 +1,9 @@
+click "Login"
+check that page contains "Required" below "Username" and above field "Password"
+check that page contains "Required" below "Password" and above "Login"
+hover over the middle of the screen
+login
+check that page contains "Dashboard"
+check that page doesn't contain button "Login"
+check that page doesn't contain field "Username"
+check that page doesn't contain field "Password"

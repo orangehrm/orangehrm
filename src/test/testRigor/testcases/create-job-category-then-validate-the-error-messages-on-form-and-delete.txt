@@ -1,0 +1,37 @@
+login
+go-to-admin-job
+// Successfully add new category
+click "Job Categories"
+grab value of "\(\d+\) Records Found" and save it as "aux"
+extract value by regex "\d+" from saved value "aux" and save it as "recordCount"
+check that page contains string with parameters "(${recordCount}) Records Found"
+click button "Add" on the right of "Job Categories"
+check that page contains "Add Job Category"
+generate unique name, then enter into "Name" and save it as "jobCategory"
+click button "Save"
+check that page contains saved value "jobCategory" roughly below "Records Found"
+save expression "${recordCount} + 1" as "recordCount"
+// validate form error messages
+click button "Add" on the right of "Job Categories"
+click button "Save"
+check that page contains "Required" below "Name"
+enter "Craft Workers" into "Name"
+double click button "Save"
+check that page contains "Already exists" roughly below "Name" and stop test if fails
+generate from regex "([A-z]){60}", then enter into "Name" and save it as "exceeded"
+hover over the middle of the screen
+double click button "Save"
+check that page contains "Should not exceed 50 characters" and stop test if fails
+click "Cancel"
+check that page contains button "Add" on the right of "Job Categories"
+// Update
+click "pencil" roughly on the right of saved value "jobCategory"
+generate unique name, then enter into "Name" and save as "newJobCategory"
+click button "Save"
+check that page contains saved value "newJobCategory"
+// Delete
+click "trash" roughly on the right of saved value "newJobCategory"
+click button "Yes, Delete"
+check that page doesn't contain saved value "newJobCategory"
+save expression "${recordCount} - 1" as "recordCount"
+check that page contains string with parameters "(${recordCount}) Records Found"

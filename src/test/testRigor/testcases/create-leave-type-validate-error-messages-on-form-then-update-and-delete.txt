@@ -1,0 +1,34 @@
+login
+go-to-leave-configure
+set-default-leave-period
+go-to-leave-configure
+click "Leave Types"
+check that page contains "Leave Types" on the left of button "Add"
+check that page contains "No Records Found"
+// Successfully add
+click "Add"
+check that page contains "Add Leave Type"
+generate unique name, then enter into "Name" and save it as "leaveType1"
+click "Save"
+check that page contains saved value "leaveType1" roughly below "Leave Types"
+// Error message validations
+click button "Add"
+check that page contains "Add Leave Type"
+click "Save"
+check that page contains "Required" above "Is Entitlement Situational?" and below "Name"
+generate from regex "([A-z]){55}", then enter into "Name" and save it as "longString"
+check that "Should not exceed 50 characters" is visible above "Is Entitlement Situational?" and roughly below "Name"
+enter saved value "leaveType1" into "Name"
+click "Save"
+check that "Already Exists" is visible above "Is Entitlement Situational?" and below "Name"
+click "Cancel"
+check that page contains saved value "leaveType1" roughly below "Name"
+// Update
+click "pencil" on the right of saved value "leaveType1"
+generate unique name, then enter into "Name" and save it as "leaveType2"
+click "Save"
+check that page doesn't contain saved value "leaveType1"
+check that page contains saved value "leaveType2"
+// Delete
+clean-up-list-"Name"
+check that page doesn't contain saved value "leaveType2"

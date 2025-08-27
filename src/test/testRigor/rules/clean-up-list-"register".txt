@@ -1,0 +1,5 @@
+click "check" below button "Add" and on the left of saved value "register"
+click "Delete Selected"
+click "Yes, Delete"
+check that page doesn't contain "loading-spinner"
+check that page contains "No Records Found"

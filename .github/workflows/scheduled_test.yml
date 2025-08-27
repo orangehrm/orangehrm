@@ -12,7 +12,7 @@ on:
 
 jobs:
   db_test:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
 
     strategy:
       fail-fast: false
@@ -71,6 +71,13 @@ jobs:
       - uses: actions/checkout@v4
         if: "${{ github.event_name == 'push' || env.WORKFLOW_BRANCH == ''}}"
 
+      - name: Setup PHP 7.4
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4'
+          extensions: mbstring, xml, ctype, iconv, intl, pdo_sqlite, mysql
+          coverage: none
+
       - name: Source info
         run: |
           git log -1
@@ -116,7 +123,7 @@ jobs:
         run: docker stop openldap
 
   php_test:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
 
     strategy:
       fail-fast: false
@@ -147,6 +154,13 @@ jobs:
 
       - uses: actions/checkout@v4
         if: "${{ github.event_name == 'push' || env.WORKFLOW_BRANCH == ''}}"
+
+      - name: Setup PHP 7.4
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4'
+          extensions: mbstring, xml, ctype, iconv, intl, pdo_sqlite, mysql
+          coverage: none
 
       - name: Install dependencies
         run: |

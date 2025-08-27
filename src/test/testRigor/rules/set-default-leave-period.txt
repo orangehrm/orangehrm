@@ -1,0 +1,6 @@
+if page doesn't contain button "Configure"
+select "May" from "Start Month"
+select "15" from "Start Date"
+click button "Save"
+go-to-leave-configure
+end

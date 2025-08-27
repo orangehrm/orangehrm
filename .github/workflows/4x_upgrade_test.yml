@@ -13,7 +13,7 @@ on:
 
 jobs:
   upgrade_test:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
 
     strategy:
       fail-fast: false
@@ -58,6 +58,13 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+
+      - name: Setup PHP 7.4
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4'
+          extensions: mbstring, xml, ctype, iconv, intl, pdo_sqlite, mysql
+          coverage: none
 
       - name: Copy dump to DB container
         run: docker cp .github/workflows/4x_dumps/${{ matrix.dumps.file }} database:/dump.sql

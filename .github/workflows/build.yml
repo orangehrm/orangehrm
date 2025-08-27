@@ -1,14 +1,20 @@
 name: Build
 
 on: [ push, pull_request ]
-
 jobs:
   build:
 
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
 
     steps:
       - uses: actions/checkout@v4
+
+      - name: Setup PHP 7.4
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4'
+          extensions: mbstring, xml, ctype, iconv, intl, pdo_sqlite, mysql
+          coverage: none
 
       - name: Get product version and build version
         id: get_version
@@ -58,6 +64,11 @@ jobs:
         if: "${{ env.PRODUCT_MODE != '' }}"
         run: |
           sed -i "s/public const PRODUCT_MODE = self::MODE_DEV;/public const PRODUCT_MODE = self::$PRODUCT_MODE;/g" src/lib/config/Config.php
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
 
       - name: Run build
         run: |

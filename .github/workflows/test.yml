@@ -1,12 +1,12 @@
 name: Test
 
 on:
-  push:
+  push: 
   pull_request:
 
 jobs:
   test:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
 
     strategy:
       matrix:
@@ -30,6 +30,23 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+
+      - name: Setup PHP 7.4
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4'
+          extensions: mbstring, xml, ctype, iconv, intl, pdo_sqlite, mysql
+          coverage: none
+
+      - name: Install dependencies
+        run: |
+          cd src
+          composer install --no-dev
+          composer dump-autoload --optimize --no-dev --classmap-authoritative
+          cd client
+          yarn install
+          cd ../../installer/client
+          yarn install
 
       - name: Validate composer.json and composer.lock
         run: |
@@ -104,10 +121,24 @@ jobs:
         run: docker stop openldap
 
   composer_check:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
 
     steps:
       - uses: actions/checkout@v4
+
+      - name: Setup PHP 8.0
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.0'
+          extensions: mbstring, xml, ctype, iconv, intl, pdo_sqlite, mysql
+          coverage: none
+      
+      - name: Setup PHP 8.1
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+          extensions: mbstring, xml, ctype, iconv, intl, pdo_sqlite, mysql
+          coverage: none
 
       - name: Validate composer.json and composer.lock
         run: |
@@ -131,7 +162,7 @@ jobs:
 
   installation:
     if: github.event_name == 'push'
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
 
     services:
       mysql:
@@ -144,6 +175,13 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+
+      - name: Setup PHP 7.4
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4'
+          extensions: mbstring, xml, ctype, iconv, intl, pdo_sqlite, mysql
+          coverage: none
 
       - name: Install dependencies
         run: |

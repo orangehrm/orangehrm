@@ -1,0 +1,2 @@
+click "Leave"
+click button "Configure" if exists

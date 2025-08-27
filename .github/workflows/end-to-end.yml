@@ -1,0 +1,104 @@
+name: End-to-End Tests
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  testRigor:
+    runs-on: ubuntu-24.04
+
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_ROOT_PASSWORD: root
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd "mysqladmin ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 3
+    steps:
+      - name: Checkout OrangeHRM
+        uses: actions/checkout@v4
+
+      - name: Setup PHP 7.4
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4'
+          extensions: mbstring, xml, ctype, iconv, intl, pdo_sqlite, mysql
+          coverage: none
+
+      - name: Validate composer.json and composer.lock
+        run: |
+          cd src
+          composer validate --strict
+
+      - name: Parse Git short hash
+        run: echo "git_short_hash=$(git rev-parse --short $GITHUB_SHA)" >> $GITHUB_ENV
+
+      - name: Install dependencies
+        run: |
+          php7.4 -f /usr/bin/composer install -d src
+          php7.4 -f /usr/bin/composer install -d devTools/core
+          cd src/client
+          yarn install
+
+      - name: Build OrangeHRM client
+        run: |
+          cd src/client
+          yarn build --mode development
+
+      - name: Configure OrangeHRM installation
+        run: |
+          sed -i 's/adminEmployeeFirstName: OrangeHRM/adminEmployeeFirstName: Jacqueline/g' installer/cli_install_config.yaml
+          sed -i 's/adminEmployeeLastName: Admin/adminEmployeeLastName: White/g' installer/cli_install_config.yaml
+          sed -i "s/public const PRODUCT_MODE = self::MODE_PROD/public const PRODUCT_MODE = self::MODE_DEV/g" src/lib/config/Config.php
+          chmod -R 777 src/log
+          chmod -R 777 src/config
+
+      - name: Install OrangeHRM
+        run: |
+          php7.4 installer/cli_install.php
+          mysqldump -V
+          php7.4 devTools/core/console.php i:create-test-db -p root --dump-options="--column-statistics=0"
+          
+      - name: Start OrangeHRM web server
+        run: |
+          cd web
+          php7.4 -S 127.0.0.1:8080 &
+          sleep 3
+
+      - name: Setup Node.js
+        id: setup-nodejs
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install testRigor CLI
+        if: steps.setup-nodejs.outcome == 'success'
+        id: install-testrigor
+        run: |
+          npm install -g testrigor-cli
+
+      - name: Run testRigor tests
+        env:
+          TEST_CASES_PATH: "src/test/testRigor/testcases/**/*.txt"
+          RULES_PATH: "src/test/testRigor/rules/**/*.txt"
+          LOCALHOST_URL: "http://127.0.0.1:8080/index.php/auth/login"
+          AUTH_TOKEN: ${{ secrets.ORANGEHRM_AUTH_TOKEN }}
+          TEST_SUITE_ID: ${{ vars.ORANGEHRM_TEST_SUITE_ID }}
+        run: |
+          testrigor --version
+          BRANCH_NAME=$(git branch --show-current)
+          COMMIT_HASH=$(git rev-parse HEAD)
+          testrigor test-suite run "$TEST_SUITE_ID" \
+          --token "$AUTH_TOKEN" \
+          --localhost --url "$LOCALHOST_URL" \
+          --test-cases-path "$TEST_CASES_PATH" \
+          --rules-path "$RULES_PATH" \
+          --branch "$BRANCH_NAME" \
+          --commit "$COMMIT_HASH"

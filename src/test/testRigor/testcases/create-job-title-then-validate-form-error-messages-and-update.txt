@@ -1,0 +1,45 @@
+login
+go-to-admin-job
+click "Job Titles"
+check that page contains "No Records Found"
+check that page contains button "Add" on the right of "Job Titles"
+click button "Add"
+//// successfuly add job title
+generate unique name, then enter into "Job Title" and save it as "jobTitle"
+enter "Test" into "Job Description"
+double click button "Save"
+check that page doesn't contain "Add Job Title"
+check that page doesn't contain button "Save"
+check that page contains saved value "jobTitle" roughly below "Job Titles"
+// validate form error messages
+click button "Add"
+check that page contains "Add Job Title"
+//// leave mandatory fields empty and check error message
+check that page contains "Add Job Title"
+click button "Save"
+check that page contains "Required" below "Job Title"
+//// exceeding character limits validate error messages
+generate from regex "([A-z]){120}", then enter into "Job Title"
+generate from regex "([A-z]){420}", then enter into "Job Description"
+generate from regex "([A-z]){420}", then enter into "Note"
+click button "Save"
+check that page contains "Should not exceed 100 characters" roughly below "Job Title"
+check that page contains "Should not exceed 400 characters" roughly below "Job Description"
+check that page contains "Should not exceed 400 characters" roughly below "Note"
+//// Duplicate job title
+enter saved value "jobTitle" into "Job Title"
+click "Save"
+check that page contains "Already exists"
+click button "Cancel"
+// update job title
+check that page contains saved value "jobTitle" roughly below "Job Titles"
+click "pencil" roughly on the right of saved value "jobTitle"
+generate unique name, then enter into "Job Title" and save it as "newJobTitle"
+click button "Save"
+check that page contains saved value "newJobTitle" roughly below "Job Titles"
+check that page doesn't contain button "Save"
+// list and delete job title
+check that page doesn't contain "No Records Found"
+check that page contains saved value "newJobTitle" roughly below "Job Titles"
+clean-up-list-"Job Titles"
+check that page doesn't contain saved value "newJobTitle" roughly below "Job Titles"

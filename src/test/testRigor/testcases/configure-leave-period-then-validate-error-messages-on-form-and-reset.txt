@@ -1,0 +1,39 @@
+login
+go-to-leave-configure
+set-default-leave-period
+go-to-leave-configure
+click "Leave Period"
+// 1. Update leave period
+select "May" from "Start Month"
+select "15" from "Start Date"
+click button "Save"
+check that page contains "Successfully Saved"
+// 2. Validate the End Date is updated
+select "June" from "Start Month"
+select "28" from "Start Date"
+click button "Save"
+check that page contains "Successfully Saved"
+check that page contains "June 27 (Following Year)"
+// 3. Validate the Start Date is set do 1st
+select "July" from "Start Month"
+check that page contains "01" below "Start Date"
+click button "Save"
+// 4. Validate error messages
+check that page contains "Leave Period"
+select "-- Select --" from "Start Month"
+check that page contains "Required" above "End Date"
+select "-- Select --" from "Start Date"
+check that page contains "Required" above "Current Leave Period"
+// 5. Validate reset functionality
+select "May" from "Start Month"
+select "15" from "Start Date"
+click button "Save"
+check that page contains "Successfully Saved"
+grab value of "[A-z]+ [0-9]+ (\([A-z] [A-z]\))?" from roughly below "End Date" and save it as "leavePeriodSave"
+select "June" from "Start Month"
+select "28" from "Start Date"
+check that page doesn't contain saved value "leavePeriodSave" roughly below "End Date"
+check that page contains "June 27 (Following Year)"
+click "Reset"
+check that page contains saved value "leavePeriodSave" roughly below "End Date"
+check that page doesn't contain "June 27 (Following Year)"

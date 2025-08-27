@@ -1,0 +1,36 @@
+login
+go-to-leave-configure
+set-default-leave-period
+go-to-leave-configure
+click "Work Week"
+check that page contains "Work Week" roughly above "Monday"
+// validate error messages:
+check that "Required" above "Tuesday" and below "Monday" is visible
+select "Select" from "Monday"
+check that page contains "Required" below "Monday" and above "Tuesday"
+select "Non-working Day" from "Sunday"
+select "Non-working Day" from "Monday"
+select "Non-working Day" from "Tuesday"
+select "Non-working Day" from "Wednesday"
+select "Non-working Day" from "Thursday"
+select "Non-working Day" from "Friday"
+select "Non-working Day" from "Saturday"
+click button "Save"
+check that page contains "At least one day should be a working day"
+// Update Work week
+select "Half Day" from "Monday"
+select "Non-working Day" from "Wednesday"
+select "Full Day" from "Sunday"
+click button "Save"
+check that "Successfully saved" is visible
+// clean up
+select "Full Day" from "Monday"
+select "Full Day" from "Tuesday"
+select "Full Day" from "Wednesday"
+select "Full Day" from "Thursday"
+select "Full Day" from "Friday"
+select "Non-working Day" from "Saturday"
+select "Non-working Day" from "Sunday"
+click "Save"
+check that page doesn't contain "loading-spinner"
+check that "Successfully saved" is visible

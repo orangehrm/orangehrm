@@ -1,0 +1,30 @@
+login
+go-to-admin-job
+// successfully add new employment status
+click "Employment Status"
+check that page contains "No Records Found"
+click button "Add" on the right of "Employment Status"
+check that page contains "Add Employment Status"
+generate unique name, then enter into "Name" and save as "empStatus"
+click "Save"
+check that page doesn't contain "No Records Found"
+check that page contains saved value "empStatus" roughly below "Employment Status"
+// validate error messages
+click button "Add"
+click button "Save"
+check that page contains "Required" below "Name"
+generate from regex "([A-z]){55}", then enter into "Name"
+check that page contains "Should not exceed 50 characters" below "Name"
+enter saved value "empStatus" into "Name"
+check that page contains "Already exists" below "Name"
+click "Cancel"
+check that page contains saved value "empStatus" roughly below "Employment Status"
+// Update
+click "pencil" on the right of saved value "empStatus"
+generate unique name, then enter into "Name" and save as "newEmpStatus"
+click "Save"
+check that page contains saved value "newEmpStatus" roughly below "Employment Status"
+check that page doesn't contain saved value "empStatus" roughly below "Employment Status"
+// Delete
+clean-up-list-"Employment Status"
+check that page doesn't contain saved value "newEmpStatus"

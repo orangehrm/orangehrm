@@ -1,0 +1,48 @@
+login
+go-to-leave-configure
+set-default-leave-period
+go-to-leave-configure
+click "Holidays"
+// 1. Register new holiday
+click "Add"
+check that page contains "Add Holiday"
+enter "Christmas" into "Name"
+enter string with parameters "${todayYear}-12-25" into field "Date"
+select "Full Day" from "Full Day/ Half Day"
+click "Yes" below "Repeats annually"
+click "Save"
+check that page contains "Christmas" roughly below "Holidays"
+// 2. Validate error messages
+click "Add"
+check that page contains "Add Holiday"
+select "Select" from "Full Day/ Half Day"
+click "Save"
+check that page contains "Required" below "Name"
+check that page contains "Required" below "Date"
+check that page contains "Required" below "Full Day/ Half Day"
+generate unique name, then enter into "Name" and save as "newHoliday"
+enter string with parameters "${todayYear}-12-25" into field "Date"
+click "Yes" below "Repeats annually"
+click "Save"
+check that page contains "Already Exists" roughly below "Date"
+// 3. Update
+click "Cancel"
+click "pencil" on the right of "Christmas"
+enter "New Year's Eve" into "Name"
+click "calendar"
+click "31" roughly below "December"
+select "Full Day" from "Full Day/ Half Day"
+click "Yes" below "Repeats Annually"
+click "Save"
+check that page contains "Holidays"
+check that page doesn't contain "Christmas"
+check that page contains "New Year's Eve"
+// 4. Clean Up
+go-to-leave-configure
+click "Holidays"
+click "check" below button "Add" and on the left of "Name"
+click "Delete Selected"
+click "Yes, Delete"
+check that page doesn't contain "loading-spinner"
+check that page doesn't contain "New Year's Eve"
+check that page contains "No Records Found"
