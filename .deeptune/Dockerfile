@@ -33,9 +33,6 @@ RUN if [ -f composer.json ]; then composer install --no-dev --optimize-autoloade
 # Build frontend if package.json exists
 RUN if [ -f package.json ]; then npm install && npm run build; fi
 
-# Ensure log directory exists for supervisor
-RUN mkdir -p /var/log/postgresql && touch /var/log/postgresql/postgresql-16-main.log && chown -R postgres:postgres /var/log/postgresql
-
 # Apache virtual host for OrangeHRM
 RUN echo '<VirtualHost *:80>\n\
     DocumentRoot /deeptune/app/web\n\
