@@ -8,14 +8,10 @@ WORKDIR $APP_HOME
 # --- Install prerequisites ---
 RUN apt-get update && apt-get install -y software-properties-common curl gnupg lsb-release
 
-# Add PostgreSQL 16 repo
-RUN echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list \
-    && curl -fsSL https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
-
-# Install Apache, PHP, PostgreSQL, Supervisor, Node, Composer
+# Install Apache, PHP, MySQL, Supervisor, Node, Composer
 RUN apt-get update && apt-get install -y \
-    apache2 postgresql-16 supervisor \
-    php8.1 php8.1-cli php8.1-pgsql php8.1-mbstring php8.1-xml php8.1-curl php8.1-zip php8.1-bcmath php8.1-gd php8.1-intl \
+    apache2 mysql-server supervisor \
+    php8.1 php8.1-cli php8.1-mysql php8.1-mbstring php8.1-xml php8.1-curl php8.1-zip php8.1-bcmath php8.1-gd php8.1-intl \
     libapache2-mod-php8.1 \
     nodejs npm composer git unzip \
     && rm -rf /var/lib/apt/lists/*
@@ -37,20 +33,6 @@ RUN if [ -f composer.json ]; then composer install --no-dev --optimize-autoloade
 # Build frontend if package.json exists
 RUN if [ -f package.json ]; then npm install && npm run build; fi
 
-# ---- PostgreSQL cluster initialization ----
-USER postgres
-RUN if [ ! -d "/var/lib/postgresql/16/main" ]; then \
-      /usr/lib/postgresql/16/bin/initdb -D /var/lib/postgresql/16/main && \
-      echo "host all all 0.0.0.0/0 trust" >> /var/lib/postgresql/16/main/pg_hba.conf && \
-      echo "listen_addresses='*'" >> /var/lib/postgresql/16/main/postgresql.conf; \
-    fi
-# Set default password for 'postgres' user
-RUN /usr/lib/postgresql/16/bin/pg_ctl -D /var/lib/postgresql/16/main -o "-c listen_addresses='localhost'" -w start && \
-    psql --command="ALTER USER postgres PASSWORD 'postgres';" && \
-    /usr/lib/postgresql/16/bin/pg_ctl -D /var/lib/postgresql/16/main stop
-
-USER root
-
 # Ensure log directory exists for supervisor
 RUN mkdir -p /var/log/postgresql && touch /var/log/postgresql/postgresql-16-main.log && chown -R postgres:postgres /var/log/postgresql
 
@@ -65,7 +47,6 @@ RUN echo '<VirtualHost *:80>\n\
     CustomLog ${APACHE_LOG_DIR}/access.log combined\n\
 </VirtualHost>' > /etc/apache2/sites-available/000-default.conf
 
-EXPOSE 80 5432
+EXPOSE 80 3306
 
 CMD ["/deeptune/entrypoint.sh"]
-
