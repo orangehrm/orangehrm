@@ -13,7 +13,7 @@
  # Run the Docker container
  echo "Running Docker container..."
  # Make sure to update these ports to whatever your app needs exposed
- docker run -p 3000:3000 -p 5432:5432 -p 8080:8080 $DOCKER_IMAGE_NAME
+ docker run -p 3000:3000 -p 5432:5432 -p 8080:80 $DOCKER_IMAGE_NAME
  echo "Container running"
 
 
