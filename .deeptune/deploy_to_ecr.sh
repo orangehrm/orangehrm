@@ -19,8 +19,12 @@
  # Find the highest numeric tag in the ECR repository
  # This command queries ECR for all image tags, filters for numeric tags, and finds the maximum
 echo "🔍Finding current highest version tag in ECR repository: ${ECR_REPOSITORY_NAME}"
- LATEST_TAG=$(aws ecr describe-images \--repository-name "${ECR_REPOSITORY_NAME}" \--query 'sort_by(imageDetails,& imagePushedAt)[*].imageTags[*]' \--output json | \
+ LATEST_TAG=$(aws ecr describe-images \
+ --repository-name "${ECR_REPOSITORY_NAME}" \
+ --query 'sort_by(imageDetails,& imagePushedAt)[*].imageTags[*]' \
+ --output json | \
  jq -r 'flatten | map(select(test("^[0-9]+$"))) | map(tonumber) | max // 0')
+ 
  # Increment the highest tag to get the new version
  NEW_TAG=$((LATEST_TAG + 1))
  
