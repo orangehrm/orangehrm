@@ -1,4 +1,4 @@
-#!/bin/bash
+ #!/bin/bash
  set -e
  # Specify environment variables
  DEEPTUNE_APP_ENV="orangehrm"
