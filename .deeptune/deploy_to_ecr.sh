@@ -36,6 +36,10 @@ echo "🔍Finding current highest version tag in ECR repository: ${ECR_REPOSITOR
  echo "🏷New tag will be: ${NEW_TAG}"
  echo "🔨Building and pushing multi-architecture Docker image for ${DEEPTUNE_APP_ENV}..."
  DOCKER_BUILDKIT=1 docker buildx create --use --name multi-arch-builder || true
- DOCKER_BUILDKIT=1 docker buildx build \--platform linux/amd64,linux/arm64 \--compress \-t ${ECR_IMAGE_URI_VERSIONED} \-t ${ECR_IMAGE_URI_LATEST} \-f .deeptune/Dockerfile \--push . || 
- { echo "❌Build failed"; exit 1; }
+ DOCKER_BUILDKIT=1 docker buildx build \
+ --platform linux/amd64,linux/arm64 \
+ --compress \
+ -t ${ECR_IMAGE_URI_VERSIONED} \-t ${ECR_IMAGE_URI_LATEST} \-f .deeptune/Dockerfile \
+ --push . || { echo "❌Build failed"; exit 1; }
+ 
  echo "Successfully pushed image to ${ECR_IMAGE_URI_VERSIONED} and ${ECR_IMAGE_URI_LATEST}"
