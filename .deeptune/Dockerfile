@@ -1,6 +1,5 @@
 FROM ubuntu:22.04
 
-# Prevent interactive prompts
 ENV DEBIAN_FRONTEND=noninteractive
 ENV APP_HOME=/deeptune/app
 
@@ -21,7 +20,7 @@ RUN apt-get update && apt-get install -y \
     nodejs npm composer git unzip \
     && rm -rf /var/lib/apt/lists/*
 
-# Enable Apache rewrite module
+# Enable Apache rewrite and headers modules
 RUN a2enmod rewrite headers
 
 # Copy supervisord config and entrypoint
@@ -32,15 +31,28 @@ RUN chmod +x /deeptune/entrypoint.sh
 # Copy OrangeHRM source code
 COPY . $APP_HOME
 
-# Install PHP dependencies (if composer.json exists)
+# Install PHP dependencies if composer.json exists
 RUN if [ -f composer.json ]; then composer install --no-dev --optimize-autoloader; fi
 
 # Build frontend if package.json exists
 RUN if [ -f package.json ]; then npm install && npm run build; fi
 
-# Setup PostgreSQL directories
-RUN mkdir -p /var/lib/postgresql/16/main /var/run/postgresql/16-main.pg_stat_tmp \
-    && chown -R postgres:postgres /var/lib/postgresql/16/main /var/run/postgresql/16-main.pg_stat_tmp
+# ---- PostgreSQL cluster initialization ----
+USER postgres
+RUN if [ ! -d "/var/lib/postgresql/16/main" ]; then \
+      /usr/lib/postgresql/16/bin/initdb -D /var/lib/postgresql/16/main && \
+      echo "host all all 0.0.0.0/0 trust" >> /var/lib/postgresql/16/main/pg_hba.conf && \
+      echo "listen_addresses='*'" >> /var/lib/postgresql/16/main/postgresql.conf; \
+    fi
+# Set default password for 'postgres' user
+RUN /usr/lib/postgresql/16/bin/pg_ctl -D /var/lib/postgresql/16/main -o "-c listen_addresses='localhost'" -w start && \
+    psql --command="ALTER USER postgres PASSWORD 'postgres';" && \
+    /usr/lib/postgresql/16/bin/pg_ctl -D /var/lib/postgresql/16/main stop
+
+USER root
+
+# Ensure log directory exists for supervisor
+RUN mkdir -p /var/log/postgresql && touch /var/log/postgresql/postgresql-16-main.log && chown -R postgres:postgres /var/log/postgresql
 
 # Apache virtual host for OrangeHRM
 RUN echo '<VirtualHost *:80>\n\
@@ -53,9 +65,7 @@ RUN echo '<VirtualHost *:80>\n\
     CustomLog ${APACHE_LOG_DIR}/access.log combined\n\
 </VirtualHost>' > /etc/apache2/sites-available/000-default.conf
 
-# Expose ports: Apache (80) + Postgres (5432)
 EXPOSE 80 5432
 
-# Entrypoint -> supervisord
 CMD ["/deeptune/entrypoint.sh"]
 
