@@ -4,10 +4,10 @@ set -e
 # Environment setup
 DEEPTUNE_APP_ENV="orangehrm"
 DOCKER_IMAGE_NAME="deeptune-${DEEPTUNE_APP_ENV}-base:latest"
-DOCKERFILE_PATH=".deeptune/Dockerfile"
+DOCKERFILE_PATH="Dockerfile"
 
 echo "Building Docker image..."
- docker build -t $DOCKER_IMAGE_NAME -f $DOCKERFILE_PATH . || { echo 
+ docker build -t $DOCKER_IMAGE_NAME -f $DOCKERFILE_PATH ..|| { echo 
 "Build failed"; exit 1; }
 echo "Build successful"
 
