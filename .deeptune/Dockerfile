@@ -1,8 +1,14 @@
 FROM ubuntu:22.04
 
 ENV DEBIAN_FRONTEND=noninteractive
-ENV APP_HOME=/deeptune/app
 
+# Copy supervisord config and entrypoint
+COPY .deeptune/supervisord.conf /deeptune/supervisord.conf
+COPY .deeptune/entrypoint.sh /deeptune/entrypoint.sh
+RUN chmod +x /deeptune/entrypoint.sh
+
+# Set working directory
+ENV APP_HOME=/deeptune/app
 WORKDIR $APP_HOME
 
 # --- Install prerequisites ---
@@ -18,11 +24,6 @@ RUN apt-get update && apt-get install -y \
 
 # Enable Apache rewrite and headers modules
 RUN a2enmod rewrite headers
-
-# Copy supervisord config and entrypoint
-COPY .deeptune/supervisord.conf /deeptune/supervisord.conf
-COPY .deeptune/entrypoint.sh /deeptune/entrypoint.sh
-RUN chmod +x /deeptune/entrypoint.sh
 
 # Copy OrangeHRM source code
 COPY . $APP_HOME
