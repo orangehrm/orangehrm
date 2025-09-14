@@ -47,4 +47,4 @@ RUN echo '<VirtualHost *:80>\n\
 
 EXPOSE 80 3306
 
-CMD ["/deeptune/entrypoint.sh"]
+ENTRYPOINT ["/deeptune/entrypoint.sh"]
