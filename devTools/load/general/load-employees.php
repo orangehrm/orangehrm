@@ -22,20 +22,92 @@
  */
 
 // Database information
-require_once "../../../lib/confs/Conf.php";
 
-// Connecting to the database
-$conf = new Conf();
-$dbConnection = mysqli_connect($conf->dbhost, $conf->dbuser, $conf->dbpass, $conf->dbname, $conf->dbport);
-if (!$dbConnection) { echo mysqli_error($dbConnection); die; }
-$dbConnection->set_charset("utf8mb4");
+$conf = null;
+$confPaths = [
+    __DIR__ . '/../../../lib/confs/Conf.php',
+    '/var/www/html/lib/confs/Conf.php',
+];
+foreach ($confPaths as $confPath) {
+    if (is_file($confPath)) {
+        require_once $confPath;
+        if (class_exists('Conf')) {
+            $conf = new Conf();
+        }
+        break;
+    }
+}
 
-//if (!mysqli_select_db($conf->dbname)) { echo mysqli_error(); exit(0); }
+if (!$conf instanceof Conf) {
+    $conf = new stdClass();
+    $conf->dbhost = 'mysql';
+    $conf->dbuser = 'orangehrm';
+    $conf->dbpass = 'orangehrm';
+    $conf->dbname = 'orangehrm';
+    $conf->dbport = 3306;
+}
 
-// Truncating tables
-if (!mysqli_query($dbConnection,"DELETE from `hs_hr_employee`")) { echo mysqli_error($dbConnection); die; }
-if (!mysqli_query($dbConnection,"DELETE from `ohrm_emp_termination`")) { echo mysqli_error($dbConnection); die; }
-if (!mysqli_query($dbConnection,"DELETE from `ohrm_user`")) { echo mysqli_error($dbConnection); die; }
+if (getenv('DB_HOST') !== false) {
+    $conf->dbhost = getenv('DB_HOST');
+}
+if (getenv('DB_USER') !== false) {
+    $conf->dbuser = getenv('DB_USER');
+}
+if (getenv('DB_PASS') !== false) {
+    $conf->dbpass = getenv('DB_PASS');
+}
+if (getenv('DB_NAME') !== false) {
+    $conf->dbname = getenv('DB_NAME');
+}
+if (getenv('DB_PORT') !== false) {
+    $conf->dbport = (int) getenv('DB_PORT');
+}
+
+// Connecting to the database with mysqli when available, otherwise fall back to PDO
+$mysqliAvailable = function_exists('mysqli_connect');
+
+if ($mysqliAvailable) {
+    $dbConnection = mysqli_connect($conf->dbhost, $conf->dbuser, $conf->dbpass, $conf->dbname, $conf->dbport);
+    if (!$dbConnection) {
+        fwrite(STDERR, mysqli_connect_error() . PHP_EOL);
+        exit(1);
+    }
+    mysqli_set_charset($dbConnection, 'utf8mb4');
+} else {
+    $dsn = sprintf('mysql:host=%s;port=%s;dbname=%s;charset=utf8mb4', $conf->dbhost, $conf->dbport, $conf->dbname);
+    try {
+        $dbConnection = new PDO($dsn, $conf->dbuser, $conf->dbpass, [
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+        ]);
+        $dbConnection->beginTransaction();
+    } catch (PDOException $e) {
+        fwrite(STDERR, $e->getMessage() . PHP_EOL);
+        exit(1);
+    }
+}
+
+$runQuery = function (string $sql) use (&$dbConnection, $mysqliAvailable) {
+    if ($mysqliAvailable) {
+        if (!mysqli_query($dbConnection, $sql)) {
+            throw new RuntimeException(mysqli_error($dbConnection));
+        }
+        return;
+    }
+    $dbConnection->exec($sql);
+};
+
+try {
+    $foreignKeysDisabled = false;
+
+    $runQuery("SET FOREIGN_KEY_CHECKS = 0");
+    $foreignKeysDisabled = true;
+
+    // Truncating tables
+    $runQuery("DELETE from `hs_hr_employee`");
+    $runQuery("DELETE from `ohrm_emp_termination`");
+    $runQuery("DELETE from `ohrm_enforce_password`");
+    $runQuery("DELETE from `ohrm_user`");
 
 // Employee data
 $employees[0][0] = "001"; $employees[0][1] = "Abbey"; $employees[0][2] = "Kayla";
@@ -308,16 +380,12 @@ INSERT INTO hs_hr_employee SET
   joined_date = NULL,
   emp_oth_email = NULL
 EMPSQLSTR;
-
-    if (!mysqli_query($dbConnection,$empSql)) { echo mysqli_error(); die; }
+    $runQuery($empSql);
 
     if ($i == 0) {
         // Default admin
         $q = "INSERT INTO `ohrm_user` ( `emp_number`, `user_name`, `user_password`,`user_role_id`) VALUES ('1', 'admin', '21232f297a57a5a743894a0e4a801fc3', 1)";
-        if (!mysqli_query($dbConnection, $q)) {
-            echo mysqli_error($dbConnection);
-            die;
-        }
+        $runQuery($q);
     }
 
     $userSql = <<< USERSQLSTR
@@ -327,17 +395,32 @@ INSERT INTO ohrm_user SET
   user_name = '{$users[$i][1]}',
   user_password = '{$users[$i][2]}'
 USERSQLSTR;
-
-    if (!mysqli_query($dbConnection,$userSql)) { echo mysqli_error($dbConnection); die; }
+    $runQuery($userSql);
 }
 // Sets Last ID at `hs_hr_unique_id`
-if (!mysqli_query($dbConnection,"UPDATE `hs_hr_unique_id` SET `last_id` = '".count($employees)."' WHERE `field_name` = 'emp_number' AND `table_name` = 'hs_hr_employee'")) { echo mysqli_error($dbConnection); exit(0); }
+    $runQuery("UPDATE `hs_hr_unique_id` SET `last_id` = '" . count($employees) . "' WHERE `field_name` = 'emp_number' AND `table_name` = 'hs_hr_employee'");
 
-//End
-echo "<h2>Successfully Created " . count($employees) . " employees and their user accounts!</h2>";
+    if ($foreignKeysDisabled) {
+        $runQuery("SET FOREIGN_KEY_CHECKS = 1");
+        $foreignKeysDisabled = false;
+    }
 
-?>
-<?php if (!mysqli_error($dbConnection)): ?>
+    if (!$mysqliAvailable && $dbConnection instanceof PDO) {
+        $dbConnection->commit();
+    }
+
+    //End
+    $successMessage = "Successfully Created " . count($employees) . " employees and their user accounts!";
+
+    if (PHP_SAPI === 'cli') {
+        echo $successMessage . PHP_EOL;
+        echo "Admin username = admin\tAdmin password = admin" . PHP_EOL;
+        echo "For employee, \"Kayla Abbey\":" . PHP_EOL;
+        echo "ESS username = Kayla\tESS password = Kayla" . PHP_EOL;
+        echo "As above, for each employee, username and password would be his/her first name" . PHP_EOL;
+    } else {
+        echo '<h2>' . htmlspecialchars($successMessage, ENT_QUOTES, 'UTF-8') . '</h2>';
+        echo <<<HTML
 <pre>
  * Admin username = admin		Admin password = admin
  *
@@ -347,4 +430,28 @@ echo "<h2>Successfully Created " . count($employees) . " employees and their use
  *
  * As above, for each employee, username and password would be his/her first name
 </pre>
-<?php endif; ?>
+HTML;
+    }
+} catch (Throwable $e) {
+    try {
+        if ($foreignKeysDisabled) {
+            $runQuery("SET FOREIGN_KEY_CHECKS = 1");
+        }
+    } catch (Throwable $inner) {
+        // Ignore secondary errors while handling the primary failure.
+    }
+    if (!$mysqliAvailable && isset($dbConnection) && $dbConnection instanceof PDO && $dbConnection->inTransaction()) {
+        $dbConnection->rollBack();
+    }
+    $errorMessage = 'Error loading employees: ' . $e->getMessage();
+    if (PHP_SAPI === 'cli') {
+        fwrite(STDERR, $errorMessage . PHP_EOL);
+    } else {
+        echo '<pre>' . htmlspecialchars($errorMessage, ENT_QUOTES, 'UTF-8') . '</pre>';
+    }
+    exit(1);
+} finally {
+    if ($mysqliAvailable && isset($dbConnection) && $dbConnection instanceof mysqli) {
+        mysqli_close($dbConnection);
+    }
+}

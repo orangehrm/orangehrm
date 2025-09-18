@@ -1,0 +1,90 @@
+# OrangeHRM Terraform Configuration Example
+# Copy this file to terraform.tfvars and customize as needed
+
+# =============================================================================
+# BASIC CONFIGURATION
+# =============================================================================
+
+# Kubernetes namespace for OrangeHRM resources
+namespace = "orangehrm"
+
+# Environment type (minikube, gke, etc.)
+environment = "minikube"
+
+# Whether to allow public access to the application
+# false = internal only, true = public access
+public_access = false
+
+# Whether to enable NGINX Ingress Controller (Minikube only)
+# Note: Ingress is complex on macOS, port forwarding is recommended
+enable_ingress = false
+
+# Hostname for OrangeHRM access (e.g., orangehrm.local)
+# Used for both Ingress and port forwarding setup
+ingress_host = "orangehrm.local"
+
+
+# =============================================================================
+# DATABASE CONFIGURATION
+# =============================================================================
+
+# MySQL root password (sensitive)
+mysql_root_password = "orangehrm"
+
+# MySQL database name for OrangeHRM
+mysql_database = "orangehrm"
+
+# MySQL user for OrangeHRM application
+mysql_user = "orangehrm"
+
+# MySQL password for OrangeHRM user (sensitive)
+mysql_password = "orangehrm"
+
+# =============================================================================
+# APPLICATION CONFIGURATION
+# =============================================================================
+
+# Whether to load sample employee and recruitment data
+# Set to true for demos and testing, false for production
+load_sample_data = true
+
+# =============================================================================
+# DOCKER IMAGE CONFIGURATION
+# =============================================================================
+
+# OrangeHRM Docker image
+orangehrm_image = "orangehrm/orangehrm"
+
+# OrangeHRM Docker image tag/version
+orangehrm_tag = "5.7"
+
+# MySQL Docker image
+mysql_image = "mysql"
+
+# MySQL Docker image tag/version
+mysql_tag = "8.0"
+
+# =============================================================================
+# ADVANCED CONFIGURATION
+# =============================================================================
+
+# Uncomment and modify these for advanced configurations:
+
+# Custom resource limits for OrangeHRM
+# orangehrm_cpu_limit = "1000m"
+# orangehrm_memory_limit = "1Gi"
+# orangehrm_cpu_request = "500m"
+# orangehrm_memory_request = "512Mi"
+
+# Custom resource limits for MySQL
+# mysql_cpu_limit = "1000m"
+# mysql_memory_limit = "1Gi"
+# mysql_cpu_request = "500m"
+# mysql_memory_request = "512Mi"
+
+# Custom storage size for MySQL
+# mysql_storage_size = "10Gi"
+
+# Custom admin credentials (will be set during OrangeHRM installation)
+# admin_username = "admin"
+# admin_password = "admin"
