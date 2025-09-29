@@ -1,3 +1,3 @@
 # How do I report security vulnerabilities?
 
-If you believe you have found a security vulnerability, please submit the report to our security team via [ossecurity@orangehrm.com](mailto:ossecurity@orangehrm.com).
+OrangeHRM Inc. is committed to safeguarding the security and integrity of its software products and services. Any security testing must strictly adhere to our **[Vulnerability Disclosure Policy](https://www.orangehrm.com/security/opensource/OrangeHRM-Vulnerability-Disclosure-Policy-Opensource.pdf)**. Unauthorized testing, including activities conducted without prior review of and compliance with this policy, is strictly prohibited and may result in legal action. All identified security vulnerabilities or related concerns must be reported exclusively to: **ossecurity@orangehrm.com**.
