@@ -24,6 +24,7 @@ import AdministratorAccess from './pages/AdministratorAccess.vue';
 import RequestResetPassword from './pages/RequestResetPassword.vue';
 import ResetPasswordSuccess from './pages/ResetPasswordSuccess.vue';
 import EmailConfigurationWarning from './pages/EmailConfigurationWarning.vue';
+import ResetPasswordFailure from './pages/ResetPasswordFailure.vue';
 
 export default {
   'auth-login': Login,
@@ -33,6 +34,7 @@ export default {
   'reset-weak-password': ResetWeakPassword,
   'reset-password-error': ResetPasswordError,
   'reset-password-success': ResetPasswordSuccess,
+  'reset-password-failure': ResetPasswordFailure,
   'request-reset-password': RequestResetPassword,
   'email-configuration-warning': EmailConfigurationWarning,
 };

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -50,7 +51,7 @@ class Config
     public const MODE_DEMO = 'demo';
 
     public const PRODUCT_NAME = 'OrangeHRM OS';
-    public const PRODUCT_VERSION = '5.7.1';
+    public const PRODUCT_VERSION = '5.8';
     public const ORANGEHRM_API_VERSION = '2.7.0';
     public const PRODUCT_MODE = self::MODE_DEV;
     public const REGISTRATION_URL = 'https://ospenguin.orangehrm.com';
