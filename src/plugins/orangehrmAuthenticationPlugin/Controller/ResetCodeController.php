@@ -58,6 +58,9 @@ class ResetCodeController extends AbstractVueController implements PublicControl
                 new Prop('username', Prop::TYPE_STRING, $user->getUserName())
             );
             $component->addProp(
+                new Prop('code', Prop::TYPE_STRING, $resetCode)
+            );
+            $component->addProp(
                 new Prop(
                     'token',
                     Prop::TYPE_STRING,

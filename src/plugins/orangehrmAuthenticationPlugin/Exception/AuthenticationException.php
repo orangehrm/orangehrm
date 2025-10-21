@@ -104,6 +104,14 @@ class AuthenticationException extends Exception
     /**
      * @return static
      */
+    public static function invalidResetCode(): self
+    {
+        return new self(self::INVALID_RESET_CODE, 'Invalid password reset code');
+    }
+
+    /**
+     * @return static
+     */
     public static function noUserFound(): self
     {
         return new self(self::NO_USER_FOUND, 'No User Found');

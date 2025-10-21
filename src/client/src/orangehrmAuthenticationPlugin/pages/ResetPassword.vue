@@ -36,6 +36,7 @@
             class="orangehrm-forgot-password-card-note"
           />
           <input name="_token" :value="token" type="hidden" />
+          <input name="resetCode" :value="code" type="hidden" />
           <oxd-form-row>
             <oxd-input-field
               :value="username"
@@ -116,6 +117,10 @@ export default {
       required: true,
     },
     token: {
+      type: String,
+      required: true,
+    },
+    code: {
       type: String,
       required: true,
     },

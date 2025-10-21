@@ -24,6 +24,7 @@ use OrangeHRM\Authentication\Service\ResetPasswordService;
 use OrangeHRM\Authentication\Traits\CsrfTokenManagerTrait;
 use OrangeHRM\Core\Controller\AbstractController;
 use OrangeHRM\Core\Controller\PublicControllerInterface;
+use OrangeHRM\Entity\User;
 use OrangeHRM\Framework\Http\RedirectResponse;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\Services;
@@ -52,13 +53,21 @@ class ResetPasswordController extends AbstractController implements PublicContro
     public function handle(Request $request): RedirectResponse
     {
         $token = $request->request->get('_token');
+        $resetCode = $request->request->get('resetCode');
 
         if (!$this->getCsrfTokenManager()->isValid('reset-password', $token)) {
             throw AuthenticationException::invalidCsrfToken();
         }
+        $user = $this->getResetPasswordService()->validateUrl((string)$resetCode);
+        if (!$user instanceof User) {
+            throw AuthenticationException::invalidResetCode();
+        }
         $username = $request->request->get('username');
+        if ($user->getUserName() !== $username) {
+            throw AuthenticationException::invalidResetCode();
+        }
         $password = $request->request->get('password');
-        $credentials = new UserCredential($username, $password);
+        $credentials = new UserCredential($user->getUserName(), $password);
         $this->getResetPasswordService()->saveResetPassword($credentials);
         $session = $this->getContainer()->get(Services::SESSION);
         $session->invalidate();
