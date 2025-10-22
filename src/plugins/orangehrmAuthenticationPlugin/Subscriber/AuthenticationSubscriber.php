@@ -18,6 +18,7 @@
 
 namespace OrangeHRM\Authentication\Subscriber;
 
+use DateTimeInterface;
 use Exception;
 use OrangeHRM\Admin\Traits\Service\UserServiceTrait;
 use OrangeHRM\Authentication\Auth\User as AuthUser;
@@ -81,6 +82,14 @@ class AuthenticationSubscriber extends AbstractEventSubscriber
         if ($this->getAuthUser()->isAuthenticated()) {
             $systemUser = $this->getSystemUser();
             $relevantException = $this->resolveAuthenticatedUserException($systemUser);
+
+            if (is_null($relevantException) && $systemUser instanceof SystemUser) {
+                if ($this->hasUserLastModifiedChanged($systemUser)) {
+                    $relevantException = AuthenticationException::sessionExpired();
+                } else {
+                    $this->refreshUserLastModified($systemUser);
+                }
+            }
 
             if (is_null($relevantException)) {
                 return;
@@ -209,6 +218,40 @@ class AuthenticationSubscriber extends AbstractEventSubscriber
         }
 
         return null;
+    }
+
+    /**
+     * @param SystemUser $user
+     * @return bool
+     */
+    private function hasUserLastModifiedChanged(SystemUser $user): bool
+    {
+        $storedLastModified = $this->getAuthUser()->getUserLastModified();
+        $currentLastModified = $this->getUserLastModifiedValue($user);
+
+        if ($storedLastModified === null && $currentLastModified === null) {
+            return false;
+        }
+
+        return $storedLastModified !== $currentLastModified;
+    }
+
+    /**
+     * @param SystemUser $user
+     */
+    private function refreshUserLastModified(SystemUser $user): void
+    {
+        $this->getAuthUser()->setUserLastModified($this->getUserLastModifiedValue($user));
+    }
+
+    /**
+     * @param SystemUser $user
+     * @return string|null
+     */
+    private function getUserLastModifiedValue(SystemUser $user): ?string
+    {
+        $lastModified = $user->getDateModified() ?? $user->getDateEntered();
+        return $lastModified instanceof DateTimeInterface ? $lastModified->format(DateTimeInterface::ATOM) : null;
     }
 
     /**

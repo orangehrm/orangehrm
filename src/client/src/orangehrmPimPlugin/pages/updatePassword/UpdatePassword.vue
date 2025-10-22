@@ -76,6 +76,7 @@ import {
 } from '@ohrm/core/util/validation/rules';
 import useForm from '@/core/util/composable/useForm';
 import {APIService} from '@/core/util/services/api.service';
+import {navigate} from '@ohrm/core/util/helper/navigation';
 import PasswordInput from '@/core/components/inputs/PasswordInput';
 
 const userModel = {
@@ -123,6 +124,7 @@ export default {
     },
     onSave() {
       this.isLoading = true;
+      let triggerSessionExpiry = false;
       this.http
         .request({
           method: 'PUT',
@@ -138,6 +140,7 @@ export default {
         .then((response) => {
           if (response.status === 200) {
             this.reset();
+            triggerSessionExpiry = true;
             return this.$toast.saveSuccess();
           } else {
             return this.$toast.error({
@@ -146,7 +149,13 @@ export default {
             });
           }
         })
-        .finally(() => (this.isLoading = false));
+        .finally(() => {
+          this.isLoading = false;
+          if (triggerSessionExpiry) {
+            // Navigate to trigger session expiry
+            navigate('/dashboard/index');
+          }
+        });
     },
   },
 };

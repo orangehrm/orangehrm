@@ -8,3 +8,6 @@ langStrings:
   -
     value: 'Please contact your administrator to reset your password.'
     unitId: please_contact_admin_reset_password
+  -
+    value: 'Session Expired'
+    unitId: session_expired
