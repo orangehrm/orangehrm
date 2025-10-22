@@ -22,7 +22,7 @@ use OrangeHRM\Framework\Framework;
 use OrangeHRM\Framework\Http\RedirectResponse;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\Http\RequestStack;
-use OrangeHRM\Framework\Http\Response;
+use Symfony\Component\HttpFoundation\Response;
 use OrangeHRM\Framework\Services;
 
 trait ControllerTrait
