@@ -79,14 +79,13 @@ class AuthenticationSubscriber extends AbstractEventSubscriber
     public function onControllerEvent(ControllerEvent $event): void
     {
         if ($this->getAuthUser()->isAuthenticated()) {
-            if ($this->isLoggedInUserActive()) {
+            $systemUser = $this->getSystemUser();
+            $relevantException = $this->resolveAuthenticatedUserException($systemUser);
+
+            if (is_null($relevantException)) {
                 return;
             }
-            $this->logoutCurrentSession();
-        }
-
-        if ($this->getAuthUser()->isAuthenticated()) {
-            return;
+            $this->logoutCurrentSession($relevantException);
         }
 
         if ($this->getControllerInstance($event) instanceof PublicControllerInterface) {
@@ -156,18 +155,30 @@ class AuthenticationSubscriber extends AbstractEventSubscriber
         return $event->getController()[0];
     }
 
-    private function isLoggedInUserActive(): bool
+    /**
+     * @return SystemUser|null
+     */
+    private function getSystemUser(): ?SystemUser
     {
         $userId = $this->getAuthUser()->getUserId();
         if (is_null($userId)) {
-            return false;
+            return null;
         }
 
         $user = $this->getUserService()->getSystemUser($userId);
         if (!$user instanceof SystemUser) {
-            return false;
+            return null;
         }
 
+        return $user;
+    }
+
+    /**
+     * @param SystemUser $user
+     * @return bool
+     */
+    private function isLoggedInUserActive(SystemUser $user): bool
+    {
         if ($user->isDeleted()) {
             return false;
         }
@@ -175,7 +186,35 @@ class AuthenticationSubscriber extends AbstractEventSubscriber
         return $user->getStatus();
     }
 
-    private function logoutCurrentSession(): void
+    /**
+     * @param SystemUser|null $systemUser
+     * @return AuthenticationException|null
+     */
+    private function resolveAuthenticatedUserException(?SystemUser $systemUser): ?AuthenticationException
+    {
+        if (is_null($systemUser)) {
+            return AuthenticationException::noUserFound();
+        }
+
+        if (!$this->isLoggedInUserActive($systemUser)) {
+            return AuthenticationException::userDisabled();
+        }
+
+        if (is_null($systemUser->getEmployee())) {
+            return AuthenticationException::employeeNotAssigned();
+        }
+
+        if (!is_null($systemUser->getEmployee()->getEmployeeTerminationRecord())) {
+            return AuthenticationException::employeeTerminated();
+        }
+
+        return null;
+    }
+
+    /**
+     * @param AuthenticationException $exception
+     */
+    private function logoutCurrentSession(AuthenticationException $exception): void
     {
         /** @var Session $session */
         $session = $this->getContainer()->get(Services::SESSION);
@@ -183,7 +222,7 @@ class AuthenticationSubscriber extends AbstractEventSubscriber
         $this->getAuthUser()->setIsAuthenticated(false);
         $this->getAuthUser()->addFlash(
             AuthUser::FLASH_LOGIN_ERROR,
-            AuthenticationException::userDisabled()->normalize()
+            $exception->normalize()
         );
     }
 }
