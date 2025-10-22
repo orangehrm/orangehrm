@@ -381,6 +381,21 @@ class EmailService
     public function sendEmail(): bool
     {
         if ($this->isConfigSet()) {
+            if (!$this->areRecipientAddressesValid($this->messageTo ?? [])) {
+                $this->logResult('Failure', 'Email suppressed because recipient address validation failed');
+                return false;
+            }
+
+            if (!$this->areRecipientAddressesValid($this->messageCc ?? [])) {
+                $this->logResult('Failure', 'Email suppressed because recipient address validation failed');
+                return false;
+            }
+
+            if (!$this->areRecipientAddressesValid($this->messageBcc ?? [])) {
+                $this->logResult('Failure', 'Email suppressed because recipient address validation failed');
+                return false;
+            }
+
             try {
                 $mailer = $this->getMailer();
                 $message = $this->getMessage();
@@ -467,9 +482,35 @@ class EmailService
      */
     private function validateEmailAddress($emailAddress)
     {
-        if (!preg_match("/^[^@]*@[^@]*\.[^@]*$/", $emailAddress)) {
+        $emailAddress = trim((string)$emailAddress);
+        if (
+            $emailAddress === '' ||
+            !filter_var($emailAddress, FILTER_VALIDATE_EMAIL) ||
+            preg_match('/^\s*-/', $emailAddress) ||
+            preg_match('/[\r\n]/', $emailAddress)
+        ) {
             throw new Exception("Invalid email address");
         }
+    }
+
+    /**
+     * @param array $recipients
+     * @return bool
+     */
+    private function areRecipientAddressesValid($recipients): bool
+    {
+        foreach ((array)$recipients as $key => $recipient) {
+            try {
+                $this->validateEmailAddress($recipient);
+                if (is_string($key) && strpos($key, '@') !== false) {
+                    $this->validateEmailAddress($key);
+                }
+            } catch (Exception $exception) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**
