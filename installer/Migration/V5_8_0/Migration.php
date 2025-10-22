@@ -58,7 +58,7 @@ class Migration extends AbstractMigration
             $this->getSchemaHelper()->addForeignKey('ohrm_claim_request', $foreignKeyConstraint);
         }
 
-        $groups = ['auth'];
+        $groups = ['auth', 'pim'];
         foreach ($groups as $group) {
             $this->getLangStringHelper()->insertOrUpdateLangStrings(__DIR__, $group);
         }

@@ -347,6 +347,11 @@ class EmployeeContactDetailsAPI extends Endpoint implements CrudEndpoint
                     new Rule(Rules::STRING_TYPE),
                     new Rule(Rules::LENGTH, [null, self::PARAM_RULE_WORK_EMAIL_MAX_LENGTH]),
                     new Rule(Rules::EMAIL),
+                    new Rule(
+                        Rules::CALLBACK,
+                        [[$this, 'isValidEmailRecipient']],
+                        'Work email contains invalid characters.'
+                    ),
                     new Rule(Rules::CALLBACK, [[$this, 'isUniqueEmail'], 'getWorkEmail']),
                 ),
                 true
@@ -388,6 +393,31 @@ class EmployeeContactDetailsAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @param string|null $email
+     * @return bool
+     */
+    public function isValidEmailRecipient(?string $email): bool
+    {
+        if (in_array($email, [null, ''], true)) {
+            return true;
+        }
+
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            return false;
+        }
+
+        if (preg_match('/^\s*-/', $email)) {
+            return false;
+        }
+
+        if (preg_match('/[\r\n]/', $email)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * @return Employee
      * @throws RecordNotFoundException|BadRequestException
      */
@@ -423,6 +453,10 @@ class EmployeeContactDetailsAPI extends Endpoint implements CrudEndpoint
             RequestParams::PARAM_TYPE_BODY,
             self::PARAMETER_OTHER_EMAIL
         );
+
+        if (!$this->isValidEmailRecipient($workEmail)) {
+            throw $this->getBadRequestException('Work Email contains invalid characters.');
+        }
 
         if (!empty($workEmail) && !empty($otherEmail) && $workEmail === $otherEmail) {
             throw $this->getBadRequestException('Work Email and Other Email Cannot Be The Same');
