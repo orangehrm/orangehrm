@@ -226,8 +226,8 @@ class Migration extends AbstractMigration
         $this->modifyClaimTables();
 
         // Fix MariaDB 12.0 version compatibility issue for the installer
-        $migration571 = new \OrangeHRM\Installer\Migration\V5_7_1\Migration();
-        $migration571->correctingCurrencyIdColumnInconsistencies();
+        $migration580 = new \OrangeHRM\Installer\Migration\V5_8_0\Migration();
+        $migration580->correctingCurrencyIdColumnInconsistencies();
 
         $this->modifyClaimRequestCurrencyToForeignKey();
 

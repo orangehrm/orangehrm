@@ -72,7 +72,6 @@ class AppSetupUtility
         '5.6' => \OrangeHRM\Installer\Migration\V5_6_0\Migration::class,
         '5.6.1' => \OrangeHRM\Installer\Migration\V5_6_1\Migration::class,
         '5.7' => \OrangeHRM\Installer\Migration\V5_7_0\Migration::class,
-        '5.7.1' => \OrangeHRM\Installer\Migration\V5_7_1\Migration::class,
         '5.8' => \OrangeHRM\Installer\Migration\V5_8_0\Migration::class,
     ];
 

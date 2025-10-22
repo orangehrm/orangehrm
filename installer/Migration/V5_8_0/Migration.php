@@ -19,6 +19,9 @@
 
 namespace OrangeHRM\Installer\Migration\V5_8_0;
 
+use Doctrine\DBAL\Schema\ForeignKeyConstraint;
+use Doctrine\DBAL\Types\Type;
+use Doctrine\DBAL\Types\Types;
 use OrangeHRM\Installer\Util\V1\AbstractMigration;
 use OrangeHRM\Installer\Util\V1\LangStringHelper;
 
@@ -26,8 +29,35 @@ class Migration extends AbstractMigration
 {
     protected ?LangStringHelper $langStringHelper = null;
 
+    /**
+     * @inheritDoc
+     */
     public function up(): void
     {
+        $payGradeCurrencyTableDetails = $this->getSchemaManager()->introspectTable('ohrm_pay_grade_currency');
+        $payGradeCurrencyCurrencyIdColumn = $payGradeCurrencyTableDetails->getColumn('currency_id');
+
+        $basicSalaryTableDetails = $this->getSchemaManager()->introspectTable('hs_hr_emp_basicsalary');
+        $basicSalaryCurrencyIdColumn = $basicSalaryTableDetails->getColumn('currency_id');
+
+        // Check whether this is already corrected in v5_5_0 migration
+        if ($basicSalaryCurrencyIdColumn->getLength() == 6 && $payGradeCurrencyCurrencyIdColumn->getLength() == 6) {
+            $this->correctingCurrencyIdColumnInconsistencies();
+        }
+
+        $tableDetails = $this->getSchemaManager()->introspectTable('ohrm_claim_request');
+        $foreignKey = $tableDetails->hasForeignKey('fk_currency_id') ? $tableDetails->getForeignKey('fk_currency_id') : null;
+        if (!$foreignKey instanceof ForeignKeyConstraint) {
+            $foreignKeyConstraint = new ForeignKeyConstraint(
+                ['currency_id'],
+                'hs_hr_currency_type',
+                ['currency_id'],
+                'fk_currency_id',
+                ['onDelete' => 'RESTRICT', 'onUpdate' => 'CASCADE']
+            );
+            $this->getSchemaHelper()->addForeignKey('ohrm_claim_request', $foreignKeyConstraint);
+        }
+
         $groups = ['auth'];
         foreach ($groups as $group) {
             $this->getLangStringHelper()->insertOrUpdateLangStrings(__DIR__, $group);
@@ -36,11 +66,90 @@ class Migration extends AbstractMigration
         $this->updateLangStringVersion($this->getVersion());
     }
 
+    /**
+     * Error in foreign key constraint of table ohrm_claim_request: Alter table ohrm_claim_request with foreign key fk_currency_id constraint failed.
+     * Field type or character set for column 'currency_id' does not match referenced column 'currency_id'.
+     */
+    public function correctingCurrencyIdColumnInconsistencies()
+    {
+        $foreignKeyArray = [];
+        $foreignKeyArray = array_merge($foreignKeyArray, $this->getConflictingForeignKeys('ohrm_pay_grade_currency'));
+        $foreignKeyArray = array_merge($foreignKeyArray, $this->getConflictingForeignKeys('hs_hr_emp_basicsalary'));
+        $foreignKeyArray = array_merge($foreignKeyArray, $this->getConflictingForeignKeys('ohrm_claim_request'));
+        $this->removeConflictingForeignKeys($foreignKeyArray);
+
+        $this->getConnection()->executeStatement(
+            'ALTER TABLE hs_hr_currency_type MODIFY COLUMN currency_id VARCHAR(3) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci'
+        );
+
+        $this->getSchemaHelper()->changeColumn('ohrm_pay_grade_currency', 'currency_id', [
+            'Type' => Type::getType(Types::STRING),
+            'Notnull' => true,
+            'Length' => 3,
+            'CustomSchemaOptions' => ['collation' => 'utf8mb3_general_ci', 'charset' => 'utf8mb3']
+        ]);
+
+        $this->getSchemaHelper()->changeColumn('hs_hr_emp_basicsalary', 'currency_id', [
+            'Type' => Type::getType(Types::STRING),
+            'Notnull' => true,
+            'Length' => 3,
+            'CustomSchemaOptions' => ['collation' => 'utf8mb3_general_ci', 'charset' => 'utf8mb3']
+        ]);
+
+        $this->recreateRemovedForeignKeys($foreignKeyArray);
+    }
+
+    /**
+     * @param string $childTable
+     * @return array
+     */
+    private function getConflictingForeignKeys(string $childTable): array
+    {
+        $foreignKeyArray = [];
+        $tableDetails = $this->getSchemaManager()->introspectTable($childTable);
+        $foreignKeys = $tableDetails->getForeignKeys();
+        foreach ($foreignKeys as $constraintName => $constraint) {
+            if ($constraint->getForeignTableName() == 'hs_hr_currency_type') {
+                $foreignKeyArray[$constraintName] = ['constraint' => $constraint, 'childTable' => $childTable];
+            }
+        }
+        return $foreignKeyArray;
+    }
+
+    /**
+     * @param array $conflictingConstraints
+     */
+    private function removeConflictingForeignKeys(array $conflictingConstraints): void
+    {
+        foreach ($conflictingConstraints as $constraintName => $conflictingConstraint) {
+            $this->getSchemaHelper()->dropForeignKeys($conflictingConstraint['childTable'], [$constraintName]);
+        }
+    }
+
+    /**
+     * @param array $conflictingConstraints
+     */
+    private function recreateRemovedForeignKeys(array $conflictingConstraints): void
+    {
+        foreach ($conflictingConstraints as $conflictingConstraint) {
+            $this->getSchemaHelper()->addForeignKey(
+                $conflictingConstraint['childTable'],
+                $conflictingConstraint['constraint']
+            );
+        }
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function getVersion(): string
     {
         return '5.8.0';
     }
 
+    /**
+     * @return LangStringHelper
+     */
     private function getLangStringHelper(): LangStringHelper
     {
         if (is_null($this->langStringHelper)) {
@@ -51,6 +160,9 @@ class Migration extends AbstractMigration
         return $this->langStringHelper;
     }
 
+    /**
+     * @param string $version
+     */
     private function updateLangStringVersion(string $version): void
     {
         $qb = $this->createQueryBuilder()
