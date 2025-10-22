@@ -127,7 +127,7 @@ class SocialMediaAuthenticationServiceTest extends KernelTestCase
         $session = $this->getMockBuilder(Session::class)
             ->onlyMethods(['set'])
             ->getMock();
-        $session->expects($this->exactly(4))
+        $session->expects($this->exactly(5))
             ->method('set');
 
         $this->createKernelWithMockServices(
