@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -58,7 +59,7 @@ abstract class EndpointIntegrationTestCase extends EndpointTestCase
     protected function getTestCases(
         string $testCasesFilePath,
         string $testCaseKey,
-        string $pathToTestCasesDir = null
+        ?string $pathToTestCasesDir = null
     ): array {
         if (is_null($pathToTestCasesDir)) {
             $reflection = new ReflectionClass($this);

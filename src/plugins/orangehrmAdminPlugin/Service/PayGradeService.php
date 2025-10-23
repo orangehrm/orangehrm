@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -70,7 +71,7 @@ class PayGradeService
      * @param PayGradeSearchFilterParams|null $payGradeSearchFilterParams
      * @return PayGrade[]
      */
-    public function getPayGradeList(PayGradeSearchFilterParams $payGradeSearchFilterParams = null): array
+    public function getPayGradeList(?PayGradeSearchFilterParams $payGradeSearchFilterParams = null): array
     {
         if (is_null($payGradeSearchFilterParams)) {
             $payGradeSearchFilterParams = new PayGradeSearchFilterParams();

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -246,11 +247,11 @@ class LeaveRequestDao extends BaseDao
         DateTime $leaveStartDate,
         DateTime $leaveEndDate,
         int $empNumber,
-        DateTime $startDayStartTime = null,
-        DateTime $startDayEndTime = null,
+        ?DateTime $startDayStartTime = null,
+        ?DateTime $startDayEndTime = null,
         bool $allDaysPartial = false,
-        DateTime $endDayStartTime = null,
-        DateTime $endDayEndTime = null
+        ?DateTime $endDayStartTime = null,
+        ?DateTime $endDayEndTime = null
     ): array {
         $q = $this->createQueryBuilder(Leave::class, 'l')
             ->andWhere('l.employee = :empNumber')

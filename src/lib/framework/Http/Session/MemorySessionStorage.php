@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -89,7 +90,7 @@ class MemorySessionStorage implements SessionStorageInterface
     /**
      * @inheritDoc
      */
-    public function regenerate(bool $destroy = false, int $lifetime = null): bool
+    public function regenerate(bool $destroy = false, ?int $lifetime = null): bool
     {
         if ($destroy) {
             $this->metadataBag->stampNew();

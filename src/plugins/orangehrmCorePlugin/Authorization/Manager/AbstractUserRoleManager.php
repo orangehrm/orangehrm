@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -314,7 +315,7 @@ abstract class AbstractUserRoleManager
      * @since 5.0
      */
     abstract public function getDataGroupPermissionCollection(
-        DataGroupPermissionFilterParams $dataGroupPermissionFilterParams = null
+        ?DataGroupPermissionFilterParams $dataGroupPermissionFilterParams = null
     ): DataGroupPermissionCollection;
 
     /**

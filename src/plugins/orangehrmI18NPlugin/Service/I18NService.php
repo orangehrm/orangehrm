@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -302,7 +303,7 @@ class I18NService
      * @return string
      * @internal
      */
-    public function trans(string $key, array $parameters = [], string $langCode = null): string
+    public function trans(string $key, array $parameters = [], ?string $langCode = null): string
     {
         $langCode !== null ?: $langCode = $this->getTranslator()->getLocale();
         if (!$this->isLanguageLoaded($langCode, self::TRANSLATION_TYPE_KEY_TARGET)) {
@@ -324,7 +325,7 @@ class I18NService
      * @return string
      * @internal
      */
-    public function transBySource(string $sourceLangString, array $parameters = [], string $langCode = null): string
+    public function transBySource(string $sourceLangString, array $parameters = [], ?string $langCode = null): string
     {
         $langCode !== null ?: $langCode = $this->getTranslator()->getLocale();
         if (!$this->isLanguageLoaded($langCode, self::TRANSLATION_TYPE_SOURCE_TARGET)) {

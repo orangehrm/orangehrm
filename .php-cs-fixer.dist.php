@@ -13,8 +13,7 @@ $finder = PhpCsFixer\Finder::create()
     ->exclude('installer/client')
     // TODO:: Remove bellow excluded dirs, files
     ->exclude('devTools/load')
-    ->exclude('lib')
-    ->exclude('src/plugins/orangehrmRESTPlugin');
+    ->exclude('lib');
 
 $config = new PhpCsFixer\Config();
 return $config->setRules(
@@ -28,5 +27,6 @@ return $config->setRules(
             'before_array_assignments_equals' => false
         ],
         'simple_to_complex_string_variable' => true,
+        'nullable_type_declaration_for_default_null_value' => true,
     ]
 )->setFinder($finder);

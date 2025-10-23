@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -42,10 +43,10 @@ class Messages
     public const NOT_WRITEABLE = 'Not Writeable';
 
     public const ERROR_MESSAGE_ACCESS_DENIED = 'Access denied for `Privileged Database User`. ' .
-    'Please check `Privileged Database Username` and `Privileged Database User Password` Correct.';
+        'Please check `Privileged Database Username` and `Privileged Database User Password` Correct.';
 
     public const ERROR_MESSAGE_INVALID_HOST_PORT = 'It seems like you are using an incorrect TCP/IP port number or incorrect Unix socket file name. ' .
-    'Please check whether MySQL server configuration as well as firewall and port blocking services are enabled.';
+        'Please check whether MySQL server configuration as well as firewall and port blocking services are enabled.';
 
     public const ERROR_MESSAGE_REFER_LOG_FOR_MORE = 'For more details, please refer to the error log in src/log/installer.log file';
 }

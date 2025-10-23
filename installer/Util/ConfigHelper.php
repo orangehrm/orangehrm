@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -57,7 +58,7 @@ class ConfigHelper
      * @param null|string $default
      * @return null|string
      */
-    public function getConfigValue(string $name, string $default = null)
+    public function getConfigValue(string $name, ?string $default = null)
     {
         $table = $this->getSchemaManager()->introspectTable('hs_hr_config');
         $keyFieldsColumnName = $table->hasColumn('name') ? 'name' : '`key`';

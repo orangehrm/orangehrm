@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -153,7 +154,7 @@ abstract class AccessStrategy
     public function getFormattedValue($accessClassName, $currentValue)
     {
         $accessClassName = 'OrangeHRM\\Maintenance\\AccessStrategy\\FormatValue\\' . $accessClassName;
-        $this->getRealValueClass = new  $accessClassName();
+        $this->getRealValueClass = new $accessClassName();
         return $this->getRealValueClass->getFormattedValue($currentValue);
     }
 

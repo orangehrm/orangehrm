@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -24,7 +25,7 @@ class ArrayInput extends \Symfony\Component\Console\Input\ArrayInput
 {
     private array $parameters;
 
-    public function __construct(array $parameters, InputDefinition $definition = null)
+    public function __construct(array $parameters, ?InputDefinition $definition = null)
     {
         $this->parameters = $parameters;
         parent::__construct($parameters, $definition);

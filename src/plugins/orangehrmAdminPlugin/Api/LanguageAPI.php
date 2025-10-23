@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -283,7 +284,7 @@ class LanguageAPI extends Endpoint implements CrudEndpoint
      * @param EntityUniquePropertyOption|null $uniqueOption
      * @return ParamRule
      */
-    private function getNameRule(EntityUniquePropertyOption $uniqueOption = null): ParamRule
+    private function getNameRule(?EntityUniquePropertyOption $uniqueOption = null): ParamRule
     {
         return $this->getValidationDecorator()->requiredParamRule(
             new ParamRule(
