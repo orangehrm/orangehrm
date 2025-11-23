@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -615,7 +616,7 @@ class SystemCheck
      * @param string|null $maxMemory
      * @return int
      */
-    private function checkPhpMemory(int $hardLimit, int $softLimit, string &$maxMemory = null): int
+    private function checkPhpMemory(int $hardLimit, int $softLimit, ?string &$maxMemory = null): int
     {
         $maxMemory = is_null($maxMemory) ? ini_get('memory_limit') : $maxMemory;
         if (empty($maxMemory)) {

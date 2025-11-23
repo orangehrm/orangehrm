@@ -6,7 +6,7 @@
     "lint": "eslint . --ext .js,.ts, --max-warnings=0"
   },
   "devDependencies": {
-    "axios": "^1.6.7",
+    "axios": "~1.13.1",
     "cypress": "^13.6.4",
     "eslint": "^8.56.0",
     "eslint-config-prettier": "^9.1.0",

@@ -1,6 +1,6 @@
 FROM php:8.3-apache-bookworm
 
-# Install system dependencies including Node.js for building Vue.js frontend
+
 RUN set -ex; \
 	savedAptMark="$(apt-mark showmanual)"; \
 	apt-get update; \
@@ -16,12 +16,7 @@ RUN set -ex; \
 		curl \
 	; \
 	\
-	# Install Node.js 18.x (LTS) for building Vue.js frontend
-	curl -fsSL https://deb.nodesource.com/setup_18.x | bash -; \
-	apt-get install -y nodejs; \
-	\
-	# Install Yarn package manager
-	npm install -g yarn; \
+
 	\
 	# Configure and install PHP extensions
 	docker-php-ext-configure gd --with-freetype --with-jpeg; \

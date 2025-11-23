@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -202,7 +203,7 @@ class HttpKernel extends BaseHttpKernel
      * @param string|null $savePath
      * @return Session
      */
-    protected function createSession(Request $request, string $savePath = null): Session
+    protected function createSession(Request $request, ?string $savePath = null): Session
     {
         $isSecure = $request->isSecure();
         $path = $request->getBasePath();

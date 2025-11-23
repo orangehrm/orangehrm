@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -18,6 +19,7 @@
 
 namespace OrangeHRM\Authentication\Service;
 
+use DateTimeInterface;
 use OrangeHRM\Admin\Traits\Service\UserServiceTrait;
 use OrangeHRM\Authentication\Dto\UserCredential;
 use OrangeHRM\Authentication\Exception\AuthenticationException;
@@ -76,5 +78,9 @@ class AuthenticationService
         if ($user->getEmployee() instanceof Employee) {
             $this->getAuthUser()->setEmpNumber($user->getEmployee()->getEmpNumber());
         }
+        $lastModified = $user->getDateModified() ?? $user->getDateEntered();
+        $this->getAuthUser()->setUserLastModified(
+            $lastModified instanceof DateTimeInterface ? $lastModified->format(DateTimeInterface::ATOM) : null
+        );
     }
 }

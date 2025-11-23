@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -199,7 +200,7 @@ class EmployeeTimeAtWorkService
     private function getTotalTimeForGivenDate(
         int $empNumber,
         DateTime $startUTCDateTime,
-        DateTime $spotUTCDateTime = null
+        ?DateTime $spotUTCDateTime = null
     ): int {
         $totalTime = 0;
         $endUTCDateTime = (clone $startUTCDateTime)->add(new DateInterval('P1D'));

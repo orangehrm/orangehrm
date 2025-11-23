@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -163,7 +164,7 @@ class DateTimeHelperService
      * @param DateTimeZone|null $timezone
      * @return DateTime
      */
-    public function getNow(DateTimeZone $timezone = null): DateTime
+    public function getNow(?DateTimeZone $timezone = null): DateTime
     {
         return new DateTime('now', $timezone);
     }

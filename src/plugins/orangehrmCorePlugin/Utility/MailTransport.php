@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -73,7 +74,7 @@ class MailTransport extends AbstractTransport
      * @param string $host
      * @param int|null $port
      */
-    public function __construct(string $scheme = self::SCHEME_SMTP, string $host = 'localhost', int $port = null)
+    public function __construct(string $scheme = self::SCHEME_SMTP, string $host = 'localhost', ?int $port = null)
     {
         if ($scheme == self::SCHEME_SENDMAIL) {
             $dsn = 'sendmail://default?command='.urlencode($host);

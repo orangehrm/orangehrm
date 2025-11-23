@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -923,8 +924,7 @@ class CandidateAPI extends Endpoint implements CrudEndpoint
          * already existing candidateVacancy available but null vacancyId given
          * In this case, the existing candidateVacancy record get deleted and
          * now the candidate has not assigned to a vacancy
-         */
-        elseif (!is_null($candidateVacancy)) {
+         */ elseif (!is_null($candidateVacancy)) {
             $this->removeVacancy($candidateVacancy);
         }
         //else vacancyId is null and no existing vacancy available - Do nothing

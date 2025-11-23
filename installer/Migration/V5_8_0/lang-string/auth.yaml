@@ -1,0 +1,13 @@
+langStrings:
+  -
+    value: 'Reset password link was not sent'
+    unitId: reset_password_link_was_not_sent
+  -
+    value: 'Your reset password link was not sent due to an error.'
+    unitId: your_reset_password_link_not_sent_error
+  -
+    value: 'Please contact your administrator to reset your password.'
+    unitId: please_contact_admin_reset_password
+  -
+    value: 'Session Expired'
+    unitId: session_expired

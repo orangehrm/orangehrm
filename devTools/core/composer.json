@@ -9,10 +9,10 @@
         "symfony/framework-bundle": "^5.4.35",
         "symfony/maker-bundle": "^1.43",
         "symfony/proxy-manager-bridge": "^5.4.21",
-        "symfony/runtime": "^5.4.35",
+        "symfony/runtime": "^5.4.46",
         "symfony/yaml": "^5.4.35",
         "friendsofphp/php-cs-fixer": "^3.49",
-        "symfony/process": "^5.4.35"
+        "symfony/process": "^5.4.47"
     },
     "autoload-dev": {
         "psr-4": {
@@ -22,6 +22,9 @@
     "config": {
         "allow-plugins": {
             "symfony/runtime": false
+        },
+        "platform": {
+            "php": "7.4"
         }
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -56,6 +57,9 @@ class ResetCodeController extends AbstractVueController implements PublicControl
             $component = new Component('reset-password');
             $component->addProp(
                 new Prop('username', Prop::TYPE_STRING, $user->getUserName())
+            );
+            $component->addProp(
+                new Prop('code', Prop::TYPE_STRING, $resetCode)
             );
             $component->addProp(
                 new Prop(

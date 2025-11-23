@@ -4,7 +4,7 @@ on: [ push, pull_request ]
 
 jobs:
   lint:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
 
     steps:
       - uses: actions/checkout@v4
@@ -25,11 +25,11 @@ jobs:
 
       - name: Install dependencies
         run: |
-          php8.1 -f /usr/bin/composer install -d src
-          php8.1 -f /usr/bin/composer install -d devTools/core
+          php8.3 -f /usr/bin/composer install -d src
+          php8.3 -f /usr/bin/composer install -d devTools/core
 
       - name: Check PHP Coding Standards
-        run: php devTools/core/console.php php-cs-fix --php php8.1
+        run: php devTools/core/console.php php-cs-fix --php php8.3
 
       - name: Check files changed
         id: git-status

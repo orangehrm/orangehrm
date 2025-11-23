@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -86,7 +87,7 @@ class AddDataGroupCommand extends Command
         $dataGroup = $this->io->ask(
             'Enter data group name (e.g. <fg=yellow>job_titles, apiv2_job_titles</>)',
             null,
-            function (string $value = null) {
+            function (?string $value = null) {
                 if (null === $value || '' === $value) {
                     throw new InvalidArgumentException('This value cannot be blank.');
                 }
@@ -125,7 +126,7 @@ class AddDataGroupCommand extends Command
             $apiClassName = $this->io->ask(
                 'Enter API full qualified class name (e.g. <fg=yellow>OrangeHRM\Admin\Api\JobTitleAPI</>)',
                 null,
-                function (string $value = null) {
+                function (?string $value = null) {
                     if (!class_exists($value)) {
                         throw new InvalidArgumentException('Invalid class name');
                     }
@@ -165,7 +166,7 @@ class AddDataGroupCommand extends Command
      * @param string|null $value
      * @return string
      */
-    public function notBlankValidation(string $value = null): string
+    public function notBlankValidation(?string $value = null): string
     {
         if (null === $value || '' === $value) {
             throw new InvalidArgumentException('This value cannot be blank.');

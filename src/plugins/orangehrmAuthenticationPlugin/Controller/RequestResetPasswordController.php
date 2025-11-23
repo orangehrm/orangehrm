@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -51,14 +52,15 @@ class RequestResetPasswordController extends AbstractController implements Publi
      */
     public function handle(Request $request): RedirectResponse
     {
+        $redirectUrl = "auth/sendPasswordReset";
         $token = $request->request->get('_token');
         if (!$this->getCsrfTokenManager()->isValid('request-reset-password', $token)) {
             throw AuthenticationException::invalidCsrfToken();
         }
         $username = $request->request->get('username');
         if (($user = $this->getResetPasswordService()->searchForUserRecord($username)) instanceof User) {
-            $this->getResetPasswordService()->logPasswordResetRequest($user);
+            $redirectUrl = $this->getResetPasswordService()->logPasswordResetRequest($user) ? $redirectUrl : "auth/sendPasswordResetFailure";
         }
-        return $this->redirect('auth/sendPasswordReset');
+        return $this->redirect($redirectUrl);
     }
 }

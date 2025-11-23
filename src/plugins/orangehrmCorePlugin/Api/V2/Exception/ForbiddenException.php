@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -26,7 +27,7 @@ class ForbiddenException extends Exception implements ValidationEscapableExcepti
 {
     public const DEFAULT_ERROR_MESSAGE = "Unauthorized";
 
-    public function __construct($message = self::DEFAULT_ERROR_MESSAGE, $code = 0, Throwable $previous = null)
+    public function __construct($message = self::DEFAULT_ERROR_MESSAGE, $code = 0, ?Throwable $previous = null)
     {
         parent::__construct($message, $code, $previous);
     }

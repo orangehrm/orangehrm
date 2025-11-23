@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -18,8 +19,11 @@
 
 namespace OrangeHRM\Authentication\Subscriber;
 
+use DateTimeInterface;
 use Exception;
+use OrangeHRM\Admin\Traits\Service\UserServiceTrait;
 use OrangeHRM\Authentication\Auth\User as AuthUser;
+use OrangeHRM\Authentication\Exception\AuthenticationException;
 use OrangeHRM\Authentication\Exception\SessionExpiredException;
 use OrangeHRM\Authentication\Exception\UnauthorizedException;
 use OrangeHRM\Core\Controller\AbstractModuleController;
@@ -28,9 +32,11 @@ use OrangeHRM\Core\Controller\PublicControllerInterface;
 use OrangeHRM\Core\Controller\Rest\V2\AbstractRestController;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
+use OrangeHRM\Entity\User as SystemUser;
 use OrangeHRM\Framework\Event\AbstractEventSubscriber;
 use OrangeHRM\Framework\Http\RedirectResponse;
 use OrangeHRM\Framework\Http\Response;
+use OrangeHRM\Framework\Http\Session\Session;
 use OrangeHRM\Framework\Routing\UrlGenerator;
 use OrangeHRM\Framework\Services;
 use Symfony\Component\HttpFoundation\UrlHelper;
@@ -43,6 +49,7 @@ class AuthenticationSubscriber extends AbstractEventSubscriber
 {
     use ServiceContainerTrait;
     use AuthUserTrait;
+    use UserServiceTrait;
 
     /**
      * @inheritDoc
@@ -74,7 +81,21 @@ class AuthenticationSubscriber extends AbstractEventSubscriber
     public function onControllerEvent(ControllerEvent $event): void
     {
         if ($this->getAuthUser()->isAuthenticated()) {
-            return;
+            $systemUser = $this->getSystemUser();
+            $relevantException = $this->resolveAuthenticatedUserException($systemUser);
+
+            if (is_null($relevantException) && $systemUser instanceof SystemUser) {
+                if ($this->hasUserLastModifiedChanged($systemUser)) {
+                    $relevantException = AuthenticationException::sessionExpired();
+                } else {
+                    $this->refreshUserLastModified($systemUser);
+                }
+            }
+
+            if (is_null($relevantException)) {
+                return;
+            }
+            $this->logoutCurrentSession($relevantException);
         }
 
         if ($this->getControllerInstance($event) instanceof PublicControllerInterface) {
@@ -142,5 +163,110 @@ class AuthenticationSubscriber extends AbstractEventSubscriber
     private function getControllerInstance(ControllerEvent $event)
     {
         return $event->getController()[0];
+    }
+
+    /**
+     * @return SystemUser|null
+     */
+    private function getSystemUser(): ?SystemUser
+    {
+        $userId = $this->getAuthUser()->getUserId();
+        if (is_null($userId)) {
+            return null;
+        }
+
+        $user = $this->getUserService()->getSystemUser($userId);
+        if (!$user instanceof SystemUser) {
+            return null;
+        }
+
+        return $user;
+    }
+
+    /**
+     * @param SystemUser $user
+     * @return bool
+     */
+    private function isLoggedInUserActive(SystemUser $user): bool
+    {
+        if ($user->isDeleted()) {
+            return false;
+        }
+
+        return $user->getStatus();
+    }
+
+    /**
+     * @param SystemUser|null $systemUser
+     * @return AuthenticationException|null
+     */
+    private function resolveAuthenticatedUserException(?SystemUser $systemUser): ?AuthenticationException
+    {
+        if (is_null($systemUser)) {
+            return AuthenticationException::noUserFound();
+        }
+
+        if (!$this->isLoggedInUserActive($systemUser)) {
+            return AuthenticationException::userDisabled();
+        }
+
+        if (is_null($systemUser->getEmployee())) {
+            return AuthenticationException::employeeNotAssigned();
+        }
+
+        if (!is_null($systemUser->getEmployee()->getEmployeeTerminationRecord())) {
+            return AuthenticationException::employeeTerminated();
+        }
+
+        return null;
+    }
+
+    /**
+     * @param SystemUser $user
+     * @return bool
+     */
+    private function hasUserLastModifiedChanged(SystemUser $user): bool
+    {
+        $storedLastModified = $this->getAuthUser()->getUserLastModified();
+        $currentLastModified = $this->getUserLastModifiedValue($user);
+
+        if ($storedLastModified === null && $currentLastModified === null) {
+            return false;
+        }
+
+        return $storedLastModified !== $currentLastModified;
+    }
+
+    /**
+     * @param SystemUser $user
+     */
+    private function refreshUserLastModified(SystemUser $user): void
+    {
+        $this->getAuthUser()->setUserLastModified($this->getUserLastModifiedValue($user));
+    }
+
+    /**
+     * @param SystemUser $user
+     * @return string|null
+     */
+    private function getUserLastModifiedValue(SystemUser $user): ?string
+    {
+        $lastModified = $user->getDateModified() ?? $user->getDateEntered();
+        return $lastModified instanceof DateTimeInterface ? $lastModified->format(DateTimeInterface::ATOM) : null;
+    }
+
+    /**
+     * @param AuthenticationException $exception
+     */
+    private function logoutCurrentSession(AuthenticationException $exception): void
+    {
+        /** @var Session $session */
+        $session = $this->getContainer()->get(Services::SESSION);
+        $session->invalidate();
+        $this->getAuthUser()->setIsAuthenticated(false);
+        $this->getAuthUser()->addFlash(
+            AuthUser::FLASH_LOGIN_ERROR,
+            $exception->normalize()
+        );
     }
 }

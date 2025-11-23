@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -43,7 +44,7 @@ abstract class AbstractEndpointResult implements EndpointResult
      * @param ParameterBag|null $rels
      * @throws NormalizeException
      */
-    public function __construct(string $modelClass, $data, ParameterBag $meta = null, ParameterBag $rels = null)
+    public function __construct(string $modelClass, $data, ?ParameterBag $meta = null, ?ParameterBag $rels = null)
     {
         if (!class_exists($modelClass)) {
             throw new NormalizeException(

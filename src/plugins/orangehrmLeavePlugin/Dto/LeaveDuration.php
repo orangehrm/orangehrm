@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -57,7 +58,7 @@ class LeaveDuration
      * @param DateTime|null $fromTime
      * @param DateTime|null $toTime
      */
-    public function __construct(string $type, DateTime $fromTime = null, DateTime $toTime = null)
+    public function __construct(string $type, ?DateTime $fromTime = null, ?DateTime $toTime = null)
     {
         $this->setType($type);
         $fromTime == null ?: $this->setFromTime($fromTime);

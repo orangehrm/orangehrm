@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -224,6 +225,11 @@ class Migration extends AbstractMigration
 
         $this->changeClaimExpenseTypeTableStatusToBoolean();
         $this->modifyClaimTables();
+
+        // Fix MariaDB 12.0 version compatibility issue for the installer
+        $migration580 = new \OrangeHRM\Installer\Migration\V5_8_0\Migration();
+        $migration580->correctingCurrencyIdColumnInconsistencies();
+
         $this->modifyClaimRequestCurrencyToForeignKey();
 
         if (!$this->checkClaimExists()) {
@@ -496,14 +502,18 @@ class Migration extends AbstractMigration
 
     private function modifyClaimRequestCurrencyToForeignKey(): void
     {
-        $foreignKeyConstraint = new ForeignKeyConstraint(
-            ['currency_id'],
-            'hs_hr_currency_type',
-            ['currency_id'],
-            'fk_currency_id',
-            ['onDelete' => 'RESTRICT', 'onUpdate' => 'CASCADE']
-        );
-        $this->getSchemaHelper()->addForeignKey('ohrm_claim_request', $foreignKeyConstraint);
+        $tableDetails = $this->getSchemaManager()->introspectTable('ohrm_claim_request');
+        $foreignKey = $tableDetails->hasForeignKey('fk_currency_id') ? $tableDetails->getForeignKey('fk_currency_id') : null;
+        if (!$foreignKey instanceof ForeignKeyConstraint) {
+            $foreignKeyConstraint = new ForeignKeyConstraint(
+                ['currency_id'],
+                'hs_hr_currency_type',
+                ['currency_id'],
+                'fk_currency_id',
+                ['onDelete' => 'RESTRICT', 'onUpdate' => 'CASCADE']
+            );
+            $this->getSchemaHelper()->addForeignKey('ohrm_claim_request', $foreignKeyConstraint);
+        }
     }
 
     private function changeClaimExpenseTypeTableStatusToBoolean(): void

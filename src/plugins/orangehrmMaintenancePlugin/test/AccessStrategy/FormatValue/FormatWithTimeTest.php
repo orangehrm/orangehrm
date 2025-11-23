@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -28,7 +29,7 @@ class FormatWithTimeTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->formatWithTime = new  FormatWithTime();
+        $this->formatWithTime = new FormatWithTime();
     }
 
     public function testGetFormattedValue(): void

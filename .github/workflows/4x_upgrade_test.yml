@@ -13,7 +13,7 @@ on:
 
 jobs:
   upgrade_test:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
 
     strategy:
       fail-fast: false
@@ -72,7 +72,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          php7.4 -f /usr/bin/composer install -d src
+          php8.3 -f /usr/bin/composer install -d src
 
       - name: Run Upgrade
         run: php installer/console upgrade:run --dbHost 127.0.0.1 --dbPort 3306 --dbName upgrade --dbUser root --dbUserPassword root --currentVersion ${{ matrix.dumps.version }}

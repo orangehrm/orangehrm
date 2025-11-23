@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -262,7 +263,7 @@ class AuthenticationServiceTest extends KernelTestCase
         $session = $this->getMockBuilder(Session::class)
             ->onlyMethods(['set'])
             ->getMock();
-        $session->expects($this->exactly(4))
+        $session->expects($this->exactly(5))
             ->method('set');
 
         $this->createKernelWithMockServices([Services::SESSION => $session]);
@@ -271,7 +272,7 @@ class AuthenticationServiceTest extends KernelTestCase
         $authenticationService->expects($this->once())
             ->method('getUserService')
             ->willReturn($userService);
-        $authenticationService->expects($this->exactly(4))
+        $authenticationService->expects($this->exactly(5))
             ->method('getAuthUser')
             ->willReturn($authUser);
 

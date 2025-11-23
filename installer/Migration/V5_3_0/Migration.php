@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -342,7 +343,7 @@ class Migration extends AbstractMigration
     {
         $foreignKeyArray = [];
         foreach (self::CONFLICTING_FOREIGN_KEY_TABLES as $table) {
-            $tableDetails = $this->getSchemaManager()->listTableDetails($table);
+            $tableDetails = $this->getSchemaManager()->introspectTable($table);
             $foreignKeys = $tableDetails->getForeignKeys();
             foreach ($foreignKeys as $constraintName => $constraint) {
                 if ($constraint->getForeignTableName() == 'hs_hr_employee') {

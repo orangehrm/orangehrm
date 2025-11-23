@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -18,7 +19,10 @@
 
 namespace OrangeHRM\Recruitment\Controller\File;
 
+use OrangeHRM\Authentication\Exception\ForbiddenException;
 use OrangeHRM\Core\Controller\AbstractFileController;
+use OrangeHRM\Core\Traits\UserRoleManagerTrait;
+use OrangeHRM\Entity\Interview;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\Http\Response;
 use OrangeHRM\Recruitment\Traits\Service\RecruitmentAttachmentServiceTrait;
@@ -26,6 +30,7 @@ use OrangeHRM\Recruitment\Traits\Service\RecruitmentAttachmentServiceTrait;
 class InterviewAttachment extends AbstractFileController
 {
     use RecruitmentAttachmentServiceTrait;
+    use UserRoleManagerTrait;
 
     public function handle(Request $request): Response
     {
@@ -34,6 +39,15 @@ class InterviewAttachment extends AbstractFileController
         $response = $this->getResponse();
 
         if ($interviewId && $attachmentId) {
+            $interviewAccessible = $this->getUserRoleManager()->isEntityAccessible(Interview::class, $interviewId);
+            $attachmentAccessible = $this->getUserRoleManager()->isEntityAccessible(
+                \OrangeHRM\Entity\InterviewAttachment::class,
+                $attachmentId
+            );
+            if (!$interviewAccessible && !$attachmentAccessible) {
+                throw new ForbiddenException();
+            }
+
             $attachment = $this->getRecruitmentAttachmentService()
                 ->getRecruitmentAttachmentDao()
                 ->getInterviewAttachmentByAttachmentIdAndInterviewId($attachmentId, $interviewId);

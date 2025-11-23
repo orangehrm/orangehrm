@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -35,6 +36,7 @@ class User
     public const USER_ROLE_ID = 'user.user_role_id';
     public const USER_ROLE_NAME = 'user.user_role_name';
     public const USER_EMPLOYEE_NUMBER = 'user.user_employee_number';
+    public const USER_LAST_MODIFIED = 'user.last_modified';
     public const OPENID_PROVIDER_ID = 'openid.provider_id';
 
     public const FLASH_LOGIN_ERROR = 'flash.login_error';
@@ -225,6 +227,23 @@ class User
     public function setEmpNumber(?int $empNumber): void
     {
         $this->setAttribute(self::USER_EMPLOYEE_NUMBER, $empNumber);
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getUserLastModified(): ?string
+    {
+        return $this->getAttribute(self::USER_LAST_MODIFIED);
+    }
+
+    /**
+     * @param string|null $lastModified
+     * @internal
+     */
+    public function setUserLastModified(?string $lastModified): void
+    {
+        $this->setAttribute(self::USER_LAST_MODIFIED, $lastModified);
     }
 
     /**

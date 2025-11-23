@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -22,7 +23,7 @@ use OrangeHRM\Framework\Framework;
 use OrangeHRM\Framework\Http\RedirectResponse;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\Http\RequestStack;
-use OrangeHRM\Framework\Http\Response;
+use Symfony\Component\HttpFoundation\Response;
 use OrangeHRM\Framework\Services;
 
 trait ControllerTrait

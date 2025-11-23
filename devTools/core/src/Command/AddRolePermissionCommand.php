@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -118,7 +119,7 @@ class AddRolePermissionCommand extends Command
 
         $question = new Question('Enter data group name (e.g. <fg=yellow>job_titles, apiv2_job_titles</>)');
         $question->setValidator(
-            function (string $value = null) use ($dataGroups): string {
+            function (?string $value = null) use ($dataGroups): string {
                 if (!in_array($value, $dataGroups)) {
                     throw new InvalidArgumentException('Invalid option');
                 }
@@ -144,7 +145,7 @@ class AddRolePermissionCommand extends Command
 
         $question = new Question('Enter user role name (e.g. <fg=yellow>' . implode(', ', $userRoles) . '</>)');
         $question->setValidator(
-            function (string $value = null) use ($userRoles): string {
+            function (?string $value = null) use ($userRoles): string {
                 if (!in_array($value, $userRoles)) {
                     throw new InvalidArgumentException('Invalid option');
                 }

@@ -209,6 +209,9 @@ export default {
         workEmail: [
           shouldNotExceedCharLength(50),
           validEmailFormat,
+          this.createEmailRecipientValidator(
+            this.$t('pim.work_email_invalid_characters'),
+          ),
           promiseDebounce(this.validateWorkEmail, 500),
         ],
         otherEmail: [
@@ -335,6 +338,25 @@ export default {
       this.contact.countryCode = this.countries.find(
         (item) => item.id === data.countryCode,
       );
+    },
+
+    isValidEmailRecipient(email) {
+      if (email === null || email === undefined || email === '') {
+        return true;
+      }
+      if (/^\s*-/.test(email)) {
+        return false;
+      }
+      return !/[\r\n]/.test(email);
+    },
+
+    createEmailRecipientValidator(message) {
+      return (value) => {
+        if (value === null || value === undefined || value === '') {
+          return true;
+        }
+        return this.isValidEmailRecipient(value) || message;
+      };
     },
   },
 };

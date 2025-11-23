@@ -5,7 +5,7 @@ on: [ push, pull_request ]
 jobs:
   build:
 
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
 
     steps:
       - uses: actions/checkout@v4
@@ -38,8 +38,8 @@ jobs:
       - name: Install dependencies
         run: |
           cd src
-          php7.4 -f /usr/bin/composer install --no-dev
-          php7.4 -f /usr/bin/composer dump-autoload --optimize --no-dev --classmap-authoritative
+          php8.3 -f /usr/bin/composer install --no-dev
+          php8.3 -f /usr/bin/composer dump-autoload --optimize --no-dev --classmap-authoritative
           cd client
           yarn install
           cd ../../installer/client
@@ -54,7 +54,7 @@ jobs:
 
       - name: Change product mode
         env:
-          PRODUCT_MODE: ${{ secrets.PRODUCT_MODE }}
+          PRODUCT_MODE: ${{ vars.PRODUCT_MODE }}
         if: "${{ env.PRODUCT_MODE != '' }}"
         run: |
           sed -i "s/public const PRODUCT_MODE = self::MODE_DEV;/public const PRODUCT_MODE = self::$PRODUCT_MODE;/g" src/lib/config/Config.php

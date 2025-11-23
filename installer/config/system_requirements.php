@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -19,19 +20,19 @@
 return [
     'phpversion' => [
         'min' => '7.4',
-        'max' => '8.3',
+        'max' => '8.4',
         'excludeRange' => [],
     ],
 
     'mysqlversion' => [
         'min' => '5.5',
-        'max' => '8.4',
+        'max' => '9.4',
         'excludeRange' => [],
     ],
 
     'mariadbversion' => [
         'min' => '5.5',
-        'max' => '11.4',
+        'max' => '12.0',
         'excludeRange' => [],
     ],
 

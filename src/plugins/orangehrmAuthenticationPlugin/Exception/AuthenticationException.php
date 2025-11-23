@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -34,6 +35,7 @@ class AuthenticationException extends Exception
     public const INVALID_RESET_CODE = 'invalid_password_reset_code';
     public const NO_USER_FOUND = 'no_user_found';
     public const MULTIPLE_USER_RETURNED = 'multiple_user_returned';
+    public const SESSION_EXPIRED = 'session_expired';
 
     /**
      * @var string
@@ -104,6 +106,14 @@ class AuthenticationException extends Exception
     /**
      * @return static
      */
+    public static function invalidResetCode(): self
+    {
+        return new self(self::INVALID_RESET_CODE, 'Invalid password reset code');
+    }
+
+    /**
+     * @return static
+     */
     public static function noUserFound(): self
     {
         return new self(self::NO_USER_FOUND, 'No User Found');
@@ -115,5 +125,13 @@ class AuthenticationException extends Exception
     public static function multipleUserReturned(): self
     {
         return new self(self::MULTIPLE_USER_RETURNED, 'Multiple User Returned');
+    }
+
+    /**
+     * @return static
+     */
+    public static function sessionExpired(): self
+    {
+        return new self(self::SESSION_EXPIRED, 'Session Expired');
     }
 }

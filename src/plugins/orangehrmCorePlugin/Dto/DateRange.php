@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -25,7 +26,7 @@ class DateRange
     private ?DateTime $fromDate;
     private ?DateTime $toDate;
 
-    public function __construct(DateTime $fromDate = null, DateTime $toDate = null)
+    public function __construct(?DateTime $fromDate = null, ?DateTime $toDate = null)
     {
         $this->fromDate = $fromDate;
         $this->toDate = $toDate;

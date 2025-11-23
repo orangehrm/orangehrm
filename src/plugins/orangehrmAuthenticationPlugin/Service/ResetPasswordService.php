@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -181,8 +182,14 @@ class ResetPasswordService
             'userName',
             'passwordResetLink',
         ];
-        $replacements = [
+        $sanitizedFirstName = htmlspecialchars(
             $receiver->getFirstName(),
+            ENT_QUOTES | ENT_SUBSTITUTE,
+            'UTF-8',
+            false
+        );
+        $replacements = [
+            $sanitizedFirstName,
             $userName,
             $resetLink
         ];
@@ -197,7 +204,17 @@ class ResetPasswordService
     public function sendPasswordResetCodeEmail(Employee $receiver, string $resetCode, string $userName): bool
     {
         try {
-            $this->getEmailService()->setMessageTo([$receiver->getWorkEmail()]);
+            $workEmail = $receiver->getWorkEmail();
+            if (
+                !filter_var($workEmail, FILTER_VALIDATE_EMAIL) ||
+                preg_match('/^\s*-/', $workEmail) ||
+                preg_match('/[\r\n]/', $workEmail)
+            ) {
+                $this->getLogger()->error('Password reset email suppressed due to invalid recipient address');
+                return false;
+            }
+
+            $this->getEmailService()->setMessageTo([$workEmail]);
             $this->getEmailService()->setMessageFrom(
                 [$this->getEmailService()->getEmailConfig()->getSentAs() => 'OrangeHRM']
             );

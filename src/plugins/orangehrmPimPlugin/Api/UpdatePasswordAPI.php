@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -30,12 +31,14 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 
 class UpdatePasswordAPI extends Endpoint implements ResourceEndpoint
 {
     use UserRoleManagerTrait;
     use UserServiceTrait;
+    use DateTimeHelperTrait;
 
     public const PARAMETER_CURRENT_PASSWORD = 'currentPassword';
     public const PARAMETER_NEW_PASSWORD = 'newPassword';
@@ -101,6 +104,7 @@ class UpdatePasswordAPI extends Endpoint implements ResourceEndpoint
             self::PARAMETER_NEW_PASSWORD
         );
         $user->getDecorator()->setNonHashedPassword($newPassword);
+        $user->setDateModified($this->getDateTimeHelper()->getNow());
         $user = $this->getUserService()->saveSystemUser($user);
         return new EndpointResourceResult(UserModel::class, $user);
     }

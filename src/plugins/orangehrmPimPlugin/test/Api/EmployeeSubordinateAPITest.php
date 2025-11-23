@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -29,7 +30,6 @@ use OrangeHRM\Framework\Services;
 use OrangeHRM\Pim\Api\EmployeeSubordinateAPI;
 use OrangeHRM\Pim\Dao\EmployeeReportingMethodDao;
 use OrangeHRM\Pim\Service\EmployeeReportingMethodService;
-
 use OrangeHRM\Pim\Service\ReportingMethodConfigurationService;
 use OrangeHRM\Tests\Util\EndpointTestCase;
 use OrangeHRM\Tests\Util\MockObject;

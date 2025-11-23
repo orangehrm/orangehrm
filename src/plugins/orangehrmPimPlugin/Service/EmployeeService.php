@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -237,7 +238,7 @@ class EmployeeService
     public function getSubordinateIdListBySupervisorId(
         int $supervisorId,
         ?bool $includeChain = null,
-        int $maxDepth = null
+        ?int $maxDepth = null
     ): array {
         if (is_null($includeChain)) {
             $includeChain = $this->getConfigService()->isSupervisorChainSupported();
@@ -293,7 +294,7 @@ class EmployeeService
     public function getSupervisorIdListBySubordinateId(
         int $subordinateId,
         ?bool $includeChain = null,
-        int $maxDepth = null
+        ?int $maxDepth = null
     ): array {
         if (is_null($includeChain)) {
             $includeChain = $this->getConfigService()->isSupervisorChainSupported();

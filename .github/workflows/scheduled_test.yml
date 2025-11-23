@@ -12,7 +12,7 @@ on:
 
 jobs:
   db_test:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
 
     strategy:
       fail-fast: false
@@ -26,6 +26,7 @@ jobs:
           - { image: "mysql:8.2", admin: "mysqladmin" }
           - { image: "mysql:8.3", admin: "mysqladmin" }
           - { image: "mysql:8.4", admin: "mysqladmin" }
+          - { image: "mysql:9.4", admin: "mysqladmin" }
           - { image: "mariadb:5.5", admin: "mysqladmin" }
           - { image: "mariadb:10.0", admin: "mysqladmin" }
           - { image: "mariadb:10.1", admin: "mysqladmin" }
@@ -44,6 +45,8 @@ jobs:
           - { image: "mariadb:11.2", admin: "mariadb-admin" }
           - { image: "mariadb:11.3", admin: "mariadb-admin" }
           - { image: "mariadb:11.4", admin: "mariadb-admin" }
+          - { image: "mariadb:11.8", admin: "mariadb-admin" }
+          - { image: "mariadb:12.0", admin: "mariadb-admin" }
 
     services:
       mysql:
@@ -61,12 +64,12 @@ jobs:
           --tmpfs /var/lib/mysql/
 
     env:
-      WORKFLOW_BRANCH: ${{ secrets.WORKFLOW_BRANCH }}
+      WORKFLOW_BRANCH: ${{ vars.WORKFLOW_BRANCH }}
     steps:
       - uses: actions/checkout@v4
         if: "${{ github.event_name != 'push' && env.WORKFLOW_BRANCH != '' }}"
         with:
-          ref: ${{ secrets.WORKFLOW_BRANCH }}
+          ref: ${{ vars.WORKFLOW_BRANCH }}
 
       - uses: actions/checkout@v4
         if: "${{ github.event_name == 'push' || env.WORKFLOW_BRANCH == ''}}"
@@ -75,20 +78,26 @@ jobs:
         run: |
           git log -1
           git remote -v
+          cat build/build.xml | grep 'name="version"'
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.4
 
       - name: Install dependencies
         run: |
-          php7.4 -f /usr/bin/composer install -d src
-          php7.4 -f /usr/bin/composer install -d devTools/core
+          php -f /usr/bin/composer install -d src
+          php -f /usr/bin/composer install -d devTools/core
 
       - name: Install OrangeHRM
         run: |
-          php7.4 installer/cli_install.php
+          php installer/cli_install.php
 
       - name: Create Test DB
         run: |
           mysqldump -V
-          php7.4 devTools/core/console.php i:create-test-db -p root --dump-options="--column-statistics=0"
+          php devTools/core/console.php i:create-test-db -p root --dump-options="--column-statistics=0"
 
       - name: Configure LDAP server
         run: |
@@ -104,24 +113,24 @@ jobs:
             -e LDAP_CONFIG_ADMIN_PASSWORD=admin \
             -e LDAP_SKIP_DEFAULT_TREE=yes \
             -v $PWD/ldifs:/ldifs \
-            bitnami/openldap:2.6.4
+            bitnamilegacy/openldap:2.6.4
           cat server-config.tpl.yaml > server-config.yaml
 
       - name: Run test
         run: |
-          ./src/vendor/bin/phpunit
+          php ./src/vendor/bin/phpunit
 
       - name: Stop LDAP container
         if: ${{ always() }}
         run: docker stop openldap
 
   php_test:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
 
     strategy:
       fail-fast: false
       matrix:
-        php: ["php7.4", "php8.0", "php8.1", "php8.2", "php8.3"]
+        php: ["7.4", "8.0", "8.1", "8.2", "8.3", "8.4"]
 
     services:
       mysql:
@@ -138,26 +147,33 @@ jobs:
           --tmpfs /var/lib/mysql/
 
     env:
-      WORKFLOW_BRANCH: ${{ secrets.WORKFLOW_BRANCH }}
+      WORKFLOW_BRANCH: ${{ vars.WORKFLOW_BRANCH }}
     steps:
       - uses: actions/checkout@v4
         if: "${{ github.event_name != 'push' && env.WORKFLOW_BRANCH != '' }}"
         with:
-          ref: ${{ secrets.WORKFLOW_BRANCH }}
+          ref: ${{ vars.WORKFLOW_BRANCH }}
 
       - uses: actions/checkout@v4
         if: "${{ github.event_name == 'push' || env.WORKFLOW_BRANCH == ''}}"
 
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+
       - name: Install dependencies
         run: |
-          php7.4 -f /usr/bin/composer install -d src
-          php7.4 -f /usr/bin/composer install -d devTools/core
+          php -v
+          composer -v
+          php -f /usr/bin/composer install -d src
+          php -f /usr/bin/composer install -d devTools/core
 
       - name: Install OrangeHRM
         run: |
-          ${{ matrix.php }} installer/cli_install.php
+          php installer/cli_install.php
           mysqldump -V
-          ${{ matrix.php }} devTools/core/console.php i:create-test-db -p root --dump-options="--column-statistics=0"
+          php devTools/core/console.php i:create-test-db -p root --dump-options="--column-statistics=0"
 
       - name: Configure LDAP server
         run: |
@@ -173,12 +189,12 @@ jobs:
             -e LDAP_CONFIG_ADMIN_PASSWORD=admin \
             -e LDAP_SKIP_DEFAULT_TREE=yes \
             -v $PWD/ldifs:/ldifs \
-            bitnami/openldap:2.6.4
+            bitnamilegacy/openldap:2.6.4
           cat server-config.tpl.yaml > server-config.yaml
 
       - name: Run test
         run: |
-          ${{ matrix.php }} ./src/vendor/bin/phpunit
+          php ./src/vendor/bin/phpunit
 
       - name: Stop LDAP container
         if: ${{ always() }}

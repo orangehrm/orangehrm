@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -40,7 +41,7 @@ class InvalidParamException extends Exception
         array $errorBag = [],
         $message = self::DEFAULT_ERROR_MESSAGE,
         $code = 0,
-        Throwable $previous = null
+        ?Throwable $previous = null
     ) {
         $this->errorBag = $errorBag;
         parent::__construct($message, $code, $previous);

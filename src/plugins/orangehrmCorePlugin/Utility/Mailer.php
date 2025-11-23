@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -44,7 +45,7 @@ class Mailer implements MailerInterface
      * @param RawMessage $message
      * @param Envelope|null $envelope
      */
-    public function send(RawMessage $message, Envelope $envelope = null): void
+    public function send(RawMessage $message, ?Envelope $envelope = null): void
     {
         $this->mailer->send($message, $envelope);
     }
