@@ -46,9 +46,12 @@ jobs:
           yarn install
 
       - name: Dump build file
+        env:
+          PRODUCT_MODE: ${{ vars.PRODUCT_MODE }}
         run: |
           cd build
-          echo "SHA: $GITHUB_SHA" > build
+          echo "Build Mode: $PRODUCT_MODE" > build
+          echo "SHA: $GITHUB_SHA" >> build
           echo "Repository: $GITHUB_REPOSITORY" >> build
           echo "Branch: $GITHUB_HEAD_REF" >> build
 
