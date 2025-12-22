@@ -59,7 +59,7 @@ export default function useServerValidation(
           http
             .request({
               method: 'GET',
-              url: 'api/v2/core/validation/unique',
+              url: '/api/v2/core/validation/unique',
               params: {
                 value,
                 entityName,
