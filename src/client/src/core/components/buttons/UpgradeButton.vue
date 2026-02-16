@@ -18,7 +18,7 @@
  -->
 
 <template>
-  <div class="orangehrm-upgrade-container">
+  <div v-if="false" class="orangehrm-upgrade-container">
     <a
       class="orangehrm-upgrade-link"
       target="_blank"
