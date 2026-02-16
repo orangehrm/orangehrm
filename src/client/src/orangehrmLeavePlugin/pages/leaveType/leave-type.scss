@@ -18,12 +18,12 @@
   max-width: 15rem;
 }
 .label-is-entitlement-situational {
-  display: flex;
-  align-items: center;
-  & .--help {
-    margin-left: 5px;
-  }
-}
+   display: flex;
+   align-items: center;
+   & .--help {
+     margin-left: 5px;
+   }
+ }
 .modal-container {
   width: 90%;
   max-width: 500px;

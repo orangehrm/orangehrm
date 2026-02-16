@@ -13,15 +13,13 @@
 // You should have received a copy of the GNU General Public License along with OrangeHRM.
 // If not, see <https://www.gnu.org/licenses/>.
 
+
 .orangehrm-buzz-layout {
   justify-content: center;
   grid-template-columns: minmax(240px, 640px) minmax(0, 375px);
 
   @media screen and (min-width: 1920px) {
     gap: 2rem;
-    grid-template-columns: minmax(0, 375px) minmax(240px, 640px) minmax(
-        0,
-        375px
-      );
+    grid-template-columns: minmax(0, 375px) minmax(240px, 640px) minmax(0, 375px);
   }
 }

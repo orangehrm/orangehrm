@@ -14,12 +14,12 @@
 // If not, see <https://www.gnu.org/licenses/>.
 
 .orangehrm-sm-field {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: $oxd-input-control-vertical-padding 0rem;
-  &-label {
-    font-weight: 700;
-    font-size: $oxd-input-control-font-size;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: $oxd-input-control-vertical-padding 0rem;
+    &-label {
+      font-weight: 700;
+      font-size: $oxd-input-control-font-size;
+    }
   }
-}

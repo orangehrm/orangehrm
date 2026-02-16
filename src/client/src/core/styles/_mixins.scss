@@ -22,7 +22,7 @@
   word-break: break-all;
 
   &:after {
-    content: '';
+    content: "";
     position: absolute;
     right: 0;
     bottom: 0;
@@ -30,11 +30,7 @@
     height: $line-height;
 
     @if $background != '' {
-      background: linear-gradient(
-        to right,
-        rgba($background, 0) 0%,
-        rgba($background, 1) 100%
-      );
+      background: linear-gradient(to right, rgba($background, 0) 0%, rgba($background, 1) 100%);
     }
   }
 

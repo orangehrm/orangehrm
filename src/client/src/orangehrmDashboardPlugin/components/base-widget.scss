@@ -13,6 +13,7 @@
 // You should have received a copy of the GNU General Public License along with OrangeHRM.
 // If not, see <https://www.gnu.org/licenses/>.
 
+
 .orangehrm-dashboard-widget {
   width: auto;
   height: 380px;
@@ -49,7 +50,7 @@
       text-align: center;
       margin-top: 2.5rem;
     }
-    &.--scroll-visible {
+    &.--scroll-visible{
       padding-right: 5px;
     }
     @include oxd-scrollbar();
