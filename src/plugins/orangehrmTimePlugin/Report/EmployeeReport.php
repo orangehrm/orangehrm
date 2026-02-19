@@ -47,6 +47,7 @@ class EmployeeReport implements EndpointAwareReport
     public const PARAMETER_PROJECT_NAME = 'projectName';
     public const PARAMETER_ACTIVITY_NAME = 'activityName';
     public const PARAMETER_DURATION = 'duration';
+    public const PARAMETER_DESCRIPTION = 'description';
 
     public const FILTER_PARAMETER_PROJECT_ID = 'projectId';
     public const FILTER_PARAMETER_ACTIVITY_ID = 'activityId';
@@ -80,12 +81,6 @@ class EmployeeReport implements EndpointAwareReport
             $endpoint->getRequestParams()->getIntOrNull(
                 RequestParams::PARAM_TYPE_QUERY,
                 self::FILTER_PARAMETER_ACTIVITY_ID
-            )
-        );
-        $filterParams->setProjectId(
-            $endpoint->getRequestParams()->getIntOrNull(
-                RequestParams::PARAM_TYPE_QUERY,
-                self::FILTER_PARAMETER_PROJECT_ID
             )
         );
         $filterParams->setIncludeTimesheets(
@@ -207,7 +202,9 @@ class EmployeeReport implements EndpointAwareReport
                     ->setCellProperties(['class' => ['col-alt' => true]])
                     ->setSize(self::DEFAULT_COLUMN_SIZE),
                 (new Column(self::PARAMETER_DURATION))->setName($this->getI18NHelper()->transBySource('Time (Hours)'))
-                    ->setSize(self::DEFAULT_COLUMN_SIZE)
+                    ->setSize(self::DEFAULT_COLUMN_SIZE),
+                (new Column(self::PARAMETER_DESCRIPTION))->setName($this->getI18NHelper()->transBySource('Description'))
+                    ->setSize(self::DEFAULT_COLUMN_SIZE),
             ]
         );
     }
