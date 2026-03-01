@@ -214,6 +214,27 @@ export class APIService {
                   status: 200,
                   data: JSON.parse(cacheData),
                 });
+              } else {
+                // Cache miss - retry without If-None-Match header
+                console.warn(
+                  `304 response received but cache data not found for ETag: ${etag}. Retrying without cache headers.`,
+                );
+                if (error.config) {
+                  // Check retry counter to prevent infinite loops
+                  const retryCount = (error.config as any)._retryCount || 0;
+                  if (retryCount < 1) {
+                    // Mark request as retried
+                    (error.config as any)._retryCount = retryCount + 1;
+                    // Remove If-None-Match header to force fresh response
+                    delete error.config.headers['If-None-Match'];
+                    // Retry the request
+                    return this._http.request(error.config);
+                  } else {
+                    console.error(
+                      '304 retry failed: Maximum retry attempts reached.',
+                    );
+                  }
+                }
               }
             }
           }
