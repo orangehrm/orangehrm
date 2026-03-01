@@ -280,7 +280,7 @@ class Employee
     /**
      * @var string|null
      *
-     * @ORM\Column(name="emp_work_email", type="string", length=50, nullable=true)
+     * @ORM\Column(name="emp_work_email", type="string", length=120, nullable=true)
      */
     private ?string $workEmail = null;
 
@@ -303,7 +303,7 @@ class Employee
     /**
      * @var string|null
      *
-     * @ORM\Column(name="emp_oth_email", type="string", length=50, nullable=true)
+     * @ORM\Column(name="emp_oth_email", type="string", length=120, nullable=true)
      */
     private ?string $otherEmail = null;
 

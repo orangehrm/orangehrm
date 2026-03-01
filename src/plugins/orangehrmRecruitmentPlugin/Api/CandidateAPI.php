@@ -88,6 +88,8 @@ class CandidateAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_DATE_OF_APPLICATION = 'dateOfApplication';
     public const PARAMETER_CONSENT_TO_KEEP_DATA = 'consentToKeepData';
 
+    public const PARAM_RULE_EMAIL_MAX_LENGTH = 120;
+
     public const MODEL_DEFAULT = 'default';
     public const MODEL_CANDIDATE_LIST = 'list';
     public const MODEL_CANDIDATE_DETAILED = 'detailed';
@@ -661,7 +663,8 @@ class CandidateAPI extends Endpoint implements CrudEndpoint
             ),
             new ParamRule(
                 self::PARAMETER_EMAIL,
-                new Rule(Rules::EMAIL)
+                new Rule(Rules::EMAIL),
+                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_EMAIL_MAX_LENGTH])
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(

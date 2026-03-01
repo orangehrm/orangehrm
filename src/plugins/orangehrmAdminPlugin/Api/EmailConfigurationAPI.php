@@ -50,7 +50,7 @@ class EmailConfigurationAPI extends Endpoint implements ResourceEndpoint
     public const PARAMETER_TEST_EMAIL_ADDRESS = 'testEmailAddress';
 
     public const PARAM_RULE_MAIL_TYPE_MAX_LENGTH = 50;
-    public const PARAM_RULE_SENT_AS_MAX_LENGTH = 100;
+    public const PARAM_RULE_SENT_AS_MAX_LENGTH = 120;
     public const PARAM_RULE_SMTP_HOST_MAX_LENGTH = 100;
     public const PARAM_RULE_SMTP_PORT_MAX_LENGTH = 10;
     public const PARAM_RULE_SMTP_USERNAME_MAX_LENGTH = 100;

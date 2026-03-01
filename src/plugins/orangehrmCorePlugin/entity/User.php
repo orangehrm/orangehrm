@@ -47,7 +47,7 @@ class User
     /**
      * @var string
      *
-     * @ORM\Column(name="user_name", type="string", length=40)
+     * @ORM\Column(name="user_name", type="string", length=120)
      */
     private string $userName;
 

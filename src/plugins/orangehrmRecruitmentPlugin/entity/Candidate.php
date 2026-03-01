@@ -68,7 +68,7 @@ class Candidate
 
     /**
      * @var string
-     * @ORM\Column(name="email", type="string", length=100)
+     * @ORM\Column(name="email", type="string", length=120)
      */
     private string $email;
 

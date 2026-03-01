@@ -236,7 +236,7 @@ export default {
           required,
           this.usernameUniqueValidation,
           shouldNotLessThanCharLength(5),
-          shouldNotExceedCharLength(40),
+          shouldNotExceedCharLength(120),
         ],
         status: [required],
       },

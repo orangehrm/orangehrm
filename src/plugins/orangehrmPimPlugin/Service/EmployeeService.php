@@ -51,7 +51,7 @@ class EmployeeService
     public const MIDDLE_NAME_MAX_LENGTH = 30;
     public const LAST_NAME_MAX_LENGTH = 30;
     public const EMPLOYEE_ID_MAX_LENGTH = 10;
-    public const WORK_EMAIL_MAX_LENGTH = 50;
+    public const WORK_EMAIL_MAX_LENGTH = 120;
 
     /**
      * @var EmployeeDao|null

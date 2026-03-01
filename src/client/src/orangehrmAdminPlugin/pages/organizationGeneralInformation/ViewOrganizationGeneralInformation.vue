@@ -250,7 +250,7 @@ export default {
         taxId: [shouldNotExceedCharLength(30)],
         phone: [shouldNotExceedCharLength(30), validPhoneNumberFormat],
         fax: [shouldNotExceedCharLength(30), validPhoneNumberFormat],
-        email: [shouldNotExceedCharLength(30), validEmailFormat],
+        email: [shouldNotExceedCharLength(120), validEmailFormat],
         street1: [shouldNotExceedCharLength(100)],
         street2: [shouldNotExceedCharLength(100)],
         city: [shouldNotExceedCharLength(30)],

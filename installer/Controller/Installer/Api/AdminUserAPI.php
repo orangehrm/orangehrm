@@ -39,6 +39,15 @@ class AdminUserAPI extends AbstractInstallerRestController
             $email = $this->checkAndGetField($request, 'email');
             $username = $this->checkAndGetField($request, 'username');
             $password = $this->checkAndGetField($request, 'password');
+            
+            // Validate email length (max 120 characters)
+            if (strlen($email) > 120) {
+                throw new InvalidArgumentException('Email must not exceed 120 characters');
+            }
+            // Validate email format
+            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                throw new InvalidArgumentException('Invalid email format');
+            }
         } catch (InvalidArgumentException $e) {
             $this->getResponse()->setStatusCode(Response::HTTP_BAD_REQUEST);
             return [

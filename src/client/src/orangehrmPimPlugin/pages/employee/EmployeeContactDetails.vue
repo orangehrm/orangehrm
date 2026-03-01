@@ -207,7 +207,7 @@ export default {
         mobile: [shouldNotExceedCharLength(25), validPhoneNumberFormat],
         workTelephone: [shouldNotExceedCharLength(25), validPhoneNumberFormat],
         workEmail: [
-          shouldNotExceedCharLength(50),
+          shouldNotExceedCharLength(120),
           validEmailFormat,
           this.createEmailRecipientValidator(
             this.$t('pim.work_email_invalid_characters'),
@@ -215,7 +215,7 @@ export default {
           promiseDebounce(this.validateWorkEmail, 500),
         ],
         otherEmail: [
-          shouldNotExceedCharLength(50),
+          shouldNotExceedCharLength(120),
           validEmailFormat,
           promiseDebounce(this.validateOtherEmail, 500),
         ],

@@ -48,7 +48,7 @@ class EmailSubscriberAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_SUBSCRIBER_NAME = 'name';
     public const PARAMETER_SUBSCRIBER_EMAIL = 'email';
 
-    public const PARAM_RULE_STRING_MAX_LENGTH = 100;
+    public const PARAM_RULE_STRING_MAX_LENGTH = 120;
     public const PARAM_RULE_EMAIL_SUBSCRIPTION_ID_MAP = [
         EmailNotification::LEAVE_APPLICATION,
         EmailNotification::LEAVE_ASSIGNMENT,

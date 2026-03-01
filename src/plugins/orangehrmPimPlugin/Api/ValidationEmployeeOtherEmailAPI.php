@@ -40,7 +40,7 @@ class ValidationEmployeeOtherEmailAPI extends Endpoint implements ResourceEndpoi
     public const PARAMETER_OTHER_EMAIL = 'otherEmail';
     public const PARAMETER_IS_UNIQUE_OTHER_EMAIL = 'valid';
 
-    public const PARAM_RULE_OTHER_EMAIL_MAX_LENGTH = 50;
+    public const PARAM_RULE_OTHER_EMAIL_MAX_LENGTH = 120;
 
     /**
      * @OA\Get(

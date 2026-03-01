@@ -76,7 +76,7 @@ class Organization
     /**
      * @var string|null
      *
-     * @ORM\Column(name="email", type="string", length=30, nullable=true)
+     * @ORM\Column(name="email", type="string", length=120, nullable=true)
      */
     private ?string $email;
 

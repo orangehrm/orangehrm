@@ -40,7 +40,7 @@ class ResetPasswordRequest
     /**
      * @var string
      *
-     * @ORM\Column(name="reset_email", type="string", length=60)
+     * @ORM\Column(name="reset_email", type="string", length=120)
      */
     private string $resetEmail;
 

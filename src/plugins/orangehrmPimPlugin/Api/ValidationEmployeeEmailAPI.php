@@ -40,7 +40,7 @@ class ValidationEmployeeEmailAPI extends Endpoint implements ResourceEndpoint
     public const PARAMETER_WORK_EMAIL = 'workEmail';
     public const PARAMETER_IS_UNIQUE_WORK_EMAIL = 'valid';
 
-    public const PARAM_RULE_WORK_EMAIL_MAX_LENGTH = 50;
+    public const PARAM_RULE_WORK_EMAIL_MAX_LENGTH = 120;
 
     /**
      * @OA\Get(

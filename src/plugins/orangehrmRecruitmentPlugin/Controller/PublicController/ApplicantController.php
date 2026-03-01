@@ -73,6 +73,8 @@ class ApplicantController extends AbstractController implements PublicController
     public const PARAMETER_COMMENT = 'comment';
     public const PARAMETER_CONSENT_TO_KEEP_DATA = 'consentToKeepData';
 
+    public const PARAM_RULE_EMAIL_MAX_LENGTH = 120;
+
     /**
      * @var ValidationDecorator|null
      */
@@ -261,7 +263,8 @@ class ApplicantController extends AbstractController implements PublicController
             ),
             new ParamRule(
                 self::PARAMETER_EMAIL,
-                new Rule(Rules::EMAIL)
+                new Rule(Rules::EMAIL),
+                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_EMAIL_MAX_LENGTH])
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(

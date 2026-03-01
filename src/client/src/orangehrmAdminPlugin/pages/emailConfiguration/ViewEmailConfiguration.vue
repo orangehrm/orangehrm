@@ -270,7 +270,7 @@ export default {
       },
       rules: {
         mailType: [required, shouldNotExceedCharLength(50)],
-        sentAs: [required, shouldNotExceedCharLength(100), validEmailFormat],
+        sentAs: [required, shouldNotExceedCharLength(120), validEmailFormat],
         smtpHost: [required, shouldNotExceedCharLength(100)],
         smtpPort: [shouldNotExceedCharLength(10)],
         smtpUsername: [required, shouldNotExceedCharLength(100)],

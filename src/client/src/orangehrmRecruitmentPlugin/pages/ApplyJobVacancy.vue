@@ -299,7 +299,7 @@ export default {
         comment: [shouldNotExceedCharLength(250)],
         keywords: [shouldNotExceedCharLength(250)],
         contactNumber: [shouldNotExceedCharLength(25), validPhoneNumberFormat],
-        email: [required, validEmailFormat, shouldNotExceedCharLength(50)],
+        email: [required, validEmailFormat, shouldNotExceedCharLength(120)],
       },
       isViewDetails: true,
     };

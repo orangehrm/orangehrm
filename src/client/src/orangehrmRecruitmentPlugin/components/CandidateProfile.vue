@@ -277,7 +277,7 @@ export default {
         firstName: [required, shouldNotExceedCharLength(30)],
         lastName: [required, shouldNotExceedCharLength(30)],
         middleName: [shouldNotExceedCharLength(30)],
-        email: [required, validEmailFormat, shouldNotExceedCharLength(50)],
+        email: [required, validEmailFormat, shouldNotExceedCharLength(120)],
         contactNumber: [validPhoneNumberFormat, shouldNotExceedCharLength(25)],
         keywords: [shouldNotExceedCharLength(250)],
         applicationDate: [validDateFormat(this.userDateFormat)],

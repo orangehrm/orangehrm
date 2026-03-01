@@ -55,7 +55,7 @@ class OrganizationAPI extends Endpoint implements CrudEndpoint
     public const PARAM_RULE_REGISTRATION_NUMBER_MAX_LENGTH = 30;
     public const PARAM_RULE_PHONE_MAX_LENGTH = 30;
     public const PARAM_RULE_FAX_MAX_LENGTH = 30;
-    public const PARAM_RULE_EMAIL_MAX_LENGTH = 30;
+    public const PARAM_RULE_EMAIL_MAX_LENGTH = 120;
     public const PARAM_RULE_COUNTRY_MAX_LENGTH = 30;
     public const PARAM_RULE_PROVINCE_MAX_LENGTH = 30;
     public const PARAM_RULE_CITY_MAX_LENGTH = 30;

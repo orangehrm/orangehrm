@@ -163,7 +163,7 @@ export default {
         username: [
           required,
           shouldNotLessThanCharLength(5),
-          shouldNotExceedCharLength(40),
+          shouldNotExceedCharLength(120),
           promiseDebounce(this.validateUserName, 500),
         ],
         role: [required],

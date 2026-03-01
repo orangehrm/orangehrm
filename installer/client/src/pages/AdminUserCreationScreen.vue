@@ -170,11 +170,11 @@ export default {
       rules: {
         firstName: [required, shouldNotExceedCharLength(30)],
         lastName: [required, shouldNotExceedCharLength(30)],
-        email: [required, shouldNotExceedCharLength(50), validEmailFormat],
+        email: [required, shouldNotExceedCharLength(120), validEmailFormat],
         contact: [shouldNotExceedCharLength(25), validPhoneNumberFormat],
         username: [
           required,
-          shouldNotExceedCharLength(40),
+          shouldNotExceedCharLength(120),
           shouldNotLessThanCharLength(5),
         ],
         password: [required, shouldNotExceedCharLength(64), checkPassword],
