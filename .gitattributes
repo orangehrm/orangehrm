@@ -1,0 +1,24 @@
+# Force LF for all text files
+* text=auto eol=lf
+
+# PHP files
+*.php text eol=lf
+
+# JS files
+*.js text eol=lf
+
+# Vue files
+*.vue text eol=lf
+
+# CSS files
+*.css text eol=lf
+
+# JSON files
+*.json text eol=lf
+
+# Prevent line ending conversion for images
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
