@@ -23,9 +23,9 @@ import axios, {
   AxiosResponse,
   InternalAxiosRequestConfig,
 } from 'axios';
-import {WebStorage} from '../helper/storage';
-import {ComponentInternalInstance, getCurrentInstance} from 'vue';
-import {reloadPage} from '@ohrm/core/util/helper/navigation';
+import { WebStorage } from '../helper/storage';
+import { ComponentInternalInstance, getCurrentInstance } from 'vue';
+import { reloadPage } from '@ohrm/core/util/helper/navigation';
 
 interface ErrorResponse {
   error: {
@@ -61,14 +61,14 @@ export class APIService {
       'Cache-Control':
         'no-store, no-cache, must-revalidate, post-check=0, pre-check=0',
     };
-    return this._http.get(this._apiSection, {headers, params});
+    return this._http.get(this._apiSection, { headers, params });
   }
 
   get(id: number, params?: object): Promise<AxiosResponse> {
     const headers = {
       'Content-Type': 'application/json',
     };
-    return this._http.get(`${this._apiSection}/${id}`, {headers, params});
+    return this._http.get(`${this._apiSection}/${id}`, { headers, params });
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -77,7 +77,7 @@ export class APIService {
       'Content-Type': 'application/json',
       Accept: 'application/json',
     };
-    return this._http.post(this._apiSection, data, {headers});
+    return this._http.post(this._apiSection, data, { headers });
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -85,14 +85,14 @@ export class APIService {
     const headers = {
       'Content-Type': 'application/json',
     };
-    return this._http.put(`${this._apiSection}/${id}`, data, {headers});
+    return this._http.put(`${this._apiSection}/${id}`, data, { headers });
   }
 
   delete(id: number): Promise<AxiosResponse> {
     const headers = {
       'Content-Type': 'application/json',
     };
-    return this._http.delete(`${this._apiSection}/${id}`, {headers});
+    return this._http.delete(`${this._apiSection}/${id}`, { headers });
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -100,7 +100,7 @@ export class APIService {
     const headers = {
       'Content-Type': 'application/json',
     };
-    return this._http.delete(`${this._apiSection}`, {headers, data});
+    return this._http.delete(`${this._apiSection}`, { headers, data });
   }
 
   request(options: AxiosRequestConfig): Promise<AxiosResponse> {
@@ -180,7 +180,7 @@ export class APIService {
       );
       this._http.interceptors.response.use(
         (response: AxiosResponse) => {
-          const {config, headers} = response;
+          const { config, headers } = response;
           if (config.url && headers) {
             const url = config.url;
             const etag = headers['etag'];
@@ -216,23 +216,21 @@ export class APIService {
                 });
               } else {
                 // Cache miss - retry without If-None-Match header
-                console.warn(
-                  `304 response received but cache data not found for ETag: ${etag}. Retrying without cache headers.`,
-                );
+                // eslint-disable-next-line
+                console.warn(`304 response received but cache data not found for ETag: ${etag}. Retrying without cache headers.`);
                 if (error.config) {
                   // Check retry counter to prevent infinite loops
-                  const retryCount = (error.config as any)._retryCount || 0;
+                  const retryCount = (error.config as { _retryCount?: number })._retryCount || 0;
                   if (retryCount < 1) {
                     // Mark request as retried
-                    (error.config as any)._retryCount = retryCount + 1;
+                    (error.config as { _retryCount?: number })._retryCount = retryCount + 1;
                     // Remove If-None-Match header to force fresh response
                     delete error.config.headers['If-None-Match'];
                     // Retry the request
                     return this._http.request(error.config);
                   } else {
-                    console.error(
-                      '304 retry failed: Maximum retry attempts reached.',
-                    );
+                    // eslint-disable-next-line
+                    console.error('304 retry failed: Maximum retry attempts reached.');
                   }
                 }
               }
