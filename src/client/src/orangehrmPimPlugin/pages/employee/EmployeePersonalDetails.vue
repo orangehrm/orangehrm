@@ -33,6 +33,7 @@
                 v-model:middleName="employee.middleName"
                 v-model:lastName="employee.lastName"
                 :rules="rules"
+                :disabled="isESS"
               />
             </oxd-grid-item>
           </oxd-grid>
@@ -219,6 +220,7 @@ const employeeModel = {
   nickname: '',
   smoker: '',
   militaryService: '',
+  userRole: '',
 };
 
 export default {
@@ -247,6 +249,16 @@ export default {
     showSinField: {
       type: Boolean,
       default: false,
+    },
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
+  },
+
+  computed: {
+    isESS() {
+      return this.employee.userRole === 'ESS';
     },
   },
 
@@ -366,6 +378,7 @@ export default {
     updateModel(response) {
       const {data} = response.data;
       this.employee = {...employeeModel, ...data};
+      localStorage.setItem('userRole', data.userRole);
       this.employee.maritalStatus = this.maritalStatuses.find(
         (item) => item.id === data.maritalStatus,
       );

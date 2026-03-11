@@ -291,6 +291,8 @@ class PIMLeftMenuService
     protected function getAvailableActions(): array
     {
         $availableActions = $this->availableActions;
+        // Remove Immigration tab completely
+        unset($availableActions['viewImmigration']);
         if (!$this->isTaxMenuEnabled()) {
             unset($availableActions['viewUsTaxExemptions']);
         }

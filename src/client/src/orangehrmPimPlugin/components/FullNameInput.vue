@@ -107,22 +107,21 @@ export default {
 @include oxd-respond-to('md') {
   ::v-deep(.--name-grouped-field) {
     display: flex;
+    gap: 1.5rem;
   }
 
   ::v-deep(.orangehrm-firstname) {
-    border-bottom-right-radius: unset;
-    border-top-right-radius: unset;
+    max-width: 700px;
     text-overflow: ellipsis;
   }
 
   ::v-deep(.orangehrm-lastname) {
-    border-bottom-left-radius: unset;
-    border-top-left-radius: unset;
+    max-width: 700px;
     text-overflow: ellipsis;
   }
 
   ::v-deep(.orangehrm-middlename) {
-    border-radius: unset;
+    max-width: 700px;
     text-overflow: ellipsis;
   }
 }

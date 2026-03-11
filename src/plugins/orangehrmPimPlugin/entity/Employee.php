@@ -24,6 +24,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use OrangeHRM\Entity\Decorator\DecoratorTrait;
 use OrangeHRM\Entity\Decorator\EmployeeDecorator;
+use OrangeHRM\Entity\User;
 
 /**
  * @method EmployeeDecorator getDecorator()
@@ -1565,5 +1566,13 @@ class Employee
     public function setSupervisors(iterable $supervisors): void
     {
         $this->supervisors = $supervisors;
+    }
+
+    public function getFirstUser(): ?User
+    {
+        foreach ($this->users as $user) {
+            return $user; // return first one
+        }
+        return null;
     }
 }
