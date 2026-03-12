@@ -291,6 +291,10 @@ class PIMLeftMenuService
     protected function getAvailableActions(): array
     {
         $availableActions = $this->availableActions;
+
+        // Remove Memberships tab completely
+        unset($availableActions['viewMemberships']);
+        
         if (!$this->isTaxMenuEnabled()) {
             unset($availableActions['viewUsTaxExemptions']);
         }

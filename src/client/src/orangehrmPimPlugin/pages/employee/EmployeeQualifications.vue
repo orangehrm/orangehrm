@@ -16,7 +16,7 @@
       :fluencies="fluencies"
       :competencies="competencies"
     ></employee-languages>
-    <employee-license :employee-id="empNumber"></employee-license>
+    <!-- <employee-license :employee-id="empNumber"></employee-license> -->
   </edit-employee-layout>
 </template>
 
@@ -26,7 +26,7 @@ import EmployeeSkills from '@/orangehrmPimPlugin/components/EmployeeSkills';
 import EmployeeEducation from '@/orangehrmPimPlugin/components/EmployeeEducation';
 import EmployeeLanguages from '@/orangehrmPimPlugin/components/EmployeeLanguages';
 import EmployeeWorkExperience from '@/orangehrmPimPlugin/components/EmployeeWorkExperience';
-import EmployeeLicense from '@/orangehrmPimPlugin/components/EmployeeLicense';
+// import EmployeeLicense from '@/orangehrmPimPlugin/components/EmployeeLicense';
 
 export default {
   components: {
@@ -35,7 +35,7 @@ export default {
     'employee-education': EmployeeEducation,
     'employee-languages': EmployeeLanguages,
     'employee-work-experience': EmployeeWorkExperience,
-    'employee-license': EmployeeLicense,
+    // 'employee-license': EmployeeLicense,
   },
   props: {
     empNumber: {
