@@ -291,6 +291,8 @@ class PIMLeftMenuService
     protected function getAvailableActions(): array
     {
         $availableActions = $this->availableActions;
+        // Remove Immigration tab completely
+        unset($availableActions['viewImmigration']);
 
         // Remove Memberships tab completely
         unset($availableActions['viewMemberships']);

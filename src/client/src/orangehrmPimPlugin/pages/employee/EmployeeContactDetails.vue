@@ -118,6 +118,7 @@
                 v-model="contact.workEmail"
                 :label="$t('general.work_email')"
                 :rules="rules.workEmail"
+                :disabled="isESS"
               />
             </oxd-grid-item>
             <oxd-grid-item>
@@ -125,6 +126,7 @@
                 v-model="contact.otherEmail"
                 :label="$t('general.other_email')"
                 :rules="rules.otherEmail"
+                :disabled="isESS"
               />
             </oxd-grid-item>
           </oxd-grid>
@@ -221,6 +223,12 @@ export default {
         ],
       },
     };
+  },
+
+  computed: {
+    isESS() {
+      return localStorage.getItem('userRole') === 'ESS';
+    },
   },
 
   beforeMount() {
