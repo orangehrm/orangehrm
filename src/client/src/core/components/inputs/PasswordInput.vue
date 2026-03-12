@@ -55,6 +55,14 @@
       </oxd-grid-item>
     </oxd-grid>
   </oxd-form-row>
+  <oxd-text class="user-note-box" tag="p">
+    <strong>Note:</strong> Please ensure an official Outlook email account is
+    created by the team before completing user account setup. This is required
+    for system access and communication.
+    <a href="https://admin.cloud.microsoft/?#/homepage" target="_blank">
+      Click here </a
+    >to configure email settings
+  </oxd-text>
 </template>
 
 <script>
@@ -150,5 +158,17 @@ export default {
   &-cell {
     position: relative;
   }
+}
+.user-note-box {
+  font-size: 0.75rem;
+  margin-top: 10px;
+  padding: 8px;
+  background-color: darken($oxd-background-white-shadow-color, 4%);
+  border-radius: 6px;
+}
+
+.user-note-box a {
+  color: #0d6efd;
+  text-decoration: underline;
 }
 </style>
