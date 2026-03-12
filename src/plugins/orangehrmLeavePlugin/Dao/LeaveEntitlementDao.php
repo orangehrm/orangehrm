@@ -118,14 +118,13 @@ class LeaveEntitlementDao extends BaseDao
                 ->setParameter('leaveTypeId', $entitlementSearchFilterParams->getLeaveTypeId());
         }
 
-        if ($entitlementSearchFilterParams->getFromDate() !== null) {
-            $q->andWhere($q->expr()->gte('entitlement.fromDate', ':fromDate'))
-                ->setParameter('fromDate', $entitlementSearchFilterParams->getFromDate());
-        }
+        if ($entitlementSearchFilterParams->getFromDate() !== null 
+            && $entitlementSearchFilterParams->getToDate() !== null) {
 
-        if ($entitlementSearchFilterParams->getToDate() !== null) {
-            $q->andWhere($q->expr()->lte('entitlement.toDate', ':toDate'))
-                ->setParameter('toDate', $entitlementSearchFilterParams->getToDate());
+            $q->andWhere('entitlement.fromDate <= :toDate')
+               ->andWhere('entitlement.toDate >= :fromDate')
+               ->setParameter('fromDate', $entitlementSearchFilterParams->getFromDate())
+               ->setParameter('toDate', $entitlementSearchFilterParams->getToDate());
         }
 
         if ($entitlementSearchFilterParams->getLeaveTypeDeleted() !== null) {
@@ -723,6 +722,10 @@ class LeaveEntitlementDao extends BaseDao
         $q = $this->createQueryBuilder(LeaveType::class, 'leaveType')
             ->leftJoin('leaveType.leaveEntitlement', 'leaveEntitlement');
         $this->setSortingAndPaginationParams($q, $filterParams);
+        if (!is_null($filterParams->getLeaveTypeId())) {
+            $q->andWhere('leaveType.id = :leaveTypeId')
+              ->setParameter('leaveTypeId', $filterParams->getLeaveTypeId());
+        }
 
         $orClauses = $q->expr()->orX();
         $orClauses->add(
