@@ -30,9 +30,12 @@ use OrangeHRM\ORM\QueryBuilderWrapper;
 use OrangeHRM\Time\Dto\ProjectActivityDetailedReportSearchFilterParams;
 use OrangeHRM\Time\Dto\ProjectReportSearchFilterParams;
 use OrangeHRM\Time\Dto\ProjectSearchFilterParams;
+use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 
 class ProjectDao extends BaseDao
 {
+    use UserRoleManagerTrait;
+
     /**
      * @param Project $project
      * @return Project
@@ -105,8 +108,36 @@ class ProjectDao extends BaseDao
     {
         $qb = $this->createQueryBuilder(Project::class, 'project');
         $qb->leftJoin('project.customer', 'customer');
-        $qb->leftJoin('project.projectAdmins', 'projectAdmin');
+       $user = $this->getUserRoleManager()->getUser();
+$empNumber = $user->getEmpNumber();
+$roleName = $user->getUserRole()->getName();
 
+static $customerId = null;
+
+if ($customerId === null) {
+    $conn = $this->getEntityManager()->getConnection();
+
+    $customerId = $conn->fetchOne("
+        SELECT c.customer_id
+        FROM hs_hr_employee e
+        LEFT JOIN ohrm_subunit s ON e.work_station = s.id
+        LEFT JOIN ohrm_customer c ON c.name = s.name
+        WHERE e.emp_number = :empNumber
+        LIMIT 1
+    ", ['empNumber' => $empNumber]);
+}
+
+/*
+ESS → only their customer projects
+Admin → still allow their customer projects for timesheet dropdown
+*/
+$isTimesheetRequest = !is_null($projectSearchFilterParamHolder->getCustomerOrProjectName());
+
+if ($customerId && ($roleName === 'ESS' || $isTimesheetRequest)) {
+    $qb->andWhere('customer.id = :loggedCustomerId')
+       ->setParameter('loggedCustomerId', $customerId);
+}
+        $qb->leftJoin('project.projectAdmins', 'projectAdmin');
         $this->setSortingAndPaginationParams($qb, $projectSearchFilterParamHolder);
 
         if (!is_null($projectSearchFilterParamHolder->getProjectIds())) {
@@ -117,10 +148,10 @@ class ProjectDao extends BaseDao
             $qb->andWhere('customer.id = :customerId')
                 ->setParameter('customerId', $projectSearchFilterParamHolder->getCustomerId());
         }
-        if (!is_null($projectSearchFilterParamHolder->getEmpNumber())) {
+        if (!is_null($projectSearchFilterParamHolder->getEmpNumber()) && !$isTimesheetRequest) {
             $qb->andWhere('projectAdmin.empNumber = :empNumber')
-                ->setParameter('empNumber', $projectSearchFilterParamHolder->getEmpNumber());
-        }
+               ->setParameter('empNumber', $projectSearchFilterParamHolder->getEmpNumber());
+}
         if (!is_null($projectSearchFilterParamHolder->getCustomerOrProjectName())) {
             $qb->andWhere(
                 $qb->expr()->orX(
