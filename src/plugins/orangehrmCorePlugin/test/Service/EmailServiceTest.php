@@ -186,4 +186,73 @@ class EmailServiceTest extends KernelTestCase
         $this->emailService->setMessageBcc(['testBcc@orangehrm.com']);
         $this->assertTrue($this->emailService->getMessage() instanceof MailMessage);
     }
+
+    public function testReadFileLoadsValidEmailTemplate(): void
+    {
+        $this->createKernel();
+        $service = new EmailServiceReadFileTestProxy();
+        $path = '/orangehrmLeavePlugin/Mail/templates/en_US/apply/leaveApplicationSubject.txt.twig';
+        $content = $service->readFileExposed($path);
+        $this->assertStringContainsString('Leave Notification', $content);
+
+        $path = 'orangehrmLeavePlugin/Mail/templates/en_US/apply/leaveApplicationSubject.txt.twig';
+        $content = $service->readFileExposed($path);
+        $this->assertStringContainsString('Leave Notification', $content);
+    }
+
+    public function testReadNulbyteInPathEmailTemplate(): void
+    {
+        $this->createKernel();
+        $service = new EmailServiceReadFileTestProxy();
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('File is not readable');
+        $path = '/orangehrmLeavePlugin/Mail/templates/en_US/apply/leaveApplicationSubject.txt.twig\0';
+        $content = $service->readFileExposed($path);
+    }
+
+    public function testReadInvalidPathEmailTemplate(): void
+    {
+        $this->createKernel();
+        $service = new EmailServiceReadFileTestProxy();
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('File is not readable');
+        $path = '/orangehrmLeavePlugin/Mail/templates/en_US/apply/leaveApplicationSubject.txt';
+        $content = $service->readFileExposed($path);
+    }
+
+    public function testReadFileRejectsPathTraversal(): void
+    {
+        $this->createKernel();
+        $service = new EmailServiceReadFileTestProxy();
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('File is not readable');
+        $service->readFileExposed('/../../../../../../etc/hosts');
+    }
+
+    public function testReadFileRejectsResolvedPathOutsidePluginsDirectory(): void
+    {
+        $this->createKernel();
+        $service = new EmailServiceReadFileTestProxy();
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('File is not readable');
+        $traversal = str_repeat('..' . DIRECTORY_SEPARATOR, 12) . 'etc' . DIRECTORY_SEPARATOR . 'hosts';
+        $service->readFileExposed($traversal);
+    }
+}
+
+/**
+ * Exposes protected readFile for security regression tests.
+ *
+ * @internal
+ */
+final class EmailServiceReadFileTestProxy extends EmailService
+{
+    public function __construct()
+    {
+    }
+
+    public function readFileExposed(string $path): string
+    {
+        return $this->readFile($path);
+    }
 }

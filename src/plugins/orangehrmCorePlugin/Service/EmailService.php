@@ -687,17 +687,44 @@ class EmailService
     }
 
     /**
-     * @param string $path
+     * @param string $path Relative path under plugins directory (e.g. from email template subject/body)
      * @return string
      */
     protected function readFile(string $path): string
     {
-        $path = Config::get(Config::PLUGINS_DIR) . $path;
-        $absolutePath = realpath($path);
-        if (!$absolutePath || !is_readable($absolutePath)) {
+        // Reject null byte (\0): in some environments it can truncate the path and allow
+        // reading files outside the intended directory (e.g. "allowed.txt\0/../../../etc/passwd").
+        if (strpos($path, "\0") !== false) {
             throw new \Exception('File is not readable: ' . $path);
         }
 
-        return file_get_contents($path);
+        $pluginsDir = Config::get(Config::PLUGINS_DIR);
+        $base = realpath($pluginsDir);
+        if ($base === false) {
+            throw new \Exception('File is not readable: ' . $path);
+        }
+
+        $relative = ltrim($path, '/\\');
+        if ($relative === '') {
+            throw new \Exception('File is not readable: ' . $path);
+        }
+
+        $normalizedRelative = str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $relative);
+        $candidate = $base . DIRECTORY_SEPARATOR . $normalizedRelative;
+        $absolutePath = realpath($candidate);
+        if (
+            $absolutePath === false
+            || !is_readable($absolutePath)
+            || !is_file($absolutePath)
+        ) {
+            throw new \Exception('File is not readable: ' . $path);
+        }
+
+        $basePrefix = $base . DIRECTORY_SEPARATOR;
+        if (strncmp($absolutePath, $basePrefix, strlen($basePrefix)) !== 0) {
+            throw new \Exception('File is not readable: ' . $path);
+        }
+
+        return file_get_contents($absolutePath);
     }
 }

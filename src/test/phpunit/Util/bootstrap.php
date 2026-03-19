@@ -32,7 +32,7 @@ require realpath(__DIR__ . '/../../../vendor/autoload.php');
 $errorMessage = "
 Can't connect to test database.
 Run below command and try again;
-$ php ./devTools/core/console.php i:create-test-db -p root
+$ php ./devTools/core/console.php i:create-test-db -p root --dump-options=--ssl=0
 
 Error:
 %s\n
@@ -59,7 +59,7 @@ if (!$coreFixtureService->isReady()) {
     $errorMessage = "
 Core fixtures not found.
 Run below command and try again;
-$ php ./devTools/core/console.php i:create-test-db -p root
+$ php ./devTools/core/console.php i:create-test-db -p root --dump-options=--ssl=0
 \n
 ";
     echo $errorMessage;
