@@ -1,38 +1,22 @@
-<!--
-/**
- * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
- * all the essential functionalities required for any enterprise.
- * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
- *
- * OrangeHRM is free software: you can redistribute it and/or modify it under the terms of
- * the GNU General Public License as published by the Free Software Foundation, either
- * version 3 of the License, or (at your option) any later version.
- *
- * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
- * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
- * See the GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License along with OrangeHRM.
- * If not, see <https://www.gnu.org/licenses/>.
- */
- -->
-
 <template>
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
       <oxd-text tag="h6" class="orangehrm-main-title">
         {{ $t('time.add_customer') }}
       </oxd-text>
+
       <oxd-divider />
+
       <oxd-form :loading="isLoading" @submit-valid="onSave">
         <oxd-form-row>
           <oxd-input-field
             v-model="customer.name"
-            :label="$t('general.name')"
-            :rules="rules.name"
-            required
+            type="select"
+            :options="subunitOptions"
+            label="Name"
           />
         </oxd-form-row>
+
         <oxd-form-row>
           <oxd-input-field
             v-model="customer.description"
@@ -42,14 +26,18 @@
             :rules="rules.description"
           />
         </oxd-form-row>
+
         <oxd-divider />
+
         <oxd-form-actions>
           <required-text />
+
           <oxd-button
             display-type="ghost"
             :label="$t('general.cancel')"
             @click="onCancel"
           />
+
           <submit-button />
         </oxd-form-actions>
       </oxd-form>
@@ -68,57 +56,108 @@ import {promiseDebounce} from '@ohrm/oxd';
 
 const customerModel = {
   id: '',
-  name: '',
+  name: null,
   description: '',
 };
 
 export default {
   setup() {
-    const http = new APIService(
+    // API for saving customer
+    const customerHttp = new APIService(
       window.appGlobal.baseUrl,
       '/api/v2/time/customers',
     );
-    http.setIgnorePath('/api/v2/time/validation/customer-name');
+
+    // API for dropdown (subunits)
+    const subunitHttp = new APIService(
+      window.appGlobal.baseUrl,
+      '/api/v2/admin/subunits',
+    );
+
+    customerHttp.setIgnorePath('/api/v2/time/validation/customer-name');
+
     return {
-      http,
+      customerHttp,
+      subunitHttp,
     };
   },
+
   data() {
     return {
       isLoading: false,
+
       customer: {...customerModel},
+
+      subunitOptions: [{label: 'Select...', value: null}],
+
       rules: {
         name: [
           required,
           shouldNotExceedCharLength(50),
-          promiseDebounce(this.validateCustomerName, 500),
+          // promiseDebounce(this.validateCustomerName, 500),
         ],
         description: [shouldNotExceedCharLength(255)],
       },
     };
   },
+
+  mounted() {
+    this.loadSubunits();
+  },
+
   methods: {
-    onSave() {
-      this.isLoading = true;
-      this.http
-        .create({
-          name: this.customer.name,
-          description: this.customer.description,
+    loadSubunits() {
+      this.subunitHttp
+        .request({
+          method: 'GET',
         })
-        .then(() => {
-          return this.$toast.saveSuccess();
-        })
-        .then(() => {
-          this.onCancel();
+        .then((res) => {
+          this.subunitOptions = [];
+
+          res.data.data.forEach((s) => {
+            this.subunitOptions.push({
+              id: s.id,
+              label: `${'-- '.repeat(s.level)}${
+                s.unitId ? s.unitId + ' - ' : ''
+              }${s.name}`,
+              name: s.name,
+            });
+          });
         });
     },
+
+    onSave() {
+      this.isLoading = true;
+
+      if (!this.customer.name || !this.customer.name.name) {
+        this.$toast.error('Customer name is required');
+        this.isLoading = false;
+        return;
+      }
+
+      this.customerHttp
+        .create({
+          name: this.customer.name.name, // ✅ FIX
+          description: this.customer.description,
+        })
+        .then(() => this.$toast.saveSuccess())
+        .then(() => this.onCancel())
+        .catch(() => {
+          this.$toast.error('Failed to save customer');
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
+    },
+
     onCancel() {
       navigate('/time/viewCustomers');
     },
+
     validateCustomerName(customer) {
       return new Promise((resolve) => {
         if (customer) {
-          this.http
+          this.customerHttp
             .request({
               method: 'GET',
               url: `/api/v2/time/validation/customer-name`,
@@ -128,6 +167,7 @@ export default {
             })
             .then((response) => {
               const {data} = response.data;
+
               return data.valid === true
                 ? resolve(true)
                 : resolve(this.$t('general.already_exists'));
