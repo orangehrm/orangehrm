@@ -54,12 +54,14 @@ class EmployeeReportData implements ReportData
         $result = [];
         foreach ($timesheetItems as $timesheetItem) {
             $projectName = $timesheetItem['customerName']
-                . ' - ' . $timesheetItem['projectName'];
+                . ' - ' . $timesheetItem['projectName'];   
             $activityName = $timesheetItem['activityName'];
             $duration = $this->getNumberHelper()->numberFormat($timesheetItem['totalDurationByGroup'] / 3600, 2);
             $description = $timesheetItem['description'];
+            $clientManager = $timesheetItem['clientManager'];
             $result[] = [
                 EmployeeReport::PARAMETER_PROJECT_NAME => $projectName,
+                EmployeeReport::PARAMETER_CLIENT_MANAGER => $clientManager,
                 EmployeeReport::PARAMETER_ACTIVITY_NAME => $activityName,
                 EmployeeReport::PARAMETER_DURATION => $duration,
                 EmployeeReport::PARAMETER_DESCRIPTION => $description,

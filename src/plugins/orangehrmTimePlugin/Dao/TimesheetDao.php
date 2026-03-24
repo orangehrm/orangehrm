@@ -442,12 +442,14 @@ class TimesheetDao extends BaseDao
             'projectActivity.name AS activityName',
             'customer.name AS customerName',
             'timesheetItem.comment AS description',
+            'employee.custom1 AS clientManager',
             'COALESCE(SUM(timesheetItem.duration),0) AS totalDurationByGroup'
         );
 
         $qb->addGroupBy('projectName');
         $qb->addGroupBy('activityName');
         $qb->addGroupBy('customerName');
+        $qb->addGroupBy('employee.custom1');
         $qb->addGroupBy('timesheetItem.comment');
 
         $qb->addOrderBy('projectName', ListSorter::ASCENDING);
@@ -466,6 +468,7 @@ class TimesheetDao extends BaseDao
     ): QueryBuilderWrapper {
         $q = $this->createQueryBuilder(TimesheetItem::class, 'timesheetItem');
         $q->leftJoin('timesheetItem.timesheet', 'timesheet');
+        $q->leftJoin('timesheet.employee', 'employee');
         $q->leftJoin('timesheetItem.projectActivity', 'projectActivity');
         $q->leftJoin('timesheetItem.project', 'project');
         $q->leftJoin('project.customer', 'customer');

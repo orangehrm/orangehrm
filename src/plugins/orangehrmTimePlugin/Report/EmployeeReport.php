@@ -48,6 +48,7 @@ class EmployeeReport implements EndpointAwareReport
     public const PARAMETER_ACTIVITY_NAME = 'activityName';
     public const PARAMETER_DURATION = 'duration';
     public const PARAMETER_DESCRIPTION = 'description';
+    public const PARAMETER_CLIENT_MANAGER = 'clientManager';
 
     public const FILTER_PARAMETER_PROJECT_ID = 'projectId';
     public const FILTER_PARAMETER_ACTIVITY_ID = 'activityId';
@@ -197,6 +198,8 @@ class EmployeeReport implements EndpointAwareReport
         return new Header(
             [
                 (new Column(self::PARAMETER_PROJECT_NAME))->setName($this->getI18NHelper()->transBySource('Project Name'))
+                    ->setSize(self::DEFAULT_COLUMN_SIZE),
+                (new Column(self::PARAMETER_CLIENT_MANAGER))->setName($this->getI18NHelper()->transBySource('Client Manager'))
                     ->setSize(self::DEFAULT_COLUMN_SIZE),
                 (new Column(self::PARAMETER_ACTIVITY_NAME))->setName($this->getI18NHelper()->transBySource('Activity Name'))
                     ->setCellProperties(['class' => ['col-alt' => true]])
