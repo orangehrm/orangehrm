@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License along with OrangeHRM.
  * If not, see <https://www.gnu.org/licenses/>.
  */
- -->
+-->
 
 <template>
   <reports-table
@@ -29,6 +29,7 @@
         :filter-title="$t('leave.leave_entitlement_and_usage_report')"
       >
         <oxd-form @submit-valid="generateReport">
+          <!-- Type Selection -->
           <oxd-form-row>
             <oxd-grid :cols="4" class="orangehrm-full-width-grid">
               <oxd-grid-item>
@@ -53,6 +54,7 @@
             </oxd-grid>
           </oxd-form-row>
 
+          <!-- Leave Type Filters -->
           <oxd-form-row
             v-if="filters.type === 'leave_type_leave_entitlements_and_usage'"
           >
@@ -66,6 +68,7 @@
                   :rules="rules.leaveType"
                 />
               </oxd-grid-item>
+
               <oxd-grid-item>
                 <leave-period-dropdown
                   v-model="filters.leavePeriod"
@@ -73,6 +76,7 @@
                   required
                 />
               </oxd-grid-item>
+
               <oxd-grid-item>
                 <oxd-input-field
                   v-model="filters.location"
@@ -81,6 +85,7 @@
                   :options="locations"
                 />
               </oxd-grid-item>
+
               <oxd-grid-item>
                 <oxd-input-field
                   v-model="filters.subunit"
@@ -89,9 +94,11 @@
                   :options="subunits"
                 />
               </oxd-grid-item>
+
               <oxd-grid-item>
                 <jobtitle-dropdown v-model="filters.jobTitle" />
               </oxd-grid-item>
+
               <oxd-grid-item class="orangehrm-leave-filter --span-column-2">
                 <oxd-text class="orangehrm-leave-filter-text" tag="p">
                   {{ $t('leave.include_past_employees') }}
@@ -101,18 +108,18 @@
             </oxd-grid>
           </oxd-form-row>
 
+          <!-- Employee Filters -->
           <oxd-form-row v-else>
             <oxd-grid :cols="4" class="orangehrm-full-width-grid">
               <oxd-grid-item>
                 <employee-autocomplete
                   v-model="filters.employee"
                   :rules="rules.employee"
-                  :params="{
-                    includeEmployees: 'currentAndPast',
-                  }"
+                  :params="{includeEmployees: 'currentAndPast'}"
                   required
                 />
               </oxd-grid-item>
+
               <oxd-grid-item>
                 <leave-period-dropdown
                   v-model="filters.leavePeriod"
@@ -120,18 +127,50 @@
                   required
                 />
               </oxd-grid-item>
+
+              <oxd-grid-item>
+                <leave-type-dropdown
+                  v-model="filters.leaveType"
+                  :empty-text="$t('leave.no_leave_types_defined')"
+                  :eligible-only="false"
+                  :show-empty-selector="true"
+                />
+              </oxd-grid-item>
+
+              <oxd-grid-item>
+                <oxd-input-field
+                  v-model="filters.fromDate"
+                  type="date"
+                  label="From Date"
+                />
+              </oxd-grid-item>
+
+              <oxd-grid-item>
+                <oxd-input-field
+                  v-model="filters.toDate"
+                  type="date"
+                  label="To Date"
+                />
+              </oxd-grid-item>
             </oxd-grid>
           </oxd-form-row>
 
           <oxd-divider />
 
+          <!-- Actions -->
           <oxd-form-actions>
             <required-text />
             <oxd-button
               type="submit"
               display-type="secondary"
-              class="orangehrm-left-space"
               :label="$t('general.generate')"
+            />
+            <oxd-button
+              type="button"
+              display-type="secondary"
+              label="Download Excel"
+              style="margin-left: 20px"
+              @click="downloadExcel"
             />
           </oxd-form-actions>
         </oxd-form>
@@ -164,6 +203,8 @@ const defaultFilters = {
   location: null,
   jobTitle: null,
   includePastEmps: false,
+  fromDate: null,
+  toDate: null,
 };
 
 export default {
@@ -176,26 +217,16 @@ export default {
     'employee-autocomplete': EmployeeAutocomplete,
   },
   props: {
-    locations: {
-      type: Array,
-      default: () => [],
-    },
-    subunits: {
-      type: Array,
-      default: () => [],
-    },
-    leavePeriod: {
-      type: Object,
-      required: false,
-      default: () => null,
-    },
+    locations: {type: Array, default: () => []},
+    subunits: {type: Array, default: () => []},
+    leavePeriod: {type: Object, required: false, default: () => null},
   },
-
   setup(props) {
     const filters = ref({
       ...defaultFilters,
       ...(props.leavePeriod && {leavePeriod: props.leavePeriod}),
     });
+
     const rules = ref({
       employee: [required, shouldNotExceedCharLength(100), validSelection],
       leavePeriod: [required],
@@ -220,17 +251,29 @@ export default {
         return {
           name: filters.value.type,
           empNumber: filters.value.employee?.id,
-          fromDate: filters.value.leavePeriod?.startDate,
-          toDate: filters.value.leavePeriod?.endDate,
+          fromDate:
+            filters.value.fromDate || filters.value.leavePeriod?.startDate,
+          toDate: filters.value.toDate || filters.value.leavePeriod?.endDate,
+          leaveTypeId: filters.value.leaveType?.id,
         };
       }
     });
 
-    return {
-      rules,
-      filters,
-      serializedFilters,
+    const downloadExcel = async () => {
+      const params = new URLSearchParams(serializedFilters.value).toString();
+      const response = await fetch(
+        `/cothrm/web/index.php/leave/entitlement/excel?${params}`,
+        {credentials: 'include'},
+      );
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'leave_entitlement_usage.xlsx';
+      a.click();
     };
+
+    return {rules, filters, serializedFilters, downloadExcel};
   },
 };
 </script>

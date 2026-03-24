@@ -13,7 +13,6 @@
 // You should have received a copy of the GNU General Public License along with OrangeHRM.
 // If not, see <https://www.gnu.org/licenses/>.
 
-
 ::v-deep(.--grouped-field) {
   display: flex;
   flex-wrap: wrap;
@@ -30,4 +29,13 @@
     font-size: $oxd-input-control-font-size;
     margin-right: 1rem;
   }
+}
+
+::v-deep(.oxd-form-actions) {
+  display: flex !important;
+  justify-content: flex-end !important;
+}
+
+::v-deep(.oxd-form-actions .oxd-button + .oxd-button) {
+  margin-left: 20px !important;
 }

@@ -32,11 +32,23 @@ class EmployeeLeaveEntitlementUsageReportSearchFilterParams extends DateRangeSea
 
     private string $reportType = self::REPORT_TYPE_EMPLOYEE;
 
+    private ?int $leaveTypeId = null;
+
     public function __construct()
     {
         $this->setSortField('leaveType.name');
     }
+  
+    public function setLeaveTypeId(?int $leaveTypeId): void
+    {
+    $this->leaveTypeId = $leaveTypeId;
+    }
 
+    public function getLeaveTypeId(): ?int
+    {
+    return $this->leaveTypeId;
+    }
+    
     /**
      * @return int|null
      */

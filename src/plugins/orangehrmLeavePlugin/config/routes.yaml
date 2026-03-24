@@ -324,3 +324,8 @@ leave_view_my_leave_entitlement_report:
   path: /leave/viewMyLeaveBalanceReport
   controller: OrangeHRM\Leave\Controller\MyLeaveEntitlementReport::handle
   methods: [ GET ]
+
+leave_entitlement_excel:
+  path: /leave/entitlement/excel
+  controller: OrangeHRM\Leave\Controller\LeaveEntitlementExcelController::execute
+  methods: [GET]

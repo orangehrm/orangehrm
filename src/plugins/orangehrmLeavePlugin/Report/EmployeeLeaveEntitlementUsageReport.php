@@ -66,34 +66,44 @@ class EmployeeLeaveEntitlementUsageReport implements EndpointAwareReport
      */
     public function getHeaderDefinition(): Header
     {
-        return new Header(
-            [
-                (new Column(self::PARAMETER_LEAVE_TYPE_NAME))
-                    ->setName($this->getI18NHelper()->transBySource('Leave Type'))
-                    ->setPin(Column::PIN_COL_START)
-                    ->setSize(self::DEFAULT_COLUMN_SIZE),
-                (new Column(self::PARAMETER_ENTITLEMENT_DAYS))
-                    ->setName($this->getI18NHelper()->transBySource('Leave Entitlements (Days)'))
-                    ->setCellProperties(['class' => ['col-alt' => true, 'cell-action' => true]])
-                    ->setSize(self::DEFAULT_COLUMN_SIZE),
-                (new Column(self::PARAMETER_PENDING_APPROVAL_DAYS))
-                    ->setName($this->getI18NHelper()->transBySource('Leave Pending Approval (Days)'))
-                    ->setCellProperties(['class' => ['cell-action' => true]])
-                    ->setSize(self::DEFAULT_COLUMN_SIZE),
-                (new Column(self::PARAMETER_SCHEDULED_DAYS))
-                    ->setName($this->getI18NHelper()->transBySource('Leave Scheduled (Days)'))
-                    ->setCellProperties(['class' => ['cell-action' => true]])
-                    ->setSize(self::DEFAULT_COLUMN_SIZE),
-                (new Column(self::PARAMETER_TAKEN_DAYS))
-                    ->setName($this->getI18NHelper()->transBySource('Leave Taken (Days)'))
-                    ->setCellProperties(['class' => ['cell-action' => true]])
-                    ->setSize(self::DEFAULT_COLUMN_SIZE),
-                (new Column(self::PARAMETER_BALANCE_DAYS))
-                    ->setName($this->getI18NHelper()->transBySource('Leave Balance (Days)'))
-                    ->setCellProperties(['class' => ['col-alt' => true]])
-                    ->setSize(self::DEFAULT_COLUMN_SIZE),
-            ]
-        );
+        return new Header([
+            (new Column('employeeName'))
+                ->setName('Employee Name')
+                ->setPin(Column::PIN_COL_START)
+                ->setSize(self::DEFAULT_COLUMN_SIZE),
+
+            (new Column('leaveFromDate'))
+                ->setName('Leave From Date')
+                ->setSize(self::DEFAULT_COLUMN_SIZE),
+
+            (new Column('leaveToDate'))
+                ->setName('Leave To Date')
+                ->setSize(self::DEFAULT_COLUMN_SIZE),
+
+            (new Column(self::PARAMETER_LEAVE_TYPE_NAME))
+                ->setName('Leave Type')
+                ->setSize(self::DEFAULT_COLUMN_SIZE),
+
+            (new Column(self::PARAMETER_ENTITLEMENT_DAYS))
+                ->setName('Leave Entitlement (Days)')
+                ->setSize(self::DEFAULT_COLUMN_SIZE),
+
+            (new Column(self::PARAMETER_PENDING_APPROVAL_DAYS))
+                ->setName('Pending Approval')
+                ->setSize(self::DEFAULT_COLUMN_SIZE),
+
+            (new Column(self::PARAMETER_SCHEDULED_DAYS))
+                ->setName('Scheduled')
+                ->setSize(self::DEFAULT_COLUMN_SIZE),
+
+            (new Column(self::PARAMETER_TAKEN_DAYS))
+                ->setName('Taken')
+                ->setSize(self::DEFAULT_COLUMN_SIZE),
+
+            (new Column(self::PARAMETER_BALANCE_DAYS))
+                ->setName('Balance')
+                ->setSize(self::DEFAULT_COLUMN_SIZE),
+        ]);
     }
 
     /**
@@ -119,6 +129,7 @@ class EmployeeLeaveEntitlementUsageReport implements EndpointAwareReport
     public function prepareFilterParams(EndpointProxy $endpoint): FilterParams
     {
         $filterParams = new EmployeeLeaveEntitlementUsageReportSearchFilterParams();
+
         $filterParams->setEmpNumber(
             $endpoint->getRequestParams()->getInt(
                 RequestParams::PARAM_TYPE_QUERY,
@@ -126,8 +137,11 @@ class EmployeeLeaveEntitlementUsageReport implements EndpointAwareReport
                 $this->getAuthUser()->getEmpNumber()
             )
         );
+
         $endpoint->setSortingAndPaginationParams($filterParams);
+
         $leavePeriod = $this->getLeavePeriodService()->getCurrentLeavePeriod();
+
         $filterParams->setFromDate(
             $endpoint->getRequestParams()->getDateTime(
                 RequestParams::PARAM_TYPE_QUERY,
@@ -136,6 +150,7 @@ class EmployeeLeaveEntitlementUsageReport implements EndpointAwareReport
                 $leavePeriod->getStartDate()
             )
         );
+
         $filterParams->setToDate(
             $endpoint->getRequestParams()->getDateTime(
                 RequestParams::PARAM_TYPE_QUERY,
@@ -144,16 +159,39 @@ class EmployeeLeaveEntitlementUsageReport implements EndpointAwareReport
                 $leavePeriod->getEndDate()
             )
         );
+
+        $leaveTypeId = null;
+
+        if (
+            $endpoint->getRequestParams()->has(
+                RequestParams::PARAM_TYPE_QUERY,
+                'leaveTypeId'
+            )
+        ) {
+            $leaveTypeId = $endpoint->getRequestParams()->getInt(
+                RequestParams::PARAM_TYPE_QUERY,
+                'leaveTypeId'
+            );
+        }
+
+        $filterParams->setLeaveTypeId($leaveTypeId);
+
         $reportName = $endpoint->getRequestParams()->getString(
             RequestParams::PARAM_TYPE_QUERY,
             ReportAPI::PARAMETER_NAME
         );
-        if ($this->getTextHelper()->strStartsWith(
-            $reportName,
-            EmployeeLeaveEntitlementUsageReportSearchFilterParams::REPORT_TYPE_MY
-        )) {
-            $filterParams->setReportType(EmployeeLeaveEntitlementUsageReportSearchFilterParams::REPORT_TYPE_MY);
+
+        if (
+            $this->getTextHelper()->strStartsWith(
+                $reportName,
+                EmployeeLeaveEntitlementUsageReportSearchFilterParams::REPORT_TYPE_MY
+            )
+        ) {
+            $filterParams->setReportType(
+                EmployeeLeaveEntitlementUsageReportSearchFilterParams::REPORT_TYPE_MY
+            );
         }
+
         return $filterParams;
     }
 
@@ -164,15 +202,35 @@ class EmployeeLeaveEntitlementUsageReport implements EndpointAwareReport
     {
         return new ParamRuleCollection(
             $endpoint->getValidationDecorator()->requiredParamRule(
-                new ParamRule(CommonParams::PARAMETER_EMP_NUMBER, new Rule(Rules::IN_ACCESSIBLE_EMP_NUMBERS))
+                new ParamRule(
+                    CommonParams::PARAMETER_EMP_NUMBER,
+                    new Rule(Rules::IN_ACCESSIBLE_EMP_NUMBERS)
+                )
             ),
+
             $endpoint->getValidationDecorator()->notRequiredParamRule(
-                new ParamRule(LeaveCommonParams::PARAMETER_FROM_DATE, new Rule(Rules::API_DATE))
+                new ParamRule(
+                    LeaveCommonParams::PARAMETER_FROM_DATE,
+                    new Rule(Rules::API_DATE)
+                )
             ),
+
             $endpoint->getValidationDecorator()->notRequiredParamRule(
-                new ParamRule(LeaveCommonParams::PARAMETER_TO_DATE, new Rule(Rules::API_DATE))
+                new ParamRule(
+                    LeaveCommonParams::PARAMETER_TO_DATE,
+                    new Rule(Rules::API_DATE)
+                )
             ),
+
+            $endpoint->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    'leaveTypeId',
+                    new Rule(Rules::POSITIVE)
+                )
+            ),
+
             ...
+
             $endpoint->getSortingAndPaginationParamsRules(
                 EmployeeLeaveEntitlementUsageReportSearchFilterParams::ALLOWED_SORT_FIELDS
             )
@@ -185,21 +243,31 @@ class EmployeeLeaveEntitlementUsageReport implements EndpointAwareReport
     public function checkReportAccessibility(EndpointProxy $endpoint): void
     {
         $dataGroup = 'leave_report_employee_leave_entitlements_and_usage';
+
         $reportName = $endpoint->getRequestParams()->getString(
             RequestParams::PARAM_TYPE_QUERY,
             ReportAPI::PARAMETER_NAME
         );
-        if ($this->getTextHelper()->strStartsWith(
-            $reportName,
-            EmployeeLeaveEntitlementUsageReportSearchFilterParams::REPORT_TYPE_MY
-        )) {
+
+        if (
+            $this->getTextHelper()->strStartsWith(
+                $reportName,
+                EmployeeLeaveEntitlementUsageReportSearchFilterParams::REPORT_TYPE_MY
+            )
+        ) {
             $dataGroup = 'leave_report_my_leave_entitlements_and_usage';
         }
-        if (!$this->getUserRoleManagerHelper()->getEntityIndependentDataGroupPermissions($dataGroup)->canRead()) {
+
+        if (
+            !$this->getUserRoleManagerHelper()
+                ->getEntityIndependentDataGroupPermissions($dataGroup)
+                ->canRead()
+        ) {
             throw new ForbiddenException();
         }
+
         if (!$this->getLeaveConfigService()->isLeavePeriodDefined()) {
-            throw new BadRequestException("Leave period is not defined");
+            throw new BadRequestException('Leave period is not defined');
         }
     }
 }

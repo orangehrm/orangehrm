@@ -26,7 +26,9 @@ use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Core\Traits\Service\NumberHelperTrait;
 use OrangeHRM\Entity\Leave;
 use OrangeHRM\I18N\Traits\Service\I18NHelperTrait;
+use OrangeHRM\Leave\Dao\LeaveRequestDao;
 use OrangeHRM\Leave\Dto\EmployeeLeaveEntitlementUsageReportSearchFilterParams;
+use OrangeHRM\Leave\Dto\LeaveRequestSearchFilterParams;
 use OrangeHRM\Leave\Traits\Service\LeaveEntitlementServiceTrait;
 use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
 
@@ -42,9 +44,13 @@ class EmployeeLeaveEntitlementUsageReportData implements ReportData
 
     private EmployeeLeaveEntitlementUsageReportSearchFilterParams $filterParams;
 
-    public function __construct(EmployeeLeaveEntitlementUsageReportSearchFilterParams $filterParams)
-    {
+    private LeaveRequestDao $leaveRequestDao;
+
+    public function __construct(
+        EmployeeLeaveEntitlementUsageReportSearchFilterParams $filterParams
+    ) {
         $this->filterParams = $filterParams;
+        $this->leaveRequestDao = new LeaveRequestDao();
     }
 
     /**
@@ -52,68 +58,64 @@ class EmployeeLeaveEntitlementUsageReportData implements ReportData
      */
     public function normalize(): array
     {
-        $leaveTypes = $this->getLeaveEntitlementService()
-            ->getLeaveEntitlementDao()
-            ->getLeaveTypesForEntitlementUsageReport($this->filterParams);
-
         $empNumber = $this->filterParams->getEmpNumber();
-        $fromDateYmd = $this->getDateTimeHelper()->formatDateTimeToYmd($this->filterParams->getFromDate());
-        $toDateYmd = $this->getDateTimeHelper()->formatDateTimeToYmd($this->filterParams->getToDate());
-        $isMyReportType = $this->filterParams->getReportType() ===
-            EmployeeLeaveEntitlementUsageReportSearchFilterParams::REPORT_TYPE_MY;
+
+        $employee = $this->getEmployeeService()->getEmployeeAsArray($empNumber);
+
+        $employeeName = trim(
+            ($employee['firstName'] ?? '') . ' ' . ($employee['lastName'] ?? '')
+        );
+
+        $leaveFilter = new LeaveRequestSearchFilterParams();
+        $leaveFilter->setEmpNumber($empNumber);
+        $leaveFilter->setFromDate($this->filterParams->getFromDate());
+        $leaveFilter->setToDate($this->filterParams->getToDate());
+
+        if ($this->filterParams->getLeaveTypeId()) {
+            $leaveFilter->setLeaveTypeId($this->filterParams->getLeaveTypeId());
+        }
+
+        $leaveRequests = $this->leaveRequestDao->getLeaveRequests($leaveFilter);
+
         $result = [];
-        foreach ($leaveTypes as $leaveType) {
-            $balance = $this->getLeaveEntitlementService()
-                ->getLeaveBalance(
+
+        foreach ($leaveRequests as $leaveRequest) {
+            foreach ($leaveRequest->getLeaves() as $leave) {
+
+                $date = $leave->getDate();
+
+                if (
+                    $date < $this->filterParams->getFromDate() ||
+                    $date > $this->filterParams->getToDate()
+                ) {
+                    continue;
+                }
+
+                $leaveType = $leave->getLeaveType();
+
+                $balance = $this->getLeaveEntitlementService()->getLeaveBalance(
                     $empNumber,
                     $leaveType->getId(),
                     $this->filterParams->getFromDate(),
                     $this->filterParams->getToDate()
                 );
-            $leaveTypeName = $leaveType->getName();
-            if ($leaveType->isDeleted()) {
-                $leaveTypeName .= $this->getI18NHelper()->transBySource(' (Deleted)');
-            }
 
-            $leaveEntitlementUrl = $isMyReportType ? '/leave/viewMyLeaveEntitlements' : '/leave/viewLeaveEntitlements';
-            $leaveListUrl = $isMyReportType ? '/leave/viewMyLeaveList' : '/leave/viewLeaveList';
-            $result[] = [
-                EmployeeLeaveEntitlementUsageReport::PARAMETER_LEAVE_TYPE_NAME => $leaveTypeName,
-                EmployeeLeaveEntitlementUsageReport::PARAMETER_ENTITLEMENT_DAYS => $this->getNumberHelper()
-                    ->numberFormatWithGroupedThousands($balance->getEntitled(), 2),
-                EmployeeLeaveEntitlementUsageReport::PARAMETER_PENDING_APPROVAL_DAYS => $this->getNumberHelper()
-                    ->numberFormatWithGroupedThousands($balance->getPending(), 2),
-                EmployeeLeaveEntitlementUsageReport::PARAMETER_SCHEDULED_DAYS => $this->getNumberHelper()
-                    ->numberFormatWithGroupedThousands($balance->getScheduled(), 2),
-                EmployeeLeaveEntitlementUsageReport::PARAMETER_TAKEN_DAYS => $this->getNumberHelper()
-                    ->numberFormatWithGroupedThousands($balance->getTaken(), 2),
-                EmployeeLeaveEntitlementUsageReport::PARAMETER_BALANCE_DAYS => $this->getNumberHelper()
-                    ->numberFormatWithGroupedThousands($balance->getBalance(), 2),
-                'leaveTypeDeleted' => $leaveType->isDeleted(),
-                '_url' => [
-                    EmployeeLeaveEntitlementUsageReport::PARAMETER_ENTITLEMENT_DAYS => $leaveEntitlementUrl .
-                        "?empNumber=$empNumber" .
-                        "&fromDate=$fromDateYmd" .
-                        "&toDate=$toDateYmd" .
-                        '&leaveTypeId=' . $leaveType->getId(),
-                    EmployeeLeaveEntitlementUsageReport::PARAMETER_PENDING_APPROVAL_DAYS => $leaveListUrl .
-                        "?empNumber=$empNumber" .
-                        "&fromDate=$fromDateYmd" .
-                        "&toDate=$toDateYmd" .
-                        '&leaveTypeId=' . $leaveType->getId() . '&status=' . Leave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL,
-                    EmployeeLeaveEntitlementUsageReport::PARAMETER_SCHEDULED_DAYS => $leaveListUrl .
-                        "?empNumber=$empNumber" .
-                        "&fromDate=$fromDateYmd" .
-                        "&toDate=$toDateYmd" .
-                        '&leaveTypeId=' . $leaveType->getId() . '&status=' . Leave::LEAVE_STATUS_LEAVE_APPROVED,
-                    EmployeeLeaveEntitlementUsageReport::PARAMETER_TAKEN_DAYS => $leaveListUrl .
-                        "?empNumber=$empNumber" .
-                        "&fromDate=$fromDateYmd" .
-                        "&toDate=$toDateYmd" .
-                        '&leaveTypeId=' . $leaveType->getId() . '&status=' . Leave::LEAVE_STATUS_LEAVE_TAKEN,
-                ],
-            ];
+                $result[] = [
+                    'employeeName'        => $employeeName,
+                    'leaveFromDate'       => $this->getDateTimeHelper()
+                        ->formatDateTimeToYmd($date),
+                    'leaveToDate'         => $this->getDateTimeHelper()
+                        ->formatDateTimeToYmd($date),
+                    'leaveTypeName'       => $leaveType->getName(),
+                    'entitlementDays'     => $balance->getEntitled(),
+                    'pendingApprovalDays' => $balance->getPending(),
+                    'scheduledDays'       => $balance->getScheduled(),
+                    'takenDays'           => $balance->getTaken(),
+                    'balanceDays'         => $balance->getBalance(),
+                ];
+            }
         }
+
         return $result;
     }
 
@@ -122,15 +124,15 @@ class EmployeeLeaveEntitlementUsageReportData implements ReportData
      */
     public function getMeta(): ?ParameterBag
     {
-        return new ParameterBag(
-            [
-                CommonParams::PARAMETER_TOTAL => $this->getLeaveEntitlementService()
+        return new ParameterBag([
+            CommonParams::PARAMETER_TOTAL =>
+                $this->getLeaveEntitlementService()
                     ->getLeaveEntitlementDao()
                     ->getLeaveTypesCountForEntitlementUsageReport($this->filterParams),
-                self::META_PARAMETER_EMPLOYEE => $this->getEmployeeService()->getEmployeeAsArray(
-                    $this->filterParams->getEmpNumber()
-                )
-            ]
-        );
+
+            self::META_PARAMETER_EMPLOYEE =>
+                $this->getEmployeeService()
+                    ->getEmployeeAsArray($this->filterParams->getEmpNumber()),
+        ]);
     }
 }
