@@ -118,6 +118,9 @@
                 '--center': true,
                 '--duration-input': editable,
                 '--highlight-3': !editable && column.workday,
+                '--blocked-leave': column.blocked && column.reason === 'leave',
+                '--blocked-holiday':
+                  column.blocked && column.reason === 'holiday',
               }"
             >
               <oxd-icon-button
@@ -130,8 +133,17 @@
               <oxd-input-field
                 v-if="editable"
                 autocomplete="off"
+                :disabled="column.blocked"
                 :rules="validateDuration(date)"
-                :model-value="getDuration(record.dates[date])"
+                :model-value="
+                  column.blocked
+                    ? column.reason === 'holiday'
+                      ? 'H'
+                      : column.reason === 'leave'
+                      ? 'L'
+                      : ''
+                    : getDuration(record.dates[date])
+                "
                 @blur="onDurationBlur"
                 @focus="onDurationFocus(i, date)"
                 @update:model-value="updateTime($event, i, date)"

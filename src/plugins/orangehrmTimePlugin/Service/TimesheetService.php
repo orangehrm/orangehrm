@@ -32,6 +32,11 @@ use OrangeHRM\Time\Dao\TimesheetDao;
 use OrangeHRM\Time\Dto\DetailedTimesheet;
 use OrangeHRM\Time\Dto\TimesheetColumn;
 use OrangeHRM\Time\Dto\TimesheetRow;
+use OrangeHRM\Leave\Dao\LeaveRequestDao;
+use OrangeHRM\Leave\Dao\HolidayDao;
+use OrangeHRM\Entity\Leave;
+use OrangeHRM\Core\Api\V2\Exception\BadRequestException;
+
 
 class TimesheetService
 {
@@ -59,6 +64,9 @@ class TimesheetService
      * @var AccessFlowStateMachineService|null
      */
     private ?AccessFlowStateMachineService $accessFlowStateMachineService = null;
+
+    private ?LeaveRequestDao $leaveRequestDao = null;
+    private ?HolidayDao $holidayDao = null;
 
     /**
      * @return AccessFlowStateMachineService
@@ -94,6 +102,21 @@ class TimesheetService
         return $this->timesheetPeriodService;
     }
 
+    protected function getLeaveRequestDao(): LeaveRequestDao
+    {
+        if (is_null($this->leaveRequestDao)) {
+            $this->leaveRequestDao = new LeaveRequestDao();
+        }
+        return $this->leaveRequestDao;
+    }
+
+    protected function getHolidayDao(): HolidayDao
+    {
+        if (is_null($this->holidayDao)) {
+            $this->holidayDao = new HolidayDao();
+        }
+        return $this->holidayDao;
+    }
     /**
      * @param int $timesheetId
      * @return DetailedTimesheet
@@ -117,9 +140,26 @@ class TimesheetService
         $timesheetRows = [];
         $timesheetColumns = [];
         foreach ($timesheetDates as $timesheetDate) {
-            $date = $this->getDateTimeHelper()->formatDateTimeToYmd($timesheetDate);
+
+            $date = $this->getDateTimeHelper()
+                ->formatDateTimeToYmd($timesheetDate);
+
             if (!isset($timesheetColumns[$date])) {
-                $timesheetColumns[$date] = new TimesheetColumn($timesheetDate);
+
+                $column = new TimesheetColumn($timesheetDate);
+
+                $empNumber = $timesheet->getEmployee()->getEmpNumber();
+
+                // 🔹 Approved Leave
+                if ($this->hasApprovedLeave($empNumber, $timesheetDate)) {
+                    $column->setBlocked(true, 'leave');
+                }
+
+        // 🔹 Public Holiday
+                if ($this->isPublicHoliday($timesheetDate)) {
+                    $column->setBlocked(true, 'holiday');
+                }
+                $timesheetColumns[$date] = $column;
             }
         }
         foreach ($timesheetItems as $timesheetItem) {
@@ -244,14 +284,74 @@ class TimesheetService
     }
 
     /**
+     * ===========================
+     *  LEAVE + HOLIDAY BLOCK LOGIC
+     * ===========================
+     */
+
+    protected function hasApprovedLeave(
+        int $empNumber,
+        DateTime $date
+    ): bool {
+        $normalizedDate = new DateTime($date->format('Y-m-d'));
+
+        $leaveList = $this->getLeaveRequestDao()
+            ->getLeavesByEmpNumberAndDates(
+                $empNumber,
+                [$normalizedDate]
+            );
+
+        foreach ($leaveList as $leave) {
+
+            $status = (int) $leave->getStatus();
+             
+            // 2 = Scheduled (Approved)
+        // 3 = Taken
+            if ($status === 2 || $status === 3) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    protected function isPublicHoliday(DateTime $date): bool
+    {
+        $holiday = $this->getHolidayDao()->getHolidayByDate($date);
+        return !is_null($holiday);
+    }
+
+    /**
      * @param Timesheet $timesheet
      * @param array $rows
      */
-    public function saveAndUpdateTimesheetItemsFromRows(Timesheet $timesheet, array $rows): void
-    {
+    public function saveAndUpdateTimesheetItemsFromRows(
+    Timesheet $timesheet,
+    array $rows  
+    ): void {
+
         $timesheetItems = $this->createTimesheetItemsFromRows($timesheet, $rows);
+        $empNumber = $timesheet->getEmployee()->getEmpNumber();
+        foreach ($timesheetItems as $item) {
+            $date = $item->getDate();
+            // 🔹 Block Approved Leave
+            if ($this->hasApprovedLeave($empNumber, $date)) {
+                throw new BadRequestException( 'Timesheet blocked. Approved Leave on ' 
+            . $date->format('Y-m-d')
+                );
+            }
+
+            // 🔹 Block Public Holiday
+
+            if ($this->isPublicHoliday($date)) {
+                throw new BadRequestException(
+                  'Timesheet blocked. Public Holiday on ' .
+            $date->format('Y-m-d')
+                );    
+            }
+        }
+
         $this->getTimesheetDao()->saveAndUpdateTimesheetItems($timesheetItems);
-    }
+    }  
 
     /**
      * @param int $loggedInEmpNumber

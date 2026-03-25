@@ -25,6 +25,9 @@ class TimesheetColumn
 {
     private DateTime $date;
     private int $total = 0;
+    private bool $blocked = false;
+    private ?string $reason = null;
+
 
     /**
      * @param DateTime $date
@@ -32,6 +35,22 @@ class TimesheetColumn
     public function __construct(DateTime $date)
     {
         $this->date = $date;
+    }
+
+    public function setBlocked(bool $blocked, ?string $reason = null): void
+    {
+    $this->blocked = $blocked;
+    $this->reason = $reason;
+    }
+
+    public function isBlocked(): bool
+    { 
+    return $this->blocked;
+    }
+
+    public function getReason(): ?string
+    {
+    return $this->reason;
     }
 
     /**

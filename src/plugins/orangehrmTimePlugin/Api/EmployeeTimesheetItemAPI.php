@@ -203,6 +203,8 @@ class EmployeeTimesheetItemAPI extends Endpoint implements CrudEndpoint
             $dates[] = $date;
             $columns[$date] = [
                 'total' => $this->getNormalizedTotalDuration($column->getTotal()),
+                'blocked' => $column->isBlocked(),
+                'reason'  => $column->getReason(),
             ];
         }
 
