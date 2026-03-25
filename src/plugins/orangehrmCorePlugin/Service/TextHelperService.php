@@ -83,4 +83,18 @@ class TextHelperService
         }
         return '' === $needle || ('' !== $haystack && 0 === substr_compare($haystack, $needle, -strlen($needle)));
     }
+
+    /**
+     * Decodes RFC 3986 percent-encoding on a path.
+     *
+     * Symfony Request::getPathInfo() returns the raw, non-decoded path; matching disabled
+     * module prefixes against it allows bypass using encodings such as /l%65ave for /leave.
+     *
+     * @param string $path Raw path (e.g. from Request::getPathInfo())
+     * @return string
+     */
+    public function getRawDecodedPath(string $path): string
+    {
+        return rawurldecode($path);
+    }
 }

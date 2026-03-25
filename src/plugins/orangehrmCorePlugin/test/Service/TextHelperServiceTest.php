@@ -71,4 +71,29 @@ class TextHelperServiceTest extends TestCase
         $this->assertTrue($this->textHelperService->strEndsWith('නරියා', 'යා'));
         $this->assertTrue($this->textHelperService->strEndsWith('නරියා', 'ා'));
     }
+
+    public function testGetRawDecodedPath(): void
+    {
+        $this->assertSame('', $this->textHelperService->getRawDecodedPath(''));
+        $this->assertSame('/leave/list', $this->textHelperService->getRawDecodedPath('/leave/list'));
+        $this->assertSame(
+            '/leave/list',
+            $this->textHelperService->getRawDecodedPath('/l%65ave/list')
+        );
+        $this->assertSame(
+            '/api/v2/leave/employees',
+            $this->textHelperService->getRawDecodedPath('/api/v2/l%65ave/employees')
+        );
+        // Not handling multiple percent encodings, as the symfony router not support it and throws 404.
+        $this->assertSame(
+            '/l%65ave/x', // '/leave/x',
+            $this->textHelperService->getRawDecodedPath('/l%2565ave/x')
+        );
+        $this->assertTrue(
+            $this->textHelperService->strStartsWith(
+                $this->textHelperService->getRawDecodedPath('/l%65ave/x'),
+                '/leave'
+            )
+        );
+    }
 }

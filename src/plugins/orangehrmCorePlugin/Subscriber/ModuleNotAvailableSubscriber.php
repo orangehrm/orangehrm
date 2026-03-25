@@ -70,12 +70,15 @@ class ModuleNotAvailableSubscriber extends AbstractEventSubscriber
     public function onRequestEvent(RequestEvent $event): void
     {
         if ($event->isMainRequest()) {
+            $pathInfo = $this->getTextHelper()->getRawDecodedPath(
+                $event->getRequest()->getPathInfo()
+            );
             $disabledModules = $this->getModuleService()->getModuleDao()->getDisabledModuleList();
             foreach ($disabledModules as $disabledModule) {
-                if ($this->getTextHelper()->strStartsWith($event->getRequest()->getPathInfo(), '/' . $disabledModule['name'])) {
+                if ($this->getTextHelper()->strStartsWith($pathInfo, '/' . $disabledModule['name'])) {
                     throw new RequestForwardableException(DisabledModuleController::class . '::handle');
                 }
-                if ($this->getTextHelper()->strStartsWith($event->getRequest()->getPathInfo(), '/api/v2/' . $disabledModule['name'])) {
+                if ($this->getTextHelper()->strStartsWith($pathInfo, '/api/v2/' . $disabledModule['name'])) {
                     throw new ForbiddenException('Unauthorized');
                 }
             }
