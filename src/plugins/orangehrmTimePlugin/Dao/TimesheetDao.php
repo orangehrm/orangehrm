@@ -34,6 +34,7 @@ use OrangeHRM\Time\Dto\EmployeeTimesheetListSearchFilterParams;
 use OrangeHRM\Time\Dto\TimesheetActionLogSearchFilterParams;
 use OrangeHRM\Time\Dto\TimesheetSearchFilterParams;
 use OrangeHRM\Time\Traits\Service\TimesheetServiceTrait;
+use OrangeHRM\Time\Dto\ClientReportSearchFilterParams;
 
 class TimesheetDao extends BaseDao
 {
@@ -542,5 +543,107 @@ class TimesheetDao extends BaseDao
             'projectActivity' => $activityId,
             'date' => $date
         ]);
+    }
+
+    public function getTimesheetItemsForClientReport(
+        ClientReportSearchFilterParams $filterParams
+    ): array {
+        return $this->getTimesheetItemsPaginatorForClientReport($filterParams)
+            ->getQuery()
+            ->execute();
+    }
+
+    public function getTimesheetItemsCountForClientReport(
+        ClientReportSearchFilterParams $filterParams
+    ): int {
+        return $this->getTimesheetItemsPaginatorForClientReport($filterParams)
+            ->count();
+    }
+
+    private function getTimesheetItemsPaginatorForClientReport(
+        ClientReportSearchFilterParams $filterParams
+    ): Paginator {
+
+        $qb = $this->getTimesheetItemsForClientReportQueryBuilderWrapper($filterParams)
+            ->getQueryBuilder();
+
+        $qb->select(
+            'customer.name AS customerName',
+            'project.name AS projectName',
+            "CONCAT(employee.firstName, ' ', employee.lastName) AS employeeName",
+            'COALESCE(SUM(timesheetItem.duration),0) AS totalDuration'
+        );
+
+        $qb->addGroupBy('customer.name');
+        $qb->addGroupBy('project.name');
+        $qb->addGroupBy('employee.firstName');
+        $qb->addGroupBy('employee.lastName');
+
+        $qb->addOrderBy('customer.name', ListSorter::ASCENDING);
+        $qb->addOrderBy('project.name', ListSorter::ASCENDING);
+        $qb->addOrderBy('employee.lastName', ListSorter::ASCENDING);
+
+        return $this->getPaginator($qb);
+    }
+
+    private function getTimesheetItemsForClientReportQueryBuilderWrapper(
+        ClientReportSearchFilterParams $filterParams
+    ): QueryBuilderWrapper {
+
+        $q = $this->createQueryBuilder(TimesheetItem::class, 'timesheetItem');
+
+        $q->leftJoin('timesheetItem.timesheet', 'timesheet');
+        $q->leftJoin('timesheetItem.project', 'project');
+        $q->leftJoin('project.customer', 'customer');
+        $q->leftJoin('timesheetItem.employee', 'employee');
+
+        if (!is_null($filterParams->getCustomerId())) {
+            $q->andWhere('customer.id = :customerId');
+            $q->setParameter('customerId', $filterParams->getCustomerId());
+        }
+
+        if (!is_null($filterParams->getProjectId())) {
+            $q->andWhere('project.id = :projectId');
+            $q->setParameter('projectId', $filterParams->getProjectId());
+        }
+
+        if (!is_null($filterParams->getEmpNumber())) {
+            $q->andWhere('timesheetItem.employee = :empNumber');
+            $q->setParameter('empNumber', $filterParams->getEmpNumber());
+        }
+
+        if (!is_null($filterParams->getFromDate()) && !is_null($filterParams->getToDate())) {
+            $q->andWhere($q->expr()->between('timesheetItem.date', ':fromDate', ':toDate'));
+            $q->setParameter('fromDate', $filterParams->getFromDate());
+            $q->setParameter('toDate', $filterParams->getToDate());
+        }
+
+        if (
+            $filterParams->getIncludeTimesheets() ===
+            ClientReportSearchFilterParams::INCLUDE_TIMESHEETS_APPROVED_ONLY
+        ) {
+            $q->andWhere('timesheet.state = :state');
+            $q->setParameter(
+                'state',
+                ClientReportSearchFilterParams::TIMESHEET_APPROVED_STATE
+            );
+        }
+
+        $this->setSortingAndPaginationParams($q, $filterParams);
+
+        return $this->getQueryBuilderWrapper($q);
+    }
+
+    public function getTotalDurationForClientReport(
+        ClientReportSearchFilterParams $filterParams
+    ): int {
+
+        $qb = $this->getTimesheetItemsForClientReportQueryBuilderWrapper($filterParams)
+            ->getQueryBuilder();
+
+        // If duration is NULL return 0
+        $qb->select('COALESCE(SUM(timesheetItem.duration),0) AS totalDuration');
+
+        return (int)$qb->getQuery()->getSingleScalarResult();
     }
 }

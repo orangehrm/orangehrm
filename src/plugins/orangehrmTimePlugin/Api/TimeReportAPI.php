@@ -26,6 +26,7 @@ use OrangeHRM\Time\Report\AttendanceReport;
 use OrangeHRM\Time\Report\EmployeeReport;
 use OrangeHRM\Time\Report\ProjectActivityReport;
 use OrangeHRM\Time\Report\ProjectReport;
+use OrangeHRM\Time\Report\ClientReport;
 
 class TimeReportAPI extends ReportAPI
 {
@@ -35,6 +36,7 @@ class TimeReportAPI extends ReportAPI
         'activity_detailed' => ProjectActivityReport::class,
         'employee' => EmployeeReport::class,
         'attendance' => AttendanceReport::class,
+        'client' => ClientReport::class, 
     ];
 
     /**
