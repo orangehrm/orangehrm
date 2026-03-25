@@ -1,24 +1,26 @@
 <?php
-/*
- * Created on Feb 29, 2008
- * Author: Gayanath Jayarathne
+
+if (PHP_SAPI !== 'cli') {
+    http_response_code(403);
+    header('Content-Type: text/plain; charset=utf-8');
+    exit('This script may only be run from the command line.');
+}
+
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
  *
- * This script adds 110 employees, corresponding 110 ESS users and one Admin user
- * to OrangeHRM database. Each employee full name is unique.Once OrangeHRM is installed,
- * place this script in its root folder and call it accordingly in the web browser.
- * If data was added, you should see the message "Successfully Created!"
+ * OrangeHRM is free software: you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation, either
+ * version 3 of the License, or (at your option) any later version.
  *
- * Warning:
- * This would first remove all existing employees and users from the database.
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
  *
- * Admin username = admin		Admin password = admin
- *
- * For employee, "Kayla Abbey":
- *
- * ESS username = Kayla			ESS password = Kayla
- *
- * As above, for each employee, username and password would be his/her first name
- *
+ * You should have received a copy of the GNU General Public License along with OrangeHRM.
+ * If not, see <https://www.gnu.org/licenses/>.
  */
 
 // Database information

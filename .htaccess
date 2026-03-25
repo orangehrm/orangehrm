@@ -30,5 +30,5 @@ deny from all
 <IfModule mod_rewrite.c>
   RewriteEngine On
 
-  RewriteRule (/)?(build|lib|license|tests|test|apps|cache|config|data|log|plugins)(/.*)?$ - [F,NC]
+  RewriteRule (/)?(build|devTools|lib|license|tests|test|apps|cache|config|data|log|plugins)(/.*)?$ - [F,NC]
 </IfModule>

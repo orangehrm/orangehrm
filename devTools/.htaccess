@@ -1,0 +1,8 @@
+# DevTools are for local development and CLI only; never expose via HTTP.
+<IfModule mod_authz_core.c>
+    Require all denied
+</IfModule>
+<IfModule !mod_authz_core.c>
+    Order deny,allow
+    Deny from all
+</IfModule>
