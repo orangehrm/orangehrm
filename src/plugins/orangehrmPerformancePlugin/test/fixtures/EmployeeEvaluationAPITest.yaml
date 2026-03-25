@@ -153,7 +153,7 @@ EmployeeTerminationRecord:
   - {"id": 5,"reason_id": 1,"termination_date": "2022-05-18","note": ""}
 
 Employee:
-  - {"emp_number": 1,"employee_id": "0001","emp_lastname": "Admin","emp_firstname": "Devi","emp_middle_name": "","job_title_code": null,"work_station": 1,"termination_id": null,"purged_at": null}
+  - {"emp_number": 1,"employee_id": "0001","emp_lastname": "Admin","emp_firstname": "Devi","emp_middle_name": "","job_title_code": 4,"work_station": 1,"termination_id": null,"purged_at": null}
   - {"emp_number": 2,"employee_id": "0002","emp_lastname": "Park","emp_firstname": "Jaesang","emp_middle_name": "","job_title_code": 4,"work_station": 4,"termination_id": null,"purged_at": null}
   - {"emp_number": 3,"employee_id": "0003","emp_lastname": "Choi","emp_firstname": "Seungcheol","emp_middle_name": "","job_title_code": 2,"work_station": 2,"termination_id": null,"purged_at": null}
   - {"emp_number": 4,"employee_id": "0004","emp_lastname": "Yoon","emp_firstname": "Jeonghan","emp_middle_name": "","job_title_code": 3,"work_station": 3,"termination_id": null,"purged_at": null}
@@ -199,6 +199,7 @@ PerformanceReview:
   - {"id": 6,"status_id": 2,"employee_number": 3,"work_period_start": "2022-07-01","work_period_end": "2022-07-31","job_title_code": 2,"department_id": 2,"due_date": "2022-07-31","completed_date": null,"activated_date": "2022-05-12 20:00:32","final_comment": null,"final_rate": null}
   - {"id": 7,"status_id": 1,"employee_number": 2,"work_period_start": "2022-06-01","work_period_end": "2022-06-30","job_title_code": 4,"department_id": 4,"due_date": "2022-06-30","completed_date": null,"activated_date": null,"final_comment": null,"final_rate": null}
   - {"id": 8,"status_id": 3,"employee_number": 6,"work_period_start": "2022-06-01","work_period_end": "2022-06-30","job_title_code": 4,"department_id": 4,"due_date": "2022-07-30","completed_date": "2022-07-29","activated_date": "2022-07-09","final_comment": "final comment","final_rate": 3}
+  - {"id": 9,"status_id": 3,"employee_number": 1,"work_period_start": "2022-06-01","work_period_end": "2022-06-30","job_title_code": 4,"department_id": 4,"due_date": "2022-07-30","completed_date": null,"activated_date": "2022-07-09","final_comment": null,"final_rate": null}
 
 ReviewerGroup:
   - {"id": 1,"name": "Supervisor","piority": 1}
@@ -221,6 +222,8 @@ Reviewer:
   - {"id": 14,"review_id": 7,"employee_number": 1,"status": 1,"reviewer_group_id": 1,"completed_date": null,"comment": null}
   - {"id": 15,"review_id": 8,"employee_number": 6,"status": 3,"reviewer_group_id": 2,"completed_date": "2022-07-29","comment": null }
   - {"id": 16,"review_id": 8,"employee_number": 3,"status": 2,"reviewer_group_id": 1,"completed_date": "2022-07-29","comment": null }
+  - {"id": 17,"review_id": 9,"employee_number": 1,"status": 3,"reviewer_group_id": 2,"completed_date": "2022-07-29","comment": null }
+  - {"id": 18,"review_id": 9,"employee_number": 3,"status": 2,"reviewer_group_id": 1,"completed_date": null,"comment": null }
 
 ReviewerRating:
   - { id: 1, rating: 2.00, kpi_id: 4,review_id: 2,reviewer_id: 4,comment: "test" }
@@ -229,6 +232,8 @@ ReviewerRating:
   - { id: 4, rating: 2.00, kpi_id: 5,review_id: 2,reviewer_id: 3,comment: "testSelf2" }
   - { id: 5, rating: 2.00, kpi_id: 6,review_id: 8,reviewer_id: 16,comment: "testb2" }
   - { id: 6, rating: 2.00, kpi_id: 6,review_id: 8,reviewer_id: 15,comment: "testSelfb2" }
+  - { id: 15, rating: 2.00, kpi_id: 6, review_id: 9, reviewer_id: 17, comment: "selfAdmin" }
+  - { id: 16, rating: 1.00, kpi_id: 6, review_id: 9, reviewer_id: 18, comment: "" }
   - { id: 7, rating: null, kpi_id: 1,review_id: 1,reviewer_id: 1,comment: null }
   - { id: 8, rating: null, kpi_id: 2,review_id: 1,reviewer_id: 1,comment: null }
   - { id: 9, rating: null, kpi_id: 3,review_id: 1,reviewer_id: 1,comment: null }

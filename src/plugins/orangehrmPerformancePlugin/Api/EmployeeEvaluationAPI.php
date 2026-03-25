@@ -219,9 +219,14 @@ class EmployeeEvaluationAPI extends SupervisorEvaluationAPI
 
         $currentState = self::WORKFLOW_STATES_MAP[$selfReviewer->getStatus()];
 
+        // When the subject employee uses this API, only ESS self-review rules apply. Admin and
+        // Supervisor workflows also define transitions from SELF COMPLETED (e.g. SUPERVISOR UPDATED);
+        // merging those roles would let privileged users bypass read-only self-appraisal via this endpoint.
         $excludeRoles = [];
         if ($this->getAuthUser()->getEmpNumber() != $review->getEmployee()->getEmpNumber()) {
             $excludeRoles = ['ESS'];
+        } else {
+            $excludeRoles = ['Admin', 'Supervisor'];
         }
 
         return $this->getUserRoleManager()->getAllowedActions(

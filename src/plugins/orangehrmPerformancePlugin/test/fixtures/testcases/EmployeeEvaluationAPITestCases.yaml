@@ -177,6 +177,50 @@ GetAll:
           "action": 'supervisorUpdate'
           "name": 'Supervisorupdate'
 
+  'Get all ratings when admin is subject employee with completed self review — no edit actions':
+    userId: 1
+    services:
+      performance.performance_review_service: \OrangeHRM\Performance\Service\PerformanceReviewService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      reviewId: 9
+    data:
+      0:
+        "id": 15
+        "rating": "2.00"
+        "comment": "selfAdmin"
+        "kpi":
+          "id": 6
+    meta:
+      total: 1
+      kpis:
+        0:
+          "id": 6
+          "title": "C"
+          "minRating": 0
+          "maxRating": 100
+      reviewer:
+          "id": 17
+          "employee":
+            "empNumber": 1
+            "lastName": "Admin"
+            "firstName": "Devi"
+            "middleName": ''
+            "employeeId": "0001"
+            "terminationId": null
+            "jobTitle":
+              "id": 4
+              "name": "Senior QA"
+              "deleted": false
+          "status": 3
+      generalComment: null
+      allowedActions: [ ]
+
 Update:
   'Invalid User creating reviewer rating':
     userId: 2
@@ -262,6 +306,29 @@ Update:
           "rating": 20
           "comment": "Test logs create"
     invalidOnly: [ 'complete' ]
+
+  'Admin cannot update own employee evaluation after self-appraisal completed':
+    userId: 1
+    services:
+      performance.performance_review_service: \OrangeHRM\Performance\Service\PerformanceReviewService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+      performance.kpi_service: \OrangeHRM\Performance\Service\KpiService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      reviewId: 9
+    body:
+      ratings:
+        0:
+          "kpiId": 6
+          "rating": 1
+          "comment": "tamper after complete"
+      "complete": false
+    exception:
+      class: \OrangeHRM\Core\Api\V2\Exception\ForbiddenException
 
   'Admin trying to add new self review for another user':
     userId: 1

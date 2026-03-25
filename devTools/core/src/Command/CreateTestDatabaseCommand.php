@@ -52,7 +52,7 @@ class CreateTestDatabaseCommand extends Command
      */
     protected function configure()
     {
-        $this->setDescription('Create test database')
+        $this->setDescription("Create test database.\n e.g. php devTools/core/console.php instance:create-test-db --dump-options=\"--ssl=0\" -u root -p root")
             ->addOption('user', 'u', InputOption::VALUE_REQUIRED, 'Privileged database user', 'root')
             ->addOption('password', 'p', InputOption::VALUE_REQUIRED)
             ->addOption('dump-options', null, InputOption::VALUE_IS_ARRAY | InputOption::VALUE_REQUIRED, '', []);
