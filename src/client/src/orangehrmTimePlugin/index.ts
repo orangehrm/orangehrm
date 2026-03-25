@@ -29,6 +29,7 @@ import ViewEmployeeTimesheet from './pages/timesheets/ViewEmployeeTimesheet.vue'
 import EmployeeTimeReport from './pages/reports/EmployeeTimeReport.vue';
 import ProjectActivityReport from './pages/reports/ProjectActivityReport.vue';
 import ActivityDetailsReport from './pages/reports/ActivityDetailsReport.vue';
+import ClientTimeReport from './pages/reports/ClientTimeReport.vue';
 
 export default {
   'time-sheet-period': TimeSheetPeriodConfig,
@@ -45,4 +46,5 @@ export default {
   'employee-time-report': EmployeeTimeReport,
   'project-activity-report': ProjectActivityReport,
   'activity-details-report': ActivityDetailsReport,
+  'client-time-report': ClientTimeReport,
 };
