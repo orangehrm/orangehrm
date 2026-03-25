@@ -278,4 +278,24 @@ time_activity_details_report:
 time_employee_report_excel:
   path: /time/employee-report/excel
   controller: OrangeHRM\Time\Controller\EmployeeReportExcelController::execute
+  methods: [ GET ]
+
+time_client_report:
+  path: /time/displayClientReportCriteria
+  controller: OrangeHRM\Time\Controller\ClientTimeReportController::handle
+  methods: [ GET ]
+  
+time_client_report_excel:
+  path: /time/client-report/excel
+  controller: OrangeHRM\Time\Controller\ClientReportExcelController::execute
+  methods: [GET]
+
+time_client_employees:
+  path: /time/client-employees
+  controller: OrangeHRM\Time\Controller\ClientEmployeesController::execute
+  methods: [GET]
+
+time_client_projects:
+  path: /time/client-projects
+  controller: OrangeHRM\Time\Controller\ClientProjectsController::execute
   methods: [GET]
