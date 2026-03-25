@@ -20,6 +20,7 @@
 namespace OrangeHRM\Admin\Api;
 
 use OrangeHRM\Admin\Api\Model\UserModel;
+use OrangeHRM\Admin\Api\ValidationRules\UserRoleIdAssignableRule;
 use OrangeHRM\Admin\Dto\UserSearchFilterParams;
 use OrangeHRM\Admin\Service\UserService;
 use OrangeHRM\Admin\Traits\Service\UserServiceTrait;
@@ -332,7 +333,8 @@ class UserAPI extends Endpoint implements CrudEndpoint
             ),
             new ParamRule(
                 self::PARAMETER_USER_ROLE_ID,
-                new Rule(Rules::INT_TYPE)
+                new Rule(Rules::INT_TYPE),
+                new Rule(UserRoleIdAssignableRule::class)
             ),
             new ParamRule(
                 CommonParams::PARAMETER_EMP_NUMBER,

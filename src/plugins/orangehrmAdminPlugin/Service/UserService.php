@@ -123,6 +123,20 @@ class UserService
     }
 
     /**
+     * IDs of roles that may be selected when creating or editing users via Admin (matches `UserRole.isAssignable`).
+     *
+     * @return int[]
+     */
+    public function getAssignableUserRoleIds(): array
+    {
+        $roles = $this->geUserDao()->getAssignableUserRoles();
+        return array_map(
+            static fn (UserRole $role) => $role->getId(),
+            $roles
+        );
+    }
+
+    /**
      * @param UserSearchFilterParams $userSearchParamHolder
      * @return int
      */

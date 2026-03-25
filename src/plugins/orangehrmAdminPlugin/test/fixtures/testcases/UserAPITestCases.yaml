@@ -638,6 +638,26 @@ Create:
     }
     invalidOnly: [ "username" ]
 
+  'create user with non-assignable user role':
+    userId: 1
+    services:
+      core.class_helper: \OrangeHRM\Core\Helper\ClassHelper
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      oidc.social_media_auth_service: \OrangeHRM\OpenidAuthentication\Service\SocialMediaAuthenticationService
+      auth.password_strength_service: \OrangeHRM\Authentication\Service\PasswordStrengthService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    body: {
+      "username": "RoleBypass",
+      "password": "RoleBypass@OHRM123",
+      "status": true,
+      "userRoleId": 3,
+      "empNumber": 16
+    }
+    invalidOnly: [ "userRoleId" ]
+
   'create user with existing but deleted username':
     userId: 1
     now:
@@ -938,3 +958,25 @@ Update:
       }
     }
     meta: [ ]
+
+  'update user - reject non-assignable user role':
+    userId: 1
+    services:
+      core.class_helper: \OrangeHRM\Core\Helper\ClassHelper
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      oidc.social_media_auth_service: \OrangeHRM\OpenidAuthentication\Service\SocialMediaAuthenticationService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      id: 5
+    body: {
+      "username": "Ashley",
+      "status": false,
+      "userRoleId": 3,
+      "empNumber": 5,
+      "changePassword": false,
+      "password": "",
+    }
+    invalidOnly: [ "userRoleId" ]
