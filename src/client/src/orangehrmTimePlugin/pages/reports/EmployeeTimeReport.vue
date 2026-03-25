@@ -98,6 +98,12 @@
               display-type="secondary"
               :label="$t('general.view')"
             />
+            <oxd-button
+              display-type="secondary"
+              label="Download Excel"
+              style="margin-left: 20px"
+              @click="downloadExcel"
+            />
           </oxd-form-actions>
         </oxd-form>
       </oxd-table-filter>
@@ -184,10 +190,27 @@ export default {
       };
     });
 
+    const downloadExcel = () => {
+      const params = new URLSearchParams({
+        empNumber: filters.value.employee?.id,
+        projectId: filters.value.project?.id,
+        activityId: filters.value.activity?.id,
+        fromDate: filters.value.fromDate,
+        toDate: filters.value.toDate,
+        timesheetState: filters.value.timesheetState ? 'onlyApproved' : 'all',
+      }).toString();
+
+      window.open(
+        `/cothrm/web/index.php/time/employee-report/excel?${params}`,
+        '_blank',
+      );
+    };
+
     return {
       rules,
       filters,
       serializedFilters,
+      downloadExcel,
     };
   },
 };

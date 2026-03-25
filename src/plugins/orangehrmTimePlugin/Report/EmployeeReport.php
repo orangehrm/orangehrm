@@ -84,6 +84,12 @@ class EmployeeReport implements EndpointAwareReport
                 self::FILTER_PARAMETER_ACTIVITY_ID
             )
         );
+        $filterParams->setProjectId(
+            $endpoint->getRequestParams()->getIntOrNull(
+                RequestParams::PARAM_TYPE_QUERY,
+                self::FILTER_PARAMETER_PROJECT_ID
+            )
+        );
         $filterParams->setIncludeTimesheets(
             $endpoint->getRequestParams()->getStringOrNull(
                 RequestParams::PARAM_TYPE_QUERY,

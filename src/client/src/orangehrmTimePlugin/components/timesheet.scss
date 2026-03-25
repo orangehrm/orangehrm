@@ -13,7 +13,6 @@
 // You should have received a copy of the GNU General Public License along with OrangeHRM.
 // If not, see <https://www.gnu.org/licenses/>.
 
-
 $card-padding-left-right: 1.2rem;
 $card-padding-top-bottom: 0.6rem;
 $card-padding: $card-padding-top-bottom $card-padding-left-right;
@@ -210,4 +209,35 @@ $card-padding: $card-padding-top-bottom $card-padding-left-right;
 }
 ::v-deep(.oxd-input) {
   min-width: 50px;
+}
+
+/* ===============================
+   BLOCKED LEAVE / HOLIDAY STYLES
+   =============================== */
+
+/* =================================
+   BLOCKED CELLS - SMALL COMPACT BOX
+   ================================= */
+
+/* LEAVE - RED */
+:deep(td.--blocked-leave input.oxd-input),
+:deep(td.--blocked-holiday input.oxd-input) {
+  height: 36px !important; /* reduce height */
+  width: 40px !important; /* reduce width */
+  padding: 4px 6px !important; /* reduce inner spacing */
+
+  border-radius: 6px !important; /* slightly smaller curve */
+  font-size: 14px !important;
+  text-align: center !important;
+
+  background-color: #ffffff !important;
+}
+
+/* Keep border colors separate */
+:deep(td.--blocked-leave input.oxd-input) {
+  border: 2px solid #ef4444 !important;
+}
+
+:deep(td.--blocked-holiday input.oxd-input) {
+  border: 2px solid #22c55e !important;
 }
