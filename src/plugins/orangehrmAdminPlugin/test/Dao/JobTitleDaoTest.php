@@ -99,6 +99,29 @@ class JobTitleDaoTest extends TestCase
         $this->assertEquals('Software architect spec', $result->getFileName());
     }
 
+    public function testGetJobSpecificationAttachmentIdList(): void
+    {
+        $ids = $this->jobTitleDao->getJobSpecificationAttachmentIdList();
+        $this->assertEqualsCanonicalizing([1, 2], $ids);
+    }
+
+    public function testGetJobSpecificationAttachmentIdsByEmpNumbersEmpty(): void
+    {
+        $this->assertSame([], $this->jobTitleDao->getJobSpecificationAttachmentIdsByEmpNumbers([]));
+    }
+
+    public function testGetJobSpecificationAttachmentIdsByEmpNumbersForSingleEmployee(): void
+    {
+        $this->assertSame([1], $this->jobTitleDao->getJobSpecificationAttachmentIdsByEmpNumbers([3]));
+        $this->assertSame([2], $this->jobTitleDao->getJobSpecificationAttachmentIdsByEmpNumbers([4]));
+    }
+
+    public function testGetJobSpecificationAttachmentIdsByEmpNumbersForMultipleEmployees(): void
+    {
+        $ids = $this->jobTitleDao->getJobSpecificationAttachmentIdsByEmpNumbers([3, 4]);
+        $this->assertEqualsCanonicalizing([1, 2], $ids);
+    }
+
     public function testGetJobTitles(): void
     {
         $jobTitleSearchFilterParams = new JobTitleSearchFilterParams();

@@ -19,9 +19,11 @@
 
 namespace OrangeHRM\Core\Authorization\UserRole;
 
+use OrangeHRM\Admin\Service\JobTitleService;
 use OrangeHRM\Admin\Service\LocationService;
 use OrangeHRM\Dashboard\Traits\Service\QuickLaunchServiceTrait;
 use OrangeHRM\Entity\Employee;
+use OrangeHRM\Entity\JobSpecificationAttachment;
 use OrangeHRM\Entity\Location;
 use OrangeHRM\Entity\PerformanceReview;
 use OrangeHRM\Performance\Traits\Service\PerformanceReviewServiceTrait;
@@ -34,6 +36,7 @@ class SupervisorUserRole extends AbstractUserRole
     use QuickLaunchServiceTrait;
 
     protected ?LocationService $locationService = null;
+    protected ?JobTitleService $jobTitleService = null;
 
     /**
      * @return LocationService
@@ -44,6 +47,17 @@ class SupervisorUserRole extends AbstractUserRole
             $this->locationService = new LocationService();
         }
         return $this->locationService;
+    }
+
+    /**
+     * @return JobTitleService
+     */
+    protected function getJobTitleService(): JobTitleService
+    {
+        if (!$this->jobTitleService instanceof JobTitleService) {
+            $this->jobTitleService = new JobTitleService();
+        }
+        return $this->jobTitleService;
     }
 
     /**
@@ -58,6 +72,8 @@ class SupervisorUserRole extends AbstractUserRole
                 return $this->getAccessibleLocationIds($requiredPermissions);
             case PerformanceReview::class:
                 return $this->getAccessibleReviewIds($requiredPermissions);
+            case JobSpecificationAttachment::class:
+                return $this->getAccessibleJobSpecificationAttachmentIds($requiredPermissions);
             default:
                 return [];
         }
@@ -96,6 +112,16 @@ class SupervisorUserRole extends AbstractUserRole
     {
         $empNumber = $this->getEmployeeNumber();
         return $this->getPerformanceReviewService()->getPerformanceReviewDao()->getReviewIdsForSupervisorReviewer($empNumber);
+    }
+
+    /**
+     * @param array $requiredPermissions
+     * @return int[]
+     */
+    protected function getAccessibleJobSpecificationAttachmentIds(array $requiredPermissions = []): array
+    {
+        $empNumbers = $this->getAccessibleEmployeeIds();
+        return $this->getJobTitleService()->getJobSpecificationAttachmentIdsByEmpNumbers($empNumbers);
     }
 
     /**

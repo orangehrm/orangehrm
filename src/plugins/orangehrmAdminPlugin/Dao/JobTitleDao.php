@@ -155,6 +155,38 @@ class JobTitleDao extends BaseDao
     }
 
     /**
+     * @return int[]
+     */
+    public function getJobSpecificationAttachmentIdList(): array
+    {
+        $q = $this->createQueryBuilder(JobSpecificationAttachment::class, 'attachment');
+        $q->select('attachment.id');
+        $result = $q->getQuery()->getArrayResult();
+        return array_column($result, 'id');
+    }
+
+    /**
+     * @param int[] $empNumbers
+     * @return int[]
+     */
+    public function getJobSpecificationAttachmentIdsByEmpNumbers(array $empNumbers): array
+    {
+        if (empty($empNumbers)) {
+            return [];
+        }
+
+        $q = $this->createQueryBuilder(JobSpecificationAttachment::class, 'attachment');
+        $q->select('attachment.id')
+            ->leftJoin('attachment.jobTitle', 'jobTitle')
+            ->leftJoin('jobTitle.employees', 'employee')
+            ->andWhere($q->expr()->in('employee.empNumber', ':empNumbers'))
+            ->setParameter('empNumbers', $empNumbers);
+
+        $result = $q->getQuery()->getArrayResult();
+        return array_values(array_unique(array_column($result, 'id')));
+    }
+
+    /**
      * @param JobTitle $jobTitle
      * @return JobTitle
      */

@@ -19,8 +19,10 @@
 
 namespace OrangeHRM\Core\Authorization\UserRole;
 
+use OrangeHRM\Admin\Service\JobTitleService;
 use OrangeHRM\Buzz\Traits\Service\BuzzServiceTrait;
 use OrangeHRM\Dashboard\Traits\Service\QuickLaunchServiceTrait;
+use OrangeHRM\Entity\JobSpecificationAttachment;
 use OrangeHRM\Entity\PerformanceReview;
 use OrangeHRM\Performance\Traits\Service\PerformanceReviewServiceTrait;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
@@ -39,6 +41,18 @@ class EssUserRole extends AbstractUserRole
     use BuzzServiceTrait;
 
     public const ALLOWED_REVIEW_STATUSES = 'allowed_review_statuses';
+    protected ?JobTitleService $jobTitleService = null;
+
+    /**
+     * @return JobTitleService
+     */
+    protected function getJobTitleService(): JobTitleService
+    {
+        if (!$this->jobTitleService instanceof JobTitleService) {
+            $this->jobTitleService = new JobTitleService();
+        }
+        return $this->jobTitleService;
+    }
 
     /**
      * @inheritDoc
@@ -52,6 +66,8 @@ class EssUserRole extends AbstractUserRole
                 return $this->getAccessiblePerformanceTrackerIdsForESS($requiredPermissions);
             case PerformanceTrackerLog::class:
                 return $this->getAccessiblePerformanceTrackerLogIdsForESS($requiredPermissions);
+            case JobSpecificationAttachment::class:
+                return $this->getAccessibleJobSpecificationAttachmentIdsForESS($requiredPermissions);
             default:
                 return [];
         }
@@ -95,6 +111,19 @@ class EssUserRole extends AbstractUserRole
         return $this->getPerformanceTrackerLogService()
             ->getPerformanceTrackerLogDao()
             ->getPerformanceTrackerLogIdsByUserId($this->getAuthUser()->getUserId());
+    }
+
+    /**
+     * @param array $requiredPermissions
+     * @return int[]
+     */
+    protected function getAccessibleJobSpecificationAttachmentIdsForESS(array $requiredPermissions = []): array
+    {
+        $empNumber = $this->getEmployeeNumber();
+        if (is_null($empNumber)) {
+            return [];
+        }
+        return $this->getJobTitleService()->getJobSpecificationAttachmentIdsByEmpNumbers([$empNumber]);
     }
 
     /**

@@ -19,7 +19,10 @@
 
 namespace OrangeHRM\Recruitment\Controller\File;
 
+use OrangeHRM\Authentication\Exception\ForbiddenException;
 use OrangeHRM\Core\Controller\AbstractFileController;
+use OrangeHRM\Core\Traits\UserRoleManagerTrait;
+use OrangeHRM\Entity\VacancyAttachment as VacancyAttachmentEntity;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\Http\Response;
 use OrangeHRM\Recruitment\Traits\Service\RecruitmentAttachmentServiceTrait;
@@ -27,6 +30,7 @@ use OrangeHRM\Recruitment\Traits\Service\RecruitmentAttachmentServiceTrait;
 class VacancyAttachment extends AbstractFileController
 {
     use RecruitmentAttachmentServiceTrait;
+    use UserRoleManagerTrait;
 
     public function handle(Request $request): Response
     {
@@ -37,7 +41,10 @@ class VacancyAttachment extends AbstractFileController
             $attachment = $this->getRecruitmentAttachmentService()
                 ->getRecruitmentAttachmentDao()
                 ->getVacancyAttachmentById($attachId);
-            if ($attachment instanceof \OrangeHRM\Entity\VacancyAttachment) {
+            if ($attachment instanceof VacancyAttachmentEntity) {
+                if (!$this->getUserRoleManager()->isEntityAccessible(VacancyAttachmentEntity::class, $attachId)) {
+                    throw new ForbiddenException();
+                }
                 $this->setCommonHeadersToResponse(
                     $attachment->getFileName(),
                     $attachment->getFileType(),

@@ -20,13 +20,17 @@
 namespace OrangeHRM\Admin\Controller\File;
 
 use OrangeHRM\Admin\Service\JobTitleService;
+use OrangeHRM\Authentication\Exception\ForbiddenException;
 use OrangeHRM\Core\Controller\AbstractFileController;
+use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\JobSpecificationAttachment;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\Http\Response;
 
 class JobSpecification extends AbstractFileController
 {
+    use UserRoleManagerTrait;
+
     /**
      * @var JobTitleService|null
      */
@@ -55,6 +59,9 @@ class JobSpecification extends AbstractFileController
         if ($attachId) {
             $attachment = $this->getJobTitleService()->getJobSpecAttachmentById($attachId);
             if ($attachment instanceof JobSpecificationAttachment) {
+                if (!$this->getUserRoleManager()->isEntityAccessible(JobSpecificationAttachment::class, $attachId)) {
+                    throw new ForbiddenException();
+                }
                 $this->setCommonHeadersToResponse(
                     $attachment->getFileName(),
                     $attachment->getFileType(),

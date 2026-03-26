@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Core\Authorization\UserRole;
 
+use OrangeHRM\Admin\Service\JobTitleService;
 use OrangeHRM\Admin\Service\LocationService;
 use OrangeHRM\Buzz\Traits\Service\BuzzServiceTrait;
 use OrangeHRM\Dashboard\Traits\Service\QuickLaunchServiceTrait;
@@ -28,6 +29,7 @@ use OrangeHRM\Entity\Customer;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\Interview;
 use OrangeHRM\Entity\InterviewAttachment;
+use OrangeHRM\Entity\JobSpecificationAttachment;
 use OrangeHRM\Entity\Location;
 use OrangeHRM\Entity\PerformanceReview;
 use OrangeHRM\Entity\PerformanceTracker;
@@ -63,6 +65,7 @@ class AdminUserRole extends AbstractUserRole
     use BuzzServiceTrait;
 
     protected ?LocationService $locationService = null;
+    protected ?JobTitleService $jobTitleService = null;
 
     /**
      * @return LocationService
@@ -73,6 +76,17 @@ class AdminUserRole extends AbstractUserRole
             $this->locationService = new LocationService();
         }
         return $this->locationService;
+    }
+
+    /**
+     * @return JobTitleService
+     */
+    protected function getJobTitleService(): JobTitleService
+    {
+        if (!$this->jobTitleService instanceof JobTitleService) {
+            $this->jobTitleService = new JobTitleService();
+        }
+        return $this->jobTitleService;
     }
 
     /**
@@ -97,6 +111,8 @@ class AdminUserRole extends AbstractUserRole
                 return $this->getAccessibleVacancyIds($requiredPermissions);
             case VacancyAttachment::class:
                 return $this->getAccessibleVacancyAttachmentIds();
+            case JobSpecificationAttachment::class:
+                return $this->getAccessibleJobSpecificationAttachmentIds();
             case PerformanceTracker::class:
                 return $this->getAccessibleTrackerIds($requiredPermissions);
             case PerformanceReview::class:
@@ -284,6 +300,15 @@ class AdminUserRole extends AbstractUserRole
         return $this->getRecruitmentAttachmentService()
             ->getRecruitmentAttachmentDao()
             ->getVacancyAttachmentIdList();
+    }
+
+    /**
+     * @param array $requiredPermissions
+     * @return int[]
+     */
+    private function getAccessibleJobSpecificationAttachmentIds(array $requiredPermissions = []): array
+    {
+        return $this->getJobTitleService()->getJobSpecificationAttachmentIdList();
     }
 
     /**

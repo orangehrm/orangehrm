@@ -23,16 +23,18 @@ use Exception;
 use OrangeHRM\Admin\Dao\JobTitleDao;
 use OrangeHRM\Admin\Service\JobTitleService;
 use OrangeHRM\Config\Config;
+use OrangeHRM\Core\Helper\ClassHelper;
 use OrangeHRM\Core\Service\NormalizerService;
 use OrangeHRM\Entity\JobTitle;
-use OrangeHRM\Tests\Util\TestCase;
+use OrangeHRM\Framework\Services;
+use OrangeHRM\Tests\Util\KernelTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 
 /**
  * @group Admin
  * @group Service
  */
-class JobTitleServiceTest extends TestCase
+class JobTitleServiceTest extends KernelTestCase
 {
     private JobTitleService $JobTitleService;
     protected string $fixture;
@@ -118,6 +120,7 @@ class JobTitleServiceTest extends TestCase
         $jobTitleService->expects($this->once())
             ->method('getNormalizerService')
             ->willReturn(new NormalizerService());
+        $this->createKernelWithMockServices([Services::CLASS_HELPER => new ClassHelper()]);
         $result = $jobTitleService->getJobTitleArray();
         $this->assertEquals([['id' => 1, 'label' => 'SE', 'deleted' => false]], $result);
     }
@@ -146,7 +149,33 @@ class JobTitleServiceTest extends TestCase
         $jobTitleService->expects($this->once())
             ->method('getNormalizerService')
             ->willReturn(new NormalizerService());
+        $this->createKernelWithMockServices([Services::CLASS_HELPER => new ClassHelper()]);
         $result = $jobTitleService->getJobTitleArrayForEmployee(1);
         $this->assertEquals([['id' => 1, 'label' => 'SE', 'deleted' => false]], $result);
+    }
+
+    public function testGetJobSpecificationAttachmentIdListDelegatesToDao(): void
+    {
+        $dao = $this->createMock(JobTitleDao::class);
+        $dao->expects($this->once())->method('getJobSpecificationAttachmentIdList')->willReturn([1, 2]);
+
+        $service = new JobTitleService();
+        $service->setJobTitleDao($dao);
+
+        $this->assertSame([1, 2], $service->getJobSpecificationAttachmentIdList());
+    }
+
+    public function testGetJobSpecificationAttachmentIdsByEmpNumbersDelegatesToDao(): void
+    {
+        $dao = $this->createMock(JobTitleDao::class);
+        $dao->expects($this->once())
+            ->method('getJobSpecificationAttachmentIdsByEmpNumbers')
+            ->with([5, 6])
+            ->willReturn([10]);
+
+        $service = new JobTitleService();
+        $service->setJobTitleDao($dao);
+
+        $this->assertSame([10], $service->getJobSpecificationAttachmentIdsByEmpNumbers([5, 6]));
     }
 }

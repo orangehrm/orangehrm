@@ -143,6 +143,21 @@ GetOne:
         fileType: '.txt'
         fileSize: 10
 
+  ESS user can get job title with job specification metadata for own job title:
+    userId: 2
+    attributes:
+      id: 1
+    data:
+      id: 1
+      title: Software Architect
+      description: null
+      note: null
+      jobSpecification:
+        id: 1
+        filename: Software architect spec
+        fileType: '.txt'
+        fileSize: 10
+
   with non existent id:
     userId: 1
     attributes:

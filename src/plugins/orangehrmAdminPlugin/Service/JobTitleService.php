@@ -99,6 +99,23 @@ class JobTitleService
     }
 
     /**
+     * @return int[]
+     */
+    public function getJobSpecificationAttachmentIdList(): array
+    {
+        return $this->getJobTitleDao()->getJobSpecificationAttachmentIdList();
+    }
+
+    /**
+     * @param int[] $empNumbers
+     * @return int[]
+     */
+    public function getJobSpecificationAttachmentIdsByEmpNumbers(array $empNumbers): array
+    {
+        return $this->getJobTitleDao()->getJobSpecificationAttachmentIdsByEmpNumbers($empNumbers);
+    }
+
+    /**
      * @param JobTitle $jobTitle
      * @return JobTitle
      */

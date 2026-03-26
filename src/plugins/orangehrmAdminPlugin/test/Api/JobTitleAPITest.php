@@ -20,8 +20,13 @@
 namespace OrangeHRM\Tests\Admin\Api;
 
 use OrangeHRM\Admin\Api\JobTitleAPI;
+use OrangeHRM\Entity\Config;
+use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\JobSpecificationAttachment;
 use OrangeHRM\Entity\JobTitle;
+use OrangeHRM\Entity\Kpi;
+use OrangeHRM\Entity\User;
+use OrangeHRM\Entity\UserRole;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
 use OrangeHRM\Tests\Util\Integration\TestCaseParams;
@@ -36,8 +41,13 @@ class JobTitleAPITest extends EndpointIntegrationTestCase
     protected function setUp(): void
     {
         TestDataService::truncateSpecificTables([
+            JobSpecificationAttachment::class,
+            Kpi::class,
+            User::class,
+            Employee::class,
+            Config::class,
             JobTitle::class,
-            JobSpecificationAttachment::class
+            UserRole::class,
         ]);
         $this->populateFixtures('JobTitleAPITest.yml');
     }
