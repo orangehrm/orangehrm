@@ -78,7 +78,7 @@ class EmailConfiguration
     /**
      * @var string|null
      *
-     * @ORM\Column(name="smtp_password", type="string", length=250, nullable=true)
+     * @ORM\Column(name="smtp_password", type="string", length=512, nullable=true)
      */
     private ?string $smtpPassword = null;
 

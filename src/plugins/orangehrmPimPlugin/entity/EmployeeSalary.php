@@ -70,7 +70,7 @@ class EmployeeSalary
     /**
      * @var string|null
      *
-     * @ORM\Column(name="ebsal_basic_salary", type="string", length=100, nullable=true)
+     * @ORM\Column(name="ebsal_basic_salary", type="string", length=512, nullable=true)
      */
     private ?string $amount = null;
 

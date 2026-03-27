@@ -54,7 +54,7 @@ class AuthProviderExtraDetails
     /**
      * @var string
      *
-     * @ORM\Column(name="client_secret", type="string")
+     * @ORM\Column(name="client_secret", type="string", length=512)
      */
     private string $clientSecret;
 

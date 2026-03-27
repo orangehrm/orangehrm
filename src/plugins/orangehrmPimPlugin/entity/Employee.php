@@ -143,7 +143,7 @@ class Employee
     /**
      * @var string|null
      *
-     * @ORM\Column(name="emp_ssn_num", type="string", length=100, nullable=true, options={"default" : ""})
+     * @ORM\Column(name="emp_ssn_num", type="string", length=512, nullable=true, options={"default" : ""})
      */
     private ?string $ssnNumber = '';
 

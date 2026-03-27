@@ -32,27 +32,46 @@ class CryptographerTest extends TestCase
         $this->cryptographer = new Cryptographer($key);
     }
 
-    public function testEncrypt(): void
+    public function testEncryptUsesGcmFormat(): void
     {
-        $value = "1234";
-        $expected = "31943CEFE2B2ABC03E4B8A0665D79AD0";
-
-        $this->assertEquals($expected, $this->cryptographer->encrypt($value));
+        $encrypted = $this->cryptographer->encrypt('1234');
+        $this->assertNotNull($encrypted);
+        $this->assertStringStartsWith('GCMAES256.', $encrypted);
     }
 
-    public function testDecrypt(): void
+    public function testEncryptDecryptRoundTrip(): void
     {
-        $value = "31943CEFE2B2ABC03E4B8A0665D79AD0";
-        $expected = "1234";
-
-        $this->assertEquals($expected, $this->cryptographer->decrypt($value));
-    }
-
-    public function testEncryptDecrypt(): void
-    {
-        $value = "Test";
+        $value = 'Test';
         $encrypted = $this->cryptographer->encrypt($value);
 
         $this->assertEquals($value, $this->cryptographer->decrypt($encrypted));
+    }
+
+    public function testSamePlaintextProducesDistinctCiphertext(): void
+    {
+        $a = $this->cryptographer->encrypt('50000.00');
+        $b = $this->cryptographer->encrypt('50000.00');
+        $this->assertNotEquals($a, $b);
+        $this->assertEquals('50000.00', $this->cryptographer->decrypt($a));
+        $this->assertEquals('50000.00', $this->cryptographer->decrypt($b));
+    }
+
+    /**
+     * Previous GCM prefix; decrypt must still accept rows written before rename to GCMAES256.
+     */
+    public function testDecryptAcceptsLegacyOhg2GcmPrefix(): void
+    {
+        $encrypted = $this->cryptographer->encrypt('secret');
+        $payload = substr($encrypted, strlen('GCMAES256.'));
+        $this->assertEquals('secret', $this->cryptographer->decrypt('OHG2.' . $payload));
+    }
+
+    /**
+     * Legacy AES-128-ECB hex produced by the pre-GCM Cryptographer implementation.
+     */
+    public function testDecryptLegacyEcbHex(): void
+    {
+        $legacyHex = '31943CEFE2B2ABC03E4B8A0665D79AD0';
+        $this->assertEquals('1234', $this->cryptographer->decrypt($legacyHex));
     }
 }
