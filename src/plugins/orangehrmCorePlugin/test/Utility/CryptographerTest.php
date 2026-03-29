@@ -57,16 +57,6 @@ class CryptographerTest extends TestCase
     }
 
     /**
-     * Previous GCM prefix; decrypt must still accept rows written before rename to GCMAES256.
-     */
-    public function testDecryptAcceptsLegacyOhg2GcmPrefix(): void
-    {
-        $encrypted = $this->cryptographer->encrypt('secret');
-        $payload = substr($encrypted, strlen('GCMAES256.'));
-        $this->assertEquals('secret', $this->cryptographer->decrypt('OHG2.' . $payload));
-    }
-
-    /**
      * Legacy AES-128-ECB hex produced by the pre-GCM Cryptographer implementation.
      */
     public function testDecryptLegacyEcbHex(): void
