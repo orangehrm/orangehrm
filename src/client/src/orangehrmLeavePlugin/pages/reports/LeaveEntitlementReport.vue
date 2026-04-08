@@ -160,11 +160,7 @@
           <!-- Actions -->
           <oxd-form-actions>
             <required-text />
-            <oxd-button
-              type="submit"
-              display-type="secondary"
-              :label="$t('general.generate')"
-            />
+            <oxd-button type="submit" display-type="secondary" label="View" />
             <oxd-button
               type="button"
               display-type="secondary"
