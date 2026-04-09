@@ -49,6 +49,7 @@ class Config
     public const MODE_PROD = 'prod';
     public const MODE_TEST = 'test';
     public const MODE_DEMO = 'demo';
+    public const MODE_TRIAL = 'trial';
 
     public const PRODUCT_NAME = 'OrangeHRM OS';
     public const PRODUCT_VERSION = '5.8.1';

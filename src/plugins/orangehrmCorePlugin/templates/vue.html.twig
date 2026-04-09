@@ -22,6 +22,12 @@
   </noscript>
 
   <div id="app">
+    {% if isTrialMode == true and showRemainingDays == true %}
+      <trial-remaining-days
+          remaining-days="{{ remainingDays }}"
+          :show-remaining-days="{{ showRemainingDays | json_encode() }}"
+      ></trial-remaining-days>
+    {% endif %}
     <oxd-layout
         home-url="https://www.orangehrm.com/"
         :sidepanel-menu-items="{{ sidePanelMenuItems | json_encode() }}"
@@ -47,6 +53,21 @@
     <template v-slot:footer>{% include 'copyright.html.twig' %}<br></template>
     </oxd-layout>
   </div>
+  {% if isTrialMode == true and showRemainingDays == true %}
+    <style>
+      .oxd-topbar {
+        margin-top: 2.8rem;
+      }
+
+      .oxd-sidepanel {
+        margin-top: 2.8rem;
+      }
+
+      .oxd-layout-context {
+        margin-top: 9rem;
+      }
+    </style>  
+  {% endif %}
 {% endblock %}
 
 {% block javascripts %}

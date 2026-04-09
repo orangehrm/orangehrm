@@ -67,6 +67,7 @@ class VueControllerHelper
     public const THEME_VARIABLES = 'themeVariables';
     public const HELP_URL = 'helpUrl';
     public const SHOW_UPGRADE = 'showUpgrade';
+    public const IS_TRIAL_MODE = 'isTrialMode';
 
     /**
      * @var Request|null
@@ -153,9 +154,20 @@ class VueControllerHelper
                 self::CLIENT_BANNER_URL => $clientBannerUrl,
                 self::THEME_VARIABLES => $themeVariables,
                 self::HELP_URL => $this->getHelpUrl(),
-                self::SHOW_UPGRADE => $this->getAuthUser()->getUserRoleId() === 1
+                self::SHOW_UPGRADE => $this->getAuthUser()->getUserRoleId() === 1,
+                self::IS_TRIAL_MODE => Config::PRODUCT_MODE === Config::MODE_TRIAL,
             ]
         );
+
+        if (Config::PRODUCT_MODE === Config::MODE_TRIAL) {
+            $freeTrialService  = new \OrangeHRM\FreeTrial\Service\FreeTrialService();
+            $this->context->add(
+                [
+                    'remainingDays' => $freeTrialService->getRemainingDays(),
+                    'showRemainingDays' => $this->getAuthUser()->getUserRoleId() === 1 && !$freeTrialService->isSubscribed(),
+                ]
+            );
+        }
         return $this->context->all();
     }
 
