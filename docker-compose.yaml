@@ -4,9 +4,11 @@ services:
     image: orangehrm/orangehrm:latest
     container_name: orangehrm
     restart: unless-stopped
-    ports:
-      - "8200:80"
-      - "8243:443"
+ #   ports:
+  #    - "8200:80"
+  #    - "8243:443"
+      
+      
     environment:
       - ORANGEHRM_DATABASE_HOST=mariadb
       - ORANGEHRM_DATABASE_USER=root
@@ -18,6 +20,27 @@ services:
       - ./orange:/orangehrm
     depends_on:
       - mariadb
+      
+     networks:
+     - web
+     
+    labels:
+      - "traefik.enable=true"
+
+      # HTTPS router
+      - "traefik.http.routers.orangehrm.rule=Host(`chaseqa.duckdns.org`)"
+      - "traefik.http.routers.orangehrm.entrypoints=websecure"
+      - "traefik.http.routers.orangehrm.tls.certresolver=myresolver"
+
+      # service port (QUAN TRỌNG)
+      - "traefik.http.services.orangehrm.loadbalancer.server.port=80"
+
+      # HTTP → HTTPS
+      - "traefik.http.routers.orangehrm-http.rule=Host(`chaseqa.duckdns.org`)"
+      - "traefik.http.routers.orangehrm-http.entrypoints=web"
+      - "traefik.http.routers.orangehrm-http.middlewares=redirect-to-https"
+
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
     links:
       - mariadb:mariadb
 
@@ -30,6 +53,12 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=orangehrm
       - MYSQL_ROOT_USER=root
-      - MYSQL_DATABASE=orangehrm      
+      - MYSQL_DATABASE=orangehrm     
 
+    networks:
+      - web      
+
+networks:
+  web:
+    external: true
 
