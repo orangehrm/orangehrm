@@ -14,7 +14,7 @@ PHP target: `^7.4|^8.0`. CI matrix runs against MySQL 5.7 and MariaDB 10.3 on PH
 - `src/plugins/orangehrm{Name}Plugin/` — every business module (Pim, Leave, Time, Admin, Auth, …) is a self-contained plugin. **Almost all backend work happens inside one of these.** Typical subfolders: `Api/` (REST endpoints), `Controller/` (page controllers), `Dao/`, `Service/`, `entity/` (Doctrine entities), `Dto/`, `config/` (`{Name}PluginConfiguration.php` + `routes.yaml`), `Vue/` (server-side Vue page wiring), `Menu/`, `test/`.
 - `src/client/` — Vue 3 SPA (Vue CLI + TS + SCSS). Per-plugin Vue source lives in `src/client/src/orangehrm{Name}Plugin/` (`components/`, `pages/`). Built artifacts are emitted to `src/../web/dist`.
 - `src/lib/` — framework glue not specific to any plugin: `framework/` (HttpKernel subclass, DI container, routing, console), `orm/` (Doctrine setup), `config/` (`Config` constants + helpers).
-- `installer/` — web + CLI installer and **all DB migrations** (`installer/Migration/V{x_y_z}/`). Run via `installer/cli_install.php` or the web installer at `/installer/`.
+- `installer/` — web + CLI installer and **all DB migrations** (`installer/Migration/V{x_y_z}/`). Run via `php installer/console install:on-new-database` or the web installer at `/installer/`.
 - `devTools/core/` — developer-only Symfony Console app with its own `composer.json`. Entry point: `php devTools/core/console.php`. Hosts code-style fix, test-DB creation, OpenAPI doc generation, role/permission seeders, etc.
 - `bin/console` — production console (cache:clear, orm:generate-proxies, plus commands registered by plugins).
 - `src/test/phpunit/` — shared PHPUnit fixtures & helpers. Per-plugin tests live in `src/plugins/*/test/`.
@@ -56,11 +56,8 @@ cd installer/client && yarn install && cd -         # only if touching installer
 
 # Fresh install — interactive, current path:
 php installer/console install:on-new-database
-# Or against an already-created DB:
+# Or against an already-created empty DB:
 php installer/console install:on-existing-database
-
-# Legacy non-interactive installer (deprecated but still used by CI; reads installer/cli_install_config.yaml):
-php installer/cli_install.php
 ```
 
 For initial install, the **web installer at `http://php83/<subpath>/installer/`** is the easiest path — same prompts as the CLI command, but in the browser.
