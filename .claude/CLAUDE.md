@@ -34,29 +34,47 @@ REST endpoints extend `OrangeHRM\Core\Api\V2\Endpoint` and implement `CrudEndpoi
 
 Authorization is enforced via subscribers in `orangehrmCorePlugin/Subscriber/` (`ApiAuthorizationSubscriber`, `ScreenAuthorizationSubscriber`); role/data-group rules are seeded by migrations and by `devTools/core/console.php add-role-permission` / `add-data-group`.
 
+## Local development is Docker-based
+
+This repo is **not** intended to run against a host-installed PHP/MySQL/Node stack. The team standard is the companion repo [`orangehrm-os-dev-environment`](https://github.com/orangehrm/orangehrm-os-dev-environment) — Nginx + per-PHP-version containers (`php-7.4`…`php-8.3`) + a choice of MySQL/MariaDB containers, all defined via `docker compose`. The OHRM source tree is bind-mounted into the containers as `/var/www`, so edits show up live without a restart. PHP CLI, Composer, and Yarn commands all run **inside** the relevant PHP container (typically `os_dev_php83`).
+
+Details — container layout, hostnames (`http://php83/<subpath>/`), service list, `LOCAL_SRC` mounting convention, common `docker compose` invocations — live in `.claude/skills/dev-environment/SKILL.md`. **Read that skill first** if a task involves running anything locally, switching PHP/DB versions, or rebuilding containers.
+
+For a brand-new developer setting up from scratch, the interactive walkthrough is `/ohrm-onboard`. The command commands below are what to run *once you're shelled into the PHP container* (or, in rare cases, on a host that already has PHP/Composer/Node installed).
+
 ## Common commands
 
-All from repo root unless noted.
+All from repo root unless noted. Where these run depends on context — see "Local development is Docker-based" above; the default assumption is "inside the PHP container, with the OHRM checkout mounted under `/var/www/<subpath>/`."
 
 ### Install / bootstrap
 ```bash
-php8.3 -f /usr/bin/composer install -d src
-php8.3 -f /usr/bin/composer install -d devTools/core
+composer install -d src
+composer install -d devTools/core
 cd src/client && yarn install && cd -
 cd src/test/functional && yarn install && cd -      # only if running Cypress
 cd installer/client && yarn install && cd -         # only if touching installer UI
-php8.3 installer/cli_install.php                    # fresh DB install per installer/cli_install_config.yaml
+
+# Fresh install — interactive, current path:
+php installer/console install:on-new-database
+# Or against an already-created DB:
+php installer/console install:on-existing-database
+
+# Legacy non-interactive installer (deprecated but still used by CI; reads installer/cli_install_config.yaml):
+php installer/cli_install.php
 ```
 
+For initial install, the **web installer at `http://php83/<subpath>/installer/`** is the easiest path — same prompts as the CLI command, but in the browser.
+
 ### Backend tests (PHPUnit)
-Tests require a populated test DB — create it first:
+Tests require a populated test DB — create it first (DB host is the *container* name when run inside the PHP container, e.g. `-H mariadb103`; defaults to `127.0.0.1` otherwise):
 ```bash
-php devTools/core/console.php i:create-test-db -p root --dump-options=--ssl=0
+php devTools/core/console.php instance:create-test-db -p root --dump-options=--ssl=0
 ./src/vendor/bin/phpunit                            # all suites
 ./src/vendor/bin/phpunit --testsuite Pim            # one plugin (names in phpunit.xml)
 ./src/vendor/bin/phpunit src/plugins/orangehrmPimPlugin/test/Dao/EmployeeDaoTest.php
 ./src/vendor/bin/phpunit --filter testGetEmployeeById <path-to-test>
 ```
+`instance:` commands have an `i:` shorthand (e.g. `i:create-test-db`, `i:reset`, `i:reinstall`) — CI scripts use the short form.
 
 ### Frontend tests (Jest, in `src/client/`)
 ```bash
@@ -89,6 +107,7 @@ Cypress lives in `src/test/functional/` — run `yarn open` (interactive) or `ya
 
 ## Conventions to follow
 
+- **Branch and commit naming.** Every branch and commit starts with a JIRA ticket key: e.g. branch `OHRM5X-1234`, commit `OHRM5X-1234: Add employee export endpoint`. Visible throughout `git log`. PRs are squash-merged by reviewers.
 - **License header.** Every PHP and `.vue` source file starts with the GPL header block from existing files. PHP-CS-Fixer doesn't check it but reviewers do.
 - **PHP style.** PSR-12 + the project's `.php-cs-fixer.dist.php` (short array syntax, no unused imports, etc.). Always run `php-cs-fix` before committing; CI hard-fails if it touches any file.
 - **Adding a REST endpoint.** Create an `Api/{Name}API.php` extending `Endpoint` (+ relevant CRUD interface), register the path in the plugin's `config/routes.yaml` pointing at `GenericRestController::handle` with `_api` set to your FQCN. Don't add a per-endpoint controller.
@@ -100,6 +119,7 @@ Cypress lives in `src/test/functional/` — run `yarn open` (interactive) or `ya
 
 - `composer.json` is in `src/`, not the repo root — running `composer …` from the root does nothing useful.
 - After autoload changes, the `post-autoload-dump` script runs `bin/console orm:generate-proxies` and `cache:clear`; if it fails the autoload still succeeded but Doctrine proxies are stale — re-run those commands manually.
-- PHPUnit's bootstrap (`src/test/phpunit/Util/bootstrap.php`) refuses to run if `i:create-test-db` hasn't been executed; the error message tells you the exact command.
+- PHPUnit's bootstrap (`src/test/phpunit/Util/bootstrap.php`) refuses to run if `instance:create-test-db` hasn't been executed; the error message tells you the exact command.
+- **DB hostname inside containers is the DB container's name** (e.g. `mariadb103`), not `127.0.0.1`. This trips up devs running CLI commands inside the PHP container.
 - The lint job re-runs `php-cs-fix` and fails on **any** `git status --porcelain` output — leave no other uncommitted changes when running it locally if you want to mirror CI.
 - `OrangeHRM\Entity\` is a multi-path PSR-4 namespace. Forgetting to add a new plugin's `entity/` dir there causes silent "class not found" failures in Doctrine mappings only — code may still autoload via other paths.
