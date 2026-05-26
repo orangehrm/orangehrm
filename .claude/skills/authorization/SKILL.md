@@ -1,6 +1,6 @@
 ---
 name: authorization
-description: Reference for OrangeHRM's authorization model — how REST endpoints and Vue/page controllers are gated by authentication, role-based screen/data-group permissions, and the marker interface that opts controllers out for pre-login routes. Use whenever the user is adding a new REST endpoint or page, making something public (login / forgot-password / version / captcha-style routes), debugging a 403 / "Unauthorized" / "Session expired" response, asking about user roles, data groups, screen permissions, the `self` flag, or `CapableViewController`. Covers both the runtime mechanism and the seeding patterns (the `permission/api.yaml` and `permission/screens.yaml` conventions). The actual seeding executes inside a database migration — migration mechanics are a separate concern (see the `migrations` skill, planned), this skill includes only the minimal migration stub needed to land a permission change.
+description: Reference for OrangeHRM's authorization model — how REST endpoints and Vue/page controllers are gated by authentication, role-based screen/data-group permissions, and the marker interface that opts controllers out for pre-login routes. Use whenever the user is adding a new REST endpoint or page, making something public (login / forgot-password / version / captcha-style routes), debugging a 403 / "Unauthorized" / "Session expired" response, asking about user roles, data groups, screen permissions, the `self` flag, or `CapableViewController`. Covers both the runtime mechanism and the seeding patterns (the `permission/api.yaml` and `permission/screens.yaml` conventions). The actual seeding executes inside a database migration — migration mechanics are a separate concern (see the `migrations` skill), this skill includes only the minimal migration stub needed to land a permission change.
 ---
 
 # Authorization in OrangeHRM
@@ -295,7 +295,7 @@ class TerminatedEmployeeReportController extends AbstractVueController implement
 
 # Where permission seeding actually runs
 
-Both `permission/api.yaml` and `permission/screens.yaml` are consumed by `DataGroupHelper` methods called from **a migration's `up()`**. The migration mechanics — `AbstractMigration` base class, the `MIGRATIONS_MAP` registry, version range execution, the `migration:up` dev command for iterating — belong to a separate skill (`migrations`, **planned, not yet written**). This skill includes only the minimum stub a permission-only change needs.
+Both `permission/api.yaml` and `permission/screens.yaml` are consumed by `DataGroupHelper` methods called from **a migration's `up()`**. The migration mechanics — `AbstractMigration` base class, the `MIGRATIONS_MAP` registry, version range execution, the `migration:up` dev command for iterating — belong to the **`migrations` skill**. This skill includes only the minimum stub a permission-only change needs.
 
 ## Minimum viable migration stub for a permission-only change
 
@@ -335,7 +335,7 @@ That's the entire migration footprint for a permission change. **For iterating d
 php devTools/core/console.php migration:up "\OrangeHRM\Installer\Migration\V5_9_0\Migration"
 ```
 
-For anything beyond this — schema changes, conditional column edits, lang strings, multi-step versions, recovering from a half-applied migration — see the `migrations` skill (when written).
+For anything beyond this — schema changes, conditional column edits, lang strings, multi-step versions, recovering from a half-applied migration — see the `migrations` skill.
 
 ## During development without a migration yet
 
