@@ -1,0 +1,35 @@
+apiv2_admin_slack_notification_config:
+  description: 'API-v2 Admin - Slack Notification Configuration'
+  api: OrangeHRM\Slack\Api\SlackConfigAPI
+  module: admin
+  allowed:
+    read: true
+    create: false
+    update: true
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: true, delete: false } }
+
+apiv2_admin_slack_notification_registrations:
+  description: 'API-v2 Admin - Slack Notification Registrations'
+  api: OrangeHRM\Slack\Api\SlackRegistrationAPI
+  module: admin
+  allowed:
+    read: true
+    create: false
+    update: false
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false } }
+
+apiv2_admin_slack_notification_test:
+  description: 'API-v2 Admin - Slack Notification Test Webhook'
+  api: OrangeHRM\Slack\Api\SlackTestWebhookAPI
+  module: admin
+  allowed:
+    read: false
+    create: true
+    update: false
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: false, create: true, update: false, delete: false } }

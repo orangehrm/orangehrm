@@ -1,0 +1,47 @@
+// OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+// all the essential functionalities required for any enterprise.
+// Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+//
+// OrangeHRM is free software: you can redistribute it and/or modify it under the terms of
+// the GNU General Public License as published by the Free Software Foundation, either
+// version 3 of the License, or (at your option) any later version.
+//
+// OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+// without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License along with OrangeHRM.
+// If not, see <https://www.gnu.org/licenses/>.
+
+.orangehrm-header-container {
+  padding: 0;
+}
+.orangehrm-form-divider {
+  margin: 1rem 0;
+}
+.orangehrm-subtitle {
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+.orangehrm-slack-section-hint {
+  margin-bottom: 1rem;
+}
+.orangehrm-slack-registration {
+  position: relative;
+  &-header {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 0.25rem;
+  }
+  &-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 0.5rem;
+  }
+}
+.orangehrm-slack-add-row {
+  display: flex;
+  justify-content: flex-start;
+  margin: 1rem 0 0.5rem;
+}
