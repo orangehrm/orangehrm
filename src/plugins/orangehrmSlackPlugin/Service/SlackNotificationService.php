@@ -34,6 +34,8 @@ use Throwable;
 
 class SlackNotificationService
 {
+    private const SEND_WINDOW_MINUTES = 5;
+
     private SlackSettingsService $settingsService;
     private SlackRegistrationService $registrationService;
     private SlackLogDao $logDao;
@@ -71,21 +73,28 @@ class SlackNotificationService
     public function dispatchDueNotifications(): array
     {
         $summary = [];
-        $settings = $this->settingsService->getSettings();
-        if (!$settings->isEnabled()) {
+        if (!$this->settingsService->isEnabled()) {
             return $summary;
         }
 
-        try {
-            $tz = new DateTimeZone($settings->getTimezone());
-        } catch (Throwable $e) {
-            $tz = new DateTimeZone('UTC');
-        }
-        $today = new DateTime('today', $tz);
+        $nowUtc = new DateTime('now', new DateTimeZone('UTC'));
 
         foreach ($this->registrationService->listActiveRegistrations() as $registration) {
             $id = $registration->getId();
+
             try {
+                $tz = $this->resolveTimezone($registration->getTimezone());
+                $today = (clone $nowUtc)->setTimezone($tz)->setTime(0, 0, 0);
+
+                if (!$this->isWithinSendWindow($registration, $nowUtc, $tz)) {
+                    $summary[$id] = [
+                        'status' => SlackLog::STATUS_SKIPPED,
+                        'recipientCount' => 0,
+                        'error' => 'Outside send-time window',
+                    ];
+                    continue;
+                }
+
                 if ($this->logDao->hasSuccessfulDeliveryForDate($id, $today)) {
                     $summary[$id] = [
                         'status' => SlackLog::STATUS_SKIPPED,
@@ -96,6 +105,7 @@ class SlackNotificationService
                 }
                 $summary[$id] = $this->dispatchRegistration($registration, $today);
             } catch (Throwable $e) {
+                $today = $today ?? new DateTime('today', new DateTimeZone('UTC'));
                 $summary[$id] = [
                     'status' => SlackLog::STATUS_FAILED,
                     'recipientCount' => 0,
@@ -105,6 +115,36 @@ class SlackNotificationService
             }
         }
         return $summary;
+    }
+
+    private function resolveTimezone(string $name): DateTimeZone
+    {
+        try {
+            return new DateTimeZone($name);
+        } catch (Throwable $e) {
+            return new DateTimeZone('UTC');
+        }
+    }
+
+    /**
+     * Return true iff the current moment falls inside the registration's daily send window,
+     * computed in the registration's own timezone.
+     */
+    private function isWithinSendWindow(SlackRegistration $registration, DateTime $nowUtc, DateTimeZone $tz): bool
+    {
+        $sendTime = $registration->getDailySendTime();
+        $parts = explode(':', $sendTime, 2);
+        if (count($parts) !== 2) {
+            return false;
+        }
+        $hour = (int)$parts[0];
+        $minute = (int)$parts[1];
+
+        $nowLocal = (clone $nowUtc)->setTimezone($tz);
+        $windowStart = (clone $nowLocal)->setTime($hour, $minute, 0);
+        $windowEnd = (clone $windowStart)->modify('+' . self::SEND_WINDOW_MINUTES . ' minutes');
+
+        return $nowLocal >= $windowStart && $nowLocal < $windowEnd;
     }
 
     /**
@@ -123,10 +163,11 @@ class SlackNotificationService
             );
         }
 
-        $subunitId = $registration->getSubunit() !== null
-            ? $registration->getSubunit()->getId()
-            : null;
-        $recipients = $resolver->resolve($today, $subunitId);
+        $subunitIds = [];
+        foreach ($registration->getSubunits() as $subunit) {
+            $subunitIds[] = $subunit->getId();
+        }
+        $recipients = $resolver->resolve($today, $subunitIds);
 
         // FR-16: no data → don't send, and don't write a SUCCESS row (so we try again on a later tick
         // if data lands during the day). A SKIPPED row keeps an audit trail.
@@ -134,9 +175,11 @@ class SlackNotificationService
             return $this->finish($registration, $today, SlackLog::STATUS_SKIPPED, 0, 'No recipients matched');
         }
 
-        $subunitLabel = $registration->getSubunit() !== null
-            ? $registration->getSubunit()->getName()
-            : null;
+        $subunitNames = [];
+        foreach ($registration->getSubunits() as $subunit) {
+            $subunitNames[] = $subunit->getName();
+        }
+        $subunitLabel = empty($subunitNames) ? null : implode(', ', $subunitNames);
 
         $message = $this->formatter->format(
             $registration->getEventType(),
@@ -171,10 +214,6 @@ class SlackNotificationService
         $log = $this->logDao->makeLogFor($registration, $today, $status, $count, $error);
         $this->logDao->recordLog($log);
 
-        $registration->setLastDeliveryStatus($status);
-        $registration->setLastDeliveryAt(new DateTime());
-        $registration->setLastDeliveryError($error);
-        $this->registrationService->getDao()->saveRegistration($registration);
 
         return [
             'status' => $status,

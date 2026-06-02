@@ -29,9 +29,10 @@ class BirthdayResolver implements RecipientResolverInterface
     use EntityManagerHelperTrait;
 
     /**
+     * @param int[] $subunitIds Multi-subunit filter; empty array = include all employees.
      * @return SlackEmployeeRecipient[]
      */
-    public function resolve(DateTime $date, ?int $subunitId): array
+    public function resolve(DateTime $date, array $subunitIds): array
     {
         $month = (int)$date->format('n');
         $day = (int)$date->format('j');
@@ -44,9 +45,9 @@ class BirthdayResolver implements RecipientResolverInterface
             ->orderBy('e.firstName', 'ASC')
             ->addOrderBy('e.lastName', 'ASC');
 
-        if ($subunitId !== null) {
-            $qb->andWhere('IDENTITY(e.subDivision) = :subunitId')
-                ->setParameter('subunitId', $subunitId);
+        if (count($subunitIds) > 0) {
+            $qb->andWhere('IDENTITY(e.subDivision) IN (:subunitIds)')
+                ->setParameter('subunitIds', $subunitIds);
         }
 
         // MONTH()/DAY() aren't registered as DQL functions in OHRM, so we filter in PHP.

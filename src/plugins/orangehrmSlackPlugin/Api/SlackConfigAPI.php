@@ -30,23 +30,19 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Slack\Api\Model\SlackConfigModel;
-use OrangeHRM\Slack\Service\SlackRegistrationService;
 use OrangeHRM\Slack\Service\SlackSettingsService;
-use OrangeHRM\Slack\Service\Webhook\SlackWebhookClient;
 
+/**
+ * Singleton config endpoint for the global on/off toggle. Backed by `hs_hr_config`.
+ *
+ * Per-registration timezone, send time, channel filtering, etc. live on the
+ * registrations endpoint — they are not exposed here.
+ */
 class SlackConfigAPI extends Endpoint implements ResourceEndpoint
 {
     public const PARAMETER_ENABLE = 'enable';
-    public const PARAMETER_TIMEZONE = 'timezone';
-    public const PARAMETER_DAILY_SEND_TIME = 'dailySendTime';
-    public const PARAMETER_REGISTRATIONS = 'registrations';
-
-    public const PARAM_RULE_TIMEZONE_MAX_LENGTH = 64;
-    public const PARAM_RULE_SEND_TIME_MAX_LENGTH = 5;
-    public const PARAM_RULE_CHANNEL_LABEL_MAX_LENGTH = 100;
 
     private ?SlackSettingsService $settingsService = null;
-    private ?SlackRegistrationService $registrationService = null;
 
     public function getSettingsService(): SlackSettingsService
     {
@@ -56,18 +52,12 @@ class SlackConfigAPI extends Endpoint implements ResourceEndpoint
         return $this->settingsService;
     }
 
-    public function getRegistrationService(): SlackRegistrationService
-    {
-        if ($this->registrationService === null) {
-            $this->registrationService = new SlackRegistrationService();
-        }
-        return $this->registrationService;
-    }
-
     public function getOne(): EndpointResourceResult
     {
-        $settings = $this->getSettingsService()->getSettings();
-        return new EndpointResourceResult(SlackConfigModel::class, $settings);
+        return new EndpointResourceResult(
+            SlackConfigModel::class,
+            $this->getSettingsService()->isEnabled()
+        );
     }
 
     public function getValidationRuleForGetOne(): ParamRuleCollection
@@ -83,24 +73,8 @@ class SlackConfigAPI extends Endpoint implements ResourceEndpoint
             RequestParams::PARAM_TYPE_BODY,
             self::PARAMETER_ENABLE
         );
-        $timezone = $this->getRequestParams()->getString(
-            RequestParams::PARAM_TYPE_BODY,
-            self::PARAMETER_TIMEZONE
-        );
-        $sendTime = $this->getRequestParams()->getString(
-            RequestParams::PARAM_TYPE_BODY,
-            self::PARAMETER_DAILY_SEND_TIME
-        );
-        $registrations = $this->getRequestParams()->getArray(
-            RequestParams::PARAM_TYPE_BODY,
-            self::PARAMETER_REGISTRATIONS,
-            []
-        );
-
-        $settings = $this->getSettingsService()->updateSettings($enable, $timezone, $sendTime);
-        $this->getRegistrationService()->syncFromPayload($registrations);
-
-        return new EndpointResourceResult(SlackConfigModel::class, $settings);
+        $this->getSettingsService()->setEnabled($enable);
+        return new EndpointResourceResult(SlackConfigModel::class, $enable);
     }
 
     public function getValidationRuleForUpdate(): ParamRuleCollection
@@ -108,20 +82,6 @@ class SlackConfigAPI extends Endpoint implements ResourceEndpoint
         return new ParamRuleCollection(
             new ParamRule(CommonParams::PARAMETER_ID),
             new ParamRule(self::PARAMETER_ENABLE, new Rule(Rules::BOOL_TYPE)),
-            new ParamRule(
-                self::PARAMETER_TIMEZONE,
-                new Rule(Rules::REQUIRED),
-                new Rule(Rules::STRING_TYPE),
-                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_TIMEZONE_MAX_LENGTH]),
-            ),
-            new ParamRule(
-                self::PARAMETER_DAILY_SEND_TIME,
-                new Rule(Rules::REQUIRED),
-                new Rule(Rules::STRING_TYPE),
-                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_SEND_TIME_MAX_LENGTH]),
-                new Rule(Rules::REGEX, ['/^([01]\d|2[0-3]):[0-5]\d$/']),
-            ),
-            new ParamRule(self::PARAMETER_REGISTRATIONS, new Rule(Rules::ARRAY_TYPE)),
         );
     }
 

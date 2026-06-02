@@ -42,18 +42,40 @@ class SlackMessageFormatter
 
     public function formatTestMessage(string $eventType): string
     {
-        $time = (new DateTime())->format('Y-m-d H:i:s');
+        $sentAt = (new DateTime())->format('M j, Y \a\t g:i A');
+
+        $header = ":test_tube: *Test notification — OrangeHRM*\n"
+            . "This confirms your Slack webhook is configured correctly. No action is required.";
+
+        $footer = "\n\n_Sent {$sentAt} · OrangeHRM Slack notifications_";
+
         switch ($eventType) {
             case SlackRegistration::EVENT_TYPE_BIRTHDAY:
-                return ":birthday: *OrangeHRM test* — birthday notification preview\n"
-                    . "_Sample employees today:_ Alex Carter, Priya Singh\n"
-                    . "_Sent at:_ {$time}";
+                $preview =
+                    "\n\n*Preview — Birthday notification:*\n"
+                    . "> :birthday: *2 birthdays today* — example message\n"
+                    . "> Wish them a happy birthday! :tada:\n"
+                    . ">\n"
+                    . "> • *Alex Carter* — Engineering\n"
+                    . "> • *Priya Singh* — People Operations\n\n"
+                    . "When real birthdays match the schedule, you'll receive a message in this format. :white_check_mark:";
+                return $header . $preview . $footer;
+
             case SlackRegistration::EVENT_TYPE_LEAVE_TODAY:
-                return ":palm_tree: *OrangeHRM test* — on-leave notification preview\n"
-                    . "_Sample employees on leave today:_ Jordan Lee (Annual), Sam Patel (Casual)\n"
-                    . "_Sent at:_ {$time}";
+                $preview =
+                    "\n\n*Preview — Employees on leave today:*\n"
+                    . "> :palm_tree: *2 employees on leave today* — example message\n"
+                    . "> Plan async work around their absence.\n"
+                    . ">\n"
+                    . "> • *Jordan Lee* — Annual leave _(Engineering)_\n"
+                    . "> • *Sam Patel* — Casual leave _(People Operations)_\n\n"
+                    . "When employees are on approved leave, you'll receive a message in this format. :white_check_mark:";
+                return $header . $preview . $footer;
+
             default:
-                return "*OrangeHRM test message* — {$time}";
+                return $header
+                    . "\n\nIf you received this message, your Slack channel is connected. :white_check_mark:"
+                    . $footer;
         }
     }
 
@@ -62,16 +84,23 @@ class SlackMessageFormatter
      */
     private function birthdayMessage(DateTime $date, array $recipients, ?string $subunitLabel): string
     {
-        $header = ":birthday: *Birthdays today* — " . $date->format('F j, Y');
+        $count = count($recipients);
+        $countWord = $count === 1 ? '1 birthday' : "{$count} birthdays";
+
+        $header = ":birthday: *{$countWord} today* — " . $date->format('F j, Y');
         if ($subunitLabel !== null) {
-            $header .= " _(" . $subunitLabel . ")_";
+            $header .= " · *{$subunitLabel}*";
         }
+
+        $intro = "\nWish them a happy birthday! :tada:";
+
         $lines = array_map(
-            fn(SlackEmployeeRecipient $r) => "• " . $r->getFullName()
-                . ($r->getSubunit() ? " _(" . $r->getSubunit() . ")_" : ''),
+            fn(SlackEmployeeRecipient $r) => "• *" . $r->getFullName() . "*"
+                . ($r->getSubunit() ? " — " . $r->getSubunit() : ''),
             $recipients
         );
-        return $header . "\n" . implode("\n", $lines);
+
+        return $header . $intro . "\n\n" . implode("\n", $lines);
     }
 
     /**
@@ -79,16 +108,31 @@ class SlackMessageFormatter
      */
     private function leaveTodayMessage(DateTime $date, array $recipients, ?string $subunitLabel): string
     {
-        $header = ":palm_tree: *On leave today* — " . $date->format('F j, Y');
+        $count = count($recipients);
+        $countWord = $count === 1 ? '1 employee' : "{$count} employees";
+
+        $header = ":palm_tree: *{$countWord} on leave today* — " . $date->format('F j, Y');
         if ($subunitLabel !== null) {
-            $header .= " _(" . $subunitLabel . ")_";
+            $header .= " · *{$subunitLabel}*";
         }
+
+        $intro = "\nPlan async work around their absence.";
+
         $lines = array_map(
-            fn(SlackEmployeeRecipient $r) => "• " . $r->getFullName()
-                . ($r->getMetadata() ? " _(" . $r->getMetadata() . ")_" : ''),
+            function (SlackEmployeeRecipient $r) {
+                $row = "• *" . $r->getFullName() . "*";
+                if ($r->getMetadata()) {
+                    $row .= " — " . $r->getMetadata();
+                }
+                if ($r->getSubunit()) {
+                    $row .= " _(" . $r->getSubunit() . ")_";
+                }
+                return $row;
+            },
             $recipients
         );
-        return $header . "\n" . implode("\n", $lines);
+
+        return $header . $intro . "\n\n" . implode("\n", $lines);
     }
 
     /**

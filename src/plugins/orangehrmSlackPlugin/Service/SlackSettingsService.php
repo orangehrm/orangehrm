@@ -19,38 +19,36 @@
 
 namespace OrangeHRM\Slack\Service;
 
-use DateTime;
-use OrangeHRM\Entity\SlackSetting;
-use OrangeHRM\Slack\Dao\SlackSettingsDao;
+use OrangeHRM\Core\Dao\ConfigDao;
 
+/**
+ * Global on/off for Slack notifications.
+ *
+ * Storage moved from the dropped `ohrm_slack_setting` table to the platform `hs_hr_config`
+ * table (LDAP precedent — see `auth.password_policy.*`, `instance.reg_consent`, etc.).
+ * Per-registration timezone + send time live on `ohrm_slack_registration`.
+ */
 class SlackSettingsService
 {
-    private ?SlackSettingsDao $dao = null;
+    public const KEY_SLACK_ENABLED = 'slack.notifications.enabled';
 
-    public function getDao(): SlackSettingsDao
+    private ?ConfigDao $configDao = null;
+
+    public function getConfigDao(): ConfigDao
     {
-        if ($this->dao === null) {
-            $this->dao = new SlackSettingsDao();
+        if ($this->configDao === null) {
+            $this->configDao = new ConfigDao();
         }
-        return $this->dao;
+        return $this->configDao;
     }
 
-    public function getSettings(): SlackSetting
+    public function isEnabled(): bool
     {
-        return $this->getDao()->getSettings();
+        return $this->getConfigDao()->getValue(self::KEY_SLACK_ENABLED) === '1';
     }
 
-    public function updateSettings(bool $enabled, string $timezone, string $dailySendTime): SlackSetting
+    public function setEnabled(bool $enabled): void
     {
-        $settings = $this->getSettings();
-        $now = new DateTime();
-        if ($settings->getCreatedAt() === null) {
-            $settings->setCreatedAt($now);
-        }
-        $settings->setEnabled($enabled);
-        $settings->setTimezone($timezone);
-        $settings->setDailySendTime($dailySendTime);
-        $settings->setUpdatedAt($now);
-        return $this->getDao()->saveSettings($settings);
+        $this->getConfigDao()->setValue(self::KEY_SLACK_ENABLED, $enabled ? '1' : '0');
     }
 }

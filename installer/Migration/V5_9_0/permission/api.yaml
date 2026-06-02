@@ -16,11 +16,11 @@ apiv2_admin_slack_notification_registrations:
   module: admin
   allowed:
     read: true
-    create: false
-    update: false
-    delete: false
+    create: true
+    update: true
+    delete: true
   permissions:
-    - { role: Admin, permission: { read: true, create: false, update: false, delete: false } }
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: true } }
 
 apiv2_admin_slack_notification_test:
   description: 'API-v2 Admin - Slack Notification Test Webhook'

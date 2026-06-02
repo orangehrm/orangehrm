@@ -25,8 +25,8 @@ use OrangeHRM\Slack\Dto\SlackEmployeeRecipient;
 interface RecipientResolverInterface
 {
     /**
-     * @param int|null $subunitId Optional subunit filter; null = all subunits.
+     * @param int[] $subunitIds Multi-subunit filter; empty array = include all employees.
      * @return SlackEmployeeRecipient[]
      */
-    public function resolve(DateTime $date, ?int $subunitId): array;
+    public function resolve(DateTime $date, array $subunitIds): array;
 }

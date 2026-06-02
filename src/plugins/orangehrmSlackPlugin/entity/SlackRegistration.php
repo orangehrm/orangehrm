@@ -20,6 +20,8 @@
 namespace OrangeHRM\Entity;
 
 use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -36,8 +38,7 @@ class SlackRegistration
         self::EVENT_TYPE_LEAVE_TODAY,
     ];
 
-    public const DELIVERY_STATUS_SUCCESS = 'SUCCESS';
-    public const DELIVERY_STATUS_FAILED = 'FAILED';
+    public const PROVIDER_SLACK = 'slack';
 
     /**
      * @var int
@@ -47,6 +48,16 @@ class SlackRegistration
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private int $id;
+
+    /**
+     * Provider seam — currently always 'slack'. Reserves space for Teams / Discord /
+     * Google Chat / other webhook-based providers without a schema change.
+     *
+     * @var string
+     *
+     * @ORM\Column(name="provider", type="string", length=20, nullable=false, options={"default": "slack"})
+     */
+    private string $provider = self::PROVIDER_SLACK;
 
     /**
      * @var string
@@ -72,12 +83,34 @@ class SlackRegistration
     private ?string $channelLabel = null;
 
     /**
-     * @var Subunit|null
+     * Multi-subunit filter. Empty collection = "all employees, no subunit filter".
      *
-     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Subunit")
-     * @ORM\JoinColumn(name="subunit_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
+     * @var Collection<int, Subunit>
+     *
+     * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\Subunit")
+     * @ORM\JoinTable(
+     *     name="ohrm_slack_registration_subunit",
+     *     joinColumns={@ORM\JoinColumn(name="registration_id", referencedColumnName="id", onDelete="CASCADE")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="subunit_id", referencedColumnName="id", onDelete="CASCADE")}
+     * )
      */
-    private ?Subunit $subunit = null;
+    private Collection $subunits;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="timezone", type="string", length=64, nullable=false, options={"default": "UTC"})
+     */
+    private string $timezone = 'UTC';
+
+    /**
+     * Stored as `HH:mm` in the registration's local timezone.
+     *
+     * @var string
+     *
+     * @ORM\Column(name="daily_send_time", type="string", length=5, nullable=false, options={"default": "09:00"})
+     */
+    private string $dailySendTime = '09:00';
 
     /**
      * @var bool
@@ -85,27 +118,6 @@ class SlackRegistration
      * @ORM\Column(name="is_active", type="boolean", options={"default": true})
      */
     private bool $active = true;
-
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="last_delivery_status", type="string", length=20, nullable=true)
-     */
-    private ?string $lastDeliveryStatus = null;
-
-    /**
-     * @var DateTime|null
-     *
-     * @ORM\Column(name="last_delivery_at", type="datetime", nullable=true)
-     */
-    private ?DateTime $lastDeliveryAt = null;
-
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="last_delivery_error", type="text", nullable=true)
-     */
-    private ?string $lastDeliveryError = null;
 
     /**
      * @var DateTime|null
@@ -121,6 +133,11 @@ class SlackRegistration
      */
     private ?DateTime $updatedAt = null;
 
+    public function __construct()
+    {
+        $this->subunits = new ArrayCollection();
+    }
+
     public function getId(): int
     {
         return $this->id;
@@ -129,6 +146,16 @@ class SlackRegistration
     public function setId(int $id): void
     {
         $this->id = $id;
+    }
+
+    public function getProvider(): string
+    {
+        return $this->provider;
+    }
+
+    public function setProvider(string $provider): void
+    {
+        $this->provider = $provider;
     }
 
     public function getEventType(): string
@@ -161,14 +188,44 @@ class SlackRegistration
         $this->channelLabel = $channelLabel;
     }
 
-    public function getSubunit(): ?Subunit
+    /**
+     * @return Collection<int, Subunit>
+     */
+    public function getSubunits(): Collection
     {
-        return $this->subunit;
+        return $this->subunits;
     }
 
-    public function setSubunit(?Subunit $subunit): void
+    public function addSubunit(Subunit $subunit): void
     {
-        $this->subunit = $subunit;
+        if (!$this->subunits->contains($subunit)) {
+            $this->subunits->add($subunit);
+        }
+    }
+
+    public function clearSubunits(): void
+    {
+        $this->subunits->clear();
+    }
+
+    public function getTimezone(): string
+    {
+        return $this->timezone;
+    }
+
+    public function setTimezone(string $timezone): void
+    {
+        $this->timezone = $timezone;
+    }
+
+    public function getDailySendTime(): string
+    {
+        return $this->dailySendTime;
+    }
+
+    public function setDailySendTime(string $dailySendTime): void
+    {
+        $this->dailySendTime = $dailySendTime;
     }
 
     public function isActive(): bool
@@ -179,36 +236,6 @@ class SlackRegistration
     public function setActive(bool $active): void
     {
         $this->active = $active;
-    }
-
-    public function getLastDeliveryStatus(): ?string
-    {
-        return $this->lastDeliveryStatus;
-    }
-
-    public function setLastDeliveryStatus(?string $lastDeliveryStatus): void
-    {
-        $this->lastDeliveryStatus = $lastDeliveryStatus;
-    }
-
-    public function getLastDeliveryAt(): ?DateTime
-    {
-        return $this->lastDeliveryAt;
-    }
-
-    public function setLastDeliveryAt(?DateTime $lastDeliveryAt): void
-    {
-        $this->lastDeliveryAt = $lastDeliveryAt;
-    }
-
-    public function getLastDeliveryError(): ?string
-    {
-        return $this->lastDeliveryError;
-    }
-
-    public function setLastDeliveryError(?string $lastDeliveryError): void
-    {
-        $this->lastDeliveryError = $lastDeliveryError;
     }
 
     public function getCreatedAt(): ?DateTime

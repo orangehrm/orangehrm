@@ -20,23 +20,20 @@
 namespace OrangeHRM\Slack\Api\Model;
 
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
-use OrangeHRM\Entity\SlackSetting;
 
 class SlackConfigModel implements Normalizable
 {
-    private SlackSetting $settings;
+    private bool $enabled;
 
-    public function __construct(SlackSetting $settings)
+    public function __construct(bool $enabled)
     {
-        $this->settings = $settings;
+        $this->enabled = $enabled;
     }
 
     public function toArray(): array
     {
         return [
-            'enable' => $this->settings->isEnabled(),
-            'timezone' => $this->settings->getTimezone(),
-            'dailySendTime' => $this->settings->getDailySendTime(),
+            'enable' => $this->enabled,
         ];
     }
 }

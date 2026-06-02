@@ -6,13 +6,6 @@ apiv2_admin_slack_notification_config:
     id: 0
     _api: OrangeHRM\Slack\Api\SlackConfigAPI
 
-apiv2_admin_slack_notification_registrations:
-  path: /api/v2/admin/slack-notification/registrations
-  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
-  methods: [ GET ]
-  defaults:
-    _api: OrangeHRM\Slack\Api\SlackRegistrationAPI
-
 apiv2_admin_slack_notification_test:
   path: /api/v2/admin/slack-notification/registrations/test
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
@@ -26,3 +19,21 @@ apiv2_admin_slack_notification_registration_test:
   methods: [ POST ]
   defaults:
     _api: OrangeHRM\Slack\Api\SlackTestWebhookAPI
+  requirements:
+    id: '\d+'
+
+apiv2_admin_slack_notification_registrations:
+  path: /api/v2/admin/slack-notification/registrations
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST, DELETE ]
+  defaults:
+    _api: OrangeHRM\Slack\Api\SlackRegistrationAPI
+
+apiv2_admin_slack_notification_registration:
+  path: /api/v2/admin/slack-notification/registrations/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Slack\Api\SlackRegistrationAPI
+  requirements:
+    id: '\d+'

@@ -46,13 +46,13 @@ class SlackPluginConfiguration implements
 
     public function schedule(Schedule $schedule): void
     {
-        $settings = (new SlackSettingsService())->getSettings();
-        if (!$settings->isEnabled()) {
+        if (!(new SlackSettingsService())->isEnabled()) {
             return;
         }
 
-        [$utcHour, $utcMinute] = $settings->getSendTimeInUtc();
+        // Fires every 5 minutes. The command itself does per-registration
+        // timezone + send-time window checks (each row has its own clock).
         $schedule->add(new CommandInfo('orangehrm:send-slack-notifications'))
-            ->cron("$utcMinute $utcHour * * *");
+            ->cron('*/5 * * * *');
     }
 }

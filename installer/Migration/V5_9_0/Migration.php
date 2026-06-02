@@ -42,42 +42,56 @@ class Migration extends AbstractMigration
 
     private function createSlackTables(): void
     {
-        if (!$this->getSchemaHelper()->tableExists(['ohrm_slack_setting'])) {
-            $this->getSchemaHelper()->createTable('ohrm_slack_setting')
+        // Schema:
+        //   - Global enable flag lives in hs_hr_config (LDAP pattern). No standalone settings table.
+        //   - ohrm_slack_registration: one row per (event_type, channel) destination. Multi-subunit
+        //     filtering via join table. provider column reserves space for future Teams/Discord/etc.
+        //   - ohrm_slack_registration_subunit: M:N join (registration ↔ subunit).
+        //   - ohrm_slack_log: per-dispatch idempotency ledger + failure log.
+
+        if (!$this->getSchemaHelper()->tableExists(['ohrm_slack_registration'])) {
+            $this->getSchemaHelper()->createTable('ohrm_slack_registration')
                 ->addColumn('id', Types::INTEGER, ['Autoincrement' => true, 'Notnull' => true])
-                ->addColumn('is_enabled', Types::BOOLEAN, ['Notnull' => true, 'Default' => false])
+                ->addColumn('provider', Types::STRING, ['Length' => 20, 'Notnull' => true, 'Default' => 'slack'])
+                ->addColumn('event_type', Types::STRING, ['Length' => 32, 'Notnull' => true])
+                ->addColumn('webhook_url', Types::TEXT, ['Notnull' => true])
+                ->addColumn('channel_label', Types::STRING, ['Length' => 100, 'Notnull' => false, 'Default' => null])
                 ->addColumn('timezone', Types::STRING, ['Length' => 64, 'Notnull' => true, 'Default' => 'UTC'])
                 ->addColumn('daily_send_time', Types::STRING, ['Length' => 5, 'Notnull' => true, 'Default' => '09:00'])
+                ->addColumn('is_active', Types::BOOLEAN, ['Notnull' => true, 'Default' => true])
                 ->addColumn('created_at', Types::DATETIME_MUTABLE, ['Notnull' => false, 'Default' => null])
                 ->addColumn('updated_at', Types::DATETIME_MUTABLE, ['Notnull' => false, 'Default' => null])
                 ->setPrimaryKey(['id'])
                 ->create();
         }
 
-        if (!$this->getSchemaHelper()->tableExists(['ohrm_slack_registration'])) {
-            $this->getSchemaHelper()->createTable('ohrm_slack_registration')
-                ->addColumn('id', Types::INTEGER, ['Autoincrement' => true, 'Notnull' => true])
-                ->addColumn('event_type', Types::STRING, ['Length' => 32, 'Notnull' => true])
-                ->addColumn('webhook_url', Types::TEXT, ['Notnull' => true])
-                ->addColumn('channel_label', Types::STRING, ['Length' => 100, 'Notnull' => false, 'Default' => null])
-                ->addColumn('subunit_id', Types::INTEGER, ['Notnull' => false, 'Default' => null])
-                ->addColumn('is_active', Types::BOOLEAN, ['Notnull' => true, 'Default' => true])
-                ->addColumn('last_delivery_status', Types::STRING, ['Length' => 20, 'Notnull' => false, 'Default' => null])
-                ->addColumn('last_delivery_at', Types::DATETIME_MUTABLE, ['Notnull' => false, 'Default' => null])
-                ->addColumn('last_delivery_error', Types::TEXT, ['Notnull' => false, 'Default' => null])
-                ->addColumn('created_at', Types::DATETIME_MUTABLE, ['Notnull' => false, 'Default' => null])
-                ->addColumn('updated_at', Types::DATETIME_MUTABLE, ['Notnull' => false, 'Default' => null])
-                ->setPrimaryKey(['id'])
+        if (!$this->getSchemaHelper()->tableExists(['ohrm_slack_registration_subunit'])) {
+            $this->getSchemaHelper()->createTable('ohrm_slack_registration_subunit')
+                ->addColumn('registration_id', Types::INTEGER, ['Notnull' => true])
+                ->addColumn('subunit_id', Types::INTEGER, ['Notnull' => true])
+                ->setPrimaryKey(['registration_id', 'subunit_id'])
                 ->create();
 
-            $subunitConstraint = new ForeignKeyConstraint(
-                ['subunit_id'],
-                'ohrm_subunit',
-                ['id'],
-                'slack_registration_subunit',
-                ['onDelete' => 'SET NULL']
+            $this->getSchemaHelper()->addForeignKey(
+                'ohrm_slack_registration_subunit',
+                new ForeignKeyConstraint(
+                    ['registration_id'],
+                    'ohrm_slack_registration',
+                    ['id'],
+                    'slack_reg_subunit_reg_fk',
+                    ['onDelete' => 'CASCADE']
+                )
             );
-            $this->getSchemaHelper()->addForeignKey('ohrm_slack_registration', $subunitConstraint);
+            $this->getSchemaHelper()->addForeignKey(
+                'ohrm_slack_registration_subunit',
+                new ForeignKeyConstraint(
+                    ['subunit_id'],
+                    'ohrm_subunit',
+                    ['id'],
+                    'slack_reg_subunit_sub_fk',
+                    ['onDelete' => 'CASCADE']
+                )
+            );
         }
 
         if (!$this->getSchemaHelper()->tableExists(['ohrm_slack_log'])) {
@@ -93,38 +107,46 @@ class Migration extends AbstractMigration
                 ->setPrimaryKey(['id'])
                 ->create();
 
-            $registrationConstraint = new ForeignKeyConstraint(
-                ['registration_id'],
-                'ohrm_slack_registration',
-                ['id'],
-                'slack_log_registration',
-                ['onDelete' => 'CASCADE']
+            $this->getSchemaHelper()->addForeignKey(
+                'ohrm_slack_log',
+                new ForeignKeyConstraint(
+                    ['registration_id'],
+                    'ohrm_slack_registration',
+                    ['id'],
+                    'slack_log_registration',
+                    ['onDelete' => 'CASCADE']
+                )
             );
-            $this->getSchemaHelper()->addForeignKey('ohrm_slack_log', $registrationConstraint);
+
+            $this->getSchemaManager()->createIndex(
+                new Index(
+                    'idx_slack_log_dedupe',
+                    ['registration_id', 'event_date', 'status']
+                ),
+                'ohrm_slack_log'
+            );
         }
 
-        $dedupeIndex = new Index(
-            'idx_slack_log_dedupe',
-            ['registration_id', 'event_date', 'status']
-        );
-        $this->getSchemaManager()->createIndex($dedupeIndex, 'ohrm_slack_log');
-
-        if (!$this->getConnection()->createQueryBuilder()
-            ->select('id')->from('ohrm_slack_setting')->setMaxResults(1)
-            ->executeQuery()->fetchOne()) {
+        // Seed the global enable flag in hs_hr_config (same pattern as boolean configs like
+        // `dashboard.employees_on_leave_today.show_only_accessible`). Idempotent via upsert.
+        $existing = $this->getConnection()->createQueryBuilder()
+            ->select('name')
+            ->from('hs_hr_config')
+            ->where('name = :name')
+            ->setParameter('name', self::CONFIG_KEY_SLACK_ENABLED)
+            ->executeQuery()
+            ->fetchOne();
+        if ($existing === false) {
             $this->getConnection()->createQueryBuilder()
-                ->insert('ohrm_slack_setting')
-                ->values([
-                    'is_enabled' => ':enabled',
-                    'timezone' => ':timezone',
-                    'daily_send_time' => ':sendTime',
-                ])
-                ->setParameter('enabled', false, Types::BOOLEAN)
-                ->setParameter('timezone', 'UTC')
-                ->setParameter('sendTime', '09:00')
+                ->insert('hs_hr_config')
+                ->values(['name' => ':name', 'value' => ':value'])
+                ->setParameter('name', self::CONFIG_KEY_SLACK_ENABLED)
+                ->setParameter('value', '0')
                 ->executeQuery();
         }
     }
+
+    private const CONFIG_KEY_SLACK_ENABLED = 'slack.notifications.enabled';
 
     private function insertSlackNotificationMenuItem(): void
     {

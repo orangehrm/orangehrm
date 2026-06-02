@@ -26,6 +26,8 @@ use OrangeHRM\Slack\Service\SlackRegistrationService;
 /**
  * Webhook URL is masked on read — only the leading channel-identifier segments are returned,
  * and only when one has actually been stored. The encrypted ciphertext never leaves the API.
+ *
+ * Subunits are returned as an array (multi-subunit filter); empty array means "all employees".
  */
 class SlackRegistrationModel implements Normalizable
 {
@@ -47,21 +49,24 @@ class SlackRegistrationModel implements Normalizable
             $maskedWebhook = SlackRegistrationService::maskWebhookUrl($plain);
         }
 
+        $subunits = [];
+        foreach ($this->registration->getSubunits() as $subunit) {
+            $subunits[] = [
+                'id' => $subunit->getId(),
+                'name' => $subunit->getName(),
+            ];
+        }
+
         return [
             'id' => $this->registration->getId(),
+            'provider' => $this->registration->getProvider(),
             'eventType' => $this->registration->getEventType(),
             'webhookUrl' => $maskedWebhook,
             'channelLabel' => $this->registration->getChannelLabel(),
-            'subunit' => $this->registration->getSubunit() === null ? null : [
-                'id' => $this->registration->getSubunit()->getId(),
-                'name' => $this->registration->getSubunit()->getName(),
-            ],
+            'subunits' => $subunits,
+            'timezone' => $this->registration->getTimezone(),
+            'dailySendTime' => $this->registration->getDailySendTime(),
             'active' => $this->registration->isActive(),
-            'lastDeliveryStatus' => $this->registration->getLastDeliveryStatus(),
-            'lastDeliveryAt' => $this->registration->getLastDeliveryAt() !== null
-                ? $this->registration->getLastDeliveryAt()->format('Y-m-d\TH:i:sP')
-                : null,
-            'lastDeliveryError' => $this->registration->getLastDeliveryError(),
         ];
     }
 }
