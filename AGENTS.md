@@ -1,6 +1,14 @@
-# CLAUDE.md
+# AGENTS.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+Primary instruction document for AI coding agents working in this repository. Claude Code reads this via the root `CLAUDE.md → @AGENTS.md` import; AGENTS.md-aware tools (Cursor, Codex, others) discover it directly.
+
+## Skills
+
+This repository ships **25 project-level skills** covering architecture, conventions, and common-task recipes — see [`.agents/skills/README.md`](.agents/skills/README.md) for the full catalog. Each skill auto-loads based on the task description (Claude Code) or should be consulted on demand by tools without that capability.
+
+> **If skills aren't loading in Claude Code on your machine**, run the one-time setup: prompt the agent with *"Please follow `.agents/SETUP.md` to set yourself up for this project."* The setup script creates a symlink (Linux/macOS/WSL2) or copy (Windows) from `.claude/skills/` → `.agents/skills/`, since Claude Code only auto-discovers under `.claude/`.
+
+The source of truth for skills is always `.agents/skills/<name>/SKILL.md` — don't edit under `.claude/skills/`.
 
 ## What this repo is
 

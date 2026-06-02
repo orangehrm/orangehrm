@@ -13,3 +13,6 @@ coverage/
 src/plugins/orangehrmFunctionalTestingPlugin
 .php-cs-fixer.cache
 .php-cs-fixer.php
+.claude/skills/
+.claude/settings.local.json
+.cursor
