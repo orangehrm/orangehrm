@@ -83,6 +83,7 @@
         <exclude name="installer/client/.yarn/cache/**"/>
         <exclude name="installer/client/.yarn/install-state.gz"/>
 
+        <exclude name=".agents/**"/>
         <exclude name="AGENTS.md"/>
         <exclude name="CLAUDE.md"/>
       </fileset>
