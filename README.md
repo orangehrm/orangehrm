@@ -26,7 +26,7 @@ OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WAR
 
 ## Using AI coding agents
 
-This repository ships project-level documentation tuned for AI coding agents (Claude Code, Cursor, Codex, and other AGENTS.md-aware tools) — architecture skills, conventions, and onboarding workflows live under [`.agents/`](.agents/). The primary instruction document is [`AGENTS.md`](AGENTS.md); the skill files are in [`.agents/skills/`](.agents/skills/) (see [the catalog](.agents/skills/README.md)).
+This repository ships project-level documentation tuned for AI coding agents and other AGENTS.md-aware tools — architecture skills, conventions, and onboarding workflows live under [`.agents/`](.agents/). The primary instruction document is [`AGENTS.md`](AGENTS.md); the skill files are in [`.agents/skills/`](.agents/skills/) (see [the catalog](.agents/skills/README.md)).
 
 **First time using a coding agent on this repo?** Prompt your agent with:
 
