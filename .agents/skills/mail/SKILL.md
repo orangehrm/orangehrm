@@ -448,7 +448,7 @@ Mail/templates/
 
 - **Emails are queued, not sent immediately.** `MailerSubscriber` flushes on TERMINATE. If your code expects the email to be in transit by the time the function returns, **use `sendEmail()`, not `queueEmailNotifications()`**.
 - **A request that errors out before TERMINATE drops the cache flag, not the queue row.** The row persists; the next request that queues something else will trigger drain and pick up the orphan. But on its own, the orphan sits indefinitely.
-- **`KernelEvents::TERMINATE` doesn't fire for console commands.** Emails queued in a console command won't drain via the subscriber. The `crunz:schedule:run` flow has its own handling — or you can call `EmailService::sendQueuedEmails()` explicitly.
+- **`KernelEvents::TERMINATE` doesn't fire for console commands.** Emails queued in a console command won't drain via the subscriber. The `php bin/console orangehrm:run-schedule ` flow has its own handling — or you can call `EmailService::sendQueuedEmails()` explicitly.
 - **The Twig `event` variable is the raw event object.** Templates have full access to its getters; that's powerful but also a leak risk if you put sensitive fields on the event. Don't put plaintext passwords or tokens on an event payload.
 - **Template filename casing matters on Linux.** `widgetSavedSubject.txt.twig` ≠ `WidgetSavedSubject.txt.twig`. Match exactly.
 - **`smtpPassword` is encrypted at rest** — when working with the EmailConfiguration entity, use the EntityListener's decrypted value (which `postLoad` populates). Don't try to decrypt manually; the listener handles it.

@@ -1,6 +1,6 @@
 ---
 name: console-commands
-description: Reference for OrangeHRM's two Symfony Console entry points — `bin/console` (production console, lightweight, plugin-registered commands like `cache:clear` / `orm:generate-proxies` / `crunz:schedule:run`) and `devTools/core/console.php` (developer-only with its own `composer.json`, registers commands like `php-cs-fix`, `instance:create-test-db`, `instance:reset`, `instance:reinstall`, `add-data-group`, `add-role-permission`, `migration:up`, `generate-open-api-doc`). Covers the `OrangeHRM\Framework\Console\Command` base class (with `getCommandName()`, `getIO()` returning a `SymfonyStyle`), the `ConsoleConfigurationInterface::registerCommands()` plugin hook for surfacing commands in `bin/console`, conditional registration (e.g. only in non-prod), and the helper-trait composition pattern shared with services. Use whenever the user is adding a new console command, deciding which console it belongs in, debugging "why doesn't my command appear in `bin/console`", or wiring up commands that need to talk to services/DAOs. Companion to `services` (commands often invoke services), `scheduled-jobs` (cron tasks are commands), `dev-environment` / `migrations` (existing dev-tool commands).
+description: Reference for OrangeHRM's two Symfony Console entry points — `bin/console` (production console, lightweight, plugin-registered commands like `cache:clear` / `orm:generate-proxies` / `orangehrm:run-schedule`) and `devTools/core/console.php` (developer-only with its own `composer.json`, registers commands like `php-cs-fix`, `instance:create-test-db`, `instance:reset`, `instance:reinstall`, `add-data-group`, `add-role-permission`, `migration:up`, `generate-open-api-doc`). Covers the `OrangeHRM\Framework\Console\Command` base class (with `getCommandName()`, `getIO()` returning a `SymfonyStyle`), the `ConsoleConfigurationInterface::registerCommands()` plugin hook for surfacing commands in `bin/console`, conditional registration (e.g. only in non-prod), and the helper-trait composition pattern shared with services. Use whenever the user is adding a new console command, deciding which console it belongs in, debugging "why doesn't my command appear in `bin/console`", or wiring up commands that need to talk to services/DAOs. Companion to `services` (commands often invoke services), `scheduled-jobs` (cron tasks are commands), `dev-environment` / `migrations` (existing dev-tool commands).
 ---
 
 # Console commands
@@ -14,7 +14,7 @@ OrangeHRM has **two console entry points**, each serving a different audience:
 
 Both extend `Symfony\Component\Console\Application` (via OHRM's thin `OrangeHRM\Framework\Console\Console` subclass). They wire up commands differently — see "Where commands live" below.
 
-This skill covers writing new commands, registering them, and choosing the right console. For specific existing commands, see `migrations` (`instance:*`, `migration:up`), `dev-environment` (`i:create-test-db`), `rest-openapi` (`generate-open-api-doc`), `scheduled-jobs` (`crunz:schedule:run`).
+This skill covers writing new commands, registering them, and choosing the right console. For specific existing commands, see `migrations` (`instance:*`, `migration:up`), `dev-environment` (`i:create-test-db`), `rest-openapi` (`generate-open-api-doc`), `scheduled-jobs` (`orangehrm:run-schedule`).
 
 ## The two consoles
 
@@ -48,7 +48,7 @@ Commands available in `bin/console` come from two sources:
 php bin/console list                    # see all commands
 php bin/console cache:clear
 php bin/console orm:generate-proxies
-php bin/console crunz:schedule:run      # cron scheduler — see scheduled-jobs skill
+php bin/console orangehrm:run-schedule      # cron scheduler — see scheduled-jobs skill
 ```
 
 ### `devTools/core/console.php` — developer tools
@@ -188,7 +188,7 @@ Commands use Symfony's standard `namespace:action` shape. Conventional namespace
 | `orm:*` | Doctrine operations (`orm:generate-proxies`) |
 | `instance:*` | DB/app instance management (`instance:reset`, `instance:reinstall`, `instance:create-test-db`). `i:*` is the shorthand alias. |
 | `migration:*` | Migration utilities (`migration:up`) |
-| `crunz:*` | Cron scheduler (`crunz:schedule:run`) |
+| `orangehrm:*` | Cron scheduler (`orangehrm:run-schedule`) |
 | `<plugin>:<action>` | Plugin-specific commands (`leave:export`, `ldap:sync-user`) |
 | Single word | Top-level commands like `php-cs-fix`, `add-data-group`, `add-role-permission`, `generate-open-api-doc`, `event-dispatcher:debug` — used in `devTools/core/console.php` where there's no need for a plugin namespace |
 
@@ -362,7 +362,7 @@ From the core plugin's `registerCommands()`:
 |---|---|
 | `cache:clear` | Clears the symfony Cache adapters (orangehrm, doctrine_metadata, doctrine_queries) |
 | `orm:generate-proxies` | Regenerates Doctrine proxy classes (see `doctrine-bootstrap`) |
-| `crunz:schedule:run` | Runs all scheduled tasks for the current time (see `scheduled-jobs`) |
+| `orangehrm:run-schedule` | Runs all scheduled tasks for the current time (see `scheduled-jobs`) |
 | `orangehrm:enable-test-lang-pack` | Dev-only — enables a test language pack |
 
 Plus per-plugin commands like `ldap:sync-user` from the LDAP plugin.

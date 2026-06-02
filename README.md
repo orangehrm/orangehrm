@@ -32,7 +32,7 @@ This repository ships project-level documentation tuned for AI coding agents (Cl
 
 > Please follow `.agents/SETUP.md` to set yourself up for this project.
 
-The setup script identifies the agent + your OS and configures the right local discovery path (symlinks on Linux/macOS, file copies on Windows).
+The setup script identifies the agent + your OS and configures the right local discovery path (symlinks on Linux/macOS, file copies on Windows). Once loaded you may have to start a new session.
 
 ## OrangeHRM Mobile App
 

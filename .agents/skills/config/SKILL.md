@@ -133,7 +133,6 @@ Lowercase with snake_case segments. **Don't use camelCase or kebab-case** — th
 ### Use `hs_hr_config` for
 
 - **Feature flags** — `pim_show_ssn`, `dashboard.foo.enabled`. Boolean toggles that should change without a deploy.
-- **Runtime tunables** — TTLs, batch sizes, thresholds. Anything that's "this number," "this string," "this duration."
 - **Singleton metadata** — `instance.version`, `instance.identifier`. One value per instance.
 - **Serialized blobs of low-volume settings** — `KEY_LDAP_SETTINGS` stores JSON; the LDAP config is one logical object, modified rarely, fits in one cell.
 
@@ -370,8 +369,9 @@ Useful when a migration's behavior depends on what an earlier migration did, but
 - [ ] Decide if it really belongs in `hs_hr_config` — singleton or feature-flag, not domain data, not per-user
 - [ ] Choose a key name following `<module>.<feature>.<descriptor>` convention, all lowercase snake_case
 - [ ] Add `KEY_<NAME>` constant + typed `getX()`/`setX()` methods to `ConfigService`
-- [ ] Seed default in a migration via `getConfigHelper()->setConfigValue()` — **always guard with `getConfigValue($key) === null`** so re-runs don't clobber operator customizations
+- [ ] Seed default in a migration via `getConfigHelper()->setConfigValue()` — **guard with `getConfigValue($key) === null` when it's necessary** so re-runs don't clobber operator customizations
 - [ ] Use `ConfigServiceTrait` + the typed getter from runtime code; don't hardcode the string key in callers
+- [ ] Think twice if the value is a sensitive credentials
 
 ## Read a config value
 
@@ -383,13 +383,13 @@ Useful when a migration's behavior depends on what an earlier migration did, but
 
 - [ ] **Single global value?** → config
 - [ ] **List of records of the same shape?** → entity
-- [ ] **Per-user setting?** → entity (or column on user)
+- [ ] **Per-user setting?** → entity (or column on user, or employee or new table/entity depend on the scenario)
 - [ ] **Queried by content?** → entity (config has no indexes on `value`)
 - [ ] **Bundle of related primitives, single instance?** → config with JSON blob
 
 ## Things that bite
 
-- **All values are strings.** A `'false'` from the DB is *truthy* in PHP — `if ($value)` is true for both `'false'` and `'true'`. Always use the typed accessor, or explicitly compare `=== 'true'`.
+- **All values are strings.** A `'false'` from the DB is *truthy* in PHP — `if ($value)` is true for both `'false'` and `'true'`. Always use the typed accessor, or explicitly compare `=== 'true'` OR use 1 and 0 for boolean.
 - **No type validation at write time.** `setConfigValue('widget.batch_size', 'not-a-number')` succeeds. Type coercion happens on read, where it'll either silently `(int) 'not-a-number' = 0` or return your default. Always seed valid defaults.
 - **The column is `name`, not `key`** — `key` was a MySQL reserved word and got renamed in V5_0_0_beta. `ConfigHelper` has back-compat for very old installs but new code always uses `name`.
 - **No caching.** Every `getConfigValue()` hits the DB. Hot paths should cache the value at the start of the request (in a service property) rather than re-reading.
