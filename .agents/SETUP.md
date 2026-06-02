@@ -4,6 +4,7 @@ This repository ships project-level documentation tuned for AI coding agents (ar
 
 - **`AGENTS.md`** at the repo root — the project's primary instruction document. Tools that recognize the `AGENTS.md` convention (Cursor, Codex, others) discover it automatically; Claude Code reads it via the `CLAUDE.md → @AGENTS.md` import shim.
 - **`.agents/skills/<name>/SKILL.md`** — the skill files. Each is a markdown document with YAML frontmatter describing when it applies.
+- **`.agents/commands/<name>.md`** — slash commands. Markdown files with YAML frontmatter; the body is the prompt the agent runs when the command is invoked.
 
 Different agents discover skills in different places, so this file is the **one-time setup script**: a coding agent reads it on first contact with the repo, identifies itself + the host OS, and configures its own discovery path accordingly.
 
@@ -32,7 +33,7 @@ After setup completes, report back what you did and verify the skills are discov
 
 ## § 2 Claude Code setup
 
-Claude Code only auto-discovers skills under `.claude/skills/`. Since this project's source of truth is `.agents/skills/`, you need to create a local bridge. **The bridge is gitignored, so each developer runs this setup once per clone.**
+Claude Code only auto-discovers skills under `.claude/skills/` and slash commands under `.claude/commands/`. Since this project's source of truth is `.agents/skills/` and `.agents/commands/`, you need to create local bridges. **The bridges are gitignored, so each developer runs this setup once per clone.**
 
 ### Detect the OS
 
@@ -51,31 +52,35 @@ If you're on Windows natively (no WSL, native PowerShell / cmd), proceed to **[�
 
 ### § 2a Linux / macOS / WSL2 — symlink
 
-One-time setup. The symlink lives outside git (gitignored), so each clone needs it.
+One-time setup. The symlinks live outside git (gitignored), so each clone needs them.
 
 ```bash
 cd <repo root>
 mkdir -p .claude
-ln -s ../.agents/skills .claude/skills
+ln -s ../.agents/skills   .claude/skills
+ln -s ../.agents/commands .claude/commands
 ```
 
 Verify:
 
 ```bash
-ls .claude/skills/services/SKILL.md     # should print the path, not "no such file"
-readlink .claude/skills                  # should print "../.agents/skills"
+ls .claude/skills/services/SKILL.md       # should print the path, not "no such file"
+ls .claude/commands/agent-sync.md         # should print the path
+readlink .claude/skills                    # should print "../.agents/skills"
+readlink .claude/commands                  # should print "../.agents/commands"
 ```
 
-Tell the user setup is complete and that **skills will stay in sync automatically** — edits to `.agents/skills/<name>/SKILL.md` are seen by Claude Code via the symlink with no further action.
+Tell the user setup is complete and that **skills and commands stay in sync automatically** — edits to `.agents/skills/<name>/SKILL.md` or `.agents/commands/<name>.md` are seen by Claude Code via the symlinks with no further action.
 
 ### § 2b Windows native — copy
 
-Symlinks on Windows require admin rights / developer mode and break across drives. The fallback is to **copy** `.agents/skills/` into `.claude/skills/` once at setup, then re-copy after any edit.
+Symlinks on Windows require admin rights / developer mode and break across drives. The fallback is to **copy** both `.agents/skills/` and `.agents/commands/` into the matching `.claude/` paths once at setup, then re-copy after any edit.
 
-Do the copy now (you, the agent, with your file tools — don't ask the user to run shell commands unless that's the only path):
+Do the copies now (you, the agent, with your file tools — don't ask the user to run shell commands unless that's the only path):
 
-1. Ensure `.claude/skills/` exists (create if missing).
+1. Ensure `.claude/skills/` and `.claude/commands/` both exist (create if missing).
 2. For each subdirectory in `.agents/skills/`, copy the entire directory (containing `SKILL.md`) into `.claude/skills/`. After this, `.claude/skills/services/SKILL.md` etc. should exist and be byte-identical to the source under `.agents/skills/`.
+3. For each `.md` file in `.agents/commands/`, copy it into `.claude/commands/`. After this, `.claude/commands/agent-sync.md` and `.claude/commands/ohrm-onboard.md` should both exist.
 
 Verify a few of them:
 
@@ -83,9 +88,11 @@ Verify a few of them:
 .claude/skills/services/SKILL.md
 .claude/skills/rest-endpoints/SKILL.md
 .claude/skills/migrations/SKILL.md
+.claude/commands/agent-sync.md
+.claude/commands/ohrm-onboard.md
 ```
 
-Tell the user setup is complete and **flag the sync caveat**: any edit to `.agents/skills/<name>/SKILL.md` won't be reflected in Claude Code until they re-run sync. The easiest way to re-sync is the project's `/agent-sync` slash command — type it in Claude Code after editing skills.
+Tell the user setup is complete and **flag the sync caveat**: any edit to `.agents/skills/<name>/SKILL.md` or `.agents/commands/<name>.md` won't be reflected in Claude Code until they re-run sync. The easiest way to re-sync is the project's `/agent-sync` slash command — type it in Claude Code after editing.
 
 ---
 
@@ -115,20 +122,21 @@ If your tool supports loading these as "rules" or "context" persistently, consul
 Run these checks (you, the agent):
 
 1. **List skills**: `ls .claude/skills/` (for Claude Code) or `ls .agents/skills/` (always). Should show ~25 directories.
-2. **Read a known skill**: open one of them (e.g. `services/SKILL.md`) and confirm the YAML frontmatter is intact.
-3. **Confirm the doc shim**: open the root `CLAUDE.md`. It should contain `@AGENTS.md` (and nothing else).
-4. **Report to the user**: "Setup complete — I see N skills under `<path>`. The project's main instructions are in `AGENTS.md`."
+2. **List commands**: `ls .claude/commands/` should show `agent-sync.md` and `ohrm-onboard.md` (and whatever else the project added since).
+3. **Read a known skill**: open one of them (e.g. `services/SKILL.md`) and confirm the YAML frontmatter is intact.
+4. **Confirm the doc shim**: open the root `CLAUDE.md`. It should contain `@AGENTS.md` (and nothing else).
+5. **Report to the user**: "Setup complete — I see N skills and M commands under `.claude/`. The project's main instructions are in `AGENTS.md`."
 
 If any check fails, **stop and tell the user** rather than continuing silently.
 
 ---
 
-## Editing skills after setup
+## Editing skills or commands after setup
 
-The source of truth is **always `.agents/skills/<name>/SKILL.md`** — edit there, not in `.claude/skills/` (where it might be a symlink or a copy).
+The source of truth is **always under `.agents/`** — edit `.agents/skills/<name>/SKILL.md` or `.agents/commands/<name>.md`, not the matching files under `.claude/` (where they might be a symlink or a copy).
 
-- **Linux / macOS / WSL2**: symlink keeps everything in sync automatically. No action needed after edit.
-- **Windows native**: run `/agent-sync` in Claude Code (or manually copy `.agents/skills/*` → `.claude/skills/*`) so Claude Code sees the updated content.
+- **Linux / macOS / WSL2**: symlinks keep everything in sync automatically. No action needed after edit.
+- **Windows native**: run `/agent-sync` in Claude Code (or manually copy `.agents/skills/*` → `.claude/skills/*` and `.agents/commands/*` → `.claude/commands/*`) so Claude Code sees the updated content.
 
 ---
 

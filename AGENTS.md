@@ -2,13 +2,16 @@
 
 Primary instruction document for AI coding agents working in this repository. Claude Code reads this via the root `CLAUDE.md → @AGENTS.md` import; AGENTS.md-aware tools (Cursor, Codex, others) discover it directly.
 
-## Skills
+## Skills and commands
 
-This repository ships **25 project-level skills** covering architecture, conventions, and common-task recipes — see [`.agents/skills/README.md`](.agents/skills/README.md) for the full catalog. Each skill auto-loads based on the task description (Claude Code) or should be consulted on demand by tools without that capability.
+This repository ships **25 project-level skills** + **slash commands** under `.agents/`:
 
-> **If skills aren't loading in Claude Code on your machine**, run the one-time setup: prompt the agent with *"Please follow `.agents/SETUP.md` to set yourself up for this project."* The setup script creates a symlink (Linux/macOS/WSL2) or copy (Windows) from `.claude/skills/` → `.agents/skills/`, since Claude Code only auto-discovers under `.claude/`.
+- **Skills** — architecture/convention/recipe documents that auto-load by task description. See [`.agents/skills/README.md`](.agents/skills/README.md) for the catalog.
+- **Slash commands** — `.agents/commands/<name>.md` files invoked as `/<name>` in Claude Code (or the equivalent in other tools). Current commands: `/ohrm-onboard` (new-dev setup walkthrough), `/agent-sync` (re-sync `.claude/` copies on Windows after editing).
 
-The source of truth for skills is always `.agents/skills/<name>/SKILL.md` — don't edit under `.claude/skills/`.
+> **If skills or commands aren't loading in Claude Code on your machine**, run the one-time setup: prompt the agent with *"Please follow `.agents/SETUP.md` to set yourself up for this project."* The setup creates symlinks (Linux/macOS/WSL2) or copies (Windows) from `.claude/skills/` and `.claude/commands/` → the matching `.agents/` paths, since Claude Code only auto-discovers under `.claude/`.
+
+The source of truth is always under `.agents/` — don't edit files in `.claude/skills/` or `.claude/commands/`.
 
 ## What this repo is
 
