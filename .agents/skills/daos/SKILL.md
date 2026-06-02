@@ -268,6 +268,124 @@ return array_column($rows, 0);          // returns just the Employee objects
 
 Used in EmployeeDao when sorting requires `addSelect` of an extra column. The `0` is the index of the entity in each pair.
 
+## Blob columns — partial-DTO projection for list queries
+
+Several entities have `type="blob"` columns holding raw file/image bytes — `EmployeeAttachment`, `EmpPicture`, `JobSpecificationAttachment`, `ClaimAttachment`, `CandidateAttachment`, `InterviewAttachment`, `VacancyAttachment`, `BuzzPhoto`, `Theme` (corporate-branding logo). Hydrating these entities into a list query is **expensive** — every row drags the binary content into memory and over the wire, often megabytes per row, even though the table view only needs the filename, size, MIME type, and uploaded-at metadata.
+
+OrangeHRM's convention is **a `Partial<EntityName>` DTO + the `NEW PartialX::class(...)` DQL projection**. The query never reads the blob column at all.
+
+### The pattern, end-to-end
+
+#### 1. Define the Partial DTO in `<Plugin>/Dto/Partial<EntityName>.php`
+
+Plain class with the non-blob columns as constructor params:
+
+```php
+namespace OrangeHRM\Pim\Dto;
+
+use DateTime;
+use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
+
+class PartialEmployeeAttachment
+{
+    use DateTimeHelperTrait;
+
+    public function __construct(
+        private ?int $attachId,
+        private ?string $description,
+        private ?string $filename,
+        private ?int $size,
+        private ?string $fileType,
+        private ?int $attachedBy,
+        private ?string $attachedByName,
+        private ?DateTime $dateTime,    // gets split into attachedDate + attachedTime in setters
+    ) {
+        $this->setAttachedDate($dateTime);
+        $this->setAttachedTime($dateTime);
+    }
+
+    public function getAttachId(): ?int     { return $this->attachId; }
+    public function getFilename(): ?string  { return $this->filename; }
+    public function getSize(): ?int         { return $this->size; }
+    public function getFileType(): ?string  { return $this->fileType; }
+    // … etc — getters only, no setters except for derived fields
+}
+```
+
+**Constructor parameter names must match the SELECT order exactly** — Doctrine's `NEW` syntax is positional, not name-based.
+
+#### 2. Project to the DTO in the DAO
+
+```php
+namespace OrangeHRM\Pim\Dao;
+
+use OrangeHRM\Core\Dao\BaseDao;
+use OrangeHRM\Entity\EmployeeAttachment;
+use OrangeHRM\Pim\Dto\PartialEmployeeAttachment;
+
+class EmployeeAttachmentDao extends BaseDao
+{
+    public function getEmployeeAttachments(int $empNumber, string $screen): array
+    {
+        $select = 'NEW ' . PartialEmployeeAttachment::class
+                . '(a.attachId, a.description, a.filename, a.size, a.fileType,
+                    a.attachedBy, a.attachedByName, a.attachedTime)';
+
+        $q = $this->createQueryBuilder(EmployeeAttachment::class, 'a');
+        $q->select($select);
+        $q->andWhere('a.employee = :empNumber')->setParameter('empNumber', $empNumber);
+        $q->andWhere('a.screen = :screen')->setParameter('screen', $screen);
+        $q->addOrderBy('a.attachId', ListSorter::ASCENDING);
+
+        return $q->getQuery()->execute();
+    }
+}
+```
+
+`select()` with a `NEW <FQCN>(...)` string tells Doctrine to instantiate the DTO directly instead of hydrating the entity. The blob column **never appears in the SELECT clause**, so it never travels from the DB.
+
+#### 3. Selecting an FK ID without loading the related entity — `IDENTITY()`
+
+When the partial needs a foreign-key column but you don't want to also hydrate the parent:
+
+```php
+$select = 'NEW ' . PartialJobSpecificationAttachment::class
+        . '(js.id, js.fileName, js.fileType, js.fileSize, IDENTITY(js.jobTitle))';
+```
+
+`IDENTITY(js.jobTitle)` returns the FK id as a scalar without joining/loading `JobTitle`. Pair with a `?int $jobTitleId` parameter on the DTO constructor.
+
+### Two related DAO methods, one entity
+
+The convention is to have **both** a partial-DTO method (for lists) **and** a full-entity method (for the download / picture-serve endpoint that actually needs the blob). See `EmployeeAttachmentDao`:
+
+```php
+public function getEmployeeAttachments(int $empNumber, string $screen): array
+{
+    // returns PartialEmployeeAttachment[] — for the list / table UI
+}
+
+public function getEmployeeAttachment(int $empNumber, int $attachId, ?string $screen = null): ?EmployeeAttachment
+{
+    // returns the FULL entity including the blob — for the download endpoint
+}
+
+public function getPartialEmployeeAttachment(int $empNumber, int $attachId, ?string $screen): ?PartialEmployeeAttachment
+{
+    // returns the partial DTO for a single attachment — for edit-form metadata that doesn't need the file
+}
+```
+
+The single-record full fetch goes through `findOneBy()` and gets the entity (and the blob). The list goes through the partial projection. **The DAO API exposes both shapes** because the consumer knows which it needs.
+
+### `EmpPicture` — the orthogonal "fetch blob via dedicated endpoint with ETag caching" pattern
+
+For `EmpPicture` (employee profile photo), the blob isn't fetched in any list endpoint at all. The list endpoints return just the metadata, and the picture itself is served by a **dedicated REST endpoint** (`/api/v2/pim/employees/{empNumber}/picture`) with **ETag-based HTTP caching** (see `rest-endpoints` for `ETagHelperTrait` and the file-controller pattern). Browsers cache the picture by ETag and only re-fetch when it changes. The Vue side embeds `<img src="…/picture">` and lets HTTP do the caching.
+
+This is the better pattern when the blob is shown in the UI on every row (avatar, thumbnail) — projecting to a partial DTO solves the list-query cost, but the browser still needs the binary somehow. The dedicated-endpoint + ETag approach lets list responses stay lean *and* lets the browser cache binaries individually.
+
+For attachments that are downloaded on demand (employee documents, claim receipts), the partial-DTO list + on-demand full-entity fetch is enough — the binary is only paid for when the user clicks download.
+
 ## Pagination — use `Paginator` for counts
 
 Counts on **joined** queries can't be done by replacing `SELECT` with `COUNT(*)` — duplicates from JOIN/DISTINCT throw the count off. Doctrine's `Paginator` handles this correctly:
@@ -632,6 +750,61 @@ $entities = array_column($rows, 0);
 
 Use this pattern when two DAO methods need 90% of the same query — extract the common build into a `QueryBuilderWrapper`-returning method, and let each caller specialize.
 
+## Recipe 7 — Listing entities with blob columns via a partial DTO
+
+When the entity has a `type="blob"` column (file content, image bytes), **never let it into the list query**. Define a partial DTO with the non-blob columns, project to it with `NEW … (…)`, and keep the full-entity fetch reserved for the download/serve endpoint.
+
+```php
+// 1. Partial DTO with constructor matching the SELECT column order
+namespace OrangeHRM\X\Dto;
+
+class PartialWidgetAttachment
+{
+    public function __construct(
+        private int $id,
+        private string $filename,
+        private int $size,
+        private string $fileType,
+        private ?int $uploaderId,                  // IDENTITY() of an FK
+    ) {}
+
+    public function getId(): int             { return $this->id; }
+    public function getFilename(): string    { return $this->filename; }
+    public function getSize(): int           { return $this->size; }
+    public function getFileType(): string    { return $this->fileType; }
+    public function getUploaderId(): ?int    { return $this->uploaderId; }
+}
+
+// 2. DAO with paired partial-list + full-fetch methods
+namespace OrangeHRM\X\Dao;
+
+use OrangeHRM\Core\Dao\BaseDao;
+use OrangeHRM\Entity\WidgetAttachment;
+use OrangeHRM\X\Dto\PartialWidgetAttachment;
+
+class WidgetAttachmentDao extends BaseDao
+{
+    public function getAttachmentsForWidget(int $widgetId): array
+    {
+        $select = 'NEW ' . PartialWidgetAttachment::class
+                . '(a.id, a.filename, a.size, a.fileType, IDENTITY(a.uploader))';
+
+        return $this->createQueryBuilder(WidgetAttachment::class, 'a')
+            ->select($select)
+            ->where('a.widget = :w')->setParameter('w', $widgetId)
+            ->getQuery()->execute();
+    }
+
+    public function getAttachmentById(int $id): ?WidgetAttachment
+    {
+        // full entity including the blob — for the download endpoint
+        return $this->getRepository(WidgetAttachment::class)->find($id);
+    }
+}
+```
+
+The list method returns a slim DTO array; the download method returns the full entity (with the blob loaded). Don't accidentally use `find()` to populate a list — that hydrates blobs and tanks performance on large attachment sets.
+
 ---
 
 # Checklists
@@ -663,6 +836,16 @@ Use this pattern when two DAO methods need 90% of the same query — extract the
 - [ ] Never swallow the original exception — always rethrow (or wrap)
 - [ ] Don't use `EntityManager::transactional()` — stick to explicit begin/commit/rollback
 
+## List an entity that has a blob column
+
+- [ ] Define a `Partial<EntityName>` DTO in `<Plugin>/Dto/` with constructor params for the non-blob columns only
+- [ ] Constructor parameter order must match the SELECT column order (positional, not named)
+- [ ] DAO list method uses `select('NEW \\<FQCN>(col1, col2, …)')` to project — blob column never appears in SELECT
+- [ ] Use `IDENTITY(a.relatedEntity)` to select an FK id without joining/hydrating the related entity
+- [ ] Keep a paired full-entity fetch method (`find()` or QB) for the download/serve endpoint that actually needs the blob
+- [ ] Avoid mixing list-with-partial and download-with-full into one method — the API contract is clearer with two
+- [ ] Consider the `EmpPicture` pattern instead (dedicated REST endpoint + ETag caching) when the binary shows in the UI on every row
+
 ## Debug a failing query
 
 - [ ] **Wrong count vs. list** — verify both go through the same paginator-builder method
@@ -682,3 +865,6 @@ Use this pattern when two DAO methods need 90% of the same query — extract the
 - **`Repository::findOneBy` with `null` criteria value** is `WHERE column IS NULL`, not `WHERE column = NULL` (which never matches). Doctrine handles this correctly, but be aware if you're translating SQL mentally.
 - **Caching `EntityRepository` instances across requests** doesn't work — DAOs are constructed per-request. The repository is fetched fresh from the EM each call.
 - **`$q->expr()->literal($userInput)`** is a SQL injection if `$userInput` isn't sanitized — `literal()` just quotes the value as-is. Use named parameters instead for user input; reserve `literal()` for compile-time constants (like the space in `concat(..., literal(' '), ...)`).
+- **`getRepository(Foo::class)->findAll()` (or any `find*` method) on an entity with a `blob` column hydrates every blob** for every returned row. The repository methods have no way to skip columns — they always materialize the full entity. For any list query against an entity with a blob, **use a `Partial<Foo>` DTO with `NEW … (…)` projection**, never `findAll` / `findBy`. Symptom: memory spikes, slow list endpoints, occasional OOM on big attachment tables.
+- **`NEW … (…)` constructor args are positional**, not name-based. Mismatching the SELECT column order against the constructor parameter order produces a constructed object with values in the wrong fields — types might even match by coincidence, so the bug doesn't always throw. Always cross-check the SELECT against the constructor signature.
+- **`IDENTITY(a.relatedEntity)` returns the FK id only**, not the entity. Useful for partial DTOs — pair with a `?int $fkId` constructor parameter. Don't try to pass it where the parent entity is expected; you'll just get the integer.

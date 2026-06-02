@@ -98,9 +98,44 @@ Tell the user setup is complete and **flag the sync caveat**: any edit to `.agen
 
 ## § 3 Cursor setup
 
-> **To be added when the team adopts Cursor.** Likely path: write `.cursor/rules/<name>.mdc` files that reference the substantive content in `.agents/skills/<name>/SKILL.md`, or copy/transform the content into Cursor's rule format. Cursor's discovery model differs from Claude Code's "auto-load by description" — Cursor rules are always-on or globbed by file path. The trigger metadata from each SKILL.md's frontmatter doesn't translate directly; the rules need to be authored separately.
+Cursor discovers project rules under `.cursor/rules/*.mdc` and custom slash commands under `.cursor/commands/*.md`. Both are **generated bridges** (gitignored, like the `.claude/` bridges) — run this setup once per clone, then re-run `/agent-sync` after edits under `.agents/` (see "Keeping in sync" below for when that's actually needed).
 
-If the team is adopting Cursor now and this section hasn't been written, ask the user how they'd like to proceed.
+The rules are **thin pointers**, not content copies: each `.mdc` carries the skill's `description` from the SKILL.md frontmatter (with `alwaysApply: false`, so Cursor's "Agent Requested" mechanism decides relevance from the description — mirroring Claude Code's auto-load semantics) plus a body instructing the agent to read the real `.agents/skills/<name>/SKILL.md` before proceeding. The SKILL.md stays the single source of truth.
+
+### Generate the bridges
+
+If you have a shell available, run from the repo root:
+
+```bash
+mkdir -p .cursor/rules .cursor/commands
+rm -f .cursor/rules/*.mdc
+for d in .agents/skills/*/; do
+  name=$(basename "$d")
+  [ -f "${d}SKILL.md" ] || continue
+  desc=$(awk '/^description:/{sub(/^description: */,""); print; exit}' "${d}SKILL.md")
+  {
+    printf -- '---\ndescription: %s\nalwaysApply: false\n---\n\n' "$desc"
+    printf '# %s (OrangeHRM skill pointer)\n\n' "$name"
+    printf 'This rule is a pointer, not the content. Before doing the task, read the full skill document at:\n\n'
+    printf '`.agents/skills/%s/SKILL.md`\n\n' "$name"
+    printf 'That file is the source of truth for this topic. Apply its conventions to your changes.\n'
+  } > ".cursor/rules/${name}.mdc"
+done
+rm -f .cursor/commands/*.md
+cp .agents/commands/*.md .cursor/commands/
+```
+
+No shell (or it fails)? Do the equivalent with your file tools: for each `.agents/skills/<name>/SKILL.md`, read the single-line `description:` from the frontmatter and write `.cursor/rules/<name>.mdc` with that description, `alwaysApply: false`, and the pointer body shown above; then copy every `.agents/commands/*.md` into `.cursor/commands/`.
+
+### Verify
+
+1. `ls .cursor/rules/*.mdc` — count must match the skill directories under `.agents/skills/` (25 at time of writing; `README.md` is not a skill).
+2. Open one rule (e.g. `.cursor/rules/services.mdc`) — the description should match the source SKILL.md frontmatter and the body should point at the right path.
+3. `.cursor/commands/` should contain the same `.md` files as `.agents/commands/`.
+
+### Keeping in sync
+
+Because the rules are pointers, **SKILL.md body edits flow through automatically** — Cursor reads the pointed-to file at use time. Regeneration is only needed when a skill is added, removed, or renamed, or when a frontmatter `description` changes, or when a command file changes. The `/agent-sync` command handles `.cursor/` too (it detects the directory), so running it after any `.agents/` edit is always safe.
 
 ---
 
@@ -135,11 +170,12 @@ If any check fails, **stop and tell the user** rather than continuing silently.
 
 The source of truth is **always under `.agents/`** — edit `.agents/skills/<name>/SKILL.md` or `.agents/commands/<name>.md`, not the matching files under `.claude/` (where they might be a symlink or a copy).
 
-- **Linux / macOS / WSL2**: symlinks keep everything in sync automatically. No action needed after edit.
-- **Windows native**: run `/agent-sync` in Claude Code (or manually copy `.agents/skills/*` → `.claude/skills/*` and `.agents/commands/*` → `.claude/commands/*`) so Claude Code sees the updated content.
+- **Claude Code on Linux / macOS / WSL2**: symlinks keep everything in sync automatically. No action needed after edit.
+- **Claude Code on Windows native**: run `/agent-sync` (or manually copy `.agents/skills/*` → `.claude/skills/*` and `.agents/commands/*` → `.claude/commands/*`) so Claude Code sees the updated content.
+- **Cursor (any OS)**: SKILL.md body edits need nothing (rules are pointers). Run `/agent-sync` after adding/removing/renaming a skill, changing a frontmatter `description`, or editing a command.
 
 ---
 
 ## When this file changes
 
-If the team adopts a new tool (e.g. Cursor) or the layout shifts, update this file. Agents read it once per clone, so changes here change how new clones bootstrap. Existing clones may need re-setup.
+If the team adopts a new tool (e.g. Windsurf, Zed) or the layout shifts, update this file. Agents read it once per clone, so changes here change how new clones bootstrap. Existing clones may need re-setup.

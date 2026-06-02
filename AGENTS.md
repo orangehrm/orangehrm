@@ -7,11 +7,11 @@ Primary instruction document for AI coding agents working in this repository. Cl
 This repository ships **25 project-level skills** + **slash commands** under `.agents/`:
 
 - **Skills** — architecture/convention/recipe documents that auto-load by task description. See [`.agents/skills/README.md`](.agents/skills/README.md) for the catalog.
-- **Slash commands** — `.agents/commands/<name>.md` files invoked as `/<name>` in Claude Code (or the equivalent in other tools). Current commands: `/ohrm-onboard` (new-dev setup walkthrough), `/agent-sync` (re-sync `.claude/` copies on Windows after editing).
+- **Slash commands** — `.agents/commands/<name>.md` files invoked as `/<name>` in Claude Code (or the equivalent in other tools). Current commands: `/ohrm-onboard` (new-dev setup walkthrough), `/agent-sync` (re-sync the generated `.claude/` and `.cursor/` bridges after editing).
 
-> **If skills or commands aren't loading in Claude Code on your machine**, run the one-time setup: prompt the agent with *"Please follow `.agents/SETUP.md` to set yourself up for this project."* The setup creates symlinks (Linux/macOS/WSL2) or copies (Windows) from `.claude/skills/` and `.claude/commands/` → the matching `.agents/` paths, since Claude Code only auto-discovers under `.claude/`.
+> **If skills or commands aren't loading in your tool**, run the one-time setup: prompt the agent with *"Please follow `.agents/SETUP.md` to set yourself up for this project."* For **Claude Code** it creates symlinks (Linux/macOS/WSL2) or copies (Windows) from `.claude/skills/` and `.claude/commands/` → the matching `.agents/` paths, since Claude Code only auto-discovers under `.claude/`. For **Cursor** it generates thin pointer rules under `.cursor/rules/` (one `.mdc` per skill, Agent-Requested by description) plus `.cursor/commands/` copies. Codex and other AGENTS.md-aware tools need no setup — they read `.agents/` in place.
 
-The source of truth is always under `.agents/` — don't edit files in `.claude/skills/` or `.claude/commands/`.
+The source of truth is always under `.agents/` — don't edit files in `.claude/skills/`, `.claude/commands/`, or `.cursor/rules/`.
 
 ## What this repo is
 
