@@ -24,6 +24,16 @@ OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WAR
 
 - For further information on how to use the product please refer to the User Guides, Tutorial videos, and FAQs available on [Help Portal](https://starterhelp.orangehrm.com)
 
+## Using AI coding agents
+
+This repository ships project-level documentation tuned for AI coding agents and other AGENTS.md-aware tools — architecture skills, conventions, and onboarding workflows live under [`.agents/`](.agents/). The primary instruction document is [`AGENTS.md`](AGENTS.md); the skill files are in [`.agents/skills/`](.agents/skills/) (see [the catalog](.agents/skills/README.md)).
+
+**First time using a coding agent on this repo?** Prompt your agent with:
+
+> Please follow `.agents/SETUP.md` to set yourself up for this project.
+
+The setup script identifies the agent + your OS and configures the right local discovery path (symlinks on Linux/macOS, file copies on Windows). Once loaded you may have to start a new session.
+
 ## OrangeHRM Mobile App
 
 <a href="https://play.google.com/store/apps/details?id=com.orangehrm.opensource" target="_blank">

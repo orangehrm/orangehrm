@@ -1,6 +1,17 @@
-# CLAUDE.md
+# AGENTS.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+Primary instruction document for AI coding agents working in this repository. Claude Code reads this via the root `CLAUDE.md → @AGENTS.md` import; AGENTS.md-aware tools (Cursor, Codex, others) discover it directly.
+
+## Skills and commands
+
+This repository ships **25 project-level skills** + **slash commands** under `.agents/`:
+
+- **Skills** — architecture/convention/recipe documents that auto-load by task description. See [`.agents/skills/README.md`](.agents/skills/README.md) for the catalog.
+- **Slash commands** — `.agents/commands/<name>.md` files invoked as `/<name>` in Claude Code (or the equivalent in other tools). Current commands: `/ohrm-onboard` (new-dev setup walkthrough), `/agent-sync` (re-sync the generated `.claude/` and `.cursor/` bridges after editing).
+
+> **If skills or commands aren't loading in your tool**, run the one-time setup: prompt the agent with *"Please follow `.agents/SETUP.md` to set yourself up for this project."*. Once loaded you may have to start a new session. For **Claude Code** it creates symlinks (Linux/macOS/WSL2) or copies (Windows) from `.claude/skills/` and `.claude/commands/` → the matching `.agents/` paths, since Claude Code only auto-discovers under `.claude/`. For **Cursor** it generates thin pointer rules under `.cursor/rules/` (one `.mdc` per skill, Agent-Requested by description) plus `.cursor/commands/` copies. Codex and other AGENTS.md-aware tools need no setup — they read `.agents/` in place.
+
+The source of truth is always under `.agents/` — don't edit files in `.claude/skills/`, `.claude/commands/`, or `.cursor/rules/`.
 
 ## What this repo is
 
