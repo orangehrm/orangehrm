@@ -1,0 +1,50 @@
+Subunit:
+  0: { id: 1, name: 'Organization', unitId: 'company', description: 'root',        lft: 1, rgt: 8, level: 0 }
+  1: { id: 2, name: 'Engineering',  unitId: 'eng',     description: 'engineering', lft: 2, rgt: 3, level: 1 }
+  2: { id: 3, name: 'People Ops',   unitId: 'po',      description: 'people ops',  lft: 4, rgt: 5, level: 1 }
+  3: { id: 4, name: 'Sales',        unitId: 'sales',   description: 'sales',       lft: 6, rgt: 7, level: 1 }
+
+EmployeeTerminationRecord:
+  - { id: 1, reason_id: 1, termination_date: '2025-12-31', note: 'left' }
+
+Employee:
+  - { emp_number: 1, employee_id: 'E001', emp_firstname: 'Alice',  emp_lastname: 'Avery',  emp_middle_name: '', work_station: 2 } # Engineering
+  - { emp_number: 2, employee_id: 'E002', emp_firstname: 'Bob',    emp_lastname: 'Brown',  emp_middle_name: '', work_station: 3 } # People Ops
+  - { emp_number: 3, employee_id: 'E003', emp_firstname: 'Carol',  emp_lastname: 'Clark',  emp_middle_name: '', work_station: 4 } # Sales
+  - { emp_number: 4, employee_id: 'E004', emp_firstname: 'Dave',   emp_lastname: 'Dean',   emp_middle_name: '', work_station: 2, termination_id: 1 } # terminated
+  - { emp_number: 5, employee_id: 'E005', emp_firstname: 'Eve',    emp_lastname: 'Evans',  emp_middle_name: '', work_station: 2 } # Engineering
+  - { emp_number: 6, employee_id: 'E006', emp_firstname: 'Frank',  emp_lastname: 'Foster', emp_middle_name: '' }                  # no subDivision
+
+LeaveType:
+  - { id: 1, name: 'Annual',  situational: 0, deleted: 0 }
+  - { id: 2, name: 'Casual',  situational: 0, deleted: 0 }
+  - { id: 3, name: 'Medical', situational: 0, deleted: 0 }
+
+LeaveRequest:
+  - { id: 1, leave_type_id: 1, date_applied: '2026-05-01', emp_number: 1 }
+  - { id: 2, leave_type_id: 2, date_applied: '2026-05-01', emp_number: 2 }
+  - { id: 3, leave_type_id: 1, date_applied: '2026-05-01', emp_number: 3 }
+  - { id: 4, leave_type_id: 1, date_applied: '2026-05-01', emp_number: 4 }
+  - { id: 5, leave_type_id: 3, date_applied: '2026-05-01', emp_number: 5 }
+  - { id: 6, leave_type_id: 1, date_applied: '2026-05-01', emp_number: 6 }
+  - { id: 7, leave_type_id: 1, date_applied: '2026-05-01', emp_number: 1 } # for "two leaves same day"
+  - { id: 8, leave_type_id: 1, date_applied: '2026-05-01', emp_number: 1 } # for "other date"
+
+# status legend (Leave entity constants):
+#   1 = PENDING APPROVAL
+#   2 = APPROVED         ← included
+#   3 = TAKEN            ← included
+#   4 = CANCELLED
+#   5 = REJECTED
+Leave:
+  # On target date 2026-06-01:
+  - { id: 1,  date: '2026-06-01', length_hours: '8.00', length_days: '1.0000', status: 2, leave_request_id: 1, leave_type_id: 1, emp_number: 1, start_time: '00:00:00', end_time: '00:00:00', duration_type: 0 } # Alice Engineering, APPROVED Annual
+  - { id: 2,  date: '2026-06-01', length_hours: '8.00', length_days: '1.0000', status: 3, leave_request_id: 2, leave_type_id: 2, emp_number: 2, start_time: '00:00:00', end_time: '00:00:00', duration_type: 0 } # Bob People Ops, TAKEN Casual
+  - { id: 3,  date: '2026-06-01', length_hours: '4.00', length_days: '0.5000', status: 1, leave_request_id: 3, leave_type_id: 1, emp_number: 3, start_time: '00:00:00', end_time: '00:00:00', duration_type: 0 } # Carol Sales, PENDING → excluded
+  - { id: 4,  date: '2026-06-01', length_hours: '8.00', length_days: '1.0000', status: 2, leave_request_id: 4, leave_type_id: 1, emp_number: 4, start_time: '00:00:00', end_time: '00:00:00', duration_type: 0 } # Dave terminated, APPROVED → excluded
+  - { id: 5,  date: '2026-06-01', length_hours: '4.00', length_days: '0.5000', status: 2, leave_request_id: 5, leave_type_id: 3, emp_number: 5, start_time: '00:00:00', end_time: '00:00:00', duration_type: 0 } # Eve Engineering, APPROVED Medical
+  - { id: 6,  date: '2026-06-01', length_hours: '8.00', length_days: '1.0000', status: 2, leave_request_id: 6, leave_type_id: 1, emp_number: 6, start_time: '00:00:00', end_time: '00:00:00', duration_type: 0 } # Frank (no subunit), APPROVED Annual
+  # Alice's second approved leave on the same day → must be deduplicated.
+  - { id: 7,  date: '2026-06-01', length_hours: '4.00', length_days: '0.5000', status: 2, leave_request_id: 7, leave_type_id: 1, emp_number: 1, start_time: '13:00:00', end_time: '17:00:00', duration_type: 2 }
+  # Different date — not "today".
+  - { id: 8,  date: '2026-06-02', length_hours: '8.00', length_days: '1.0000', status: 2, leave_request_id: 8, leave_type_id: 1, emp_number: 1, start_time: '00:00:00', end_time: '00:00:00', duration_type: 0 }

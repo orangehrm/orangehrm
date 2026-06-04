@@ -19,21 +19,50 @@
 
 namespace OrangeHRM\Slack\Api\Model;
 
+use OrangeHRM\Core\Api\V2\Serializer\ModelConstructorArgsAwareInterface;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 
-class SlackConfigModel implements Normalizable
+/**
+ * @OA\Schema(
+ *     schema="Slack-ConfigModel",
+ *     type="object",
+ *     description="Singleton Slack config: global on/off + the supported event-type identifiers.",
+ *     @OA\Property(property="enable", type="boolean", description="Global on/off (backed by hs_hr_config).", example=true),
+ *     @OA\Property(
+ *         property="eventTypes",
+ *         type="array",
+ *         description="Identifiers of supported notification events. Drives the UI dropdown; adding a new event type is a backend-only change.",
+ *         @OA\Items(type="string", enum={"BIRTHDAY", "LEAVE_TODAY"})
+ *     )
+ * )
+ *
+ * Serialises the singleton Slack config payload:
+ *  - `enable`     : global on/off (from hs_hr_config)
+ *  - `eventTypes` : list of supported event-type identifiers (driven by
+ *                   SlackRegistration::EVENT_TYPES) so the UI no longer
+ *                   hard-codes them — adding a new event in a future release
+ *                   is a backend-only change.
+ */
+class SlackConfigModel implements Normalizable, ModelConstructorArgsAwareInterface
 {
     private bool $enabled;
+    /** @var string[] */
+    private array $eventTypes;
 
-    public function __construct(bool $enabled)
+    /**
+     * @param string[] $eventTypes
+     */
+    public function __construct(bool $enabled, array $eventTypes = [])
     {
         $this->enabled = $enabled;
+        $this->eventTypes = $eventTypes;
     }
 
     public function toArray(): array
     {
         return [
             'enable' => $this->enabled,
+            'eventTypes' => $this->eventTypes,
         ];
     }
 }

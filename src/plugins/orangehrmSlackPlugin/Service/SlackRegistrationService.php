@@ -174,20 +174,33 @@ class SlackRegistrationService
             : $plain;
     }
 
-    public static function maskWebhookUrl(?string $url): ?string
+    /**
+     * Mask a webhook URL for display. The shape of the secret-bearing portion
+     * is provider-specific (path segment for Slack, query string for Google
+     * Chat, …) so each provider implements its own {@see WebhookProviderInterface::maskUrl()}.
+     *
+     * Pass the registration's `provider` column as $providerId when one is
+     * available (the normal list-read path). For callers that don't know the
+     * provider — e.g. test-webhook with a just-typed URL not yet persisted —
+     * the dispatcher tries every registered provider until one's `validateUrl`
+     * accepts the input, then masks via that provider. If nothing matches
+     * we fall back to the safe "drop the last path segment" rule.
+     */
+    public static function maskWebhookUrl(?string $url, ?string $providerId = null): ?string
     {
         if ($url === null || $url === '') {
             return null;
         }
-        if (preg_match('#^(https://hooks\.slack\.com/services/[A-Z0-9]+/[A-Z0-9]+)/.+$#', $url, $m)) {
-            return $m[1] . '/…';
+        $registry = new \OrangeHRM\Slack\Service\Webhook\WebhookProviderRegistry();
+        if ($providerId !== null && $registry->has($providerId)) {
+            return $registry->get($providerId)->maskUrl($url);
         }
-        // Generic fallback: keep up to the second-last segment.
-        $parts = explode('/', $url);
-        if (count($parts) > 2) {
-            array_pop($parts);
-            return implode('/', $parts) . '/…';
+        // Provider not specified — find one that recognises the URL shape.
+        foreach ($registry->all() as $provider) {
+            if ($provider->validateUrl($url)) {
+                return $provider->maskUrl($url);
+            }
         }
-        return '…';
+        return \OrangeHRM\Slack\Service\Webhook\SlackWebhookProvider::genericMask($url);
     }
 }

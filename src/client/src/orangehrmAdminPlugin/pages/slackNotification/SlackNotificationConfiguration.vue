@@ -19,7 +19,7 @@
 
 <template>
   <div class="orangehrm-background-container">
-    <!-- Single config card: page title + Enable toggle + registration form. -->
+    <!-- Single merged card: page title + Enable toggle + form + registrations table. -->
     <div class="orangehrm-card-container orangehrm-slack-config-card">
       <div class="orangehrm-header-container">
         <oxd-text tag="h6" class="orangehrm-main-title">
@@ -69,44 +69,56 @@
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
-                v-model="form.webhookUrl"
-                :rules="rules.webhookUrl"
-                :placeholder="
-                  form.hasStoredWebhookUrl ? maskedWebhookPlaceholder : null
-                "
-                label="Slack Incoming Webhook URL"
-                :required="!form.hasStoredWebhookUrl"
+                v-model="form.provider"
+                type="select"
+                :options="providerOptions"
+                :show-empty-selector="false"
+                :rules="rules.provider"
+                label="Platform"
+                required
               />
-              <oxd-text class="orangehrm-input-hint" tag="p">
-                Create an Incoming Webhook in your Slack workspace and paste the
-                URL here. Must be HTTPS.
-              </oxd-text>
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
-                v-model="form.channelLabel"
-                :rules="rules.channelLabel"
-                label="Slack channel name (optional)"
+                v-model="form.webhookUrl"
+                :rules="rules.webhookUrl"
+                :placeholder="
+                  form.hasStoredWebhookUrl
+                    ? maskedWebhookPlaceholder
+                    : webhookUrlPlaceholder
+                "
+                :label="webhookUrlLabel"
+                :required="!form.hasStoredWebhookUrl"
               />
               <oxd-text class="orangehrm-input-hint" tag="p">
-                Label only (e.g. #hr-team). The webhook URL determines the
-                actual channel.
+                {{ webhookUrlHint }}
               </oxd-text>
             </oxd-grid-item>
 
             <oxd-grid-item class="--offset-row-2">
               <oxd-input-field
-                v-model="form.subunits"
-                type="multiselect"
-                :options="subunitOptions"
-                label="Sub Units"
+                v-model="form.channelLabel"
+                :rules="rules.channelLabel"
+                label="Channel name (optional)"
               />
               <oxd-text class="orangehrm-input-hint" tag="p">
-                Filter by subunit(s): leave empty to include all employees, or
-                pick one or more subunits to limit notifications.
+                Label only (e.g. #hr-team). The webhook URL determines the
+                actual destination.
               </oxd-text>
             </oxd-grid-item>
-
+            <oxd-grid-item>
+              <oxd-input-field
+                v-model="form.subunit"
+                type="select"
+                :options="subunitOptions"
+                label="Sub Unit"
+              />
+              <oxd-text class="orangehrm-input-hint" tag="p">
+                Filter by subunit: leave empty to include all employees, or pick
+                one to limit notifications. To notify the same channel for
+                multiple subunits, register a separate row per subunit.
+              </oxd-text>
+            </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
                 v-model="form.timezone"
@@ -121,7 +133,8 @@
                 IANA timezone for this notification.
               </oxd-text>
             </oxd-grid-item>
-            <oxd-grid-item>
+
+            <oxd-grid-item class="--offset-row-3">
               <oxd-input-field
                 v-model="form.sendTime"
                 type="time"
@@ -163,7 +176,8 @@
       </oxd-form>
     </div>
 
-    <!-- Registration table is its own card, visually separated from the config card. -->
+    <!-- Registration table — its own card, visually separated from the form
+         card above. The inter-card gap + box-shadow come from the SCSS. -->
     <div class="orangehrm-card-container orangehrm-slack-table-card">
       <oxd-text tag="p" class="orangehrm-subtitle">
         Notification registrations
@@ -214,6 +228,20 @@
       confirm-button-type="label-warn"
       icon="warning"
     ></confirmation-dialog>
+
+    <!-- Send-Test confirmation — guards the row-icon path only. The form-level
+         "Send test" button is contextual to an admin actively editing a row,
+         so no prompt is needed there. The row icon, by contrast, can be
+         tapped by accident from the table; the prompt prevents that. -->
+    <confirmation-dialog
+      ref="sendTestDialog"
+      title="Send a test message?"
+      subtitle="This will deliver a sample notification to the channel for this registration. It works regardless of whether the row is active."
+      confirm-label="Send test"
+      cancel-label="Cancel"
+      confirm-button-type="label-success"
+      icon="send-fill"
+    ></confirmation-dialog>
   </div>
 </template>
 
@@ -233,24 +261,73 @@ import ConfirmationDialog from '@/core/components/dialogs/ConfirmationDialog';
 const SLACK_WEBHOOK_URL_REGEX =
   /^https:\/\/hooks\.slack\.com\/services\/[A-Z0-9]+\/[A-Z0-9]+\/[A-Za-z0-9]+$/;
 
-const validSlackWebhookUrl = function (value) {
-  if (!value) return true;
-  return (
-    SLACK_WEBHOOK_URL_REGEX.test(value) ||
-    'Should be a valid Slack Incoming Webhook URL (https://hooks.slack.com/services/…)'
-  );
-};
+const GOOGLE_CHAT_WEBHOOK_URL_REGEX =
+  /^https:\/\/chat\.googleapis\.com\/v1\/spaces\/[A-Za-z0-9_-]+\/messages\?\S+$/;
+
+const TEAMS_WEBHOOK_URL_REGEX =
+  /^https:\/\/(?:[a-z0-9-]+\.)+logic\.azure\.com(:\d+)?\/workflows\/[a-z0-9-]+\/triggers\/[a-zA-Z0-9_]+\/paths\/invoke\?\S+$/;
+
+// Provider-aware URL validator. Same provider-id strings as the backend
+// (SlackRegistration::PROVIDER_*). Adding a 4th platform = new regex + new
+// branch — keep the validator tight, the platform list lives in `providerOptions`.
+const validWebhookUrl = (providerId) =>
+  function (value) {
+    if (!value) return true;
+    if (providerId === 'google_chat') {
+      if (!GOOGLE_CHAT_WEBHOOK_URL_REGEX.test(value)) {
+        return 'Should be a valid Google Chat webhook URL (https://chat.googleapis.com/v1/spaces/…?key=…&token=…)';
+      }
+      try {
+        const u = new URL(value);
+        if (!u.searchParams.get('key') || !u.searchParams.get('token')) {
+          return 'Google Chat webhook URL must include both `key` and `token` query parameters.';
+        }
+      } catch (e) {
+        return 'Invalid URL.';
+      }
+      return true;
+    }
+    if (providerId === 'teams') {
+      if (!TEAMS_WEBHOOK_URL_REGEX.test(value)) {
+        return 'Should be a valid Microsoft Teams Power Automate workflow URL (https://prod-XX.{region}.logic.azure.com/workflows/…/triggers/manual/paths/invoke?…&sig=…)';
+      }
+      try {
+        const u = new URL(value);
+        if (!u.searchParams.get('sig')) {
+          return 'Microsoft Teams workflow URL must include the `sig` query parameter.';
+        }
+      } catch (e) {
+        return 'Invalid URL.';
+      }
+      return true;
+    }
+    return (
+      SLACK_WEBHOOK_URL_REGEX.test(value) ||
+      'Should be a valid Slack Incoming Webhook URL (https://hooks.slack.com/services/…)'
+    );
+  };
 
 /**
- * Client-side mirror of SlackRegistrationService::maskWebhookUrl(). Lets us compare a
- * just-typed full URL against the masked URL stored on existing registrations.
+ * Client-side mirror of SlackRegistrationService::maskWebhookUrl(). Handles
+ * Slack, Google Chat and Teams URL shapes — used by duplicate detection to
+ * compare a just-typed full URL against the masked URL stored on existing
+ * registrations. Output must match the corresponding provider's `maskUrl()`
+ * byte-for-byte (see WebhookProviderInterface::maskUrl).
  */
 const maskWebhookUrl = function (url) {
   if (!url) return null;
-  const m = url.match(
+  const slack = url.match(
     /^(https:\/\/hooks\.slack\.com\/services\/[A-Z0-9]+\/[A-Z0-9]+)\/.+$/,
   );
-  if (m) return m[1] + '/…';
+  if (slack) return slack[1] + '/…';
+  const gchat = url.match(
+    /^(https:\/\/chat\.googleapis\.com\/v1\/spaces\/[A-Za-z0-9_-]+\/messages)\?.+$/,
+  );
+  if (gchat) return gchat[1] + '?…';
+  const teams = url.match(
+    /^(https:\/\/(?:[a-z0-9-]+\.)+logic\.azure\.com(?::\d+)?\/workflows\/[a-z0-9-]+\/triggers\/[a-zA-Z0-9_]+\/paths\/invoke)\?.+$/,
+  );
+  if (teams) return teams[1] + '?…';
   const parts = url.split('/');
   if (parts.length > 2) {
     parts.pop();
@@ -262,10 +339,15 @@ const maskWebhookUrl = function (url) {
 const emptyForm = () => ({
   id: null,
   eventType: null,
+  provider: null,
   webhookUrl: '',
   hasStoredWebhookUrl: false,
   channelLabel: '',
-  subunits: [],
+  // Single-select per the June 3 decision: one row = one subunit (or none =
+  // all employees). For multi-subunit coverage, admins register multiple rows.
+  // The backend still persists subunits via the join table, so this field
+  // serialises as `subunitIds: [...]` (0 or 1 element) on the wire.
+  subunit: null,
   timezone: null,
   sendTime: '09:00',
   active: true,
@@ -309,9 +391,17 @@ export default {
   data() {
     return {
       isLoading: false,
-      maskedWebhookPlaceholder:
-        'https://hooks.slack.com/services/…/…/… (saved — leave blank to keep)',
       globalEnabled: false,
+
+      // Provider catalog — IDs match backend SlackRegistration::PROVIDER_*.
+      // Adding a 4th platform (Discord, …) means appending here AND
+      // registering it on the backend WebhookProviderRegistry — both ends
+      // converge on the same provider-id string.
+      providerOptions: [
+        {id: 'slack', label: 'Slack'},
+        {id: 'google_chat', label: 'Google Chat'},
+        {id: 'teams', label: 'Microsoft Teams'},
+      ],
 
       // Form state — form is always visible. Mode flips between 'add' (blank) and
       // 'edit' (populated from a table row).
@@ -338,11 +428,12 @@ export default {
         {
           name: 'eventType',
           title: 'Notification type',
-          style: {flex: '18%'},
+          style: {flex: '14%'},
         },
-        {name: 'channelLabel', title: 'Channel', style: {flex: '13%'}},
-        {name: 'subunit', title: 'Sub Unit', style: {flex: '15%'}},
-        {name: 'timezone', title: 'Timezone', style: {flex: '15%'}},
+        {name: 'platform', title: 'Platform', style: {flex: '11%'}},
+        {name: 'channelLabel', title: 'Channel', style: {flex: '12%'}},
+        {name: 'subunit', title: 'Sub Unit', style: {flex: '13%'}},
+        {name: 'timezone', title: 'Timezone', style: {flex: '14%'}},
         {name: 'sendTime', title: 'Send time', style: {flex: '9%'}},
         {
           name: 'statusToggle',
@@ -364,12 +455,15 @@ export default {
 
       rules: {
         eventType: [required],
+        provider: [required],
         timezone: [required],
         sendTime: [required, validTimeFormat],
         webhookUrl: [
           (v) => (this.form.hasStoredWebhookUrl ? true : required(v)),
           shouldNotExceedCharLength(512),
-          validSlackWebhookUrl,
+          // Closure captures `this` so the regex switches when the Platform
+          // dropdown changes — re-evaluated on every form validation pass.
+          (v) => validWebhookUrl(this.form.provider?.id || 'slack')(v),
         ],
         channelLabel: [shouldNotExceedCharLength(100)],
       },
@@ -381,6 +475,49 @@ export default {
       // Either we typed a URL, or we have a stored URL on an existing row
       return !!this.form.webhookUrl || !!this.form.id;
     },
+    selectedProviderId() {
+      return this.form.provider?.id || 'slack';
+    },
+    webhookUrlLabel() {
+      switch (this.selectedProviderId) {
+        case 'google_chat':
+          return 'Google Chat Webhook URL';
+        case 'teams':
+          return 'Microsoft Teams Workflow URL';
+        default:
+          return 'Slack Incoming Webhook URL';
+      }
+    },
+    webhookUrlHint() {
+      switch (this.selectedProviderId) {
+        case 'google_chat':
+          return 'Create an Incoming Webhook in your Google Chat workspace and paste the URL here. Must be HTTPS.';
+        case 'teams':
+          return 'Create a Power Automate "Post to channel" workflow with an HTTP trigger and paste the workflow URL here. Must be HTTPS.';
+        default:
+          return 'Create an Incoming Webhook in your Slack workspace and paste the URL here. Must be HTTPS.';
+      }
+    },
+    webhookUrlPlaceholder() {
+      switch (this.selectedProviderId) {
+        case 'google_chat':
+          return 'https://chat.googleapis.com/v1/spaces/…/messages?key=…&token=…';
+        case 'teams':
+          return 'https://prod-XX.{region}.logic.azure.com/workflows/…/triggers/manual/paths/invoke?…&sig=…';
+        default:
+          return 'https://hooks.slack.com/services/…/…/…';
+      }
+    },
+    maskedWebhookPlaceholder() {
+      switch (this.selectedProviderId) {
+        case 'google_chat':
+          return 'https://chat.googleapis.com/v1/spaces/…/messages?… (saved — leave blank to keep)';
+        case 'teams':
+          return 'https://…/workflows/…/triggers/manual/paths/invoke?… (saved — leave blank to keep)';
+        default:
+          return 'https://hooks.slack.com/services/…/…/… (saved — leave blank to keep)';
+      }
+    },
     tableItems() {
       return this.registrations.map((row, index) => {
         const subunitNames = (row.subunits || []).map((s) => s.name);
@@ -388,6 +525,7 @@ export default {
           id: row.id,
           index,
           eventType: this.labelFor(this.eventTypeOptions, row.eventType),
+          platform: this.labelFor(this.providerOptions, row.provider),
           channelLabel: row.channelLabel || '—',
           subunit:
             subunitNames.length === 0
@@ -404,6 +542,9 @@ export default {
   },
 
   beforeMount() {
+    // Default the form to the first provider (Slack) so the URL hint /
+    // placeholder render before the admin has interacted with the dropdown.
+    this.form.provider = this.providerOptions[0] || null;
     this.isLoading = true;
     Promise.all([
       this.timezonesHttp.getAll().then(({data}) => {
@@ -444,6 +585,9 @@ export default {
     /* ───────── add / edit form ───────── */
     resetForm() {
       this.form = emptyForm();
+      // Restore the default provider so the URL field shows the right hint
+      // / placeholder immediately after a successful save.
+      this.form.provider = this.providerOptions[0] || null;
       this.formMode = 'add';
       // Force <oxd-form> to remount with a clean slate — without this the form's
       // internal touched/dirty state survives the data wipe, and required-rule
@@ -458,13 +602,19 @@ export default {
         id: row.id,
         eventType:
           this.eventTypeOptions.find((o) => o.id === row.eventType) || null,
+        provider:
+          this.providerOptions.find((p) => p.id === row.provider) ||
+          this.providerOptions[0] ||
+          null,
         webhookUrl: '',
         hasStoredWebhookUrl: !!row.webhookUrl,
         channelLabel: row.channelLabel || '',
-        subunits: (row.subunits || []).map((s) => ({
-          id: s.id,
-          label: s.name,
-        })),
+        // Backend may still carry multiple subunits on legacy rows; surface
+        // the first one in the now-single-select dropdown. (Empty = all-emp.)
+        subunit:
+          row.subunits && row.subunits.length > 0
+            ? {id: row.subunits[0].id, label: row.subunits[0].name}
+            : null,
         timezone:
           this.timezoneOptions.find((tz) => tz.id === row.timezone) || null,
         sendTime: row.dailySendTime || '09:00',
@@ -489,7 +639,7 @@ export default {
       if (!this.form.eventType?.id) return null;
 
       const myEventType = this.form.eventType.id;
-      const mySubunitIds = (this.form.subunits || []).map((s) => s.id);
+      const mySubunitId = this.form.subunit?.id ?? null;
       // Mask the typed URL so we can compare against masked URLs already in the table.
       // On edit-without-retype, fall back to the original row's stored masked URL.
       let myMaskedUrl = null;
@@ -506,11 +656,11 @@ export default {
           if (this.formMode === 'edit' && r.id === this.form.id) return false;
           if (r.eventType !== myEventType) return false;
           if (r.webhookUrl !== myMaskedUrl) return false;
-          // If either side has no subunit filter (all-employees), or the two filters overlap,
-          // they hit the same audience → duplicate.
+          // If either side has no subunit filter (all-employees), or both target
+          // the same subunit, they hit the same audience → duplicate.
           const otherIds = (r.subunits || []).map((s) => s.id);
-          if (mySubunitIds.length === 0 || otherIds.length === 0) return true;
-          return mySubunitIds.some((id) => otherIds.includes(id));
+          if (mySubunitId === null || otherIds.length === 0) return true;
+          return otherIds.includes(mySubunitId);
         }) || null
       );
     },
@@ -532,9 +682,10 @@ export default {
     submitSave() {
       const body = {
         eventType: this.form.eventType?.id,
+        provider: this.selectedProviderId,
         webhookUrl: this.form.webhookUrl || null,
         channelLabel: this.form.channelLabel || null,
-        subunitIds: (this.form.subunits || []).map((s) => s.id),
+        subunitIds: this.form.subunit ? [this.form.subunit.id] : [],
         timezone: this.form.timezone?.id || null,
         dailySendTime: this.form.sendTime,
         active: this.form.active !== false,
@@ -562,12 +713,21 @@ export default {
     },
 
     /* ───────── send test ───────── */
-    sendTest(idOrNull, webhookUrl) {
+    sendTest(idOrNull, webhookUrl, eventTypeOverride = null) {
       this.isLoading = true;
+      // Row-icon tests pass the row's own eventType in `eventTypeOverride` so
+      // the body matches the row, even if the form is empty / pointed at a
+      // different registration. The backend also overrides from the row, but
+      // we send the right value too so the validation layer doesn't surprise.
       const body = {
-        eventType: this.form.eventType?.id || 'BIRTHDAY',
+        eventType: eventTypeOverride || this.form.eventType?.id || 'BIRTHDAY',
       };
-      if (webhookUrl) body.webhookUrl = webhookUrl;
+      if (webhookUrl) {
+        body.webhookUrl = webhookUrl;
+        // Tell the backend which provider's regex + transport to use for the
+        // unsaved URL. Saved-row tests read the provider from the row.
+        body.provider = this.selectedProviderId;
+      }
       return this.registrationsHttp
         .request({
           method: 'POST',
@@ -602,7 +762,16 @@ export default {
     },
 
     onClickRowSendTest(item) {
-      this.sendTest(item.id, null);
+      // Use the ROW's eventType, not whatever the form happens to show — the
+      // form may be empty (admin clicked the icon without selecting the row)
+      // or pointed at a different registration. Gate the actual send behind
+      // a confirmation prompt so an accidental icon tap doesn't post to a
+      // live channel.
+      const row = this.registrations.find((r) => r.id === item.id);
+      this.$refs.sendTestDialog.showDialog().then((confirmation) => {
+        if (confirmation !== 'ok') return;
+        this.sendTest(item.id, null, row?.eventType);
+      });
     },
 
     /* ───────── delete ───────── */

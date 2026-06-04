@@ -19,17 +19,35 @@
 
 namespace OrangeHRM\Slack\Dto;
 
+use DateTimeInterface;
+
 final class SlackEmployeeRecipient
 {
     private string $fullName;
     private ?string $subunit;
     private ?string $metadata;
+    private ?DateTimeInterface $startDate;
+    private ?DateTimeInterface $endDate;
 
-    public function __construct(string $fullName, ?string $subunit = null, ?string $metadata = null)
-    {
+    /**
+     * @param string $fullName   "Firstname Lastname" — already trimmed.
+     * @param ?string $subunit   Per-employee sub-unit (NOT the registration filter).
+     * @param ?string $metadata  Event-specific extra (e.g. "Annual" leave-type name).
+     * @param ?DateTimeInterface $startDate  Period start (LEAVE_TODAY only — null for BIRTHDAY).
+     * @param ?DateTimeInterface $endDate    Period end (LEAVE_TODAY only — null for BIRTHDAY).
+     */
+    public function __construct(
+        string $fullName,
+        ?string $subunit = null,
+        ?string $metadata = null,
+        ?DateTimeInterface $startDate = null,
+        ?DateTimeInterface $endDate = null
+    ) {
         $this->fullName = $fullName;
         $this->subunit = $subunit;
         $this->metadata = $metadata;
+        $this->startDate = $startDate;
+        $this->endDate = $endDate;
     }
 
     public function getFullName(): string
@@ -45,5 +63,15 @@ final class SlackEmployeeRecipient
     public function getMetadata(): ?string
     {
         return $this->metadata;
+    }
+
+    public function getStartDate(): ?DateTimeInterface
+    {
+        return $this->startDate;
+    }
+
+    public function getEndDate(): ?DateTimeInterface
+    {
+        return $this->endDate;
     }
 }

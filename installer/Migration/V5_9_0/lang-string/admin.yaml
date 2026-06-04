@@ -1,0 +1,124 @@
+langStrings:
+  # Page title + section headers
+  -
+    value: 'Slack Notification Configuration'
+    unitId: slack_notification_configuration
+  -
+    value: 'Notification Registration'
+    unitId: notification_registration
+  -
+    value: 'Edit Notification Registration'
+    unitId: edit_notification_registration
+  -
+    value: 'Notification Registrations'
+    unitId: notification_registrations
+  -
+    value: 'Configure a Slack channel to receive automated notifications. Each registration has its own timezone and send time.'
+    unitId: slack_registration_form_hint
+
+  # Form field labels + hints
+  -
+    value: 'Notification Type'
+    unitId: notification_type
+  -
+    value: 'Platform'
+    unitId: platform
+  -
+    value: 'Slack'
+    unitId: platform_slack
+  -
+    value: 'Google Chat'
+    unitId: platform_google_chat
+  -
+    value: 'Webhook URL'
+    unitId: slack_incoming_webhook_url
+  -
+    value: 'Create an Incoming Webhook in your Slack workspace and paste the URL here. Must be HTTPS.'
+    unitId: slack_webhook_hint
+  -
+    value: 'Create an Incoming Webhook in your Google Chat workspace and paste the URL here. Must be HTTPS.'
+    unitId: google_chat_webhook_hint
+  -
+    value: 'Channel name (optional)'
+    unitId: slack_channel_name_optional
+  -
+    value: 'Label only (e.g. #hr-team). The webhook URL determines the actual destination.'
+    unitId: slack_channel_hint
+  -
+    value: 'Sub Units'
+    unitId: sub_units
+  -
+    value: 'Filter by subunit(s): leave empty to include all employees, or pick one or more subunits to limit notifications.'
+    unitId: slack_subunit_hint
+  -
+    value: 'IANA timezone for this notification.'
+    unitId: slack_timezone_hint
+  -
+    value: 'Send Time'
+    unitId: send_time
+  -
+    value: 'Local send time (HH:mm).'
+    unitId: slack_send_time_hint
+  -
+    value: 'All Employees'
+    unitId: all_employees
+
+  # Buttons
+  -
+    value: 'Send Test'
+    unitId: send_test
+  -
+    value: 'Should be a valid Slack Incoming Webhook URL (https://hooks.slack.com/services/…)'
+    unitId: slack_webhook_url_invalid
+  -
+    value: 'Should be a valid Google Chat webhook URL (https://chat.googleapis.com/v1/spaces/…?key=…&token=…)'
+    unitId: google_chat_webhook_url_invalid
+  -
+    value: '+ Add Registration'
+    unitId: add_registration
+  -
+    value: 'Update'
+    unitId: update
+
+  # Event-type labels (driven by backend SlackRegistration::EVENT_TYPES)
+  -
+    value: 'Birthday'
+    unitId: slack_event_birthday
+  -
+    value: 'Employees on Leave Today'
+    unitId: slack_event_leave_today
+
+  # Status
+  -
+    value: 'Status'
+    unitId: status
+
+  # Table empty-state + cron hint
+  -
+    value: 'No registrations yet. Fill the form above and click + Add Registration to create one.'
+    unitId: slack_no_registrations_hint
+  -
+    value: 'Ensure the server cron runs php bin/console orangehrm:run-schedule regularly (e.g. every 5–15 minutes) so scheduled notifications can run.'
+    unitId: slack_cron_reminder
+
+  # Duplicate-warning toast
+  -
+    value: 'Heads up: a similar registration already exists. The same message may be sent more than once per day.'
+    unitId: slack_duplicate_warning
+
+  # Toast error messages
+  -
+    value: 'Failed to save. Check the webhook URL and try again.'
+    unitId: slack_save_failed
+  -
+    value: 'Test message sent to Slack.'
+    unitId: slack_test_sent
+  -
+    value: 'Failed to send test message. Check the webhook URL.'
+    unitId: slack_test_failed
+  -
+    value: 'Could not update status. Refresh and try again.'
+    unitId: slack_status_update_failed
+  -
+    value: 'Could not update global toggle.'
+    unitId: slack_global_toggle_failed

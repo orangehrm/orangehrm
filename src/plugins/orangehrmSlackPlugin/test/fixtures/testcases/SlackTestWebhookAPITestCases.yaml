@@ -1,0 +1,49 @@
+Create:
+  'Test webhook - missing eventType is invalid':
+    userId: 1
+    services: { }
+    attributes: [ ]
+    query: [ ]
+    body:
+      {
+        "webhookUrl": "https://hooks.slack.com/services/T01ABCDEF/B02GHIJKL/abcSeCrEt123"
+      }
+    invalidOnly: [ "eventType" ]
+
+  'Test webhook - unsupported eventType is invalid':
+    userId: 1
+    services: { }
+    attributes: [ ]
+    query: [ ]
+    body:
+      {
+        "eventType": "NEW_HIRE",
+        "webhookUrl": "https://hooks.slack.com/services/T01ABCDEF/B02GHIJKL/abcSeCrEt123"
+      }
+    invalidOnly: [ "eventType" ]
+
+  'Test webhook - webhookUrl too long is invalid':
+    # MAX_URL_LENGTH is 512 (matches the DB column). 621 chars trips LENGTH.
+    userId: 1
+    services: { }
+    attributes: [ ]
+    query: [ ]
+    body:
+      {
+        "eventType": "BIRTHDAY",
+        "webhookUrl": "https://example.com/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+      }
+    invalidOnly: [ "webhookUrl" ]
+
+  'Test webhook - unsupported provider is invalid':
+    userId: 1
+    services: { }
+    attributes: [ ]
+    query: [ ]
+    body:
+      {
+        "eventType": "BIRTHDAY",
+        "webhookUrl": "https://hooks.slack.com/services/T01ABCDEF/B02GHIJKL/abcSeCrEt123",
+        "provider": "discord"
+      }
+    invalidOnly: [ "provider" ]

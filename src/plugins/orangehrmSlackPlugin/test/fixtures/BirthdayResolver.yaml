@@ -1,0 +1,21 @@
+Subunit:
+  0: { id: 1, name: 'Organization', unitId: 'company', description: 'root',        lft: 1, rgt: 8, level: 0 }
+  1: { id: 2, name: 'Engineering',  unitId: 'eng',     description: 'engineering', lft: 2, rgt: 3, level: 1 }
+  2: { id: 3, name: 'People Ops',   unitId: 'po',      description: 'people ops',  lft: 4, rgt: 5, level: 1 }
+  3: { id: 4, name: 'Sales',        unitId: 'sales',   description: 'sales',       lft: 6, rgt: 7, level: 1 }
+
+# One termination row so we can park a terminated employee against it. The
+# resolver's `WHERE employeeTerminationRecord IS NULL` filter must exclude it.
+EmployeeTerminationRecord:
+  - { id: 1, reason_id: 1, termination_date: '2025-12-31', note: 'left' }
+
+Employee:
+  # Target date scenarios are pinned around month=6, day=1.
+  - { emp_number: 1, employee_id: 'E001', emp_firstname: 'Alice',   emp_lastname: 'Avery',   emp_middle_name: '', emp_birthday: '1990-06-01', work_station: 2 } # Engineering, on target
+  - { emp_number: 2, employee_id: 'E002', emp_firstname: 'Bob',     emp_lastname: 'Brown',   emp_middle_name: '', emp_birthday: '1985-06-01', work_station: 2 } # Engineering, same day (different year)
+  - { emp_number: 3, employee_id: 'E003', emp_firstname: 'Carol',   emp_lastname: 'Clark',   emp_middle_name: '', emp_birthday: '1992-06-01', work_station: 4 } # Sales, on target → for subunit filter
+  - { emp_number: 4, employee_id: 'E004', emp_firstname: 'Dave',    emp_lastname: 'Dean',    emp_middle_name: '', emp_birthday: '1990-12-25', work_station: 2 } # Engineering, different date
+  - { emp_number: 5, employee_id: 'E005', emp_firstname: 'Eve',     emp_lastname: 'Evans',   emp_middle_name: '', emp_birthday: '1990-06-02', work_station: 2 } # Engineering, off by one day
+  - { emp_number: 6, employee_id: 'E006', emp_firstname: 'Frank',   emp_lastname: 'Foster',  emp_middle_name: '', emp_birthday: '1990-06-01', work_station: 2, termination_id: 1 } # terminated → excluded
+  - { emp_number: 7, employee_id: 'E007', emp_firstname: 'Gina',    emp_lastname: 'Green',   emp_middle_name: '', work_station: 2 }                                # null birthday → excluded
+  - { emp_number: 8, employee_id: 'E008', emp_firstname: 'Henry',   emp_lastname: 'Hill',    emp_middle_name: '', emp_birthday: '1988-06-01' }                     # on target, NO subDivision

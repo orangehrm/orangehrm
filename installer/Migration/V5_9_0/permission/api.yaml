@@ -9,6 +9,7 @@ apiv2_admin_slack_notification_config:
     delete: false
   permissions:
     - { role: Admin, permission: { read: true, create: false, update: true, delete: false } }
+    - { role: ESS, permission: { read: false, create: false, update: false, delete: false } }
 
 apiv2_admin_slack_notification_registrations:
   description: 'API-v2 Admin - Slack Notification Registrations'
@@ -21,6 +22,7 @@ apiv2_admin_slack_notification_registrations:
     delete: true
   permissions:
     - { role: Admin, permission: { read: true, create: true, update: true, delete: true } }
+    - { role: ESS, permission: { read: false, create: false, update: false, delete: false } }
 
 apiv2_admin_slack_notification_test:
   description: 'API-v2 Admin - Slack Notification Test Webhook'
@@ -33,3 +35,4 @@ apiv2_admin_slack_notification_test:
     delete: false
   permissions:
     - { role: Admin, permission: { read: false, create: true, update: false, delete: false } }
+    - { role: ESS, permission: { read: false, create: false, update: false, delete: false } }

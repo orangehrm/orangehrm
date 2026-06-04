@@ -1,0 +1,48 @@
+# Fixture for the "same employee has both a birthday AND approved leave on the
+# same day" scenario. Used by CrossResolverIndependenceTest to assert each
+# resolver surfaces the employee independently — neither the birthday handler
+# nor the leave-today handler is allowed to swallow / suppress the other.
+#
+# Layout on the target date 2026-06-01:
+#
+#   Alice  Engineering  · birthday 1990-06-01  · APPROVED Annual leave
+#         → surfaces in BOTH resolvers
+#   Bob    Engineering  · birthday 1985-06-01  · no leave
+#         → birthday only
+#   Carol  Sales        · no birthday          · APPROVED Casual leave
+#         → leave-today only
+#   Dan    Engineering  · birthday 1991-06-01  · PENDING leave (status=1)
+#         → birthday only (PENDING leave excluded by status filter)
+#
+# The point of this fixture is the OVERLAP — every other resolver invariant
+# (termination, NULL birthday, status filtering, multi-subunit, dedup) is
+# already covered by BirthdayResolver.yaml / LeaveTodayResolver.yaml.
+
+Subunit:
+  0: { id: 1, name: 'Organization', unitId: 'company', description: 'root',       lft: 1, rgt: 6, level: 0 }
+  1: { id: 2, name: 'Engineering',  unitId: 'eng',     description: 'eng',        lft: 2, rgt: 3, level: 1 }
+  2: { id: 3, name: 'Sales',        unitId: 'sales',   description: 'sales',      lft: 4, rgt: 5, level: 1 }
+
+Employee:
+  - { emp_number: 1, employee_id: 'E001', emp_firstname: 'Alice', emp_lastname: 'Avery', emp_middle_name: '', emp_birthday: '1990-06-01', work_station: 2 }
+  - { emp_number: 2, employee_id: 'E002', emp_firstname: 'Bob',   emp_lastname: 'Brown', emp_middle_name: '', emp_birthday: '1985-06-01', work_station: 2 }
+  - { emp_number: 3, employee_id: 'E003', emp_firstname: 'Carol', emp_lastname: 'Clark', emp_middle_name: '', work_station: 3 }
+  - { emp_number: 4, employee_id: 'E004', emp_firstname: 'Dan',   emp_lastname: 'Drake', emp_middle_name: '', emp_birthday: '1991-06-01', work_station: 2 }
+
+LeaveType:
+  - { id: 1, name: 'Annual', situational: 0, deleted: 0 }
+  - { id: 2, name: 'Casual', situational: 0, deleted: 0 }
+
+LeaveRequest:
+  - { id: 1, leave_type_id: 1, date_applied: '2026-05-01', emp_number: 1 }
+  - { id: 2, leave_type_id: 2, date_applied: '2026-05-01', emp_number: 3 }
+  - { id: 3, leave_type_id: 1, date_applied: '2026-05-01', emp_number: 4 }
+
+Leave:
+  # Alice — APPROVED Annual on 2026-06-01 (status=2). Same day as her birthday.
+  - { id: 1, date: '2026-06-01', length_hours: '8.00', length_days: '1.0000', status: 2, leave_request_id: 1, leave_type_id: 1, emp_number: 1, start_time: '00:00:00', end_time: '00:00:00', duration_type: 0 }
+  # Carol — APPROVED Casual (no birthday today). Leave-today only.
+  - { id: 2, date: '2026-06-01', length_hours: '8.00', length_days: '1.0000', status: 2, leave_request_id: 2, leave_type_id: 2, emp_number: 3, start_time: '00:00:00', end_time: '00:00:00', duration_type: 0 }
+  # Dan — PENDING Annual (status=1). Has a birthday today but the PENDING
+  # leave must NOT pull him into the leave-today list.
+  - { id: 3, date: '2026-06-01', length_hours: '8.00', length_days: '1.0000', status: 1, leave_request_id: 3, leave_type_id: 1, emp_number: 4, start_time: '00:00:00', end_time: '00:00:00', duration_type: 0 }

@@ -29,8 +29,9 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Entity\SlackRegistration;
 use OrangeHRM\Slack\Api\Model\SlackConfigModel;
-use OrangeHRM\Slack\Service\SlackSettingsService;
+use OrangeHRM\Slack\Traits\Service\SlackSettingsServiceTrait;
 
 /**
  * Singleton config endpoint for the global on/off toggle. Backed by `hs_hr_config`.
@@ -40,23 +41,34 @@ use OrangeHRM\Slack\Service\SlackSettingsService;
  */
 class SlackConfigAPI extends Endpoint implements ResourceEndpoint
 {
+    use SlackSettingsServiceTrait;
+
     public const PARAMETER_ENABLE = 'enable';
 
-    private ?SlackSettingsService $settingsService = null;
-
-    public function getSettingsService(): SlackSettingsService
-    {
-        if ($this->settingsService === null) {
-            $this->settingsService = new SlackSettingsService();
-        }
-        return $this->settingsService;
-    }
-
+    /**
+     * @OA\Get(
+     *     path="/api/v2/admin/slack-notification/config",
+     *     tags={"Admin/Slack Notification"},
+     *     summary="Get Slack notification config",
+     *     description="Returns the global enable flag and the supported event-type identifiers. Admin role only.",
+     *     operationId="get-slack-notification-config",
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="data", ref="#/components/schemas/Slack-ConfigModel"),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     )
+     * )
+     *
+     * @inheritDoc
+     */
     public function getOne(): EndpointResourceResult
     {
         return new EndpointResourceResult(
             SlackConfigModel::class,
-            $this->getSettingsService()->isEnabled()
+            [$this->getSlackSettingsService()->isEnabled(), SlackRegistration::EVENT_TYPES]
         );
     }
 
@@ -67,14 +79,43 @@ class SlackConfigAPI extends Endpoint implements ResourceEndpoint
         );
     }
 
+    /**
+     * @OA\Put(
+     *     path="/api/v2/admin/slack-notification/config",
+     *     tags={"Admin/Slack Notification"},
+     *     summary="Update Slack notification config",
+     *     description="Toggles the global on/off flag stored in hs_hr_config.",
+     *     operationId="update-slack-notification-config",
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             required={"enable"},
+     *             @OA\Property(property="enable", type="boolean", example=true)
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="data", ref="#/components/schemas/Slack-ConfigModel"),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     )
+     * )
+     *
+     * @inheritDoc
+     */
     public function update(): EndpointResourceResult
     {
         $enable = $this->getRequestParams()->getBoolean(
             RequestParams::PARAM_TYPE_BODY,
             self::PARAMETER_ENABLE
         );
-        $this->getSettingsService()->setEnabled($enable);
-        return new EndpointResourceResult(SlackConfigModel::class, $enable);
+        $this->getSlackSettingsService()->setEnabled($enable);
+        return new EndpointResourceResult(
+            SlackConfigModel::class,
+            [$enable, SlackRegistration::EVENT_TYPES]
+        );
     }
 
     public function getValidationRuleForUpdate(): ParamRuleCollection

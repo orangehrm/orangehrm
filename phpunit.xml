@@ -84,5 +84,8 @@
     <testsuite name="OpenId">
       <directory>src/plugins/orangehrmOpenidAuthenticationPlugin/test</directory>
     </testsuite>
+    <testsuite name="Slack">
+      <directory>src/plugins/orangehrmSlackPlugin/test</directory>
+    </testsuite>
   </testsuites>
 </phpunit>

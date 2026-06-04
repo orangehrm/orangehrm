@@ -345,6 +345,11 @@ class MenuServiceTest extends KernelTestCase
                         'name' => 'LDAP Configuration',
                         'url' => '/admin/ldapConfiguration',
                     ],
+                    [
+                        'id' => 113,
+                        'name' => 'Slack Notification Configuration',
+                        'url' => '/admin/slackNotificationConfiguration',
+                    ],
                 ],
             ],
         ], $topMenuItems);

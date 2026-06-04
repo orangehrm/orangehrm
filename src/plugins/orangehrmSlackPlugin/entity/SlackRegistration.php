@@ -39,6 +39,8 @@ class SlackRegistration
     ];
 
     public const PROVIDER_SLACK = 'slack';
+    public const PROVIDER_GOOGLE_CHAT = 'google_chat';
+    public const PROVIDER_TEAMS = 'teams';
 
     /**
      * @var int
@@ -50,12 +52,15 @@ class SlackRegistration
     private int $id;
 
     /**
-     * Provider seam — currently always 'slack'. Reserves space for Teams / Discord /
-     * Google Chat / other webhook-based providers without a schema change.
+     * Provider seam — 'slack' or 'google_chat'.
+     * {@see \OrangeHRM\Slack\Service\Webhook\WebhookProviderInterface} via
+     * {@see \OrangeHRM\Slack\Service\Webhook\WebhookProviderRegistry}.
+     * Adding Teams / Discord later is one new provider class + a single
+     * `register()` call.
      *
      * @var string
      *
-     * @ORM\Column(name="provider", type="string", length=20, nullable=false, options={"default": "slack"})
+     * @ORM\Column(name="provider", type="string", length=20, nullable=false, options={"default" : "slack"})
      */
     private string $provider = self::PROVIDER_SLACK;
 
@@ -97,25 +102,39 @@ class SlackRegistration
     private Collection $subunits;
 
     /**
+     * Per-row IANA timezone. The 5.9 spec section §2 ("Global settings block")
+     * originally placed Timezone at the page-level, but Rajitha's PR review
+     * moved it onto each registration so multi-region orgs can have e.g. an
+     * HR-Asia row firing at 09:00 Asia/Colombo and an HR-Europe row firing at
+     * 09:00 Europe/London for the same event. The Crunz scheduler uses this
+     * value via `->timezone()` in {@see SlackPluginConfiguration::scheduleOne()}
+     * so the cron expression evaluates in the row's own zone, not the server's.
+     * Dropdown source on the FE is the Attendance module's timezone API (the
+     * "reuse the Attendance dropdown" spec note still applies, just per-row).
+     *
      * @var string
      *
-     * @ORM\Column(name="timezone", type="string", length=64, nullable=false, options={"default": "UTC"})
+     * @ORM\Column(name="timezone", type="string", length=64, nullable=false, options={"default" : "UTC"})
      */
     private string $timezone = 'UTC';
 
     /**
-     * Stored as `HH:mm` in the registration's local timezone.
+     * Per-row `HH:mm` send time in the row's own {@see $timezone}. Per Rajitha's
+     * PR review this lives on the registration (not globally) so each row gets
+     * its own cron — same multi-region rationale as the timezone column above.
+     * Combined into a daily cron expression by
+     * {@see SlackPluginConfiguration::scheduleOne()}.
      *
      * @var string
      *
-     * @ORM\Column(name="daily_send_time", type="string", length=5, nullable=false, options={"default": "09:00"})
+     * @ORM\Column(name="daily_send_time", type="string", length=5, nullable=false, options={"default" : "09:00"})
      */
     private string $dailySendTime = '09:00';
 
     /**
      * @var bool
      *
-     * @ORM\Column(name="is_active", type="boolean", options={"default": true})
+     * @ORM\Column(name="is_active", type="boolean", options={"default" : true})
      */
     private bool $active = true;
 

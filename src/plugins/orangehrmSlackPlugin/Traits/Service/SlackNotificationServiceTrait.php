@@ -17,36 +17,26 @@
  * If not, see <https://www.gnu.org/licenses/>.
  */
 
-namespace OrangeHRM\Slack\Service\Webhook;
+namespace OrangeHRM\Slack\Traits\Service;
 
-final class SlackDeliveryResult
+use OrangeHRM\Core\Traits\ServiceContainerTrait;
+use OrangeHRM\Framework\Services;
+use OrangeHRM\Slack\Service\SlackNotificationService;
+
+/**
+ * Container-backed accessor for {@see SlackNotificationService} — the orchestrator
+ * invoked by `SlackTestWebhookAPI::create()` and the cron command.
+ */
+trait SlackNotificationServiceTrait
 {
-    private bool $ok;
-    private ?string $errorMessage;
+    use ServiceContainerTrait;
 
-    private function __construct(bool $ok, ?string $errorMessage)
+    public function getSlackNotificationService(): SlackNotificationService
     {
-        $this->ok = $ok;
-        $this->errorMessage = $errorMessage;
-    }
-
-    public static function success(): self
-    {
-        return new self(true, null);
-    }
-
-    public static function failure(string $message): self
-    {
-        return new self(false, $message);
-    }
-
-    public function isOk(): bool
-    {
-        return $this->ok;
-    }
-
-    public function getErrorMessage(): ?string
-    {
-        return $this->errorMessage;
+        $container = $this->getContainer();
+        if (!$container->has(Services::SLACK_NOTIFICATION_SERVICE)) {
+            $container->register(Services::SLACK_NOTIFICATION_SERVICE, SlackNotificationService::class);
+        }
+        return $container->get(Services::SLACK_NOTIFICATION_SERVICE);
     }
 }

@@ -1,0 +1,65 @@
+GetOne:
+  'Get Slack Config - initial enable is false':
+    userId: 1
+    services: { }
+    attributes: [ ]
+    query: [ ]
+    body: [ ]
+    data:
+      {
+        "enable": false,
+        "eventTypes": [ "BIRTHDAY", "LEAVE_TODAY" ]
+      }
+    meta: [ ]
+
+Update:
+  'Update Slack Config - enable=true':
+    userId: 1
+    services: { }
+    attributes: [ ]
+    query: [ ]
+    body:
+      {
+        "enable": true
+      }
+    data:
+      {
+        "enable": true,
+        "eventTypes": [ "BIRTHDAY", "LEAVE_TODAY" ]
+      }
+    meta: [ ]
+
+  'Update Slack Config - enable=false':
+    userId: 1
+    services: { }
+    attributes: [ ]
+    query: [ ]
+    body:
+      {
+        "enable": false
+      }
+    data:
+      {
+        "enable": false,
+        "eventTypes": [ "BIRTHDAY", "LEAVE_TODAY" ]
+      }
+    meta: [ ]
+
+  'Update Slack Config - missing enable is invalid':
+    userId: 1
+    services: { }
+    attributes: [ ]
+    query: [ ]
+    body: { }
+    invalidOnly: [ "enable" ]
+
+  'Update Slack Config - non-boolean enable is invalid':
+    userId: 1
+    services: { }
+    attributes: [ ]
+    query: [ ]
+    body:
+      {
+        "enable": "yes"
+      }
+    invalidOnly: [ "enable" ]

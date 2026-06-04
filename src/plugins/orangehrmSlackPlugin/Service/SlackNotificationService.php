@@ -23,41 +23,44 @@ use DateTime;
 use DateTimeZone;
 use OrangeHRM\Entity\SlackLog;
 use OrangeHRM\Entity\SlackRegistration;
-use OrangeHRM\Slack\Dao\SlackLogDao;
-use OrangeHRM\Slack\Service\Formatter\SlackMessageFormatter;
 use OrangeHRM\Slack\Service\Resolver\BirthdayResolver;
 use OrangeHRM\Slack\Service\Resolver\LeaveTodayResolver;
 use OrangeHRM\Slack\Service\Resolver\RecipientResolverInterface;
-use OrangeHRM\Slack\Service\Webhook\SlackDeliveryResult;
-use OrangeHRM\Slack\Service\Webhook\SlackWebhookClient;
+use OrangeHRM\Slack\Service\Webhook\WebhookDeliveryResult;
+use OrangeHRM\Slack\Traits\Dao\SlackLogDaoTrait;
+use OrangeHRM\Slack\Traits\Service\SlackRegistrationServiceTrait;
+use OrangeHRM\Slack\Traits\Service\SlackSettingsServiceTrait;
+use OrangeHRM\Slack\Traits\Service\WebhookProviderRegistryTrait;
 use Throwable;
 
+/**
+ * Orchestrator for the daily Slack/Teams/Google-Chat dispatch run.
+ *
+ * Every collaborator is fetched from the OHRM service container via traits:
+ * {@see SlackSettingsServiceTrait}, {@see SlackRegistrationServiceTrait},
+ * {@see SlackLogDaoTrait}, {@see WebhookProviderRegistryTrait}. The constructor
+ * is parameterless — tests mock by registering a replacement service in the
+ * container (`createKernelWithMockServices([Services::SLACK_LOG_DAO => $mock])`)
+ * the same way LDAP / Buzz / every other OHRM service is mocked.
+ *
+ * The per-platform message formatter is owned by each webhook provider
+ * (see {@see \OrangeHRM\Slack\Service\Webhook\WebhookProviderInterface::getFormatter()})
+ * so adding a new platform never touches this class.
+ */
 class SlackNotificationService
 {
-    private const SEND_WINDOW_MINUTES = 5;
+    use SlackSettingsServiceTrait;
+    use SlackRegistrationServiceTrait;
+    use SlackLogDaoTrait;
+    use WebhookProviderRegistryTrait;
 
-    private SlackSettingsService $settingsService;
-    private SlackRegistrationService $registrationService;
-    private SlackLogDao $logDao;
-    private SlackMessageFormatter $formatter;
-    private SlackWebhookClient $webhookClient;
+    private const SEND_WINDOW_MINUTES = 5;
 
     /** @var array<string, RecipientResolverInterface> */
     private array $resolvers = [];
 
-    public function __construct(
-        ?SlackSettingsService $settingsService = null,
-        ?SlackRegistrationService $registrationService = null,
-        ?SlackLogDao $logDao = null,
-        ?SlackMessageFormatter $formatter = null,
-        ?SlackWebhookClient $webhookClient = null
-    ) {
-        $this->settingsService = $settingsService ?? new SlackSettingsService();
-        $this->registrationService = $registrationService ?? new SlackRegistrationService();
-        $this->logDao = $logDao ?? new SlackLogDao();
-        $this->formatter = $formatter ?? new SlackMessageFormatter();
-        $this->webhookClient = $webhookClient ?? new SlackWebhookClient();
-
+    public function __construct()
+    {
         $this->resolvers[SlackRegistration::EVENT_TYPE_BIRTHDAY] = new BirthdayResolver();
         $this->resolvers[SlackRegistration::EVENT_TYPE_LEAVE_TODAY] = new LeaveTodayResolver();
     }
@@ -73,13 +76,13 @@ class SlackNotificationService
     public function dispatchDueNotifications(): array
     {
         $summary = [];
-        if (!$this->settingsService->isEnabled()) {
+        if (!$this->getSlackSettingsService()->isEnabled()) {
             return $summary;
         }
 
         $nowUtc = new DateTime('now', new DateTimeZone('UTC'));
 
-        foreach ($this->registrationService->listActiveRegistrations() as $registration) {
+        foreach ($this->getSlackRegistrationService()->listActiveRegistrations() as $registration) {
             $id = $registration->getId();
 
             try {
@@ -95,7 +98,7 @@ class SlackNotificationService
                     continue;
                 }
 
-                if ($this->logDao->hasSuccessfulDeliveryForDate($id, $today)) {
+                if ($this->getSlackLogDao()->hasSuccessfulDeliveryForDate($id, $today)) {
                     $summary[$id] = [
                         'status' => SlackLog::STATUS_SKIPPED,
                         'recipientCount' => 0,
@@ -115,6 +118,67 @@ class SlackNotificationService
             }
         }
         return $summary;
+    }
+
+    /**
+     * Per-row dispatch entry point. The scheduler calls this once per
+     * `orangehrm:run-schedule` tick that matches the row's cron expression,
+     * passing the row id via `--registration-id`. Skips the send-time-window
+     * gate because Crunz already enforced it via the per-row cron + timezone;
+     * still enforces the global-enable + per-row-active + same-day-dedupe
+     * invariants so a manual run from the shell behaves identically.
+     *
+     * @return array{status:string,recipientCount:int,error:?string}
+     */
+    public function dispatchSingleRegistration(int $registrationId): array
+    {
+        if (!$this->getSlackSettingsService()->isEnabled()) {
+            return [
+                'status' => SlackLog::STATUS_SKIPPED,
+                'recipientCount' => 0,
+                'error' => 'Slack notifications globally disabled',
+            ];
+        }
+
+        $registration = $this->getSlackRegistrationService()->getRegistration($registrationId);
+        if (!$registration instanceof SlackRegistration) {
+            return [
+                'status' => SlackLog::STATUS_FAILED,
+                'recipientCount' => 0,
+                'error' => "Registration {$registrationId} not found",
+            ];
+        }
+        if (!$registration->isActive()) {
+            return [
+                'status' => SlackLog::STATUS_SKIPPED,
+                'recipientCount' => 0,
+                'error' => 'Registration is inactive',
+            ];
+        }
+
+        $tz = $this->resolveTimezone($registration->getTimezone());
+        $today = (new DateTime('now', new DateTimeZone('UTC')))
+            ->setTimezone($tz)
+            ->setTime(0, 0, 0);
+
+        if ($this->getSlackLogDao()->hasSuccessfulDeliveryForDate($registrationId, $today)) {
+            return [
+                'status' => SlackLog::STATUS_SKIPPED,
+                'recipientCount' => 0,
+                'error' => 'Already delivered today',
+            ];
+        }
+
+        try {
+            return $this->dispatchRegistration($registration, $today);
+        } catch (Throwable $e) {
+            $this->writeFailureLog($registration, $today, $e->getMessage());
+            return [
+                'status' => SlackLog::STATUS_FAILED,
+                'recipientCount' => 0,
+                'error' => $e->getMessage(),
+            ];
+        }
     }
 
     private function resolveTimezone(string $name): DateTimeZone
@@ -181,19 +245,23 @@ class SlackNotificationService
         }
         $subunitLabel = empty($subunitNames) ? null : implode(', ', $subunitNames);
 
-        $message = $this->formatter->format(
+        $webhookUrl = $this->getSlackRegistrationService()->decryptWebhookUrl($registration);
+        if ($webhookUrl === null || $webhookUrl === '') {
+            return $this->finish($registration, $today, SlackLog::STATUS_FAILED, count($recipients), 'Webhook URL is empty');
+        }
+
+        // Resolve provider FIRST so its formatter renders the message in the
+        // target platform's native markup (Slack-mrkdwn for Slack/Google Chat,
+        // MessageCard markdown for Teams, etc.). Sending Slack-mrkdwn to Teams
+        // would surface raw `*asterisks*` in the channel.
+        $provider = $this->getWebhookProviderRegistry()->getForRegistration($registration);
+        $message = $provider->getFormatter()->format(
             $registration->getEventType(),
             $today,
             $recipients,
             $subunitLabel
         );
-
-        $webhookUrl = $this->registrationService->decryptWebhookUrl($registration);
-        if ($webhookUrl === null || $webhookUrl === '') {
-            return $this->finish($registration, $today, SlackLog::STATUS_FAILED, count($recipients), 'Webhook URL is empty');
-        }
-
-        $result = $this->webhookClient->send($webhookUrl, $message);
+        $result = $provider->send($webhookUrl, $message);
         if ($result->isOk()) {
             return $this->finish($registration, $today, SlackLog::STATUS_SUCCESS, count($recipients), null);
         }
@@ -211,8 +279,8 @@ class SlackNotificationService
      */
     private function finish(SlackRegistration $registration, DateTime $today, string $status, int $count, ?string $error): array
     {
-        $log = $this->logDao->makeLogFor($registration, $today, $status, $count, $error);
-        $this->logDao->recordLog($log);
+        $log = $this->getSlackLogDao()->makeLogFor($registration, $today, $status, $count, $error);
+        $this->getSlackLogDao()->recordLog($log);
 
 
         return [
@@ -225,8 +293,8 @@ class SlackNotificationService
     private function writeFailureLog(SlackRegistration $registration, DateTime $today, string $message): void
     {
         try {
-            $log = $this->logDao->makeLogFor($registration, $today, SlackLog::STATUS_FAILED, 0, $message);
-            $this->logDao->recordLog($log);
+            $log = $this->getSlackLogDao()->makeLogFor($registration, $today, SlackLog::STATUS_FAILED, 0, $message);
+            $this->getSlackLogDao()->recordLog($log);
         } catch (Throwable $ignored) {
             // Don't let logging failures cascade.
         }
@@ -234,10 +302,16 @@ class SlackNotificationService
 
     /**
      * Used by SlackTestWebhookAPI for ad-hoc test sends.
+     *
+     * Until per-row provider selection lands in the UI, ad-hoc tests dispatched
+     * before a registration is saved go through the default provider
+     * (`SlackRegistration::PROVIDER_SLACK`). Saved-row tests route via the
+     * registration's own provider.
      */
-    public function sendTestMessage(string $webhookUrl, string $eventType): SlackDeliveryResult
+    public function sendTestMessage(string $webhookUrl, string $eventType, ?string $providerId = null): WebhookDeliveryResult
     {
-        $text = $this->formatter->formatTestMessage($eventType);
-        return $this->webhookClient->send($webhookUrl, $text);
+        $provider = $this->getWebhookProviderRegistry()->get($providerId ?? SlackRegistration::PROVIDER_SLACK);
+        $text = $provider->getFormatter()->formatTestMessage($eventType);
+        return $provider->send($webhookUrl, $text);
     }
 }

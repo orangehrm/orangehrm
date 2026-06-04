@@ -25,6 +25,7 @@ use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
+use OrangeHRM\Core\Api\V2\Exception\BadRequestException;
 use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
@@ -34,11 +35,15 @@ use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Entity\SlackRegistration;
 use OrangeHRM\Slack\Api\Model\SlackRegistrationModel;
-use OrangeHRM\Slack\Service\SlackRegistrationService;
-use OrangeHRM\Slack\Service\Webhook\SlackWebhookClient;
+use OrangeHRM\Slack\Service\Webhook\WebhookProviderRegistry;
+use OrangeHRM\Slack\Traits\Service\SlackRegistrationServiceTrait;
+use OrangeHRM\Slack\Traits\Service\WebhookProviderRegistryTrait;
 
 class SlackRegistrationAPI extends Endpoint implements CrudEndpoint
 {
+    use SlackRegistrationServiceTrait;
+    use WebhookProviderRegistryTrait;
+
     public const PARAMETER_EVENT_TYPE = 'eventType';
     public const PARAMETER_WEBHOOK_URL = 'webhookUrl';
     public const PARAMETER_CHANNEL_LABEL = 'channelLabel';
@@ -52,19 +57,33 @@ class SlackRegistrationAPI extends Endpoint implements CrudEndpoint
     public const PARAM_RULE_TIMEZONE_MAX = 64;
     public const PARAM_RULE_SEND_TIME_MAX = 5;
 
-    private ?SlackRegistrationService $registrationService = null;
-
-    public function getRegistrationService(): SlackRegistrationService
-    {
-        if ($this->registrationService === null) {
-            $this->registrationService = new SlackRegistrationService();
-        }
-        return $this->registrationService;
-    }
-
+    /**
+     * @OA\Get(
+     *     path="/api/v2/admin/slack-notification/registrations",
+     *     tags={"Admin/Slack Notification"},
+     *     summary="List Slack notification registrations",
+     *     operationId="list-slack-notification-registrations",
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="array",
+     *                 @OA\Items(ref="#/components/schemas/Slack-RegistrationModel")
+     *             ),
+     *             @OA\Property(property="meta", type="object",
+     *                 @OA\Property(property="total", type="integer", example=2)
+     *             )
+     *         )
+     *     )
+     * )
+     *
+     * @inheritDoc
+     */
     public function getAll(): EndpointCollectionResult
     {
-        $registrations = $this->getRegistrationService()->listRegistrations();
+        $registrations = $this->getSlackRegistrationService()->listRegistrations();
         return new EndpointCollectionResult(
             SlackRegistrationModel::class,
             $registrations,
@@ -77,13 +96,33 @@ class SlackRegistrationAPI extends Endpoint implements CrudEndpoint
         return new ParamRuleCollection();
     }
 
+    /**
+     * @OA\Get(
+     *     path="/api/v2/admin/slack-notification/registrations/{id}",
+     *     tags={"Admin/Slack Notification"},
+     *     summary="Get one Slack notification registration",
+     *     operationId="get-slack-notification-registration",
+     *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer")),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="data", ref="#/components/schemas/Slack-RegistrationModel"),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
+     * )
+     *
+     * @inheritDoc
+     */
     public function getOne(): EndpointResult
     {
         $id = $this->getRequestParams()->getInt(
             RequestParams::PARAM_TYPE_ATTRIBUTE,
             CommonParams::PARAMETER_ID
         );
-        $registration = $this->getRegistrationService()->getRegistration($id);
+        $registration = $this->getSlackRegistrationService()->getRegistration($id);
         $this->throwIfMissing($registration);
         return new EndpointResourceResult(SlackRegistrationModel::class, $registration);
     }
@@ -95,11 +134,48 @@ class SlackRegistrationAPI extends Endpoint implements CrudEndpoint
         );
     }
 
+    /**
+     * @OA\Post(
+     *     path="/api/v2/admin/slack-notification/registrations",
+     *     tags={"Admin/Slack Notification"},
+     *     summary="Create a Slack notification registration",
+     *     operationId="create-slack-notification-registration",
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             required={"eventType", "webhookUrl", "timezone", "dailySendTime"},
+     *             @OA\Property(property="eventType",     type="string", enum={"BIRTHDAY", "LEAVE_TODAY"}),
+     *             @OA\Property(property="provider",      type="string", enum={"slack", "google_chat"}, example="slack",
+     *             description="Webhook provider. Defaults to 'slack' if omitted. URL shape is validated against the selected provider."),
+     *             @OA\Property(property="webhookUrl",    type="string", example="https://hooks.slack.com/services/T../B../secret"),
+     *             @OA\Property(property="channelLabel",  type="string", nullable=true, example="#hr-team"),
+     *             @OA\Property(property="subunitIds",    type="array", @OA\Items(type="integer"), description="Empty/omitted = all employees."),
+     *             @OA\Property(property="timezone",      type="string", example="Asia/Colombo"),
+     *             @OA\Property(property="dailySendTime", type="string", example="09:00", description="HH:mm in the registration's timezone."),
+     *             @OA\Property(property="active",        type="boolean", example=true)
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Created",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="data", ref="#/components/schemas/Slack-RegistrationModel"),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     )
+     * )
+     *
+     * @inheritDoc
+     */
     public function create(): EndpointResult
     {
-        $registration = $this->getRegistrationService()->createRegistration(
-            $this->readPayload()
+        $payload = $this->readPayload();
+        $this->assertWebhookUrlMatchesProvider(
+            $payload['provider'] ?? SlackRegistration::PROVIDER_SLACK,
+            $payload['webhookUrl'] ?? ''
         );
+
+        $registration = $this->getSlackRegistrationService()->createRegistration($payload);
         return new EndpointResourceResult(SlackRegistrationModel::class, $registration);
     }
 
@@ -108,18 +184,58 @@ class SlackRegistrationAPI extends Endpoint implements CrudEndpoint
         return $this->getBodyRules(true);
     }
 
+    /**
+     * @OA\Put(
+     *     path="/api/v2/admin/slack-notification/registrations/{id}",
+     *     tags={"Admin/Slack Notification"},
+     *     summary="Update a Slack notification registration (partial update supported)",
+     *     description="All body fields are optional. A PUT containing only `{""active"": true}` toggles the row's active flag without touching anything else. Omitting `webhookUrl` keeps the stored encrypted value.",
+     *     operationId="update-slack-notification-registration",
+     *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer")),
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="eventType",     type="string", enum={"BIRTHDAY", "LEAVE_TODAY"}),
+     *             @OA\Property(property="provider",      type="string", enum={"slack", "google_chat"}),
+     *             @OA\Property(property="webhookUrl",    type="string", description="Omit to keep the stored value. Validated against the effective provider (payload provider, or stored row provider)."),
+     *             @OA\Property(property="channelLabel",  type="string", nullable=true),
+     *             @OA\Property(property="subunitIds",    type="array",  @OA\Items(type="integer")),
+     *             @OA\Property(property="timezone",      type="string"),
+     *             @OA\Property(property="dailySendTime", type="string", example="09:00"),
+     *             @OA\Property(property="active",        type="boolean")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Updated",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="data", ref="#/components/schemas/Slack-RegistrationModel"),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
+     * )
+     *
+     * @inheritDoc
+     */
     public function update(): EndpointResult
     {
         $id = $this->getRequestParams()->getInt(
             RequestParams::PARAM_TYPE_ATTRIBUTE,
             CommonParams::PARAMETER_ID
         );
-        $registration = $this->getRegistrationService()->getRegistration($id);
+        $registration = $this->getSlackRegistrationService()->getRegistration($id);
         $this->throwIfMissing($registration);
 
-        $updated = $this->getRegistrationService()->updateRegistration(
+        $payload = $this->readPayload();
+        if (isset($payload['webhookUrl'])) {
+            $effectiveProvider = $payload['provider'] ?? $registration->getProvider();
+            $this->assertWebhookUrlMatchesProvider($effectiveProvider, $payload['webhookUrl']);
+        }
+
+        $updated = $this->getSlackRegistrationService()->updateRegistration(
             $registration,
-            $this->readPayload()
+            $payload
         );
         return new EndpointResourceResult(SlackRegistrationModel::class, $updated);
     }
@@ -129,6 +245,32 @@ class SlackRegistrationAPI extends Endpoint implements CrudEndpoint
         return $this->getBodyRules(false);
     }
 
+    /**
+     * @OA\Delete(
+     *     path="/api/v2/admin/slack-notification/registrations",
+     *     tags={"Admin/Slack Notification"},
+     *     summary="Delete one or more Slack notification registrations",
+     *     description="Bulk delete by ids. Cascades to ohrm_slack_log entries.",
+     *     operationId="delete-slack-notification-registrations",
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             required={"ids"},
+     *             @OA\Property(property="ids", type="array", @OA\Items(type="integer"), example={1, 3})
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Deleted",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="data", type="array", @OA\Items(type="integer")),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     )
+     * )
+     *
+     * @inheritDoc
+     */
     public function delete(): EndpointResult
     {
         $ids = $this->getRequestParams()->getArray(
@@ -136,9 +278,9 @@ class SlackRegistrationAPI extends Endpoint implements CrudEndpoint
             CommonParams::PARAMETER_IDS
         );
         foreach ($ids as $id) {
-            $registration = $this->getRegistrationService()->getRegistration((int)$id);
+            $registration = $this->getSlackRegistrationService()->getRegistration((int)$id);
             if ($registration instanceof SlackRegistration) {
-                $this->getRegistrationService()->getDao()->deleteRegistration($registration);
+                $this->getSlackRegistrationService()->getDao()->deleteRegistration($registration);
             }
         }
         return new EndpointResourceResult(\OrangeHRM\Core\Api\V2\Model\ArrayModel::class, $ids);
@@ -224,11 +366,21 @@ class SlackRegistrationAPI extends Endpoint implements CrudEndpoint
             new Rule(Rules::LENGTH, [null, self::PARAM_RULE_SEND_TIME_MAX]),
             new Rule(Rules::REGEX, ['/^([01]\d|2[0-3]):[0-5]\d$/'])
         );
+        // URL shape is validated provider-aware in create()/update() — see
+        // assertWebhookUrlMatchesProvider() — so the rule layer just enforces
+        // type + length. The shape varies per provider (Slack vs Google Chat),
+        // and the validator framework's REGEX rule is single-pattern only.
         $webhookRule = new ParamRule(
             self::PARAMETER_WEBHOOK_URL,
             new Rule(Rules::STRING_TYPE),
-            new Rule(Rules::LENGTH, [null, SlackWebhookClient::WEBHOOK_URL_MAX_LENGTH]),
-            new Rule(Rules::REGEX, ['#^https://hooks\.slack\.com/services/[A-Z0-9]+/[A-Z0-9]+/[A-Za-z0-9]+$#'])
+            new Rule(Rules::LENGTH, [null, WebhookProviderRegistry::MAX_URL_LENGTH])
+        );
+        $providerRule = new ParamRule(
+            self::PARAMETER_PROVIDER,
+            new Rule(Rules::IN, [[
+                SlackRegistration::PROVIDER_SLACK,
+                SlackRegistration::PROVIDER_GOOGLE_CHAT,
+            ]])
         );
         $channelLabelRule = new ParamRule(
             self::PARAMETER_CHANNEL_LABEL,
@@ -254,6 +406,10 @@ class SlackRegistrationAPI extends Endpoint implements CrudEndpoint
         }
 
         // Always-optional fields (same shape on create and update).
+        // Provider is optional on create — defaults to 'slack' in the service
+        // layer for backwards compatibility with clients that don't know about
+        // the multi-provider seam.
+        $rules[] = $this->getValidationDecorator()->notRequiredParamRule($providerRule, true);
         $rules[] = $this->getValidationDecorator()->notRequiredParamRule($channelLabelRule, true);
         $rules[] = $this->getValidationDecorator()->notRequiredParamRule(
             new ParamRule(self::PARAMETER_SUBUNIT_IDS, new Rule(Rules::ARRAY_TYPE)),
@@ -274,6 +430,24 @@ class SlackRegistrationAPI extends Endpoint implements CrudEndpoint
     {
         if (!$registration instanceof SlackRegistration) {
             throw new RecordNotFoundException();
+        }
+    }
+
+    /**
+     * Provider-aware URL shape check. The validator framework's REGEX rule is
+     * single-pattern, so URL validation is deferred to here where we know which
+     * provider the row claims to use and can dispatch through the registry.
+     */
+    private function assertWebhookUrlMatchesProvider(string $providerId, string $url): void
+    {
+        $registry = $this->getWebhookProviderRegistry();
+        if (!$registry->has($providerId)) {
+            throw new BadRequestException("Unsupported webhook provider: {$providerId}");
+        }
+        if (!$registry->get($providerId)->validateUrl($url)) {
+            throw new BadRequestException(
+                "Invalid webhook URL for provider '{$providerId}'."
+            );
         }
     }
 }

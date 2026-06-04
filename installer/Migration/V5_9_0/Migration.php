@@ -23,9 +23,12 @@ use Doctrine\DBAL\Schema\ForeignKeyConstraint;
 use Doctrine\DBAL\Schema\Index;
 use Doctrine\DBAL\Types\Types;
 use OrangeHRM\Installer\Util\V1\AbstractMigration;
+use OrangeHRM\Installer\Util\V1\LangStringHelper;
 
 class Migration extends AbstractMigration
 {
+    protected ?LangStringHelper $langStringHelper = null;
+
     public function up(): void
     {
         $this->createSlackTables();
@@ -33,6 +36,17 @@ class Migration extends AbstractMigration
         $this->getDataGroupHelper()->insertScreenPermissions(__DIR__ . '/permission/screen.yaml');
         $this->getDataGroupHelper()->insertApiPermissions(__DIR__ . '/permission/api.yaml');
         $this->insertSlackNotificationMenuItem();
+
+        // Localised strings for the new Slack notification screen — admin group.
+        $this->getLangStringHelper()->insertOrUpdateLangStrings(__DIR__, 'admin');
+    }
+
+    private function getLangStringHelper(): LangStringHelper
+    {
+        if ($this->langStringHelper === null) {
+            $this->langStringHelper = new LangStringHelper($this->getConnection());
+        }
+        return $this->langStringHelper;
     }
 
     public function getVersion(): string
@@ -128,22 +142,14 @@ class Migration extends AbstractMigration
         }
 
         // Seed the global enable flag in hs_hr_config (same pattern as boolean configs like
-        // `dashboard.employees_on_leave_today.show_only_accessible`). Idempotent via upsert.
-        $existing = $this->getConnection()->createQueryBuilder()
-            ->select('name')
-            ->from('hs_hr_config')
-            ->where('name = :name')
+        // `dashboard.employees_on_leave_today.show_only_accessible`). The key is introduced
+        // by this migration so a direct insert is safe — no existence check needed.
+        $this->getConnection()->createQueryBuilder()
+            ->insert('hs_hr_config')
+            ->values(['name' => ':name', 'value' => ':value'])
             ->setParameter('name', self::CONFIG_KEY_SLACK_ENABLED)
-            ->executeQuery()
-            ->fetchOne();
-        if ($existing === false) {
-            $this->getConnection()->createQueryBuilder()
-                ->insert('hs_hr_config')
-                ->values(['name' => ':name', 'value' => ':value'])
-                ->setParameter('name', self::CONFIG_KEY_SLACK_ENABLED)
-                ->setParameter('value', '0')
-                ->executeQuery();
-        }
+            ->setParameter('value', '0')
+            ->executeQuery();
     }
 
     private const CONFIG_KEY_SLACK_ENABLED = 'slack.notifications.enabled';

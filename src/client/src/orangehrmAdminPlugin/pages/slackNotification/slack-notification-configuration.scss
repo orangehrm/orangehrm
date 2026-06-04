@@ -28,12 +28,21 @@
 .orangehrm-slack-section-divider {
   margin: 1.25rem 0 1.5rem;
 }
-
-.orangehrm-slack-table-card {
-  margin-top: 1.5rem;
-}
 .orangehrm-slack-section-hint {
   margin-bottom: 1rem;
+}
+
+// Make the form card and registrations-table card read as two distinct cards.
+// `.orangehrm-card-container` ships only with bg + radius + padding (no shadow,
+// no inter-card margin), so two siblings render flush against each other and
+// read as one block. The gap + subtle shadow give each card its own "lift" off
+// the page background — same convention used in module overview pages.
+.orangehrm-slack-config-card,
+.orangehrm-slack-table-card {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+.orangehrm-slack-table-card {
+  margin-top: 1.5rem;
 }
 .orangehrm-slack-registration {
   position: relative;

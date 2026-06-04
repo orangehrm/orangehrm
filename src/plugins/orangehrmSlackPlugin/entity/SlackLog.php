@@ -76,7 +76,7 @@ class SlackLog
     /**
      * @var int
      *
-     * @ORM\Column(name="recipient_count", type="integer", options={"default": 0})
+     * @ORM\Column(name="recipient_count", type="integer", options={"default" : 0})
      */
     private int $recipientCount = 0;
 

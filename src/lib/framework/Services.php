@@ -455,4 +455,29 @@ final class Services
      * @see \OrangeHRM\OpenidAuthentication\Service\SocialMediaAuthenticationService
      */
     public const SOCIAL_MEDIA_AUTH_SERVICE = 'oidc.social_media_auth_service';
+
+    /**
+     * @see \OrangeHRM\Slack\Service\SlackSettingsService
+     */
+    public const SLACK_SETTINGS_SERVICE = 'slack.settings_service';
+
+    /**
+     * @see \OrangeHRM\Slack\Service\SlackRegistrationService
+     */
+    public const SLACK_REGISTRATION_SERVICE = 'slack.registration_service';
+
+    /**
+     * @see \OrangeHRM\Slack\Service\SlackNotificationService
+     */
+    public const SLACK_NOTIFICATION_SERVICE = 'slack.notification_service';
+
+    /**
+     * @see \OrangeHRM\Slack\Service\Webhook\WebhookProviderRegistry
+     */
+    public const WEBHOOK_PROVIDER_REGISTRY = 'slack.webhook_provider_registry';
+
+    /**
+     * @see \OrangeHRM\Slack\Dao\SlackLogDao
+     */
+    public const SLACK_LOG_DAO = 'slack.log_dao';
 }

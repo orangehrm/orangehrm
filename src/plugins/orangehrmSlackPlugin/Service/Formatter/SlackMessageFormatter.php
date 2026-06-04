@@ -21,130 +21,81 @@ namespace OrangeHRM\Slack\Service\Formatter;
 
 use DateTime;
 use OrangeHRM\Entity\SlackRegistration;
-use OrangeHRM\Slack\Dto\SlackEmployeeRecipient;
+use OrangeHRM\Slack\Service\Formatter\Event\BirthdayMessageFormatter;
+use OrangeHRM\Slack\Service\Formatter\Event\EventMessageFormatterInterface;
+use OrangeHRM\Slack\Service\Formatter\Event\GenericMessageFormatter;
+use OrangeHRM\Slack\Service\Formatter\Event\LeaveTodayMessageFormatter;
+use OrangeHRM\Slack\Service\Formatter\Syntax\SlackMrkdwnDialect;
+use OrangeHRM\Slack\Service\Formatter\Syntax\SyntaxDialectInterface;
 
-class SlackMessageFormatter
+/**
+ * Slack-mrkdwn rendering. Thin dispatcher: holds the
+ * {@see SlackMrkdwnDialect} (the *syntax* — `*bold*`, `:shortcode:` emoji,
+ * `•` bullets) and a map of per-event formatters (the *structure* — header
+ * phrase, intro line, recipient row shape). Adding a new event type is one
+ * new class in the `Event/` folder + one line in this map; adding a new
+ * platform with a different markup is one new dialect + one new platform
+ * formatter (or this same class with a different dialect injected).
+ *
+ * Reused as-is for Google Chat — Google Chat accepts the same Slack-mrkdwn
+ * syntax (`*bold*`, `:emoji:` shortcodes). Teams uses materially different
+ * markup and has its own {@see TeamsMessageFormatter}.
+ *
+ * Emoji shortcodes (`:tada:`, `:birthday:`) — NOT Unicode glyphs — are the
+ * idiomatic Slack form. Slack:
+ *   1. natively expands `:tada:` to the workspace's preferred glyph at render
+ *      time (admins can swap in branded emoji),
+ *   2. autocompletes shortcodes in the message composer, so a manual reply
+ *      to one of our messages feels native,
+ *   3. documents its own incoming-webhook examples with shortcodes.
+ * Switching to Unicode would lose all three. Teams doesn't expand shortcodes,
+ * which is why {@see TeamsMessageFormatter} uses Unicode glyphs instead.
+ */
+class SlackMessageFormatter implements MessageFormatterInterface
 {
+    private SyntaxDialectInterface $dialect;
+
+    /** @var array<string, EventMessageFormatterInterface> */
+    private array $eventFormatters;
+
+    public function __construct(?SyntaxDialectInterface $dialect = null)
+    {
+        // Defaulting the dialect rather than requiring it lets the provider
+        // wire up with `new SlackMessageFormatter()` for the common case and
+        // pass a custom dialect only when needed (e.g. a future Slack variant).
+        $this->dialect = $dialect ?? new SlackMrkdwnDialect();
+        $this->eventFormatters = [
+            SlackRegistration::EVENT_TYPE_BIRTHDAY => new BirthdayMessageFormatter(),
+            SlackRegistration::EVENT_TYPE_LEAVE_TODAY => new LeaveTodayMessageFormatter(),
+        ];
+    }
+
     /**
-     * @param SlackEmployeeRecipient[] $recipients
+     * @param \OrangeHRM\Slack\Dto\SlackEmployeeRecipient[] $recipients
      */
     public function format(string $eventType, DateTime $date, array $recipients, ?string $subunitLabel = null): string
     {
-        switch ($eventType) {
-            case SlackRegistration::EVENT_TYPE_BIRTHDAY:
-                return $this->birthdayMessage($date, $recipients, $subunitLabel);
-            case SlackRegistration::EVENT_TYPE_LEAVE_TODAY:
-                return $this->leaveTodayMessage($date, $recipients, $subunitLabel);
-            default:
-                return $this->genericMessage($eventType, $date, $recipients, $subunitLabel);
-        }
+        return $this->resolve($eventType)->format($this->dialect, $date, $recipients, $subunitLabel);
     }
 
     public function formatTestMessage(string $eventType): string
     {
-        $sentAt = (new DateTime())->format('M j, Y \a\t g:i A');
-
-        $header = ":test_tube: *Test notification — OrangeHRM*\n"
-            . "This confirms your Slack webhook is configured correctly. No action is required.";
-
-        $footer = "\n\n_Sent {$sentAt} · OrangeHRM Slack notifications_";
-
-        switch ($eventType) {
-            case SlackRegistration::EVENT_TYPE_BIRTHDAY:
-                $preview =
-                    "\n\n*Preview — Birthday notification:*\n"
-                    . "> :birthday: *2 birthdays today* — example message\n"
-                    . "> Wish them a happy birthday! :tada:\n"
-                    . ">\n"
-                    . "> • *Alex Carter* — Engineering\n"
-                    . "> • *Priya Singh* — People Operations\n\n"
-                    . "When real birthdays match the schedule, you'll receive a message in this format. :white_check_mark:";
-                return $header . $preview . $footer;
-
-            case SlackRegistration::EVENT_TYPE_LEAVE_TODAY:
-                $preview =
-                    "\n\n*Preview — Employees on leave today:*\n"
-                    . "> :palm_tree: *2 employees on leave today* — example message\n"
-                    . "> Plan async work around their absence.\n"
-                    . ">\n"
-                    . "> • *Jordan Lee* — Annual leave _(Engineering)_\n"
-                    . "> • *Sam Patel* — Casual leave _(People Operations)_\n\n"
-                    . "When employees are on approved leave, you'll receive a message in this format. :white_check_mark:";
-                return $header . $preview . $footer;
-
-            default:
-                return $header
-                    . "\n\nIf you received this message, your Slack channel is connected. :white_check_mark:"
-                    . $footer;
-        }
+        return $this->resolve($eventType)->formatTest($this->dialect);
     }
 
     /**
-     * @param SlackEmployeeRecipient[] $recipients
+     * Resolves an event type to its formatter. Unknown event types use the
+     * {@see GenericMessageFormatter} fallback with the type name set so the
+     * generated message at least carries the right label rather than silently
+     * dropping to a placeholder.
      */
-    private function birthdayMessage(DateTime $date, array $recipients, ?string $subunitLabel): string
+    private function resolve(string $eventType): EventMessageFormatterInterface
     {
-        $count = count($recipients);
-        $countWord = $count === 1 ? '1 birthday' : "{$count} birthdays";
-
-        $header = ":birthday: *{$countWord} today* — " . $date->format('F j, Y');
-        if ($subunitLabel !== null) {
-            $header .= " · *{$subunitLabel}*";
+        if (isset($this->eventFormatters[$eventType])) {
+            return $this->eventFormatters[$eventType];
         }
-
-        $intro = "\nWish them a happy birthday! :tada:";
-
-        $lines = array_map(
-            fn(SlackEmployeeRecipient $r) => "• *" . $r->getFullName() . "*"
-                . ($r->getSubunit() ? " — " . $r->getSubunit() : ''),
-            $recipients
-        );
-
-        return $header . $intro . "\n\n" . implode("\n", $lines);
-    }
-
-    /**
-     * @param SlackEmployeeRecipient[] $recipients
-     */
-    private function leaveTodayMessage(DateTime $date, array $recipients, ?string $subunitLabel): string
-    {
-        $count = count($recipients);
-        $countWord = $count === 1 ? '1 employee' : "{$count} employees";
-
-        $header = ":palm_tree: *{$countWord} on leave today* — " . $date->format('F j, Y');
-        if ($subunitLabel !== null) {
-            $header .= " · *{$subunitLabel}*";
-        }
-
-        $intro = "\nPlan async work around their absence.";
-
-        $lines = array_map(
-            function (SlackEmployeeRecipient $r) {
-                $row = "• *" . $r->getFullName() . "*";
-                if ($r->getMetadata()) {
-                    $row .= " — " . $r->getMetadata();
-                }
-                if ($r->getSubunit()) {
-                    $row .= " _(" . $r->getSubunit() . ")_";
-                }
-                return $row;
-            },
-            $recipients
-        );
-
-        return $header . $intro . "\n\n" . implode("\n", $lines);
-    }
-
-    /**
-     * @param SlackEmployeeRecipient[] $recipients
-     */
-    private function genericMessage(string $eventType, DateTime $date, array $recipients, ?string $subunitLabel): string
-    {
-        $header = "*{$eventType}* — " . $date->format('Y-m-d');
-        if ($subunitLabel !== null) {
-            $header .= " _(" . $subunitLabel . ")_";
-        }
-        $lines = array_map(fn(SlackEmployeeRecipient $r) => "• " . $r->getFullName(), $recipients);
-        return $header . "\n" . implode("\n", $lines);
+        $generic = new GenericMessageFormatter();
+        $generic->setEventType($eventType);
+        return $generic;
     }
 }
