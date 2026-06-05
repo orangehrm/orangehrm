@@ -94,8 +94,9 @@ class EventMessageFormattersTest extends TestCase
 
         $this->assertStringContainsString('•', $slackOutput);
         $this->assertStringContainsString('- ', $teamsOutput);
-        $this->assertStringContainsString(':birthday:', $slackOutput);
+        $this->assertStringContainsString('🎂', $slackOutput);
         $this->assertStringContainsString('🎂', $teamsOutput);
+        $this->assertStringNotContainsString(':birthday:', $slackOutput);
     }
 
     public function testBirthdayOmitsDanglingDashWhenSubunitMissing(): void

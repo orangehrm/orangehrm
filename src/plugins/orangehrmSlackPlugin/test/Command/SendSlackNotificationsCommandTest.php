@@ -81,13 +81,13 @@ class SendSlackNotificationsCommandTest extends TestCase
         // Also clear registrations so the alternate path ("no active rows") is
         // dependably the one taken.
         $this->getEntityManager()->getConnection()->executeStatement(
-            'DELETE FROM ohrm_slack_log'
+            'DELETE FROM ohrm_workspace_notification_log'
         );
         $this->getEntityManager()->getConnection()->executeStatement(
-            'DELETE FROM ohrm_slack_registration_subunit'
+            'DELETE FROM ohrm_workspace_notification_registration_subunit'
         );
         $this->getEntityManager()->getConnection()->executeStatement(
-            'DELETE FROM ohrm_slack_registration'
+            'DELETE FROM ohrm_workspace_notification_registration'
         );
     }
 }

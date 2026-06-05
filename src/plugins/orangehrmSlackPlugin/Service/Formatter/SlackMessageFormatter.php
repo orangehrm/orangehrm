@@ -30,26 +30,19 @@ use OrangeHRM\Slack\Service\Formatter\Syntax\SyntaxDialectInterface;
 
 /**
  * Slack-mrkdwn rendering. Thin dispatcher: holds the
- * {@see SlackMrkdwnDialect} (the *syntax* — `*bold*`, `:shortcode:` emoji,
+ * {@see SlackMrkdwnDialect} (the *syntax* — `*bold*`, Unicode emoji,
  * `•` bullets) and a map of per-event formatters (the *structure* — header
  * phrase, intro line, recipient row shape). Adding a new event type is one
  * new class in the `Event/` folder + one line in this map; adding a new
  * platform with a different markup is one new dialect + one new platform
  * formatter (or this same class with a different dialect injected).
  *
- * Reused as-is for Google Chat — Google Chat accepts the same Slack-mrkdwn
- * syntax (`*bold*`, `:emoji:` shortcodes). Teams uses materially different
- * markup and has its own {@see TeamsMessageFormatter}.
- *
- * Emoji shortcodes (`:tada:`, `:birthday:`) — NOT Unicode glyphs — are the
- * idiomatic Slack form. Slack:
- *   1. natively expands `:tada:` to the workspace's preferred glyph at render
- *      time (admins can swap in branded emoji),
- *   2. autocompletes shortcodes in the message composer, so a manual reply
- *      to one of our messages feels native,
- *   3. documents its own incoming-webhook examples with shortcodes.
- * Switching to Unicode would lose all three. Teams doesn't expand shortcodes,
- * which is why {@see TeamsMessageFormatter} uses Unicode glyphs instead.
+ * Reused as-is for Google Chat — both platforms accept the same `*bold*` /
+ * `_italic_` / `•` bullet markup. Emojis are emitted as Unicode glyphs
+ * (rather than Slack `:shortcodes:`) because Google Chat does not expand
+ * shortcodes — Unicode is the lowest common denominator that renders
+ * identically everywhere. Teams uses a different markup and has its own
+ * {@see TeamsMessageFormatter}.
  */
 class SlackMessageFormatter implements MessageFormatterInterface
 {

@@ -155,7 +155,7 @@ class PurgeSlackLogsCommandTest extends KernelTestCase
 
     private function truncateSlackLog(): void
     {
-        $this->getEntityManager()->getConnection()->executeStatement('DELETE FROM ohrm_slack_log');
+        $this->getEntityManager()->getConnection()->executeStatement('DELETE FROM ohrm_workspace_notification_log');
     }
 
     private function insertLogDaysAgo(int $daysAgo): void
@@ -165,7 +165,7 @@ class PurgeSlackLogsCommandTest extends KernelTestCase
         $ts = (new \DateTime('now', new \DateTimeZone('UTC')))
             ->modify("-{$daysAgo} days");
         $this->getEntityManager()->getConnection()->executeStatement(
-            'INSERT INTO ohrm_slack_log (event_type, event_date, status, recipient_count, created_at) '
+            'INSERT INTO ohrm_workspace_notification_log (event_type, event_date, status, recipient_count, created_at) '
             . 'VALUES (:eventType, :eventDate, :status, :count, :createdAt)',
             [
                 'eventType' => 'BIRTHDAY',
@@ -180,7 +180,7 @@ class PurgeSlackLogsCommandTest extends KernelTestCase
     private function countSlackLog(): int
     {
         return (int)$this->getEntityManager()->getConnection()
-            ->executeQuery('SELECT COUNT(*) FROM ohrm_slack_log')
+            ->executeQuery('SELECT COUNT(*) FROM ohrm_workspace_notification_log')
             ->fetchOne();
     }
 

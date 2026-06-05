@@ -30,7 +30,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Throwable;
 
 /**
- * Daily purge of stale rows from `ohrm_slack_log`. Retention is 30 days by
+ * Daily purge of stale rows from `ohrm_workspace_notification_log`. Retention is 30 days by
  * default (the spec for B-4); the `--days` option lets an operator override
  * for ad-hoc runs (`--days=7` to clean up after a noisy dev push, `--days=0`
  * to wipe everything for a reset).
@@ -53,7 +53,7 @@ class PurgeSlackLogsCommand extends Command
     protected function configure(): void
     {
         $this->setDescription(
-            'Delete ohrm_slack_log rows older than the retention window (default 30 days).'
+            'Delete ohrm_workspace_notification_log rows older than the retention window (default 30 days).'
         );
         $this->addOption(
             self::OPT_DAYS,

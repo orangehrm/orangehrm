@@ -25,7 +25,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Table(name="ohrm_slack_registration")
+ * @ORM\Table(name="ohrm_workspace_notification_registration")
  * @ORM\Entity
  */
 class SlackRegistration
@@ -94,7 +94,7 @@ class SlackRegistration
      *
      * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\Subunit")
      * @ORM\JoinTable(
-     *     name="ohrm_slack_registration_subunit",
+     *     name="ohrm_workspace_notification_registration_subunit",
      *     joinColumns={@ORM\JoinColumn(name="registration_id", referencedColumnName="id", onDelete="CASCADE")},
      *     inverseJoinColumns={@ORM\JoinColumn(name="subunit_id", referencedColumnName="id", onDelete="CASCADE")}
      * )

@@ -59,7 +59,7 @@ class SlackLogDaoTest extends TestCase
 
         // Implicit m2m join table is not auto-truncated by the fixture loader.
         $this->getEntityManager()->getConnection()
-            ->executeStatement('DELETE FROM ohrm_slack_registration_subunit');
+            ->executeStatement('DELETE FROM ohrm_workspace_notification_registration_subunit');
 
         $this->registration = $this->makeRegistration('BIRTHDAY');
         $this->registrationDao->saveRegistration($this->registration);

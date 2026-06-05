@@ -34,7 +34,7 @@ use OrangeHRM\Slack\Service\Formatter\MessageFormatterInterface;
 interface WebhookProviderInterface
 {
     /**
-     * Stable identifier persisted in `ohrm_slack_registration.provider`
+     * Stable identifier persisted in `ohrm_workspace_notification_registration.provider`
      * (e.g. 'slack', 'google_chat'). The registry uses this to resolve
      * the right implementation for a given registration row.
      */

@@ -20,6 +20,7 @@
 namespace OrangeHRM\Slack\Dao;
 
 use DateTime;
+use DateTimeZone;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Entity\SlackLog;
 use OrangeHRM\Entity\SlackRegistration;
@@ -43,7 +44,12 @@ class SlackLogDao extends BaseDao
     public function recordLog(SlackLog $log): SlackLog
     {
         if ($log->getCreatedAt() === null) {
-            $log->setCreatedAt(new DateTime());
+            // Store UTC, matching the rest of the dispatcher
+            // (SlackNotificationService also uses UTC for `now` / `today`).
+            // Bare `new DateTime()` picks up PHP's date.timezone ini value,
+            // which on this stack defaults to Pacific/Auckland and produced
+            // wrong-looking timestamps in the audit log.
+            $log->setCreatedAt(new DateTime('now', new DateTimeZone('UTC')));
         }
         $this->persist($log);
         return $log;

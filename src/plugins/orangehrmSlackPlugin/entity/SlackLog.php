@@ -23,7 +23,7 @@ use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Table(name="ohrm_slack_log")
+ * @ORM\Table(name="ohrm_workspace_notification_log")
  * @ORM\Entity
  */
 class SlackLog

@@ -52,22 +52,24 @@ class SyntaxDialectsTest extends TestCase
         $this->assertSame('•', (new SlackMrkdwnDialect())->bullet());
     }
 
-    public function testSlackEmojiUsesShortcodes(): void
+    public function testSlackEmojiUsesUnicodeGlyphs(): void
     {
+        // Switched from Slack `:shortcodes:` to Unicode so Google Chat (which
+        // reuses this dialect but does NOT expand shortcodes) renders the
+        // same glyph as Slack and Teams.
         $d = new SlackMrkdwnDialect();
-        $this->assertSame(':tada:', $d->emoji('party'));
-        $this->assertSame(':birthday:', $d->emoji('birthday'));
-        $this->assertSame(':palm_tree:', $d->emoji('palm'));
-        $this->assertSame(':white_check_mark:', $d->emoji('check'));
-        $this->assertSame(':test_tube:', $d->emoji('test_tube'));
+        $this->assertSame('🎉', $d->emoji('party'));
+        $this->assertSame('🎂', $d->emoji('birthday'));
+        $this->assertSame('🌴', $d->emoji('palm'));
+        $this->assertSame('✅', $d->emoji('check'));
+        $this->assertSame('🧪', $d->emoji('test_tube'));
     }
 
-    public function testSlackUnknownEmojiFallsBackToLiteralShortcode(): void
+    public function testSlackUnknownEmojiFallsBackToEmptyString(): void
     {
-        // Future-proofing: an event formatter that uses a not-yet-mapped name
-        // should still produce *something* Slack can render — `:newname:` is
-        // a real Slack shortcode lookup, so the worst case is "unknown emoji".
-        $this->assertSame(':newname:', (new SlackMrkdwnDialect())->emoji('newname'));
+        // Matches the Teams fallback — a literal `:foo:` would print as plain
+        // text on Google Chat and look like a bug.
+        $this->assertSame('', (new SlackMrkdwnDialect())->emoji('newname'));
     }
 
     /* ─────────────────────── Teams MessageCard MD ────────────────────────────── */

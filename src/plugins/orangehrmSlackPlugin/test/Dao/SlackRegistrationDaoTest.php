@@ -45,7 +45,7 @@ class SlackRegistrationDaoTest extends TestCase
         // but does NOT touch the implicit m2m join table — purge it manually so
         // a prior test's join rows don't collide with this test's fresh ids.
         $conn = $this->getEntityManager()->getConnection();
-        $conn->executeStatement('DELETE FROM ohrm_slack_registration_subunit');
+        $conn->executeStatement('DELETE FROM ohrm_workspace_notification_registration_subunit');
     }
 
     /* ─────────────────────────── listRegistrations ───────────────────────────── */
@@ -188,7 +188,7 @@ class SlackRegistrationDaoTest extends TestCase
 
     public function testDeleteRegistrationCascadesJoinTable(): void
     {
-        // ON DELETE CASCADE on ohrm_slack_registration_subunit — verify nothing
+        // ON DELETE CASCADE on ohrm_workspace_notification_registration_subunit — verify nothing
         // dangles.
         $reg = $this->makeRegistration('BIRTHDAY', 'with-subs-doomed');
         $reg->addSubunit($this->subunitRef(2));
@@ -201,7 +201,7 @@ class SlackRegistrationDaoTest extends TestCase
         $count = (int)$this->getEntityManager()
             ->getConnection()
             ->fetchOne(
-                'SELECT COUNT(*) FROM ohrm_slack_registration_subunit WHERE registration_id = :id',
+                'SELECT COUNT(*) FROM ohrm_workspace_notification_registration_subunit WHERE registration_id = :id',
                 ['id' => $id]
             );
         $this->assertSame(0, $count, 'Cascade must clean the join rows');

@@ -1,0 +1,11 @@
+{{ dialect.emoji('birthday') }} {{ dialect.bold(headerText) }} {{ dialect.emoji('party') }}{% if subunitLabel %} · {{ dialect.bold(subunitLabel) }}{% endif %}
+
+{{ dialect.italic(dateLabel) }}
+
+{% for row in rows -%}
+{{ dialect.bullet() }} {{ dialect.bold(row.name) }}{% if row.subunit %} — {{ row.subunit }}{% endif %}{% if not loop.last %}
+
+{% endif %}
+{%- endfor %}
+
+{{ dialect.italic('Please join us in wishing them a wonderful day!') }} {{ dialect.emoji('party') }}

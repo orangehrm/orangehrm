@@ -26,7 +26,7 @@ use OrangeHRM\Core\Dao\ConfigDao;
  *
  * Storage moved from the dropped `ohrm_slack_setting` table to the platform `hs_hr_config`
  * table (LDAP precedent — see `auth.password_policy.*`, `instance.reg_consent`, etc.).
- * Per-registration timezone + send time live on `ohrm_slack_registration`.
+ * Per-registration timezone + send time live on `ohrm_workspace_notification_registration`.
  */
 class SlackSettingsService
 {

@@ -62,3 +62,11 @@
   justify-content: flex-start;
   margin: 1rem 0 0.5rem;
 }
+
+// Highlights the inline note that appears under the webhook URL field when
+// the admin swaps Platform mid-edit — same color the form uses for required-
+// errors so the prompt reads as a blocking action, not advisory.
+.orangehrm-platform-changed-hint {
+  color: var(--oxd-secondary-red-color, #c20a08);
+  font-weight: 600;
+}

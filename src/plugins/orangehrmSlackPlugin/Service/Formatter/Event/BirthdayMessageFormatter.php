@@ -25,22 +25,14 @@ use OrangeHRM\Slack\Service\Formatter\Syntax\SyntaxDialectInterface;
 
 class BirthdayMessageFormatter implements EventMessageFormatterInterface
 {
+    use TemplateRenderTrait;
+
     /**
-     * Renders the birthday notification body.
-     *
-     * Single-recipient case (the common one):
-     *   :birthday: Happy Birthday! Let's celebrate *Adam Samwell* from *Engineering* today!
-     *
-     * Multi-recipient case: a one-line header followed by one bullet per person,
-     * keeping the same "Name from Sub-unit" phrasing for consistency:
-     *   :birthday: Happy Birthday! Let's celebrate today's birthdays:
-     *   • *Alex Carter* from *Engineering*
-     *   • *Priya Singh* from *People Operations*
-     *
-     * `$date` and `$subunitLabel` are accepted to satisfy the interface but
-     * intentionally unused — the spec wording omits the date, and each
-     * recipient already carries their own subunit (the per-registration filter
-     * is just a query constraint, not a display element).
+     * Renders the birthday notification body via the sibling
+     * `templates/birthday.twig` template. The PHP side builds the context
+     * (pluralised header phrase, formatted date, recipient rows) and the
+     * template owns the layout/markup. Same template runs for Slack-mrkdwn
+     * and Teams-MessageCard — the `dialect` object handles the syntax delta.
      *
      * @param SlackEmployeeRecipient[] $recipients
      */
@@ -50,56 +42,24 @@ class BirthdayMessageFormatter implements EventMessageFormatterInterface
         array $recipients,
         ?string $subunitLabel = null
     ): string {
-        if (count($recipients) === 1) {
-            return $dialect->emoji('birthday') . ' '
-                . $this->celebrationLine($dialect, $recipients[0]) . '!';
-        }
-
-        $header = $dialect->emoji('birthday')
-            . " Happy Birthday! Let's celebrate today's birthdays:";
-
-        $lines = array_map(
-            function (SlackEmployeeRecipient $r) use ($dialect) {
-                $row = $dialect->bullet() . ' ' . $dialect->bold($r->getFullName());
-                if ($r->getSubunit()) {
-                    $row .= ' from ' . $dialect->bold($r->getSubunit());
-                }
-                return $row;
-            },
-            $recipients
-        );
-
-        return $header . "\n\n" . implode("\n", $lines);
-    }
-
-    /**
-     * Builds the user-facing celebration line for one recipient. Separated so
-     * the single-recipient `format()` path and any future preview/test path
-     * stay byte-for-byte aligned.
-     */
-    private function celebrationLine(SyntaxDialectInterface $dialect, SlackEmployeeRecipient $r): string
-    {
-        $line = "Happy Birthday! Let's celebrate " . $dialect->bold($r->getFullName());
-        if ($r->getSubunit()) {
-            $line .= ' from ' . $dialect->bold($r->getSubunit());
-        }
-        $line .= ' today';
-        return $line;
+        $count = count($recipients);
+        return $this->renderTemplate('birthday.twig', [
+            'dialect' => $dialect,
+            'headerText' => $count . ' ' . ($count === 1 ? 'birthday' : 'birthdays') . ' today',
+            'dateLabel' => $date->format('F j, Y'),
+            'subunitLabel' => $subunitLabel,
+            'rows' => array_map(fn (SlackEmployeeRecipient $r) => [
+                'name' => $r->getFullName(),
+                'subunit' => $r->getSubunit(),
+            ], $recipients),
+        ]);
     }
 
     public function formatTest(SyntaxDialectInterface $dialect): string
     {
-        $header = $dialect->emoji('test_tube') . ' '
-            . $dialect->bold('Test notification — OrangeHRM') . "\n"
-            . 'This confirms your webhook is configured correctly. No action is required.';
-
-        return $header
-            . "\n\n" . $dialect->bold('Preview — Birthday notification:') . "\n"
-            . '> ' . $dialect->emoji('birthday') . ' '
-            . "Happy Birthday! Let's celebrate "
-            . $dialect->bold('Alex Carter') . ' from ' . $dialect->bold('Engineering')
-            . " today!\n\n"
-            . 'When real birthdays match the schedule, you\'ll receive a message in this format. '
-            . $dialect->emoji('check');
+        return $this->renderTemplate('birthday.test.twig', [
+            'dialect' => $dialect,
+            'dateLabel' => (new DateTime())->format('F j, Y'),
+        ]);
     }
 }

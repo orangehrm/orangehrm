@@ -55,8 +55,10 @@ class SlackMessageFormatterTest extends TestCase
         $this->assertStringContainsString('June 2, 2026', $message);
         $this->assertStringContainsString('*Alex Carter*', $message);
         $this->assertStringContainsString('Engineering', $message);
-        $this->assertStringContainsString(':birthday:', $message);
-        $this->assertStringContainsString(':tada:', $message);
+        $this->assertStringContainsString('🎂', $message);
+        $this->assertStringContainsString('🎉', $message);
+        $this->assertStringNotContainsString(':birthday:', $message);
+        $this->assertStringNotContainsString(':tada:', $message);
     }
 
     public function testBirthdayWithMultipleRecipientsPluralises(): void
@@ -123,7 +125,8 @@ class SlackMessageFormatterTest extends TestCase
         $this->assertStringContainsString('*Jordan Lee*', $message);
         $this->assertStringContainsString('— Annual leave', $message);
         $this->assertStringContainsString('_(Engineering)_', $message);
-        $this->assertStringContainsString(':palm_tree:', $message);
+        $this->assertStringContainsString('🌴', $message);
+        $this->assertStringNotContainsString(':palm_tree:', $message);
     }
 
     public function testLeaveTodayOmitsParensWhenNoSubunit(): void
@@ -144,7 +147,7 @@ class SlackMessageFormatterTest extends TestCase
     {
         $message = $this->formatter->formatTestMessage(SlackRegistration::EVENT_TYPE_BIRTHDAY);
 
-        $this->assertStringContainsString(':test_tube:', $message);
+        $this->assertStringContainsString('🧪', $message);
         $this->assertStringContainsString('Test notification — OrangeHRM', $message);
         $this->assertStringContainsString('No action is required', $message);
         $this->assertStringContainsString('Preview — Birthday notification', $message);
@@ -155,7 +158,7 @@ class SlackMessageFormatterTest extends TestCase
     {
         $message = $this->formatter->formatTestMessage(SlackRegistration::EVENT_TYPE_LEAVE_TODAY);
 
-        $this->assertStringContainsString(':test_tube:', $message);
+        $this->assertStringContainsString('🧪', $message);
         $this->assertStringContainsString('Preview — Employees on leave today', $message);
         $this->assertStringContainsString('Annual leave', $message);
         $this->assertStringContainsString('Casual leave', $message);
@@ -165,7 +168,7 @@ class SlackMessageFormatterTest extends TestCase
     {
         $message = $this->formatter->formatTestMessage('NOT_A_REAL_EVENT_TYPE');
 
-        $this->assertStringContainsString(':test_tube:', $message);
+        $this->assertStringContainsString('🧪', $message);
         $this->assertStringContainsString('Test notification — OrangeHRM', $message);
         // The fallback wording is provider-neutral ("webhook destination" rather
         // than "Slack channel") so it still reads correctly for Google Chat.

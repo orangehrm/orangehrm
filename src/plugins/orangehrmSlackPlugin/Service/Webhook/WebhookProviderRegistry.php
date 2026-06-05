@@ -35,7 +35,7 @@ class WebhookProviderRegistry
 {
     /**
      * Fleet-wide ceiling shared by all providers. Matches the
-     * `ohrm_slack_registration.webhook_url` column. If a future provider needs
+     * `ohrm_workspace_notification_registration.webhook_url` column. If a future provider needs
      * a longer URL than this, bump the column via migration first.
      */
     public const MAX_URL_LENGTH = 512;

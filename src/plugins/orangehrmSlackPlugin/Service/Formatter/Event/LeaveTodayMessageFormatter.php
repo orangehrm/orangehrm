@@ -25,20 +25,13 @@ use OrangeHRM\Slack\Service\Formatter\Syntax\SyntaxDialectInterface;
 
 class LeaveTodayMessageFormatter implements EventMessageFormatterInterface
 {
+    use TemplateRenderTrait;
+
     /**
-     * Renders the "today's absences" notification.
-     *
-     * Template (per spec sample):
-     *   📢 Today's Absences (Marketing):
-     *   *Jane Smith* is on *Annual Leave*
-     *   _(Period: 2026/05/15 - 2026/05/20)_
-     *
-     * Header parenthetical resolves to `$subunitLabel` (the registration's
-     * sub-unit filter, if set). When the registration has no filter, we drop
-     * the parenthetical entirely — saying "(All Sub-Units)" is noisy and
-     * doesn't actually narrow anything down. Each recipient line uses the
-     * leave_request's applied period (start..end across all its days); a
-     * single-day leave collapses to one date so we don't render "X - X".
+     * Renders the "today's absences" notification via `templates/leaveToday.twig`.
+     * Each recipient line carries `name`, `leaveType` (the resolver populates
+     * this in `metadata`), and an optional `subunit`. Rows with no subunit
+     * skip the italic `_(Subunit)_` follow-up so we don't emit `_()_`.
      *
      * @param SlackEmployeeRecipient[] $recipients
      */
@@ -48,63 +41,25 @@ class LeaveTodayMessageFormatter implements EventMessageFormatterInterface
         array $recipients,
         ?string $subunitLabel = null
     ): string {
-        $headerCore = "Today's Absences";
-        if ($subunitLabel !== null && $subunitLabel !== '') {
-            $headerCore .= " ({$subunitLabel})";
-        }
-        $header = $dialect->emoji('megaphone') . ' '
-            . $dialect->bold($headerCore . ':');
-
-        $blocks = array_map(
-            function (SlackEmployeeRecipient $r) use ($dialect) {
-                $line = $dialect->bold($r->getFullName());
-                if ($r->getMetadata()) {
-                    $line .= ' is on ' . $dialect->bold($r->getMetadata());
-                } else {
-                    $line .= ' is on leave';
-                }
-                $periodLine = $this->renderPeriod($dialect, $r);
-                return $periodLine !== null ? $line . "\n" . $periodLine : $line;
-            },
-            $recipients
-        );
-
-        return $header . "\n\n" . implode("\n\n", $blocks);
-    }
-
-    /**
-     * Returns the `(Period: YYYY/MM/DD - YYYY/MM/DD)` italic line, or null if
-     * the recipient has no period (BIRTHDAY case, or LEAVE_TODAY with a
-     * resolver that hasn't populated the dates).
-     */
-    private function renderPeriod(SyntaxDialectInterface $dialect, SlackEmployeeRecipient $r): ?string
-    {
-        $start = $r->getStartDate();
-        $end = $r->getEndDate();
-        if ($start === null) {
-            return null;
-        }
-        $startFmt = $start->format('Y/m/d');
-        $endFmt = $end !== null ? $end->format('Y/m/d') : $startFmt;
-        $body = $startFmt === $endFmt
-            ? "Period: {$startFmt}"
-            : "Period: {$startFmt} - {$endFmt}";
-        return $dialect->italic("({$body})");
+        $count = count($recipients);
+        return $this->renderTemplate('leaveToday.twig', [
+            'dialect' => $dialect,
+            'headerText' => $count . ' ' . ($count === 1 ? 'employee' : 'employees') . ' on leave today',
+            'dateLabel' => $date->format('F j, Y'),
+            'subunitLabel' => $subunitLabel,
+            'rows' => array_map(fn (SlackEmployeeRecipient $r) => [
+                'name' => $r->getFullName(),
+                'leaveType' => $r->getMetadata() ?? 'leave',
+                'subunit' => $r->getSubunit(),
+            ], $recipients),
+        ]);
     }
 
     public function formatTest(SyntaxDialectInterface $dialect): string
     {
-        $header = $dialect->emoji('test_tube') . ' '
-            . $dialect->bold('Test notification — OrangeHRM') . "\n"
-            . 'This confirms your webhook is configured correctly. No action is required.';
-
-        return $header
-            . "\n\n" . $dialect->bold("Preview — Today's Absences:") . "\n"
-            . '> ' . $dialect->emoji('megaphone') . ' '
-            . $dialect->bold("Today's Absences (Marketing):") . "\n"
-            . '> ' . $dialect->bold('Jane Smith') . ' is on ' . $dialect->bold('Annual Leave') . "\n"
-            . '> ' . $dialect->italic('(Period: 2026/05/15 - 2026/05/20)') . "\n\n"
-            . 'When employees are on approved leave, you\'ll receive a message in this format. '
-            . $dialect->emoji('check');
+        return $this->renderTemplate('leaveToday.test.twig', [
+            'dialect' => $dialect,
+            'dateLabel' => (new DateTime())->format('F j, Y'),
+        ]);
     }
 }

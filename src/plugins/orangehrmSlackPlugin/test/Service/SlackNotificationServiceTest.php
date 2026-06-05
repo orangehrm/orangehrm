@@ -41,13 +41,13 @@ use RuntimeException;
 /**
  * Pins the orchestrator's branching contract — the slack scheduler hits this
  * exactly once per cron tick and the branches it takes are user-visible only
- * through the `ohrm_slack_log` audit trail. The cases here mirror every status
+ * through the `ohrm_workspace_notification_log` audit trail. The cases here mirror every status
  * the orchestrator can write:
  *
  *   - disabled global toggle      → no work, no rows
  *   - outside daily send window   → SKIPPED ("Outside send-time window")
  *   - already delivered today     → SKIPPED ("Already delivered today") — idempotency gate
- *   - resolver returns []         → SKIPPED ("No recipients matched") — retry-later safety
+ *   - resolver returns []         → SKIPPED (per-event-type "No employees …") — retry-later safety
  *   - unsupported event type      → FAILED ("Unsupported event type: …")
  *   - decrypted webhook empty     → FAILED ("Webhook URL is empty")
  *   - provider returns success    → SUCCESS log written
@@ -157,7 +157,7 @@ class SlackNotificationServiceTest extends KernelTestCase
 
     /* ─────────────────── inside window — dispatchRegistration paths ─────────── */
 
-    public function testNoRecipientsLogsSkippedAndDoesNotCallProvider(): void
+    public function testNoBirthdayRecipientsLogsSkippedWithBirthdayMessage(): void
     {
         $reg = $this->makeRegistration(21, $this->utcTimeOffsetMinutes(-1));
         $this->enableFor([$reg]);
@@ -165,12 +165,35 @@ class SlackNotificationServiceTest extends KernelTestCase
 
         $this->injectResolver(SlackRegistration::EVENT_TYPE_BIRTHDAY, $this->fakeResolverReturning([]));
 
-        $this->expectLogWith(SlackLog::STATUS_SKIPPED, 0, 'No recipients matched');
+        $this->expectLogWith(SlackLog::STATUS_SKIPPED, 0, 'No employees have birthdays today');
         $this->registry->expects($this->never())->method('getForRegistration');
 
         $result = $this->makeService()->dispatchDueNotifications();
         $this->assertSame(SlackLog::STATUS_SKIPPED, $result[21]['status']);
-        $this->assertSame('No recipients matched', $result[21]['error']);
+        $this->assertSame('No employees have birthdays today', $result[21]['error']);
+    }
+
+    public function testNoLeaveRecipientsLogsSkippedWithLeaveMessage(): void
+    {
+        // Per-event-type SKIPPED reason — keeps the audit trail self-explanatory
+        // without forcing the operator to cross-reference the event_type column.
+        $reg = $this->makeRegistration(
+            31,
+            $this->utcTimeOffsetMinutes(-1),
+            'UTC',
+            SlackRegistration::EVENT_TYPE_LEAVE_TODAY
+        );
+        $this->enableFor([$reg]);
+        $this->logDao->method('hasSuccessfulDeliveryForDate')->willReturn(false);
+
+        $this->injectResolver(SlackRegistration::EVENT_TYPE_LEAVE_TODAY, $this->fakeResolverReturning([]));
+
+        $this->expectLogWith(SlackLog::STATUS_SKIPPED, 0, 'No employees are on leave today');
+        $this->registry->expects($this->never())->method('getForRegistration');
+
+        $result = $this->makeService()->dispatchDueNotifications();
+        $this->assertSame(SlackLog::STATUS_SKIPPED, $result[31]['status']);
+        $this->assertSame('No employees are on leave today', $result[31]['error']);
     }
 
     public function testUnsupportedEventTypeLogsFailed(): void

@@ -250,7 +250,7 @@ class SlackRegistrationAPI extends Endpoint implements CrudEndpoint
      *     path="/api/v2/admin/slack-notification/registrations",
      *     tags={"Admin/Slack Notification"},
      *     summary="Delete one or more Slack notification registrations",
-     *     description="Bulk delete by ids. Cascades to ohrm_slack_log entries.",
+     *     description="Bulk delete by ids. Cascades to ohrm_workspace_notification_log entries.",
      *     operationId="delete-slack-notification-registrations",
      *     @OA\RequestBody(
      *         @OA\JsonContent(

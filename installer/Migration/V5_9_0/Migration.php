@@ -58,13 +58,13 @@ class Migration extends AbstractMigration
     {
         // Schema:
         //   - Global enable flag lives in hs_hr_config (LDAP pattern). No standalone settings table.
-        //   - ohrm_slack_registration: one row per (event_type, channel) destination. Multi-subunit
+        //   - ohrm_workspace_notification_registration: one row per (event_type, channel) destination. Multi-subunit
         //     filtering via join table. provider column reserves space for future Teams/Discord/etc.
-        //   - ohrm_slack_registration_subunit: M:N join (registration ↔ subunit).
-        //   - ohrm_slack_log: per-dispatch idempotency ledger + failure log.
+        //   - ohrm_workspace_notification_registration_subunit: M:N join (registration ↔ subunit).
+        //   - ohrm_workspace_notification_log: per-dispatch idempotency ledger + failure log.
 
-        if (!$this->getSchemaHelper()->tableExists(['ohrm_slack_registration'])) {
-            $this->getSchemaHelper()->createTable('ohrm_slack_registration')
+        if (!$this->getSchemaHelper()->tableExists(['ohrm_workspace_notification_registration'])) {
+            $this->getSchemaHelper()->createTable('ohrm_workspace_notification_registration')
                 ->addColumn('id', Types::INTEGER, ['Autoincrement' => true, 'Notnull' => true])
                 ->addColumn('provider', Types::STRING, ['Length' => 20, 'Notnull' => true, 'Default' => 'slack'])
                 ->addColumn('event_type', Types::STRING, ['Length' => 32, 'Notnull' => true])
@@ -79,25 +79,25 @@ class Migration extends AbstractMigration
                 ->create();
         }
 
-        if (!$this->getSchemaHelper()->tableExists(['ohrm_slack_registration_subunit'])) {
-            $this->getSchemaHelper()->createTable('ohrm_slack_registration_subunit')
+        if (!$this->getSchemaHelper()->tableExists(['ohrm_workspace_notification_registration_subunit'])) {
+            $this->getSchemaHelper()->createTable('ohrm_workspace_notification_registration_subunit')
                 ->addColumn('registration_id', Types::INTEGER, ['Notnull' => true])
                 ->addColumn('subunit_id', Types::INTEGER, ['Notnull' => true])
                 ->setPrimaryKey(['registration_id', 'subunit_id'])
                 ->create();
 
             $this->getSchemaHelper()->addForeignKey(
-                'ohrm_slack_registration_subunit',
+                'ohrm_workspace_notification_registration_subunit',
                 new ForeignKeyConstraint(
                     ['registration_id'],
-                    'ohrm_slack_registration',
+                    'ohrm_workspace_notification_registration',
                     ['id'],
                     'slack_reg_subunit_reg_fk',
                     ['onDelete' => 'CASCADE']
                 )
             );
             $this->getSchemaHelper()->addForeignKey(
-                'ohrm_slack_registration_subunit',
+                'ohrm_workspace_notification_registration_subunit',
                 new ForeignKeyConstraint(
                     ['subunit_id'],
                     'ohrm_subunit',
@@ -108,8 +108,8 @@ class Migration extends AbstractMigration
             );
         }
 
-        if (!$this->getSchemaHelper()->tableExists(['ohrm_slack_log'])) {
-            $this->getSchemaHelper()->createTable('ohrm_slack_log')
+        if (!$this->getSchemaHelper()->tableExists(['ohrm_workspace_notification_log'])) {
+            $this->getSchemaHelper()->createTable('ohrm_workspace_notification_log')
                 ->addColumn('id', Types::INTEGER, ['Autoincrement' => true, 'Notnull' => true])
                 ->addColumn('registration_id', Types::INTEGER, ['Notnull' => false, 'Default' => null])
                 ->addColumn('event_type', Types::STRING, ['Length' => 32, 'Notnull' => true])
@@ -122,10 +122,10 @@ class Migration extends AbstractMigration
                 ->create();
 
             $this->getSchemaHelper()->addForeignKey(
-                'ohrm_slack_log',
+                'ohrm_workspace_notification_log',
                 new ForeignKeyConstraint(
                     ['registration_id'],
-                    'ohrm_slack_registration',
+                    'ohrm_workspace_notification_registration',
                     ['id'],
                     'slack_log_registration',
                     ['onDelete' => 'CASCADE']
@@ -137,7 +137,7 @@ class Migration extends AbstractMigration
                     'idx_slack_log_dedupe',
                     ['registration_id', 'event_date', 'status']
                 ),
-                'ohrm_slack_log'
+                'ohrm_workspace_notification_log'
             );
         }
 

@@ -1,0 +1,9 @@
+{{ dialect.emoji('palm') }} {{ dialect.bold(headerText) }}{% if subunitLabel %} · {{ dialect.bold(subunitLabel) }}{% endif %}
+
+{{ dialect.italic(dateLabel) }}
+
+{% for row in rows -%}
+{{ dialect.bold(row.name) }} — {{ row.leaveType }}{% if row.subunit %} {{ dialect.italic('(' ~ row.subunit ~ ')') }}{% endif %}{% if not loop.last %}
+
+{% endif %}
+{%- endfor %}

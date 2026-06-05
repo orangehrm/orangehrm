@@ -20,28 +20,29 @@
 namespace OrangeHRM\Slack\Service\Formatter\Syntax;
 
 /**
- * Slack-mrkdwn dialect. Reused as-is for Google Chat — Google Chat accepts the
- * same `*bold*` / `_italic_` / `:emoji:` syntax. See
- * {@see \OrangeHRM\Slack\Service\Formatter\SlackMessageFormatter} for the
- * full rationale on why we emit `:shortcode:` form rather than Unicode glyphs.
+ * Slack-mrkdwn dialect. Reused as-is for Google Chat — both platforms accept
+ * the same `*bold*` / `_italic_` / `•` bullet syntax. Emojis are Unicode
+ * glyphs (matching {@see TeamsMrkdwnDialect}) because Google Chat does NOT
+ * expand `:shortcodes:` — using Unicode keeps all three platforms rendering
+ * the same character.
  */
 class SlackMrkdwnDialect implements SyntaxDialectInterface
 {
     /**
-     * Logical-name → Slack `:shortcode:` map. Adding an emoji here is the
-     * only place a new event formatter has to coordinate with the dialect —
-     * the event class refers to the name (`'party'`), never the shortcode.
+     * Logical-name → Unicode glyph map. Mirrors {@see TeamsMrkdwnDialect} —
+     * the only thing that varies across dialects now is bold delimiter (`*`
+     * vs `**`) and bullet glyph (`•` vs `-`). Adding an emoji here means
+     * adding the same name to the Teams dialect; the cross-dialect test in
+     * `SyntaxDialectsTest::testBothDialectsCoverTheSameEmojiNameSet` guards
+     * that invariant.
      */
-    private const EMOJI_SHORTCODES = [
-        'party' => ':tada:',
-        'birthday' => ':birthday:',
-        'palm' => ':palm_tree:',
-        'check' => ':white_check_mark:',
-        'test_tube' => ':test_tube:',
-        // 📢 — used by the "Today's Absences" header. Slack renders the same
-        // glyph for `:loudspeaker:` (📢) and `:mega:` (📣); the spec sample
-        // uses the steady-tone 📢 so we map there.
-        'megaphone' => ':loudspeaker:',
+    private const EMOJI_UNICODE = [
+        'party' => '🎉',
+        'birthday' => '🎂',
+        'palm' => '🌴',
+        'check' => '✅',
+        'test_tube' => '🧪',
+        'megaphone' => '📢',
     ];
 
     public function bold(string $text): string
@@ -61,9 +62,9 @@ class SlackMrkdwnDialect implements SyntaxDialectInterface
 
     public function emoji(string $name): string
     {
-        // Unknown emoji name → fall back to a literal `:name:`, which Slack
-        // either renders (if it's a real shortcode we forgot to register) or
-        // shows verbatim. Either way, no crash, no missing-symbol.
-        return self::EMOJI_SHORTCODES[$name] ?? (':' . $name . ':');
+        // Unknown name → empty string, matching the Teams fallback. Printing
+        // a literal `:foo:` would leak shortcode syntax into Google Chat
+        // where it renders verbatim and looks like a bug.
+        return self::EMOJI_UNICODE[$name] ?? '';
     }
 }

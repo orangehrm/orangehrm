@@ -236,7 +236,10 @@ class SlackNotificationService
         // FR-16: no data → don't send, and don't write a SUCCESS row (so we try again on a later tick
         // if data lands during the day). A SKIPPED row keeps an audit trail.
         if (count($recipients) === 0) {
-            return $this->finish($registration, $today, SlackLog::STATUS_SKIPPED, 0, 'No recipients matched');
+            $reason = $registration->getEventType() === SlackRegistration::EVENT_TYPE_BIRTHDAY
+                ? 'No employees have birthdays today'
+                : 'No employees are on leave today';
+            return $this->finish($registration, $today, SlackLog::STATUS_SKIPPED, 0, $reason);
         }
 
         $subunitNames = [];

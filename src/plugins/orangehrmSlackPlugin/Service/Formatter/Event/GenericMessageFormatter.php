@@ -34,6 +34,8 @@ use OrangeHRM\Slack\Service\Formatter\Syntax\SyntaxDialectInterface;
  */
 class GenericMessageFormatter implements EventMessageFormatterInterface
 {
+    use TemplateRenderTrait;
+
     private string $eventType = 'EVENT';
 
     public function setEventType(string $eventType): void
@@ -50,23 +52,21 @@ class GenericMessageFormatter implements EventMessageFormatterInterface
         array $recipients,
         ?string $subunitLabel = null
     ): string {
-        $header = $dialect->bold($this->eventType) . ' — ' . $date->format('Y-m-d');
-        if ($subunitLabel !== null) {
-            $header .= ' ' . $dialect->italic('(' . $subunitLabel . ')');
-        }
-        $lines = array_map(
-            fn (SlackEmployeeRecipient $r) => $dialect->bullet() . ' ' . $r->getFullName(),
-            $recipients
-        );
-        return $header . "\n" . implode("\n", $lines);
+        return $this->renderTemplate('generic.twig', [
+            'dialect' => $dialect,
+            'eventType' => $this->eventType,
+            'dateLabel' => $date->format('Y-m-d'),
+            'subunitLabel' => $subunitLabel,
+            'rows' => array_map(fn (SlackEmployeeRecipient $r) => [
+                'name' => $r->getFullName(),
+            ], $recipients),
+        ]);
     }
 
     public function formatTest(SyntaxDialectInterface $dialect): string
     {
-        return $dialect->emoji('test_tube') . ' '
-            . $dialect->bold('Test notification — OrangeHRM') . "\n"
-            . 'This confirms your webhook is configured correctly. No action is required.'
-            . "\n\nIf you received this message, your webhook destination is connected. "
-            . $dialect->emoji('check');
+        return $this->renderTemplate('generic.test.twig', [
+            'dialect' => $dialect,
+        ]);
     }
 }
