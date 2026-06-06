@@ -2,22 +2,36 @@
 
 Primary instruction document for AI coding agents working in this repository. Claude Code reads this via the root `CLAUDE.md → @AGENTS.md` import; AGENTS.md-aware tools (Cursor, Codex, others) discover it directly.
 
+## Session start (do this first, every new session)
+
+Before your first reply in a fresh session, run a quick skill-bridge check and greet the developer. Do this **once** at session start — don't repeat it on later turns.
+
+1. **Check the bridge for your tool.** Claude Code: is `.claude/skills/` present and populated? Cursor: is `.cursor/rules/` populated? Codex / other AGENTS.md tools: no bridge needed — you read `.agents/` directly, so treat skills as loaded.
+2. **Bridge missing** (while `.agents/skills/` has content) → the project's 28 skills + commands are NOT loaded in your tool. Greet, say so, and hold off on deep project work until it's fixed:
+   > 👋 Welcome to OrangeHRM Starter. This repo ships 28 skills + slash commands to help with the codebase, but they aren't loaded in your tool yet. Run the one-time setup — prompt me: *"Please follow `.agents/SETUP.md` to set yourself up for this project."* — then start a new session.
+3. **Bridge loaded** (or you're Codex) → greet and point new developers at onboarding:
+   > 👋 Welcome to OrangeHRM Starter. First time here? Run `/onboard` to stand up the Docker dev environment. Otherwise, ask away — 28 skills auto-load by topic (`.agents/skills/README.md` is the catalog), and the `ecosystem` skill has the external project resources (repos, docs, downloads, demo, mobile apps).
+
 ## Skills and commands
 
-This repository ships **25 project-level skills** + **slash commands** under `.agents/`:
+This repository ships **28 project-level skills** + **slash commands** under `.agents/`:
 
 - **Skills** — architecture/convention/recipe documents that auto-load by task description. See [`.agents/skills/README.md`](.agents/skills/README.md) for the catalog.
-- **Slash commands** — `.agents/commands/<name>.md` files invoked as `/<name>` in Claude Code (or the equivalent in other tools). Current commands: `/ohrm-onboard` (new-dev setup walkthrough), `/agent-sync` (re-sync the generated `.claude/` and `.cursor/` bridges after editing).
+- **Slash commands** — `.agents/commands/<name>.md` files invoked as `/<name>` in Claude Code (or the equivalent in other tools). Current commands: `/onboard` (new-dev setup walkthrough), `/agent-sync` (re-sync the generated `.claude/` and `.cursor/` bridges after editing).
 
 > **If skills or commands aren't loading in your tool**, run the one-time setup: prompt the agent with *"Please follow `.agents/SETUP.md` to set yourself up for this project."*. Once loaded you may have to start a new session. For **Claude Code** it creates symlinks (Linux/macOS/WSL2) or copies (Windows) from `.claude/skills/` and `.claude/commands/` → the matching `.agents/` paths, since Claude Code only auto-discovers under `.claude/`. For **Cursor** it generates thin pointer rules under `.cursor/rules/` (one `.mdc` per skill, Agent-Requested by description) plus `.cursor/commands/` copies. Codex and other AGENTS.md-aware tools need no setup — they read `.agents/` in place.
 
 The source of truth is always under `.agents/` — don't edit files in `.claude/skills/`, `.claude/commands/`, or `.cursor/rules/`.
 
+Project skills and commands use **bare kebab-case names** (no `ohrm-`/`orangehrm-` prefix) — they're already scoped by living under `.agents/`, and skills auto-trigger by description rather than by a typed name.
+
 ## What this repo is
 
 OrangeHRM Starter — the open-source edition of OrangeHRM (HRMS). Server is PHP on top of Symfony components + Doctrine ORM; client is a Vue 3 Multi page application with Backend Symfony routing. Distributed via SourceForge + Docker; current version tracked in `build/build.xml` (`<property name="version" .../>`) and `CHANGELOG.TXT`.
 
-PHP target: `^7.4|^8.0`. CI matrix runs against MySQL 5.7 and MariaDB 10.3 on PHP 8.3, and also validates install on PHP 8.4.
+External OrangeHRM Starter ecosystem references — related repos, public docs, release/download channels, mobile apps, demo, DockerHub, and AWS Marketplace links — live in [`.agents/skills/ecosystem/SKILL.md`](.agents/skills/ecosystem/SKILL.md).
+
+PHP support is defined by the Composer projects themselves (for the main app, read `src/composer.json`; for dev tooling, read `devTools/core/composer.json`). Installer runtime checks live in `installer/config/system_requirements.php`. CI support and database/PHP matrices are defined by the GitHub Actions workflows under `.github/workflows/`; inspect the current source files instead of relying on hardcoded versions in agent docs. See the `compatibility` and `dependencies` skills before changing supported versions or package metadata.
 
 ## Layout — the parts that matter
 
@@ -51,7 +65,7 @@ This repo is **not** intended to run against a host-installed PHP/MySQL/Node sta
 
 Details — container layout, hostnames (`http://php83/<subpath>/`), service list, `LOCAL_SRC` mounting convention, common `docker compose` invocations — live in `.claude/skills/dev-environment/SKILL.md`. **Read that skill first** if a task involves running anything locally, switching PHP/DB versions, or rebuilding containers.
 
-For a brand-new developer setting up from scratch, the interactive walkthrough is `/ohrm-onboard`. The command commands below are what to run *once you're shelled into the PHP container* (or, in rare cases, on a host that already has PHP/Composer/Node installed).
+For a brand-new developer setting up from scratch, the interactive walkthrough is `/onboard`. The commands below are what to run *once you're shelled into the PHP container* (or, in rare cases, on a host that already has PHP/Composer/Node installed).
 
 ## Common commands
 
