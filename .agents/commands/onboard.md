@@ -15,6 +15,7 @@ This is a walkthrough for a real person who may be new to Docker/Symfony/Vue. Tw
 - **One step at a time.** Don't dump the whole plan up front. State the current step's goal, do it (with consent), verify it worked, then move on.
 - **Verify after each step.** Don't trust "it printed something" — run a small check (list images after a build, `docker ps` after `up`, confirm `src/vendor` exists after `composer install`). Catch failures before they cascade.
 - **Adapt to their environment.** Linux distro / macOS / Windows+WSL2; Docker Desktop vs Engine; whether they're in the `docker` group on Linux. Adjust commands accordingly.
+- **Calibrate to their experience level** (captured in Step 0). For a beginner, explain the "why," expand acronyms, and go a step at a time; for an experienced dev, stay terse and command-first. Never drop the consent gates regardless of level.
 - **Track progress with TaskCreate** so they can see where they are, and if they return partway through, ask what they finished last and resume — don't restart.
 
 The flow below front-loads getting the environment **running**; the contribution-side setup (git identity, branch/commit conventions) comes near the end, once the app works. **Early on (Step 1) you derive the lowest PHP version the codebase supports and use that container throughout** — installing dependencies on the lowest supported runtime is a project rule (see the `dependencies` skill), not the newest available PHP. The exact commands for most steps live in the `dev-environment` skill (its **Common commands**, **Running PHP/Composer/Yarn**, and **DB access** sections). Read them from there, adapt to the developer's choices, explain, confirm, run, verify.
@@ -27,6 +28,7 @@ Tell them plainly what they're about to set up: a Docker stack (Nginx + PHP-FPM 
 
 Then gather the decisions you'll need — ask, don't assume:
 - **OS?** Linux distro / macOS / Windows+WSL2.
+- **Experience level?** Roughly how comfortable are they with Docker, PHP/Symfony, and Vue — and are they new to OrangeHRM itself? (beginner / intermediate / experienced is enough.) Use it to calibrate how much you explain — see "How to run this".
 - **Where is this repo cloned now?** Record the absolute path (`pwd`).
 - **Where should the dev-environment repo be cloned, and where should the OHRM source live?** Explain the team convention (keep them side by side; the OHRM checkout sits under the dev-env repo's `html/` so it's served directly — see the `dev-environment` skill's repo-layout section), but **let them pick the location.** You'll use their answers in Steps 2–3.
 

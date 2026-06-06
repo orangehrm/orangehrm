@@ -161,7 +161,7 @@ Run these checks (you, the agent):
 2. **List commands**: `ls .claude/commands/` should show `agent-sync.md` and `onboard.md` (and whatever else the project added since).
 3. **Read a known skill**: open one of them (e.g. `services/SKILL.md`) and confirm the YAML frontmatter is intact.
 4. **Confirm the doc shim**: open the root `CLAUDE.md`. It should contain `@AGENTS.md` (and nothing else).
-5. **Report to the user and point to the next step**: "Setup complete — I see N skills and M commands under `.claude/`. The project's main instructions are in `AGENTS.md`. **Start a fresh session so the skills and commands register**, then run `/onboard` to stand up your Docker dev environment. For external project resources (repos, docs, downloads, demo, mobile apps), ask the `ecosystem` skill."
+5. **Report to the user and point to the next step**: "Setup complete — I see N skills and M commands under `.claude/`. The project's main instructions are in `AGENTS.md`. **Start a fresh session so the skills and commands register**, then run `/onboard` to stand up your Docker dev environment. And if you need links to the project's external resources — source repos, docs, downloads, the demo site, mobile apps — just ask; I'll pull them up."
 
 If any check fails, **stop and tell the user** rather than continuing silently.
 
