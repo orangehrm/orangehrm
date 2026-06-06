@@ -78,11 +78,16 @@ The skills cross-link liberally. Some of the most-traveled paths:
 - **Changing supported runtime or package versions**: `compatibility` ↔ `dependencies` ↔ `dev-environment` ↔ `testing`
 - **Adding an event-triggered notification**: `events` ↔ `mail` ↔ `services`
 - **Encrypting a new sensitive field**: `security-primitives` ↔ `entities` (EntityListener) ↔ `migrations` (column sizing)
-- **Setting up a fresh checkout**: `dev-environment` ↔ the project's `/onboard` slash command (Claude Code only) ↔ `testing` (`instance:create-test-db`)
+- **Setting up a fresh checkout**: `dev-environment` ↔ the project's `/onboard` slash command (Claude Code & Cursor; other tools can run `.agents/commands/onboard.md` as a prompt)
 
 ---
 
 ## Convention for skill files
+
+> Generating or updating a skill or command? Read [`../AUTHORING.md`](../AUTHORING.md) first — it
+> holds the cross-agent-compatibility rules (tool-neutral bodies, trigger-rich `description`s,
+> source-of-truth under `.agents/`) that keep skills working in Claude Code, Cursor, Codex,
+> Antigravity, Copilot, and other `AGENTS.md`-aware tools.
 
 Each `<name>/SKILL.md` is structured:
 

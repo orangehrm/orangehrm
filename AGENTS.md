@@ -23,6 +23,8 @@ This repository ships **28 project-level skills** + **slash commands** under `.a
 
 The source of truth is always under `.agents/` — don't edit files in `.claude/skills/`, `.claude/commands/`, or `.cursor/rules/`.
 
+**Before generating or updating any skill or command**, read [`.agents/AUTHORING.md`](.agents/AUTHORING.md) — the rules that keep skills working across all coding agents (Claude Code, Cursor, Codex, Antigravity, Copilot, and other `AGENTS.md`-aware tools).
+
 Project skills and commands use **bare kebab-case names** (no `ohrm-`/`orangehrm-` prefix) — they're already scoped by living under `.agents/`, and skills auto-trigger by description rather than by a typed name.
 
 ## What this repo is
