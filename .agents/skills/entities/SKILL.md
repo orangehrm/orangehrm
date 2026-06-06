@@ -439,7 +439,7 @@ If you need a hierarchy with frequent "all descendants of X" queries, NestedSet 
 
 ## What's NOT used (don't propose these)
 
-- **PHP 8 attributes** for mapping. Doctrine 2.20 supports them, but the bootstrap uses `createAnnotationMetadataConfiguration` so only docblock annotations are scanned. A partial migration silently breaks the migrated entities.
+- **PHP 8 attributes** for mapping. Doctrine supports them, but the bootstrap uses `createAnnotationMetadataConfiguration` so only docblock annotations are scanned. A partial migration silently breaks the migrated entities. (The `doctrine-bootstrap` skill anchors the exact Doctrine version to `src/composer.json`.)
 - **`@HasLifecycleCallbacks`** / `@PrePersist` / `@PreUpdate` / etc. on the entity class itself. Use `@ORM\EntityListeners` instead — every existing example uses the external listener pattern.
 - **Custom `repositoryClass`** on `@Entity`. The DAO layer (see `daos` skill) replaces Doctrine's repository-per-entity feature; entities don't reference a repository class.
 - **Embedded objects (`@Embedded`)**. Not used.

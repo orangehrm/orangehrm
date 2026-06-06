@@ -1,304 +1,159 @@
 ---
-description: Interactive setup for a new OrangeHRM developer — sets up the Docker dev environment, mounts this repo into a PHP/DB container stack, installs the app, and verifies it loads in the browser.
+description: Interactive, consent-driven setup for a new OrangeHRM developer — stands up the Docker dev environment, mounts this repo into a PHP/DB container stack, installs the app, and verifies it loads. Explains each step before doing it and asks before changing anything on their machine.
 ---
 
-You are guiding a new developer through standing up a local OrangeHRM development environment. They have just cloned this repo and invoked `/onboard` from inside it. **The OrangeHRM team uses a Docker-based dev environment** — the developer does NOT install PHP, MySQL, or Node directly on their machine. They install Docker + Git, then everything else runs in containers from the companion repo [`orangehrm-os-dev-environment`](https://github.com/orangehrm/orangehrm-os-dev-environment).
+You are guiding a new developer through standing up a local OrangeHRM development environment. They have just cloned this repo and invoked `/onboard` from inside it. The OrangeHRM team uses a **Docker-based** dev environment — the developer does NOT install PHP, MySQL, or Node on their host; they install Docker + Git, and everything else runs in containers from the companion repo [`orangehrm-os-dev-environment`](https://github.com/orangehrm/orangehrm-os-dev-environment).
 
-Before starting, **read `.claude/skills/dev-environment/SKILL.md`** — it has the container naming, services list, and conventions you'll keep referring to. The steps below are the onboarding sequence; the skill is the reference you cross-check against when answering follow-ups or troubleshooting.
+**Read the `dev-environment` skill before you start.** It is the source of truth for the exact commands, container/host names, ports, available services, and the `LOCAL_SRC` / repo-layout convention. This command is the **flow** — the order of steps, the decisions to put to the developer, the consent gates, and the checks. When you need a concrete command or a fact (a hostname, a port, the build/up/down invocation), pull it from that skill rather than reproducing it here.
 
 ## How to run this
 
-- **One step at a time.** Don't dump the full plan up front. State the goal of the current step, run or have the dev run each command, check it actually worked, then proceed.
-- **Verify after each step.** Don't trust "it printed something" — run a small check. After `docker compose build`, list images. After `docker compose up`, `docker ps`. After `composer install`, check `src/vendor` exists. Catch failures before they cascade.
-- **Adapt to their environment.** Linux distro / macOS / Windows+WSL. Docker Desktop vs. Docker Engine. Whether the user is in the `docker` group (Linux) — if not, every `docker` call needs `sudo` and that's a friction point worth fixing once with `sudo usermod -aG docker $USER` + relog.
-- **Confirm before destructive or system-level actions.** Editing `/etc/hosts`, `usermod`, anything `sudo`. Show the change you'd make first.
-- **Use TaskCreate** to track the steps so progress is visible. The list below maps roughly 1:1 to tasks.
-
-If they come back partway through, ask what they finished last and resume — don't restart.
-
-## Step 0 — Greet and orient
-
-Briefly tell them: you'll set up a Docker-based dev environment in which this repo will be served by Nginx + PHP-FPM, backed by MariaDB, and reachable in their browser. Time: ~30–60 min, mostly the first docker image build. Confirm they want to proceed.
-
-Ask:
-- What OS are they on? (Linux distro / macOS / Windows+WSL2)
-- Where is this repo currently cloned? Record the absolute path — you'll need it for `LOCAL_SRC`. Get it with `pwd`.
-
-## Step 1 — Verify prerequisites
-
-Only three things are needed on the host:
-
-| Tool | Required | Check |
-|---|---|---|
-| Docker engine | 19.03+ (Docker Desktop is fine on macOS/Windows) | `docker --version`, then `docker info` to confirm the daemon is reachable |
-| Docker Compose | v2 plugin (`docker compose`) **or** legacy `docker-compose` 1.25+ — see below | run *both* checks |
-| Git | any recent version | `git --version` |
-
-If Docker isn't installed, point them at https://docs.docker.com/get-docker/ and stop until it's done — don't try to install Docker via a one-liner; the right path differs significantly by OS.
-
-### Detect which Compose command this dev has
-
-Run **both** checks and record which one succeeds — you'll use this throughout the rest of the walkthrough:
-
-```bash
-docker compose version       # v2 plugin form
-docker-compose --version     # legacy standalone binary
-```
-
-- If `docker compose version` succeeds → use `docker compose ...` (v2 plugin form) in every later step.
-- If only `docker-compose --version` succeeds → use `docker-compose ...` (hyphenated, legacy form). **Substitute this form in every later command in this walkthrough.** The two are command-compatible; only the invocation differs.
-- If both succeed → prefer `docker compose` (v2) — it's the actively maintained form.
-- If neither succeeds → they have Docker but no Compose. On Linux: `sudo apt install docker-compose-plugin` (Debian/Ubuntu) installs the v2 plugin. On Docker Desktop installs, Compose ships in the box — re-check with the right path.
-
-From here on in this walkthrough, write commands in whichever form they have, and call out the choice once at the top of each step that uses Compose so they don't get confused.
-
-**On Linux specifically**, check whether they're in the `docker` group with `groups | grep docker`. If not, recommend `sudo usermod -aG docker $USER` followed by logout/login (or `newgrp docker` for the current shell) so they don't need `sudo` for every command. Don't do this without asking — it modifies their user.
-
-Also recommend (but don't push) **PHPStorm** as the IDE the team standardizes on. They can install it later.
-
-## Step 2 — Configure Git for OrangeHRM contributions
-
-OrangeHRM commits must be authored with the developer's **OrangeHRM email** (`@orangehrm.com`), not a personal one. Inspect the global config first, then configure repo-locally only as needed.
-
-### Inspect the current global git identity
-
-```bash
-git config --global user.name
-git config --global user.email
-```
-
-Three cases:
-
-1. **Global email already ends with `@orangehrm.com`** → no email change needed. Their everyday git identity matches what OHRM wants. Move on to the `core.filemode` step below.
-
-2. **Global email is a personal/other email** (e.g. `@gmail.com`, `@outlook.com`, anything not `@orangehrm.com`) → **do not change the global config** (they likely use it for personal projects). Instead, set their OrangeHRM identity at the **project level** (inside this OHRM clone) so commits here use the right address. Ask them for their OrangeHRM name and email, then from inside the OHRM repo:
-
-   ```bash
-   git config user.name "Their Name"
-   git config user.email "their.email@orangehrm.com"
-   ```
-
-   No `--global` flag — this writes to `.git/config` and applies only to this repo. Show them the diff (or `cat .git/config`) so they see the scope is local.
-
-3. **No global email set at all** → ask whether they prefer their OrangeHRM email globally (fine if this machine is work-only) or only at the project level for this repo. Default to the **project level** for safety — same commands as case 2.
-
-### Set `core.filemode false` (project level)
-
-This is a per-repo setting — it tells git to ignore Unix file-mode bits when detecting changes, which avoids spurious diffs when files are touched by Docker volume mounts or by collaborators on different OSes. Set it inside this OHRM clone:
-
-```bash
-git config core.filemode false
-```
-
-Again no `--global` — applies only to this repo. If they'll work on multiple OHRM clones in the future they should run this in each, or set `git config --global core.filemode false` once if they always want this behavior on every repo they touch.
-
-### Verify
-
-From inside the OHRM repo:
-
-```bash
-git config --list --local | grep -E '^user\.|^core\.filemode'
-```
-
-Confirm `user.email` ends with `@orangehrm.com` (whether it's coming from global in case 1 or local in cases 2–3) and `core.filemode=false` is present.
-
-## Step 3 — Clone the Docker dev-environment repo
-
-The team convention is to place it under `~/Documents/` next to OrangeHRM clones:
-
-```bash
-git clone https://github.com/orangehrm/orangehrm-os-dev-environment ~/Documents/orangehrm-os-dev-environment
-cd ~/Documents/orangehrm-os-dev-environment
-mkdir -p html
-cp .env.dist .env
-```
-
-If `~/Documents` doesn't exist or they prefer elsewhere, swap the path — remember it, you'll use it repeatedly.
-
-## Step 4 — Decide where the OrangeHRM source lives, and set `LOCAL_SRC`
-
-`LOCAL_SRC` in `.env` is the host directory mounted into every container as `/var/www`. Two options:
-
-**Option A (team standard) — move/clone OHRM under `html/`.** Multiple OHRM versions can coexist there, each accessible at `http://php83/<dir-name>/`. If this is what they want, suggest moving the current clone:
-```bash
-mv <current OHRM path> ~/Documents/orangehrm-os-dev-environment/html/
-```
-Then `LOCAL_SRC` should be the absolute path of `html/`:
-```
-LOCAL_SRC=/home/<user>/Documents/orangehrm-os-dev-environment/html
-```
-
-**Option B — keep OHRM where it is, point `LOCAL_SRC` at its parent.** No moving required. Equivalent result, slightly less conventional. Use this if they have a reason to keep the clone in place (e.g. existing IDE project setup).
-
-Either way, edit `~/Documents/orangehrm-os-dev-environment/.env` so `LOCAL_SRC=…` is set to the chosen directory. Leave `MYSQL_ROOT_PW=root` and the rest at defaults for now. Show the dev the diff before saving.
-
-Remember the **subpath** the OHRM repo ends up at under `LOCAL_SRC` — they'll access it as `http://php83/<subpath>/`. Record it; you'll need it in Step 8.
-
-## Step 5 — Add the PHP hostnames to /etc/hosts
-
-The Nginx container routes by hostname, so each PHP container has its own short hostname mapped to localhost:
-
-```
-127.0.0.1   php56 php70 php71 php72 php73 php74 php80 php81 php82 php83
-```
-
-This requires sudo. Show them the exact line and confirm before running:
-```bash
-echo '127.0.0.1   php56 php70 php71 php72 php73 php74 php80 php81 php82 php83' | sudo tee -a /etc/hosts
-```
-
-Verify: `getent hosts php83` should return `127.0.0.1 php83`.
-
-(On macOS the file is the same path. On Windows+WSL2, edit `C:\Windows\System32\drivers\etc\hosts` from an Administrator Notepad — WSL inherits host resolution, but only the Windows file has effect.)
-
-## Step 6 — Build the Docker images
-
-CI runs PHP 8.3 + MariaDB 10.3, so build at least those. The first build pulls base images and compiles PHP extensions — expect 5–15 minutes on a typical machine, longer on first run with cold caches.
-
-```bash
-cd ~/Documents/orangehrm-os-dev-environment
-docker compose build nginx php-8.3
-```
-
-Add other PHP versions later only if they need to test compatibility (e.g. `php-7.4 php-8.2`). Legacy versions (PHP ≤ 7.3) need `-f docker-compose-legacy-services.yml`.
-
-Verify: `docker images | grep -E 'php-8.3|nginx'` should show recent images.
-
-## Step 7 — Start the stack
-
-```bash
-docker compose up -d phpmyadmin php-8.3 mariadb103
-```
-
-Verify all three started:
-```bash
-docker ps --format 'table {{.Names}}\t{{.Status}}\t{{.Ports}}' | grep os_dev
-```
-Expect to see `os_dev_php83`, `os_dev_mariadb103`, `os_dev_phpmyadmin`, and `os_dev_nginx` (nginx auto-starts as a dependency).
-
-If a container is missing or restarting, check its logs: `docker compose logs <service>`.
-
-Also sanity-check phpMyAdmin loads: open **http://localhost:9092** in the browser — login `root` / `root`, pick `mariadb103` from the server dropdown. If the page loads and connects, the DB container is healthy.
-
-## Step 8 — Install backend and frontend dependencies (inside the container)
-
-From here on, commands run **inside the PHP container**, not on the host:
-
-```bash
-docker exec -it os_dev_php83 bash
-```
-
-Inside the container, navigate to where the OHRM repo is mounted. If `LOCAL_SRC=…/html` and the repo is in `html/orangehrm-5x/`, then inside the container it's at `/var/www/orangehrm-5x/`. Cd there, then:
-
-```bash
-composer install -d src
-composer install -d devTools/core
-cd src/client && yarn install && yarn dev
-```
-
-`yarn dev` runs a webpack build in watch mode against `web/dist`. For an initial setup, a one-off `yarn build` is also fine — switch to `yarn dev` later when actively working on Vue.
-
-Optional, only if relevant:
-- `cd installer/client && yarn install && yarn dev` — only if they'll change the installer UI
-- `cd src/test/functional && yarn install` — only if they'll run Cypress E2E tests (Cypress itself usually runs on the host, not in the container)
-
-Exit the container with `exit` when done; the install state persists because everything went into the mounted volume.
-
-## Step 9 — Install OrangeHRM (web installer)
-
-In the browser, open `http://php83/<subpath>/` (the subpath you recorded in Step 4). The root `index.php` detects no install yet and redirects to `/installer/index.php`. Walk them through the wizard — recommended local-dev answers:
-
-- **Database host**: `mariadb103` ← this is the *container* hostname; from inside the PHP container it resolves to the DB container. Not `127.0.0.1`.
-- **Port**: `3306`
-- **Privileged DB user / password**: `root` / `root` (matches `MYSQL_ROOT_PW` in `.env`)
-- **Use existing DB**: No (the installer will create one)
-- **Database name**: suggest `orangehrm` (any name works; remember it for phpMyAdmin)
-- **Use same DB user for OrangeHRM at runtime**: Yes (simpler for dev; in production you'd say No)
-- **Enable data encryption**: No (simpler — they can rebuild with encryption later)
-- **Organization name / country**: anything
-- **Admin user**: pick a username + strong-enough password they'll remember; this is what they'll log in with
-
-Submit. The installer runs migrations and writes `src/config/Conf.php`. When it finishes, they should see a success page.
-
-If they prefer CLI, the equivalent (run inside the container, from the OHRM dir):
-```bash
-php installer/console install:on-new-database
-```
-Same prompts, terminal-based.
-
-## Step 10 — Smoke test the login
-
-Open `http://php83/<subpath>/` again — now it redirects to `/web/index.php/auth/login`. Log in with the admin credentials from Step 9. If the dashboard renders, the install is good. Walk them around the menu briefly so they see what a working instance looks like.
-
-If the page is blank or styles are broken, the most common cause is that `yarn dev` / `yarn build` in Step 8 hasn't produced `web/dist/` yet — check inside the container.
-
-## Step 11 — (Optional) Set up the PHPUnit test DB
-
-Skip if they're not running backend tests yet — they can come back later.
-
-Inside the container, from the OHRM directory:
-```bash
-php devTools/core/console.php instance:create-test-db -p root
-./src/vendor/bin/phpunit --testsuite Core
-```
-
-If the Core suite passes, the test environment is healthy.
-
-(The `i:` prefix in CI scripts — `i:create-test-db`, `i:reset`, `i:reinstall` — is just a shorthand alias for `instance:`. Either works.)
-
-## Step 12 — Quick tour of the codebase
-
-Briefly walk them through what they're looking at — short, not a lecture:
-- **Plugin-per-module backend** under `src/plugins/orangehrm{X}Plugin/`. Show one plugin (e.g. `orangehrmPimPlugin`): `Api/`, `Dao/`, `Service/`, `entity/`, `config/`. Each plugin is self-contained.
-- **Plugin entry class**: `{Name}PluginConfiguration.php` + sibling `routes.yaml`. Routes point at `GenericRestController::handle` with `_api: <FQCN>` and the controller dispatches CRUD methods on the endpoint.
-- **Vue side of each plugin** lives in `src/client/src/orangehrm{X}Plugin/`.
-- **Two console entry points**: `bin/console` (prod) vs. `devTools/core/console.php` (dev tools: `php-cs-fix`, `instance:reset/reinstall`, `generate-open-api-doc`, etc.).
-- **The repo's `.claude/CLAUDE.md`** is what guides Claude when working in this codebase — the contribution conventions live there.
-
-If they already know what module they're starting on, point at its files specifically (Pim → `src/plugins/orangehrmPimPlugin/Api/` + `src/client/src/orangehrmPimPlugin/pages/`).
-
-## Step 13 — Contribution workflow primer
-
-The team uses **JIRA-ticket-prefixed branches and commits** (visible in `git log`: e.g. `OHRM5X-2640: Commit trial code partially`). Tell them:
-
-- Branch off the versioned target branch (currently `5.x` for active development, `main` for trunk) using their ticket: `git checkout -b OHRM5X-NNNN`.
-- Commit messages: `OHRM5X-NNNN: <short imperative description>`.
-- For OSS contributions: fork `orangehrm/orangehrm` to their own GitHub account, clone the fork (not the upstream), push branches to the fork, open PRs against the upstream's versioned branch.
-- PRs are squash-merged by reviewers — no need to rebase before merge.
-
-If they're an OrangeHRM employee with push access to the org repo, the fork step is optional; otherwise it's required.
-
-## Step 14 — Wrap up
-
-Summarize what they have running, and the day-to-day commands they'll use most:
-
-```bash
-# Start the stack (from the dev-env repo)
-cd ~/Documents/orangehrm-os-dev-environment
-docker compose up -d phpmyadmin php-8.3 mariadb103
-
-# Stop the stack
-docker compose down
-
-# Shell into the PHP container to run composer/yarn/console
-docker exec -it os_dev_php83 bash
-
-# Tail logs
-docker compose logs -f php-8.3
-docker compose logs -f nginx
-
-# Browse the app                              http://php83/<subpath>/
-# Browse the DB (phpMyAdmin, root/root)       http://localhost:9092
-```
-
-Tell them: the codebase is mounted, not baked in — edits show up live. Restarting containers is only needed if they change PHP/Nginx config.
-
-Ask if they want help finding a first task to work on, or want a deeper dive into a specific plugin. Otherwise end here.
+This is a walkthrough for a real person who may be new to Docker/Symfony/Vue. Two things matter most: **they understand what's happening, and nothing changes on their machine without their say-so.**
+
+- **Explain before you do — informed consent.** Before each step, tell them in one or two plain sentences: *what* this step does, *why* it's needed, and *what it will change* (a new directory, a system file, their git config, a long download). Then proceed. For anything that **installs software, clones a repo, edits a system file (`/etc/hosts`), runs `sudo`/`usermod`, moves their existing clone, or writes git config — show the exact command or change first and wait for an explicit "yes."** Never run those silently.
+- **Ask, don't assume — especially locations.** Do not hardcode where things go. **Ask where they want the dev-environment repo cloned** and where the OrangeHRM source should live. Offer the team convention as a default they can accept, but let them choose.
+- **One step at a time.** Don't dump the whole plan up front. State the current step's goal, do it (with consent), verify it worked, then move on.
+- **Verify after each step.** Don't trust "it printed something" — run a small check (list images after a build, `docker ps` after `up`, confirm `src/vendor` exists after `composer install`). Catch failures before they cascade.
+- **Adapt to their environment.** Linux distro / macOS / Windows+WSL2; Docker Desktop vs Engine; whether they're in the `docker` group on Linux. Adjust commands accordingly.
+- **Track progress with TaskCreate** so they can see where they are, and if they return partway through, ask what they finished last and resume — don't restart.
+
+The flow below front-loads getting the environment **running**; the contribution-side setup (git identity, branch/commit conventions) comes near the end, once the app works. **Early on (Step 1) you derive the lowest PHP version the codebase supports and use that container throughout** — installing dependencies on the lowest supported runtime is a project rule (see the `dependencies` skill), not the newest available PHP. The exact commands for most steps live in the `dev-environment` skill (its **Common commands**, **Running PHP/Composer/Yarn**, and **DB access** sections). Read them from there, adapt to the developer's choices, explain, confirm, run, verify.
 
 ---
 
-**Reminder to Claude:**
-- The developer may be new to Docker, Symfony, Doctrine, or Vue — keep explanations short but not skipped. One sentence of "why" per step. When they hit an error, troubleshoot it before moving on; don't paper over it.
-- Cross-check details (container names, hostnames, ports, available services) against `.claude/skills/dev-environment/SKILL.md` rather than recalling from memory.
-- **Compose command:** after Step 1, you know whether the dev has `docker compose` (v2) or `docker-compose` (legacy). **Every Compose command you write in subsequent steps must use that form** — substitute, don't blindly copy from the example blocks above. If the dev's form is the legacy one, every `docker compose <args>` in this file becomes `docker-compose <args>` when you show it to them.
-- **Git scope:** when fixing/changing git identity in Step 2, default to **project-level** (`git config ...`, no `--global`) unless the dev explicitly asked for a global change. Don't silently modify their global git identity.
+## Step 0 — Greet, orient, and get consent to proceed
+
+Tell them plainly what they're about to set up: a Docker stack (Nginx + PHP-FPM + MariaDB) that serves *this* repo and is reachable in their browser. Rough time: ~30–60 min, mostly the first image build. **Confirm they want to proceed.**
+
+Then gather the decisions you'll need — ask, don't assume:
+- **OS?** Linux distro / macOS / Windows+WSL2.
+- **Where is this repo cloned now?** Record the absolute path (`pwd`).
+- **Where should the dev-environment repo be cloned, and where should the OHRM source live?** Explain the team convention (keep them side by side; the OHRM checkout sits under the dev-env repo's `html/` so it's served directly — see the `dev-environment` skill's repo-layout section), but **let them pick the location.** You'll use their answers in Steps 2–3.
+
+## Step 1 — Verify prerequisites
+
+Explain: only Docker, Docker Compose, and Git are needed on the host — nothing else.
+
+- Check `docker --version` + `docker info` (daemon reachable), and `git --version`. If Docker isn't installed, point them at https://docs.docker.com/get-docker/ and **stop until it's done** — don't try to install Docker via a one-liner; the right path differs by OS.
+- **Detect the Compose form** they have: try `docker compose version` (v2 plugin) and `docker-compose --version` (legacy). Record which one works — **use that form in every later Compose command** you show them. Prefer v2 if both exist. If neither: they have Docker but no Compose (Linux: install the `docker-compose-plugin`; Docker Desktop ships it).
+- **Linux only:** check `groups | grep docker`. If they're not in the `docker` group, *offer* `sudo usermod -aG docker $USER` + relog so they don't need `sudo` every time — but **show it and ask first** (it modifies their user).
+
+Optionally mention PHPStorm as the team's standard IDE (they can install it later).
+
+### Determine the PHP version to use (lowest supported)
+
+Before building anything, derive the **lowest PHP version this codebase supports** and use *that* version's container throughout — **not** the newest. Per the `dependencies` and `compatibility` skills, Composer dependencies must be installed and resolved on the lowest supported runtime so they stay compatible across every version the app supports; resolving on a newer PHP can silently select packages that break the lower bound.
+
+- Read `src/composer.json` (`require.php` and `config.platform.php`) to find the lowest supported version — **derive it, don't assume a number** (it changes over releases). The main app's `composer.json` is what the dev environment runs; `devTools/core/composer.json` may differ.
+- Map it to the dev-env's container naming (see the `dev-environment` skill). For the rest of this flow, substitute these everywhere they appear:
+  - **`<php-svc>`** — the Compose service for that version (e.g. for PHP 7.4 → `php-7.4`)
+  - **`<php-host>`** — its hostname / short name (e.g. `php74`) → container `os_dev_<php-host>`, browse URL `http://<php-host>/…`
+
+The developer can add other PHP versions later (to match the CI matrix, or to test compatibility — the dev-env can serve the same checkout under several PHP versions at once). But the **lowest supported version is the one to install on and work in by default.**
+
+## Step 2 — Clone the dev-environment repo (ask where first)
+
+Explain what this repo is (the container definitions) and that you're about to **clone it onto their machine**. **Use the location they chose in Step 0** — confirm the exact target path, then show the `git clone …` command and the follow-up setup (create `html/`, copy `.env.dist` → `.env`) and get a "yes" before running. The exact commands and the layout convention are in the `dev-environment` skill — adapt the path to their choice.
+
+Verify the clone exists and `.env` was created.
+
+## Step 3 — Decide where the OHRM source lives, set `LOCAL_SRC`
+
+Explain `LOCAL_SRC`: it's the host directory mounted into every container as `/var/www` (full mechanics in the `dev-environment` skill). Put the decision to them:
+
+- **Option A (team standard):** move/clone this OHRM checkout under the dev-env repo's `html/`. Multiple versions can coexist, each served at its own subpath. If they choose this, **moving their existing clone is a destructive-ish action — show the `mv` and confirm.**
+- **Option B:** leave OHRM where it is and point `LOCAL_SRC` at its parent directory. No move.
+
+Edit `.env` so `LOCAL_SRC` is the chosen directory — **show the diff before saving.** Record the **subpath** the OHRM repo ends up at; they'll browse it at `http://<php-host>/<subpath>/` (Steps 8–9).
+
+## Step 4 — Add PHP hostnames to /etc/hosts
+
+Explain: Nginx routes by hostname, so each PHP container needs a short hostname mapped to localhost — this requires editing a **system file with sudo.** The exact line is in the `dev-environment` skill. **Show them the precise line and the `sudo` command, and confirm before running.** Then verify (e.g. `getent hosts <php-host>`).
+
+(macOS: same path. Windows+WSL2: edit `C:\Windows\System32\drivers\etc\hosts` as Administrator — WSL inherits Windows host resolution.)
+
+## Step 5 — Build the Docker images
+
+Explain: this compiles the PHP/Nginx images and is the slow part (~5–15 min on first run, longer cold). Build the **lowest-supported PHP image you derived in Step 1** (`<php-svc>`) plus nginx — get the exact build command from the `dev-environment` skill. They can build additional PHP versions later (to match the CI matrix, or to test cross-version compatibility — the CI PHP/DB combination is defined in the GitHub Actions workflows; see the `compatibility` skill).
+
+Verify the images exist (`docker images | grep …`).
+
+## Step 6 — Start the stack
+
+Explain: this starts the DB + your `<php-svc>` (the lowest-supported PHP) + phpMyAdmin containers (Nginx auto-starts as a dependency). Command in the `dev-environment` skill.
+
+Verify with `docker ps` that the expected `os_dev_*` containers are up and not restarting; check `docker compose logs <service>` if any are missing. Then sanity-check phpMyAdmin loads in the browser (URL/credentials in the skill's **DB access** section) — if it connects, the DB is healthy.
+
+## Step 7 — Install dependencies (inside the PHP container)
+
+Explain: from here, commands run **inside the lowest-supported-PHP container** — `os_dev_<php-host>` — because Composer must resolve dependencies on the lowest supported runtime (the whole reason you derived it in Step 1). They run against the mounted source, so installed deps persist on their disk. The shell-in command and the `composer install` / `yarn` sequence are in the `dev-environment` skill's **Running PHP/Composer/Yarn** section. Adapt the in-container path to where their checkout is mounted.
+
+Mention the optional installs (installer UI, Cypress) only if relevant. Verify `src/vendor` and `web/dist` exist afterward.
+
+## Step 8 — Install OrangeHRM
+
+Explain: now they run the installer, which creates the DB schema and writes config. Easiest path is the **web installer** at `http://<php-host>/<subpath>/` (first visit redirects to `/installer/`); the CLI equivalent is `php installer/console install:on-new-database` inside the container.
+
+Walk them through the wizard with recommended local-dev answers:
+- **DB host:** the MariaDB **container name** (e.g. `mariadb103`), **not** `127.0.0.1` — this trips everyone up; the `dev-environment` skill explains why. Port `3306`.
+- **Privileged user / password:** `root` / `root` (matches `.env`).
+- **Create new DB:** yes; **name:** e.g. `orangehrm` (remember it). **Same user at runtime:** yes (dev only). **Data encryption:** no (simpler; can redo later).
+- **Org/country:** anything. **Admin user:** a username + password they'll remember — this is their login.
+
+Verify they reach the success page.
+
+## Step 9 — Smoke test the login
+
+Open `http://<php-host>/<subpath>/` — it should now redirect to the login. Log in with the admin credentials. If the dashboard renders, the install is good. If the page is blank/unstyled, the usual cause is `web/dist/` not built yet (Step 7) — check inside the container.
+
+## Step 10 — (Optional) PHPUnit test DB
+
+Skip unless they want to run backend tests now (they can return later). The test-DB creation step and how to run suites are owned by the `testing` skill — point them there and run a small suite to confirm the test environment is healthy.
+
+## Step 11 — Quick tour of the codebase
+
+Keep it short — orient, don't lecture. Point at the real structure and the skills that explain each layer:
+- **Plugin-per-module backend** under `src/plugins/orangehrm{X}Plugin/` (`Api/`, `Dao/`, `Service/`, `entity/`, `config/`) — each self-contained. The mechanics are in the `rest-endpoints`, `services`, `entities`, and `authorization` skills.
+- **Vue side** of each plugin under `src/client/src/orangehrm{X}Plugin/` — see `frontend-pages`.
+- **Two console entry points:** `bin/console` (prod) vs `devTools/core/console.php` (dev tools) — see `console-commands`.
+- **`AGENTS.md`** at the repo root is the primary guide to contributing in this codebase; the skill catalog is `.agents/skills/README.md`.
+
+If they already know their first module, point at its files directly.
+
+## Step 12 — Configure Git identity for OrangeHRM
+
+Now that the environment runs, get them ready to commit. Explain: OrangeHRM commits should be authored with their `@orangehrm.com` email, and **you will default to setting this at the project level (this repo only), never touching their global git config unless they ask.**
+
+- Inspect `git config --global user.name` / `user.email` first.
+  - Already `@orangehrm.com` globally → nothing to change.
+  - A personal email globally → **leave global alone**; set `user.name`/`user.email` locally in this repo (no `--global`). Show them it's local (`cat .git/config`).
+  - Nothing set → ask their preference; **default to project-level.**
+- Also set `git config core.filemode false` in this repo (explain: avoids spurious diffs from Docker volume mounts / cross-OS mode bits). No `--global`.
+- Verify with `git config --list --local | grep -E '^user\.|^core\.filemode'`.
+
+## Step 13 — Contribution workflow primer
+
+Summarize the team conventions (the authoritative list is in `AGENTS.md` → "Conventions to follow"):
+- **JIRA-ticket-prefixed branches and commits** — branch `OHRM5X-NNNN`, commit `OHRM5X-NNNN: <short imperative>`.
+- Branch off the active target branch (e.g. `5.x` / `main`).
+- OSS contributors: fork `orangehrm/orangehrm`, push to the fork, PR against upstream's versioned branch. Employees with org push access can skip the fork.
+- PRs are squash-merged by reviewers.
+
+## Step 14 — Wrap up
+
+Summarize what's now running and where to go next. **Point them at the `dev-environment` skill's "Common commands" as their day-to-day reference** (start/stop the stack, shell into the container, tail logs, browse the app and phpMyAdmin) rather than restating those commands here. Remind them: the codebase is mounted, not baked in — edits show up live; restart containers only when changing PHP/Nginx config.
+
+**Persist the setup so future sessions can recall it.** If your tool has a memory / notes store, record what you gathered and chose here — the dev-environment repo path, the OHRM subpath + browse URL, the PHP version (and DB), and any non-default ports — per the `dev-environment` skill's "Recording where the dev environment lives". This repo can't know where they set things up, so without this you'd have to re-derive it every session.
+
+Ask if they'd like help finding a first task or a deeper dive into a specific plugin. Otherwise, end here.
+
+---
+
+**Reminders to the agent running this:**
+- **Consent and clarity are the point.** Explain each step in plain language before acting, and never install / clone / edit system files / change git config without showing the exact action and getting a yes. One sentence of "why" per step — short, not skipped.
+- **Environment first.** Get the stack running and the app loading (Steps 1–9) before the contribution-side setup (git identity, workflow — Steps 12–13). Don't block a developer on git config when they're trying to get the app up.
+- **Lowest supported PHP, always.** In Step 1 you derive the lowest PHP version the codebase supports from `src/composer.json` and use that container (`<php-svc>` / `os_dev_<php-host>`) for building, running, and especially installing dependencies — never the newest. This is a project rule from the `dependencies` skill: resolving Composer deps on a newer PHP can pull packages that break the lower bound. Don't fall back to `php83`/`php-8.3` examples from the `dev-environment` skill — substitute the derived version.
+- **The `dev-environment` skill is the source of truth** for commands, container/host names, ports, services, and `LOCAL_SRC`. Pull them from there and adapt to the developer's chosen paths — don't recall facts from memory or duplicate them into this flow.
+- **Compose form:** after Step 1 you know whether they have `docker compose` (v2) or `docker-compose` (legacy). Use their form in every Compose command you show.
+- **Git scope:** default to project-level config; don't touch their global git identity unless they explicitly ask.
+- When they hit an error, troubleshoot it before moving on — don't paper over it.

@@ -6,7 +6,9 @@ Primary instruction document for AI coding agents working in this repository. Cl
 
 Before your first reply in a fresh session, run a quick skill-bridge check and greet the developer. Do this **once** at session start — don't repeat it on later turns.
 
-1. **Check the bridge for your tool.** Claude Code: is `.claude/skills/` present and populated? Cursor: is `.cursor/rules/` populated? Codex / other AGENTS.md tools: no bridge needed — you read `.agents/` directly, so treat skills as loaded.
+1. **Check the bridge for your tool — by running a command, never from memory or assumption.** You have not done this check until a tool call's output proves it. Claude Code: run `ls .claude/skills/ 2>/dev/null | wc -l` and read the count from the output. Cursor: list `.cursor/rules/`. Codex / other AGENTS.md tools: no bridge needed — you read `.agents/` directly, so treat skills as loaded.
+
+   > **Hard gate:** Do **not** say "the bridge is loaded", "you're all set", or anything implying skills are active unless the command above actually ran *this turn* and returned a non-empty count. If you haven't run it, you don't know — treat the bridge as missing and run the check before greeting. Asserting the result without the command is a failure.
 2. **Bridge missing** (while `.agents/skills/` has content) → the project's 28 skills + commands are NOT loaded in your tool. Greet, say so, and hold off on deep project work until it's fixed:
    > 👋 Welcome to OrangeHRM Starter. This repo ships 28 skills + slash commands to help with the codebase, but they aren't loaded in your tool yet. Run the one-time setup — prompt me: *"Please follow `.agents/SETUP.md` to set yourself up for this project."* — then start a new session.
 3. **Bridge loaded** (or you're Codex) → greet and point new developers at onboarding:

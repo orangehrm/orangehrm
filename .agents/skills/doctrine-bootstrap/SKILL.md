@@ -107,7 +107,7 @@ This is a **multi-path PSR-4 namespace** — `OrangeHRM\Entity\Foo` can live in 
 
 **Adding a new plugin with entities means editing this array AND running `composer dump-autoload -d src`.** Forgetting causes silent failures: the entity may still load (because plain PHP class resolution might find it via some other path), but Doctrine's metadata scan misses it and you get "Entity 'OrangeHRM\Entity\Foo' has no metadata" at query time.
 
-This is already called out in `.claude/CLAUDE.md`'s "Things that bite" — it's the classic foot-gun when introducing a new plugin.
+This is also called out in the root `AGENTS.md` "Things that bite" and in the `entities` skill — it's the classic foot-gun when introducing a new plugin.
 
 ## Cache strategy
 
