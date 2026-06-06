@@ -9,6 +9,8 @@ Local dev runs through a **separate companion repo**, [`orangehrm-os-dev-environ
 
 For the broader set of external OrangeHRM Starter repositories, release channels, docs, demo, mobile app listings, DockerHub image, and cloud package links, see the `ecosystem` skill.
 
+For supported-version policy across Composer constraints, installer requirements, CI workflows, frontend/browser targets, and packaging, see the `compatibility` skill. For Composer/Yarn dependency changes, see the `dependencies` skill.
+
 ## Repo layout convention
 
 The team standard is:
@@ -50,7 +52,7 @@ Pattern: `os_dev_<service>`. E.g. `os_dev_php83`, `os_dev_mariadb103`, `os_dev_p
 **MariaDB**: `mariadb55`, `mariadb100`–`mariadb103`, `mariadb106`–`mariadb109`, `mariadb1010`, `mariadb1011`, `mariadb110`, `mariadb111`, `mariadb112`
 **Other**: `nginx`, `phpmyadmin`
 
-CI matrix runs against MySQL 5.7 and MariaDB 10.3 on PHP 8.3, with secondary install validation on PHP 8.4. For development, **PHP 8.3 + MariaDB 10.3** mirrors CI most closely.
+The current CI matrix is defined in the GitHub Actions workflows under `.github/workflows/`. Inspect those workflow files before claiming which PHP/database combination mirrors CI most closely.
 
 ## Common commands
 

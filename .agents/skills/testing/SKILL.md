@@ -10,7 +10,7 @@ OrangeHRM tests fall into four buckets:
 1. **PHPUnit unit / integration tests** — `src/plugins/orangehrm{X}Plugin/test/` (per-plugin)
 2. **Jest frontend unit tests** — `src/client/src/**/__tests__/*.spec.ts` (mostly util-function tests; component tests are rare)
 3. **Cypress E2E** — `src/test/functional/cypress/` (separate workspace, browser-driven)
-4. **Migration / installer / linting smoke tests** — covered by CI workflows (see `dev-environment` skill for the workflow list)
+4. **Migration / installer / linting smoke tests** — covered by CI workflows (see `compatibility` for version/matrix policy and `dev-environment` for local container setup)
 
 The strongest testing convention is **integration-style DAO tests with YAML fixtures hitting a real test database**. Pure unit tests with mocks are rarer — the codebase deliberately doesn't mock the database. This skill covers all four buckets but focuses on the PHPUnit patterns since that's where most code lives.
 
@@ -43,11 +43,7 @@ The `--dump-options=--ssl=0` flag is for `mysqldump` compatibility — see `dev-
 
 ### CI matrix and `dev-environment`
 
-The CI test matrix (in `.github/workflows/test.yml`) runs:
-- MySQL 5.7
-- MariaDB 10.3
-
-On PHP 8.3. **Tests pass in CI but fail locally?** Often a DB-version-specific issue — try running locally against the matching DB version via the dev environment's `mariadb103` / `mysql57` containers.
+The current CI test matrix is defined in `.github/workflows/test.yml`. **Tests pass in CI but fail locally?** Often a DB-version-specific issue — inspect the workflow matrix, then run locally against the matching DB/PHP version via the Docker dev environment.
 
 ## PHPUnit configuration — `phpunit.xml` at the repo root
 
@@ -768,5 +764,5 @@ The `setXxxDao()` pattern is one of the reasons services exist as plain classes 
 - **`KernelTestCase::tearDown` clears the EM and re-creates the kernel.** That makes each test start clean but adds overhead. For DAO tests that don't need the kernel, **use plain `TestCase`** — it's faster.
 - **Frontend tests for Vue components are rare.** The convention is "extract logic into util functions, test those." Don't propose testing components unless explicitly asked.
 - **Cypress E2E is slow + fragile.** Don't add E2E tests for simple functionality that PHPUnit + an endpoint test can cover — reserve E2E for true end-to-end user journeys.
-- **The CI test matrix** runs on MySQL 5.7 AND MariaDB 10.3 + PHP 8.3. SQL or PHP that works in only one of these will fail CI. Most issues stem from charset / collation differences between MySQL and MariaDB.
+- **The CI test matrix** is defined in `.github/workflows/test.yml`. SQL or PHP that works in only one matrix entry can still fail CI. Most issues stem from charset / collation differences between MySQL and MariaDB.
 - **No mocking of EntityManager** — the codebase deliberately tests DAOs against the real DB. Don't try to mock `Doctrine\ORM\EntityManager` — it has too many methods and the mocks fall out of sync with reality. Use the test DB.

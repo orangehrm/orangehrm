@@ -7,6 +7,8 @@ description: Reference for OrangeHRM database migrations — the `installer/Migr
 
 The migration system is **a single ordered list of versions**, executed by either the installer (fresh DB → run all) or the upgrader (existing DB → run only what's newer). There is no rollback, no per-table version tracker, and no Doctrine Migrations bundle — the project rolls its own thin layer on top of Doctrine DBAL.
 
+For supported database-version policy and CI/dev-environment alignment, see the `compatibility` skill before changing assumptions about MySQL or MariaDB support.
+
 ## The two entry points
 
 Both ultimately call `AppSetupUtility::runMigrations($from, $to)`.
@@ -197,7 +199,7 @@ $this->getConnection()->executeStatement(
 );
 ```
 
-**Avoid raw `executeStatement` for things `SchemaHelper` can express.** Schema diffs travel through DBAL's platform-aware generation, so they work across MySQL 5.7 and MariaDB 10.3 (the CI matrix) — raw SQL doesn't always.
+**Avoid raw `executeStatement` for things `SchemaHelper` can express.** Schema diffs travel through DBAL's platform-aware generation, so they are more likely to work across the database versions in the current CI matrix — raw SQL doesn't always. Inspect `.github/workflows/test.yml` for the current matrix before making version-specific claims.
 
 ---
 
@@ -343,7 +345,7 @@ Some hardened PHP setups disable `set_time_limit`. The runtime logs `set_time_li
 - [ ] Use `getSchemaHelper()` methods; avoid `executeStatement('ALTER TABLE ...')` unless DBAL can't express it
 - [ ] Guard with `columnExists()` / `tableExists()` when the change might re-run (idempotency)
 - [ ] If reshaping a column referenced by an FK: copy the FK-juggling pattern from `V5_8_0::correctingCurrencyIdColumnInconsistencies()`
-- [ ] Verify on both MySQL 5.7 and MariaDB 10.3 if the change touches charset/collation — the dev-environment skill explains how to switch DB containers
+- [ ] If the change touches charset/collation, inspect the current CI DB matrix in `.github/workflows/test.yml` and verify against the relevant DB containers — the dev-environment skill explains how to switch DB containers
 
 ## Data fix / backfill on existing rows
 
