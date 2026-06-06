@@ -7,6 +7,8 @@ description: Reference for the OrangeHRM Docker-based local development environm
 
 Local dev runs through a **separate companion repo**, [`orangehrm-os-dev-environment`](https://github.com/orangehrm/orangehrm-os-dev-environment), not the OrangeHRM repo itself. Developers do **not** install PHP / MySQL / Node directly on the host. Everything runs in containers. The host only needs Docker, Git, and a text editor (PHPStorm is the recommended IDE).
 
+For the broader set of external OrangeHRM Starter repositories, release channels, docs, demo, mobile app listings, DockerHub image, and cloud package links, see the `ecosystem` skill.
+
 ## Repo layout convention
 
 The team standard is:

@@ -2,7 +2,7 @@
 description: Interactive setup for a new OrangeHRM developer — sets up the Docker dev environment, mounts this repo into a PHP/DB container stack, installs the app, and verifies it loads in the browser.
 ---
 
-You are guiding a new developer through standing up a local OrangeHRM development environment. They have just cloned this repo and invoked `/ohrm-onboard` from inside it. **The OrangeHRM team uses a Docker-based dev environment** — the developer does NOT install PHP, MySQL, or Node directly on their machine. They install Docker + Git, then everything else runs in containers from the companion repo [`orangehrm-os-dev-environment`](https://github.com/orangehrm/orangehrm-os-dev-environment).
+You are guiding a new developer through standing up a local OrangeHRM development environment. They have just cloned this repo and invoked `/onboard` from inside it. **The OrangeHRM team uses a Docker-based dev environment** — the developer does NOT install PHP, MySQL, or Node directly on their machine. They install Docker + Git, then everything else runs in containers from the companion repo [`orangehrm-os-dev-environment`](https://github.com/orangehrm/orangehrm-os-dev-environment).
 
 Before starting, **read `.claude/skills/dev-environment/SKILL.md`** — it has the container naming, services list, and conventions you'll keep referring to. The steps below are the onboarding sequence; the skill is the reference you cross-check against when answering follow-ups or troubleshooting.
 
