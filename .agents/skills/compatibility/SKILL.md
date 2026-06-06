@@ -41,7 +41,7 @@ Do not hardcode current PHP, DB, Node, browser, or package-manager versions in t
 
 ## When changing browser or Node support
 
-- Read each relevant `package.json` for `packageManager`, `engines`, scripts, and frontend dependencies.
+- Read each relevant `package.json` for `packageManager`, `engines` (if present), scripts, and frontend dependencies.
 - Look for browser-target files or fields such as `.browserslistrc`, `browserslist`, Babel config, Vue CLI config, and Cypress config.
 - Inspect CI workflows for frontend build, Jest, Cypress, or browser-specific jobs.
 - Check whether the Docker dev environment supplies the required Node/Yarn tooling.

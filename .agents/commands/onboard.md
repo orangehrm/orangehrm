@@ -57,6 +57,8 @@ Explain what this repo is (the container definitions) and that you're about to *
 
 Verify the clone exists and `.env` was created.
 
+**Offer to remember the setup for next time.** Ask: *"Want me to remember your dev environment so I don't have to ask again?"* If yes, save the dev-environment repo path, the OHRM subpath + browse URL, the PHP version (and DB), and any non-default ports to your tool's persistent memory / notes store, using the record block in the `dev-environment` skill's "Recording where the dev environment lives". Keep it machine-local — **not committed** to this shared repo. This repo can't know where they set things up, so without it you'd re-derive their setup every session if necessary.
+
 ## Step 3 — Decide where the OHRM source lives, set `LOCAL_SRC`
 
 Explain `LOCAL_SRC`: it's the host directory mounted into every container as `/var/www` (full mechanics in the `dev-environment` skill). Put the decision to them:
@@ -124,12 +126,15 @@ If they already know their first module, point at its files directly.
 
 Now that the environment runs, get them ready to commit. Explain: OrangeHRM commits should be authored with their `@orangehrm.com` email, and **you will default to setting this at the project level (this repo only), never touching their global git config unless they ask.**
 
+**Run all of this on the host machine, not inside a PHP container.** Git lives on the host (the containers are only for PHP/Composer/Yarn), the working tree is bind-mounted in, and the host is where their git credentials, SSH keys, and GPG keys/agent already live. Committing from inside a container would use the container's git config and miss those keys.
+
 - Inspect `git config --global user.name` / `user.email` first.
   - Already `@orangehrm.com` globally → nothing to change.
   - A personal email globally → **leave global alone**; set `user.name`/`user.email` locally in this repo (no `--global`). Show them it's local (`cat .git/config`).
   - Nothing set → ask their preference; **default to project-level.**
 - Also set `git config core.filemode false` in this repo (explain: avoids spurious diffs from Docker volume mounts / cross-OS mode bits). No `--global`.
-- Verify with `git config --list --local | grep -E '^user\.|^core\.filemode'`.
+- **Optional — GPG-signed commits.** If they want verified commits, this is also a host-machine step (their GPG key and agent are on the host). Only if they ask: confirm a key exists (`gpg --list-secret-keys --keyid-format=long`), then set it for this repo — `git config user.signingkey <KEY_ID>` and `git config commit.gpgsign true` (local, no `--global`). Mention they must add the key's public half to their GitHub account for the green "Verified" badge. Don't generate keys or flip on signing without an explicit yes.
+- Verify with `git config --list --local | grep -E '^user\.|^core\.|^commit\.'`.
 
 ## Step 13 — Contribution workflow primer
 
@@ -142,8 +147,6 @@ Summarize the team conventions (the authoritative list is in `AGENTS.md` → "Co
 ## Step 14 — Wrap up
 
 Summarize what's now running and where to go next. **Point them at the `dev-environment` skill's "Common commands" as their day-to-day reference** (start/stop the stack, shell into the container, tail logs, browse the app and phpMyAdmin) rather than restating those commands here. Remind them: the codebase is mounted, not baked in — edits show up live; restart containers only when changing PHP/Nginx config.
-
-**Persist the setup so future sessions can recall it.** If your tool has a memory / notes store, record what you gathered and chose here — the dev-environment repo path, the OHRM subpath + browse URL, the PHP version (and DB), and any non-default ports — per the `dev-environment` skill's "Recording where the dev environment lives". This repo can't know where they set things up, so without this you'd have to re-derive it every session.
 
 Ask if they'd like help finding a first task or a deeper dive into a specific plugin. Otherwise, end here.
 

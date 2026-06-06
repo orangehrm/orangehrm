@@ -40,14 +40,22 @@ If a developer already has OrangeHRM cloned elsewhere and doesn't want to move i
 
 ## Recording where the dev environment lives
 
-The companion repo, the chosen OHRM subpath, the PHP version in use, and any custom ports are **machine-specific and live nowhere in this OrangeHRM checkout** — this repo can't know where a given developer set things up. If your tool has a persistent memory / notes store, record after setup:
+The companion-repo path, the chosen OHRM subpath, the PHP version in use, and any custom ports are **machine-specific and live nowhere in this OrangeHRM checkout** — this repo can't know where a given developer set things up. Persist them in whatever **per-developer memory / notes store your tool keeps across sessions** — it must be machine-local and **not committed** to this shared repo.
 
-- the path to the `orangehrm-os-dev-environment` checkout,
-- the OHRM checkout's subpath under `html/` (and its browse URL),
-- the PHP version (and DB) the developer settled on,
-- any non-default host ports.
+**Recall before re-asking.** At the start of any dev-env task, check whether this is already recorded; if it is, use it instead of making the developer re-derive their setup.
 
-Recalling these in a later session lets you point the developer straight at their setup — to restart the stack, `git pull` the latest companion-repo changes, or re-run an install — instead of asking them to re-derive it every time. Keep it in memory/notes; it is not committed to this repo.
+**Record after setup, with the developer's okay** — a quick "want me to remember this for next time?". Save a small, findable block such as:
+
+```
+OrangeHRM dev environment (machine-local):
+- dev-env repo:  <path to the orangehrm-os-dev-environment checkout>
+- OHRM subpath:  html/<dir>   → browse at http://<php-host>/<dir>/ [this can be derived from .env too]
+- PHP / DB:      <php-X.Y> / <mariadbNNN> [this can be derived by running `docker ps` too]
+- host ports:    80 / 443 (or the remapped ones) [this can be derived from .env too]
+- updated:       <date>
+```
+
+Recalling this later lets you point the developer straight at their setup — restart the stack, `git pull` the latest companion-repo changes, or re-run an install — instead of re-deriving it every session. Update the block whenever something changes (new PHP version, moved checkout, remapped ports).
 
 ## /etc/hosts entry (required)
 

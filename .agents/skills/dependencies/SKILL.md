@@ -23,7 +23,7 @@ Read the actual `composer.json` / `package.json` before choosing commands. Do no
 
 - Run PHP, Composer, Yarn, Node, and Cypress commands inside the OrangeHRM Docker dev environment, not against host-installed runtimes.
 - Run Composer from the project that owns the dependency: `src/` for app packages, `devTools/core/` for dev-tool packages.
-- For Composer dependency changes, use the **lowest PHP version supported by that Composer project**. Read the relevant `composer.json` `require.php` constraint and `config.platform.php` before running `install`, `update`, or `require`.
+- For Composer dependency changes, use the **lowest PHP version supported by that Composer project**. Read the relevant `composer.json` `require.php` constraint and `config.platform.php` (if present) before running `install`, `update`, or `require`. When no platform is pinned, the lowest version is governed by `require.php`.
 - Use the package manager declared by the workspace `package.json` `packageManager` field. Do not introduce npm lockfiles into Yarn workspaces.
 - Keep package manifests and lockfiles together in the same change.
 - Let Composer/Yarn generate lockfile changes; do not hand-edit lockfiles except for conflict resolution that cannot be regenerated cleanly.
