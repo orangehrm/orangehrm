@@ -21,11 +21,7 @@ This repository ships **28 project-level skills** + **slash commands** under `.a
 
 > **If skills or commands aren't loading in your tool**, run the one-time setup: prompt the agent with *"Please follow `.agents/SETUP.md` to set yourself up for this project."*. Once loaded you may have to start a new session. For **Claude Code** it creates symlinks (Linux/macOS/WSL2) or copies (Windows) from `.claude/skills/` and `.claude/commands/` → the matching `.agents/` paths, since Claude Code only auto-discovers under `.claude/`. For **Cursor** it generates thin pointer rules under `.cursor/rules/` (one `.mdc` per skill, Agent-Requested by description) plus `.cursor/commands/` copies. Codex and other AGENTS.md-aware tools need no setup — they read `.agents/` in place.
 
-The source of truth is always under `.agents/` — don't edit files in `.claude/skills/`, `.claude/commands/`, or `.cursor/rules/`.
-
-**Before generating or updating any skill or command**, read [`.agents/AUTHORING.md`](.agents/AUTHORING.md) — the rules that keep skills working across all coding agents (Claude Code, Cursor, Codex, Antigravity, Copilot, and other `AGENTS.md`-aware tools).
-
-Project skills and commands use **bare kebab-case names** (no `ohrm-`/`orangehrm-` prefix) — they're already scoped by living under `.agents/`, and skills auto-trigger by description rather than by a typed name.
+**Before generating or updating any skill or command — or anything else under `.agents/` — read [`.agents/AUTHORING.md`](.agents/AUTHORING.md).** It is the single source of truth for authoring conventions: where files live (always `.agents/`, never the generated `.claude/` or `.cursor/` bridges), tool-neutral bodies, trigger-rich `description`s, bare kebab-case naming, frontmatter, and file structure — the rules that keep skills working across all coding agents (Claude Code, Cursor, Codex, Antigravity, Copilot, and other `AGENTS.md`-aware tools).
 
 ## What this repo is
 

@@ -82,34 +82,6 @@ The skills cross-link liberally. Some of the most-traveled paths:
 
 ---
 
-## Convention for skill files
+## Writing or updating skills
 
-> Generating or updating a skill or command? Read [`../AUTHORING.md`](../AUTHORING.md) first — it
-> holds the cross-agent-compatibility rules (tool-neutral bodies, trigger-rich `description`s,
-> source-of-truth under `.agents/`) that keep skills working in Claude Code, Cursor, Codex,
-> Antigravity, Copilot, and other `AGENTS.md`-aware tools.
-
-Each `<name>/SKILL.md` is structured:
-
-1. YAML frontmatter — `name` (the skill ID) + `description` (the trigger blurb — what tasks should load this skill)
-2. Substantive sections covering the topic, with code examples
-3. **Recipes** — concrete copy-and-adapt patterns for common tasks
-4. **Checklists** — what to verify when doing common tasks
-5. **Things that bite** — the gotchas worth flagging
-
-When editing a skill, keep this shape. When adding a new skill, mirror an existing one of similar size.
-
-The source of truth for these files is `.agents/skills/<name>/SKILL.md`. Don't edit them under `.claude/skills/` (which may be a symlink or a stale copy — see `.agents/SETUP.md`).
-
-## Keep code-derived facts out of skills
-
-Skills should teach agents **where to look** for facts that are owned by code or package metadata, not duplicate those facts as static prose. This avoids stale guidance when the codebase changes.
-
-Examples:
-
-- PHP support / Composer constraints: read the relevant `composer.json` (`src/composer.json`, `devTools/core/composer.json`) instead of hardcoding versions in a skill.
-- Composer platform settings: read the relevant `composer.json` `config.platform` section instead of copying the value.
-- Frontend package manager / Node policy: read the relevant `package.json` (`packageManager`, `engines`, scripts) instead of hardcoding versions.
-- Routes, service IDs, class names, entity mappings, permission names, and migration registries: point agents to the owning files or established skill recipe, then have them inspect the current code.
-
-It is fine for a skill to include examples, but examples should be labeled as examples and should not claim to be the current source of truth unless the skill points to the file that owns that truth.
+This README is the **catalog** — what exists. For **how** to add, edit, rename, or remove a skill or command (file structure, frontmatter contract, tool-neutral bodies, naming, keeping code-derived facts out, and the cross-agent-compatibility rules), read **[`../AUTHORING.md`](../AUTHORING.md)** first. It is the single source of truth for authoring conventions across all coding agents.

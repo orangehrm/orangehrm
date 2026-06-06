@@ -3,7 +3,7 @@
 Rules for any AI coding agent (or human) **generating or updating** the skills and slash
 commands under `.agents/`. The goal is one source of truth that reads and behaves identically across every coding agent a developer might bring to this repo — Claude Code, Cursor, Codex, Google Antigravity, GitHub Copilot, Gemini CLI / Jules, Windsurf, Aider, Cline, and any other `AGENTS.md`-aware tool.
 
-If you are about to add, edit, rename, or delete a skill or command, read this first. The companion docs are [`SETUP.md`](SETUP.md) (how each tool bridges to `.agents/`) and [`skills/README.md`](skills/README.md) (the catalog + the skill-file shape).
+If you are about to add, edit, rename, or delete a skill or command, read this first. The companion docs are [`SETUP.md`](SETUP.md) (how each tool bridges to `.agents/`) and [`skills/README.md`](skills/README.md) (the catalog of available skills). This file is the single source of truth for *how* to author; the README is the index of *what* exists.
 
 ---
 
@@ -40,7 +40,7 @@ Google Antigravity, GitHub Copilot, Windsurf, Cline, and similar tools fall into
 
 5. **Reference files by repo-relative path.** `src/plugins/orangehrmPimPlugin/Api/` works in every tool. Absolute paths, `~`, or tool-specific path variables do not. Cross-link sibling skills by their bare `name` (e.g. "see the `daos` skill"), not by a bridge path.
 
-6. **Keep code-derived facts out.** Teach agents *where to look*, don't hardcode versions, route tables, service IDs, or class lists that the code owns. This is its own section in [`skills/README.md`](skills/README.md#keep-code-derived-facts-out-of-skills) — follow it.
+6. **Keep code-derived facts out.** Teach agents *where to look*, don't hardcode versions, route tables, service IDs, or class lists that the code owns. See [Keep code-derived facts out](#keep-code-derived-facts-out).
 
 7. **Match the existing shape.** New skills mirror an existing one of similar size; edits keep the established structure (see [File structure](#file-structure)).
 
@@ -99,7 +99,7 @@ The body is read verbatim by humans and by every agent. Keep it about *the Orang
 
 ## File structure
 
-Each `<name>/SKILL.md` follows the shape documented in [`skills/README.md`](skills/README.md#convention-for-skill-files):
+Each `<name>/SKILL.md` follows this shape:
 
 1. **YAML frontmatter** — `name` + `description`.
 2. **Substantive sections** — the topic, with code examples.
@@ -108,6 +108,28 @@ Each `<name>/SKILL.md` follows the shape documented in [`skills/README.md`](skil
 5. **Things that bite** — the gotchas worth flagging.
 
 Keep this shape when editing; mirror a similar-sized existing skill when creating.
+
+---
+
+## Keep code-derived facts out
+
+Skills should teach agents **where to look** for facts owned by code or package metadata, not
+duplicate those facts as static prose — that's how guidance goes stale when the codebase changes.
+
+Examples:
+
+- PHP support / Composer constraints: read the relevant `composer.json` (`src/composer.json`,
+  `devTools/core/composer.json`) instead of hardcoding versions in a skill.
+- Composer platform settings: read the relevant `composer.json` `config.platform` section instead
+  of copying the value.
+- Frontend package manager / Node policy: read the relevant `package.json` (`packageManager`,
+  `engines`, scripts) instead of hardcoding versions.
+- Routes, service IDs, class names, entity mappings, permission names, and migration registries:
+  point agents to the owning files or an established skill recipe, then have them inspect the
+  current code.
+
+It is fine for a skill to include examples, but label them as examples — they should not claim to
+be the current source of truth unless the skill points to the file that owns that truth.
 
 ---
 

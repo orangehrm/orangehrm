@@ -5,6 +5,7 @@ This repository ships project-level documentation tuned for AI coding agents (ar
 - **`AGENTS.md`** at the repo root — the project's primary instruction document. Tools that recognize the `AGENTS.md` convention (Cursor, Codex, others) discover it automatically; Claude Code reads it via the `CLAUDE.md → @AGENTS.md` import shim.
 - **`.agents/skills/<name>/SKILL.md`** — the skill files. Each is a markdown document with YAML frontmatter describing when it applies.
 - **`.agents/commands/<name>.md`** — slash commands. Markdown files with YAML frontmatter; the body is the prompt the agent runs when the command is invoked.
+- **`.agents/AUTHORING.md`** — the rules for *writing or updating* skills and commands (tool-neutral bodies, frontmatter, naming, structure). This file is about *discovering/bridging* them; `AUTHORING.md` is about authoring their content.
 
 Different agents discover skills in different places, so this file is the **one-time setup script**: a coding agent reads it on first contact with the repo, identifies itself + the host OS, and configures its own discovery path accordingly.
 
@@ -168,7 +169,11 @@ If any check fails, **stop and tell the user** rather than continuing silently.
 
 ## Editing skills or commands after setup
 
-The source of truth is **always under `.agents/`** — edit `.agents/skills/<name>/SKILL.md` or `.agents/commands/<name>.md`, not the matching files under `.claude/` (where they might be a symlink or a copy).
+> For *how* to write skill/command content (tool-neutral bodies, frontmatter, naming, structure),
+> see [`AUTHORING.md`](AUTHORING.md). This section only covers **re-syncing the bridges** once
+> you've edited the source.
+
+Edit the source **always under `.agents/`** — `.agents/skills/<name>/SKILL.md` or `.agents/commands/<name>.md`, not the matching files under `.claude/` or `.cursor/` (where they might be a symlink or a copy). Then re-sync per your tool:
 
 - **Claude Code on Linux / macOS / WSL2**: symlinks keep everything in sync automatically. No action needed after edit.
 - **Claude Code on Windows native**: run `/agent-sync` (or manually copy `.agents/skills/*` → `.claude/skills/*` and `.agents/commands/*` → `.claude/commands/*`) so Claude Code sees the updated content.
