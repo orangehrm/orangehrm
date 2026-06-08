@@ -636,7 +636,7 @@ admin_ldap_configuration:
   controller: OrangeHRM\Admin\Controller\LdapConfigurationController::handle
   methods: [ GET ]
 
-admin_slack_notification_configuration:
-  path: /admin/slackNotificationConfiguration
-  controller: OrangeHRM\Admin\Controller\SlackNotificationConfigurationController::handle
+admin_workspace_notification_configuration:
+  path: /admin/workspaceNotificationConfiguration
+  controller: OrangeHRM\Admin\Controller\WorkspaceNotificationConfigurationController::handle
   methods: [ GET ]

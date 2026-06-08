@@ -1,0 +1,39 @@
+apiv2_admin_workspace_notification_config:
+  path: /api/v2/admin/workspace-notification/config
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    id: 0
+    _api: OrangeHRM\WorkspaceNotifications\Api\WorkspaceNotificationConfigAPI
+
+apiv2_admin_workspace_notification_test:
+  path: /api/v2/admin/workspace-notification/registrations/test
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ POST ]
+  defaults:
+    _api: OrangeHRM\WorkspaceNotifications\Api\WorkspaceNotificationTestWebhookAPI
+
+apiv2_admin_workspace_notification_registration_test:
+  path: /api/v2/admin/workspace-notification/registrations/{id}/test
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ POST ]
+  defaults:
+    _api: OrangeHRM\WorkspaceNotifications\Api\WorkspaceNotificationTestWebhookAPI
+  requirements:
+    id: '\d+'
+
+apiv2_admin_workspace_notification_registrations:
+  path: /api/v2/admin/workspace-notification/registrations
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST, DELETE ]
+  defaults:
+    _api: OrangeHRM\WorkspaceNotifications\Api\WorkspaceNotificationRegistrationAPI
+
+apiv2_admin_workspace_notification_registration:
+  path: /api/v2/admin/workspace-notification/registrations/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\WorkspaceNotifications\Api\WorkspaceNotificationRegistrationAPI
+  requirements:
+    id: '\d+'

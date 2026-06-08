@@ -1,0 +1,72 @@
+// OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+// all the essential functionalities required for any enterprise.
+// Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+//
+// OrangeHRM is free software: you can redistribute it and/or modify it under the terms of
+// the GNU General Public License as published by the Free Software Foundation, either
+// version 3 of the License, or (at your option) any later version.
+//
+// OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+// without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License along with OrangeHRM.
+// If not, see <https://www.gnu.org/licenses/>.
+
+.orangehrm-header-container {
+  padding: 0;
+}
+.orangehrm-form-divider {
+  margin: 1rem 0;
+}
+.orangehrm-subtitle {
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.orangehrm-workspace-notification-section-divider {
+  margin: 1.25rem 0 1.5rem;
+}
+.orangehrm-slack-section-hint {
+  margin-bottom: 1rem;
+}
+
+// Make the form card and registrations-table card read as two distinct cards.
+// `.orangehrm-card-container` ships only with bg + radius + padding (no shadow,
+// no inter-card margin), so two siblings render flush against each other and
+// read as one block. The gap + subtle shadow give each card its own "lift" off
+// the page background — same convention used in module overview pages.
+.orangehrm-workspace-notification-config-card,
+.orangehrm-workspace-notification-table-card {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+.orangehrm-workspace-notification-table-card {
+  margin-top: 1.5rem;
+}
+.orangehrm-slack-registration {
+  position: relative;
+  &-header {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 0.25rem;
+  }
+  &-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 0.5rem;
+  }
+}
+.orangehrm-slack-add-row {
+  display: flex;
+  justify-content: flex-start;
+  margin: 1rem 0 0.5rem;
+}
+
+// Highlights the inline note that appears under the webhook URL field when
+// the admin swaps Platform mid-edit — same color the form uses for required-
+// errors so the prompt reads as a blocking action, not advisory.
+.orangehrm-workspace-platform-changed-hint {
+  color: var(--oxd-secondary-red-color, #c20a08);
+  font-weight: 600;
+}

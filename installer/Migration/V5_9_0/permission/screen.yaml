@@ -1,5 +1,5 @@
-'Admin - Slack Notification Configuration':
+'Admin - Workspace Notification Configuration':
   module: admin
-  url: slackNotificationConfiguration
+  url: workspaceNotificationConfiguration
   permissions:
     - { role: Admin, permission: { read: true } }

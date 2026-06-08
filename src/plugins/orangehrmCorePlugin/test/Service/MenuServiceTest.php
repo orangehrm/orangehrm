@@ -347,8 +347,8 @@ class MenuServiceTest extends KernelTestCase
                     ],
                     [
                         'id' => 113,
-                        'name' => 'Slack Notification Configuration',
-                        'url' => '/admin/slackNotificationConfiguration',
+                        'name' => 'Workspace Notification Configuration',
+                        'url' => '/admin/workspaceNotificationConfiguration',
                     ],
                 ],
             ],

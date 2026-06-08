@@ -31,13 +31,12 @@ class Migration extends AbstractMigration
 
     public function up(): void
     {
-        $this->createSlackTables();
+        $this->createWorkspaceNotificationTables();
 
         $this->getDataGroupHelper()->insertScreenPermissions(__DIR__ . '/permission/screen.yaml');
         $this->getDataGroupHelper()->insertApiPermissions(__DIR__ . '/permission/api.yaml');
-        $this->insertSlackNotificationMenuItem();
+        $this->insertWorkspaceNotificationMenuItem();
 
-        // Localised strings for the new Slack notification screen — admin group.
         $this->getLangStringHelper()->insertOrUpdateLangStrings(__DIR__, 'admin');
     }
 
@@ -54,15 +53,8 @@ class Migration extends AbstractMigration
         return '5.9.0';
     }
 
-    private function createSlackTables(): void
+    private function createWorkspaceNotificationTables(): void
     {
-        // Schema:
-        //   - Global enable flag lives in hs_hr_config (LDAP pattern). No standalone settings table.
-        //   - ohrm_workspace_notification_registration: one row per (event_type, channel) destination. Multi-subunit
-        //     filtering via join table. provider column reserves space for future Teams/Discord/etc.
-        //   - ohrm_workspace_notification_registration_subunit: M:N join (registration ↔ subunit).
-        //   - ohrm_workspace_notification_log: per-dispatch idempotency ledger + failure log.
-
         if (!$this->getSchemaHelper()->tableExists(['ohrm_workspace_notification_registration'])) {
             $this->getSchemaHelper()->createTable('ohrm_workspace_notification_registration')
                 ->addColumn('id', Types::INTEGER, ['Autoincrement' => true, 'Notnull' => true])
@@ -92,7 +84,7 @@ class Migration extends AbstractMigration
                     ['registration_id'],
                     'ohrm_workspace_notification_registration',
                     ['id'],
-                    'slack_reg_subunit_reg_fk',
+                    'wn_reg_subunit_reg_fk',
                     ['onDelete' => 'CASCADE']
                 )
             );
@@ -102,7 +94,7 @@ class Migration extends AbstractMigration
                     ['subunit_id'],
                     'ohrm_subunit',
                     ['id'],
-                    'slack_reg_subunit_sub_fk',
+                    'wn_reg_subunit_sub_fk',
                     ['onDelete' => 'CASCADE']
                 )
             );
@@ -127,34 +119,31 @@ class Migration extends AbstractMigration
                     ['registration_id'],
                     'ohrm_workspace_notification_registration',
                     ['id'],
-                    'slack_log_registration',
+                    'wn_log_registration',
                     ['onDelete' => 'CASCADE']
                 )
             );
 
             $this->getSchemaManager()->createIndex(
                 new Index(
-                    'idx_slack_log_dedupe',
+                    'idx_wn_log_dedupe',
                     ['registration_id', 'event_date', 'status']
                 ),
                 'ohrm_workspace_notification_log'
             );
         }
 
-        // Seed the global enable flag in hs_hr_config (same pattern as boolean configs like
-        // `dashboard.employees_on_leave_today.show_only_accessible`). The key is introduced
-        // by this migration so a direct insert is safe — no existence check needed.
         $this->getConnection()->createQueryBuilder()
             ->insert('hs_hr_config')
             ->values(['name' => ':name', 'value' => ':value'])
-            ->setParameter('name', self::CONFIG_KEY_SLACK_ENABLED)
+            ->setParameter('name', self::CONFIG_KEY_WORKSPACE_ENABLED)
             ->setParameter('value', '0')
             ->executeQuery();
     }
 
-    private const CONFIG_KEY_SLACK_ENABLED = 'slack.notifications.enabled';
+    private const CONFIG_KEY_WORKSPACE_ENABLED = 'workspace.notifications.enabled';
 
-    private function insertSlackNotificationMenuItem(): void
+    private function insertWorkspaceNotificationMenuItem(): void
     {
         $adminId = $this->createQueryBuilder()
             ->select('menu_item.id')
@@ -182,7 +171,7 @@ class Migration extends AbstractMigration
             ->select('screen.id')
             ->from('ohrm_screen', 'screen')
             ->where('screen.name = :screenName')
-            ->setParameter('screenName', 'Admin - Slack Notification Configuration')
+            ->setParameter('screenName', 'Admin - Workspace Notification Configuration')
             ->executeQuery()
             ->fetchOne();
 
@@ -198,7 +187,7 @@ class Migration extends AbstractMigration
                     'status' => ':status',
                 ]
             )
-            ->setParameter('menuTitle', 'Slack Notification Configuration')
+            ->setParameter('menuTitle', 'Workspace Notification Configuration')
             ->setParameter('screenId', $screenId)
             ->setParameter('parentId', $configurationId)
             ->setParameter('level', 3)

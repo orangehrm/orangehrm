@@ -66,7 +66,7 @@ import LanguagePackages from '@/orangehrmAdminPlugin/pages/languagePackage/Langu
 import EditLanguagePackage from '@/orangehrmAdminPlugin/pages/languageTranslation/languageTranslation.vue';
 import LanguageImport from './pages/languageImport/LanguageImport.vue';
 import LdapConfiguration from './pages/ldap/LdapConfiguration.vue';
-import SlackNotificationConfiguration from './pages/slackNotification/SlackNotificationConfiguration.vue';
+import WorkspaceNotificationConfiguration from './pages/workspaceNotification/WorkspaceNotificationConfiguration.vue';
 import ProviderList from './pages/socialMediaAuth/ProviderList.vue';
 import AddProvider from './pages/socialMediaAuth/AddProvider.vue';
 import EditProvider from './pages/socialMediaAuth/EditProvider.vue';
@@ -124,7 +124,7 @@ export default {
   'language-translation-edit': EditLanguagePackage,
   'language-import': LanguageImport,
   'ldap-configuration': LdapConfiguration,
-  'slack-notification-configuration': SlackNotificationConfiguration,
+  'workspace-notification-configuration': WorkspaceNotificationConfiguration,
   'auth-provider-list': ProviderList,
   'add-auth-provider': AddProvider,
   'edit-auth-provider': EditProvider,

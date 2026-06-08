@@ -1,0 +1,10 @@
+# Listing the workspace-notifications tables (even when empty) tells TestDataService to truncate
+# them between test methods so prior rows don't bleed into the next test.
+WorkspaceNotificationLog: []
+WorkspaceNotificationRegistration: []
+
+Subunit:
+  0: { id: 1, name: 'Organization', unitId: 'company',     description: 'root',         lft: 1, rgt: 8, level: 0 }
+  1: { id: 2, name: 'Engineering',  unitId: 'eng',         description: 'engineering',  lft: 2, rgt: 3, level: 1 }
+  2: { id: 3, name: 'People Ops',   unitId: 'people-ops',  description: 'people ops',   lft: 4, rgt: 5, level: 1 }
+  3: { id: 4, name: 'Sales',        unitId: 'sales',       description: 'sales',        lft: 6, rgt: 7, level: 1 }

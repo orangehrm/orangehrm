@@ -1,0 +1,17 @@
+# Auth scaffolding the kernel needs to instantiate the API endpoint under the
+# Admin role. The plugin-specific row (`workspace.notifications.enabled`) is the
+# stored toggle — the migration seeds it to '0'; we do the same here so the
+# initial GET returns false and updates flip it.
+Config:
+  - { name: 'authorize_user_role_manager_class', value: 'BasicUserRoleManager' }
+  - { name: 'workspace.notifications.enabled', value: '0' }
+
+Employee:
+  - { empNumber: 1, firstName: 'Admin', lastName: 'User', middleName: '', employeeId: 'E001', emp_work_email: 'admin@xample.com' }
+
+UserRole:
+  - { id: 1, name: Admin, display_name: Admin, is_assignable: 1, is_predefined: 1 }
+  - { id: 2, name: ESS,   display_name: ESS,   is_assignable: 1, is_predefined: 1 }
+
+User:
+  - { "id": 1, "user_role_id": 1, "emp_number": 1, "user_name": "admin", "user_password": "admin", "deleted": "0", "status": "1", "date_modified": "2026-06-03 09:00:00", "modified_user_id": "1" }

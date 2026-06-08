@@ -82,7 +82,7 @@
             "OrangeHRM\\SystemCheck\\": "./plugins/orangehrmSystemCheckPlugin",
             "OrangeHRM\\Mobile\\": "./plugins/orangehrmMobilePlugin",
             "OrangeHRM\\Claim\\": "./plugins/orangehrmClaimPlugin",
-            "OrangeHRM\\Slack\\": "./plugins/orangehrmSlackPlugin",
+            "OrangeHRM\\WorkspaceNotifications\\": "./plugins/orangehrmWorkspaceNotificationsPlugin",
             "OrangeHRM\\Installer\\": "../installer",
             "OrangeHRM\\Entity\\": [
                 "./plugins/orangehrmAdminPlugin/entity",
@@ -101,7 +101,7 @@
                 "./plugins/orangehrmBuzzPlugin/entity",
                 "./plugins/orangehrmClaimPlugin/entity",
                 "./plugins/orangehrmOpenidAuthenticationPlugin/entity",
-                "./plugins/orangehrmSlackPlugin/entity"
+                "./plugins/orangehrmWorkspaceNotificationsPlugin/entity"
             ]
         }
     },
@@ -129,7 +129,7 @@
             "OrangeHRM\\Tests\\Mobile\\": "./plugins/orangehrmMobilePlugin/test",
             "OrangeHRM\\Tests\\Claim\\": "./plugins/orangehrmClaimPlugin/test",
             "OrangeHRM\\Tests\\OpenidAuthentication\\": "./plugins/orangehrmOpenidAuthenticationPlugin/test",
-            "OrangeHRM\\Tests\\Slack\\": "./plugins/orangehrmSlackPlugin/test"
+            "OrangeHRM\\Tests\\WorkspaceNotifications\\": "./plugins/orangehrmWorkspaceNotificationsPlugin/test"
         }
     },
     "scripts": {

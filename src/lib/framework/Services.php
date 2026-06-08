@@ -457,27 +457,22 @@ final class Services
     public const SOCIAL_MEDIA_AUTH_SERVICE = 'oidc.social_media_auth_service';
 
     /**
-     * @see \OrangeHRM\Slack\Service\SlackSettingsService
+     * @see \OrangeHRM\WorkspaceNotifications\Service\WorkspaceNotificationSettingsService
      */
-    public const SLACK_SETTINGS_SERVICE = 'slack.settings_service';
+    public const WORKSPACE_NOTIFICATION_SETTINGS_SERVICE = 'workspace_notification.settings_service';
 
     /**
-     * @see \OrangeHRM\Slack\Service\SlackRegistrationService
+     * @see \OrangeHRM\WorkspaceNotifications\Service\WorkspaceNotificationRegistrationService
      */
-    public const SLACK_REGISTRATION_SERVICE = 'slack.registration_service';
+    public const WORKSPACE_NOTIFICATION_REGISTRATION_SERVICE = 'workspace_notification.registration_service';
 
     /**
-     * @see \OrangeHRM\Slack\Service\SlackNotificationService
+     * @see \OrangeHRM\WorkspaceNotifications\Service\WorkspaceNotificationService
      */
-    public const SLACK_NOTIFICATION_SERVICE = 'slack.notification_service';
+    public const WORKSPACE_NOTIFICATION_SERVICE = 'workspace_notification.service';
 
     /**
-     * @see \OrangeHRM\Slack\Service\Webhook\WebhookProviderRegistry
+     * @see \OrangeHRM\WorkspaceNotifications\Service\Webhook\WebhookProviderRegistry
      */
-    public const WEBHOOK_PROVIDER_REGISTRY = 'slack.webhook_provider_registry';
-
-    /**
-     * @see \OrangeHRM\Slack\Dao\SlackLogDao
-     */
-    public const SLACK_LOG_DAO = 'slack.log_dao';
+    public const WEBHOOK_PROVIDER_REGISTRY = 'workspace_notification.webhook_provider_registry';
 }

@@ -1,8 +1,8 @@
 langStrings:
   # Page title + section headers
   -
-    value: 'Slack Notification Configuration'
-    unitId: slack_notification_configuration
+    value: 'Workspace Notification Configuration'
+    unitId: workspace_notification_configuration
   -
     value: 'Notification Registration'
     unitId: notification_registration
@@ -13,8 +13,8 @@ langStrings:
     value: 'Notification Registrations'
     unitId: notification_registrations
   -
-    value: 'Configure a Slack channel to receive automated notifications. Each registration has its own timezone and send time.'
-    unitId: slack_registration_form_hint
+    value: 'Configure a workspace channel (Slack, Google Chat, or Teams) to receive automated notifications. Each registration has its own timezone and send time.'
+    unitId: workspace_notification_form_hint
 
   # Form field labels + hints
   -
@@ -39,26 +39,26 @@ langStrings:
     value: 'Create an Incoming Webhook in your Google Chat workspace and paste the URL here. Must be HTTPS.'
     unitId: google_chat_webhook_hint
   -
-    value: 'Channel name (optional)'
-    unitId: slack_channel_name_optional
+    value: 'Channel Name (Optional)'
+    unitId: workspace_notification_channel_name_optional
   -
     value: 'Label only (e.g. #hr-team). The webhook URL determines the actual destination.'
-    unitId: slack_channel_hint
+    unitId: workspace_notification_channel_hint
   -
     value: 'Sub Units'
     unitId: sub_units
   -
     value: 'Filter by subunit(s): leave empty to include all employees, or pick one or more subunits to limit notifications.'
-    unitId: slack_subunit_hint
+    unitId: workspace_notification_subunit_hint
   -
     value: 'IANA timezone for this notification.'
-    unitId: slack_timezone_hint
+    unitId: workspace_notification_timezone_hint
   -
     value: 'Send Time'
     unitId: send_time
   -
     value: 'Local send time (HH:mm).'
-    unitId: slack_send_time_hint
+    unitId: workspace_notification_send_time_hint
   -
     value: 'All Employees'
     unitId: all_employees
@@ -80,13 +80,13 @@ langStrings:
     value: 'Update'
     unitId: update
 
-  # Event-type labels (driven by backend SlackRegistration::EVENT_TYPES)
+  # Event-type labels (driven by backend WorkspaceNotificationRegistration::EVENT_TYPES)
   -
     value: 'Birthday'
-    unitId: slack_event_birthday
+    unitId: workspace_notification_event_birthday
   -
     value: 'Employees on Leave Today'
-    unitId: slack_event_leave_today
+    unitId: workspace_notification_event_leave_today
 
   # Status
   -
@@ -96,29 +96,66 @@ langStrings:
   # Table empty-state + cron hint
   -
     value: 'No registrations yet. Fill the form above and click + Add Registration to create one.'
-    unitId: slack_no_registrations_hint
+    unitId: workspace_notification_no_registrations_hint
   -
     value: 'Ensure the server cron runs php bin/console orangehrm:run-schedule regularly (e.g. every 5–15 minutes) so scheduled notifications can run.'
-    unitId: slack_cron_reminder
+    unitId: workspace_notification_cron_reminder
+
+  # Inline hint shown when platform changes — interpolates {platform}
+  -
+    value: 'Chat Platform changed. Paste a new {platform} Webhook URL for this channel before saving.'
+    unitId: workspace_notification_platform_changed_hint
+
+  # Duplicate-registration confirmation dialog
+  -
+    value: 'Possible duplicate registration'
+    unitId: workspace_notification_duplicate_dialog_title
+  -
+    value: 'Another registration already targets the same event type, workspace channel, and subunit. Saving this will cause the same message to be sent more than once per day. Do you want to save anyway?'
+    unitId: workspace_notification_duplicate_dialog_subtitle
+  -
+    value: 'Save'
+    unitId: workspace_notification_save_anyway
+  -
+    value: 'Go back and edit'
+    unitId: workspace_notification_go_back_and_fix
+
+  # Info alert shown on the configuration screen (blue / info style)
+  -
+    value: 'Scheduling an event here triggers the configured notification flows automatically. Ensure the server cron runs php bin/console orangehrm:run-schedule regularly (e.g. every 5–15 minutes) so scheduled notifications can run.'
+    unitId: workspace_notification_schedule_info
+
+  # Warning shown on the edit form when a row may have already run today
+  -
+    value: 'This notification may have already run earlier today. Changes to send time or recipients will only take effect from tomorrow.'
+    unitId: workspace_notification_edit_already_run_warning
+
+  # Send-test confirmation dialog
+  -
+    value: 'Send a test message?'
+    unitId: workspace_notification_send_test_dialog_title
+  -
+    value: 'This will deliver a sample notification to the channel for this registration. It works regardless of whether the row is active.'
+    unitId: workspace_notification_send_test_dialog_subtitle
 
   # Duplicate-warning toast
   -
     value: 'Heads up: a similar registration already exists. The same message may be sent more than once per day.'
-    unitId: slack_duplicate_warning
+    unitId: workspace_notification_duplicate_warning
 
   # Toast error messages
   -
     value: 'Failed to save. Check the webhook URL and try again.'
-    unitId: slack_save_failed
+    unitId: workspace_notification_save_failed
   -
-    value: 'Test message sent to Slack.'
-    unitId: slack_test_sent
+    value: 'Test message sent to the configured channel.'
+    unitId: workspace_notification_test_sent
   -
     value: 'Failed to send test message. Check the webhook URL.'
-    unitId: slack_test_failed
+    unitId: workspace_notification_test_failed
   -
     value: 'Could not update status. Refresh and try again.'
-    unitId: slack_status_update_failed
+    unitId: workspace_notification_status_update_failed
   -
     value: 'Could not update global toggle.'
-    unitId: slack_global_toggle_failed
+    unitId: workspace_notification_global_toggle_failed
