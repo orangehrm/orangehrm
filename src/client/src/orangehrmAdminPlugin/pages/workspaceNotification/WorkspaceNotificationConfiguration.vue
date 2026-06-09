@@ -386,7 +386,10 @@ export default {
       providerOptions: [
         {id: 'slack', label: 'Slack'},
         {id: 'google_chat', label: 'Google Chat'},
-        {id: 'teams', label: 'Microsoft Teams'},
+        // Microsoft Teams is out of scope for this release. Backend support
+        // (TeamsWebhookProvider, dialect, formatter, API allow-list) is left
+        // intact so the option can be re-enabled by un-commenting this line.
+        // {id: 'teams', label: 'Microsoft Teams'},
       ],
 
       formMode: 'add',
