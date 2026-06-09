@@ -125,11 +125,6 @@ langStrings:
     value: 'Scheduling an event here triggers the configured notification flows automatically. Ensure the server cron runs php bin/console orangehrm:run-schedule regularly (e.g. every 5–15 minutes) so scheduled notifications can run.'
     unitId: workspace_notification_schedule_info
 
-  # Warning shown on the edit form when a row may have already run today
-  -
-    value: 'This notification may have already run earlier today. Changes to send time or recipients will only take effect from tomorrow.'
-    unitId: workspace_notification_edit_already_run_warning
-
   # Send-test confirmation dialog
   -
     value: 'Send a test message?'

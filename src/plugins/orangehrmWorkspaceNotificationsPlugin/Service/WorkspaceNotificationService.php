@@ -266,8 +266,26 @@ class WorkspaceNotificationService
      */
     private function finish(WorkspaceNotificationRegistration $registration, DateTime $today, string $status, int $count, ?string $error): array
     {
-        $log = $this->getWorkspaceNotificationLogDao()->makeLogFor($registration, $today, $status, $count, $error);
-        $this->getWorkspaceNotificationLogDao()->recordLog($log);
+        // Audit-log noise guard: a registration with no matching recipients
+        // gets re-evaluated every cron tick (every 5 min). Without this
+        // check, a single zero-recipient registration would accumulate
+        // dozens of identical SKIPPED rows per day. We keep ONE SKIPPED per
+        // (registration, date) — the first one captures the audit; later
+        // ticks re-check (in case data lands during the day) but don't
+        // re-log if the state hasn't changed to SUCCESS/FAILED.
+        $shouldLog = true;
+        if ($status === WorkspaceNotificationLog::STATUS_SKIPPED) {
+            $regId = $registration->getId();
+            if ($regId !== null && $this->getWorkspaceNotificationLogDao()
+                    ->hasLogForDateWithStatus($regId, $today, WorkspaceNotificationLog::STATUS_SKIPPED)) {
+                $shouldLog = false;
+            }
+        }
+
+        if ($shouldLog) {
+            $log = $this->getWorkspaceNotificationLogDao()->makeLogFor($registration, $today, $status, $count, $error);
+            $this->getWorkspaceNotificationLogDao()->recordLog($log);
+        }
 
         return [
             'status' => $status,

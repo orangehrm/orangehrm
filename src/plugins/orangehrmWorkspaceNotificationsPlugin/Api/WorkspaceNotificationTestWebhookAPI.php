@@ -203,6 +203,7 @@ class WorkspaceNotificationTestWebhookAPI extends Endpoint implements Collection
                     new Rule(Rules::IN, [[
                         WorkspaceNotificationRegistration::PROVIDER_SLACK,
                         WorkspaceNotificationRegistration::PROVIDER_GOOGLE_CHAT,
+                        WorkspaceNotificationRegistration::PROVIDER_TEAMS,
                     ]])
                 ),
                 true

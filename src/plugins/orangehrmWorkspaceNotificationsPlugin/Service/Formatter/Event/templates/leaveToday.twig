@@ -1,5 +1,6 @@
-{{ dialect.emoji('palm') }} {{ dialect.bold(headerText) }}{% if subunitLabel %} · {{ dialect.bold(subunitLabel) }}{% endif %}
-
+{{ dialect.emoji('palm') }} {{ dialect.bold(headerText) }}
+{% if subunitLabel %}{{ dialect.bold(subunitLabel) }}
+{% endif %}
 {{ dialect.italic(dateLabel) }}
 
 {% for row in rows -%}

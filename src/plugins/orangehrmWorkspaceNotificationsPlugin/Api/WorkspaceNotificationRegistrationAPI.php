@@ -363,6 +363,7 @@ class WorkspaceNotificationRegistrationAPI extends Endpoint implements CrudEndpo
             new Rule(Rules::IN, [[
                 WorkspaceNotificationRegistration::PROVIDER_SLACK,
                 WorkspaceNotificationRegistration::PROVIDER_GOOGLE_CHAT,
+                WorkspaceNotificationRegistration::PROVIDER_TEAMS,
             ]])
         );
         $channelLabelRule = new ParamRule(

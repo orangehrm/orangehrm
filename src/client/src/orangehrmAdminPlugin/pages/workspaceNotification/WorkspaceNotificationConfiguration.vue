@@ -47,12 +47,6 @@
         {{ $t('admin.workspace_notification_form_hint') }}
       </oxd-text>
 
-      <oxd-alert
-        :show="formMode === 'edit'"
-        type="warn"
-        :message="$t('admin.workspace_notification_edit_already_run_warning')"
-      ></oxd-alert>
-
       <oxd-divider />
 
       <oxd-form
@@ -94,14 +88,7 @@
                 :required="!effectiveHasStoredUrl"
               />
               <oxd-text
-                v-if="webhookUrlMismatchMessage"
-                class="orangehrm-input-hint orangehrm-workspace-platform-changed-hint"
-                tag="p"
-              >
-                {{ webhookUrlMismatchMessage }}
-              </oxd-text>
-              <oxd-text
-                v-else-if="platformChanged"
+                v-if="platformChanged"
                 class="orangehrm-input-hint orangehrm-workspace-platform-changed-hint"
                 tag="p"
               >
@@ -263,7 +250,7 @@ import {
 import useForm from '@/core/util/composable/useForm';
 import useSort from '@ohrm/core/util/composable/useSort';
 import {APIService} from '@ohrm/core/util/services/api.service';
-import {OxdSwitchInput, OxdSpinner, OxdAlert} from '@ohrm/oxd';
+import {OxdSwitchInput, OxdSpinner} from '@ohrm/oxd';
 import TableHeader from '@ohrm/components/table/TableHeader';
 import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmationDialog.vue';
 import ConfirmationDialog from '@/core/components/dialogs/ConfirmationDialog';
@@ -282,7 +269,7 @@ const validWebhookUrl = (providerId) =>
     if (!value) return true;
     if (providerId === 'google_chat') {
       if (!GOOGLE_CHAT_WEBHOOK_URL_REGEX.test(value)) {
-        return 'Should be a valid Google Chat webhook URL (https://chat.googleapis.com/v1/spaces/…?key=…&token=…)';
+        return 'Should be a valid Google Chat webhook URL';
       }
       try {
         const u = new URL(value);
@@ -296,7 +283,7 @@ const validWebhookUrl = (providerId) =>
     }
     if (providerId === 'teams') {
       if (!TEAMS_WEBHOOK_URL_REGEX.test(value)) {
-        return 'Should be a valid Microsoft Teams Power Automate workflow URL (https://prod-XX.{region}.logic.azure.com/workflows/…/triggers/manual/paths/invoke?…&sig=…)';
+        return 'Should be a valid Microsoft Teams Power Automate workflow URL';
       }
       try {
         const u = new URL(value);
@@ -310,7 +297,7 @@ const validWebhookUrl = (providerId) =>
     }
     return (
       SLACK_WEBHOOK_URL_REGEX.test(value) ||
-      'Should be a valid Slack Incoming Webhook URL (https://hooks.slack.com/services/…)'
+      'Should be a valid Slack Incoming Webhook URL'
     );
   };
 
@@ -353,7 +340,6 @@ const emptyForm = () => ({
 export default {
   components: {
     'oxd-switch-input': OxdSwitchInput,
-    'oxd-alert': OxdAlert,
     'table-header': TableHeader,
     'delete-confirmation': DeleteConfirmationDialog,
     'confirmation-dialog': ConfirmationDialog,
@@ -539,25 +525,6 @@ export default {
       if (!this.form.provider) return '';
       return this.webhookUrlPlaceholder;
     },
-    /**
-     * Inline warning text shown under the field when the admin has typed (or
-     * pasted) a webhook URL that doesn't match the currently-selected platform's
-     * regex. Runs the same validator the form-level rule uses, but as a
-     * live-binding so swapping the Platform dropdown immediately surfaces
-     * "wrong URL" guidance without having to submit.
-     */
-    webhookUrlMismatchMessage() {
-      if (!this.form.webhookUrl) return null;
-      if (!this.form.provider) return null;
-      const result = validWebhookUrl(this.form.provider.id)(
-        this.form.webhookUrl,
-      );
-      if (result === true) return null;
-      // Drop the trailing parenthetical that echoes the full URL shape — the
-      // example URL belongs in the placeholder / per-platform helper text,
-      // not in the red warning line.
-      return result.replace(/\s*\([^)]*\)\s*$/, '');
-    },
     tableItems() {
       const rows = this.registrations.map((row, index) => {
         const subunitNames = (row.subunits || []).map((s) => s.name);
@@ -591,6 +558,20 @@ export default {
         if (av < bv) return -1 * dir;
         if (av > bv) return 1 * dir;
         return 0;
+      });
+    },
+  },
+
+  watch: {
+    // Clear+restore the URL so oxd-input-field re-runs its rule against the
+    // newly-selected provider's regex. formRef.validate() would also touch
+    // every other required field, surfacing premature "Required" errors.
+    selectedProviderId() {
+      if (!this.form.webhookUrl) return;
+      const url = this.form.webhookUrl;
+      this.form.webhookUrl = '';
+      this.$nextTick(() => {
+        this.form.webhookUrl = url;
       });
     },
   },
@@ -682,6 +663,10 @@ export default {
         active: row.active !== false,
       };
       this.formMode = 'edit';
+      // Remount oxd-form to drop any stale `touched` state from a prior
+      // add-mode empty-submit (otherwise Webhook URL shows "Required" even
+      // though edit mode keeps the stored URL).
+      this.formKey += 1;
       window.scrollTo({top: 0, behavior: 'smooth'});
     },
 
@@ -796,6 +781,9 @@ export default {
     },
 
     onClickSendTest() {
+      // Prefer the just-typed URL (add-mode + new URL during edit). Falls
+      // back to the saved-registration's stored URL via id when the field
+      // hasn't been retyped.
       if (this.form.webhookUrl) {
         this.sendTest(null, this.form.webhookUrl);
       } else if (this.form.id) {

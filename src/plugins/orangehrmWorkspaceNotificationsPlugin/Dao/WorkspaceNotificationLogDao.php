@@ -29,6 +29,22 @@ class WorkspaceNotificationLogDao extends BaseDao
 {
     public function hasSuccessfulDeliveryForDate(int $registrationId, DateTime $date): bool
     {
+        return $this->hasLogForDateWithStatus(
+            $registrationId,
+            $date,
+            WorkspaceNotificationLog::STATUS_SUCCESS
+        );
+    }
+
+    /**
+     * True if a log row already exists for this registration on this date
+     * with the given status. Used by the dispatcher to avoid writing duplicate
+     * SKIPPED rows on every 5-minute cron tick when there are no recipients —
+     * the first SKIPPED of the day stands; subsequent ticks re-evaluate but
+     * write nothing new.
+     */
+    public function hasLogForDateWithStatus(int $registrationId, DateTime $date, string $status): bool
+    {
         $q = $this->createQueryBuilder(WorkspaceNotificationLog::class, 'l')
             ->select('COUNT(l.id)')
             ->andWhere('IDENTITY(l.registration) = :registrationId')
@@ -36,7 +52,7 @@ class WorkspaceNotificationLogDao extends BaseDao
             ->andWhere('l.eventDate = :eventDate')
             ->setParameter('eventDate', $date->format('Y-m-d'))
             ->andWhere('l.status = :status')
-            ->setParameter('status', WorkspaceNotificationLog::STATUS_SUCCESS);
+            ->setParameter('status', $status);
 
         return ((int)$q->getQuery()->getSingleScalarResult()) > 0;
     }
