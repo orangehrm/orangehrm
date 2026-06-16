@@ -56,7 +56,7 @@ class Migration extends AbstractMigration
     private function createWorkspaceNotificationTables(): void
     {
         if (!$this->getSchemaHelper()->tableExists(['ohrm_workspace_notification_registration'])) {
-            $this->getSchemaHelper()->createTable('ohrm_workspace_notification_registration')
+            $this->getSchemaHelper()->createTable('ohrm_workspace_notification_registration', 'utf8mb4')
                 ->addColumn('id', Types::INTEGER, ['Autoincrement' => true, 'Notnull' => true])
                 ->addColumn('provider', Types::STRING, ['Length' => 20, 'Notnull' => true, 'Default' => 'slack'])
                 ->addColumn('event_type', Types::STRING, ['Length' => 32, 'Notnull' => true])
@@ -69,6 +69,11 @@ class Migration extends AbstractMigration
                 ->addColumn('updated_at', Types::DATETIME_MUTABLE, ['Notnull' => false, 'Default' => null])
                 ->setPrimaryKey(['id'])
                 ->create();
+        } else {
+            $this->getConnection()->executeStatement(
+                'ALTER TABLE ohrm_workspace_notification_registration'
+                . ' CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci'
+            );
         }
 
         if (!$this->getSchemaHelper()->tableExists(['ohrm_workspace_notification_registration_subunit'])) {
@@ -101,7 +106,7 @@ class Migration extends AbstractMigration
         }
 
         if (!$this->getSchemaHelper()->tableExists(['ohrm_workspace_notification_log'])) {
-            $this->getSchemaHelper()->createTable('ohrm_workspace_notification_log')
+            $this->getSchemaHelper()->createTable('ohrm_workspace_notification_log', 'utf8mb4')
                 ->addColumn('id', Types::INTEGER, ['Autoincrement' => true, 'Notnull' => true])
                 ->addColumn('registration_id', Types::INTEGER, ['Notnull' => false, 'Default' => null])
                 ->addColumn('event_type', Types::STRING, ['Length' => 32, 'Notnull' => true])
@@ -131,14 +136,14 @@ class Migration extends AbstractMigration
                 ),
                 'ohrm_workspace_notification_log'
             );
+        } else {
+            $this->getConnection()->executeStatement(
+                'ALTER TABLE ohrm_workspace_notification_log'
+                . ' CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci'
+            );
         }
 
-        $this->getConnection()->createQueryBuilder()
-            ->insert('hs_hr_config')
-            ->values(['name' => ':name', 'value' => ':value'])
-            ->setParameter('name', self::CONFIG_KEY_WORKSPACE_ENABLED)
-            ->setParameter('value', '0')
-            ->executeQuery();
+        $this->getConfigHelper()->setConfigValue(self::CONFIG_KEY_WORKSPACE_ENABLED, '0');
     }
 
     private const CONFIG_KEY_WORKSPACE_ENABLED = 'workspace.notifications.enabled';
@@ -175,24 +180,36 @@ class Migration extends AbstractMigration
             ->executeQuery()
             ->fetchOne();
 
-        $this->createQueryBuilder()
-            ->insert('ohrm_menu_item')
-            ->values(
-                [
-                    'menu_title' => ':menuTitle',
-                    'screen_id' => ':screenId',
-                    'parent_id' => ':parentId',
-                    'level' => ':level',
-                    'order_hint' => ':orderHint',
-                    'status' => ':status',
-                ]
-            )
+        $alreadyExists = $this->createQueryBuilder()
+            ->select('menu_item.id')
+            ->from('ohrm_menu_item', 'menu_item')
+            ->where('menu_item.menu_title = :menuTitle')
+            ->andWhere('menu_item.parent_id = :parentId')
             ->setParameter('menuTitle', 'Workspace Notification Configuration')
-            ->setParameter('screenId', $screenId)
             ->setParameter('parentId', $configurationId)
-            ->setParameter('level', 3)
-            ->setParameter('orderHint', 1100)
-            ->setParameter('status', 1)
-            ->executeQuery();
+            ->executeQuery()
+            ->fetchOne();
+
+        if (!$alreadyExists) {
+            $this->createQueryBuilder()
+                ->insert('ohrm_menu_item')
+                ->values(
+                    [
+                        'menu_title' => ':menuTitle',
+                        'screen_id' => ':screenId',
+                        'parent_id' => ':parentId',
+                        'level' => ':level',
+                        'order_hint' => ':orderHint',
+                        'status' => ':status',
+                    ]
+                )
+                ->setParameter('menuTitle', 'Workspace Notification Configuration')
+                ->setParameter('screenId', $screenId)
+                ->setParameter('parentId', $configurationId)
+                ->setParameter('level', 3)
+                ->setParameter('orderHint', 1100)
+                ->setParameter('status', 1)
+                ->executeQuery();
+        }
     }
 }
