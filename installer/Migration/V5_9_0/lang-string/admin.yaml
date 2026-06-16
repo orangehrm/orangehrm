@@ -54,7 +54,7 @@ langStrings:
     value: 'Filter by subunit(s): leave empty to include all employees, or pick one or more subunits to limit notifications.'
     unitId: workspace_notification_subunit_hint
   -
-    value: 'IANA timezone for this notification.'
+    value: 'Select the time zone to send this notification.'
     unitId: workspace_notification_timezone_hint
   -
     value: 'Channel'
