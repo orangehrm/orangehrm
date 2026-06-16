@@ -35,6 +35,7 @@ use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Entity\WorkspaceNotificationRegistration;
 use OrangeHRM\WorkspaceNotifications\Api\Model\WorkspaceNotificationRegistrationModel;
+use OrangeHRM\WorkspaceNotifications\Dto\WorkspaceNotificationRegistrationSearchFilterParams;
 use OrangeHRM\WorkspaceNotifications\Service\Webhook\WebhookProviderRegistry;
 use OrangeHRM\WorkspaceNotifications\Traits\Service\WorkspaceNotificationRegistrationServiceTrait;
 use OrangeHRM\WorkspaceNotifications\Traits\Service\WebhookProviderRegistryTrait;
@@ -63,6 +64,15 @@ class WorkspaceNotificationRegistrationAPI extends Endpoint implements CrudEndpo
      *     tags={"Admin/Workspace Notification"},
      *     summary="List Workspace notification registrations",
      *     operationId="list-workspace-notification-registrations",
+     *     @OA\Parameter(
+     *         name="sortField",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string", enum=WorkspaceNotificationRegistrationSearchFilterParams::ALLOWED_SORT_FIELDS)
+     *     ),
+     *     @OA\Parameter(ref="#/components/parameters/sortOrder"),
+     *     @OA\Parameter(ref="#/components/parameters/limit"),
+     *     @OA\Parameter(ref="#/components/parameters/offset"),
      *     @OA\Response(
      *         response="200",
      *         description="Success",
@@ -83,17 +93,26 @@ class WorkspaceNotificationRegistrationAPI extends Endpoint implements CrudEndpo
      */
     public function getAll(): EndpointCollectionResult
     {
-        $registrations = $this->getWorkspaceNotificationRegistrationService()->listRegistrations();
+        $filterParams = new WorkspaceNotificationRegistrationSearchFilterParams();
+        $this->setSortingAndPaginationParams($filterParams);
+
+        $registrations = $this->getWorkspaceNotificationRegistrationService()->listRegistrations($filterParams);
+        $count = $this->getWorkspaceNotificationRegistrationService()->countRegistrations($filterParams);
+
         return new EndpointCollectionResult(
             WorkspaceNotificationRegistrationModel::class,
             $registrations,
-            new ParameterBag([CommonParams::PARAMETER_TOTAL => count($registrations)])
+            new ParameterBag([CommonParams::PARAMETER_TOTAL => $count])
         );
     }
 
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
-        return new ParamRuleCollection();
+        return new ParamRuleCollection(
+            ...$this->getSortingAndPaginationParamsRules(
+                WorkspaceNotificationRegistrationSearchFilterParams::ALLOWED_SORT_FIELDS
+            )
+        );
     }
 
     /**

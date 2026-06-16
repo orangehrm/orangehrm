@@ -1,3 +1,115 @@
+GetAll:
+  'GetAll - no params returns all rows ordered by id':
+    userId: 1
+    query: []
+    data:
+      - id: 1
+        provider: slack
+        eventType: BIRTHDAY
+        webhookUrl: 'https://hooks.slack.com/services/T01ABCDEF/B01ABCDEF/…'
+        channelLabel: alpha
+        subunits: []
+        timezone: UTC
+        dailySendTime: '09:00'
+        active: true
+      - id: 2
+        provider: slack
+        eventType: LEAVE_TODAY
+        webhookUrl: 'https://hooks.slack.com/services/T02ABCDEF/B02ABCDEF/…'
+        channelLabel: gamma
+        subunits: []
+        timezone: UTC
+        dailySendTime: '08:00'
+        active: true
+      - id: 3
+        provider: slack
+        eventType: BIRTHDAY
+        webhookUrl: 'https://hooks.slack.com/services/T03ABCDEF/B03ABCDEF/…'
+        channelLabel: beta
+        subunits: []
+        timezone: Asia/Colombo
+        dailySendTime: '10:00'
+        active: false
+    meta:
+      total: 3
+
+  'GetAll - limit 1 returns first row with total 3':
+    userId: 1
+    query:
+      limit: 1
+    data:
+      - id: 1
+        provider: slack
+        eventType: BIRTHDAY
+        webhookUrl: 'https://hooks.slack.com/services/T01ABCDEF/B01ABCDEF/…'
+        channelLabel: alpha
+        subunits: []
+        timezone: UTC
+        dailySendTime: '09:00'
+        active: true
+    meta:
+      total: 3
+
+  'GetAll - limit 1 offset 1 returns second row':
+    userId: 1
+    query:
+      limit: 1
+      offset: 1
+    data:
+      - id: 2
+        provider: slack
+        eventType: LEAVE_TODAY
+        webhookUrl: 'https://hooks.slack.com/services/T02ABCDEF/B02ABCDEF/…'
+        channelLabel: gamma
+        subunits: []
+        timezone: UTC
+        dailySendTime: '08:00'
+        active: true
+    meta:
+      total: 3
+
+  'GetAll - sort by channelLabel DESC':
+    userId: 1
+    query:
+      sortField: 'r.channelLabel'
+      sortOrder: DESC
+    data:
+      - id: 2
+        provider: slack
+        eventType: LEAVE_TODAY
+        webhookUrl: 'https://hooks.slack.com/services/T02ABCDEF/B02ABCDEF/…'
+        channelLabel: gamma
+        subunits: []
+        timezone: UTC
+        dailySendTime: '08:00'
+        active: true
+      - id: 3
+        provider: slack
+        eventType: BIRTHDAY
+        webhookUrl: 'https://hooks.slack.com/services/T03ABCDEF/B03ABCDEF/…'
+        channelLabel: beta
+        subunits: []
+        timezone: Asia/Colombo
+        dailySendTime: '10:00'
+        active: false
+      - id: 1
+        provider: slack
+        eventType: BIRTHDAY
+        webhookUrl: 'https://hooks.slack.com/services/T01ABCDEF/B01ABCDEF/…'
+        channelLabel: alpha
+        subunits: []
+        timezone: UTC
+        dailySendTime: '09:00'
+        active: true
+    meta:
+      total: 3
+
+  'GetAll - invalid sortField returns 422':
+    userId: 1
+    query:
+      sortField: 'r.webhookUrl'
+    invalidOnly: [ sortField ]
+
 Create:
   'Create - missing eventType':
     userId: 1

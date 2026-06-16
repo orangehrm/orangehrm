@@ -31,6 +31,24 @@ use OrangeHRM\Tests\Util\Integration\TestCaseParams;
 class WorkspaceNotificationRegistrationAPITest extends EndpointIntegrationTestCase
 {
     /**
+     * @dataProvider dataProviderForTestGetAll
+     */
+    public function testGetAll(TestCaseParams $testCaseParams): void
+    {
+        $this->populateFixtures('WorkspaceNotificationConfigAPI.yaml', null, true);
+        $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
+        $this->registerServices($testCaseParams);
+        $this->registerMockDateTimeHelper($testCaseParams);
+        $api = $this->getApiEndpointMock(WorkspaceNotificationRegistrationAPI::class, $testCaseParams);
+        $this->assertValidTestCase($api, 'getAll', $testCaseParams);
+    }
+
+    public function dataProviderForTestGetAll(): array
+    {
+        return $this->getTestCases('WorkspaceNotificationRegistrationAPITestCases.yaml', 'GetAll');
+    }
+
+    /**
      * @dataProvider dataProviderForTestCreate
      */
     public function testCreateInvalidParams(TestCaseParams $testCaseParams): void

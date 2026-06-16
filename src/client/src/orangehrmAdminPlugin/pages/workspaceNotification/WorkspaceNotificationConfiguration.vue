@@ -197,9 +197,9 @@
       </oxd-text>
 
       <table-header
-        :total="registrations.length"
+        :total="total"
         :selected="checkedItems.length"
-        :loading="isLoading"
+        :loading="isLoading || isListLoading"
         :show-divider="false"
         @delete="onClickDeleteSelected"
       />
@@ -208,12 +208,20 @@
         <oxd-card-table
           v-model:selected="checkedItems"
           v-model:order="sortDefinition"
-          :loading="isLoading"
+          :loading="isLoading || isListLoading"
           :headers="tableHeaders"
           :items="tableItems"
           :selectable="true"
           :clickable="false"
           row-decorator="oxd-table-decorator-card"
+        />
+      </div>
+
+      <div class="orangehrm-bottom-container">
+        <oxd-pagination
+          v-if="showPaginator"
+          v-model:current="currentPage"
+          :length="pages"
         />
       </div>
     </div>
@@ -242,15 +250,17 @@
 </template>
 
 <script>
+import {computed} from 'vue';
 import {
   required,
   shouldNotExceedCharLength,
   validTimeFormat,
 } from '@/core/util/validation/rules';
 import useForm from '@/core/util/composable/useForm';
+import usePaginate from '@ohrm/core/util/composable/usePaginate';
 import useSort from '@ohrm/core/util/composable/useSort';
 import {APIService} from '@ohrm/core/util/services/api.service';
-import {OxdSwitchInput, OxdSpinner} from '@ohrm/oxd';
+import {OxdSwitchInput, OxdSpinner, OxdPagination} from '@ohrm/oxd';
 import TableHeader from '@ohrm/components/table/TableHeader';
 import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmationDialog.vue';
 import ConfirmationDialog from '@/core/components/dialogs/ConfirmationDialog';
@@ -340,6 +350,7 @@ const emptyForm = () => ({
 export default {
   components: {
     'oxd-switch-input': OxdSwitchInput,
+    'oxd-pagination': OxdPagination,
     'table-header': TableHeader,
     'delete-confirmation': DeleteConfirmationDialog,
     'confirmation-dialog': ConfirmationDialog,
@@ -363,9 +374,30 @@ export default {
       '/api/v2/attendance/timezones',
     );
     const {formRef} = useForm();
-    const {sortDefinition, sortField, sortOrder} = useSort({
-      sortDefinition: {channelLabel: 'DEFAULT', sendTime: 'DEFAULT'},
+    const {sortDefinition, sortField, sortOrder, onSort} = useSort({
+      sortDefinition: {
+        'r.channelLabel': 'DEFAULT',
+        'r.dailySendTime': 'DEFAULT',
+      },
     });
+
+    const serializedFilters = computed(() => ({
+      sortField: sortField.value,
+      sortOrder: sortOrder.value,
+    }));
+
+    const {
+      showPaginator,
+      currentPage,
+      total,
+      pages,
+      response,
+      isLoading: isListLoading,
+      execQuery,
+    } = usePaginate(registrationsHttp, {query: serializedFilters});
+
+    onSort(execQuery);
+
     return {
       configHttp,
       registrationsHttp,
@@ -375,6 +407,13 @@ export default {
       sortDefinition,
       sortField,
       sortOrder,
+      showPaginator,
+      currentPage,
+      total,
+      pages,
+      execQuery,
+      items: response,
+      isListLoading,
     };
   },
 
@@ -382,6 +421,8 @@ export default {
     return {
       isLoading: false,
       globalEnabled: false,
+
+      checkedItems: [],
 
       providerOptions: [
         {id: 'slack', label: 'Slack'},
@@ -395,9 +436,6 @@ export default {
       formMode: 'add',
       form: emptyForm(),
       formKey: 0,
-
-      registrations: [],
-      checkedItems: [],
 
       timezoneOptions: [],
       subunitOptions: [],
@@ -416,7 +454,7 @@ export default {
         {
           name: 'channelLabel',
           title: 'Channel',
-          sortField: 'channelLabel',
+          sortField: 'r.channelLabel',
           style: {flex: '12%'},
         },
         {name: 'subunit', title: 'Sub Unit', style: {flex: '13%'}},
@@ -424,7 +462,7 @@ export default {
         {
           name: 'sendTime',
           title: 'Send time',
-          sortField: 'sendTime',
+          sortField: 'r.dailySendTime',
           style: {flex: '9%'},
         },
         {
@@ -529,7 +567,7 @@ export default {
       return this.webhookUrlPlaceholder;
     },
     tableItems() {
-      const rows = this.registrations.map((row, index) => {
+      return (this.items?.data || []).map((row, index) => {
         const subunitNames = (row.subunits || []).map((s) => s.name);
         return {
           id: row.id,
@@ -547,20 +585,6 @@ export default {
           _loading: row._loading === true,
           _raw: row,
         };
-      });
-
-      const field = this.sortField;
-      const order = this.sortOrder;
-      if (!field || order === 'DEFAULT') {
-        return rows;
-      }
-      const dir = order === 'DESC' ? -1 : 1;
-      return [...rows].sort((a, b) => {
-        const av = (a[field] ?? '').toString().toLowerCase();
-        const bv = (b[field] ?? '').toString().toLowerCase();
-        if (av < bv) return -1 * dir;
-        if (av > bv) return 1 * dir;
-        return 0;
       });
     },
   },
@@ -599,7 +623,6 @@ export default {
         const settings = data.data || {};
         this.globalEnabled = !!settings.enable;
       }),
-      this.reloadRegistrations(),
     ]).finally(() => {
       this.isLoading = false;
     });
@@ -609,12 +632,6 @@ export default {
     labelFor(options, id) {
       const found = options.find((o) => o.id === id);
       return found ? found.label : id;
-    },
-
-    reloadRegistrations() {
-      return this.registrationsHttp.getAll().then(({data}) => {
-        this.registrations = (data.data || []).slice();
-      });
     },
 
     formatTimezoneLabel(tz) {
@@ -642,7 +659,7 @@ export default {
     },
 
     onClickEdit(item) {
-      const row = this.registrations.find((r) => r.id === item.id);
+      const row = (this.items?.data || []).find((r) => r.id === item.id);
       if (!row) return;
       this.form = {
         id: row.id,
@@ -677,6 +694,8 @@ export default {
       this.resetForm();
     },
 
+    // Duplicate detection is scoped to the current page only (best-effort UX hint;
+    // not a hard uniqueness constraint — there is no server-side unique key).
     findDuplicate() {
       if (!this.form.eventType?.id) return null;
 
@@ -686,13 +705,15 @@ export default {
       if (this.form.webhookUrl) {
         myMaskedUrl = maskWebhookUrl(this.form.webhookUrl);
       } else if (this.formMode === 'edit' && this.form.id) {
-        const myself = this.registrations.find((r) => r.id === this.form.id);
+        const myself = (this.items?.data || []).find(
+          (r) => r.id === this.form.id,
+        );
         myMaskedUrl = myself ? myself.webhookUrl : null;
       }
       if (!myMaskedUrl) return null;
 
       return (
-        this.registrations.find((r) => {
+        (this.items?.data || []).find((r) => {
           if (this.formMode === 'edit' && r.id === this.form.id) return false;
           if (r.eventType !== myEventType) return false;
           if (r.webhookUrl !== myMaskedUrl) return false;
@@ -736,7 +757,7 @@ export default {
         .then(() => {
           this.$toast.saveSuccess();
           this.resetForm();
-          return this.reloadRegistrations();
+          return this.execQuery();
         })
         .catch(() =>
           this.$toast.error({
@@ -795,7 +816,7 @@ export default {
     },
 
     onClickRowSendTest(item) {
-      const row = this.registrations.find((r) => r.id === item.id);
+      const row = (this.items?.data || []).find((r) => r.id === item.id);
       this.$refs.sendTestDialog.showDialog().then((confirmation) => {
         if (confirmation !== 'ok') return;
         this.sendTest(item.id, null, row?.eventType);
@@ -824,7 +845,8 @@ export default {
           .then(() => {
             this.$toast.deleteSuccess();
             this.checkedItems = [];
-            return this.reloadRegistrations();
+            this.currentPage = 1;
+            return this.execQuery();
           })
           .finally(() => {
             this.isLoading = false;
@@ -869,7 +891,7 @@ export default {
     },
 
     onToggleActive(row, newValue) {
-      const existing = this.registrations.find((r) => r.id === row.id);
+      const existing = (this.items?.data || []).find((r) => r.id === row.id);
       if (!existing) return;
       this.$set
         ? this.$set(existing, '_loading', true)

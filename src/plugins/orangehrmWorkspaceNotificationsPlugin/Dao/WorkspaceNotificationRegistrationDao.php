@@ -21,17 +21,30 @@ namespace OrangeHRM\WorkspaceNotifications\Dao;
 
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Entity\WorkspaceNotificationRegistration;
+use OrangeHRM\ORM\Paginator;
+use OrangeHRM\WorkspaceNotifications\Dto\WorkspaceNotificationRegistrationSearchFilterParams;
 
 class WorkspaceNotificationRegistrationDao extends BaseDao
 {
     /**
      * @return WorkspaceNotificationRegistration[]
      */
-    public function listRegistrations(): array
+    public function listRegistrations(WorkspaceNotificationRegistrationSearchFilterParams $filterParams): array
     {
-        $q = $this->createQueryBuilder(WorkspaceNotificationRegistration::class, 'r')
-            ->orderBy('r.id', 'ASC');
-        return $q->getQuery()->getResult();
+        return $this->getRegistrationsPaginator($filterParams)->getQuery()->execute();
+    }
+
+    public function countRegistrations(WorkspaceNotificationRegistrationSearchFilterParams $filterParams): int
+    {
+        return $this->getRegistrationsPaginator($filterParams)->count();
+    }
+
+    private function getRegistrationsPaginator(
+        WorkspaceNotificationRegistrationSearchFilterParams $filterParams
+    ): Paginator {
+        $q = $this->createQueryBuilder(WorkspaceNotificationRegistration::class, 'r');
+        $this->setSortingAndPaginationParams($q, $filterParams);
+        return $this->getPaginator($q);
     }
 
     /**

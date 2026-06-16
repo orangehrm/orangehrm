@@ -6,6 +6,11 @@ Config:
   - { name: 'authorize_user_role_manager_class', value: 'BasicUserRoleManager' }
   - { name: 'workspace.notifications.enabled', value: '0' }
 
+WorkspaceNotificationRegistration:
+  - { id: 1, provider: slack, eventType: BIRTHDAY,    webhookUrl: 'https://hooks.slack.com/services/T01ABCDEF/B01ABCDEF/secret1', channelLabel: alpha, timezone: UTC,          dailySendTime: '09:00', active: true  }
+  - { id: 2, provider: slack, eventType: LEAVE_TODAY, webhookUrl: 'https://hooks.slack.com/services/T02ABCDEF/B02ABCDEF/secret2', channelLabel: gamma, timezone: UTC,          dailySendTime: '08:00', active: true  }
+  - { id: 3, provider: slack, eventType: BIRTHDAY,    webhookUrl: 'https://hooks.slack.com/services/T03ABCDEF/B03ABCDEF/secret3', channelLabel: beta,  timezone: Asia/Colombo, dailySendTime: '10:00', active: false }
+
 Employee:
   - { empNumber: 1, firstName: 'Admin', lastName: 'User', middleName: '', employeeId: 'E001', emp_work_email: 'admin@xample.com' }
 

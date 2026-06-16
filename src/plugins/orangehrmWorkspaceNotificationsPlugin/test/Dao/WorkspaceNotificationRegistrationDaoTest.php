@@ -23,6 +23,7 @@ use OrangeHRM\Config\Config;
 use OrangeHRM\Entity\WorkspaceNotificationRegistration;
 use OrangeHRM\Entity\Subunit;
 use OrangeHRM\WorkspaceNotifications\Dao\WorkspaceNotificationRegistrationDao;
+use OrangeHRM\WorkspaceNotifications\Dto\WorkspaceNotificationRegistrationSearchFilterParams;
 use OrangeHRM\Tests\Util\TestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 
@@ -50,7 +51,7 @@ class WorkspaceNotificationRegistrationDaoTest extends TestCase
 
     public function testListRegistrationsReturnsEmptyOnFreshFixture(): void
     {
-        $this->assertSame([], $this->dao->listRegistrations());
+        $this->assertSame([], $this->dao->listRegistrations(new WorkspaceNotificationRegistrationSearchFilterParams()));
     }
 
     public function testListRegistrationsReturnsAllRowsOrderedById(): void
@@ -59,7 +60,7 @@ class WorkspaceNotificationRegistrationDaoTest extends TestCase
         $second = $this->saveBasicRegistration('LEAVE_TODAY', 'channel-b');
         $third = $this->saveBasicRegistration('BIRTHDAY', 'channel-c', /* active */ false);
 
-        $result = $this->dao->listRegistrations();
+        $result = $this->dao->listRegistrations(new WorkspaceNotificationRegistrationSearchFilterParams());
 
         $this->assertCount(3, $result);
         $this->assertSame($first->getId(), $result[0]->getId());
@@ -199,7 +200,7 @@ class WorkspaceNotificationRegistrationDaoTest extends TestCase
         $this->dao->deleteRegistrationsNotIn([$keepA->getId(), $keepB->getId()]);
         $this->getEntityManager()->clear();
 
-        $remaining = array_map(fn ($r) => $r->getId(), $this->dao->listRegistrations());
+        $remaining = array_map(fn ($r) => $r->getId(), $this->dao->listRegistrations(new WorkspaceNotificationRegistrationSearchFilterParams()));
         sort($remaining);
         $expected = [$keepA->getId(), $keepB->getId()];
         sort($expected);

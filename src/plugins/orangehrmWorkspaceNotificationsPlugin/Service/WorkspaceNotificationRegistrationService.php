@@ -25,6 +25,7 @@ use OrangeHRM\Core\Utility\EncryptionHelperTrait;
 use OrangeHRM\Entity\WorkspaceNotificationRegistration;
 use OrangeHRM\Entity\Subunit;
 use OrangeHRM\WorkspaceNotifications\Dao\WorkspaceNotificationRegistrationDao;
+use OrangeHRM\WorkspaceNotifications\Dto\WorkspaceNotificationRegistrationSearchFilterParams;
 
 class WorkspaceNotificationRegistrationService
 {
@@ -44,9 +45,14 @@ class WorkspaceNotificationRegistrationService
     /**
      * @return WorkspaceNotificationRegistration[]
      */
-    public function listRegistrations(): array
+    public function listRegistrations(WorkspaceNotificationRegistrationSearchFilterParams $filterParams): array
     {
-        return $this->getDao()->listRegistrations();
+        return $this->getDao()->listRegistrations($filterParams);
+    }
+
+    public function countRegistrations(WorkspaceNotificationRegistrationSearchFilterParams $filterParams): int
+    {
+        return $this->getDao()->countRegistrations($filterParams);
     }
 
     /**
