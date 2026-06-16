@@ -36,6 +36,9 @@ langStrings:
     value: 'Google Chat Webhook URL'
     unitId: google_chat_webhook_url
   -
+    value: 'Microsoft Teams Workflow URL'
+    unitId: teams_workflow_url
+  -
     value: 'Create an Incoming Webhook in your Slack workspace and paste the URL here. Must be HTTPS.'
     unitId: slack_webhook_hint
   -

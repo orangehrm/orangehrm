@@ -532,7 +532,7 @@ export default {
         case 'google_chat':
           return this.$t('admin.google_chat_webhook_url');
         case 'teams':
-          return 'Microsoft Teams Workflow URL';
+          return this.$t('admin.teams_workflow_url');
         default:
           return this.$t('admin.slack_incoming_webhook_url');
       }
