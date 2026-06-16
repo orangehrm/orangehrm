@@ -139,9 +139,16 @@ class Migration extends AbstractMigration
             ->setParameter('name', self::CONFIG_KEY_WORKSPACE_ENABLED)
             ->setParameter('value', '0')
             ->executeQuery();
+        $this->getConnection()->createQueryBuilder()
+            ->insert('hs_hr_config')
+            ->values(['name' => ':name', 'value' => ':value'])
+            ->setParameter('name', self::CONFIG_KEY_BIRTHDAY_LEAP_YEAR_MODE)
+            ->setParameter('value', 'once_every_4_years')
+            ->executeQuery();
     }
 
     private const CONFIG_KEY_WORKSPACE_ENABLED = 'workspace.notifications.enabled';
+    private const CONFIG_KEY_BIRTHDAY_LEAP_YEAR_MODE = 'workspace.notifications.birthday.leap_year_mode';
 
     private function insertWorkspaceNotificationMenuItem(): void
     {

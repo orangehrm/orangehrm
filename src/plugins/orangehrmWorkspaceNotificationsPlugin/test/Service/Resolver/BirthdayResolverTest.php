@@ -22,6 +22,7 @@ namespace OrangeHRM\Tests\WorkspaceNotifications\Service\Resolver;
 use DateTime;
 use OrangeHRM\Config\Config;
 use OrangeHRM\WorkspaceNotifications\Service\Resolver\BirthdayResolver;
+use OrangeHRM\WorkspaceNotifications\Service\WorkspaceNotificationSettingsService;
 use OrangeHRM\Tests\Util\TestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 
@@ -33,9 +34,18 @@ class BirthdayResolverTest extends TestCase
 {
     private BirthdayResolver $resolver;
 
+    private function makeResolver(string $leapYearMode = WorkspaceNotificationSettingsService::LEAP_YEAR_MODE_ONCE_IN_4_YEARS): BirthdayResolver
+    {
+        $settings = $this->getMockBuilder(WorkspaceNotificationSettingsService::class)
+            ->onlyMethods(['getBirthdayLeapYearMode'])
+            ->getMock();
+        $settings->method('getBirthdayLeapYearMode')->willReturn($leapYearMode);
+        return new BirthdayResolver($settings);
+    }
+
     protected function setUp(): void
     {
-        $this->resolver = new BirthdayResolver();
+        $this->resolver = $this->makeResolver();
         $fixture = Config::get(Config::PLUGINS_DIR)
             . '/orangehrmWorkspaceNotificationsPlugin/test/fixtures/BirthdayResolver.yaml';
         TestDataService::populate($fixture);
@@ -142,5 +152,91 @@ class BirthdayResolverTest extends TestCase
         $this->assertSame('Dave Dean', $matches[0]->getFullName());
         $this->assertStringStartsNotWith(' ', $matches[0]->getFullName());
         $this->assertStringEndsNotWith(' ', $matches[0]->getFullName());
+    }
+
+    // ---- Leap year birthday (Feb 29) tests ----
+
+    public function testFeb29MatchedOnLeapYearRegardlessOfMode(): void
+    {
+        // 2028 is a leap year; Feb 29 employees should match on that date in all modes.
+        foreach ([
+            WorkspaceNotificationSettingsService::LEAP_YEAR_MODE_ONCE_IN_4_YEARS,
+            WorkspaceNotificationSettingsService::LEAP_YEAR_MODE_FEB_28,
+            WorkspaceNotificationSettingsService::LEAP_YEAR_MODE_MARCH_1,
+        ] as $mode) {
+            $resolver = $this->makeResolver($mode);
+            $matches = $resolver->resolve(new DateTime('2028-02-29'), []);
+            $names = array_map(fn ($r) => $r->getFullName(), $matches);
+            $this->assertContains('Iris Ingram', $names, "Feb 29 employee should match on an actual Feb 29 (mode=$mode)");
+        }
+    }
+
+    public function testFeb29NotMatchedOnFeb28InOnce4YearsMode(): void
+    {
+        // 2026 is not a leap year; once_every_4_years means no alias.
+        $resolver = $this->makeResolver(WorkspaceNotificationSettingsService::LEAP_YEAR_MODE_ONCE_IN_4_YEARS);
+        $matches = $resolver->resolve(new DateTime('2026-02-28'), []);
+        $names = array_map(fn ($r) => $r->getFullName(), $matches);
+        $this->assertNotContains('Iris Ingram', $names, 'Feb 29 employee must NOT appear on Feb 28 in once_every_4_years mode');
+    }
+
+    public function testFeb29NotMatchedOnMarch1InOnce4YearsMode(): void
+    {
+        $resolver = $this->makeResolver(WorkspaceNotificationSettingsService::LEAP_YEAR_MODE_ONCE_IN_4_YEARS);
+        $matches = $resolver->resolve(new DateTime('2026-03-01'), []);
+        $names = array_map(fn ($r) => $r->getFullName(), $matches);
+        $this->assertNotContains('Iris Ingram', $names, 'Feb 29 employee must NOT appear on Mar 1 in once_every_4_years mode');
+    }
+
+    public function testFeb29MatchedOnFeb28InFeb28Mode(): void
+    {
+        // 2026 is not a leap year; feb_28 mode → Feb 29 employee gets notified on Feb 28.
+        $resolver = $this->makeResolver(WorkspaceNotificationSettingsService::LEAP_YEAR_MODE_FEB_28);
+        $matches = $resolver->resolve(new DateTime('2026-02-28'), []);
+        $names = array_map(fn ($r) => $r->getFullName(), $matches);
+        $this->assertContains('Iris Ingram', $names, 'Feb 29 employee should appear on Feb 28 in feb_28 mode (non-leap year)');
+    }
+
+    public function testFeb29NotMatchedOnMarch1InFeb28Mode(): void
+    {
+        $resolver = $this->makeResolver(WorkspaceNotificationSettingsService::LEAP_YEAR_MODE_FEB_28);
+        $matches = $resolver->resolve(new DateTime('2026-03-01'), []);
+        $names = array_map(fn ($r) => $r->getFullName(), $matches);
+        $this->assertNotContains('Iris Ingram', $names, 'Feb 29 employee should NOT appear on Mar 1 in feb_28 mode');
+    }
+
+    public function testFeb29MatchedOnMarch1InMarch1Mode(): void
+    {
+        // 2026 is not a leap year; march_1 mode → Feb 29 employee gets notified on Mar 1.
+        $resolver = $this->makeResolver(WorkspaceNotificationSettingsService::LEAP_YEAR_MODE_MARCH_1);
+        $matches = $resolver->resolve(new DateTime('2026-03-01'), []);
+        $names = array_map(fn ($r) => $r->getFullName(), $matches);
+        $this->assertContains('Iris Ingram', $names, 'Feb 29 employee should appear on Mar 1 in march_1 mode (non-leap year)');
+    }
+
+    public function testFeb29NotMatchedOnFeb28InMarch1Mode(): void
+    {
+        $resolver = $this->makeResolver(WorkspaceNotificationSettingsService::LEAP_YEAR_MODE_MARCH_1);
+        $matches = $resolver->resolve(new DateTime('2026-02-28'), []);
+        $names = array_map(fn ($r) => $r->getFullName(), $matches);
+        $this->assertNotContains('Iris Ingram', $names, 'Feb 29 employee should NOT appear on Feb 28 in march_1 mode');
+    }
+
+    public function testFeb29NotAliasedOnFeb28InLeapYearFeb28Mode(): void
+    {
+        // 2028 is a leap year; alias only fires in non-leap years — Feb 28 should not include Feb 29 employees.
+        $resolver = $this->makeResolver(WorkspaceNotificationSettingsService::LEAP_YEAR_MODE_FEB_28);
+        $matches = $resolver->resolve(new DateTime('2028-02-28'), []);
+        $names = array_map(fn ($r) => $r->getFullName(), $matches);
+        $this->assertNotContains('Iris Ingram', $names, 'Feb 29 employee should NOT be aliased to Feb 28 in a leap year');
+    }
+
+    public function testFeb29NotAliasedOnMarch1InLeapYearMarch1Mode(): void
+    {
+        // 2028 is a leap year; alias only fires in non-leap years.
+        $resolver = $this->makeResolver(WorkspaceNotificationSettingsService::LEAP_YEAR_MODE_MARCH_1);
+        $matches = $resolver->resolve(new DateTime('2028-03-01'), []);
+        $names = array_map(fn ($r) => $r->getFullName(), $matches);
+        $this->assertNotContains('Iris Ingram', $names, 'Feb 29 employee should NOT be aliased to Mar 1 in a leap year');
     }
 }
