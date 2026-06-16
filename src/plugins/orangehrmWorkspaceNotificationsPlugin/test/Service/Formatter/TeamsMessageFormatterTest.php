@@ -101,7 +101,8 @@ class TeamsMessageFormatterTest extends TestCase
         $this->assertStringNotContainsString(':palm_tree:', $message);
         $this->assertStringContainsString('**1 employee on leave today**', $message);
         $this->assertStringContainsString('**Jordan Lee** — Annual leave', $message);
-        $this->assertStringContainsString('_(Engineering)_', $message);
+        // Teams escape() backslash-escapes the parens; `\(` renders as `(` in Teams markdown.
+        $this->assertStringContainsString('_\(Engineering\)_', $message);
     }
 
     public function testLeaveTodayPluralisesAndOmitsParensWhenNoSubunit(): void

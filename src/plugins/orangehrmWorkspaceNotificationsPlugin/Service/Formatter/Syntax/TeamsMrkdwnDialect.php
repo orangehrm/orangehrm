@@ -39,12 +39,12 @@ class TeamsMrkdwnDialect implements SyntaxDialectInterface
 
     public function bold(string $text): string
     {
-        return '**' . $text . '**';
+        return '**' . $this->escape($text) . '**';
     }
 
     public function italic(string $text): string
     {
-        return '_' . $text . '_';
+        return '_' . $this->escape($text) . '_';
     }
 
     public function bullet(): string
@@ -55,5 +55,15 @@ class TeamsMrkdwnDialect implements SyntaxDialectInterface
     public function emoji(string $name): string
     {
         return self::EMOJI_UNICODE[$name] ?? '';
+    }
+
+    /**
+     * Teams clickable links are markdown `[text](url)`. HTML-entity encoding does not
+     * neutralise markdown, so backslash-escape the link control characters instead.
+     * Angle brackets are not link delimiters in Teams markdown; only [] and () need escaping.
+     */
+    public function escape(string $text): string
+    {
+        return addcslashes($text, '[]()');
     }
 }

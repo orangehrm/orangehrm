@@ -166,4 +166,101 @@ class EventMessageFormattersTest extends TestCase
         $this->assertStringNotContainsString('Birthday notification', $msg);
         $this->assertStringNotContainsString('Employees on leave today', $msg);
     }
+
+    public function testBirthdayNeutralizesSlackLinkInName(): void
+    {
+        $msg = (new BirthdayMessageFormatter())->format(
+            new SlackMrkdwnDialect(),
+            $this->date,
+            [new WorkspaceNotificationRecipient('<https://attacker.example|Verify your HR account>')]
+        );
+        $this->assertStringNotContainsString('<https://attacker.example|Verify your HR account>', $msg);
+        $this->assertStringContainsString('&lt;https://attacker.example|Verify your HR account&gt;', $msg);
+    }
+
+    public function testBirthdayNeutralizesChannelMentionInName(): void
+    {
+        $msg = (new BirthdayMessageFormatter())->format(
+            new SlackMrkdwnDialect(),
+            $this->date,
+            [new WorkspaceNotificationRecipient('<!channel>')]
+        );
+        $this->assertStringNotContainsString('<!channel>', $msg);
+    }
+
+    public function testBirthdayNeutralizesSlackLinkInSubunit(): void
+    {
+        $msg = (new BirthdayMessageFormatter())->format(
+            new SlackMrkdwnDialect(),
+            $this->date,
+            [new WorkspaceNotificationRecipient('Alex Carter', '<https://attacker.example|Verify>')]
+        );
+        $this->assertStringNotContainsString('<https://attacker.example|Verify>', $msg);
+    }
+
+    public function testBirthdayNeutralizesTeamsLinkInName(): void
+    {
+        $msg = (new BirthdayMessageFormatter())->format(
+            new TeamsMrkdwnDialect(),
+            $this->date,
+            [new WorkspaceNotificationRecipient('[Verify your HR account](https://attacker.example)')]
+        );
+        $this->assertStringNotContainsString('[Verify your HR account](https://attacker.example)', $msg);
+        $this->assertStringContainsString('\[Verify your HR account\]\(https://attacker.example\)', $msg);
+    }
+
+    public function testLeaveTodayNeutralizesSlackLinkInLeaveType(): void
+    {
+        $msg = (new LeaveTodayMessageFormatter())->format(
+            new SlackMrkdwnDialect(),
+            $this->date,
+            [new WorkspaceNotificationRecipient('Jordan Lee', null, '<https://attacker.example|Verify>')]
+        );
+        $this->assertStringNotContainsString('<https://attacker.example|Verify>', $msg);
+    }
+
+    public function testLeaveTodayNeutralizesSlackLinkInSubunit(): void
+    {
+        $msg = (new LeaveTodayMessageFormatter())->format(
+            new SlackMrkdwnDialect(),
+            $this->date,
+            [new WorkspaceNotificationRecipient('Jordan Lee', '<https://attacker.example|Verify>', 'Annual leave')]
+        );
+        $this->assertStringNotContainsString('<https://attacker.example|Verify>', $msg);
+    }
+
+    public function testGenericNeutralizesSlackLinkInSubunitLabel(): void
+    {
+        $generic = new GenericMessageFormatter();
+        $generic->setEventType('NEW_HIRE');
+        $msg = $generic->format(
+            new SlackMrkdwnDialect(),
+            $this->date,
+            [new WorkspaceNotificationRecipient('Dakota Lin')],
+            '<https://attacker.example|Verify>'
+        );
+        $this->assertStringNotContainsString('<https://attacker.example|Verify>', $msg);
+    }
+
+    public function testLeaveTodayNeutralizesTeamsLinkInLeaveType(): void
+    {
+        $msg = (new LeaveTodayMessageFormatter())->format(
+            new TeamsMrkdwnDialect(),
+            $this->date,
+            [new WorkspaceNotificationRecipient('Jordan Lee', null, '[Verify](https://attacker.example)')]
+        );
+        $this->assertStringNotContainsString('[Verify](https://attacker.example)', $msg);
+    }
+
+    public function testGenericNeutralizesSlackLinkInName(): void
+    {
+        $generic = new GenericMessageFormatter();
+        $generic->setEventType('NEW_HIRE');
+        $msg = $generic->format(
+            new SlackMrkdwnDialect(),
+            $this->date,
+            [new WorkspaceNotificationRecipient('<https://attacker.example|Verify>')]
+        );
+        $this->assertStringNotContainsString('<https://attacker.example|Verify>', $msg);
+    }
 }

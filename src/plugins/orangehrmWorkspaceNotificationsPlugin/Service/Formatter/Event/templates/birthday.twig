@@ -3,7 +3,7 @@
 {{ dialect.italic(dateLabel) }}
 
 {% for row in rows -%}
-{{ dialect.bullet() }} {{ dialect.bold(row.name) }}{% if row.subunit %} — {{ row.subunit }}{% endif %}{% if not loop.last %}
+{{ dialect.bullet() }} {{ dialect.bold(row.name) }}{% if row.subunit %} — {{ dialect.escape(row.subunit) }}{% endif %}{% if not loop.last %}
 
 {% endif %}
 {%- endfor %}
