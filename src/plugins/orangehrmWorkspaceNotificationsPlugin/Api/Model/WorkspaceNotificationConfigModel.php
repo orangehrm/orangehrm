@@ -33,6 +33,13 @@ use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
  *         type="array",
  *         description="Identifiers of supported notification events. Drives the UI dropdown; adding a new event type is a backend-only change.",
  *         @OA\Items(type="string", enum={"BIRTHDAY", "LEAVE_TODAY"})
+ *     ),
+ *     @OA\Property(
+ *         property="leapYearBirthdayMode",
+ *         type="string",
+ *         description="How birthday notifications are sent for employees born on Feb 29 in non-leap years.",
+ *         enum={"once_every_4_years", "feb_28", "march_1"},
+ *         example="once_every_4_years"
  *     )
  * )
  */
@@ -41,14 +48,16 @@ class WorkspaceNotificationConfigModel implements Normalizable, ModelConstructor
     private bool $enabled;
     /** @var string[] */
     private array $eventTypes;
+    private string $leapYearBirthdayMode;
 
     /**
      * @param string[] $eventTypes
      */
-    public function __construct(bool $enabled, array $eventTypes = [])
+    public function __construct(bool $enabled, array $eventTypes = [], string $leapYearBirthdayMode = 'once_every_4_years')
     {
         $this->enabled = $enabled;
         $this->eventTypes = $eventTypes;
+        $this->leapYearBirthdayMode = $leapYearBirthdayMode;
     }
 
     public function toArray(): array
@@ -56,6 +65,7 @@ class WorkspaceNotificationConfigModel implements Normalizable, ModelConstructor
         return [
             'enable' => $this->enabled,
             'eventTypes' => $this->eventTypes,
+            'leapYearBirthdayMode' => $this->leapYearBirthdayMode,
         ];
     }
 }

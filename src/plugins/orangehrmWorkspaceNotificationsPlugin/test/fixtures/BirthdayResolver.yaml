@@ -19,3 +19,4 @@ Employee:
   - { emp_number: 6, employee_id: 'E006', emp_firstname: 'Frank',   emp_lastname: 'Foster',  emp_middle_name: '', emp_birthday: '1990-06-01', work_station: 2, termination_id: 1 } # terminated → excluded
   - { emp_number: 7, employee_id: 'E007', emp_firstname: 'Gina',    emp_lastname: 'Green',   emp_middle_name: '', work_station: 2 }                                # null birthday → excluded
   - { emp_number: 8, employee_id: 'E008', emp_firstname: 'Henry',   emp_lastname: 'Hill',    emp_middle_name: '', emp_birthday: '1988-06-01' }                     # on target, NO subDivision
+  - { emp_number: 9, employee_id: 'E009', emp_firstname: 'Iris',    emp_lastname: 'Ingram',  emp_middle_name: '', emp_birthday: '1992-02-29', work_station: 2 }    # Feb 29 birthday — leap year scenario

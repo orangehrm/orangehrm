@@ -60,6 +60,21 @@ langStrings:
     value: 'Local send time (HH:mm).'
     unitId: workspace_notification_send_time_hint
   -
+    value: 'Feb 29th Birthday Notification'
+    unitId: workspace_notification_leap_year_birthday_mode
+  -
+    value: 'Choose when to notify employees born on Feb 29th in non-leap years.'
+    unitId: workspace_notification_leap_year_birthday_hint
+  -
+    value: 'Once in 4 years (Feb 29 only)'
+    unitId: workspace_notification_leap_year_mode_once_4y
+  -
+    value: 'February 28th (in non-leap years)'
+    unitId: workspace_notification_leap_year_mode_feb_28
+  -
+    value: 'March 1st (in non-leap years)'
+    unitId: workspace_notification_leap_year_mode_march_1
+  -
     value: 'All Employees'
     unitId: all_employees
 

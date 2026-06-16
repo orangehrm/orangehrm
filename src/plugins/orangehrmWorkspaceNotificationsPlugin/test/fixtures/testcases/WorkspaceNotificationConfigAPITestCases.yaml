@@ -8,7 +8,8 @@ GetOne:
     data:
       {
         "enable": false,
-        "eventTypes": [ "BIRTHDAY", "LEAVE_TODAY" ]
+        "eventTypes": [ "BIRTHDAY", "LEAVE_TODAY" ],
+        "leapYearBirthdayMode": "once_every_4_years"
       }
     meta: [ ]
 
@@ -25,7 +26,8 @@ Update:
     data:
       {
         "enable": true,
-        "eventTypes": [ "BIRTHDAY", "LEAVE_TODAY" ]
+        "eventTypes": [ "BIRTHDAY", "LEAVE_TODAY" ],
+        "leapYearBirthdayMode": "once_every_4_years"
       }
     meta: [ ]
 
@@ -41,9 +43,58 @@ Update:
     data:
       {
         "enable": false,
-        "eventTypes": [ "BIRTHDAY", "LEAVE_TODAY" ]
+        "eventTypes": [ "BIRTHDAY", "LEAVE_TODAY" ],
+        "leapYearBirthdayMode": "once_every_4_years"
       }
     meta: [ ]
+
+  'Update Slack Config - set leapYearBirthdayMode to feb_28':
+    userId: 1
+    services: { }
+    attributes: [ ]
+    query: [ ]
+    body:
+      {
+        "enable": true,
+        "leapYearBirthdayMode": "feb_28"
+      }
+    data:
+      {
+        "enable": true,
+        "eventTypes": [ "BIRTHDAY", "LEAVE_TODAY" ],
+        "leapYearBirthdayMode": "feb_28"
+      }
+    meta: [ ]
+
+  'Update Slack Config - set leapYearBirthdayMode to march_1':
+    userId: 1
+    services: { }
+    attributes: [ ]
+    query: [ ]
+    body:
+      {
+        "enable": true,
+        "leapYearBirthdayMode": "march_1"
+      }
+    data:
+      {
+        "enable": true,
+        "eventTypes": [ "BIRTHDAY", "LEAVE_TODAY" ],
+        "leapYearBirthdayMode": "march_1"
+      }
+    meta: [ ]
+
+  'Update Slack Config - invalid leapYearBirthdayMode is rejected':
+    userId: 1
+    services: { }
+    attributes: [ ]
+    query: [ ]
+    body:
+      {
+        "enable": true,
+        "leapYearBirthdayMode": "invalid_mode"
+      }
+    invalidOnly: [ "leapYearBirthdayMode" ]
 
   'Update Slack Config - missing enable is invalid':
     userId: 1

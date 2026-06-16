@@ -31,6 +31,7 @@ use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Entity\WorkspaceNotificationRegistration;
 use OrangeHRM\WorkspaceNotifications\Api\Model\WorkspaceNotificationConfigModel;
+use OrangeHRM\WorkspaceNotifications\Service\WorkspaceNotificationSettingsService;
 use OrangeHRM\WorkspaceNotifications\Traits\Service\WorkspaceNotificationSettingsServiceTrait;
 
 class WorkspaceNotificationConfigAPI extends Endpoint implements ResourceEndpoint
@@ -38,6 +39,7 @@ class WorkspaceNotificationConfigAPI extends Endpoint implements ResourceEndpoin
     use WorkspaceNotificationSettingsServiceTrait;
 
     public const PARAMETER_ENABLE = 'enable';
+    public const PARAMETER_LEAP_YEAR_BIRTHDAY_MODE = 'leapYearBirthdayMode';
 
     /**
      * @OA\Get(
@@ -60,9 +62,14 @@ class WorkspaceNotificationConfigAPI extends Endpoint implements ResourceEndpoin
      */
     public function getOne(): EndpointResourceResult
     {
+        $service = $this->getWorkspaceNotificationSettingsService();
         return new EndpointResourceResult(
             WorkspaceNotificationConfigModel::class,
-            [$this->getWorkspaceNotificationSettingsService()->isEnabled(), WorkspaceNotificationRegistration::EVENT_TYPES]
+            [
+                $service->isEnabled(),
+                WorkspaceNotificationRegistration::EVENT_TYPES,
+                $service->getBirthdayLeapYearMode(),
+            ]
         );
     }
 
@@ -78,13 +85,20 @@ class WorkspaceNotificationConfigAPI extends Endpoint implements ResourceEndpoin
      *     path="/api/v2/admin/workspace-notification/config",
      *     tags={"Admin/Workspace Notification"},
      *     summary="Update Workspace notification config",
-     *     description="Toggles the global on/off flag stored in hs_hr_config.",
+     *     description="Updates the global on/off flag and optional birthday leap-year handling mode stored in hs_hr_config.",
      *     operationId="update-workspace-notification-config",
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
      *             required={"enable"},
-     *             @OA\Property(property="enable", type="boolean", example=true)
+     *             @OA\Property(property="enable", type="boolean", example=true),
+     *             @OA\Property(
+     *                 property="leapYearBirthdayMode",
+     *                 type="string",
+     *                 enum={"once_every_4_years", "feb_28", "march_1"},
+     *                 example="once_every_4_years",
+     *                 description="How birthday notifications are sent for employees born on Feb 29 in non-leap years. Omit to leave unchanged."
+     *             )
      *         )
      *     ),
      *     @OA\Response(
@@ -101,14 +115,29 @@ class WorkspaceNotificationConfigAPI extends Endpoint implements ResourceEndpoin
      */
     public function update(): EndpointResourceResult
     {
+        $service = $this->getWorkspaceNotificationSettingsService();
+
         $enable = $this->getRequestParams()->getBoolean(
             RequestParams::PARAM_TYPE_BODY,
             self::PARAMETER_ENABLE
         );
-        $this->getWorkspaceNotificationSettingsService()->setEnabled($enable);
+        $service->setEnabled($enable);
+
+        $leapYearMode = $this->getRequestParams()->getStringOrNull(
+            RequestParams::PARAM_TYPE_BODY,
+            self::PARAMETER_LEAP_YEAR_BIRTHDAY_MODE
+        );
+        if ($leapYearMode !== null) {
+            $service->setBirthdayLeapYearMode($leapYearMode);
+        }
+
         return new EndpointResourceResult(
             WorkspaceNotificationConfigModel::class,
-            [$enable, WorkspaceNotificationRegistration::EVENT_TYPES]
+            [
+                $enable,
+                WorkspaceNotificationRegistration::EVENT_TYPES,
+                $service->getBirthdayLeapYearMode(),
+            ]
         );
     }
 
@@ -117,6 +146,12 @@ class WorkspaceNotificationConfigAPI extends Endpoint implements ResourceEndpoin
         return new ParamRuleCollection(
             new ParamRule(CommonParams::PARAMETER_ID),
             new ParamRule(self::PARAMETER_ENABLE, new Rule(Rules::BOOL_TYPE)),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_LEAP_YEAR_BIRTHDAY_MODE,
+                    new Rule(Rules::IN, [WorkspaceNotificationSettingsService::LEAP_YEAR_MODES])
+                )
+            ),
         );
     }
 

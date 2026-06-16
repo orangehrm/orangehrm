@@ -155,6 +155,21 @@
                 {{ $t('admin.workspace_notification_send_time_hint') }}
               </oxd-text>
             </oxd-grid-item>
+
+            <oxd-grid-item v-if="isBirthdayEventType">
+              <oxd-input-field
+                v-model="leapYearBirthdayMode"
+                type="select"
+                :options="leapYearBirthdayModeOptionsTranslated"
+                :show-empty-selector="false"
+                :label="
+                  $t('admin.workspace_notification_leap_year_birthday_mode')
+                "
+              />
+              <oxd-text class="orangehrm-input-hint" tag="p">
+                {{ $t('admin.workspace_notification_leap_year_birthday_hint') }}
+              </oxd-text>
+            </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
 
@@ -396,6 +411,13 @@ export default {
       form: emptyForm(),
       formKey: 0,
 
+      leapYearBirthdayMode: {id: 'once_every_4_years'},
+      leapYearBirthdayModeOptions: [
+        {id: 'once_every_4_years'},
+        {id: 'feb_28'},
+        {id: 'march_1'},
+      ],
+
       registrations: [],
       checkedItems: [],
 
@@ -461,6 +483,21 @@ export default {
   },
 
   computed: {
+    isBirthdayEventType() {
+      return this.form.eventType?.id === 'BIRTHDAY';
+    },
+    leapYearBirthdayModeOptionsTranslated() {
+      const labelKeys = {
+        once_every_4_years:
+          'admin.workspace_notification_leap_year_mode_once_4y',
+        feb_28: 'admin.workspace_notification_leap_year_mode_feb_28',
+        march_1: 'admin.workspace_notification_leap_year_mode_march_1',
+      };
+      return this.leapYearBirthdayModeOptions.map((o) => ({
+        id: o.id,
+        label: this.$t(labelKeys[o.id] || o.id),
+      }));
+    },
     canSendTest() {
       return !!this.form.webhookUrl || !!this.form.id;
     },
@@ -598,6 +635,10 @@ export default {
       this.configHttp.getAll().then(({data}) => {
         const settings = data.data || {};
         this.globalEnabled = !!settings.enable;
+        const mode = settings.leapYearBirthdayMode || 'once_every_4_years';
+        this.leapYearBirthdayMode =
+          this.leapYearBirthdayModeOptions.find((o) => o.id === mode) ||
+          this.leapYearBirthdayModeOptions[0];
       }),
       this.reloadRegistrations(),
     ]).finally(() => {
@@ -728,11 +769,24 @@ export default {
         active: this.form.active !== false,
       };
       this.isLoading = true;
+
+      const saveLeapYearMode =
+        this.isBirthdayEventType && this.leapYearBirthdayMode?.id
+          ? this.configHttp.request({
+              method: 'PUT',
+              data: {
+                enable: this.globalEnabled,
+                leapYearBirthdayMode: this.leapYearBirthdayMode.id,
+              },
+            })
+          : Promise.resolve();
+
       const request =
         this.formMode === 'edit' && this.form.id
           ? this.registrationsHttp.update(this.form.id, body)
           : this.registrationsHttp.create(body);
-      request
+
+      Promise.all([request, saveLeapYearMode])
         .then(() => {
           this.$toast.saveSuccess();
           this.resetForm();
