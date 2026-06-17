@@ -27,6 +27,7 @@ jobs:
           - { image: "mysql:8.3", admin: "mysqladmin" }
           - { image: "mysql:8.4", admin: "mysqladmin" }
           - { image: "mysql:9.4", admin: "mysqladmin" }
+          - { image: "mysql:9.7", admin: "mysqladmin" }
           - { image: "mariadb:5.5", admin: "mysqladmin" }
           - { image: "mariadb:10.0", admin: "mysqladmin" }
           - { image: "mariadb:10.1", admin: "mysqladmin" }
@@ -47,6 +48,8 @@ jobs:
           - { image: "mariadb:11.4", admin: "mariadb-admin" }
           - { image: "mariadb:11.8", admin: "mariadb-admin" }
           - { image: "mariadb:12.0", admin: "mariadb-admin" }
+          - { image: "mariadb:12.3", admin: "mariadb-admin" }
+          - { image: "mariadb:13.0", admin: "mariadb-admin" }
 
     services:
       mysql:
