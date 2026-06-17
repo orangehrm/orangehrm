@@ -146,7 +146,13 @@ class Migration extends AbstractMigration
             'performed_by',
             ['Default' => null, 'Notnull' => false]
         );
-        $this->getSchemaHelper()->dropForeignKeys('ohrm_timesheet_action_log', ['ohrm_timesheet_action_log_ibfk_1']);
+        // Drop by introspection rather than the conventional `_ibfk_1` auto-name: MariaDB 12.3+
+        // names anonymous foreign keys numerically (e.g. `1`), so the hardcoded name no longer
+        // matches. This table has a single FK (performed_by -> ohrm_user) which is recreated below.
+        $this->getSchemaHelper()->dropForeignKeys(
+            'ohrm_timesheet_action_log',
+            $this->getSchemaManager()->listTableForeignKeys('ohrm_timesheet_action_log')
+        );
         $foreignKeyConstraint = new ForeignKeyConstraint(
             ['performed_by'],
             'ohrm_user',

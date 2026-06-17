@@ -89,7 +89,10 @@ class LeaveEntitlement
     /**
      * @var DateTime
      *
-     * @ORM\Column(name="to_date", type="datetime")
+     * Column name is backtick-quoted because `to_date` is a reserved word as of
+     * MariaDB 12.3 (Oracle-compat); the quoting tells Doctrine to emit it quoted
+     * in generated INSERT/UPDATE SQL so persistence works on MariaDB 12.3+/13.0.
+     * @ORM\Column(name="`to_date`", type="datetime")
      */
     private DateTime $toDate;
 

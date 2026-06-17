@@ -1,3 +1,14 @@
+New & Changed Features for OrangeHRM ver 5.9
+    Supported Environments
+    -----------
+	- PHP - 7.4 to 8.5
+	- MariaDB - 5.5 to 13.0
+	- MySQL - 5.5 to 9.7
+
+    New Features/Changes
+    --------------------
+    - Added support for MariaDB 12.3 (LTS) and 13.0 (RC), and MySQL 9.7 (LTS)
+
 New & Changed Features for OrangeHRM ver 5.8.1
     Supported Environments
     -----------
