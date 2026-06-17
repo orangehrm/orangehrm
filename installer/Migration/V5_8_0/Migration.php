@@ -128,8 +128,14 @@ class Migration extends AbstractMigration
      */
     private function removeConflictingForeignKeys(array $conflictingConstraints): void
     {
-        foreach ($conflictingConstraints as $constraintName => $conflictingConstraint) {
-            $this->getSchemaHelper()->dropForeignKeys($conflictingConstraint['childTable'], [$constraintName]);
+        // Drop by the constraint's actual name from the introspected object, not the array key:
+        // MariaDB 12.3+ names anonymous foreign keys numerically (e.g. `0`, `1`), and array_merge()
+        // reindexes such integer-like string keys, so the key no longer matches the real FK name.
+        foreach ($conflictingConstraints as $conflictingConstraint) {
+            $this->getSchemaHelper()->dropForeignKeys(
+                $conflictingConstraint['childTable'],
+                [$conflictingConstraint['constraint']->getName()]
+            );
         }
     }
 

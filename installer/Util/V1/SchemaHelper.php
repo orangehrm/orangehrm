@@ -184,7 +184,10 @@ class SchemaHelper
     public function dropForeignKeys(string $tableName, array $foreignKeys): void
     {
         $diff = new TableDiff($tableName);
-        $diff->removedForeignKeys = $foreignKeys;
+        $diff->removedForeignKeys = array_map(
+            fn ($foreignKey) => $this->forceQuoteForeignKeyName($foreignKey),
+            $foreignKeys
+        );
         $this->getSchemaManager()->alterTable($diff);
     }
 
@@ -195,8 +198,39 @@ class SchemaHelper
     public function addForeignKey(string $localTableName, ForeignKeyConstraint $foreignKeyConstraint): void
     {
         $diff = new TableDiff($localTableName);
-        $diff->addedForeignKeys = [$foreignKeyConstraint];
+        $diff->addedForeignKeys = [$this->forceQuoteForeignKeyName($foreignKeyConstraint)];
         $this->getSchemaManager()->alterTable($diff);
+    }
+
+    /**
+     * Force the foreign-key name to be emitted quoted in generated SQL.
+     *
+     * Legacy anonymous foreign keys (`add constraint foreign key ...`) are auto-named
+     * numerically (e.g. `1`, `2`) by MariaDB 12.3+. Doctrine DBAL does not quote a numeric
+     * identifier, so it emits invalid SQL such as `DROP FOREIGN KEY 1` / `ADD CONSTRAINT 1 ...`.
+     * Re-wrapping the name in backticks marks the identifier as quoted while preserving DBAL's
+     * referential-action handling. Harmless for ordinary names (already-valid identifiers stay
+     * valid when quoted); a `string` (bare name) or an unnamed constraint is returned unchanged.
+     *
+     * @param string|ForeignKeyConstraint $foreignKey
+     * @return string|ForeignKeyConstraint
+     */
+    private function forceQuoteForeignKeyName($foreignKey)
+    {
+        if (!$foreignKey instanceof ForeignKeyConstraint) {
+            return $foreignKey === '' ? $foreignKey : '`' . str_replace('`', '``', $foreignKey) . '`';
+        }
+        $name = $foreignKey->getName();
+        if ($name === '') {
+            return $foreignKey;
+        }
+        return new ForeignKeyConstraint(
+            $foreignKey->getLocalColumns(),
+            $foreignKey->getForeignTableName(),
+            $foreignKey->getForeignColumns(),
+            '`' . str_replace('`', '``', $name) . '`',
+            $foreignKey->getOptions()
+        );
     }
 
     /**
