@@ -56,7 +56,7 @@ class Migration extends AbstractMigration
     private function createWorkspaceNotificationTables(): void
     {
         if (!$this->getSchemaHelper()->tableExists(['ohrm_workspace_notification_registration'])) {
-            $this->getSchemaHelper()->createTable('ohrm_workspace_notification_registration')
+            $this->getSchemaHelper()->createTable('ohrm_workspace_notification_registration', 'utf8mb4')
                 ->addColumn('id', Types::INTEGER, ['Autoincrement' => true, 'Notnull' => true])
                 ->addColumn('provider', Types::STRING, ['Length' => 20, 'Notnull' => true, 'Default' => 'slack'])
                 ->addColumn('event_type', Types::STRING, ['Length' => 32, 'Notnull' => true])
@@ -101,7 +101,7 @@ class Migration extends AbstractMigration
         }
 
         if (!$this->getSchemaHelper()->tableExists(['ohrm_workspace_notification_log'])) {
-            $this->getSchemaHelper()->createTable('ohrm_workspace_notification_log')
+            $this->getSchemaHelper()->createTable('ohrm_workspace_notification_log', 'utf8mb4')
                 ->addColumn('id', Types::INTEGER, ['Autoincrement' => true, 'Notnull' => true])
                 ->addColumn('registration_id', Types::INTEGER, ['Notnull' => false, 'Default' => null])
                 ->addColumn('event_type', Types::STRING, ['Length' => 32, 'Notnull' => true])
@@ -133,12 +133,7 @@ class Migration extends AbstractMigration
             );
         }
 
-        $this->getConnection()->createQueryBuilder()
-            ->insert('hs_hr_config')
-            ->values(['name' => ':name', 'value' => ':value'])
-            ->setParameter('name', self::CONFIG_KEY_WORKSPACE_ENABLED)
-            ->setParameter('value', '0')
-            ->executeQuery();
+        $this->getConfigHelper()->setConfigValue(self::CONFIG_KEY_WORKSPACE_ENABLED, '0');
     }
 
     private const CONFIG_KEY_WORKSPACE_ENABLED = 'workspace.notifications.enabled';

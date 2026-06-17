@@ -102,6 +102,18 @@ class WorkspaceNotificationRegistrationDaoTest extends TestCase
         $this->assertNull($this->dao->getRegistration(999999));
     }
 
+    public function testSaveRegistrationRoundTripsEmojiInChannelLabel(): void
+    {
+        $emojiLabel = '🎉 general 🚀';
+        $reg = $this->makeRegistration('BIRTHDAY', $emojiLabel);
+        $this->dao->saveRegistration($reg);
+
+        $this->getEntityManager()->clear();
+        $reloaded = $this->dao->getRegistration($reg->getId());
+        $this->assertNotNull($reloaded, 'emoji round-trip: row not found after save');
+        $this->assertSame($emojiLabel, $reloaded->getChannelLabel());
+    }
+
     public function testSaveRegistrationAssignsIdAndRoundTrips(): void
     {
         $reg = $this->makeRegistration('BIRTHDAY', 'fresh');
