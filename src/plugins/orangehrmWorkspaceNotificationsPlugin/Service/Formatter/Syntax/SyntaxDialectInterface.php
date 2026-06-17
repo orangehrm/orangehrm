@@ -24,7 +24,6 @@ interface SyntaxDialectInterface
     public function bold(string $text): string;
     public function italic(string $text): string;
     public function bullet(): string;
-    public function emoji(string $name): string;
 
     /**
      * Neutralise this platform's control syntax in a user/record-supplied value

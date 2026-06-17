@@ -21,15 +21,6 @@ namespace OrangeHRM\WorkspaceNotifications\Service\Formatter\Syntax;
 
 class SlackMrkdwnDialect implements SyntaxDialectInterface
 {
-    private const EMOJI_UNICODE = [
-        'party' => '🎉',
-        'birthday' => '🎂',
-        'palm' => '🌴',
-        'check' => '✅',
-        'test_tube' => '🧪',
-        'megaphone' => '📢',
-    ];
-
     public function bold(string $text): string
     {
         return '*' . $this->escape($text) . '*';
@@ -43,11 +34,6 @@ class SlackMrkdwnDialect implements SyntaxDialectInterface
     public function bullet(): string
     {
         return '•';
-    }
-
-    public function emoji(string $name): string
-    {
-        return self::EMOJI_UNICODE[$name] ?? '';
     }
 
     /**

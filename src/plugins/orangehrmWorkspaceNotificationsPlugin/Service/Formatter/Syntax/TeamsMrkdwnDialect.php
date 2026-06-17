@@ -24,19 +24,9 @@ namespace OrangeHRM\WorkspaceNotifications\Service\Formatter\Syntax;
  *
  *   - `**bold**` (NOT `*single*` — Teams would print the asterisks verbatim)
  *   - `-` for bullets (Teams MessageCard does not render `•` as a list)
- *   - Unicode glyphs for emoji — Teams does not expand `:shortcodes:`
  */
 class TeamsMrkdwnDialect implements SyntaxDialectInterface
 {
-    private const EMOJI_UNICODE = [
-        'party' => '🎉',
-        'birthday' => '🎂',
-        'palm' => '🌴',
-        'check' => '✅',
-        'test_tube' => '🧪',
-        'megaphone' => '📢',
-    ];
-
     public function bold(string $text): string
     {
         return '**' . $this->escape($text) . '**';
@@ -50,11 +40,6 @@ class TeamsMrkdwnDialect implements SyntaxDialectInterface
     public function bullet(): string
     {
         return '-';
-    }
-
-    public function emoji(string $name): string
-    {
-        return self::EMOJI_UNICODE[$name] ?? '';
     }
 
     /**

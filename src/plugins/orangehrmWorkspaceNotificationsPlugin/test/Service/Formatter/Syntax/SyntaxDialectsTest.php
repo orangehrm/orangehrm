@@ -46,21 +46,6 @@ class SyntaxDialectsTest extends TestCase
         $this->assertSame('•', (new SlackMrkdwnDialect())->bullet());
     }
 
-    public function testSlackEmojiUsesUnicodeGlyphs(): void
-    {
-        $d = new SlackMrkdwnDialect();
-        $this->assertSame('🎉', $d->emoji('party'));
-        $this->assertSame('🎂', $d->emoji('birthday'));
-        $this->assertSame('🌴', $d->emoji('palm'));
-        $this->assertSame('✅', $d->emoji('check'));
-        $this->assertSame('🧪', $d->emoji('test_tube'));
-    }
-
-    public function testSlackUnknownEmojiFallsBackToEmptyString(): void
-    {
-        $this->assertSame('', (new SlackMrkdwnDialect())->emoji('newname'));
-    }
-
     public function testTeamsBoldUsesDoubleAsterisks(): void
     {
         $this->assertSame('**hello**', (new TeamsMrkdwnDialect())->bold('hello'));
@@ -74,21 +59,6 @@ class SyntaxDialectsTest extends TestCase
     public function testTeamsBulletIsHyphen(): void
     {
         $this->assertSame('-', (new TeamsMrkdwnDialect())->bullet());
-    }
-
-    public function testTeamsEmojiUsesUnicodeGlyphs(): void
-    {
-        $d = new TeamsMrkdwnDialect();
-        $this->assertSame('🎉', $d->emoji('party'));
-        $this->assertSame('🎂', $d->emoji('birthday'));
-        $this->assertSame('🌴', $d->emoji('palm'));
-        $this->assertSame('✅', $d->emoji('check'));
-        $this->assertSame('🧪', $d->emoji('test_tube'));
-    }
-
-    public function testTeamsUnknownEmojiFallsBackToEmptyString(): void
-    {
-        $this->assertSame('', (new TeamsMrkdwnDialect())->emoji('newname'));
     }
 
     public function testBothDialectsImplementTheInterface(): void
@@ -141,24 +111,5 @@ class SyntaxDialectsTest extends TestCase
     public function testTeamsItalicEscapesItsArgument(): void
     {
         $this->assertSame('_\[link\]\(url\)_', (new TeamsMrkdwnDialect())->italic('[link](url)'));
-    }
-
-    public function testBothDialectsCoverTheSameEmojiNameSet(): void
-    {
-        $names = ['party', 'birthday', 'palm', 'check', 'test_tube'];
-        $slack = new SlackMrkdwnDialect();
-        $teams = new TeamsMrkdwnDialect();
-        foreach ($names as $name) {
-            $this->assertNotSame(
-                '',
-                $slack->emoji($name),
-                "Slack dialect dropped its mapping for '{$name}'"
-            );
-            $this->assertNotSame(
-                '',
-                $teams->emoji($name),
-                "Teams dialect dropped its mapping for '{$name}'"
-            );
-        }
     }
 }
