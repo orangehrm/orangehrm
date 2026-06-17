@@ -167,11 +167,15 @@ class TestDataService
         foreach ($dataArray as $key => $value) {
             $columnName = self::_getClassMetadata($tableAlias)->getColumnName($key);
 
-            /* Had to remove backtick (`) since hs_hr_config's "key" column contains them */
+            /* Backtick-quote the identifier so column names that collide with reserved
+             * words (e.g. `to_date`, reserved since MariaDB 12.3) don't break the INSERT.
+             * Any embedded backtick is escaped by doubling, per MySQL identifier rules. */
+            $quotedColumnName = '`' . str_replace('`', '``', $columnName) . '`';
+
             if ($i < $count) {
-                $columnString .= "$columnName, ";
+                $columnString .= "$quotedColumnName, ";
             } else {
-                $columnString .= "$columnName";
+                $columnString .= "$quotedColumnName";
             }
 
             $i++;
