@@ -24,27 +24,17 @@ namespace OrangeHRM\WorkspaceNotifications\Service\Formatter\Syntax;
  *
  *   - `**bold**` (NOT `*single*` — Teams would print the asterisks verbatim)
  *   - `-` for bullets (Teams MessageCard does not render `•` as a list)
- *   - Unicode glyphs for emoji — Teams does not expand `:shortcodes:`
  */
 class TeamsMrkdwnDialect implements SyntaxDialectInterface
 {
-    private const EMOJI_UNICODE = [
-        'party' => '🎉',
-        'birthday' => '🎂',
-        'palm' => '🌴',
-        'check' => '✅',
-        'test_tube' => '🧪',
-        'megaphone' => '📢',
-    ];
-
     public function bold(string $text): string
     {
-        return '**' . $text . '**';
+        return '**' . $this->escape($text) . '**';
     }
 
     public function italic(string $text): string
     {
-        return '_' . $text . '_';
+        return '_' . $this->escape($text) . '_';
     }
 
     public function bullet(): string
@@ -52,8 +42,13 @@ class TeamsMrkdwnDialect implements SyntaxDialectInterface
         return '-';
     }
 
-    public function emoji(string $name): string
+    /**
+     * Teams clickable links are markdown `[text](url)`. HTML-entity encoding does not
+     * neutralise markdown, so backslash-escape the link control characters instead.
+     * Angle brackets are not link delimiters in Teams markdown; only [] and () need escaping.
+     */
+    public function escape(string $text): string
     {
-        return self::EMOJI_UNICODE[$name] ?? '';
+        return addcslashes($text, '[]()');
     }
 }

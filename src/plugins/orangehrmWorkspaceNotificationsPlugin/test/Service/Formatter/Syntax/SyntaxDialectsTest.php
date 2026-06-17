@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Tests\WorkspaceNotifications\Service\Formatter\Syntax;
 
+use OrangeHRM\WorkspaceNotifications\Service\Formatter\Syntax\GoogleChatMrkdwnDialect;
 use OrangeHRM\WorkspaceNotifications\Service\Formatter\Syntax\SlackMrkdwnDialect;
 use OrangeHRM\WorkspaceNotifications\Service\Formatter\Syntax\SyntaxDialectInterface;
 use OrangeHRM\WorkspaceNotifications\Service\Formatter\Syntax\TeamsMrkdwnDialect;
@@ -45,21 +46,6 @@ class SyntaxDialectsTest extends TestCase
         $this->assertSame('•', (new SlackMrkdwnDialect())->bullet());
     }
 
-    public function testSlackEmojiUsesUnicodeGlyphs(): void
-    {
-        $d = new SlackMrkdwnDialect();
-        $this->assertSame('🎉', $d->emoji('party'));
-        $this->assertSame('🎂', $d->emoji('birthday'));
-        $this->assertSame('🌴', $d->emoji('palm'));
-        $this->assertSame('✅', $d->emoji('check'));
-        $this->assertSame('🧪', $d->emoji('test_tube'));
-    }
-
-    public function testSlackUnknownEmojiFallsBackToEmptyString(): void
-    {
-        $this->assertSame('', (new SlackMrkdwnDialect())->emoji('newname'));
-    }
-
     public function testTeamsBoldUsesDoubleAsterisks(): void
     {
         $this->assertSame('**hello**', (new TeamsMrkdwnDialect())->bold('hello'));
@@ -75,43 +61,55 @@ class SyntaxDialectsTest extends TestCase
         $this->assertSame('-', (new TeamsMrkdwnDialect())->bullet());
     }
 
-    public function testTeamsEmojiUsesUnicodeGlyphs(): void
-    {
-        $d = new TeamsMrkdwnDialect();
-        $this->assertSame('🎉', $d->emoji('party'));
-        $this->assertSame('🎂', $d->emoji('birthday'));
-        $this->assertSame('🌴', $d->emoji('palm'));
-        $this->assertSame('✅', $d->emoji('check'));
-        $this->assertSame('🧪', $d->emoji('test_tube'));
-    }
-
-    public function testTeamsUnknownEmojiFallsBackToEmptyString(): void
-    {
-        $this->assertSame('', (new TeamsMrkdwnDialect())->emoji('newname'));
-    }
-
     public function testBothDialectsImplementTheInterface(): void
     {
         $this->assertInstanceOf(SyntaxDialectInterface::class, new SlackMrkdwnDialect());
         $this->assertInstanceOf(SyntaxDialectInterface::class, new TeamsMrkdwnDialect());
     }
 
-    public function testBothDialectsCoverTheSameEmojiNameSet(): void
+    public function testSlackEscapeNeutralizesAngleBracketsAndAmpersand(): void
     {
-        $names = ['party', 'birthday', 'palm', 'check', 'test_tube'];
-        $slack = new SlackMrkdwnDialect();
-        $teams = new TeamsMrkdwnDialect();
-        foreach ($names as $name) {
-            $this->assertNotSame(
-                '',
-                $slack->emoji($name),
-                "Slack dialect dropped its mapping for '{$name}'"
-            );
-            $this->assertNotSame(
-                '',
-                $teams->emoji($name),
-                "Teams dialect dropped its mapping for '{$name}'"
-            );
-        }
+        $this->assertSame('&lt;a&gt; &amp; &lt;b&gt;', (new SlackMrkdwnDialect())->escape('<a> & <b>'));
+    }
+
+    public function testSlackEscapePreservesApostrophes(): void
+    {
+        // ENT_NOQUOTES: apostrophes must survive so "Let's" does not become "Let&#039;s"
+        $this->assertSame("Let's", (new SlackMrkdwnDialect())->escape("Let's"));
+    }
+
+    public function testSlackBoldEscapesItsArgument(): void
+    {
+        $this->assertSame('*&lt;b&gt;*', (new SlackMrkdwnDialect())->bold('<b>'));
+    }
+
+    public function testSlackItalicEscapesItsArgument(): void
+    {
+        $this->assertSame('_&lt;i&gt;_', (new SlackMrkdwnDialect())->italic('<i>'));
+    }
+
+    public function testGoogleChatDialectInheritsSlackEscape(): void
+    {
+        $this->assertSame('&lt;x&gt;', (new GoogleChatMrkdwnDialect())->escape('<x>'));
+    }
+
+    public function testTeamsEscapeNeutralizesBracketsAndParens(): void
+    {
+        $this->assertSame('\[link\]\(url\)', (new TeamsMrkdwnDialect())->escape('[link](url)'));
+    }
+
+    public function testTeamsEscapePreservesOrdinaryNames(): void
+    {
+        $this->assertSame('Alice Smith', (new TeamsMrkdwnDialect())->escape('Alice Smith'));
+    }
+
+    public function testTeamsBoldEscapesItsArgument(): void
+    {
+        $this->assertSame('**\[link\]\(url\)**', (new TeamsMrkdwnDialect())->bold('[link](url)'));
+    }
+
+    public function testTeamsItalicEscapesItsArgument(): void
+    {
+        $this->assertSame('_\[link\]\(url\)_', (new TeamsMrkdwnDialect())->italic('[link](url)'));
     }
 }

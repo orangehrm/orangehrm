@@ -21,23 +21,14 @@ namespace OrangeHRM\WorkspaceNotifications\Service\Formatter\Syntax;
 
 class SlackMrkdwnDialect implements SyntaxDialectInterface
 {
-    private const EMOJI_UNICODE = [
-        'party' => '🎉',
-        'birthday' => '🎂',
-        'palm' => '🌴',
-        'check' => '✅',
-        'test_tube' => '🧪',
-        'megaphone' => '📢',
-    ];
-
     public function bold(string $text): string
     {
-        return '*' . $text . '*';
+        return '*' . $this->escape($text) . '*';
     }
 
     public function italic(string $text): string
     {
-        return '_' . $text . '_';
+        return '_' . $this->escape($text) . '_';
     }
 
     public function bullet(): string
@@ -45,8 +36,13 @@ class SlackMrkdwnDialect implements SyntaxDialectInterface
         return '•';
     }
 
-    public function emoji(string $name): string
+    /**
+     * Slack/Google Chat mrkdwn link and mention syntax is built from `<`, `>` and `&`.
+     * Encoding only those three is Slack's documented escaping; quotes are left intact
+     * (ENT_NOQUOTES) so names like "Let's" are not mangled into "Let&#039;s".
+     */
+    public function escape(string $text): string
     {
-        return self::EMOJI_UNICODE[$name] ?? '';
+        return htmlspecialchars($text, ENT_NOQUOTES | ENT_SUBSTITUTE, 'UTF-8');
     }
 }
