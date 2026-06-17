@@ -120,7 +120,7 @@
                 v-model="form.subunit"
                 type="select"
                 :options="subunitOptions"
-                :label="$t('admin.sub_unit')"
+                :label="$t('general.sub_unit')"
               />
               <oxd-text class="orangehrm-input-hint" tag="p">
                 {{ $t('admin.workspace_notification_subunit_hint') }}
@@ -133,7 +133,7 @@
                 :options="timezoneOptions"
                 :show-empty-selector="false"
                 :rules="rules.timezone"
-                :label="$t('general.timezone')"
+                :label="$t('attendance.timezone')"
                 required
               />
               <oxd-text class="orangehrm-input-hint" tag="p">
@@ -447,27 +447,39 @@ export default {
       tableHeaders: [
         {
           name: 'eventType',
-          title: 'Notification Type',
+          title: this.$t('admin.notification_type'),
           style: {flex: '14%'},
         },
-        {name: 'platform', title: 'Platform', style: {flex: '11%'}},
+        {
+          name: 'platform',
+          title: this.$t('admin.platform'),
+          style: {flex: '11%'},
+        },
         {
           name: 'channelLabel',
-          title: 'Channel',
+          title: this.$t('admin.channel'),
           sortField: 'r.channelLabel',
           style: {flex: '12%'},
         },
-        {name: 'subunit', title: 'Sub Unit', style: {flex: '13%'}},
-        {name: 'timezone', title: 'Timezone', style: {flex: '14%'}},
+        {
+          name: 'subunit',
+          title: this.$t('general.sub_unit'),
+          style: {flex: '13%'},
+        },
+        {
+          name: 'timezone',
+          title: this.$t('attendance.timezone'),
+          style: {flex: '14%'},
+        },
         {
           name: 'sendTime',
-          title: 'Send time',
+          title: this.$t('admin.send_time'),
           sortField: 'r.dailySendTime',
           style: {flex: '9%'},
         },
         {
           name: 'statusToggle',
-          title: 'Status',
+          title: this.$t('general.status'),
           slot: 'action',
           style: {flex: '12%'},
           cellType: 'oxd-table-cell-actions',
@@ -518,11 +530,11 @@ export default {
     webhookUrlLabel() {
       switch (this.selectedProviderId) {
         case 'google_chat':
-          return 'Google Chat Webhook URL';
+          return this.$t('admin.google_chat_webhook_url');
         case 'teams':
-          return 'Microsoft Teams Workflow URL';
+          return this.$t('admin.teams_workflow_url');
         default:
-          return 'Slack Incoming Webhook URL';
+          return this.$t('admin.slack_incoming_webhook_url');
       }
     },
     webhookUrlHint() {
@@ -577,7 +589,7 @@ export default {
           channelLabel: row.channelLabel || '',
           subunit:
             subunitNames.length === 0
-              ? 'All employees'
+              ? this.$t('admin.all_employees')
               : subunitNames.join(', '),
           timezone: row.timezone || 'UTC',
           sendTime: row.dailySendTime || '09:00',
