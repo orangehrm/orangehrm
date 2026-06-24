@@ -155,3 +155,23 @@ langStrings:
   -
     value: 'Could not update global toggle.'
     unitId: workspace_notification_global_toggle_failed
+
+  # Webhook hints + validation messages (per platform)
+  -
+    value: 'Create a Power Automate "Post to channel" workflow with an HTTP trigger and paste the workflow URL here. Must be HTTPS.'
+    unitId: teams_webhook_hint
+  -
+    value: 'Should be a valid Microsoft Teams Power Automate workflow URL'
+    unitId: teams_webhook_url_invalid
+  -
+    value: 'Google Chat webhook URL must include both key and token query parameters.'
+    unitId: google_chat_webhook_key_token_required
+  -
+    value: 'Microsoft Teams workflow URL must include the sig query parameter.'
+    unitId: teams_webhook_sig_required
+  -
+    value: 'Invalid URL.'
+    unitId: workspace_notification_invalid_url
+  -
+    value: '(saved — leave blank to keep)'
+    unitId: workspace_notification_webhook_saved_hint
