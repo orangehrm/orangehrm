@@ -260,10 +260,13 @@ import useForm from '@/core/util/composable/useForm';
 import usePaginate from '@ohrm/core/util/composable/usePaginate';
 import useSort from '@ohrm/core/util/composable/useSort';
 import {APIService} from '@ohrm/core/util/services/api.service';
+import {translate as translatorFactory} from '@/core/plugins/i18n/translate';
 import {OxdSwitchInput, OxdSpinner, OxdPagination} from '@ohrm/oxd';
 import TableHeader from '@ohrm/components/table/TableHeader';
 import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmationDialog.vue';
 import ConfirmationDialog from '@/core/components/dialogs/ConfirmationDialog';
+
+const translate = translatorFactory();
 
 const SLACK_WEBHOOK_URL_REGEX =
   /^https:\/\/hooks\.slack\.com\/services\/[A-Z0-9]+\/[A-Z0-9]+\/[A-Za-z0-9]+$/;
@@ -279,35 +282,35 @@ const validWebhookUrl = (providerId) =>
     if (!value) return true;
     if (providerId === 'google_chat') {
       if (!GOOGLE_CHAT_WEBHOOK_URL_REGEX.test(value)) {
-        return 'Should be a valid Google Chat webhook URL';
+        return translate('admin.google_chat_webhook_url_invalid');
       }
       try {
         const u = new URL(value);
         if (!u.searchParams.get('key') || !u.searchParams.get('token')) {
-          return 'Google Chat webhook URL must include both `key` and `token` query parameters.';
+          return translate('admin.google_chat_webhook_key_token_required');
         }
       } catch (e) {
-        return 'Invalid URL.';
+        return translate('admin.workspace_notification_invalid_url');
       }
       return true;
     }
     if (providerId === 'teams') {
       if (!TEAMS_WEBHOOK_URL_REGEX.test(value)) {
-        return 'Should be a valid Microsoft Teams Power Automate workflow URL';
+        return translate('admin.teams_webhook_url_invalid');
       }
       try {
         const u = new URL(value);
         if (!u.searchParams.get('sig')) {
-          return 'Microsoft Teams workflow URL must include the `sig` query parameter.';
+          return translate('admin.teams_webhook_sig_required');
         }
       } catch (e) {
-        return 'Invalid URL.';
+        return translate('admin.workspace_notification_invalid_url');
       }
       return true;
     }
     return (
       SLACK_WEBHOOK_URL_REGEX.test(value) ||
-      'Should be a valid Slack Incoming Webhook URL'
+      translate('admin.slack_webhook_url_invalid')
     );
   };
 
@@ -425,8 +428,8 @@ export default {
       checkedItems: [],
 
       providerOptions: [
-        {id: 'slack', label: 'Slack'},
-        {id: 'google_chat', label: 'Google Chat'},
+        {id: 'slack', label: this.$t('admin.platform_slack')},
+        {id: 'google_chat', label: this.$t('admin.platform_google_chat')},
         // Microsoft Teams is out of scope for this release. Backend support
         // (TeamsWebhookProvider, dialect, formatter, API allow-list) is left
         // intact so the option can be re-enabled by un-commenting this line.
@@ -440,8 +443,14 @@ export default {
       timezoneOptions: [],
       subunitOptions: [],
       eventTypeOptions: [
-        {id: 'BIRTHDAY', label: 'Birthday'},
-        {id: 'LEAVE_TODAY', label: 'Employees on Leave Today'},
+        {
+          id: 'BIRTHDAY',
+          label: this.$t('admin.workspace_notification_event_birthday'),
+        },
+        {
+          id: 'LEAVE_TODAY',
+          label: this.$t('admin.workspace_notification_event_leave_today'),
+        },
       ],
 
       tableHeaders: [
@@ -540,11 +549,11 @@ export default {
     webhookUrlHint() {
       switch (this.selectedProviderId) {
         case 'google_chat':
-          return 'Create an Incoming Webhook in your Google Chat workspace and paste the URL here. Must be HTTPS.';
+          return this.$t('admin.google_chat_webhook_hint');
         case 'teams':
-          return 'Create a Power Automate "Post to channel" workflow with an HTTP trigger and paste the workflow URL here. Must be HTTPS.';
+          return this.$t('admin.teams_webhook_hint');
         default:
-          return 'Create an Incoming Webhook in your Slack workspace and paste the URL here. Must be HTTPS.';
+          return this.$t('admin.slack_webhook_hint');
       }
     },
     webhookUrlPlaceholder() {
@@ -558,13 +567,16 @@ export default {
       }
     },
     maskedWebhookPlaceholder() {
+      const savedHint = this.$t(
+        'admin.workspace_notification_webhook_saved_hint',
+      );
       switch (this.selectedProviderId) {
         case 'google_chat':
-          return 'https://chat.googleapis.com/v1/spaces/…/messages?… (saved — leave blank to keep)';
+          return `https://chat.googleapis.com/v1/spaces/…/messages?… ${savedHint}`;
         case 'teams':
-          return 'https://…/workflows/…/triggers/manual/paths/invoke?… (saved — leave blank to keep)';
+          return `https://…/workflows/…/triggers/manual/paths/invoke?… ${savedHint}`;
         default:
-          return 'https://hooks.slack.com/services/…/…/… (saved — leave blank to keep)';
+          return `https://hooks.slack.com/services/…/…/… ${savedHint}`;
       }
     },
     /**
@@ -774,7 +786,7 @@ export default {
         .catch(() =>
           this.$toast.error({
             title: this.$t('general.error'),
-            message: 'Failed to save. Check the webhook URL and try again.',
+            message: this.$t('admin.workspace_notification_save_failed'),
           }),
         )
         .finally(() => {
@@ -802,13 +814,13 @@ export default {
         .then(() =>
           this.$toast.success({
             title: this.$t('general.success'),
-            message: 'Test message sent.',
+            message: this.$t('admin.workspace_notification_test_sent'),
           }),
         )
         .catch(() =>
           this.$toast.error({
             title: this.$t('general.error'),
-            message: 'Failed to send test message. Check the webhook URL.',
+            message: this.$t('admin.workspace_notification_test_failed'),
           }),
         )
         .finally(() => {
@@ -917,7 +929,9 @@ export default {
         .catch(() => {
           this.$toast.error({
             title: this.$t('general.error'),
-            message: 'Could not update status. Refresh and try again.',
+            message: this.$t(
+              'admin.workspace_notification_status_update_failed',
+            ),
           });
         })
         .finally(() => {
@@ -929,7 +943,7 @@ export default {
       const [, , , row] = args;
       const sendTest = {
         component: 'oxd-icon-button',
-        props: {name: 'send-fill', title: 'Send Test'},
+        props: {name: 'send-fill', title: this.$t('admin.send_test')},
         onClick: () => this.onClickRowSendTest(row),
       };
       const edit = {
@@ -962,7 +976,9 @@ export default {
           this.globalEnabled = !value;
           this.$toast.error({
             title: this.$t('general.error'),
-            message: 'Could not update global toggle.',
+            message: this.$t(
+              'admin.workspace_notification_global_toggle_failed',
+            ),
           });
         });
     },
