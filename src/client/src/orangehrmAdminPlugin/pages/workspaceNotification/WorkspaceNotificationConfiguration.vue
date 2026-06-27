@@ -449,7 +449,7 @@ export default {
         },
         {
           id: 'LEAVE_TODAY',
-          label: this.$t('admin.workspace_notification_event_leave_today'),
+          label: this.$t('dashboard.employees_on_leave_today'),
         },
       ],
 
