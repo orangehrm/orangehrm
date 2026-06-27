@@ -42,9 +42,6 @@ langStrings:
     value: "Reference Id"
     unitId: reference_id
   -
-    value: "Amount"
-    unitId: amount
-  -
     value: "Expenses"
     unitId: expenses
   -

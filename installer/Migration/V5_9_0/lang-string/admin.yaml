@@ -93,9 +93,6 @@ langStrings:
   -
     value: 'Birthday'
     unitId: workspace_notification_event_birthday
-  -
-    value: 'Employees on Leave Today'
-    unitId: workspace_notification_event_leave_today
 
   # Table empty-state + cron hint
   -
