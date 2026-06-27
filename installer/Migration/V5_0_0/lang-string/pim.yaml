@@ -201,9 +201,6 @@ langStrings:
     value: 'Salary Component'
     unitId: salary_component
   -
-    value: 'Amount'
-    unitId: amount
-  -
     value: 'Pay Frequency'
     unitId: pay_frequency
   -

@@ -42,16 +42,6 @@ use Symfony\Component\Yaml\Yaml;
 class LangStringGroupUniquenessTest extends TestCase
 {
     /**
-     * Pre-existing cross-group duplicates that predate this guard. These are tolerated only
-     * because every consumer happens to reference the surviving row; do NOT add new entries —
-     * use a distinct value instead. Listed here so genuinely new collisions still fail the test.
-     */
-    private const KNOWN_CROSS_GROUP_DUPLICATES = [
-        // unitId 'amount' in general/claim/pim — all collapse to a single "Amount" row.
-        'Amount',
-    ];
-
-    /**
      * @return string Absolute path to installer/Migration.
      */
     private function getMigrationRoot(): string
@@ -85,9 +75,6 @@ class LangStringGroupUniquenessTest extends TestCase
         $violations = [];
         foreach ($valueToGroups as $value => $groups) {
             if (count($groups) <= 1) {
-                continue;
-            }
-            if (in_array($value, self::KNOWN_CROSS_GROUP_DUPLICATES, true)) {
                 continue;
             }
             $occurrences = array_merge(...array_values($groups));
