@@ -1,3 +1,17 @@
+New & Changed Features for OrangeHRM ver 5.9
+    New Features/Changes
+    -----------
+    - Workspace Notifications
+        - Allowing OrangeHRM Starter users to receive OrangeHRM notifications in Slack and Google Chat workspaces
+    - Supported Environments
+        - PHP - 7.4 to 8.5
+        - MariaDB - 5.5 to 12.0
+        - MySQL - 5.5 to 9.4
+
+    Bug Fixes
+    ---------
+    - Security improvements
+
 New & Changed Features for OrangeHRM ver 5.8.1
     Supported Environments
     -----------
