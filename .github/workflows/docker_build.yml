@@ -42,8 +42,6 @@ jobs:
         if: always()
         continue-on-error: true
         run: |
-          # The installer is a Vue SPA, so curl only fetches the empty shell.
-          # Render it in headless Chromium to capture the actual welcome screen.
           npm install --no-save playwright
           npx playwright install --with-deps chromium
           cat > shot.mjs <<'EOF'
@@ -60,16 +58,47 @@ jobs:
         if: always()
         run: docker logs ohrm-smoke > docker-logs.txt 2>&1 || true
 
-      - name: Upload artifacts
+      - name: Upload container logs
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: docker-smoke-logs
-          path: |
-            docker-logs.txt
-            response.html
-            installer.png
+          name: docker-logs
+          path: docker-logs.txt
           if-no-files-found: ignore
+
+      - name: Upload installer response
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: installer-response
+          path: response.html
+          if-no-files-found: ignore
+
+      - name: Upload installer screenshot
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: installer-screenshot
+          path: installer.png
+          if-no-files-found: ignore
+
+      - name: Publish screenshot to job summary
+        if: always()
+        continue-on-error: true
+        run: |
+          {
+            echo "## Installer smoke test"
+            echo ""
+            if [ -f installer.png ]; then
+              echo "### Installer screenshot"
+              echo ""
+              # data: URIs may be stripped by GitHub's markdown CSP; the
+              # installer-screenshot artifact is the reliable fallback.
+              echo "<img src=\"data:image/png;base64,$(base64 -w0 installer.png)\" width=\"900\" alt=\"Installer welcome screen\" />"
+            else
+              echo "_No screenshot was captured — see the docker-logs artifact._"
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Tear down
         if: always()
