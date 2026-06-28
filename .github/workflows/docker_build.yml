@@ -17,4 +17,41 @@ jobs:
 
       - name: Build the Docker image
         run: |
-          docker build . --file Dockerfile
+          docker build . --file Dockerfile --tag orangehrm/orangehrm:latest
+
+      - name: Start the container
+        run: |
+          docker run -d --name ohrm-smoke -p 8080:80 orangehrm/orangehrm:latest
+
+      - name: Smoke test (dry run)
+        run: |
+          echo "Waiting for the installer to render..."
+          for i in $(seq 1 30); do
+            code="$(curl -sL -o response.html -w '%{http_code}' http://localhost:8080/installer/index.php || true)"
+            echo "Attempt $i: HTTP $code"
+            if [ "$code" = "200" ] && grep -qi 'OrangeHRM' response.html; then
+              echo "Installer rendered successfully (HTTP 200, OrangeHRM page served)."
+              exit 0
+            fi
+            sleep 2
+          done
+          echo "::error::Installer did not render a valid page within the timeout (last HTTP: ${code:-none})."
+          exit 1
+
+      - name: Capture container logs
+        if: always()
+        run: docker logs ohrm-smoke > docker-logs.txt 2>&1 || true
+
+      - name: Upload container logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: docker-smoke-logs
+          path: |
+            docker-logs.txt
+            response.html
+          if-no-files-found: ignore
+
+      - name: Tear down
+        if: always()
+        run: docker rm -f ohrm-smoke || true
