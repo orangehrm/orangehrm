@@ -38,11 +38,29 @@ jobs:
           echo "::error::Installer did not render a valid page within the timeout (last HTTP: ${code:-none})."
           exit 1
 
+      - name: Screenshot the installer
+        if: always()
+        continue-on-error: true
+        run: |
+          # The installer is a Vue SPA, so curl only fetches the empty shell.
+          # Render it in headless Chromium to capture the actual welcome screen.
+          npm install --no-save playwright
+          npx playwright install --with-deps chromium
+          cat > shot.mjs <<'EOF'
+          import { chromium } from 'playwright';
+          const browser = await chromium.launch();
+          const page = await browser.newPage({ viewport: { width: 1280, height: 900 } });
+          await page.goto('http://localhost:8080/installer/index.php', { waitUntil: 'networkidle', timeout: 60000 });
+          await page.screenshot({ path: 'installer.png', fullPage: true });
+          await browser.close();
+          EOF
+          node shot.mjs
+
       - name: Capture container logs
         if: always()
         run: docker logs ohrm-smoke > docker-logs.txt 2>&1 || true
 
-      - name: Upload container logs
+      - name: Upload artifacts
         if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -50,6 +68,7 @@ jobs:
           path: |
             docker-logs.txt
             response.html
+            installer.png
           if-no-files-found: ignore
 
       - name: Tear down
