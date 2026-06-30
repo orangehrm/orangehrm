@@ -13,6 +13,7 @@ RUN set -ex; \
 		libjpeg-dev \
 		libpng-dev \
 		libzip-dev \
+		libldap-common \
 		libldap2-dev \
 		libicu-dev \
 		unzip \
@@ -43,7 +44,7 @@ RUN set -ex; \
 	; \
 	\
 	apt-mark auto '.*' > /dev/null; \
-	apt-mark manual $savedAptMark; \
+	apt-mark manual $savedAptMark libldap-common; \
 	ldd "$(php -r 'echo ini_get("extension_dir");')"/*.so \
 		| awk '/=>/ { so = $(NF-1); if (index(so, "/usr/local/") == 1) { next }; gsub("^/(usr/)?", "", so); print so }' \
 		| sort -u \
