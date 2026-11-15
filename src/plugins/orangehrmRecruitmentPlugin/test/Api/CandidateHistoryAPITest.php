@@ -135,15 +135,15 @@ class CandidateHistoryAPITest extends EndpointIntegrationTestCase
             'Interviewer reads shortlisted' => [self::INTERVIEWER, 1, 2, 2],
             'Interviewer reads interview scheduled' => [self::INTERVIEWER, 1, 3, 4],
             'Interviewer reads interview passed' => [self::INTERVIEWER, 1, 4, 5],
-            'Interviewer cannot read job offered' => [self::INTERVIEWER, 1, 5, self::NOT_FOUND],
-            'Interviewer cannot read rejected' => [self::INTERVIEWER, 3, 8, self::NOT_FOUND],
+            'Interviewer cannot read job offered' => [self::INTERVIEWER, 1, 5, self::FORBIDDEN],
+            'Interviewer cannot read rejected' => [self::INTERVIEWER, 3, 8, self::FORBIDDEN],
             'Interviewer reads interview scheduled of candidate 3' => [self::INTERVIEWER, 3, 7, 4],
             'Interviewer, record of another candidate' => [self::INTERVIEWER, 1, 6, self::NOT_FOUND],
             'Interviewer, candidate not interviewed' => [self::INTERVIEWER, 2, 6, self::FORBIDDEN],
             'Interviewer who manages another vacancy reads interview passed' =>
                 [self::INTERVIEWER_AND_OTHER_HIRING_MANAGER, 1, 4, 5],
             'Interviewer who manages another vacancy cannot read job offered' =>
-                [self::INTERVIEWER_AND_OTHER_HIRING_MANAGER, 1, 5, self::NOT_FOUND],
+                [self::INTERVIEWER_AND_OTHER_HIRING_MANAGER, 1, 5, self::FORBIDDEN],
             'Interviewer who manages another vacancy reads own vacancy record' =>
                 [self::INTERVIEWER_AND_OTHER_HIRING_MANAGER, 2, 6, 2],
             'No recruitment role' => [self::NO_RECRUITMENT_ROLE, 1, 4, self::FORBIDDEN],
@@ -172,13 +172,13 @@ class CandidateHistoryAPITest extends EndpointIntegrationTestCase
             'Admin updates job offered' => [self::ADMIN, 1, 5, 7],
             'Hiring manager updates job offered' => [self::HIRING_MANAGER, 1, 5, 7],
             'Interviewer updates interview passed' => [self::INTERVIEWER, 1, 4, 5],
-            'Interviewer cannot update job offered' => [self::INTERVIEWER, 1, 5, self::NOT_FOUND],
-            'Interviewer cannot update rejected' => [self::INTERVIEWER, 3, 8, self::NOT_FOUND],
+            'Interviewer cannot update job offered' => [self::INTERVIEWER, 1, 5, self::FORBIDDEN],
+            'Interviewer cannot update rejected' => [self::INTERVIEWER, 3, 8, self::FORBIDDEN],
             'Interviewer, record of another candidate' => [self::INTERVIEWER, 1, 6, self::NOT_FOUND],
             'Interviewer who manages another vacancy cannot update job offered' =>
-                [self::INTERVIEWER_AND_OTHER_HIRING_MANAGER, 1, 5, self::NOT_FOUND],
+                [self::INTERVIEWER_AND_OTHER_HIRING_MANAGER, 1, 5, self::FORBIDDEN],
             'Interviewer who manages another vacancy, vacancy without hiring manager' =>
-                [self::INTERVIEWER_AND_OTHER_HIRING_MANAGER, 4, 10, self::NOT_FOUND],
+                [self::INTERVIEWER_AND_OTHER_HIRING_MANAGER, 4, 10, self::FORBIDDEN],
             'Admin, vacancy without hiring manager' => [self::ADMIN, 4, 10, 7],
             'No recruitment role' => [self::NO_RECRUITMENT_ROLE, 1, 4, self::FORBIDDEN],
         ];

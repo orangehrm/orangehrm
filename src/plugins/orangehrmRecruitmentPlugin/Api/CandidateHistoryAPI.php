@@ -183,6 +183,7 @@ class CandidateHistoryAPI extends Endpoint implements CrudEndpoint
      *             @OA\Property(property="meta", type="object", @OA\Property(property="disabled", type="boolean"))
      *         )
      *     ),
+     *     @OA\Response(response="403", ref="#/components/responses/ForbiddenResponse"),
      *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
      * )
      *
@@ -190,15 +191,7 @@ class CandidateHistoryAPI extends Endpoint implements CrudEndpoint
      */
     public function getOne(): EndpointResult
     {
-        $candidateHistoryRecord = $this->getCandidateService()
-            ->getCandidateDao()
-            ->getCandidateHistoryRecordByCandidateIdAndHistoryId(
-                $this->getCandidateId(),
-                $this->getHistoryId(),
-                $this->getAccessibleActionIds()
-            );
-
-        $this->throwRecordNotFoundExceptionIfNotExist($candidateHistoryRecord, CandidateHistory::class);
+        $candidateHistoryRecord = $this->getAccessibleCandidateHistoryRecord();
         $vacancy = $candidateHistoryRecord->getVacancy();
         $disabled = false;
         if ($vacancy->getHiringManager()->getEmpNumber() !== null) {
@@ -275,6 +268,7 @@ class CandidateHistoryAPI extends Endpoint implements CrudEndpoint
      *             @OA\Property(property="meta", type="object")
      *         )
      *     ),
+     *     @OA\Response(response="403", ref="#/components/responses/ForbiddenResponse"),
      *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
      * )
      *
@@ -290,16 +284,7 @@ class CandidateHistoryAPI extends Endpoint implements CrudEndpoint
             throw $this->getForbiddenException();
         }
 
-        $candidateHistoryRecord = $this->getCandidateService()
-            ->getCandidateDao()
-            ->getCandidateHistoryRecordByCandidateIdAndHistoryId(
-                $this->getCandidateId(),
-                $this->getHistoryId(),
-                $this->getAccessibleActionIds()
-            );
-
-        $this->throwRecordNotFoundExceptionIfNotExist($candidateHistoryRecord, CandidateHistory::class);
-
+        $candidateHistoryRecord = $this->getAccessibleCandidateHistoryRecord();
         $candidateHistoryRecord->setNote(
             $this->getRequestParams()->getStringOrNull(
                 RequestParams::PARAM_TYPE_BODY,
@@ -333,6 +318,25 @@ class CandidateHistoryAPI extends Endpoint implements CrudEndpoint
                 true
             )
         );
+    }
+
+    /**
+     * The requested history record of the requested candidate, for the single read and the update.
+     * 404 when it does not exist for this candidate; 403 when its action is outside the set the list shows
+     * the auth user.
+     *
+     * @return CandidateHistory
+     */
+    private function getAccessibleCandidateHistoryRecord(): CandidateHistory
+    {
+        $candidateHistoryRecord = $this->getCandidateService()
+            ->getCandidateDao()
+            ->getCandidateHistoryRecordByCandidateIdAndHistoryId($this->getCandidateId(), $this->getHistoryId());
+        $this->throwRecordNotFoundExceptionIfNotExist($candidateHistoryRecord, CandidateHistory::class);
+        if (!in_array($candidateHistoryRecord->getAction(), $this->getAccessibleActionIds())) {
+            throw $this->getForbiddenException();
+        }
+        return $candidateHistoryRecord;
     }
 
     /**
