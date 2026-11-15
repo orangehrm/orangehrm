@@ -31,6 +31,12 @@ jobs:
           docker info
           docker images
 
+      - name: Use the Debian archive for the PHP 8.0 image
+        run: |
+          # php:8.0-fpm is Debian bullseye, whose packages have moved to archive.debian.org.
+          sed -i '/^FROM php:8.0-fpm/a RUN sed -i -e "s|deb.debian.org|archive.debian.org|g" -e "/bullseye-updates/d" /etc/apt/sources.list' php/php80/Dockerfile
+          head -3 php/php80/Dockerfile
+
       - name: Cache docker image
         id: cache-docker-images
         uses: actions/cache@v4
