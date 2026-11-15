@@ -423,14 +423,29 @@ class CandidateDao extends BaseDao
     /**
      * @param int $candidateId
      * @param int $historyId
+     * @param int[]|null $actionIds When given, only a record whose action is in this list is returned
      * @return CandidateHistory|null
      */
     public function getCandidateHistoryRecordByCandidateIdAndHistoryId(
         int $candidateId,
-        int $historyId
+        int $historyId,
+        ?array $actionIds = null
     ): ?CandidateHistory {
-        return $this->getRepository(CandidateHistory::class)
-            ->findOneBy(['candidate' => $candidateId, 'id' => $historyId]);
+        if ($actionIds === null) {
+            return $this->getRepository(CandidateHistory::class)
+                ->findOneBy(['candidate' => $candidateId, 'id' => $historyId]);
+        }
+        if (empty($actionIds)) {
+            return null;
+        }
+        $q = $this->createQueryBuilder(CandidateHistory::class, 'candidateHistory');
+        $q->andWhere('candidateHistory.id = :historyId')
+            ->setParameter('historyId', $historyId);
+        $q->andWhere('candidateHistory.candidate = :candidateId')
+            ->setParameter('candidateId', $candidateId);
+        $q->andWhere($q->expr()->in('candidateHistory.action', ':actionIds'))
+            ->setParameter('actionIds', $actionIds);
+        return $q->getQuery()->getOneOrNullResult();
     }
 
     /**

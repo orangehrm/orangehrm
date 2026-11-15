@@ -36,6 +36,7 @@ use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\Candidate;
 use OrangeHRM\Entity\CandidateHistory;
 use OrangeHRM\Entity\CandidateVacancy;
+use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\WorkflowStateMachine;
 use OrangeHRM\Recruitment\Api\Model\CandidateHistoryDetailedModel;
 use OrangeHRM\Recruitment\Api\Model\CandidateHistoryListModel;
@@ -94,21 +95,7 @@ class CandidateHistoryAPI extends Endpoint implements CrudEndpoint
         $candidateHistorySearchFilterParams = new CandidateHistorySearchFilterParams();
         $this->setSortingAndPaginationParams($candidateHistorySearchFilterParams);
         $candidateHistorySearchFilterParams->setCandidateId($this->getCandidateId());
-        $candidateVacancy = $this->getCandidateService()
-            ->getCandidateDao()
-            ->getCandidateVacancyByCandidateId($this->getCandidateId());
-        $rolesToExclude = [];
-        if ($candidateVacancy instanceof CandidateVacancy) {
-            if ($candidateVacancy->getVacancy()->getHiringManager() !== null) {
-                $hiringMangerEmpNumber = $candidateVacancy->getVacancy()->getHiringManager()->getEmpNumber();
-                if ($hiringMangerEmpNumber !== $this->getAuthUser()->getEmpNumber()) {
-                    $rolesToExclude = ['HiringManager'];
-                }
-            }
-        }
-        $accessibleActionHistoryIds = $this->getUserRoleManager()
-            ->getAccessibleEntityIds(CandidateActionHistory::class, null, null, $rolesToExclude);
-        $candidateHistorySearchFilterParams->setActionIds($accessibleActionHistoryIds);
+        $candidateHistorySearchFilterParams->setActionIds($this->getAccessibleActionIds());
 
         $candidateHistoryRecords = $this->getCandidateService()
             ->getCandidateDao()
@@ -205,7 +192,11 @@ class CandidateHistoryAPI extends Endpoint implements CrudEndpoint
     {
         $candidateHistoryRecord = $this->getCandidateService()
             ->getCandidateDao()
-            ->getCandidateHistoryRecordByCandidateIdAndHistoryId($this->getCandidateId(), $this->getHistoryId());
+            ->getCandidateHistoryRecordByCandidateIdAndHistoryId(
+                $this->getCandidateId(),
+                $this->getHistoryId(),
+                $this->getAccessibleActionIds()
+            );
 
         $this->throwRecordNotFoundExceptionIfNotExist($candidateHistoryRecord, CandidateHistory::class);
         $vacancy = $candidateHistoryRecord->getVacancy();
@@ -301,7 +292,11 @@ class CandidateHistoryAPI extends Endpoint implements CrudEndpoint
 
         $candidateHistoryRecord = $this->getCandidateService()
             ->getCandidateDao()
-            ->getCandidateHistoryRecordByCandidateIdAndHistoryId($this->getCandidateId(), $this->getHistoryId());
+            ->getCandidateHistoryRecordByCandidateIdAndHistoryId(
+                $this->getCandidateId(),
+                $this->getHistoryId(),
+                $this->getAccessibleActionIds()
+            );
 
         $this->throwRecordNotFoundExceptionIfNotExist($candidateHistoryRecord, CandidateHistory::class);
 
@@ -338,6 +333,31 @@ class CandidateHistoryAPI extends Endpoint implements CrudEndpoint
                 true
             )
         );
+    }
+
+    /**
+     * Candidate history actions the auth user may see for this candidate. The list, the single read and the
+     * update all use this set, so a record left out of the list cannot be read or changed by its id.
+     * The Hiring Manager role is only counted when the user manages the candidate's current vacancy (a vacancy
+     * without a hiring manager, or no current vacancy, gives it nothing).
+     *
+     * @return int[]
+     */
+    private function getAccessibleActionIds(): array
+    {
+        $candidateVacancy = $this->getCandidateService()
+            ->getCandidateDao()
+            ->getCandidateVacancyByCandidateId($this->getCandidateId());
+        $hiringManager = $candidateVacancy instanceof CandidateVacancy
+            ? $candidateVacancy->getVacancy()->getHiringManager()
+            : null;
+        $rolesToExclude = [];
+        if (!$hiringManager instanceof Employee
+            || $hiringManager->getEmpNumber() !== $this->getAuthUser()->getEmpNumber()) {
+            $rolesToExclude = ['HiringManager'];
+        }
+        return $this->getUserRoleManager()
+            ->getAccessibleEntityIds(CandidateActionHistory::class, null, null, $rolesToExclude);
     }
 
     /**

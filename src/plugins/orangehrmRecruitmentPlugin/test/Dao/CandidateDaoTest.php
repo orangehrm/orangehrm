@@ -246,4 +246,51 @@ class CandidateDaoTest extends KernelTestCase
         $this->assertEquals('Rejected effect from 2022-06-01', $result->getNote());
         $this->assertEquals(3, $result->getAction());
     }
+
+    public function testGetCandidateHistoryRecordByCandidateIdAndHistoryId(): void
+    {
+        $candidateVacancy = $this->candidateDao->getCandidateVacancyByCandidateId(1);
+        $candidateHistory = new CandidateHistory();
+        $candidateHistory->getDecorator()->setCandidateById(1);
+        $candidateHistory->getDecorator()->setVacancyById($candidateVacancy->getVacancy()->getId());
+        $candidateHistory->setAction(WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_REJECT);
+        $candidateHistory->getDecorator()->setPerformedBy(1);
+        $candidateHistory->setPerformedDate(new DateTime('2022-06-01'));
+        $historyId = $this->candidateDao->saveCandidateHistory($candidateHistory)->getId();
+
+        $record = $this->candidateDao->getCandidateHistoryRecordByCandidateIdAndHistoryId(1, $historyId);
+        $this->assertInstanceOf(CandidateHistory::class, $record);
+        $this->assertEquals($historyId, $record->getId());
+        $this->assertNull($this->candidateDao->getCandidateHistoryRecordByCandidateIdAndHistoryId(2, $historyId));
+
+        $record = $this->candidateDao->getCandidateHistoryRecordByCandidateIdAndHistoryId(
+            1,
+            $historyId,
+            [
+                WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_SHORTLIST,
+                WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_REJECT,
+            ]
+        );
+        $this->assertInstanceOf(CandidateHistory::class, $record);
+        $this->assertEquals($historyId, $record->getId());
+
+        $this->assertNull(
+            $this->candidateDao->getCandidateHistoryRecordByCandidateIdAndHistoryId(
+                1,
+                $historyId,
+                [
+                    WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_SHORTLIST,
+                    WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_OFFER_JOB,
+                ]
+            )
+        );
+        $this->assertNull(
+            $this->candidateDao->getCandidateHistoryRecordByCandidateIdAndHistoryId(
+                2,
+                $historyId,
+                [WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_REJECT]
+            )
+        );
+        $this->assertNull($this->candidateDao->getCandidateHistoryRecordByCandidateIdAndHistoryId(1, $historyId, []));
+    }
 }
