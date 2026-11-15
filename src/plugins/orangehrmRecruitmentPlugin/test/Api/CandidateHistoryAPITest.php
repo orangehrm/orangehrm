@@ -30,6 +30,7 @@ use OrangeHRM\ORM\Doctrine;
 use OrangeHRM\Pim\Service\EmployeeService;
 use OrangeHRM\Recruitment\Api\CandidateHistoryAPI;
 use OrangeHRM\Recruitment\Service\CandidateService;
+use OrangeHRM\Recruitment\Service\VacancyService;
 use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
 use OrangeHRM\Tests\Util\Integration\TestCaseParams;
 
@@ -72,6 +73,7 @@ class CandidateHistoryAPITest extends EndpointIntegrationTestCase
             Services::CONFIG_SERVICE => ConfigService::class,
             Services::USER_SERVICE => UserService::class,
             Services::EMPLOYEE_SERVICE => EmployeeService::class,
+            Services::VACANCY_SERVICE => VacancyService::class,
         ]);
         $testCaseParams->setFactories([
             Services::USER_ROLE_MANAGER => [
@@ -147,6 +149,27 @@ class CandidateHistoryAPITest extends EndpointIntegrationTestCase
             'Interviewer who manages another vacancy reads own vacancy record' =>
                 [self::INTERVIEWER_AND_OTHER_HIRING_MANAGER, 2, 6, 2],
             'No recruitment role' => [self::NO_RECRUITMENT_ROLE, 1, 4, self::FORBIDDEN],
+            'Admin reads hired' => [self::ADMIN, 5, 13, 9],
+            'Admin reads offer declined' => [self::ADMIN, 6, 17, 8],
+            'Hiring manager reads hired' => [self::HIRING_MANAGER, 5, 13, 9],
+            'Hiring manager reads offer declined' => [self::HIRING_MANAGER, 6, 17, 8],
+            'Interviewer reads interview scheduled of hired candidate' => [self::INTERVIEWER, 5, 11, 4],
+            'Interviewer cannot read hired' => [self::INTERVIEWER, 5, 13, self::FORBIDDEN],
+            'Interviewer cannot read offer declined' => [self::INTERVIEWER, 6, 17, self::FORBIDDEN],
+            'Interviewer cannot read job offered of declined candidate' => [self::INTERVIEWER, 6, 16, self::FORBIDDEN],
+            // Action 10 is outside the workflow map, so no role is given it (the list hides it too)
+            'Interviewer cannot read legacy action 10' => [self::INTERVIEWER, 5, 14, self::FORBIDDEN],
+            'Admin cannot read legacy action 10' => [self::ADMIN, 5, 14, self::FORBIDDEN],
+            // No current vacancy: the interviewer no longer reaches the candidate at all
+            'Interviewer, candidate with no current vacancy, rejected' => [self::INTERVIEWER, 7, 19, self::FORBIDDEN],
+            'Interviewer, candidate with no current vacancy, interview scheduled' =>
+                [self::INTERVIEWER, 7, 18, self::FORBIDDEN],
+            'Hiring manager, candidate with no current vacancy' => [self::HIRING_MANAGER, 7, 19, self::FORBIDDEN],
+            'Admin reads rejected, candidate with no current vacancy' => [self::ADMIN, 7, 19, 3],
+            'Interviewer reads interview scheduled, candidate in two vacancies' => [self::INTERVIEWER, 8, 20, 4],
+            'Interviewer cannot read job offered, candidate in two vacancies' =>
+                [self::INTERVIEWER, 8, 21, self::FORBIDDEN],
+            'Admin reads job offered, candidate in two vacancies' => [self::ADMIN, 8, 21, 7],
         ];
     }
 
@@ -181,6 +204,13 @@ class CandidateHistoryAPITest extends EndpointIntegrationTestCase
                 [self::INTERVIEWER_AND_OTHER_HIRING_MANAGER, 4, 10, self::FORBIDDEN],
             'Admin, vacancy without hiring manager' => [self::ADMIN, 4, 10, 7],
             'No recruitment role' => [self::NO_RECRUITMENT_ROLE, 1, 4, self::FORBIDDEN],
+            'Hiring manager updates hired' => [self::HIRING_MANAGER, 5, 13, 9],
+            'Interviewer cannot update hired' => [self::INTERVIEWER, 5, 13, self::FORBIDDEN],
+            'Interviewer cannot update offer declined' => [self::INTERVIEWER, 6, 17, self::FORBIDDEN],
+            'Interviewer cannot update legacy action 10' => [self::INTERVIEWER, 5, 14, self::FORBIDDEN],
+            'Interviewer, candidate with no current vacancy' => [self::INTERVIEWER, 7, 19, self::FORBIDDEN],
+            // Existing rule of the update: a candidate without a current vacancy cannot be updated
+            'Admin, candidate with no current vacancy' => [self::ADMIN, 7, 19, self::FORBIDDEN],
         ];
     }
 
@@ -224,6 +254,14 @@ class CandidateHistoryAPITest extends EndpointIntegrationTestCase
                 [self::INTERVIEWER_AND_OTHER_HIRING_MANAGER, 1, [1, 2, 3, 4]],
             'Interviewer who manages another vacancy, candidate 2' =>
                 [self::INTERVIEWER_AND_OTHER_HIRING_MANAGER, 2, [6]],
+            'Admin, hired candidate' => [self::ADMIN, 5, [11, 12, 13]],
+            'Interviewer, hired candidate' => [self::INTERVIEWER, 5, [11]],
+            'Hiring manager, declined candidate' => [self::HIRING_MANAGER, 6, [15, 16, 17]],
+            'Interviewer, declined candidate' => [self::INTERVIEWER, 6, [15]],
+            'Admin, candidate with no current vacancy' => [self::ADMIN, 7, [18, 19]],
+            'Interviewer, candidate with no current vacancy' => [self::INTERVIEWER, 7, []],
+            'Admin, candidate in two vacancies' => [self::ADMIN, 8, [20, 21]],
+            'Interviewer, candidate in two vacancies' => [self::INTERVIEWER, 8, [20]],
         ];
     }
 
