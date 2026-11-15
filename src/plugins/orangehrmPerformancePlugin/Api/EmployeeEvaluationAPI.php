@@ -222,9 +222,13 @@ class EmployeeEvaluationAPI extends SupervisorEvaluationAPI
         // When the subject employee uses this API, only ESS self-review rules apply. Admin and
         // Supervisor workflows also define transitions from SELF COMPLETED (e.g. SUPERVISOR UPDATED);
         // merging those roles would let privileged users bypass read-only self-appraisal via this endpoint.
+        // For others, the Supervisor role counts only for the review's supervisor reviewer.
         $excludeRoles = [];
         if ($this->getAuthUser()->getEmpNumber() != $review->getEmployee()->getEmpNumber()) {
-            $excludeRoles = ['ESS'];
+            $excludeRoles = array_values(array_unique(array_merge(
+                ['ESS'],
+                $this->getPerformanceReviewService()->getRolesToExcludeForSupervisorActions($review)
+            )));
         } else {
             $excludeRoles = ['Admin', 'Supervisor'];
         }

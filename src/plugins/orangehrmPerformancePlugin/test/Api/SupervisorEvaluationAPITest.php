@@ -55,9 +55,10 @@ class SupervisorEvaluationAPITest extends EndpointIntegrationTestCase
      * @param string $operation getAll or update
      * @param int $reviewId
      * @param array $body
+     * @param bool $validate false to call the endpoint as if the row rule had accepted the request
      * @return string|array Normalized result with meta, or FORBIDDEN
      */
-    private function callAs(int $userId, string $operation, int $reviewId, array $body = [])
+    private function callAs(int $userId, string $operation, int $reviewId, array $body = [], bool $validate = true)
     {
         $testCaseParams = new TestCaseParams();
         $testCaseParams->setUserId($userId);
@@ -82,10 +83,12 @@ class SupervisorEvaluationAPITest extends EndpointIntegrationTestCase
         // cache; start and end with an empty cache so that does not carry over (one request in production)
         AccessFlowStateMachineService::resetWorkflowCache();
         try {
-            $this->validate(
-                array_merge($testCaseParams->getAttributes(), $body),
-                $api->{'getValidationRuleFor' . ucfirst($operation)}()
-            );
+            if ($validate) {
+                $this->validate(
+                    array_merge($testCaseParams->getAttributes(), $body),
+                    $api->{'getValidationRuleFor' . ucfirst($operation)}()
+                );
+            }
             $result = $api->$operation();
             return ['data' => $result->normalize(), 'meta' => $result->getMeta() ? $result->getMeta()->all() : []];
         } catch (ForbiddenException $e) {
@@ -116,6 +119,32 @@ class SupervisorEvaluationAPITest extends EndpointIntegrationTestCase
      */
     public function testUpdateByRole(int $userId, int $reviewId, bool $allowed): void
     {
+        $this->assertUpdate($userId, $reviewId, $allowed, true);
+    }
+
+    /**
+     * The workflow check must hold on its own, also when the row rule lets the request through
+     *
+     * @dataProvider dataProviderForTestUpdatePastRowRule
+     */
+    public function testUpdatePastRowRule(int $userId, int $reviewId, bool $allowed): void
+    {
+        $this->assertUpdate($userId, $reviewId, $allowed, false);
+    }
+
+    public function dataProviderForTestUpdatePastRowRule(): array
+    {
+        return [
+            'own review, supervises another employee' => [self::SUPERVISOR_SUBJECT_OF_6, 6, false],
+            'supervisor, not a reviewer of the review' => [self::SUPERVISOR_NOT_IN_REVIEWS, 6, false],
+            'reviewer of other reviews' => [self::SUPERVISOR_REVIEWER_OF_4_5, 6, false],
+            'assigned reviewer' => [self::SUPERVISOR_SUBJECT_OF_6, 2, true],
+            'admin, not the reviewer' => [self::ADMIN, 2, true],
+        ];
+    }
+
+    private function assertUpdate(int $userId, int $reviewId, bool $allowed, bool $validate): void
+    {
         $this->populateFixtures('SupervisorEvaluationAPITest.yaml');
         $before = $this->getSupervisorSectionState($reviewId);
         $body = [
@@ -127,7 +156,7 @@ class SupervisorEvaluationAPITest extends EndpointIntegrationTestCase
             SupervisorEvaluationAPI::PARAMETER_GENERAL_COMMENT => 'matrix general comment',
         ];
 
-        $result = $this->callAs($userId, 'update', $reviewId, $body);
+        $result = $this->callAs($userId, 'update', $reviewId, $body, $validate);
 
         $after = $this->getSupervisorSectionState($reviewId);
         if ($allowed) {

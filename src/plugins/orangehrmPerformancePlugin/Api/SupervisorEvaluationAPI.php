@@ -205,7 +205,7 @@ class SupervisorEvaluationAPI extends Endpoint implements CrudEndpoint
         $allowedWorkflowItems = $this->getUserRoleManager()->getAllowedActions(
             WorkflowStateMachine::FLOW_REVIEW,
             $currentState,
-            $this->getRolesToExcludeForReviewWorkflow($review)
+            $this->getPerformanceReviewService()->getRolesToExcludeForSupervisorActions($review)
         );
 
         foreach ($allowedWorkflowItems as $allowedWorkflowItem) {
@@ -468,7 +468,7 @@ class SupervisorEvaluationAPI extends Endpoint implements CrudEndpoint
         $allowedWorkflowItems = $this->getUserRoleManager()->getAllowedActions(
             WorkflowStateMachine::FLOW_REVIEW,
             $currentState,
-            $this->getRolesToExcludeForReviewWorkflow($review)
+            $this->getPerformanceReviewService()->getRolesToExcludeForSupervisorActions($review)
         );
         $hasPermission = false;
         foreach ($allowedWorkflowItems as $allowedWorkflowItem) {
@@ -478,23 +478,6 @@ class SupervisorEvaluationAPI extends Endpoint implements CrudEndpoint
             }
         }
         return $hasPermission;
-    }
-
-    /**
-     * Only the review's assigned supervisor reviewer acts on the supervisor section through the
-     * Supervisor role. For anyone else, supervising some other employee must not count, and neither
-     * must the ESS role, which reaches the user's own review.
-     *
-     * @param PerformanceReview $review
-     * @return string[]
-     */
-    private function getRolesToExcludeForReviewWorkflow(PerformanceReview $review): array
-    {
-        $supervisorReviewer = $review->getDecorator()->getSupervisorReviewer();
-        if ($supervisorReviewer->getEmployee()->getEmpNumber() === $this->getAuthUser()->getEmpNumber()) {
-            return [];
-        }
-        return ['ESS', 'Supervisor'];
     }
 
     /**
