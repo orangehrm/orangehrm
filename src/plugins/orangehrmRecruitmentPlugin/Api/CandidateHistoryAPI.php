@@ -35,8 +35,8 @@ use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\Candidate;
 use OrangeHRM\Entity\CandidateHistory;
-use OrangeHRM\Entity\CandidateVacancy;
 use OrangeHRM\Entity\Employee;
+use OrangeHRM\Entity\Vacancy;
 use OrangeHRM\Entity\WorkflowStateMachine;
 use OrangeHRM\Recruitment\Api\Model\CandidateHistoryDetailedModel;
 use OrangeHRM\Recruitment\Api\Model\CandidateHistoryListModel;
@@ -44,10 +44,12 @@ use OrangeHRM\Recruitment\Dto\CandidateActionHistory;
 use OrangeHRM\Recruitment\Dto\CandidateHistorySearchFilterParams;
 use OrangeHRM\Recruitment\Service\CandidateService;
 use OrangeHRM\Recruitment\Traits\Service\CandidateServiceTrait;
+use OrangeHRM\Recruitment\Traits\Service\VacancyServiceTrait;
 
 class CandidateHistoryAPI extends Endpoint implements CrudEndpoint
 {
     use CandidateServiceTrait;
+    use VacancyServiceTrait;
     use UserRoleManagerTrait;
     use AuthUserTrait;
 
@@ -343,18 +345,20 @@ class CandidateHistoryAPI extends Endpoint implements CrudEndpoint
      * Candidate history actions the auth user may see for this candidate. The list, the single read and the
      * update all use this set, so a record left out of the list cannot be read or changed by its id.
      * The Hiring Manager role is only counted when the user manages the candidate's current vacancy (a vacancy
-     * without a hiring manager, or no current vacancy, gives it nothing).
+     * without a hiring manager, or no current vacancy, gives it nothing). The current vacancy is looked up as
+     * the candidate history list model and page do, so a candidate with more than one vacancy row is not an error.
      *
      * @return int[]
      */
     private function getAccessibleActionIds(): array
     {
-        $candidateVacancy = $this->getCandidateService()
+        $vacancyId = $this->getCandidateService()
             ->getCandidateDao()
-            ->getCandidateVacancyByCandidateId($this->getCandidateId());
-        $hiringManager = $candidateVacancy instanceof CandidateVacancy
-            ? $candidateVacancy->getVacancy()->getHiringManager()
-            : null;
+            ->getCurrentVacancyIdByCandidateId($this->getCandidateId());
+        $vacancy = is_null($vacancyId)
+            ? null
+            : $this->getVacancyService()->getVacancyDao()->getVacancyById((int)$vacancyId);
+        $hiringManager = $vacancy instanceof Vacancy ? $vacancy->getHiringManager() : null;
         $rolesToExclude = [];
         if (!$hiringManager instanceof Employee
             || $hiringManager->getEmpNumber() !== $this->getAuthUser()->getEmpNumber()) {
