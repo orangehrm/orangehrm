@@ -54,4 +54,60 @@ class RequestTest extends TestCase
         $this->assertEquals('param', $request->getAttributes()->get('attribute'));
         $this->assertEquals(['attribute' => 'param'], $request->getAllParameters());
     }
+
+    public function testGetAllParametersPrecedence(): void
+    {
+        $httpRequest = new HttpRequest(
+            ['all' => 'query', 'queryAndBody' => 'query'],
+            ['all' => 'body', 'queryAndBody' => 'body', 'routeAndBody' => 'body'],
+            ['all' => 'route', 'routeAndBody' => 'route']
+        );
+        $request = new Request($httpRequest);
+        $this->assertEquals(
+            ['all' => 'route', 'queryAndBody' => 'body', 'routeAndBody' => 'route'],
+            $request->getAllParameters()
+        );
+    }
+
+    /**
+     * @dataProvider conflictingQueryKeysDataProvider
+     */
+    public function testGetConflictingQueryKeys(array $query, array $body, array $attributes, array $expected): void
+    {
+        $request = new Request(new HttpRequest($query, $body, $attributes));
+        $this->assertSame($expected, $request->getConflictingQueryKeys());
+    }
+
+    public function conflictingQueryKeysDataProvider(): array
+    {
+        return [
+            'no parameters' => [[], [], [], []],
+            'query only' => [['empNumber' => '2', 'limit' => '50'], [], [], []],
+            'route only' => [[], [], ['empNumber' => '2'], []],
+            'body only' => [[], ['empNumber' => 2], [], []],
+            'query differs from route' => [['empNumber' => '1'], [], ['empNumber' => '2'], ['empNumber']],
+            'query equals route' => [['empNumber' => '2'], [], ['empNumber' => '2'], []],
+            'query differs from body' => [['empNumber' => '1'], ['empNumber' => 2], [], ['empNumber']],
+            'query equals integer body' => [['empNumber' => '2'], ['empNumber' => 2], [], []],
+            'query equals string body' => [['empNumber' => '2'], ['empNumber' => '2'], [], []],
+            'leading zero is a different value' => [['empNumber' => '02'], [], ['empNumber' => '2'], ['empNumber']],
+            'padded value is a different value' => [['empNumber' => '2 '], [], ['empNumber' => '2'], ['empNumber']],
+            'null body' => [['empNumber' => '2'], ['empNumber' => null], [], ['empNumber']],
+            'boolean body' => [['active' => '1'], ['active' => true], [], ['active']],
+            'float body' => [['empNumber' => '2'], ['empNumber' => 2.0], [], ['empNumber']],
+            'array body' => [['empNumber' => '2'], ['empNumber' => [2]], [], ['empNumber']],
+            'query array against route' => [['empNumber' => ['2']], [], ['empNumber' => '2'], ['empNumber']],
+            'query array against body array' => [['ids' => ['1', '2']], ['ids' => [1, 2]], [], ['ids']],
+            'route default differs' => [['id' => '5'], [], ['id' => 0], ['id']],
+            'route default equals' => [['id' => '0'], [], ['id' => 0], []],
+            'route and body differ without query' => [[], ['empNumber' => 3], ['empNumber' => '2'], []],
+            'several keys' => [
+                ['empNumber' => '1', 'reviewId' => '3', 'limit' => '5'],
+                ['reviewId' => 4],
+                ['empNumber' => '2'],
+                ['empNumber', 'reviewId'],
+            ],
+            'underscore attribute' => [['_api' => 'X'], [], ['_api' => 'Y'], ['_api']],
+        ];
+    }
 }

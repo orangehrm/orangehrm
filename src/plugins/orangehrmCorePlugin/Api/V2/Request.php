@@ -120,14 +120,54 @@ class Request
     }
 
     /**
+     * Route attributes take precedence, then body, then query string.
+     * Use with `getConflictingQueryKeys`, which rejects a query value that disagrees with
+     * the route attribute or the body value of the same name.
+     *
      * @return array
      */
     public function getAllParameters(): array
     {
         return array_merge(
+            $this->getQuery()->all(),
             $this->getBody()->all(),
             $this->getAttributes()->all(),
-            $this->getQuery()->all(),
         );
+    }
+
+    /**
+     * Query string keys that also appear in the route attributes or the body with a different value.
+     *
+     * @return string[]
+     */
+    public function getConflictingQueryKeys(): array
+    {
+        $conflictingKeys = [];
+        foreach ($this->getQuery()->all() as $key => $queryValue) {
+            foreach ([$this->getAttributes(), $this->getBody()] as $parameters) {
+                if ($parameters->has($key) && !$this->isSameValue($parameters->get($key), $queryValue)) {
+                    $conflictingKeys[] = (string)$key;
+                    break;
+                }
+            }
+        }
+        return $conflictingKeys;
+    }
+
+    /**
+     * Only integer or string values with the same string form count as the same value.
+     *
+     * @param mixed $value
+     * @param mixed $other
+     * @return bool
+     */
+    private function isSameValue($value, $other): bool
+    {
+        foreach ([$value, $other] as $item) {
+            if (!is_int($item) && !is_string($item)) {
+                return false;
+            }
+        }
+        return (string)$value === (string)$other;
     }
 }

@@ -137,6 +137,10 @@ abstract class AbstractRestController extends AbstractController
         $response = new HttpResponse();
         $response->headers->set(Response::CONTENT_TYPE_KEY, Response::CONTENT_TYPE_JSON);
         try {
+            $conflictingKeys = $request->getConflictingQueryKeys();
+            if (!empty($conflictingKeys)) {
+                throw new InvalidParamException(array_fill_keys($conflictingKeys, null));
+            }
             $validationRule = $this->getValidationRule($request);
             if ($validationRule instanceof ParamRuleCollection) {
                 Validator::validate($request->getAllParameters(), $validationRule);

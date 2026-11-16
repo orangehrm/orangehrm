@@ -164,7 +164,6 @@ export default {
     const serializedFilters = computed(() => {
       return {
         date: filters.value.date,
-        empNumber: filters.value.employee?.id,
       };
     });
 
