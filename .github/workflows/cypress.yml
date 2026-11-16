@@ -8,12 +8,12 @@ jobs:
 
     steps:
       - name: Checkout Environment
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           repository: orangehrm/orangehrm-os-dev-environment
 
       - name: Checkout OrangeHRM
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           path: html
 
@@ -26,26 +26,26 @@ jobs:
           echo "git_hash=$(git rev-parse HEAD)" >> $GITHUB_ENV
           cp .env.dist .env
           sed -i "s~LOCAL_SRC=/your/src/path~LOCAL_SRC=$PWD/html~g" .env
-          echo "127.0.0.1 php56 php70 php71 php72 php73 php74 php80" | sudo tee -a /etc/hosts
+          echo "127.0.0.1 php56 php70 php71 php72 php73 php74 php83" | sudo tee -a /etc/hosts
           docker version
           docker info
           docker images
 
       - name: Cache docker image
         id: cache-docker-images
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: image-cache
-          key: images-${{ env.git_hash }}
+          key: images-php83-${{ env.git_hash }}
 
       - name: Build docker image
         if: steps.cache-docker-images.outputs.cache-hit != 'true'
         run: |
           set -ex
-          docker compose build nginx php-8.0
+          docker compose build nginx php-8.3
           docker images
           mkdir image-cache
-          docker save --output image-cache/images.tar orangehrm/os-dev:nginx orangehrm/os-dev:php80
+          docker save --output image-cache/images.tar orangehrm/os-dev:nginx orangehrm/os-dev:php83
           ls -sh image-cache/images.tar
 
       - name: Load docker image from cache
@@ -56,14 +56,14 @@ jobs:
 
       - name: Start docker containers
         run: |
-          docker compose up -d php-8.0 mysql55
+          docker compose up -d php-8.3 mysql55
           docker ps
 
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
         run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
 
-      - uses: actions/cache@v4
+      - uses: actions/cache@v6
         id: yarn-cache
         with:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
@@ -76,39 +76,39 @@ jobs:
           cd html
           git rev-parse HEAD
           cd src/client && yarn install
-          docker exec os_dev_php80 bash -c 'cd src && composer install'
+          docker exec os_dev_php83 bash -c 'cd src && composer install'
 
       - name: Install OrangeHRM
         run: |
-          docker exec os_dev_php80 bash --login -c 'cd src/client && yarn build --mode development'
-          docker exec os_dev_php80 bash -c "sed -i 's/hostName: 127.0.0.1/hostName: mysql55/g' installer/cli_install_config.yaml"
-          docker exec os_dev_php80 bash -c "sed -i 's/adminPassword: Ohrm@1423/adminPassword: Jacqueline@OHRM123/g' installer/cli_install_config.yaml"
-          docker exec os_dev_php80 bash -c "sed -i 's/adminEmployeeFirstName: OrangeHRM/adminEmployeeFirstName: Jacqueline/g' installer/cli_install_config.yaml"
-          docker exec os_dev_php80 bash -c "sed -i 's/adminEmployeeLastName: Admin/adminEmployeeLastName: White/g' installer/cli_install_config.yaml"
-          docker exec os_dev_php80 bash -c "sed -i 's/public const PRODUCT_MODE = self::MODE_PROD/public const PRODUCT_MODE = self::MODE_DEV/g' src/lib/config/Config.php"
-          docker exec os_dev_php80 bash -c 'chmod -R 777 src/log'
-          docker exec os_dev_php80 bash -c 'chmod -R 777 src/config'
-          docker exec os_dev_php80 bash -c 'php installer/cli_install.php'
+          docker exec os_dev_php83 bash --login -c 'cd src/client && yarn build --mode development'
+          docker exec os_dev_php83 bash -c "sed -i 's/hostName: 127.0.0.1/hostName: mysql55/g' installer/cli_install_config.yaml"
+          docker exec os_dev_php83 bash -c "sed -i 's/adminPassword: Ohrm@1423/adminPassword: Jacqueline@OHRM123/g' installer/cli_install_config.yaml"
+          docker exec os_dev_php83 bash -c "sed -i 's/adminEmployeeFirstName: OrangeHRM/adminEmployeeFirstName: Jacqueline/g' installer/cli_install_config.yaml"
+          docker exec os_dev_php83 bash -c "sed -i 's/adminEmployeeLastName: Admin/adminEmployeeLastName: White/g' installer/cli_install_config.yaml"
+          docker exec os_dev_php83 bash -c "sed -i 's/public const PRODUCT_MODE = self::MODE_PROD/public const PRODUCT_MODE = self::MODE_DEV/g' src/lib/config/Config.php"
+          docker exec os_dev_php83 bash -c 'chmod -R 777 src/log'
+          docker exec os_dev_php83 bash -c 'chmod -R 777 src/config'
+          docker exec os_dev_php83 bash -c 'php installer/cli_install.php'
 
       - name: Run tests
         run: |
-          docker exec os_dev_php80 bash -c 'php src/test/functional/tools/prepare.php'
+          docker exec os_dev_php83 bash -c 'php src/test/functional/tools/prepare.php'
           cd html/src/test/functional
-          export CYPRESS_BASE_URL=http://php80/web/index.php
+          export CYPRESS_BASE_URL=http://php83/web/index.php
           export CYPRESS_VIDEO=true
           export CYPRESS_DEFAULT_COMMAND_TIMEOUT=10000
           yarn install
           yarn test
 
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         if: ${{ always() }}
         with:
           name: videos-${{ github.sha }}
           path: html/src/test/functional/cypress/videos
 
       - name: Upload logs
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         if: ${{ always() }}
         with:
           name: logs-${{ github.sha }}

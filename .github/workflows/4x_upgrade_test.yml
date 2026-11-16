@@ -57,7 +57,7 @@ jobs:
           --tmpfs /var/lib/mysql/
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Copy dump to DB container
         run: docker cp .github/workflows/4x_dumps/${{ matrix.dumps.file }} database:/dump.sql
