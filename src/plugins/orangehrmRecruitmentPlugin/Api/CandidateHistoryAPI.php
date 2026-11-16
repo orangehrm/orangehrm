@@ -35,7 +35,8 @@ use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\Candidate;
 use OrangeHRM\Entity\CandidateHistory;
-use OrangeHRM\Entity\CandidateVacancy;
+use OrangeHRM\Entity\Employee;
+use OrangeHRM\Entity\Vacancy;
 use OrangeHRM\Entity\WorkflowStateMachine;
 use OrangeHRM\Recruitment\Api\Model\CandidateHistoryDetailedModel;
 use OrangeHRM\Recruitment\Api\Model\CandidateHistoryListModel;
@@ -43,10 +44,12 @@ use OrangeHRM\Recruitment\Dto\CandidateActionHistory;
 use OrangeHRM\Recruitment\Dto\CandidateHistorySearchFilterParams;
 use OrangeHRM\Recruitment\Service\CandidateService;
 use OrangeHRM\Recruitment\Traits\Service\CandidateServiceTrait;
+use OrangeHRM\Recruitment\Traits\Service\VacancyServiceTrait;
 
 class CandidateHistoryAPI extends Endpoint implements CrudEndpoint
 {
     use CandidateServiceTrait;
+    use VacancyServiceTrait;
     use UserRoleManagerTrait;
     use AuthUserTrait;
 
@@ -94,21 +97,7 @@ class CandidateHistoryAPI extends Endpoint implements CrudEndpoint
         $candidateHistorySearchFilterParams = new CandidateHistorySearchFilterParams();
         $this->setSortingAndPaginationParams($candidateHistorySearchFilterParams);
         $candidateHistorySearchFilterParams->setCandidateId($this->getCandidateId());
-        $candidateVacancy = $this->getCandidateService()
-            ->getCandidateDao()
-            ->getCandidateVacancyByCandidateId($this->getCandidateId());
-        $rolesToExclude = [];
-        if ($candidateVacancy instanceof CandidateVacancy) {
-            if ($candidateVacancy->getVacancy()->getHiringManager() !== null) {
-                $hiringMangerEmpNumber = $candidateVacancy->getVacancy()->getHiringManager()->getEmpNumber();
-                if ($hiringMangerEmpNumber !== $this->getAuthUser()->getEmpNumber()) {
-                    $rolesToExclude = ['HiringManager'];
-                }
-            }
-        }
-        $accessibleActionHistoryIds = $this->getUserRoleManager()
-            ->getAccessibleEntityIds(CandidateActionHistory::class, null, null, $rolesToExclude);
-        $candidateHistorySearchFilterParams->setActionIds($accessibleActionHistoryIds);
+        $candidateHistorySearchFilterParams->setActionIds($this->getAccessibleActionIds());
 
         $candidateHistoryRecords = $this->getCandidateService()
             ->getCandidateDao()
@@ -196,6 +185,7 @@ class CandidateHistoryAPI extends Endpoint implements CrudEndpoint
      *             @OA\Property(property="meta", type="object", @OA\Property(property="disabled", type="boolean"))
      *         )
      *     ),
+     *     @OA\Response(response="403", ref="#/components/responses/ForbiddenResponse"),
      *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
      * )
      *
@@ -203,11 +193,7 @@ class CandidateHistoryAPI extends Endpoint implements CrudEndpoint
      */
     public function getOne(): EndpointResult
     {
-        $candidateHistoryRecord = $this->getCandidateService()
-            ->getCandidateDao()
-            ->getCandidateHistoryRecordByCandidateIdAndHistoryId($this->getCandidateId(), $this->getHistoryId());
-
-        $this->throwRecordNotFoundExceptionIfNotExist($candidateHistoryRecord, CandidateHistory::class);
+        $candidateHistoryRecord = $this->getAccessibleCandidateHistoryRecord();
         $vacancy = $candidateHistoryRecord->getVacancy();
         $disabled = false;
         if ($vacancy->getHiringManager()->getEmpNumber() !== null) {
@@ -284,6 +270,7 @@ class CandidateHistoryAPI extends Endpoint implements CrudEndpoint
      *             @OA\Property(property="meta", type="object")
      *         )
      *     ),
+     *     @OA\Response(response="403", ref="#/components/responses/ForbiddenResponse"),
      *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
      * )
      *
@@ -299,12 +286,7 @@ class CandidateHistoryAPI extends Endpoint implements CrudEndpoint
             throw $this->getForbiddenException();
         }
 
-        $candidateHistoryRecord = $this->getCandidateService()
-            ->getCandidateDao()
-            ->getCandidateHistoryRecordByCandidateIdAndHistoryId($this->getCandidateId(), $this->getHistoryId());
-
-        $this->throwRecordNotFoundExceptionIfNotExist($candidateHistoryRecord, CandidateHistory::class);
-
+        $candidateHistoryRecord = $this->getAccessibleCandidateHistoryRecord();
         $candidateHistoryRecord->setNote(
             $this->getRequestParams()->getStringOrNull(
                 RequestParams::PARAM_TYPE_BODY,
@@ -338,6 +320,52 @@ class CandidateHistoryAPI extends Endpoint implements CrudEndpoint
                 true
             )
         );
+    }
+
+    /**
+     * The requested history record of the requested candidate, for the single read and the update.
+     * 404 when it does not exist for this candidate; 403 when its action is outside the set the list shows
+     * the auth user.
+     *
+     * @return CandidateHistory
+     */
+    private function getAccessibleCandidateHistoryRecord(): CandidateHistory
+    {
+        $candidateHistoryRecord = $this->getCandidateService()
+            ->getCandidateDao()
+            ->getCandidateHistoryRecordByCandidateIdAndHistoryId($this->getCandidateId(), $this->getHistoryId());
+        $this->throwRecordNotFoundExceptionIfNotExist($candidateHistoryRecord, CandidateHistory::class);
+        if (!in_array($candidateHistoryRecord->getAction(), $this->getAccessibleActionIds())) {
+            throw $this->getForbiddenException();
+        }
+        return $candidateHistoryRecord;
+    }
+
+    /**
+     * Candidate history actions the auth user may see for this candidate. The list, the single read and the
+     * update all use this set, so a record left out of the list cannot be read or changed by its id.
+     * The Hiring Manager role is only counted when the user manages the candidate's current vacancy (a vacancy
+     * without a hiring manager, or no current vacancy, gives it nothing). The current vacancy is looked up as
+     * the candidate history list model and page do, so a candidate with more than one vacancy row is not an error.
+     *
+     * @return int[]
+     */
+    private function getAccessibleActionIds(): array
+    {
+        $vacancyId = $this->getCandidateService()
+            ->getCandidateDao()
+            ->getCurrentVacancyIdByCandidateId($this->getCandidateId());
+        $vacancy = is_null($vacancyId)
+            ? null
+            : $this->getVacancyService()->getVacancyDao()->getVacancyById((int)$vacancyId);
+        $hiringManager = $vacancy instanceof Vacancy ? $vacancy->getHiringManager() : null;
+        $rolesToExclude = [];
+        if (!$hiringManager instanceof Employee
+            || $hiringManager->getEmpNumber() !== $this->getAuthUser()->getEmpNumber()) {
+            $rolesToExclude = ['HiringManager'];
+        }
+        return $this->getUserRoleManager()
+            ->getAccessibleEntityIds(CandidateActionHistory::class, null, null, $rolesToExclude);
     }
 
     /**
