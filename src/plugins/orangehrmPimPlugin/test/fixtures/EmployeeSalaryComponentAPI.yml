@@ -1,0 +1,66 @@
+Config:
+  - { name: 'authorize_user_role_manager_class', value: 'BasicUserRoleManager' }
+
+Employee:
+  - { empNumber: 1, firstName: 'Odis', lastName: 'Admin', middleName: '', employeeId: 'E001' }
+  - { empNumber: 2, firstName: 'Sam', lastName: 'Supervisor', middleName: '', employeeId: 'E002' }
+  - { empNumber: 3, firstName: 'Sue', lastName: 'Subordinate', middleName: '', employeeId: 'E003' }
+  - { empNumber: 4, firstName: 'Uma', lastName: 'Unrelated', middleName: '', employeeId: 'E004' }
+  - { empNumber: 5, firstName: 'Ava', lastName: 'Adminsupervisor', middleName: '', employeeId: 'E005' }
+
+UserRole:
+  - { id: 1, name: Admin, display_name: Admin, is_assignable: 1, is_predefined: 1 }
+  - { id: 2, name: ESS, display_name: ESS, is_assignable: 1, is_predefined: 1 }
+  - { id: 3, name: Supervisor, display_name: Supervisor, is_assignable: 0, is_predefined: 1 }
+
+User:
+  - { id: 1, user_role_id: 1, emp_number: 1, user_name: 'admin', user_password: 'admin', deleted: 0, status: 1 }
+  - { id: 2, user_role_id: 2, emp_number: 2, user_name: 'sam', user_password: 'sam', deleted: 0, status: 1 }
+  - { id: 3, user_role_id: 2, emp_number: 3, user_name: 'sue', user_password: 'sue', deleted: 0, status: 1 }
+  # Admin who also supervises Sue
+  - { id: 4, user_role_id: 1, emp_number: 5, user_name: 'ava', user_password: 'ava', deleted: 0, status: 1 }
+  # Admin without an employee record
+  - { id: 5, user_role_id: 1, emp_number: null, user_name: 'sysadmin', user_password: 'sysadmin', deleted: 0, status: 1 }
+
+ReportingMethod:
+  - { reporting_method_id: 1, reporting_method_name: 'Direct' }
+
+ReportTo:
+  - { erep_sup_emp_number: 2, erep_sub_emp_number: 3, erep_reporting_mode: 1 }
+  - { erep_sup_emp_number: 5, erep_sub_emp_number: 3, erep_reporting_mode: 1 }
+
+Module:
+  - { id: 3, name: 'pim', status: 1, displayName: 'PIM' }
+
+DataGroup:
+  - { id: 1, name: 'apiv2_pim_employee_salary_component', can_read: 1, can_create: 1, can_update: 1, can_delete: 1 }
+  - { id: 2, name: 'salary_details', can_read: 1, can_create: 1, can_update: 1, can_delete: 1 }
+
+# Grants as seeded by installer/Migration/V5_0_0_beta/permission/api.yaml
+DataGroupPermission:
+  - { id: 1, user_role_id: 1, data_group_id: 1, can_read: 1, can_create: 1, can_update: 1, can_delete: 1, self: 0 }
+  - { id: 2, user_role_id: 2, data_group_id: 1, can_read: 1, can_create: 0, can_update: 0, can_delete: 0, self: 1 }
+  - { id: 3, user_role_id: 3, data_group_id: 1, can_read: 1, can_create: 0, can_update: 0, can_delete: 0, self: 1 }
+  # Salary screen grants (salary_details), as shipped in 5.9; the endpoint checks these per employee
+  - { id: 4, user_role_id: 1, data_group_id: 2, can_read: 1, can_create: 1, can_update: 1, can_delete: 1, self: 0 }
+  - { id: 5, user_role_id: 2, data_group_id: 2, can_read: 1, can_create: 0, can_update: 0, can_delete: 0, self: 1 }
+  - { id: 6, user_role_id: 3, data_group_id: 2, can_read: 0, can_create: 0, can_update: 0, can_delete: 0, self: 0 }
+  - { id: 7, user_role_id: 3, data_group_id: 2, can_read: 1, can_create: 0, can_update: 0, can_delete: 0, self: 1 }
+
+ApiPermission:
+  - { id: 1, module_id: 3, data_group_id: 1, api_name: 'OrangeHRM\Pim\Api\EmployeeSalaryComponentAPI' }
+
+CurrencyType:
+  - { code: '151', currency_id: 'USD', currency_name: 'United States Dollar' }
+
+PayPeriod:
+  - { payperiod_code: '4', payperiod_name: 'Monthly' }
+
+EmployeeSalary:
+  - { id: 1, emp_number: 1, currency_id: 'USD', payperiod_code: '4', amount: '90000.00', salaryName: 'Admin Base' }
+  - { id: 2, emp_number: 2, currency_id: 'USD', payperiod_code: '4', amount: '70000.00', salaryName: 'Supervisor Base' }
+  - { id: 3, emp_number: 3, currency_id: 'USD', payperiod_code: '4', amount: '85000.00', salaryName: 'Subordinate Base' }
+  - { id: 4, emp_number: 4, currency_id: 'USD', payperiod_code: '4', amount: '99000.00', salaryName: 'Unrelated Base' }
+
+EmpDirectDebit:
+  - { id: 1, salary_id: 3, dd_routing_num: '21000021', dd_account: '1111222233', dd_amount: '85000.00', dd_account_type: 'CHECKING', dd_transaction_type: '' }

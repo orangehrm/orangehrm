@@ -34,6 +34,7 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
+use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\EmpDirectDebit;
 use OrangeHRM\Entity\EmployeeSalary;
 use OrangeHRM\Framework\Services;
@@ -44,6 +45,9 @@ class EmployeeSalaryComponentAPI extends Endpoint implements CrudEndpoint
 {
     use ServiceContainerTrait;
     use EmployeeSalaryServiceTrait;
+    use UserRoleManagerTrait;
+
+    public const DATA_GROUP_SALARY = 'salary_details';
 
     public const PARAMETER_PAY_GRADE_ID = 'payGradeId';
     public const PARAMETER_SALARY_COMPONENT = 'salaryComponent';
@@ -111,6 +115,7 @@ class EmployeeSalaryComponentAPI extends Endpoint implements CrudEndpoint
     public function getOne(): EndpointResourceResult
     {
         list($empNumber, $id) = $this->getUrlAttributes();
+        $this->checkSalaryPermission($empNumber, 'canRead');
         $employeeSalary = $this->getEmployeeSalaryService()->getEmployeeSalaryDao()->getEmployeeSalary($empNumber, $id);
         $this->throwRecordNotFoundExceptionIfNotExist($employeeSalary, EmployeeSalary::class);
 
@@ -135,6 +140,22 @@ class EmployeeSalaryComponentAPI extends Endpoint implements CrudEndpoint
             CommonParams::PARAMETER_ID
         );
         return [$empNumber, $id];
+    }
+
+    /**
+     * Same per-employee check as the salary screen: permissions granted only for the user's own
+     * record (self) count only when the employee is the logged-in employee.
+     *
+     * @param int $empNumber
+     * @param string $permissionGetter canRead, canCreate, canUpdate or canDelete
+     */
+    private function checkSalaryPermission(int $empNumber, string $permissionGetter): void
+    {
+        $permission = $this->getUserRoleManagerHelper()
+            ->getDataGroupPermissionsForEmployee(self::DATA_GROUP_SALARY, $empNumber);
+        if (!$permission->$permissionGetter()) {
+            throw $this->getForbiddenException();
+        }
     }
 
     /**
@@ -195,6 +216,7 @@ class EmployeeSalaryComponentAPI extends Endpoint implements CrudEndpoint
     public function getAll(): EndpointCollectionResult
     {
         list($empNumber) = $this->getUrlAttributes();
+        $this->checkSalaryPermission($empNumber, 'canRead');
         $employeeSalarySearchFilterParams = new EmployeeSalarySearchFilterParams();
         $this->setSortingAndPaginationParams($employeeSalarySearchFilterParams);
         $employeeSalarySearchFilterParams->setEmpNumber($empNumber);
@@ -307,6 +329,7 @@ class EmployeeSalaryComponentAPI extends Endpoint implements CrudEndpoint
     public function create(): EndpointResourceResult
     {
         list($empNumber) = $this->getUrlAttributes();
+        $this->checkSalaryPermission($empNumber, 'canCreate');
         $employeeSalary = new EmployeeSalary();
         $employeeSalary->getDecorator()->setEmployeeByEmpNumber($empNumber);
         $this->setEmployeeSalary($employeeSalary);
@@ -588,6 +611,7 @@ class EmployeeSalaryComponentAPI extends Endpoint implements CrudEndpoint
     public function update(): EndpointResourceResult
     {
         list($empNumber, $id) = $this->getUrlAttributes();
+        $this->checkSalaryPermission($empNumber, 'canUpdate');
         $employeeSalary = $this->getEmployeeSalaryService()
             ->getEmployeeSalaryDao()
             ->getEmployeeSalary($empNumber, $id);
@@ -644,6 +668,7 @@ class EmployeeSalaryComponentAPI extends Endpoint implements CrudEndpoint
             RequestParams::PARAM_TYPE_ATTRIBUTE,
             CommonParams::PARAMETER_EMP_NUMBER
         );
+        $this->checkSalaryPermission($empNumber, 'canDelete');
         $ids = $this->getEmployeeSalaryService()->getEmployeeSalaryDao()->getExistingEmployeeSalaryIdsByEmpNumber(
             $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS),
             $empNumber

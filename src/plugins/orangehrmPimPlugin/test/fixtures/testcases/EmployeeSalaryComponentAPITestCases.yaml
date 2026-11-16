@@ -1,0 +1,498 @@
+GetAll:
+  "Admin reads a subordinate's salary":
+    userId: 1
+    services:
+      pim.employee_salary_service: \OrangeHRM\Pim\Service\EmployeeSalaryService
+      core.text_helper_service: \OrangeHRM\Core\Service\TextHelperService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      empNumber: 3
+    data: [{"id": 3, "amount": "85000.00", "salaryName": "Subordinate Base", "comment": null, "payPeriod": {"id": "4", "name": "Monthly"}, "payGrade": {"id": null, "name": null}, "currencyType": {"id": "USD", "name": "United States Dollar"}, "directDebit": {"id": 1, "routingNumber": 21000021, "account": "1111222233", "amount": "85000.00", "accountType": "CHECKING"}}]
+    meta: {"empNumber": 3, "total": 1}
+  "Admin reads own salary":
+    userId: 1
+    services:
+      pim.employee_salary_service: \OrangeHRM\Pim\Service\EmployeeSalaryService
+      core.text_helper_service: \OrangeHRM\Core\Service\TextHelperService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      empNumber: 1
+    data: [{"id": 1, "amount": "90000.00", "salaryName": "Admin Base", "comment": null, "payPeriod": {"id": "4", "name": "Monthly"}, "payGrade": {"id": null, "name": null}, "currencyType": {"id": "USD", "name": "United States Dollar"}, "directDebit": {"id": null, "routingNumber": null, "account": null, "amount": null, "accountType": null}}]
+    meta: {"empNumber": 1, "total": 1}
+  "Supervisor reads own salary":
+    userId: 2
+    services:
+      pim.employee_salary_service: \OrangeHRM\Pim\Service\EmployeeSalaryService
+      core.text_helper_service: \OrangeHRM\Core\Service\TextHelperService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      empNumber: 2
+    data: [{"id": 2, "amount": "70000.00", "salaryName": "Supervisor Base", "comment": null, "payPeriod": {"id": "4", "name": "Monthly"}, "payGrade": {"id": null, "name": null}, "currencyType": {"id": "USD", "name": "United States Dollar"}, "directDebit": {"id": null, "routingNumber": null, "account": null, "amount": null, "accountType": null}}]
+    meta: {"empNumber": 2, "total": 1}
+  "Supervisor cannot read a subordinate's salary":
+    userId: 2
+    services:
+      pim.employee_salary_service: \OrangeHRM\Pim\Service\EmployeeSalaryService
+      core.text_helper_service: \OrangeHRM\Core\Service\TextHelperService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      empNumber: 3
+    exception:
+      class: 'OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
+  "Supervisor cannot read an unrelated employee's salary":
+    userId: 2
+    services:
+      pim.employee_salary_service: \OrangeHRM\Pim\Service\EmployeeSalaryService
+      core.text_helper_service: \OrangeHRM\Core\Service\TextHelperService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      empNumber: 4
+    invalidOnly: [ empNumber ]
+  "ESS reads own salary":
+    userId: 3
+    services:
+      pim.employee_salary_service: \OrangeHRM\Pim\Service\EmployeeSalaryService
+      core.text_helper_service: \OrangeHRM\Core\Service\TextHelperService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      empNumber: 3
+    data: [{"id": 3, "amount": "85000.00", "salaryName": "Subordinate Base", "comment": null, "payPeriod": {"id": "4", "name": "Monthly"}, "payGrade": {"id": null, "name": null}, "currencyType": {"id": "USD", "name": "United States Dollar"}, "directDebit": {"id": 1, "routingNumber": 21000021, "account": "1111222233", "amount": "85000.00", "accountType": "CHECKING"}}]
+    meta: {"empNumber": 3, "total": 1}
+  "ESS cannot read the supervisor's salary":
+    userId: 3
+    services:
+      pim.employee_salary_service: \OrangeHRM\Pim\Service\EmployeeSalaryService
+      core.text_helper_service: \OrangeHRM\Core\Service\TextHelperService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      empNumber: 2
+    invalidOnly: [ empNumber ]
+  "Admin who also supervises the employee reads the subordinate's salary":
+    userId: 4
+    services:
+      pim.employee_salary_service: \OrangeHRM\Pim\Service\EmployeeSalaryService
+      core.text_helper_service: \OrangeHRM\Core\Service\TextHelperService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      empNumber: 3
+    data: [{"id": 3, "amount": "85000.00", "salaryName": "Subordinate Base", "comment": null, "payPeriod": {"id": "4", "name": "Monthly"}, "payGrade": {"id": null, "name": null}, "currencyType": {"id": "USD", "name": "United States Dollar"}, "directDebit": {"id": 1, "routingNumber": 21000021, "account": "1111222233", "amount": "85000.00", "accountType": "CHECKING"}}]
+    meta: {"empNumber": 3, "total": 1}
+  "Admin without an employee record reads an employee's salary":
+    userId: 5
+    services:
+      pim.employee_salary_service: \OrangeHRM\Pim\Service\EmployeeSalaryService
+      core.text_helper_service: \OrangeHRM\Core\Service\TextHelperService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      empNumber: 3
+    data: [{"id": 3, "amount": "85000.00", "salaryName": "Subordinate Base", "comment": null, "payPeriod": {"id": "4", "name": "Monthly"}, "payGrade": {"id": null, "name": null}, "currencyType": {"id": "USD", "name": "United States Dollar"}, "directDebit": {"id": 1, "routingNumber": 21000021, "account": "1111222233", "amount": "85000.00", "accountType": "CHECKING"}}]
+    meta: {"empNumber": 3, "total": 1}
+
+GetOne:
+  "Admin reads a subordinate's salary record":
+    userId: 1
+    services:
+      pim.employee_salary_service: \OrangeHRM\Pim\Service\EmployeeSalaryService
+      core.text_helper_service: \OrangeHRM\Core\Service\TextHelperService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      empNumber: 3
+      id: 3
+    data: {"id": 3, "amount": "85000.00", "salaryName": "Subordinate Base", "comment": null, "payPeriod": {"id": "4", "name": "Monthly"}, "payGrade": {"id": null, "name": null}, "currencyType": {"id": "USD", "name": "United States Dollar"}, "directDebit": {"id": 1, "routingNumber": 21000021, "account": "1111222233", "amount": "85000.00", "accountType": "CHECKING"}}
+    meta: {"empNumber": 3}
+  "Supervisor reads own salary record":
+    userId: 2
+    services:
+      pim.employee_salary_service: \OrangeHRM\Pim\Service\EmployeeSalaryService
+      core.text_helper_service: \OrangeHRM\Core\Service\TextHelperService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      empNumber: 2
+      id: 2
+    data: {"id": 2, "amount": "70000.00", "salaryName": "Supervisor Base", "comment": null, "payPeriod": {"id": "4", "name": "Monthly"}, "payGrade": {"id": null, "name": null}, "currencyType": {"id": "USD", "name": "United States Dollar"}, "directDebit": {"id": null, "routingNumber": null, "account": null, "amount": null, "accountType": null}}
+    meta: {"empNumber": 2}
+  "Supervisor cannot read a subordinate's salary record":
+    userId: 2
+    services:
+      pim.employee_salary_service: \OrangeHRM\Pim\Service\EmployeeSalaryService
+      core.text_helper_service: \OrangeHRM\Core\Service\TextHelperService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      empNumber: 3
+      id: 3
+    exception:
+      class: 'OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
+  "Supervisor cannot read an unrelated employee's salary record":
+    userId: 2
+    services:
+      pim.employee_salary_service: \OrangeHRM\Pim\Service\EmployeeSalaryService
+      core.text_helper_service: \OrangeHRM\Core\Service\TextHelperService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      empNumber: 4
+      id: 4
+    invalidOnly: [ empNumber ]
+  "ESS cannot read the supervisor's salary record":
+    userId: 3
+    services:
+      pim.employee_salary_service: \OrangeHRM\Pim\Service\EmployeeSalaryService
+      core.text_helper_service: \OrangeHRM\Core\Service\TextHelperService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      empNumber: 2
+      id: 2
+    invalidOnly: [ empNumber ]
+  "ESS reads own salary record":
+    userId: 3
+    services:
+      pim.employee_salary_service: \OrangeHRM\Pim\Service\EmployeeSalaryService
+      core.text_helper_service: \OrangeHRM\Core\Service\TextHelperService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      empNumber: 3
+      id: 3
+    data: {"id": 3, "amount": "85000.00", "salaryName": "Subordinate Base", "comment": null, "payPeriod": {"id": "4", "name": "Monthly"}, "payGrade": {"id": null, "name": null}, "currencyType": {"id": "USD", "name": "United States Dollar"}, "directDebit": {"id": 1, "routingNumber": 21000021, "account": "1111222233", "amount": "85000.00", "accountType": "CHECKING"}}
+    meta: {"empNumber": 3}
+
+Create:
+  "Admin cannot add a salary component to own record (own salary is read-only, as on the salary screen)":
+    userId: 1
+    services:
+      pim.employee_salary_service: \OrangeHRM\Pim\Service\EmployeeSalaryService
+      admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
+      core.text_helper_service: \OrangeHRM\Core\Service\TextHelperService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      empNumber: 1
+    body:
+      salaryComponent: Bonus
+      salaryAmount: '1000'
+      currencyId: USD
+      payFrequencyId: 4
+    exception:
+      class: 'OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
+  "Admin adds a salary component to a subordinate":
+    userId: 1
+    services:
+      pim.employee_salary_service: \OrangeHRM\Pim\Service\EmployeeSalaryService
+      admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
+      core.text_helper_service: \OrangeHRM\Core\Service\TextHelperService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      empNumber: 3
+    body:
+      salaryComponent: Bonus
+      salaryAmount: '1000'
+      currencyId: USD
+      payFrequencyId: 4
+    data: {"id": 5, "amount": "1000", "salaryName": "Bonus", "comment": null, "payPeriod": {"id": "4", "name": "Monthly"}, "payGrade": {"id": null, "name": null}, "currencyType": {"id": "USD", "name": "United States Dollar"}, "directDebit": {"id": null, "routingNumber": null, "account": null, "amount": null, "accountType": null}}
+    meta: {"empNumber": 3}
+  "Supervisor cannot add a salary component to own record":
+    userId: 2
+    services:
+      pim.employee_salary_service: \OrangeHRM\Pim\Service\EmployeeSalaryService
+      admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
+      core.text_helper_service: \OrangeHRM\Core\Service\TextHelperService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      empNumber: 2
+    body:
+      salaryComponent: Bonus
+      salaryAmount: '1000'
+      currencyId: USD
+      payFrequencyId: 4
+    exception:
+      class: 'OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
+  "Supervisor cannot add a salary component to a subordinate":
+    userId: 2
+    services:
+      pim.employee_salary_service: \OrangeHRM\Pim\Service\EmployeeSalaryService
+      admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
+      core.text_helper_service: \OrangeHRM\Core\Service\TextHelperService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      empNumber: 3
+    body:
+      salaryComponent: Bonus
+      salaryAmount: '1000'
+      currencyId: USD
+      payFrequencyId: 4
+    exception:
+      class: 'OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
+
+Update:
+  "Admin cannot update own salary record (own salary is read-only, as on the salary screen)":
+    userId: 1
+    services:
+      pim.employee_salary_service: \OrangeHRM\Pim\Service\EmployeeSalaryService
+      admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
+      core.text_helper_service: \OrangeHRM\Core\Service\TextHelperService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      empNumber: 1
+      id: 1
+    body:
+      salaryComponent: Updated
+      salaryAmount: '1000'
+      currencyId: USD
+      payFrequencyId: 4
+    exception:
+      class: 'OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
+  "Supervisor cannot update a subordinate's salary record":
+    userId: 2
+    services:
+      pim.employee_salary_service: \OrangeHRM\Pim\Service\EmployeeSalaryService
+      admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
+      core.text_helper_service: \OrangeHRM\Core\Service\TextHelperService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      empNumber: 3
+      id: 3
+    body:
+      salaryComponent: Updated
+      salaryAmount: '1000'
+      currencyId: USD
+      payFrequencyId: 4
+    exception:
+      class: 'OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
+  "ESS cannot update own salary record":
+    userId: 3
+    services:
+      pim.employee_salary_service: \OrangeHRM\Pim\Service\EmployeeSalaryService
+      admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
+      core.text_helper_service: \OrangeHRM\Core\Service\TextHelperService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      empNumber: 3
+      id: 3
+    body:
+      salaryComponent: Updated
+      salaryAmount: '1000'
+      currencyId: USD
+      payFrequencyId: 4
+    exception:
+      class: 'OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
+  "Admin who also supervises the employee updates the subordinate's salary record":
+    userId: 4
+    services:
+      pim.employee_salary_service: \OrangeHRM\Pim\Service\EmployeeSalaryService
+      admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
+      core.text_helper_service: \OrangeHRM\Core\Service\TextHelperService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      empNumber: 3
+      id: 3
+    body:
+      salaryComponent: Updated
+      salaryAmount: '1000'
+      currencyId: USD
+      payFrequencyId: 4
+    data: {"id": 3, "amount": "1000", "salaryName": "Updated", "comment": null, "payPeriod": {"id": "4", "name": "Monthly"}, "payGrade": {"id": null, "name": null}, "currencyType": {"id": "USD", "name": "United States Dollar"}, "directDebit": {"id": null, "routingNumber": null, "account": null, "amount": null, "accountType": null}}
+    meta: {"empNumber": 3}
+  "Admin without an employee record updates an employee's salary record":
+    userId: 5
+    services:
+      pim.employee_salary_service: \OrangeHRM\Pim\Service\EmployeeSalaryService
+      admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
+      core.text_helper_service: \OrangeHRM\Core\Service\TextHelperService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      empNumber: 3
+      id: 3
+    body:
+      salaryComponent: Updated
+      salaryAmount: '1000'
+      currencyId: USD
+      payFrequencyId: 4
+    data: {"id": 3, "amount": "1000", "salaryName": "Updated", "comment": null, "payPeriod": {"id": "4", "name": "Monthly"}, "payGrade": {"id": null, "name": null}, "currencyType": {"id": "USD", "name": "United States Dollar"}, "directDebit": {"id": null, "routingNumber": null, "account": null, "amount": null, "accountType": null}}
+    meta: {"empNumber": 3}
+
+Delete:
+  "Admin deletes a subordinate's salary record":
+    userId: 1
+    services:
+      pim.employee_salary_service: \OrangeHRM\Pim\Service\EmployeeSalaryService
+      core.text_helper_service: \OrangeHRM\Core\Service\TextHelperService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      empNumber: 3
+    body:
+      ids: [ 3 ]
+    data: [3]
+    meta: {"empNumber": 3}
+  "Admin cannot delete own salary record (own salary is read-only, as on the salary screen)":
+    userId: 1
+    services:
+      pim.employee_salary_service: \OrangeHRM\Pim\Service\EmployeeSalaryService
+      core.text_helper_service: \OrangeHRM\Core\Service\TextHelperService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      empNumber: 1
+    body:
+      ids: [ 1 ]
+    exception:
+      class: 'OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
+  "Supervisor cannot delete a subordinate's salary record":
+    userId: 2
+    services:
+      pim.employee_salary_service: \OrangeHRM\Pim\Service\EmployeeSalaryService
+      core.text_helper_service: \OrangeHRM\Core\Service\TextHelperService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      empNumber: 3
+    body:
+      ids: [ 3 ]
+    exception:
+      class: 'OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
+  "ESS cannot delete own salary record":
+    userId: 3
+    services:
+      pim.employee_salary_service: \OrangeHRM\Pim\Service\EmployeeSalaryService
+      core.text_helper_service: \OrangeHRM\Core\Service\TextHelperService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      empNumber: 3
+    body:
+      ids: [ 3 ]
+    exception:
+      class: 'OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
