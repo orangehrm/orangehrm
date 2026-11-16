@@ -29,7 +29,7 @@ jobs:
           --tmpfs /var/lib/mysql/
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Validate composer.json and composer.lock
         run: |
@@ -81,19 +81,19 @@ jobs:
           tar cf - coverage/ | xz -z - > coverage.tar.xz
 
       - name: Upload jest coverage
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: jest-coverage-${{ matrix.database.name }}
           path: src/client/coverage
 
       - name: Upload phpunit coverage
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: coverage-${{ matrix.database.name }}
           path: coverage.tar.xz
 
       - name: Upload logs
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         if: ${{ always() }}
         with:
           name: logs-${{ matrix.database.name }}
@@ -107,7 +107,7 @@ jobs:
     runs-on: ubuntu-24.04
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Validate composer.json and composer.lock
         run: |
@@ -163,7 +163,7 @@ jobs:
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Install dependencies
         run: |

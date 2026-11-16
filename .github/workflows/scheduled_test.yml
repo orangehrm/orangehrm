@@ -66,12 +66,12 @@ jobs:
     env:
       WORKFLOW_BRANCH: ${{ vars.WORKFLOW_BRANCH }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         if: "${{ github.event_name != 'push' && env.WORKFLOW_BRANCH != '' }}"
         with:
           ref: ${{ vars.WORKFLOW_BRANCH }}
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         if: "${{ github.event_name == 'push' || env.WORKFLOW_BRANCH == ''}}"
 
       - name: Source info
@@ -149,12 +149,12 @@ jobs:
     env:
       WORKFLOW_BRANCH: ${{ vars.WORKFLOW_BRANCH }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         if: "${{ github.event_name != 'push' && env.WORKFLOW_BRANCH != '' }}"
         with:
           ref: ${{ vars.WORKFLOW_BRANCH }}
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         if: "${{ github.event_name == 'push' || env.WORKFLOW_BRANCH == ''}}"
 
       - name: Set up PHP

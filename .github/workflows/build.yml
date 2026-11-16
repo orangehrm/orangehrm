@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-24.04
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Get product version and build version
         id: get_version
@@ -84,13 +84,13 @@ jobs:
           echo "Product Mode: $(php ./product_mode.php)" >> build
 
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: orangehrm-${{ env.git_short_hash }}
           path: build/${{ env.file_path }}
 
       - name: Upload product mode
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ${{ env.product_mode }}-mode
           path: build/build
