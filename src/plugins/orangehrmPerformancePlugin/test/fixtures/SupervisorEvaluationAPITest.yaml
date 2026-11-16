@@ -230,6 +230,10 @@ ReviewerRating:
   - { id: 14, rating: null, kpi_id: 3,review_id: 1,reviewer_id: 2,comment: null }
   - { id: 15, rating: null, kpi_id: 6,review_id: 4,reviewer_id: 7,comment: null }
   - { id: 16, rating: null, kpi_id: 6,review_id: 4,reviewer_id: 8,comment: null }
+  - { id: 17, rating: null, kpi_id: 4,review_id: 6,reviewer_id: 11,comment: null }
+  - { id: 18, rating: null, kpi_id: 5,review_id: 6,reviewer_id: 11,comment: null }
+  - { id: 19, rating: 1.00, kpi_id: 4,review_id: 6,reviewer_id: 12,comment: "reviewer rating A" }
+  - { id: 20, rating: 1.00, kpi_id: 5,review_id: 6,reviewer_id: 12,comment: "reviewer rating B" }
 
 ReportingMethod:
   0: {id: 1, name: 'Indirect'}

@@ -204,7 +204,8 @@ class SupervisorEvaluationAPI extends Endpoint implements CrudEndpoint
 
         $allowedWorkflowItems = $this->getUserRoleManager()->getAllowedActions(
             WorkflowStateMachine::FLOW_REVIEW,
-            $currentState
+            $currentState,
+            $this->getPerformanceReviewService()->getRolesToExcludeForSupervisorActions($review)
         );
 
         foreach ($allowedWorkflowItems as $allowedWorkflowItem) {
@@ -466,7 +467,8 @@ class SupervisorEvaluationAPI extends Endpoint implements CrudEndpoint
 
         $allowedWorkflowItems = $this->getUserRoleManager()->getAllowedActions(
             WorkflowStateMachine::FLOW_REVIEW,
-            $currentState
+            $currentState,
+            $this->getPerformanceReviewService()->getRolesToExcludeForSupervisorActions($review)
         );
         $hasPermission = false;
         foreach ($allowedWorkflowItems as $allowedWorkflowItem) {

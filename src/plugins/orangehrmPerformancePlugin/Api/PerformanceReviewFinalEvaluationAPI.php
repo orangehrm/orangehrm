@@ -117,7 +117,8 @@ class PerformanceReviewFinalEvaluationAPI extends Endpoint implements ResourceEn
         if (!$this->getUserRoleManager()->isActionAllowed(
             WorkflowStateMachine::FLOW_REVIEW,
             self::WORKFLOW_STATES_MAP[$review->getStatusId()],
-            $complete ? WorkflowStateMachine::REVIEW_COMPLETE : WorkflowStateMachine::REVIEW_IN_PROGRESS_SAVE
+            $complete ? WorkflowStateMachine::REVIEW_COMPLETE : WorkflowStateMachine::REVIEW_IN_PROGRESS_SAVE,
+            $this->getPerformanceReviewService()->getRolesToExcludeForSupervisorActions($review)
         )) {
             throw $this->getForbiddenException();
         }

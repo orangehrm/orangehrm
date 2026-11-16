@@ -149,4 +149,22 @@ class PerformanceReviewService
             $performanceReviewId . '_' .
             $kpiId . '_';
     }
+
+    /**
+     * Roles to leave out when looking up the current user's supervisor actions on a review.
+     * Only the review's assigned supervisor reviewer acts on it through the Supervisor role.
+     * For anyone else, supervising some other employee must not count, and neither must the
+     * ESS role, which reaches the user's own review. The Admin role always counts.
+     *
+     * @param PerformanceReview $review
+     * @return string[]
+     */
+    public function getRolesToExcludeForSupervisorActions(PerformanceReview $review): array
+    {
+        $supervisorReviewer = $review->getDecorator()->getSupervisorReviewer();
+        if ($supervisorReviewer->getEmployee()->getEmpNumber() === $this->getAuthUser()->getEmpNumber()) {
+            return [];
+        }
+        return ['ESS', 'Supervisor'];
+    }
 }
