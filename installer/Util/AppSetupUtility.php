@@ -448,6 +448,10 @@ class AppSetupUtility
             $dbInfo[StateContainer::ORANGEHRM_DB_USER] ?? $dbInfo[StateContainer::DB_USER],
             $dbInfo[StateContainer::ORANGEHRM_DB_PASSWORD] ?? $dbInfo[StateContainer::DB_PASSWORD],
         ];
+        // Conf.tpl.php decodes each value with base64_decode(), so a value is never read as PHP code
+        $replace = array_map(static function ($value): string {
+            return base64_encode((string)$value);
+        }, $replace);
 
         $fs = new Filesystem();
         $fs->dumpFile(Config::get(Config::CONF_FILE_PATH), str_replace($search, $replace, $template));

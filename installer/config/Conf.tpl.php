@@ -27,16 +27,16 @@ class Conf
 
     public function __construct()
     {
-        $this->dbHost = '{{dbHost}}';
-        $this->dbPort = '{{dbPort}}';
+        $this->dbHost = base64_decode('{{dbHost}}');
+        $this->dbPort = base64_decode('{{dbPort}}');
         if (defined('ENVIRONMENT') && ENVIRONMENT == 'test') {
             $prefix = defined('TEST_DB_PREFIX') ? TEST_DB_PREFIX : '';
-            $this->dbName = $prefix . 'test_{{dbName}}';
+            $this->dbName = $prefix . 'test_' . base64_decode('{{dbName}}');
         } else {
-            $this->dbName = '{{dbName}}';
+            $this->dbName = base64_decode('{{dbName}}');
         }
-        $this->dbUser = '{{dbUser}}';
-        $this->dbPass = '{{dbPass}}';
+        $this->dbUser = base64_decode('{{dbUser}}');
+        $this->dbPass = base64_decode('{{dbPass}}');
     }
 
     /**
