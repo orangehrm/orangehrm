@@ -163,9 +163,11 @@ class LDAPSyncService
 
     /**
      * @param LDAPUser[] $ldapUsers
+     * @param LDAPUserCollection|null $ldapUserCollection every entry returned by this sync (defaults to $ldapUsers)
      */
-    public function createSystemUsers(array $ldapUsers): void
+    public function createSystemUsers(array $ldapUsers, ?LDAPUserCollection $ldapUserCollection = null): void
     {
+        $syncedDNs = $this->getSyncedDNs($ldapUsers, $ldapUserCollection);
         $defaultUserRole = $this->getUserService()->getUserRole('ESS');
         foreach ($ldapUsers as $ldapUser) {
             $user = $this->getLDAPDao()->getUserByUserName($ldapUser->getUsername());
@@ -234,6 +236,21 @@ class LDAPSyncService
                     $ldapAuthProvider = $this->getLDAPDao()
                         ->getAuthProviderByUserUniqueId($ldapUser->getUserUniqueId());
                     if ($ldapAuthProvider instanceof UserAuthProvider) {
+                        $boundDN = $this->normalizeDN($ldapAuthProvider->getLDAPUserDN());
+                        if ($boundDN !== $this->normalizeDN($ldapUser->getUserDN()) && isset($syncedDNs[$boundDN])) {
+                            // The user is bound to another entry that is still in the directory: the incoming
+                            // entry only carries the same unique id, so it must not take the user over
+                            $this->getLogger()->warning(
+                                'User unique id matches a user bound to another LDAP entry, skipped',
+                                [
+                                    'incomingDN' => $ldapUser->getUserDN(),
+                                    'boundDN' => $ldapAuthProvider->getLDAPUserDN(),
+                                    'boundUserId' => $ldapAuthProvider->getUser()->getId(),
+                                ]
+                            );
+                            continue;
+                        }
+
                         $user = $ldapAuthProvider->getUser();
                         $user->setUserName($ldapUser->getUsername());
                         $user->setStatus($ldapUser->isUserEnabled());
@@ -301,6 +318,43 @@ class LDAPSyncService
                 $this->warnMultiUserEmployee($employee);
             }
         }
+    }
+
+    /**
+     * DNs of every entry returned by this sync, including entries dropped as duplicate usernames
+     * and entries that could not be read
+     *
+     * @param LDAPUser[] $ldapUsers
+     * @param LDAPUserCollection|null $ldapUserCollection
+     * @return array<string, true> normalized DN => true
+     */
+    private function getSyncedDNs(array $ldapUsers, ?LDAPUserCollection $ldapUserCollection): array
+    {
+        $dns = [];
+        if ($ldapUserCollection instanceof LDAPUserCollection) {
+            $ldapUsers = array_merge($ldapUsers, array_values($ldapUserCollection->getLDAPUsers()));
+            foreach ($ldapUserCollection->getUsersOfDuplicateUsernames() as $duplicateUsers) {
+                $ldapUsers = array_merge($ldapUsers, $duplicateUsers);
+            }
+            foreach ($ldapUserCollection->getFailedUsers() as $failedUserDN) {
+                $dns[$this->normalizeDN($failedUserDN)] = true;
+            }
+        }
+        foreach ($ldapUsers as $ldapUser) {
+            $dns[$this->normalizeDN($ldapUser->getUserDN())] = true;
+        }
+        return $dns;
+    }
+
+    /**
+     * Directories compare DNs case-insensitively
+     *
+     * @param string|null $dn
+     * @return string
+     */
+    private function normalizeDN(?string $dn): string
+    {
+        return strtolower(trim($dn ?? ''));
     }
 
     /**
@@ -372,7 +426,7 @@ class LDAPSyncService
         try {
             $ldapUserCollection = $this->fetchAllLDAPUsers();
             $ldapUsers = $ldapUserCollection->getLDAPUsers();
-            $this->createSystemUsers(array_values($ldapUsers));
+            $this->createSystemUsers(array_values($ldapUsers), $ldapUserCollection);
             $this->deleteLocalUsersWhoRemovedFromLDAPServer($ldapUserCollection);
             $this->commitTransaction();
         } catch (Throwable $e) {
