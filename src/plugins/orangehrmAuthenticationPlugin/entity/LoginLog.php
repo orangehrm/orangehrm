@@ -30,6 +30,7 @@ use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 class LoginLog
 {
     use DateTimeHelperTrait;
+    public const BASE_URL_MAX_LENGTH = 1024;
 
     /**
      * @var int
@@ -67,6 +68,16 @@ class LoginLog
      * @ORM\Column(name="user_role_predefined", type="integer")
      */
     private int $userRolePredefined;
+
+    /**
+     * Address the user signed in on, e.g. https://hr.example.com/web/index.php.
+     * Base URLs of Admin sign-ins are the only hosts trusted in password reset links.
+     *
+     * @var string|null
+     *
+     * @ORM\Column(name="base_url", type="string", length=1024, nullable=true)
+     */
+    private ?string $baseUrl = null;
 
     /**
      * @var DateTime
@@ -142,6 +153,22 @@ class LoginLog
     public function setUserRolePredefined(int $userRolePredefined): void
     {
         $this->userRolePredefined = $userRolePredefined;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getBaseUrl(): ?string
+    {
+        return $this->baseUrl;
+    }
+
+    /**
+     * @param string|null $baseUrl
+     */
+    public function setBaseUrl(?string $baseUrl): void
+    {
+        $this->baseUrl = $baseUrl;
     }
 
     /**

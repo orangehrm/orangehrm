@@ -21,3 +21,15 @@ langStrings:
   -
     value: 'Unable to sign in with this account. Please contact your administrator.'
     unitId: openid_account_not_available
+  -
+    value: 'Received a reset code instead of a link?'
+    unitId: received_reset_code_instead_of_link
+  -
+    value: 'Enter the code from the email to reset your password.'
+    unitId: enter_reset_code_from_email
+  -
+    value: 'Reset Code'
+    unitId: reset_code
+  -
+    value: 'Continue'
+    unitId: continue
