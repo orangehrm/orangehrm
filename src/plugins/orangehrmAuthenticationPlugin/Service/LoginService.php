@@ -22,12 +22,17 @@ namespace OrangeHRM\Authentication\Service;
 use OrangeHRM\Admin\Traits\Service\UserServiceTrait;
 use OrangeHRM\Authentication\Dao\LoginLogDao;
 use OrangeHRM\Authentication\Dto\UserCredential;
+use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Entity\LoginLog;
 use OrangeHRM\Entity\User;
+use OrangeHRM\Framework\Http\RequestStack;
+use OrangeHRM\Framework\Services;
+use Throwable;
 
 class LoginService
 {
     use UserServiceTrait;
+    use ServiceContainerTrait;
 
     /**
      * @var LoginLogDao|null
@@ -59,6 +64,7 @@ class LoginService
         $loginLog->setUserName($user->getUserName());
         $loginLog->setUserRoleName($user->getUserRole()->getName());
         $loginLog->setUserRolePredefined($user->getUserRole()->isPredefined());
+        $loginLog->setBaseUrl($this->getCurrentBaseUrl());
         return $this->getLoginLogDao()->saveLoginLog($loginLog);
     }
 
@@ -73,6 +79,34 @@ class LoginService
         $loginLog->setUserName($user->getUserName());
         $loginLog->setUserRoleName($user->getUserRole()->getName());
         $loginLog->setUserRolePredefined($user->getUserRole()->isPredefined());
+        $loginLog->setBaseUrl($this->getCurrentBaseUrl());
         return $this->getLoginLogDao()->saveLoginLog($loginLog);
+    }
+
+    /**
+     * Base URL of the current web request, e.g. https://hr.example.com/web/index.php:
+     * scheme, host, port (when not the default) and the path to the front controller.
+     * Null outside a web request, or when the request host is not a valid host name.
+     *
+     * @return string|null
+     */
+    public function getCurrentBaseUrl(): ?string
+    {
+        if (!$this->getContainer()->has(Services::REQUEST_STACK)) {
+            return null;
+        }
+        /** @var RequestStack $requestStack */
+        $requestStack = $this->getContainer()->get(Services::REQUEST_STACK);
+        $request = $requestStack->getMainRequest();
+        if ($request === null) {
+            return null;
+        }
+        try {
+            $baseUrl = $request->getSchemeAndHttpHost() . $request->getBaseUrl();
+        } catch (Throwable $e) {
+            // e.g. Symfony refuses a Host header that is not a valid host name
+            return null;
+        }
+        return strlen($baseUrl) <= LoginLog::BASE_URL_MAX_LENGTH ? $baseUrl : null;
     }
 }

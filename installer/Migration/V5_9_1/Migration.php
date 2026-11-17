@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Installer\Migration\V5_9_1;
 
+use Doctrine\DBAL\Schema\Index;
 use Doctrine\DBAL\Types\Types;
 use OrangeHRM\Installer\Util\V1\AbstractMigration;
 use OrangeHRM\Installer\Util\V1\LangStringHelper;
@@ -33,6 +34,7 @@ class Migration extends AbstractMigration
     public function up(): void
     {
         $this->addOpenIdProviderSignInChecks();
+        $this->addLoginBaseUrl();
 
         foreach (['admin', 'auth'] as $group) {
             $this->getLangStringHelper()->insertOrUpdateLangStrings(__DIR__, $group);
@@ -46,6 +48,25 @@ class Migration extends AbstractMigration
     public function getVersion(): string
     {
         return '5.9.1';
+    }
+
+    /**
+     * Records the address each sign-in used. Password reset links only use addresses that an Admin
+     * signed in on recently; the index serves that lookup by sign-in time.
+     */
+    private function addLoginBaseUrl(): void
+    {
+        if (!$this->getSchemaHelper()->columnExists('ohrm_login', 'base_url')) {
+            $this->getSchemaHelper()->addColumn(
+                'ohrm_login',
+                'base_url',
+                Types::STRING,
+                ['Length' => 1024, 'Notnull' => false, 'Default' => null]
+            );
+        }
+        if (!$this->getSchemaManager()->listTableDetails('ohrm_login')->hasIndex('login_time')) {
+            $this->getSchemaManager()->createIndex(new Index('login_time', ['login_time']), 'ohrm_login');
+        }
     }
 
     /**

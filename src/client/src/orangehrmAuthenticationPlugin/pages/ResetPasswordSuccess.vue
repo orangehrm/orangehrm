@@ -38,6 +38,32 @@
           class="orangehrm-forgot-password-card-note"
           has-note
         />
+        <oxd-divider />
+        <oxd-form @submit-valid="onSubmitResetCode">
+          <oxd-text tag="h6" class="orangehrm-forgot-password-title">
+            {{ $t('auth.received_reset_code_instead_of_link') }}
+          </oxd-text>
+          <card-note
+            :note-text="$t('auth.enter_reset_code_from_email')"
+            class="orangehrm-forgot-password-card-note"
+          />
+          <oxd-form-row>
+            <oxd-input-field
+              v-model="resetCode"
+              :label="$t('auth.reset_code')"
+              :rules="rules.resetCode"
+            />
+          </oxd-form-row>
+          <div class="orangehrm-forgot-password-button-container">
+            <oxd-button
+              class="orangehrm-forgot-password-button orangehrm-forgot-password-button--reset"
+              display-type="secondary"
+              size="large"
+              :label="$t('auth.continue')"
+              type="submit"
+            />
+          </div>
+        </oxd-form>
       </div>
     </div>
     <slot name="footer"></slot>
@@ -45,12 +71,34 @@
 </template>
 
 <script>
+import {navigate} from '@/core/util/helper/navigation';
+import {required} from '@/core/util/validation/rules';
 import CardNote from '../components/CardNote';
 
 export default {
   name: 'ResetPasswordSuccess',
   components: {
     'card-note': CardNote,
+  },
+  data() {
+    return {
+      resetCode: '',
+      rules: {
+        resetCode: [
+          required,
+          // The reset code is base64url, as in the link the email would otherwise contain
+          (value) =>
+            /^[A-Za-z0-9_-]+$/.test(value.trim()) || this.$t('general.invalid'),
+        ],
+      },
+    };
+  },
+  methods: {
+    onSubmitResetCode() {
+      navigate('/auth/resetPassword/resetCode/{resetCode}', {
+        resetCode: this.resetCode.trim(),
+      });
+    },
   },
 };
 </script>
