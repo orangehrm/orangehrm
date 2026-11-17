@@ -46,6 +46,14 @@ use OrangeHRM\Entity\AuthProviderExtraDetails;
  *     @OA\Property(
  *         property="clientId",
  *         type="string",
+ *     ),
+ *     @OA\Property(
+ *         property="requireVerifiedEmail",
+ *         type="boolean",
+ *     ),
+ *     @OA\Property(
+ *         property="requireMatchingSubject",
+ *         type="boolean",
  *     )
  * )
  */
@@ -63,6 +71,8 @@ class ProviderModel implements Normalizable
                 ['getOpenIdProvider', 'getProviderUrl'],
                 ['getOpenIdProvider', 'getStatus'],
                 'clientId',
+                ['getOpenIdProvider', 'isRequireVerifiedEmail'],
+                ['getOpenIdProvider', 'isRequireMatchingSubject'],
             ]
         );
         $this->setAttributeNames(
@@ -72,6 +82,8 @@ class ProviderModel implements Normalizable
                 'providerUrl',
                 'status',
                 'clientId',
+                'requireVerifiedEmail',
+                'requireMatchingSubject',
             ]
         );
     }

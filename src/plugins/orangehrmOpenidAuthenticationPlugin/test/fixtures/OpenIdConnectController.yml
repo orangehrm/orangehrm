@@ -1,0 +1,26 @@
+OpenIdProvider:
+  # both sign-in checks on (a provider added in 5.9.1 or later)
+  0: { id: 1, provider_name: 'Corp IdP', provider_url: 'https://idp.example/realms/corp', status: 1, require_verified_email: 1, require_matching_subject: 1 }
+  1: { id: 2, provider_name: 'Removed IdP', provider_url: 'https://idp.example/realms/removed', status: 0, require_verified_email: 1, require_matching_subject: 1 }
+  # both sign-in checks off (a provider that existed before 5.9.1)
+  2: { id: 3, provider_name: 'Existing IdP', provider_url: 'https://idp.example/realms/existing', status: 1, require_verified_email: 0, require_matching_subject: 0 }
+
+# extra-details ids differ from the provider ids on purpose: the session must carry the provider id
+AuthProviderExtraDetails:
+  0: { id: 11, provider_id: 1, client_id: 'orangehrm-corp', client_secret: 'local-test-secret-1' }
+  1: { id: 12, provider_id: 2, client_id: 'orangehrm-removed', client_secret: 'local-test-secret-2' }
+  2: { id: 13, provider_id: 3, client_id: 'orangehrm-noverified', client_secret: 'local-test-secret-3' }
+
+Employee:
+  - { empNumber: 1, firstName: 'Vera', lastName: 'Admin', employeeId: 'E001', emp_work_email: 'vera.admin@orangehrm.us.com' }
+  - { empNumber: 2, firstName: 'Manul', lastName: 'Madara', employeeId: 'E002', emp_work_email: 'manul@orangehrm.us.com' }
+  - { empNumber: 3, firstName: 'Dora', lastName: 'Disabled', employeeId: 'E003', emp_work_email: 'dora.disabled@orangehrm.us.com' }
+
+UserRole:
+  - { id: 1, name: Admin, display_name: Admin, is_assignable: 1, is_predefined: 1 }
+  - { id: 2, name: ESS, display_name: ESS, is_assignable: 1, is_predefined: 1 }
+
+User:
+  - { "id": 1, "user_role_id": 1, "emp_number": 1, "user_name": "vera.admin@orangehrm.us.com", "user_password": "x", "deleted": "0", "status": "1" }
+  - { "id": 2, "user_role_id": 2, "emp_number": 2, "user_name": "manul@orangehrm.us.com", "user_password": "x", "deleted": "0", "status": "1" }
+  - { "id": 3, "user_role_id": 2, "emp_number": 3, "user_name": "dora.disabled@orangehrm.us.com", "user_password": "x", "deleted": "0", "status": "0" }

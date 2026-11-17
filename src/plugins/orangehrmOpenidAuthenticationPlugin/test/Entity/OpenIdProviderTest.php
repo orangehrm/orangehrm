@@ -39,4 +39,27 @@ class OpenIdProviderTest extends EntityTestCase
         $this->assertEquals('https://www.google.com/', $openIdProvider->getProviderUrl());
         $this->assertEquals(1, $openIdProvider->getStatus());
     }
+
+    public function testNewProviderHasBothSignInChecksOn(): void
+    {
+        $openIdProvider = new OpenIdProvider();
+        $this->assertTrue($openIdProvider->isRequireVerifiedEmail());
+        $this->assertTrue($openIdProvider->isRequireMatchingSubject());
+    }
+
+    public function testSignInChecksArePersisted(): void
+    {
+        $openIdProvider = new OpenIdProvider();
+        $openIdProvider->setProviderName('Keycloak');
+        $openIdProvider->setProviderUrl('https://keycloak.example/realms/corp');
+        $openIdProvider->setRequireVerifiedEmail(false);
+        $openIdProvider->setRequireMatchingSubject(true);
+        $this->persist($openIdProvider);
+
+        $this->getEntityManager()->clear();
+        /** @var OpenIdProvider $saved */
+        $saved = $this->getRepository(OpenIdProvider::class)->find($openIdProvider->getId());
+        $this->assertFalse($saved->isRequireVerifiedEmail());
+        $this->assertTrue($saved->isRequireMatchingSubject());
+    }
 }

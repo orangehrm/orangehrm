@@ -26,6 +26,7 @@ use OrangeHRM\Authentication\Exception\AuthenticationException;
 use OrangeHRM\Authentication\Service\AuthenticationService;
 use OrangeHRM\Authentication\Traits\Service\AuthenticationServiceTrait;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
+use OrangeHRM\Core\Traits\LoggerTrait;
 use OrangeHRM\Core\Utility\EncryptionHelperTrait;
 use OrangeHRM\Entity\AuthProviderExtraDetails;
 use OrangeHRM\Entity\EmployeeTerminationRecord;
@@ -36,6 +37,7 @@ use OrangeHRM\Framework\Routing\UrlGenerator;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\OpenidAuthentication\Dao\AuthProviderDao;
 use OrangeHRM\OpenidAuthentication\Dto\ProviderSearchFilterParams;
+use OrangeHRM\OpenidAuthentication\Exception\OpenIdConnectAuthenticationException;
 use OrangeHRM\OpenidAuthentication\OpenID\OpenIDConnectClient;
 use OrangeHRM\OpenidAuthentication\Traits\Service\SocialMediaAuthenticationServiceTrait;
 
@@ -45,12 +47,16 @@ class SocialMediaAuthenticationService
     use AuthenticationServiceTrait;
     use EncryptionHelperTrait;
     use AuthUserTrait;
+    use LoggerTrait;
 
     private AuthenticationService $authenticationService;
     private AuthProviderDao $authProviderDao;
     private UserDao $userDao;
 
     public const SCOPE = 'email';
+    public const CLAIM_SUBJECT = 'sub';
+    public const CLAIM_EMAIL = 'email';
+    public const CLAIM_EMAIL_VERIFIED = 'email_verified';
 
     /**
      * @return AuthProviderDao
@@ -122,6 +128,121 @@ class SocialMediaAuthenticationService
     }
 
     /**
+     * Returns the email address to match against a username, applying the provider's sign-in checks.
+     * With both checks off this is the userinfo `email`, as before 5.9.1.
+     *
+     * - Require matching subject: the userinfo `sub` must equal the ID token `sub`
+     *   (OpenID Connect Core 1.0, 5.3.2), so both responses describe the same user.
+     * - Require verified email: `email_verified` must be true for the email used. An ID token email, if
+     *   present, must equal the userinfo email; an explicit non-true `email_verified` in either response
+     *   refuses; a true value counts only from a response that also carries the email.
+     *
+     * Runs before any local user is looked up, so its refusals cannot reveal whether an account exists.
+     *
+     * @param mixed $idTokenClaims verified ID token claims
+     * @param mixed $userInfo userinfo response
+     * @param OpenIdProvider $provider
+     *
+     * @return string
+     * @throws OpenIdConnectAuthenticationException
+     */
+    public function getVerifiedEmail($idTokenClaims, $userInfo, OpenIdProvider $provider): string
+    {
+        if (!is_object($idTokenClaims) || !is_object($userInfo)) {
+            $this->logRefusal($provider, 'missing ID token claims or userinfo response');
+            throw OpenIdConnectAuthenticationException::signInFailed($provider->getProviderName());
+        }
+
+        if ($provider->isRequireMatchingSubject()) {
+            $subject = $idTokenClaims->{self::CLAIM_SUBJECT} ?? null;
+            if (!is_string($subject) || $subject === ''
+                || ($userInfo->{self::CLAIM_SUBJECT} ?? null) !== $subject) {
+                $this->logRefusal($provider, 'userinfo subject does not match the ID token subject');
+                throw OpenIdConnectAuthenticationException::inconsistentUserDetails($provider->getProviderName());
+            }
+        }
+
+        $email = $userInfo->{self::CLAIM_EMAIL} ?? null;
+        if (!is_string($email) || trim($email) === '') {
+            $this->logRefusal($provider, 'no email claim in the userinfo response');
+            throw OpenIdConnectAuthenticationException::emailNotShared($provider->getProviderName());
+        }
+
+        if ($provider->isRequireVerifiedEmail()) {
+            $this->checkEmailVerified($idTokenClaims, $userInfo, $email, $provider);
+        }
+
+        return $email;
+    }
+
+    /**
+     * @param object $idTokenClaims
+     * @param object $userInfo
+     * @param string $email userinfo email
+     * @param OpenIdProvider $provider
+     * @throws OpenIdConnectAuthenticationException
+     */
+    private function checkEmailVerified(object $idTokenClaims, object $userInfo, string $email, OpenIdProvider $provider): void
+    {
+        if (property_exists($idTokenClaims, self::CLAIM_EMAIL)
+            && (!is_string($idTokenClaims->{self::CLAIM_EMAIL})
+                || !$this->isSameIdentifier($idTokenClaims->{self::CLAIM_EMAIL}, $email))) {
+            $this->logRefusal($provider, 'ID token email differs from the userinfo email');
+            throw OpenIdConnectAuthenticationException::inconsistentUserDetails($provider->getProviderName());
+        }
+
+        $verifiedForEmail = false;
+        foreach ([$userInfo, $idTokenClaims] as $claims) {
+            if (!property_exists($claims, self::CLAIM_EMAIL_VERIFIED)) {
+                continue;
+            }
+            $verified = $claims->{self::CLAIM_EMAIL_VERIFIED};
+            // Some providers (e.g. Amazon Cognito userinfo) send the string "true"
+            if ($verified !== true && $verified !== 'true') {
+                $this->logRefusal($provider, 'email_verified is not true');
+                throw OpenIdConnectAuthenticationException::emailNotVerified($provider->getProviderName());
+            }
+            if (property_exists($claims, self::CLAIM_EMAIL)) {
+                $verifiedForEmail = true;
+            }
+        }
+
+        if (!$verifiedForEmail) {
+            $this->logRefusal(
+                $provider,
+                'no email_verified claim for the email; turn off "Require verified email" for this provider'
+                . ' only if its users cannot choose their own email address'
+            );
+            throw OpenIdConnectAuthenticationException::emailNotVerified($provider->getProviderName());
+        }
+    }
+
+    /**
+     * Logs why a sign-in was refused, for the administrator. The user only sees the exception message.
+     * The email address is not logged.
+     *
+     * @param OpenIdProvider $provider
+     * @param string $reason
+     */
+    public function logRefusal(OpenIdProvider $provider, string $reason): void
+    {
+        $this->getLogger()->warning(
+            sprintf('OpenID Connect sign-in refused (provider id %d): %s', $provider->getId(), $reason)
+        );
+    }
+
+    /**
+     * @param string $a
+     * @param string $b
+     * @return bool
+     */
+    private function isSameIdentifier(string $a, string $b): bool
+    {
+        // ASCII-only case folding: mb_strtolower() would also fold e.g. the Kelvin sign (U+212A) to "k"
+        return strcasecmp($a, $b) === 0;
+    }
+
+    /**
      * @param UserCredential $userCredentials
      *
      * @return User
@@ -129,6 +250,11 @@ class SocialMediaAuthenticationService
      */
     public function getUserForAuthenticate(UserCredential $userCredentials): User
     {
+        $username = $userCredentials->getUsername();
+        if ($username === null || $username === '') {
+            throw AuthenticationException::noUserFound();
+        }
+
         $users = $this->getSystemUsers($userCredentials);
         if (empty($users)) {
             throw AuthenticationException::noUserFound();
@@ -142,6 +268,9 @@ class SocialMediaAuthenticationService
 
         if (!$user instanceof User || $user->isDeleted()) {
             throw AuthenticationException::invalidCredentials();
+        } elseif (!$this->isSameIdentifier($user->getUserName(), $username)) {
+            // The database collation also ignores accents and trailing spaces
+            throw AuthenticationException::noUserFound();
         } else {
             if (!$user->getStatus()) {
                 throw AuthenticationException::userDisabled();
@@ -159,6 +288,8 @@ class SocialMediaAuthenticationService
      * @param OpenIdProvider $provider
      *
      * @return OpenIdUserIdentity
+     * @deprecated Not used for sign-in. Fresh installs key ohrm_openid_user_identity on user_id only, so a
+     *             row per sign-in hits a duplicate key; a provider/subject link needs its own schema.
      */
     public function setOIDCUserIdentity(User $user, OpenIdProvider $provider): OpenIdUserIdentity
     {

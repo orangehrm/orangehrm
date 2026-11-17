@@ -55,6 +55,8 @@ class ProviderAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_URL = 'url';
     public const CLIENT_ID = 'clientId';
     public const CLIENT_SECRET = 'clientSecret';
+    public const PARAMETER_REQUIRE_VERIFIED_EMAIL = 'requireVerifiedEmail';
+    public const PARAMETER_REQUIRE_MATCHING_SUBJECT = 'requireMatchingSubject';
     public const PARAM_RULE_NAME_MAX_LENGTH = 40;
     public const PARAM_RULE_PROVIDER_URL_MAX_LENGTH = 2000;
     public const PARAM_RULE_CLIENT_ID_MAX_LENGTH = 255;
@@ -177,6 +179,16 @@ class ProviderAPI extends Endpoint implements CrudEndpoint
      *             @OA\Property(property="status", type="boolean"),
      *             @OA\Property(property="clientId", type="string"),
      *             @OA\Property(property="clientSecret", type="string"),
+     *             @OA\Property(
+     *                 property="requireVerifiedEmail",
+     *                 type="boolean",
+     *                 description="Sign in only when the provider sends email_verified as true. Defaults to true on create; kept as is on update when omitted"
+     *             ),
+     *             @OA\Property(
+     *                 property="requireMatchingSubject",
+     *                 type="boolean",
+     *                 description="Sign in only when the userinfo sub equals the ID token sub. Defaults to true on create; kept as is on update when omitted"
+     *             ),
      *             required={"name", "url", "clientId", "clientSecret"}
      *         )
      *     ),
@@ -225,6 +237,17 @@ class ProviderAPI extends Endpoint implements CrudEndpoint
             $this->getRequestParams()
                 ->getBooleanOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_STATUS, true)
         );
+        // Omitted on update: keep the stored value. A new provider defaults to true (see OpenIdProvider)
+        $requireVerifiedEmail = $this->getRequestParams()
+            ->getBooleanOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_REQUIRE_VERIFIED_EMAIL);
+        if ($requireVerifiedEmail !== null) {
+            $openIdProvider->setRequireVerifiedEmail($requireVerifiedEmail);
+        }
+        $requireMatchingSubject = $this->getRequestParams()
+            ->getBooleanOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_REQUIRE_MATCHING_SUBJECT);
+        if ($requireMatchingSubject !== null) {
+            $openIdProvider->setRequireMatchingSubject($requireMatchingSubject);
+        }
 
         $this->getSocialMediaAuthenticationService()->getAuthProviderDao()->saveProvider($openIdProvider);
     }
@@ -303,7 +326,23 @@ class ProviderAPI extends Endpoint implements CrudEndpoint
                     new Rule(Rules::BOOL_TYPE)
                 )
             ),
+            ...$this->getSignInCheckRules(),
         );
+    }
+
+    /**
+     * @return ParamRule[]
+     */
+    private function getSignInCheckRules(): array
+    {
+        return [
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(self::PARAMETER_REQUIRE_VERIFIED_EMAIL, new Rule(Rules::BOOL_TYPE))
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(self::PARAMETER_REQUIRE_MATCHING_SUBJECT, new Rule(Rules::BOOL_TYPE))
+            ),
+        ];
     }
 
     /**
@@ -432,6 +471,16 @@ class ProviderAPI extends Endpoint implements CrudEndpoint
      *             @OA\Property(property="status", type="boolean"),
      *             @OA\Property(property="clientId", type="string"),
      *             @OA\Property(property="clientSecret", type="string"),
+     *             @OA\Property(
+     *                 property="requireVerifiedEmail",
+     *                 type="boolean",
+     *                 description="Sign in only when the provider sends email_verified as true. Defaults to true on create; kept as is on update when omitted"
+     *             ),
+     *             @OA\Property(
+     *                 property="requireMatchingSubject",
+     *                 type="boolean",
+     *                 description="Sign in only when the userinfo sub equals the ID token sub. Defaults to true on create; kept as is on update when omitted"
+     *             ),
      *             required={"name", "url", "clientId", "clientSecret"}
      *         )
      *     ),
@@ -528,6 +577,7 @@ class ProviderAPI extends Endpoint implements CrudEndpoint
                     new Rule(Rules::BOOL_TYPE)
                 )
             ),
+            ...$this->getSignInCheckRules(),
         );
     }
 }

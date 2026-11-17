@@ -11,14 +11,18 @@ GetAll:
         providerName: 'Google',
         providerUrl: 'https://accounts.google.com',
         status: true,
-        clientId: '4456598880504gsb35si9gni9l6t0hn.apps.googleusercontent.com'
+        clientId: '4456598880504gsb35si9gni9l6t0hn.apps.googleusercontent.com',
+        requireVerifiedEmail: false,
+        requireMatchingSubject: false
       },
       {
         id: '2',
         providerName: 'Github',
         providerUrl: 'https://github.com/',
         status: true,
-        clientId: 'ba60e45e8180569fcf'
+        clientId: 'ba60e45e8180569fcf',
+        requireVerifiedEmail: false,
+        requireMatchingSubject: false
       },
     ]
     meta:
@@ -36,7 +40,9 @@ GetAll:
         providerName: 'Google',
         providerUrl: 'https://accounts.google.com',
         status: true,
-        clientId: '4456598880504gsb35si9gni9l6t0hn.apps.googleusercontent.com'
+        clientId: '4456598880504gsb35si9gni9l6t0hn.apps.googleusercontent.com',
+        requireVerifiedEmail: false,
+        requireMatchingSubject: false
       }
     ]
     meta:
@@ -54,7 +60,9 @@ GetAll:
         providerName: 'Google',
         providerUrl: 'https://accounts.google.com',
         status: true,
-        clientId: '4456598880504gsb35si9gni9l6t0hn.apps.googleusercontent.com'
+        clientId: '4456598880504gsb35si9gni9l6t0hn.apps.googleusercontent.com',
+        requireVerifiedEmail: false,
+        requireMatchingSubject: false
       }
     ]
     meta:
@@ -72,7 +80,9 @@ GetAll:
         providerName: 'Google+',
         providerUrl: 'https://google.com/o/8/',
         status: false,
-        clientId: 'Px2_hj2d1SBNp3pLf0CvBpDPqXEK'
+        clientId: 'Px2_hj2d1SBNp3pLf0CvBpDPqXEK',
+        requireVerifiedEmail: false,
+        requireMatchingSubject: false
       }
     ]
     meta:
@@ -90,7 +100,9 @@ GetOne:
         providerName: 'Google',
         providerUrl: 'https://accounts.google.com',
         status: true,
-        clientId: '4456598880504gsb35si9gni9l6t0hn.apps.googleusercontent.com'
+        clientId: '4456598880504gsb35si9gni9l6t0hn.apps.googleusercontent.com',
+        requireVerifiedEmail: false,
+        requireMatchingSubject: false
     }
 
   'Get one Provider by Id - not available id':
@@ -138,6 +150,29 @@ Update:
       providerUrl: 'https://azure.auth.com'
       status: true
       clientId: '6f2182cc5083a84083b'
+      requireVerifiedEmail: false
+      requireMatchingSubject: false
+
+  'Update Existing Provider - turn both sign-in checks on':
+    userId: 1
+    services:
+      oidc.social_media_auth_service: \OrangeHRM\OpenidAuthentication\Service\SocialMediaAuthenticationService
+    attributes:
+      id: 1
+    body:
+      name: 'Azure AD'
+      url: 'https://azure.auth.com'
+      clientId: '6f2182cc5083a84083b'
+      requireVerifiedEmail: true
+      requireMatchingSubject: true
+    data:
+      id: 1
+      providerName: 'Azure AD'
+      providerUrl: 'https://azure.auth.com'
+      status: true
+      clientId: '6f2182cc5083a84083b'
+      requireVerifiedEmail: true
+      requireMatchingSubject: true
 
   'Update Existing Provider - Invalid Id':
     userId: 1
@@ -187,3 +222,37 @@ Create:
       providerUrl: 'https://azure.auth.com'
       status: true
       clientId: '6f2182cc5083a84083b'
+      requireVerifiedEmail: true
+      requireMatchingSubject: true
+
+  'Create Auth Provider with both sign-in checks off':
+    userId: 1
+    services:
+      oidc.social_media_auth_service: \OrangeHRM\OpenidAuthentication\Service\SocialMediaAuthenticationService
+    body:
+      name: 'Azure'
+      url: 'https://azure.auth.com'
+      clientId: '6f2182cc5083a84083b'
+      clientSecret: '0f0cc6f2182cc5083a84083baf5f43c609ec9752'
+      requireVerifiedEmail: false
+      requireMatchingSubject: false
+    data:
+      id: 5
+      providerName: 'Azure'
+      providerUrl: 'https://azure.auth.com'
+      status: true
+      clientId: '6f2182cc5083a84083b'
+      requireVerifiedEmail: false
+      requireMatchingSubject: false
+
+  'Create Auth Provider - sign-in check is not a boolean':
+    userId: 1
+    services:
+      oidc.social_media_auth_service: \OrangeHRM\OpenidAuthentication\Service\SocialMediaAuthenticationService
+    body:
+      name: 'Azure'
+      url: 'https://azure.auth.com'
+      clientId: '6f2182cc5083a84083b'
+      clientSecret: '0f0cc6f2182cc5083a84083baf5f43c609ec9752'
+      requireVerifiedEmail: 'yes'
+    invalidOnly: [requireVerifiedEmail]

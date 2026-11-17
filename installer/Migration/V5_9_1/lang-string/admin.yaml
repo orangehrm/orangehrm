@@ -1,0 +1,15 @@
+langStrings:
+  -
+    value: 'Require Verified Email'
+    unitId: require_verified_email
+  -
+    value: 'When a user signs in to OrangeHRM with this provider, login is allowed only when the provider confirms that the user''s email address is verified (email_verified claim)'
+    unitId: require_verified_email_hint
+    note: 'Keep email_verified as it is: it is the name of an OpenID Connect claim'
+  -
+    value: 'Require Consistent User Details'
+    unitId: require_consistent_user_details
+  -
+    value: 'When a user signs in to OrangeHRM with this provider, login is allowed only when the sign-in confirmation and the profile details from the provider belong to the same user (sub claim in the ID token and UserInfo response)'
+    unitId: require_consistent_user_details_hint
+    note: 'Keep sub, ID token and UserInfo as they are: they are OpenID Connect terms'

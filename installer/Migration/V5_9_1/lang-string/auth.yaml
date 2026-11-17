@@ -1,0 +1,23 @@
+langStrings:
+  -
+    value: 'This sign-in option is not available. Please contact your administrator.'
+    unitId: openid_provider_not_available
+  -
+    value: 'Sign-in with {providerName} failed. Please try again.'
+    unitId: openid_sign_in_failed
+    note: 'Keep {providerName} as it is: it is replaced with the name of the sign-in provider, as shown on the login page'
+  -
+    value: '{providerName} returned inconsistent user details. Please contact your administrator.'
+    unitId: openid_inconsistent_user_details
+    note: 'Keep {providerName} as it is: it is replaced with the name of the sign-in provider, as shown on the login page'
+  -
+    value: '{providerName} did not share an email address for your account. Please contact your administrator.'
+    unitId: openid_email_not_shared
+    note: 'Keep {providerName} as it is: it is replaced with the name of the sign-in provider, as shown on the login page'
+  -
+    value: 'Your email address is not verified by {providerName}. Please verify it with {providerName} or contact your administrator.'
+    unitId: openid_email_not_verified
+    note: 'Keep {providerName} as it is: it is replaced with the name of the sign-in provider, as shown on the login page'
+  -
+    value: 'Unable to sign in with this account. Please contact your administrator.'
+    unitId: openid_account_not_available

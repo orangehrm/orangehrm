@@ -20,6 +20,7 @@
 namespace OrangeHRM\OpenidAuthentication\Controller;
 
 use Exception;
+use Jumbojett\OpenIDConnectClientException;
 use OrangeHRM\Authentication\Auth\User as AuthUser;
 use OrangeHRM\Authentication\Controller\Traits\SessionHandlingTrait;
 use OrangeHRM\Authentication\Dto\UserCredential;
@@ -31,11 +32,13 @@ use OrangeHRM\Core\Controller\PublicControllerInterface;
 use OrangeHRM\Core\Exception\RedirectableException;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
+use OrangeHRM\Entity\OpenIdProvider;
 use OrangeHRM\Framework\Http\RedirectResponse;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\Routing\UrlGenerator;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\I18N\Traits\Service\I18NHelperTrait;
+use OrangeHRM\OpenidAuthentication\Exception\OpenIdConnectAuthenticationException;
 use OrangeHRM\OpenidAuthentication\Traits\Service\SocialMediaAuthenticationServiceTrait;
 use Throwable;
 
@@ -78,15 +81,20 @@ class OpenIdConnectRedirectController extends AbstractVueController implements P
      */
     public function handle(Request $request): RedirectResponse
     {
-        $this->beginTransaction();
         /** @var UrlGenerator $urlGenerator */
         $urlGenerator = $this->getContainer()->get(Services::URL_GENERATOR);
         $loginUrl = $urlGenerator->generate('auth_login', [], UrlGenerator::ABSOLUTE_URL);
 
         try {
+            $this->beginTransaction();
             $providerId = $this->getAuthUser()->getAttribute(AuthUser::OPENID_PROVIDER_ID);
-            $authProvider = $this->getSocialMediaAuthenticationService()->getAuthProviderDao()
-                ->getAuthProviderById($providerId);
+            $this->getAuthUser()->removeAttribute(AuthUser::OPENID_PROVIDER_ID);
+            $authProvider = is_int($providerId)
+                ? $this->getSocialMediaAuthenticationService()->getAuthProviderDao()->getAuthProviderById($providerId)
+                : null;
+            if (!$authProvider instanceof OpenIdProvider || !$authProvider->getStatus()) {
+                throw OpenIdConnectAuthenticationException::providerNotAvailable();
+            }
             $authProviderExtraDetails = $this->getSocialMediaAuthenticationService()->getAuthProviderDao()
                 ->getAuthProviderDetailsByProviderId($providerId);
 
@@ -96,19 +104,44 @@ class OpenIdConnectRedirectController extends AbstractVueController implements P
                 $this->getSocialMediaAuthenticationService()->getRedirectURL()
             );
 
-            $oidcClient->authenticate();
+            try {
+                if (!$oidcClient->authenticate()) {
+                    throw new OpenIDConnectClientException('authenticate() returned false');
+                }
+                $idTokenClaims = $oidcClient->getVerifiedClaims();
+                $userInfo = $oidcClient->requestUserInfo();
+            } catch (OpenIDConnectClientException $e) {
+                // e.g. the user cancelled at the provider, or the state, token or userinfo response was invalid
+                $this->getSocialMediaAuthenticationService()->logRefusal($authProvider, $e->getMessage());
+                throw OpenIdConnectAuthenticationException::signInFailed($authProvider->getProviderName());
+            }
 
             $userCredentials = new UserCredential();
-            $userCredentials->setUsername($oidcClient->requestUserInfo('email'));
-            $user = $this->getSocialMediaAuthenticationService()->getUserForAuthenticate($userCredentials);
+            $userCredentials->setUsername(
+                $this->getSocialMediaAuthenticationService()->getVerifiedEmail($idTokenClaims, $userInfo, $authProvider)
+            );
 
-            $success = $this->getSocialMediaAuthenticationService()->handleOIDCAuthentication($user);
+            // From here on the local account is involved: one message for every refusal, so that a sign-in
+            // attempt does not reveal whether an account exists for the email
+            try {
+                // Refuses deleted, disabled, terminated and employee-less users before anything is recorded
+                $user = $this->getSocialMediaAuthenticationService()->getUserForAuthenticate($userCredentials);
 
-            if ($success) {
-                $this->getSocialMediaAuthenticationService()->setOIDCUserIdentity($user, $authProvider);
-                $this->getAuthUser()->setIsAuthenticated($success);
+                // Record the sign-in before any user attribute is written to the session
                 $this->getLoginService()->addOIDCLogin($user);
+                $this->commitTransaction();
+
+                if (!$this->getSocialMediaAuthenticationService()->handleOIDCAuthentication($user)) {
+                    throw AuthenticationException::invalidCredentials();
+                }
+            } catch (AuthenticationException $e) {
+                $this->getSocialMediaAuthenticationService()->logRefusal(
+                    $authProvider,
+                    'local account refused: ' . $e->getMessage()
+                );
+                throw OpenIdConnectAuthenticationException::accountNotAvailable();
             }
+            $this->getAuthUser()->setIsAuthenticated(true);
 
             $redirectUrl = $this->handleSessionTimeoutRedirect();
             if ($redirectUrl) {
@@ -118,13 +151,14 @@ class OpenIdConnectRedirectController extends AbstractVueController implements P
             $homePagePath = $this->getHomePageService()->getHomePagePath();
             return $this->redirect($homePagePath);
         } catch (AuthenticationException $e) {
-            $this->rollBackTransaction();
+            $this->rollBackIfActive();
             $this->getAuthUser()->addFlash(AuthUser::FLASH_LOGIN_ERROR, $e->normalize());
             if ($e instanceof RedirectableException) {
                 return new RedirectResponse($e->getRedirectUrl());
             }
             return new RedirectResponse($loginUrl);
         } catch (Throwable $e) {
+            $this->rollBackIfActive();
             $this->getAuthUser()->addFlash(
                 AuthUser::FLASH_LOGIN_ERROR,
                 [
@@ -133,6 +167,14 @@ class OpenIdConnectRedirectController extends AbstractVueController implements P
                 ]
             );
             return new RedirectResponse($loginUrl);
+        }
+
+    }
+
+    private function rollBackIfActive(): void
+    {
+        if ($this->getEntityManager()->getConnection()->isTransactionActive()) {
+            $this->rollBackTransaction();
         }
     }
 }

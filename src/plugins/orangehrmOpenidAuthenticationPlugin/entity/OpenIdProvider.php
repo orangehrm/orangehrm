@@ -58,6 +58,26 @@ class OpenIdProvider
     private bool $status = true;
 
     /**
+     * Sign in only when the provider marks the email as verified (`email_verified` true).
+     * Rows that existed before 5.9.1 are migrated with false, so their sign-in does not change on upgrade.
+     *
+     * @var bool
+     *
+     * @ORM\Column(name="require_verified_email", type="boolean", options={"default" : 0})
+     */
+    private bool $requireVerifiedEmail = true;
+
+    /**
+     * Sign in only when the userinfo `sub` equals the ID token `sub` (OpenID Connect Core 1.0, 5.3.2).
+     * Rows that existed before 5.9.1 are migrated with false, so their sign-in does not change on upgrade.
+     *
+     * @var bool
+     *
+     * @ORM\Column(name="require_matching_subject", type="boolean", options={"default" : 0})
+     */
+    private bool $requireMatchingSubject = true;
+
+    /**
      * @return int
      */
     public function getId(): int
@@ -119,5 +139,37 @@ class OpenIdProvider
     public function setStatus(bool $status): void
     {
         $this->status = $status;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isRequireVerifiedEmail(): bool
+    {
+        return $this->requireVerifiedEmail;
+    }
+
+    /**
+     * @param bool $requireVerifiedEmail
+     */
+    public function setRequireVerifiedEmail(bool $requireVerifiedEmail): void
+    {
+        $this->requireVerifiedEmail = $requireVerifiedEmail;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isRequireMatchingSubject(): bool
+    {
+        return $this->requireMatchingSubject;
+    }
+
+    /**
+     * @param bool $requireMatchingSubject
+     */
+    public function setRequireMatchingSubject(bool $requireMatchingSubject): void
+    {
+        $this->requireMatchingSubject = $requireMatchingSubject;
     }
 }

@@ -63,6 +63,35 @@
           </oxd-grid>
         </oxd-form-row>
 
+        <oxd-form-row>
+          <oxd-grid :cols="2" class="orangehrm-full-width-grid">
+            <oxd-grid-item>
+              <div class="orangehrm-provider-check">
+                <oxd-text tag="p" class="orangehrm-provider-check-label">
+                  {{ $t('admin.require_verified_email') }}
+                </oxd-text>
+                <oxd-switch-input v-model="authProvider.requireVerifiedEmail" />
+              </div>
+              <oxd-text tag="p" class="orangehrm-provider-check-hint">
+                {{ $t('admin.require_verified_email_hint') }}
+              </oxd-text>
+            </oxd-grid-item>
+            <oxd-grid-item>
+              <div class="orangehrm-provider-check">
+                <oxd-text tag="p" class="orangehrm-provider-check-label">
+                  {{ $t('admin.require_consistent_user_details') }}
+                </oxd-text>
+                <oxd-switch-input
+                  v-model="authProvider.requireMatchingSubject"
+                />
+              </div>
+              <oxd-text tag="p" class="orangehrm-provider-check-hint">
+                {{ $t('admin.require_consistent_user_details_hint') }}
+              </oxd-text>
+            </oxd-grid-item>
+          </oxd-grid>
+        </oxd-form-row>
+
         <oxd-divider />
         <oxd-form-actions>
           <required-text />
@@ -87,16 +116,23 @@ import {
   shouldNotExceedCharLength,
 } from '@ohrm/core/util/validation/rules';
 import useServerValidation from '@/core/util/composable/useServerValidation';
+import {OxdSwitchInput} from '@ohrm/oxd';
 
 const initialAuthProvider = {
   name: '',
   url: '',
   clientId: '',
   clientSecret: '',
+  requireVerifiedEmail: true,
+  requireMatchingSubject: true,
 };
 
 export default {
   name: 'AddProvider',
+
+  components: {
+    'oxd-switch-input': OxdSwitchInput,
+  },
 
   setup() {
     const http = new APIService(
@@ -154,3 +190,5 @@ export default {
   },
 };
 </script>
+
+<style src="./provider.scss" lang="scss" scoped></style>
