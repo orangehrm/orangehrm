@@ -24,6 +24,7 @@ use OrangeHRM\Authentication\Service\ResetPasswordService;
 use OrangeHRM\Authentication\Traits\CsrfTokenManagerTrait;
 use OrangeHRM\Core\Controller\AbstractController;
 use OrangeHRM\Core\Controller\PublicControllerInterface;
+use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Entity\User;
 use OrangeHRM\Framework\Http\RedirectResponse;
 use OrangeHRM\Framework\Http\Request;
@@ -32,6 +33,7 @@ use OrangeHRM\Framework\Http\Response;
 class RequestResetPasswordController extends AbstractController implements PublicControllerInterface
 {
     use CsrfTokenManagerTrait;
+    use ConfigServiceTrait;
 
     protected ?ResetPasswordService $resetPasswordService = null;
 
@@ -52,15 +54,22 @@ class RequestResetPasswordController extends AbstractController implements Publi
      */
     public function handle(Request $request): RedirectResponse
     {
-        $redirectUrl = "auth/sendPasswordReset";
         $token = $request->request->get('_token');
         if (!$this->getCsrfTokenManager()->isValid('request-reset-password', $token)) {
             throw AuthenticationException::invalidCsrfToken();
         }
+        if ($this->getConfigService()->getInstanceBaseUrl() === null) {
+            // No reset email can be sent without the application URL. Answer before looking the user up,
+            // so the response is the same for existing and unknown usernames.
+            $this->getResetPasswordService()->logMissingInstanceBaseUrl();
+            return $this->redirect("auth/sendPasswordResetFailure");
+        }
         $username = $request->request->get('username');
         if (($user = $this->getResetPasswordService()->searchForUserRecord($username)) instanceof User) {
-            $redirectUrl = $this->getResetPasswordService()->logPasswordResetRequest($user) ? $redirectUrl : "auth/sendPasswordResetFailure";
+            // The service logs why an email could not be sent. The answer does not depend on it: a different page
+            // when sending fails would tell existing usernames apart from unknown ones, which never send an email.
+            $this->getResetPasswordService()->logPasswordResetRequest($user);
         }
-        return $this->redirect($redirectUrl);
+        return $this->redirect("auth/sendPasswordReset");
     }
 }

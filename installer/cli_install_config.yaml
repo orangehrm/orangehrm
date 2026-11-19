@@ -14,6 +14,12 @@ organization:
   name: OrangeHRM
   country: US
 
+instance:
+  # Used in password reset emails: the OrangeHRM address as shown in the browser before /auth/login,
+  # e.g. https://hr.example.com/orangehrm/index.php for https://hr.example.com/orangehrm/index.php/auth/login
+  # (internationalised domain names in punycode form, xn--...)
+  baseUrl: ~
+
 admin:
   adminUserName: Admin
   adminPassword: Ohrm@1423

@@ -46,6 +46,19 @@
       </oxd-grid>
     </oxd-form-row>
 
+    <oxd-form-row>
+      <oxd-grid :cols="2" class="orangehrm-full-width-grid">
+        <oxd-grid-item class="--span-column-2">
+          <application-url-field
+            v-model="baseUrl"
+            :stored="storedBaseUrl"
+            upgrader
+          />
+        </oxd-grid-item>
+      </oxd-grid>
+    </oxd-form-row>
+    <br />
+
     <oxd-text tag="p" class="orangehrm-installer-page-content">
       Click <b>Next</b> to commence upgrading your instance
     </oxd-text>
@@ -68,11 +81,13 @@ import {APIService} from '@/core/util/services/api.service';
 import {required} from '@/core/util/validation/rules';
 import {navigate} from '@/core/util/helper/navigation.ts';
 import VersionDropdown from '@/components/VersionDropdown.vue';
+import ApplicationUrlField from '@/components/ApplicationUrlField.vue';
 
 export default {
   name: 'CurrentVersionScreen',
   components: {
     'version-dropdown': VersionDropdown,
+    'application-url-field': ApplicationUrlField,
   },
   setup() {
     const http = new APIService(window.appGlobal.baseUrl, '');
@@ -84,6 +99,8 @@ export default {
     return {
       isLoading: false,
       version: null,
+      baseUrl: null,
+      storedBaseUrl: null,
       rules: {
         version: [required],
       },
@@ -104,6 +121,17 @@ export default {
             label: version,
           };
         }
+        return this.http.request({
+          method: 'GET',
+          url: '/upgrader/api/base-url',
+        });
+      })
+      .then((response) => {
+        const {data} = response.data;
+        this.baseUrl = data.baseUrl;
+        this.storedBaseUrl = data.stored;
+      })
+      .finally(() => {
         this.isLoading = false;
       });
   },
@@ -124,11 +152,21 @@ export default {
         .then(() => {
           return this.http.request({
             method: 'POST',
+            url: '/upgrader/api/base-url',
+            data: {baseUrl: this.baseUrl ?? ''},
+          });
+        })
+        .then(() => {
+          return this.http.request({
+            method: 'POST',
             url: '/upgrader/api/send-data/upgrader-start',
           });
         })
         .then(() => {
           navigate('/upgrader/process');
+        })
+        .catch(() => {
+          this.isLoading = false;
         });
     },
   },

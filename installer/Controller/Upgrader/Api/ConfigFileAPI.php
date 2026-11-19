@@ -61,6 +61,8 @@ class ConfigFileAPI extends AbstractInstallerRestController
         $appSetupUtility = new AppSetupUtility();
         $appSetupUtility->writeConfFile();
 
+        $baseUrlStored = $this->recordInstanceBaseUrl($appSetupUtility);
+
         try {
             !StateContainer::getInstance()->getRegConsent() ?: $this->sendRegistrationData();
         } catch (Throwable $e) {
@@ -75,7 +77,42 @@ class ConfigFileAPI extends AbstractInstallerRestController
             Logger::getLogger()->error($e->getMessage());
             Logger::getLogger()->error($e->getTraceAsString());
         }
-        return ['success' => $success];
+        return ['success' => $success, 'baseUrlStored' => $baseUrlStored];
+    }
+
+    /**
+     * Store the application URL the administrator entered without failing the step, and record in the session,
+     * for the completion screen, whether a valid application URL is stored afterwards.
+     *
+     * @param AppSetupUtility $appSetupUtility
+     * @return bool true if a valid application URL is stored
+     */
+    protected function recordInstanceBaseUrl(AppSetupUtility $appSetupUtility): bool
+    {
+        $baseUrlStored = false;
+        try {
+            $this->saveInstanceBaseUrl($appSetupUtility);
+            $baseUrlStored = $appSetupUtility->getStoredInstanceBaseUrl() !== null;
+        } catch (Throwable $e) {
+            Logger::getLogger()->error($e->getMessage());
+            Logger::getLogger()->error($e->getTraceAsString());
+        }
+        StateContainer::getInstance()->setInstanceBaseUrlStored($baseUrlStored);
+        return $baseUrlStored;
+    }
+
+    /**
+     * Web installer/upgrader: store the application URL the administrator entered (it may replace a stored value).
+     * An empty field leaves the stored value as it is. The URL is never derived from the request: where OrangeHRM
+     * is served (with or without web/ or index.php in the path) cannot be told from the installer's own URL.
+     *
+     * @param AppSetupUtility $appSetupUtility
+     */
+    protected function saveInstanceBaseUrl(AppSetupUtility $appSetupUtility): void
+    {
+        if (StateContainer::getInstance()->hasInstanceBaseUrl()) {
+            $appSetupUtility->saveInstanceBaseUrl(StateContainer::getInstance()->getInstanceBaseUrl(), true);
+        }
     }
 
     protected function sendRegistrationData(): void

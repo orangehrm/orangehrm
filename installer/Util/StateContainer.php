@@ -48,6 +48,9 @@ class StateContainer
     public const INSTANCE_COUNTRY_CODE = 'countryCode';
     public const INSTANCE_LANG_CODE = 'langCode';
     public const INSTANCE_TIMEZONE = 'timezone';
+    public const INSTANCE_BASE_URL = 'instanceBaseUrl';
+    public const INSTANCE_BASE_URL_DB = 'instanceBaseUrlDb';
+    public const INSTANCE_BASE_URL_STORED = 'instanceBaseUrlStored';
 
     public const ADMIN_FIRST_NAME = 'firstName';
     public const ADMIN_LAST_NAME = 'lastName';
@@ -290,6 +293,67 @@ class StateContainer
         $this->getSession()->set(self::INSTANCE_COUNTRY_CODE, $countryCode);
         $this->getSession()->set(self::INSTANCE_LANG_CODE, $langCode);
         $this->getSession()->set(self::INSTANCE_TIMEZONE, $timezone);
+    }
+
+    /**
+     * Application base URL entered (or confirmed) by the administrator in the web installer/upgrader.
+     * Null means the administrator left the field empty. The value belongs to the database selected
+     * when it was entered.
+     *
+     * @param string|null $baseUrl
+     */
+    public function storeInstanceBaseUrl(?string $baseUrl): void
+    {
+        $this->getSession()->set(self::INSTANCE_BASE_URL, $baseUrl);
+        $this->getSession()->set(self::INSTANCE_BASE_URL_DB, $this->getDbFingerprint());
+    }
+
+    /**
+     * @return bool true once the administrator submitted the application URL field (even empty)
+     *              for the currently selected database
+     */
+    public function hasInstanceBaseUrl(): bool
+    {
+        return $this->getSession()->has(self::INSTANCE_BASE_URL)
+            && $this->getSession()->get(self::INSTANCE_BASE_URL_DB) === $this->getDbFingerprint();
+    }
+
+    /**
+     * @return string|null
+     */
+    private function getDbFingerprint(): ?string
+    {
+        if (!$this->isSetDbInfo()) {
+            return null;
+        }
+        $dbInfo = $this->getDbInfo();
+        return $dbInfo[self::DB_HOST] . ':' . $dbInfo[self::DB_PORT] . '/' . $dbInfo[self::DB_NAME];
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getInstanceBaseUrl(): ?string
+    {
+        return $this->getSession()->get(self::INSTANCE_BASE_URL);
+    }
+
+    /**
+     * Records whether a valid application URL is stored in the database after the config-file step.
+     *
+     * @param bool $stored
+     */
+    public function setInstanceBaseUrlStored(bool $stored): void
+    {
+        $this->getSession()->set(self::INSTANCE_BASE_URL_STORED, $stored);
+    }
+
+    /**
+     * @return bool false only when the config-file step ran and no valid application URL is stored
+     */
+    public function isInstanceBaseUrlStored(): bool
+    {
+        return $this->getSession()->get(self::INSTANCE_BASE_URL_STORED, true) !== false;
     }
 
     /**

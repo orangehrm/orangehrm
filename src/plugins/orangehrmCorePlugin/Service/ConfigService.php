@@ -24,6 +24,7 @@ use DateTime;
 use Exception;
 use OrangeHRM\Core\Dao\ConfigDao;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
+use OrangeHRM\Core\Utility\InstanceBaseUrl;
 use OrangeHRM\Entity\Config;
 use OrangeHRM\LDAP\Dto\LDAPSetting;
 
@@ -49,6 +50,7 @@ class ConfigService
     public const KEY_OPENID_PROVIDER_ADDED = 'openId.provider.added';
     public const KEY_OPEN_SOURCE_INTEGRATIONS = 'open_source_integrations';
     public const KEY_INSTANCE_IDENTIFIER = 'instance.identifier';
+    public const KEY_INSTANCE_BASE_URL = 'instance.base_url';
     public const KEY_SENDMAIL_PATH = 'email_config.sendmail_path';
     public const KEY_LDAP_SETTINGS = 'ldap_settings';
     public const KEY_DASHBOARD_EMPLOYEES_ON_LEAVE_TODAY_SHOW_ONLY_ACCESSIBLE = 'dashboard.employees_on_leave_today.show_only_accessible';
@@ -429,6 +431,32 @@ class ConfigService
     public function getInstanceIdentifier(): ?string
     {
         return $this->_getConfigValue(self::KEY_INSTANCE_IDENTIFIER);
+    }
+
+    /**
+     * Get the application's base URL (e.g. `https://hr.example.com/orangehrm/index.php`).
+     * Returns null when it is not set or not a valid absolute http(s) URL.
+     * @return string|null
+     */
+    public function getInstanceBaseUrl(): ?string
+    {
+        return InstanceBaseUrl::normalize($this->_getConfigValue(self::KEY_INSTANCE_BASE_URL));
+    }
+
+    /**
+     * Validate, normalize and store the application's base URL, replacing a stored one.
+     * Nothing is stored when the value is not a valid base URL.
+     *
+     * @param string $baseUrl
+     * @return string|null the stored (normalized) value, or null if the value is not valid
+     */
+    public function setInstanceBaseUrl(string $baseUrl): ?string
+    {
+        $normalized = InstanceBaseUrl::normalize($baseUrl);
+        if ($normalized !== null) {
+            $this->_setConfigValue(self::KEY_INSTANCE_BASE_URL, $normalized);
+        }
+        return $normalized;
     }
 
     /**

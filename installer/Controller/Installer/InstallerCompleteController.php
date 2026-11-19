@@ -39,6 +39,9 @@ class InstallerCompleteController extends AbstractInstallerVueController
         $component->addProp(
             new Prop(VueControllerHelper::PRODUCT_VERSION, Prop::TYPE_STRING, Config::PRODUCT_VERSION)
         );
+        $component->addProp(
+            new Prop('base-url-stored', Prop::TYPE_BOOLEAN, StateContainer::getInstance()->isInstanceBaseUrlStored())
+        );
         $this->setComponent($component);
         StateContainer::getInstance()->setCurrentScreen(self::INSTALLATION_COMPLETE_SCREEN);
         StateContainer::getInstance()->clean();

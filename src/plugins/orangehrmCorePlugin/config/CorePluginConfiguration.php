@@ -22,6 +22,7 @@ use OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper;
 use OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory;
 use OrangeHRM\Core\Command\EnableTestLanguagePackCommand;
 use OrangeHRM\Core\Command\RunScheduleCommand;
+use OrangeHRM\Core\Command\SetInstanceBaseUrlCommand;
 use OrangeHRM\Core\Helper\ClassHelper;
 use OrangeHRM\Core\Registration\Subscriber\RegistrationEventPersistSubscriber;
 use OrangeHRM\Core\Service\CacheService;
@@ -118,6 +119,7 @@ class CorePluginConfiguration implements PluginConfigurationInterface, ConsoleCo
     public function registerCommands(Console $console): void
     {
         $console->add(new RunScheduleCommand());
+        $console->add(new SetInstanceBaseUrlCommand());
         if (Config::PRODUCT_MODE !== Config::MODE_PROD) {
             $console->add(new EnableTestLanguagePackCommand());
         }
