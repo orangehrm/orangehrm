@@ -1,3 +1,29 @@
+New & Changed Features for OrangeHRM ver 5.9.1
+    Changes
+    -----------
+    - Password Reset
+        - The Application URL is now set during installation and upgrade (web installer, CLI installer and upgrader)
+        - Password reset emails are sent only after the Application URL is set. Existing instances can set it with
+          `php bin/console orangehrm:set-base-url <url>`
+    - Social Media Authentication (OpenID Connect)
+        - New per-provider options: "Require Verified Email" and "Require Consistent User Details" (both off by default)
+        - Clearer sign-in error messages
+    - Performance
+        - Supervisor evaluation actions on a review are limited to the reviewer assigned to that review
+    - Installer
+        - Database details in the configuration file (src/lib/confs/Conf.php) are now stored base64-encoded.
+          Update this file through the installer or upgrader instead of editing it by hand
+    - REST API
+        - In REST v2 endpoints, values in the URL path take precedence over query string parameters with the same name
+    - Supported Environments
+        - PHP - 7.4 to 8.5
+        - MariaDB - 5.5 to 12.0
+        - MySQL - 5.5 to 9.4
+
+    Bug Fixes
+    ---------
+    - Security improvements
+
 New & Changed Features for OrangeHRM ver 5.9
     New Features/Changes
     -----------
