@@ -1,0 +1,83 @@
+Config:
+  - { name: 'authorize_user_role_manager_class', value: 'BasicUserRoleManager' }
+
+Employee:
+  - { empNumber: 1, firstName: 'Odis', lastName: 'Admin', middleName: '', employeeId: 'E001' }
+  - { empNumber: 2, firstName: 'Sam', lastName: 'Supervisor', middleName: '', employeeId: 'E002', custom1: 'Sam Personal', custom2: 'Sam Salary' }
+  - { empNumber: 3, firstName: 'Sue', lastName: 'Subordinate', middleName: '', employeeId: 'E003', custom1: 'Sue Personal', custom2: 'Sue Salary' }
+  - { empNumber: 4, firstName: 'Uma', lastName: 'Unrelated', middleName: '', employeeId: 'E004', custom1: 'Uma Personal', custom2: 'Uma Salary' }
+
+UserRole:
+  - { id: 1, name: Admin, display_name: Admin, is_assignable: 1, is_predefined: 1 }
+  - { id: 2, name: ESS, display_name: ESS, is_assignable: 1, is_predefined: 1 }
+  - { id: 3, name: Supervisor, display_name: Supervisor, is_assignable: 0, is_predefined: 1 }
+
+User:
+  - { id: 1, user_role_id: 1, emp_number: 1, user_name: 'admin', user_password: 'admin', deleted: 0, status: 1 }
+  - { id: 2, user_role_id: 2, emp_number: 2, user_name: 'sam', user_password: 'sam', deleted: 0, status: 1 }
+  - { id: 3, user_role_id: 2, emp_number: 3, user_name: 'sue', user_password: 'sue', deleted: 0, status: 1 }
+
+ReportingMethod:
+  - { reporting_method_id: 1, reporting_method_name: 'Direct' }
+
+ReportTo:
+  - { erep_sup_emp_number: 2, erep_sub_emp_number: 3, erep_reporting_mode: 1 }
+
+Module:
+  - { id: 3, name: 'pim', status: 1, displayName: 'PIM' }
+
+DataGroup:
+  - { id: 1, name: 'apiv2_pim_employee_attachment', can_read: 1, can_create: 1, can_update: 1, can_delete: 1 }
+  - { id: 2, name: 'apiv2_pim_employee_custom_field', can_read: 1, can_create: 0, can_update: 1, can_delete: 0 }
+  - { id: 3, name: 'personal_attachment', can_read: 1, can_create: 1, can_update: 1, can_delete: 1 }
+  - { id: 4, name: 'personal_custom_fields', can_read: 1, can_create: null, can_update: 1, can_delete: null }
+  - { id: 5, name: 'salary_attachment', can_read: 1, can_create: 1, can_update: 1, can_delete: 1 }
+  - { id: 6, name: 'salary_custom_fields', can_read: 1, can_create: null, can_update: 1, can_delete: null }
+  - { id: 7, name: 'job_details', can_read: 1, can_create: null, can_update: 1, can_delete: null }
+
+DataGroupPermission:
+  # API grants, as seeded by installer/Migration/V5_0_0_beta/permission/api.yaml
+  - { id: 1, user_role_id: 1, data_group_id: 1, can_read: 1, can_create: 1, can_update: 1, can_delete: 1, self: 0 }
+  - { id: 2, user_role_id: 2, data_group_id: 1, can_read: 1, can_create: 1, can_update: 1, can_delete: 1, self: 1 }
+  - { id: 3, user_role_id: 3, data_group_id: 1, can_read: 1, can_create: 1, can_update: 1, can_delete: 1, self: 0 }
+  - { id: 4, user_role_id: 3, data_group_id: 1, can_read: 1, can_create: 1, can_update: 1, can_delete: 1, self: 1 }
+  - { id: 5, user_role_id: 1, data_group_id: 2, can_read: 1, can_create: 0, can_update: 1, can_delete: 0, self: 0 }
+  - { id: 6, user_role_id: 2, data_group_id: 2, can_read: 1, can_create: 0, can_update: 1, can_delete: 0, self: 1 }
+  - { id: 7, user_role_id: 3, data_group_id: 2, can_read: 1, can_create: 0, can_update: 1, can_delete: 0, self: 0 }
+  - { id: 8, user_role_id: 3, data_group_id: 2, can_read: 1, can_create: 0, can_update: 1, can_delete: 0, self: 1 }
+  # Screen grants, as shipped (installer/Migration/V3_3_3/dbscript-2.sql); the endpoints check these per employee
+  - { id: 9, user_role_id: 1, data_group_id: 3, can_read: 1, can_create: 1, can_update: 1, can_delete: 1, self: 0 }
+  - { id: 10, user_role_id: 2, data_group_id: 3, can_read: 1, can_create: 1, can_update: 1, can_delete: 1, self: 1 }
+  - { id: 11, user_role_id: 3, data_group_id: 3, can_read: 1, can_create: 1, can_update: 1, can_delete: 1, self: 0 }
+  - { id: 12, user_role_id: 3, data_group_id: 3, can_read: 1, can_create: 1, can_update: 1, can_delete: 1, self: 1 }
+  - { id: 13, user_role_id: 1, data_group_id: 4, can_read: 1, can_create: null, can_update: 1, can_delete: null, self: 0 }
+  - { id: 14, user_role_id: 2, data_group_id: 4, can_read: 1, can_create: null, can_update: 1, can_delete: null, self: 1 }
+  - { id: 15, user_role_id: 3, data_group_id: 4, can_read: 1, can_create: null, can_update: 1, can_delete: null, self: 0 }
+  - { id: 16, user_role_id: 3, data_group_id: 4, can_read: 1, can_create: null, can_update: 1, can_delete: null, self: 1 }
+  - { id: 17, user_role_id: 1, data_group_id: 5, can_read: 1, can_create: 1, can_update: 1, can_delete: 1, self: 0 }
+  - { id: 18, user_role_id: 2, data_group_id: 5, can_read: 1, can_create: 0, can_update: 0, can_delete: 0, self: 1 }
+  - { id: 19, user_role_id: 3, data_group_id: 5, can_read: 0, can_create: 0, can_update: 0, can_delete: 0, self: 0 }
+  - { id: 20, user_role_id: 3, data_group_id: 5, can_read: 1, can_create: 0, can_update: 0, can_delete: 0, self: 1 }
+  - { id: 21, user_role_id: 1, data_group_id: 6, can_read: 1, can_create: null, can_update: 1, can_delete: null, self: 0 }
+  - { id: 22, user_role_id: 2, data_group_id: 6, can_read: 1, can_create: 0, can_update: 0, can_delete: 0, self: 1 }
+  - { id: 23, user_role_id: 3, data_group_id: 6, can_read: 0, can_create: 0, can_update: 0, can_delete: 0, self: 0 }
+  - { id: 24, user_role_id: 3, data_group_id: 6, can_read: 1, can_create: 0, can_update: 0, can_delete: 0, self: 1 }
+  # Job screen (job_details); the employment contract file is part of it
+  - { id: 25, user_role_id: 1, data_group_id: 7, can_read: 1, can_create: null, can_update: 1, can_delete: null, self: 0 }
+  - { id: 26, user_role_id: 2, data_group_id: 7, can_read: 1, can_create: null, can_update: null, can_delete: null, self: 1 }
+  - { id: 27, user_role_id: 3, data_group_id: 7, can_read: 1, can_create: null, can_update: null, can_delete: null, self: 0 }
+  - { id: 28, user_role_id: 3, data_group_id: 7, can_read: 1, can_create: null, can_update: null, can_delete: null, self: 1 }
+
+ApiPermission:
+  - { id: 1, module_id: 3, data_group_id: 1, api_name: 'OrangeHRM\Pim\Api\EmployeeAttachmentAPI' }
+  - { id: 2, module_id: 3, data_group_id: 2, api_name: 'OrangeHRM\Pim\Api\EmployeeCustomFieldAPI' }
+
+CustomField:
+  - { field_num: 1, name: 'Nickname', type: 0, screen: 'personal' }
+  - { field_num: 2, name: 'Bonus Plan', type: 0, screen: 'salary' }
+
+EmployeeAttachment:
+  - { emp_number: 3, eattach_id: 1, size: 10, description: 'offer', filename: 'offer.pdf', attachment: 'offer', eattach_type: 'application/pdf', screen: 'salary', attached_by: 1, attached_by_name: 'admin', attached_time: '2026-11-01 09:00:00' }
+  - { emp_number: 3, eattach_id: 2, size: 10, description: 'cv', filename: 'cv.pdf', attachment: 'cv', eattach_type: 'application/pdf', screen: 'personal', attached_by: 1, attached_by_name: 'admin', attached_time: '2026-11-01 09:00:00' }
+  - { emp_number: 2, eattach_id: 1, size: 10, description: 'offer', filename: 'sam-offer.pdf', attachment: 'offer', eattach_type: 'application/pdf', screen: 'salary', attached_by: 1, attached_by_name: 'admin', attached_time: '2026-11-01 09:00:00' }
+  - { emp_number: 3, eattach_id: 3, size: 10, description: 'contract', filename: 'contract.pdf', attachment: 'contract', eattach_type: 'application/pdf', screen: 'contract', attached_by: 1, attached_by_name: 'admin', attached_time: '2026-11-01 09:00:00' }

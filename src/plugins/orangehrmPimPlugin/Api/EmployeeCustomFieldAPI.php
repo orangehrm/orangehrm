@@ -118,11 +118,17 @@ class EmployeeCustomFieldAPI extends Endpoint implements ResourceEndpoint
         $customFieldSearchParams = new CustomFieldSearchFilterParams();
         $customFieldSearchParams->setLimit(0);
         if ($screen) {
+            if (!$this->canReadScreenCustomFields($screen, $empNumber)) {
+                throw $this->getForbiddenException();
+            }
             $customFieldSearchParams->setScreen($screen);
         }
         $customFields = $this->getCustomFieldService()
             ->getCustomFieldDao()
             ->searchCustomField($customFieldSearchParams);
+        if (!$screen) {
+            $customFields = $this->filterReadableCustomFields($customFields, $empNumber);
+        }
 
         $employee = $this->getEmployeeService()->getEmployeeByEmpNumber($empNumber);
         $this->throwRecordNotFoundExceptionIfNotExist($employee, Employee::class);
@@ -141,6 +147,40 @@ class EmployeeCustomFieldAPI extends Endpoint implements ResourceEndpoint
                 ]
             )
         );
+    }
+
+    /**
+     * Same per-employee check as the PIM screen the custom fields are shown on: permissions
+     * granted only for the user's own record (self) count only when the employee is the
+     * logged-in employee.
+     */
+    private function canReadScreenCustomFields(string $screen, int $empNumber): bool
+    {
+        return $this->getUserRoleManagerHelper()
+            ->getDataGroupPermissionsForEmployee("{$screen}_custom_fields", $empNumber)
+            ->canRead();
+    }
+
+    /**
+     * Keeps only the custom fields whose screen the user can read for the employee.
+     *
+     * @param CustomField[] $customFields
+     * @return CustomField[]
+     */
+    private function filterReadableCustomFields(array $customFields, int $empNumber): array
+    {
+        $readableScreens = [];
+        $readableCustomFields = [];
+        foreach ($customFields as $customField) {
+            $screen = $customField->getScreen();
+            if (!isset($readableScreens[$screen])) {
+                $readableScreens[$screen] = $this->canReadScreenCustomFields($screen, $empNumber);
+            }
+            if ($readableScreens[$screen]) {
+                $readableCustomFields[] = $customField;
+            }
+        }
+        return $readableCustomFields;
     }
 
     /**

@@ -111,6 +111,7 @@ class EmployeeAttachmentAPI extends Endpoint implements CrudEndpoint
     public function getOne(): EndpointResourceResult
     {
         list($empNumber, $screen, $id) = $this->getUrlAttributes();
+        $this->checkScreenAttachmentPermission($empNumber, $screen, 'canRead');
         $partialEmployeeAttachment = $this->getEmployeeAttachmentService()->getEmployeeAttachmentDetails($empNumber, $id, $screen);
         $this->throwRecordNotFoundExceptionIfNotExist($partialEmployeeAttachment, PartialEmployeeAttachment::class);
 
@@ -141,6 +142,24 @@ class EmployeeAttachmentAPI extends Endpoint implements CrudEndpoint
             CommonParams::PARAMETER_ID
         );
         return [$empNumber, $screen, $id];
+    }
+
+    /**
+     * Checks the permission of the PIM screen the attachments belong to ({screen}_attachment) for
+     * the given employee, the same check the screen itself makes. Permissions granted only for the
+     * user's own record (self) count only when the employee is the logged-in employee.
+     *
+     * @param int $empNumber
+     * @param string $screen One of EmployeeAttachment::SCREENS
+     * @param string $permissionGetter canRead, canCreate, canUpdate or canDelete
+     */
+    private function checkScreenAttachmentPermission(int $empNumber, string $screen, string $permissionGetter): void
+    {
+        $permission = $this->getUserRoleManagerHelper()
+            ->getDataGroupPermissionsForEmployee("{$screen}_attachment", $empNumber);
+        if (!$permission->$permissionGetter()) {
+            throw $this->getForbiddenException();
+        }
     }
 
     /**
@@ -198,6 +217,7 @@ class EmployeeAttachmentAPI extends Endpoint implements CrudEndpoint
     public function getAll(): EndpointCollectionResult
     {
         list($empNumber, $screen) = $this->getUrlAttributes();
+        $this->checkScreenAttachmentPermission($empNumber, $screen, 'canRead');
         $employeeAttachments = $this->getEmployeeAttachmentService()->getEmployeeAttachments($empNumber, $screen);
 
         return new EndpointCollectionResult(
@@ -275,6 +295,7 @@ class EmployeeAttachmentAPI extends Endpoint implements CrudEndpoint
     public function create(): EndpointResourceResult
     {
         list($empNumber, $screen) = $this->getUrlAttributes();
+        $this->checkScreenAttachmentPermission($empNumber, $screen, 'canCreate');
         $attachment = $this->getRequestParams()->getAttachment(
             RequestParams::PARAM_TYPE_BODY,
             self::PARAMETER_ATTACHMENT
@@ -442,6 +463,7 @@ class EmployeeAttachmentAPI extends Endpoint implements CrudEndpoint
     public function update(): EndpointResourceResult
     {
         list($empNumber, $screen, $id) = $this->getUrlAttributes();
+        $this->checkScreenAttachmentPermission($empNumber, $screen, 'canUpdate');
         $attachment = $this->getRequestParams()->getAttachmentOrNull(
             RequestParams::PARAM_TYPE_BODY,
             self::PARAMETER_ATTACHMENT
@@ -518,6 +540,7 @@ class EmployeeAttachmentAPI extends Endpoint implements CrudEndpoint
     public function delete(): EndpointResourceResult
     {
         list($empNumber, $screen) = $this->getUrlAttributes();
+        $this->checkScreenAttachmentPermission($empNumber, $screen, 'canDelete');
         $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
         $this->getEmployeeAttachmentService()->deleteEmployeeAttachments($empNumber, $screen, $ids);
         return new EndpointResourceResult(ArrayModel::class, $ids);

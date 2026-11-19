@@ -97,10 +97,18 @@ class EmployeeCustomFieldAPITest extends EndpointTestCase
         $employeeService->expects($this->once())
             ->method('getEmployeeByEmpNumber')
             ->willReturn($employee);
+        $userRoleManagerHelper = $this->getMockBuilder(UserRoleManagerHelper::class)
+            ->onlyMethods(['getDataGroupPermissionsForEmployee'])
+            ->getMock();
+        $userRoleManagerHelper->expects($this->once())
+            ->method('getDataGroupPermissionsForEmployee')
+            ->with('personal_custom_fields', $empNumber)
+            ->willReturn(new ResourcePermission(true, false, true, false));
         $this->createKernelWithMockServices(
             [
                 Services::EMPLOYEE_SERVICE => $employeeService,
-                Services::NORMALIZER_SERVICE => new NormalizerService()
+                Services::NORMALIZER_SERVICE => new NormalizerService(),
+                Services::USER_ROLE_MANAGER_HELPER => $userRoleManagerHelper,
             ]
         );
 

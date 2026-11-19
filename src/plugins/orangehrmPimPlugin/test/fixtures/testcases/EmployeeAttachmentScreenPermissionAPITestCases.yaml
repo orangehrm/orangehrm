@@ -1,0 +1,240 @@
+GetAll:
+  "Admin reads a subordinate's salary attachments":
+    userId: 1
+    services: &services
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories: &factories
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      empNumber: 3
+      screen: salary
+    data: [{"id": 1, "description": "offer", "filename": "offer.pdf", "size": 10, "fileType": "application/pdf", "attachedBy": 1, "attachedByName": "admin", "attachedTime": "09:00", "attachedDate": "2026-11-01"}]
+    meta: {"empNumber": 3, "screen": "salary", "total": 1}
+  "Supervisor reads a subordinate's personal attachments":
+    userId: 2
+    services: *services
+    factories: *factories
+    attributes:
+      empNumber: 3
+      screen: personal
+    data: [{"id": 2, "description": "cv", "filename": "cv.pdf", "size": 10, "fileType": "application/pdf", "attachedBy": 1, "attachedByName": "admin", "attachedTime": "09:00", "attachedDate": "2026-11-01"}]
+    meta: {"empNumber": 3, "screen": "personal", "total": 1}
+  "Supervisor cannot read a subordinate's salary attachments":
+    userId: 2
+    services: *services
+    factories: *factories
+    attributes:
+      empNumber: 3
+      screen: salary
+    exception:
+      class: 'OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
+  "Supervisor reads own salary attachments":
+    userId: 2
+    services: *services
+    factories: *factories
+    attributes:
+      empNumber: 2
+      screen: salary
+    data: [{"id": 1, "description": "offer", "filename": "sam-offer.pdf", "size": 10, "fileType": "application/pdf", "attachedBy": 1, "attachedByName": "admin", "attachedTime": "09:00", "attachedDate": "2026-11-01"}]
+    meta: {"empNumber": 2, "screen": "salary", "total": 1}
+  "ESS reads own salary attachments":
+    userId: 3
+    services: *services
+    factories: *factories
+    attributes:
+      empNumber: 3
+      screen: salary
+    data: [{"id": 1, "description": "offer", "filename": "offer.pdf", "size": 10, "fileType": "application/pdf", "attachedBy": 1, "attachedByName": "admin", "attachedTime": "09:00", "attachedDate": "2026-11-01"}]
+    meta: {"empNumber": 3, "screen": "salary", "total": 1}
+  "Supervisor cannot read an unrelated employee's attachments":
+    userId: 2
+    services: *services
+    factories: *factories
+    attributes:
+      empNumber: 4
+      screen: personal
+    invalidOnly: [ empNumber ]
+  "Employment contract files are not listed through the attachments API":
+    userId: 1
+    services: *services
+    factories: *factories
+    attributes:
+      empNumber: 3
+      screen: contract
+    invalidOnly: [ screen ]
+
+GetOne:
+  "Admin reads a subordinate's salary attachment":
+    userId: 1
+    services: *services
+    factories: *factories
+    attributes:
+      empNumber: 3
+      screen: salary
+      id: 1
+    data: {"id": 1, "description": "offer", "filename": "offer.pdf", "size": 10, "fileType": "application/pdf", "attachedBy": 1, "attachedByName": "admin", "attachedTime": "09:00", "attachedDate": "2026-11-01"}
+    meta: {"empNumber": 3, "screen": "salary"}
+  "Supervisor cannot read a subordinate's salary attachment":
+    userId: 2
+    services: *services
+    factories: *factories
+    attributes:
+      empNumber: 3
+      screen: salary
+      id: 1
+    exception:
+      class: 'OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
+
+Create:
+  "Supervisor cannot add a salary attachment for a subordinate":
+    userId: 2
+    services: *services
+    factories: *factories
+    attributes:
+      empNumber: 3
+      screen: salary
+    body: &attachmentBody
+      attachment: {"name": "new.txt", "type": "text/plain", "base64": "bmV3", "size": 3}
+    exception:
+      class: 'OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
+  "ESS cannot add a salary attachment to own record":
+    userId: 3
+    services: *services
+    factories: *factories
+    attributes:
+      empNumber: 3
+      screen: salary
+    body: *attachmentBody
+    exception:
+      class: 'OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
+  "Admin adds a salary attachment for a subordinate":
+    userId: 1
+    services: *services
+    factories: *factories
+    now:
+      datetime: '2026-11-17 10:30:00'
+    attributes:
+      empNumber: 3
+      screen: salary
+    body: *attachmentBody
+    data: {"id": 4, "description": null, "filename": "new.txt", "size": 3, "fileType": "text/plain", "attachedBy": 1, "attachedByName": "admin", "attachedTime": "10:30", "attachedDate": "2026-11-17"}
+    meta: {"empNumber": 3, "screen": "salary"}
+  "Supervisor adds a personal attachment for a subordinate":
+    userId: 2
+    services: *services
+    factories: *factories
+    now:
+      datetime: '2026-11-17 10:30:00'
+    attributes:
+      empNumber: 3
+      screen: personal
+    body: *attachmentBody
+    data: {"id": 4, "description": null, "filename": "new.txt", "size": 3, "fileType": "text/plain", "attachedBy": 2, "attachedByName": "sam", "attachedTime": "10:30", "attachedDate": "2026-11-17"}
+    meta: {"empNumber": 3, "screen": "personal"}
+  "Supervisor cannot add a job attachment for a subordinate":
+    userId: 2
+    services: *services
+    factories: *factories
+    attributes:
+      empNumber: 3
+      screen: job
+    body: *attachmentBody
+    exception:
+      class: 'OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
+  "ESS adds a personal attachment to own record":
+    userId: 3
+    services: *services
+    factories: *factories
+    now:
+      datetime: '2026-11-17 10:30:00'
+    attributes:
+      empNumber: 3
+      screen: personal
+    body: *attachmentBody
+    data: {"id": 4, "description": null, "filename": "new.txt", "size": 3, "fileType": "text/plain", "attachedBy": 3, "attachedByName": "sue", "attachedTime": "10:30", "attachedDate": "2026-11-17"}
+    meta: {"empNumber": 3, "screen": "personal"}
+
+Update:
+  "Supervisor cannot update a subordinate's salary attachment":
+    userId: 2
+    services: *services
+    factories: *factories
+    attributes:
+      empNumber: 3
+      screen: salary
+      id: 1
+    body:
+      description: 'changed'
+    exception:
+      class: 'OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
+  "ESS cannot update own salary attachment":
+    userId: 3
+    services: *services
+    factories: *factories
+    attributes:
+      empNumber: 3
+      screen: salary
+      id: 1
+    body:
+      description: 'changed'
+    exception:
+      class: 'OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
+  "Supervisor updates a subordinate's personal attachment":
+    userId: 2
+    services: *services
+    factories: *factories
+    attributes:
+      empNumber: 3
+      screen: personal
+      id: 2
+    body:
+      description: 'changed'
+    data: {"id": 2, "description": "changed", "filename": "cv.pdf", "size": 10, "fileType": "application/pdf", "attachedBy": 1, "attachedByName": "admin", "attachedTime": "09:00", "attachedDate": "2026-11-01"}
+    meta: {"empNumber": 3, "screen": "personal"}
+
+Delete:
+  "Admin deletes a subordinate's salary attachment":
+    userId: 1
+    services: *services
+    factories: *factories
+    attributes:
+      empNumber: 3
+      screen: salary
+    body:
+      ids: [ 1 ]
+    data: [ 1 ]
+  "Supervisor cannot delete a subordinate's salary attachment":
+    userId: 2
+    services: *services
+    factories: *factories
+    attributes:
+      empNumber: 3
+      screen: salary
+    body:
+      ids: [ 1 ]
+    exception:
+      class: 'OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
+  "ESS cannot delete own salary attachment":
+    userId: 3
+    services: *services
+    factories: *factories
+    attributes:
+      empNumber: 3
+      screen: salary
+    body:
+      ids: [ 1 ]
+    exception:
+      class: 'OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
+  "Supervisor deletes a subordinate's personal attachment":
+    userId: 2
+    services: *services
+    factories: *factories
+    attributes:
+      empNumber: 3
+      screen: personal
+    body:
+      ids: [ 2 ]
+    data: [ 2 ]

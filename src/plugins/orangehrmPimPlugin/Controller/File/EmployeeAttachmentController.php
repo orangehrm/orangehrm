@@ -20,6 +20,7 @@
 namespace OrangeHRM\Pim\Controller\File;
 
 use OrangeHRM\Core\Controller\AbstractFileController;
+use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\EmployeeAttachment;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\Http\Response;
@@ -27,6 +28,10 @@ use OrangeHRM\Pim\Service\EmployeeAttachmentService;
 
 class EmployeeAttachmentController extends AbstractFileController
 {
+    use UserRoleManagerTrait;
+
+    public const DATA_GROUP_JOB_DETAILS = 'job_details';
+
     /**
      * @var EmployeeAttachmentService|null
      */
@@ -56,7 +61,7 @@ class EmployeeAttachmentController extends AbstractFileController
 
         if ($empNumber && $attachId) {
             $attachment = $this->getEmployeeAttachmentService()->getAccessibleEmployeeAttachment($empNumber, $attachId);
-            if ($attachment instanceof EmployeeAttachment) {
+            if ($attachment instanceof EmployeeAttachment && $this->canReadAttachment($attachment)) {
                 $this->setCommonHeadersToResponse(
                     $attachment->getFilename(),
                     $attachment->getFileType(),
@@ -69,5 +74,22 @@ class EmployeeAttachmentController extends AbstractFileController
         }
 
         return $this->handleBadRequest();
+    }
+
+    /**
+     * The attachment is shown on a PIM screen; the user needs read permission on that screen's
+     * attachments ({screen}_attachment) for the employee, the same check the screen makes.
+     * The employment contract has no attachments data group of its own; it is part of the job
+     * details on the Job screen (job_details).
+     */
+    private function canReadAttachment(EmployeeAttachment $attachment): bool
+    {
+        $screen = $attachment->getScreen();
+        $dataGroup = $screen === EmployeeAttachment::SCREEN_JOB_CONTRACT
+            ? self::DATA_GROUP_JOB_DETAILS
+            : "{$screen}_attachment";
+        return $this->getUserRoleManagerHelper()
+            ->getDataGroupPermissionsForEmployee($dataGroup, $attachment->getEmployee()->getEmpNumber())
+            ->canRead();
     }
 }
