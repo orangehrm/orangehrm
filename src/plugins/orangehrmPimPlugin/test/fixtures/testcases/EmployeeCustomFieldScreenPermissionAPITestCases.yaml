@@ -1,0 +1,90 @@
+GetOne:
+  "Admin reads a subordinate's salary custom fields":
+    userId: 1
+    services: &services
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories: &factories
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      empNumber: 3
+    query:
+      screen: salary
+    data: {"custom2": "Sue Salary"}
+    meta: {"empNumber": 3, "fields": [{"id": 2, "fieldName": "Bonus Plan", "fieldType": 0, "extraData": null, "screen": "salary"}]}
+  "Supervisor reads a subordinate's personal custom fields":
+    userId: 2
+    services: *services
+    factories: *factories
+    attributes:
+      empNumber: 3
+    query:
+      screen: personal
+    data: {"custom1": "Sue Personal"}
+    meta: {"empNumber": 3, "fields": [{"id": 1, "fieldName": "Nickname", "fieldType": 0, "extraData": null, "screen": "personal"}]}
+  "Supervisor cannot read a subordinate's salary custom fields":
+    userId: 2
+    services: *services
+    factories: *factories
+    attributes:
+      empNumber: 3
+    query:
+      screen: salary
+    exception:
+      class: 'OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
+  "Supervisor reads own salary custom fields":
+    userId: 2
+    services: *services
+    factories: *factories
+    attributes:
+      empNumber: 2
+    query:
+      screen: salary
+    data: {"custom2": "Sam Salary"}
+    meta: {"empNumber": 2, "fields": [{"id": 2, "fieldName": "Bonus Plan", "fieldType": 0, "extraData": null, "screen": "salary"}]}
+  "Supervisor without a screen gets only a subordinate's readable custom fields":
+    userId: 2
+    services: *services
+    factories: *factories
+    attributes:
+      empNumber: 3
+    data: {"custom1": "Sue Personal"}
+    meta: {"empNumber": 3, "fields": [{"id": 1, "fieldName": "Nickname", "fieldType": 0, "extraData": null, "screen": "personal"}]}
+  "Admin without a screen gets every custom field":
+    userId: 1
+    services: *services
+    factories: *factories
+    attributes:
+      empNumber: 3
+    data: {"custom1": "Sue Personal", "custom2": "Sue Salary"}
+    meta: {"empNumber": 3, "fields": [{"id": 2, "fieldName": "Bonus Plan", "fieldType": 0, "extraData": null, "screen": "salary"}, {"id": 1, "fieldName": "Nickname", "fieldType": 0, "extraData": null, "screen": "personal"}]}
+  "ESS reads own salary custom fields":
+    userId: 3
+    services: *services
+    factories: *factories
+    attributes:
+      empNumber: 3
+    query:
+      screen: salary
+    data: {"custom2": "Sue Salary"}
+    meta: {"empNumber": 3, "fields": [{"id": 2, "fieldName": "Bonus Plan", "fieldType": 0, "extraData": null, "screen": "salary"}]}
+  "Supervisor cannot read an unrelated employee's custom fields":
+    userId: 2
+    services: *services
+    factories: *factories
+    attributes:
+      empNumber: 4
+    query:
+      screen: personal
+    invalidOnly: [ empNumber ]
+  "ESS without a screen gets every own custom field":
+    userId: 3
+    services: *services
+    factories: *factories
+    attributes:
+      empNumber: 3
+    data: {"custom1": "Sue Personal", "custom2": "Sue Salary"}
+    meta: {"empNumber": 3, "fields": [{"id": 2, "fieldName": "Bonus Plan", "fieldType": 0, "extraData": null, "screen": "salary"}, {"id": 1, "fieldName": "Nickname", "fieldType": 0, "extraData": null, "screen": "personal"}]}
