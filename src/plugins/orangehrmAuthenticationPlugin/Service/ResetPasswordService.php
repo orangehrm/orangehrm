@@ -25,12 +25,13 @@ use OrangeHRM\Admin\Traits\Service\UserServiceTrait;
 use OrangeHRM\Authentication\Dao\ResetPasswordDao;
 use OrangeHRM\Authentication\Dto\UserCredential;
 use OrangeHRM\Config\Config;
+use OrangeHRM\Core\Service\ConfigService;
 use OrangeHRM\Core\Service\EmailService;
 use OrangeHRM\Core\Traits\ControllerTrait;
 use OrangeHRM\Core\Traits\LoggerTrait;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
+use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
-use DateInterval;
 use OrangeHRM\Core\Utility\Base64Url;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\EmployeeTerminationRecord;
@@ -39,8 +40,8 @@ use OrangeHRM\Entity\User;
 use OrangeHRM\Framework\Routing\UrlGenerator;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\ORM\Exception\TransactionException;
-use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
+use Symfony\Component\Routing\RequestContext;
 
 class ResetPasswordService
 {
@@ -49,15 +50,11 @@ class ResetPasswordService
     use LoggerTrait;
     use ControllerTrait;
     use UserServiceTrait;
+    use ConfigServiceTrait;
 
     public const RESET_PASSWORD_TOKEN_RANDOM_BYTES_LENGTH = 16;
-    /**
-     * Only base URLs of Admin sign-ins within this many days are used in password reset links
-     */
-    public const TRUSTED_BASE_URL_DAYS = 30;
     protected ?ResetPasswordDao $resetPasswordDao = null;
     protected ?EmailService $emailService = null;
-    protected ?LoginService $loginService = null;
 
     /**
      * @return EmailService
@@ -170,43 +167,18 @@ class ResetPasswordService
     }
 
     /**
-     * @return LoginService
-     */
-    public function getLoginService(): LoginService
-    {
-        return $this->loginService ??= new LoginService();
-    }
-
-    /**
-     * Base URL for the password reset link. The request host is never trusted on its own: only
-     * base URLs that an Admin signed in on recently are used. The current request's base URL when it
-     * is one of them (so instances reached by several names work), otherwise the most recently used one.
-     * Null when no Admin has signed in recently; the email then carries the reset code without a link.
+     * Absolute password reset link, built from the configured application base URL (`instance.base_url`),
+     * never from the current request. Null when no valid base URL is configured.
      *
+     * @param string $resetCode
      * @return string|null
      */
-    public function getPasswordResetBaseUrl(): ?string
+    public function getPasswordResetLink(string $resetCode): ?string
     {
-        $since = $this->getDateTimeHelper()->getNow()
-            ->sub(new DateInterval('P' . self::TRUSTED_BASE_URL_DAYS . 'D'));
-        $trustedBaseUrls = $this->getLoginService()->getLoginLogDao()->getAdminBaseUrlsSince($since);
-        if (empty($trustedBaseUrls)) {
+        $baseUrl = $this->getConfigService()->getInstanceBaseUrl();
+        if ($baseUrl === null) {
             return null;
         }
-        $currentBaseUrl = $this->getLoginService()->getCurrentBaseUrl();
-        if ($currentBaseUrl !== null && in_array($currentBaseUrl, $trustedBaseUrls, true)) {
-            return $currentBaseUrl;
-        }
-        return $trustedBaseUrls[0];
-    }
-
-    /**
-     * @param string $baseUrl
-     * @param string $resetCode
-     * @return string
-     */
-    protected function getPasswordResetLink(string $baseUrl, string $resetCode): string
-    {
         /** @var UrlGenerator $urlGenerator */
         $urlGenerator = clone $this->getContainer()->get(Services::URL_GENERATOR);
         $urlGenerator->setContext(RequestContext::fromUri($baseUrl));
@@ -221,29 +193,30 @@ class ResetPasswordService
      * @param Employee $receiver
      * @param string $resetCode
      * @param string $userName
-     * @return array|string|string[]|null
+     * @return array|string|string[]|null null when the reset link cannot be built
      */
     protected function generatePasswordResetEmailBody(Employee $receiver, string $resetCode, string $userName)
     {
-        $escape = static function (string $value): string {
-            return htmlspecialchars($value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8', false);
-        };
-        $placeholders = ['firstName', 'userName'];
-        $replacements = [$escape($receiver->getFirstName()), $escape($userName)];
-
-        $baseUrl = $this->getPasswordResetBaseUrl();
-        if ($baseUrl === null) {
-            $this->getLogger()->warning(
-                'Password reset email sent with a reset code and no link: no Admin has signed in during the last '
-                . self::TRUSTED_BASE_URL_DAYS . ' days, so no trusted address is known'
-            );
-            $placeholders[] = 'passwordResetCode';
-            $replacements[] = $escape($resetCode);
-            return $this->generateEmailBody('password-reset-code.txt', $placeholders, $replacements);
+        $resetLink = $this->getPasswordResetLink($resetCode);
+        if ($resetLink === null) {
+            return null;
         }
-
-        $placeholders[] = 'passwordResetLink';
-        $replacements[] = $escape($this->getPasswordResetLink($baseUrl, $resetCode));
+        $placeholders = [
+            'firstName',
+            'userName',
+            'passwordResetLink',
+        ];
+        $sanitizedFirstName = htmlspecialchars(
+            $receiver->getFirstName(),
+            ENT_QUOTES | ENT_SUBSTITUTE,
+            'UTF-8',
+            false
+        );
+        $replacements = [
+            $sanitizedFirstName,
+            $userName,
+            htmlspecialchars($resetLink, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8', false)
+        ];
         return $this->generateEmailBody('password-reset-request.txt', $placeholders, $replacements);
     }
 
@@ -265,19 +238,34 @@ class ResetPasswordService
                 return false;
             }
 
+            $body = $this->generatePasswordResetEmailBody($receiver, $resetCode, $userName);
+            if ($body === null) {
+                $this->logMissingInstanceBaseUrl();
+                return false;
+            }
+
             $this->getEmailService()->setMessageTo([$workEmail]);
             $this->getEmailService()->setMessageFrom(
                 [$this->getEmailService()->getEmailConfig()->getSentAs() => 'OrangeHRM']
             );
             $this->getEmailService()->setMessageSubject('OrangeHRM Password Reset');
-            $this->getEmailService()->setMessageBody(
-                $this->generatePasswordResetEmailBody($receiver, $resetCode, $userName)
-            );
+            $this->getEmailService()->setMessageBody($body);
             return $this->getEmailService()->sendEmail();
         } catch (TransportExceptionInterface $e) {
             $this->getLogger()->error('Invalid Email configuration');
             return false;
         }
+    }
+
+    /**
+     * Log why no password reset email is sent while the application base URL is not configured.
+     */
+    public function logMissingInstanceBaseUrl(): void
+    {
+        $this->getLogger()->error(
+            'Password reset email suppressed: the application base URL is not configured (`' .
+            ConfigService::KEY_INSTANCE_BASE_URL . '`); set it with `php bin/console orangehrm:set-base-url <url>`'
+        );
     }
 
     /**

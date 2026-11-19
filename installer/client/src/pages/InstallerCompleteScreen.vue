@@ -26,6 +26,16 @@
       OrangeHRM Starter Version {{ productversion }} has been successfully
       installed.
     </oxd-text>
+    <template v-if="!baseUrlStored">
+      <br />
+      <oxd-text tag="p" class="orangehrm-installer-page-content">
+        No application URL is stored, so password reset emails are not sent. Set
+        it by running <b>php bin/console orangehrm:set-base-url &lt;url&gt;</b>
+        from the OrangeHRM directory, where &lt;url&gt; is the OrangeHRM address
+        as shown in the browser before /auth/login, e.g.
+        https://hr.example.com/orangehrm/index.php.
+      </oxd-text>
+    </template>
     <br />
     <br />
     <oxd-button
@@ -45,6 +55,10 @@ export default {
     productversion: {
       type: String,
       required: true,
+    },
+    baseUrlStored: {
+      type: Boolean,
+      default: true,
     },
   },
   methods: {

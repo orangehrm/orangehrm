@@ -153,6 +153,15 @@ $appSetupUtility->writeConfFile();
 if ($enableDataEncryption) {
     $appSetupUtility->writeKeyFile();
 }
+try {
+    $baseUrlStored = $appSetupUtility->saveInstanceBaseUrl($cliConfig['instance']['baseUrl'] ?? null, true);
+} catch (Throwable $e) {
+    $baseUrlStored = false;
+}
+echo $baseUrlStored
+    ? "Application URL stored\n"
+    : "NOTE: No valid application URL (instance.baseUrl) stored. Password reset emails are not sent until\n" .
+    "      it is set with `php bin/console orangehrm:set-base-url <url>`.\n";
 
 $request = new Request();
 $request->setMethod(Request::METHOD_POST);

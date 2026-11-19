@@ -107,6 +107,11 @@ api_upgrader_current_version:
   controller: OrangeHRM\Installer\Controller\Upgrader\Api\CurrentVersionAPI::handle
   methods: [ GET, POST ]
 
+api_upgrader_base_url:
+  path: /upgrader/api/base-url
+  controller: OrangeHRM\Installer\Controller\Upgrader\Api\InstanceBaseUrlAPI::handle
+  methods: [ GET, POST ]
+
 api_upgrader_system_check:
   path: /upgrader/api/system-check
   controller: OrangeHRM\Installer\Controller\Upgrader\Api\SystemCheckAPI::handle
@@ -120,6 +125,11 @@ api_upgrader_start_registration:
 #####################################
 #        APIs - Installer
 #####################################
+
+api_installer_base_url:
+  path: /installer/api/base-url
+  controller: OrangeHRM\Installer\Controller\Installer\Api\InstanceBaseUrlAPI::handle
+  methods: [ GET, POST ]
 
 api_installer_database_config:
   path: /installer/api/database-config
