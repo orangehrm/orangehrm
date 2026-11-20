@@ -1,4 +1,4 @@
-FROM php:8.3-apache-bookworm
+FROM php:8.5-apache-trixie
 
 ENV OHRM_VERSION 5.9.1
 ENV OHRM_MD5 3280a41ceaa81b527b3c9ef9473401af
@@ -9,11 +9,11 @@ RUN set -ex; \
 	savedAptMark="$(apt-mark showmanual)"; \
 	apt-get update; \
 	apt-get install -y --no-install-recommends \
-		libfreetype6-dev \
+		libfreetype-dev \
 		libjpeg-dev \
 		libpng-dev \
 		libzip-dev \
-		libldap2-dev \
+		libldap-dev \
 		libicu-dev \
 		unzip \
 	; \
@@ -35,7 +35,6 @@ RUN set -ex; \
 	\
 	docker-php-ext-install -j "$(nproc)" \
 		gd \
-		opcache \
 		intl \
 		pdo_mysql \
 		zip \
