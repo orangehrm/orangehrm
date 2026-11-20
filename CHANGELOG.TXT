@@ -11,7 +11,7 @@ New & Changed Features for OrangeHRM ver 5.9.1
     - Performance
         - Supervisor evaluation actions on a review are limited to the reviewer assigned to that review
     - Installer
-        - Database details in the configuration file (src/lib/confs/Conf.php) are now stored base64-encoded.
+        - Database details in the configuration file (lib/confs/Conf.php) are now stored base64-encoded.
           Update this file through the installer or upgrader instead of editing it by hand
     - REST API
         - In REST v2 endpoints, values in the URL path take precedence over query string parameters with the same name
